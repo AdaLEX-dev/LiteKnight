@@ -1,0 +1,517 @@
+# Soul Knight Linux — CMake Build System
+# CMake 3.25+ required (CMake 4 recommended)
+
+cmake_minimum_required(VERSION 3.25)
+project(soul-knight
+    VERSION 0.0.1
+    LANGUAGES CXX
+    DESCRIPTION "Native Linux port of Soul Knight 2.6.8"
+)
+
+# ============================================================
+# Build Configurations
+# ============================================================
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+# Build types
+set(CMAKE_CONFIGURATION_TYPES "Debug;RelWithDebInfo;Release")
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+# Default policies
+cmake_policy(SET CMP0077 NEW)  # option() honors normal variables
+cmake_policy(SET CMP0122 NEW)  # C++20 modules
+
+# ============================================================
+# Compiler Options
+# ============================================================
+set(COMMON_WARNING_FLAGS
+    -Wall -Wextra -Wpedantic
+    -Wconversion -Wsign-conversion
+    -Wshadow -Wnon-virtual-dtor
+    -Wold-style-cast -Wcast-align
+    -Wunused -Woverloaded-virtual
+    -Wzero-as-null-pointer-constant
+    -Wduplicated-cond -Wduplicated-branches
+    -Wlogical-op -Wnull-dereference
+    -Wformat=2 -Wformat-security
+)
+
+set(COMMON_COMPILE_OPTIONS
+    ${COMMON_WARNING_FLAGS}
+    -fdiagnostics-color=always
+    -fno-rtti
+    -fno-exceptions
+    -ffp-contract=off          # Deterministic floating point
+    -fno-strict-aliasing
+)
+
+# Debug
+set(CMAKE_CXX_FLAGS_DEBUG
+    "${COMMON_COMPILE_OPTIONS}
+    -O0 -g3
+    -fsanitize=address,undefined
+    -fno-omit-frame-pointer
+    -DDEBUG=1"
+)
+
+# RelWithDebInfo
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    "${COMMON_COMPILE_OPTIONS}
+    -O2 -g
+    -DNDEBUG=1"
+)
+
+# Release
+set(CMAKE_CXX_FLAGS_RELEASE
+    "${COMMON_COMPILE_OPTIONS}
+    -O3 -march=native -flto
+    -DNDEBUG=1
+    -DNDEBUG"
+)
+
+# Linker flags
+set(CMAKE_EXE_LINKER_FLAGS_DEBUG "-fsanitize=address,undefined")
+set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-flto -s")
+
+# ============================================================
+# FetchContent Dependencies (Header-only)
+# ============================================================
+include(FetchContent)
+
+# doctest — Testing
+FetchContent_Declare(
+    doctest
+    GIT_REPOSITORY https://github.com/doctest/doctest.git
+    GIT_TAG        v2.4.11
+)
+FetchContent_MakeAvailable(doctest)
+
+# nlohmann/json — JSON serialization
+FetchContent_Declare(
+    nlohmann_json
+    GIT_REPOSITORY https://github.com/nlohmann/json.git
+    GIT_TAG        v3.11.2
+)
+FetchContent_MakeAvailable(nlohmann_json)
+
+# toml++ — TOML config parsing
+FetchContent_Declare(
+    tomlplusplus
+    GIT_REPOSITORY https://github.com/marzer/tomlplusplus.git
+    GIT_TAG        v3.4.0
+)
+FetchContent_MakeAvailable(tomlplusplus)
+
+# miniaudio — Audio (single header)
+# We'll copy miniaudio.h to src/platform/audio/ manually
+# FetchContent_Declare(
+#     miniaudio
+#     GIT_REPOSITORY https://github.com/mackron/miniaudio.git
+#     GIT_TAG        v0.11.20
+# )
+# FetchContent_MakeAvailable(miniaudio)
+
+# VMA — Vulkan Memory Allocator
+FetchContent_Declare(
+    vma
+    GIT_REPOSITORY https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
+    GIT_TAG        v3.0.1
+)
+FetchContent_MakeAvailable(vma)
+
+# ============================================================
+# System Dependencies
+# ============================================================
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(SDL3 REQUIRED sdl3>=3.2.0)
+pkg_check_modules(VULKAN REQUIRED vulkan>=1.3)
+pkg_check_modules(PIPEWIRE pipewire-0.3)
+pkg_check_modules(PULSEAUDIO libpulse)
+pkg_check_modules(ALSA alsa)
+
+# Threads
+find_package(Threads REQUIRED)
+
+# ============================================================
+# Platform-Specific Definitions
+# ============================================================
+add_compile_definitions(
+    SOUL_KNIGHT_VERSION="${PROJECT_VERSION}"
+    SOUL_KNIGHT_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
+    SDL_MAIN_HANDLED
+    MINIAUDIO_IMPLEMENTATION
+    VMA_IMPLEMENTATION
+    NLOHMANN_JSON_NAMESPACE=nlohmann
+)
+
+# ============================================================
+# Library: platform (SDL3, miniaudio, filesystem, timing)
+# ============================================================
+add_library(platform STATIC
+    src/platform/wayland/Window.cpp
+    src/platform/wayland/Window.hpp
+    src/platform/input/InputManager.cpp
+    src/platform/input/InputManager.hpp
+    src/platform/input/Action.hpp
+    src/platform/timing/FrameTimer.cpp
+    src/platform/timing/FrameTimer.hpp
+    src/platform/filesystem/FileSystem.cpp
+    src/platform/filesystem/FileSystem.hpp
+    src/platform/audio/AudioEngine.cpp
+    src/platform/audio/AudioEngine.hpp
+    src/platform/audio/SoundHandle.hpp
+    src/platform/audio/miniaudio.h
+)
+
+target_include_directories(platform PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/wayland>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/input>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/timing>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/filesystem>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/audio>
+)
+
+target_link_libraries(platform PUBLIC
+    ${SDL3_LIBRARIES}
+    ${VULKAN_LIBRARIES}
+    Threads::Threads
+)
+
+target_compile_options(platform PUBLIC ${COMMON_WARNING_FLAGS})
+
+# ============================================================
+# Library: engine (core, math, ecs, rendering, resources, audio, collision)
+# ============================================================
+add_library(engine STATIC
+    # Core
+    src/engine/core/Log.cpp
+    src/engine/core/Log.hpp
+    src/engine/core/Types.hpp
+    # Math
+    src/engine/math/Vec2.cpp
+    src/engine/math/Vec2.hpp
+    src/engine/math/Vec3.hpp
+    src/engine/math/Mat4.hpp
+    src/engine/math/Random.cpp
+    src/engine/math/Random.hpp
+    src/engine/math/Rect.hpp
+    src/engine/math/Color.hpp
+    src/engine/math/Easing.hpp
+    # ECS
+    src/engine/ecs/Entity.hpp
+    src/engine/ecs/ComponentPool.hpp
+    src/engine/ecs/World.cpp
+    src/engine/ecs/World.hpp
+    src/engine/ecs/System.hpp
+    # Rendering
+    src/engine/rendering/VulkanContext.cpp
+    src/engine/rendering/VulkanContext.hpp
+    src/engine/rendering/SpriteBatcher.cpp
+    src/engine/rendering/SpriteBatcher.hpp
+    src/engine/rendering/TextureAtlas.cpp
+    src/engine/rendering/TextureAtlas.hpp
+    src/engine/rendering/Camera.cpp
+    src/engine/rendering/Camera.hpp
+    src/engine/rendering/Shader.cpp
+    src/engine/rendering/Shader.hpp
+    src/engine/rendering/DebugRenderer.cpp
+    src/engine/rendering/DebugRenderer.hpp
+    # Resources
+    src/engine/resources/AssetManager.cpp
+    src/engine/resources/AssetManager.hpp
+    src/engine/resources/TextureLoader.cpp
+    src/engine/resources/TextureLoader.hpp
+    src/engine/resources/AudioLoader.cpp
+    src/engine/resources/AudioLoader.hpp
+    src/engine/resources/DataLoader.cpp
+    src/engine/resources/DataLoader.hpp
+    # Audio
+    src/engine/audio/AudioManager.cpp
+    src/engine/audio/AudioManager.hpp
+    # Collision
+    src/engine/collision/Collision.cpp
+    src/engine/collision/Collision.hpp
+    src/engine/collision/Broadphase.cpp
+    src/engine/collision/Broadphase.hpp
+)
+
+target_include_directories(engine PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/core>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/math>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ecs>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/rendering>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/resources>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/audio>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/collision>
+)
+
+target_link_libraries(engine PUBLIC
+    platform
+    ${VULKAN_LIBRARIES}
+    vma
+    nlohmann_json::nlohmann_json
+)
+
+target_compile_options(engine PUBLIC ${COMMON_WARNING_FLAGS})
+
+# ============================================================
+# Library: game (Soul Knight specific systems)
+# ============================================================
+add_library(game STATIC
+    # Player
+    src/game/player/PlayerController.cpp
+    src/game/player/PlayerController.hpp
+    src/game/player/PlayerInput.cpp
+    src/game/player/PlayerInput.hpp
+    src/game/player/Character.cpp
+    src/game/player/Character.hpp
+    src/game/player/Movement.cpp
+    src/game/player/Movement.hpp
+    src/game/player/Stats.cpp
+    src/game/player/Stats.hpp
+    # Characters
+    src/game/characters/CharacterData.cpp
+    src/game/characters/CharacterData.hpp
+    # Enemies
+    src/game/enemies/EnemyController.cpp
+    src/game/enemies/EnemyController.hpp
+    src/game/enemies/EnemyAI.cpp
+    src/game/enemies/EnemyAI.hpp
+    src/game/enemies/EnemyData.cpp
+    src/game/enemies/EnemyData.hpp
+    src/game/enemies/BossController.cpp
+    src/game/enemies/BossController.hpp
+    # Weapons
+    src/game/weapons/WeaponBase.cpp
+    src/game/weapons/WeaponBase.hpp
+    src/game/weapons/WeaponData.cpp
+    src/game/weapons/WeaponData.hpp
+    src/game/weapons/MeleeWeapon.cpp
+    src/game/weapons/MeleeWeapon.hpp
+    src/game/weapons/RangedWeapon.cpp
+    src/game/weapons/RangedWeapon.hpp
+    src/game/weapons/SpecialWeapon.cpp
+    src/game/weapons/SpecialWeapon.hpp
+    # Projectiles
+    src/game/projectiles/ProjectileBase.cpp
+    src/game/projectiles/ProjectileBase.hpp
+    src/game/projectiles/ProjectileData.cpp
+    src/game/projectiles/ProjectileData.hpp
+    src/game/projectiles/TriggerSystem.cpp
+    src/game/projectiles/TriggerSystem.hpp
+    # Items
+    src/game/items/ItemBase.cpp
+    src/game/items/ItemBase.hpp
+    src/game/items/ItemData.cpp
+    src/game/items/ItemData.hpp
+    src/game/items/Chest.cpp
+    src/game/items/Chest.hpp
+    src/game/items/Buff.cpp
+    src/game/items/Buff.hpp
+    # Rooms
+    src/game/rooms/RoomTemplate.cpp
+    src/game/rooms/RoomTemplate.hpp
+    src/game/rooms/RoomManager.cpp
+    src/game/rooms/RoomManager.hpp
+    src/game/rooms/Door.cpp
+    src/game/rooms/Door.hpp
+    # Generation
+    src/game/generation/MapManager.cpp
+    src/game/generation/MapManager.hpp
+    src/game/generation/DungeonGenerator.cpp
+    src/game/generation/DungeonGenerator.hpp
+    src/game/generation/SerializeLinker.cpp
+    src/game/generation/SerializeLinker.hpp
+    src/game/generation/RandomTile.cpp
+    src/game/generation/RandomTile.hpp
+    # Combat
+    src/game/combat/CombatSystem.cpp
+    src/game/combat/CombatSystem.hpp
+    src/game/combat/DamageSystem.cpp
+    src/game/combat/DamageSystem.hpp
+    src/game/combat/StatusEffect.cpp
+    src/game/combat/StatusEffect.hpp
+    # Status
+    src/game/status/StatusEffectSystem.cpp
+    src/game/status/StatusEffectSystem.hpp
+    # Progression
+    src/game/progression/ProgressionSystem.cpp
+    src/game/progression/ProgressionSystem.hpp
+    src/game/progression/UnlockManager.cpp
+    src/game/progression/UnlockManager.hpp
+    # NPCs
+    src/game/npc/NPCController.cpp
+    src/game/npc/NPCController.hpp
+    # Bosses
+    src/game/bosses/BossData.cpp
+    src/game/bosses/BossData.hpp
+    # UI
+    src/game/ui/HUD.cpp
+    src/game/ui/HUD.hpp
+    src/game/ui/MenuSystem.cpp
+    src/game/ui/MenuSystem.hpp
+    src/game/ui/InventoryUI.cpp
+    src/game/ui/InventoryUI.hpp
+    # Save
+    src/game/save/SaveManager.cpp
+    src/game/save/SaveManager.hpp
+    src/game/save/GameStateSerializer.cpp
+    src/game/save/GameStateSerializer.hpp
+    src/game/save/SaveMigrations.cpp
+    src/game/save/SaveMigrations.hpp
+)
+
+target_include_directories(game PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/player>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/characters>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/enemies>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/weapons>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/projectiles>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/items>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/rooms>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/generation>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/combat>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/status>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/progression>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/npc>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/bosses>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/ui>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/save>
+)
+
+target_link_libraries(game PUBLIC
+    engine
+    tomlplusplus::tomlplusplus
+    nlohmann_json::nlohmann_json
+)
+
+target_compile_options(game PUBLIC ${COMMON_WARNING_FLAGS})
+
+# ============================================================
+# Executable: soul-knight (Main Game)
+# ============================================================
+add_executable(soul-knight
+    src/app/main.cpp
+)
+
+target_link_libraries(soul-knight PRIVATE
+    game
+    engine
+    platform
+)
+
+# ============================================================
+# Executable: soul-knight-test (Unit Tests)
+# ============================================================
+add_executable(soul-knight-test
+    tests/unit/main.cpp
+    # Unit tests
+    tests/unit/math_test.cpp
+    tests/unit/ecs_test.cpp
+    tests/unit/rng_test.cpp
+    tests/unit/input_test.cpp
+    tests/unit/serialization_test.cpp
+    tests/unit/collision_test.cpp
+    # Integration tests
+    tests/integration/asset_loading_test.cpp
+    tests/integration/save_load_test.cpp
+    # Gameplay tests
+    tests/gameplay/player_movement_test.cpp
+    tests/gameplay/combat_test.cpp
+    tests/gameplay/generation_test.cpp
+    # Regression tests
+    tests/regression/bug_fixes_test.cpp
+    # Serialization tests
+    tests/serialization/save_roundtrip_test.cpp
+    # Procedural tests
+    tests/procedural/determinism_test.cpp
+    # Performance tests
+    tests/performance/benchmark_test.cpp
+)
+
+target_link_libraries(soul-knight-test PRIVATE
+    game
+    engine
+    platform
+    doctest::doctest
+)
+
+# Doctest configuration
+target_compile_definitions(soul-knight-test PRIVATE
+    DOCTEST_CONFIG_DISABLE=0
+    DOCTEST_CONFIG_NO_POSIX_SIGNALS=1
+)
+
+# ============================================================
+# Install (Optional)
+# ============================================================
+install(TARGETS soul-knight
+    RUNTIME DESTINATION bin
+)
+
+install(DIRECTORY assets/
+    DESTINATION share/soul-knight/assets
+    FILES_MATCHING PATTERN "*.ktx2" PATTERN "*.ogg" PATTERN "*.json" PATTERN "*.toml"
+)
+
+install(FILES config/default.toml
+    DESTINATION share/soul-knight/config
+)
+
+# ============================================================
+# CTest Integration
+# ============================================================
+enable_testing()
+add_test(NAME soul-knight-unit-tests
+    COMMAND soul-knight-test --test-case=*unit* --reporter=console
+)
+add_test(NAME soul-knight-integration-tests
+    COMMAND soul-knight-test --test-case=*integration* --reporter=console
+)
+add_test(NAME soul-knight-gameplay-tests
+    COMMAND soul-knight-test --test-case=*gameplay* --reporter=console
+)
+add_test(NAME soul-knight-regression-tests
+    COMMAND soul-knight-test --test-case=*regression* --reporter=console
+)
+add_test(NAME soul-knight-serialization-tests
+    COMMAND soul-knight-test --test-case=*serialization* --reporter=console
+)
+add_test(NAME soul-knight-procedural-tests
+    COMMAND soul-knight-test --test-case=*procedural* --reporter=console
+)
+
+# ============================================================
+# Custom Targets
+# ============================================================
+add_custom_target(format
+    COMMAND ${CMAKE_COMMAND} -E echo "Run ./tools/format.sh fix to format code"
+    COMMENT "Code formatting (run ./tools/format.sh fix)"
+)
+
+add_custom_target(check-format
+    COMMAND ${CMAKE_COMMAND} -E echo "Run ./tools/format.sh check to verify formatting"
+    COMMENT "Check code formatting (run ./tools/format.sh check)"
+)
+
+# ============================================================
+# CPack (Packaging)
+# ============================================================
+set(CPACK_PACKAGE_NAME "soul-knight")
+set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Native Linux port of Soul Knight 2.6.8")
+set(CPACK_PACKAGE_VENDOR "Soul Knight Linux Project")
+set(CPACK_PACKAGE_CONTACT "https://github.com/soulknight-linux/soulknight-linux")
+set(CPACK_GENERATOR "DEB;TGZ")
+set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Soul Knight Linux Team")
+set(CPACK_DEBIAN_PACKAGE_SECTION "games")
+set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "sdl3, libvulkan1, pipewire, libasound2")
+include(CPack)
