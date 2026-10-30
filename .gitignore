@@ -1,0 +1,185 @@
+# Soul Knight Linux — .gitignore
+
+# Build artifacts
+build/
+out/
+bin/
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.a
+*.lib
+*.exe
+*.out
+*.app
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.cmake
+CMakePresets.json.local
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.vs/
+.clangd/
+compile_commands.json
+
+# OS
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs
+*.log
+logs/
+*.dmp
+*.crash
+
+# Temporary files
+*.tmp
+*.temp
+temp/
+tmp/
+*.bak
+
+# Assets (generated/converted — not committed)
+assets/generated/
+assets/converted/
+!assets/generated/.gitkeep
+!assets/converted/.gitkeep
+
+# Data (runtime — not committed)
+data/saves/
+data/logs/
+data/cache/
+!data/saves/.gitkeep
+!data/logs/.gitkeep
+!data/cache/.gitkeep
+
+# XDG runtime directories
+$XDG_DATA_HOME/soul-knight/
+$XDG_CONFIG_HOME/soul-knight/
+$XDG_CACHE_HOME/soul-knight/
+~/.local/share/soul-knight/
+~/.config/soul-knight/
+~/.cache/soul-knight/
+
+# Reference APK (NEVER COMMIT)
+original/*.apk
+original/*.ipa
+original/*.aab
+
+# Analysis outputs (large, regenerated)
+analysis/apktool_out/
+analysis/jadx_out/
+analysis/il2cpp_dump/
+analysis/experiments/*.tmp
+
+# Tools (downloaded binaries)
+tools/*.exe
+tools/*.jar
+tools/*.zip
+tools/jadx/
+tools/ghidra_*/
+tools/*.dll
+tools/*.so
+
+# Dependency downloads (FetchContent)
+_fetchcontent/
+_subprojects/
+
+# Profiling
+*.perf
+*.prof
+*.gcda
+*.gcno
+*.gcov
+heaptrack.*
+callgrind.*
+massif.*
+
+# Distribution packages
+*.deb
+*.rpm
+*.tar.gz
+*.tar.xz
+*.zip
+pkg/
+*.pkg.tar.zst
+
+# Secrets (never commit)
+*.key
+*.pem
+*.crt
+*.p12
+*.pfx
+*.env
+.env.local
+secrets/
+
+# Testing
+test-results/
+coverage/
+*.gcno
+*.gcda
+
+# Documentation builds
+docs/_build/
+docs/html/
+docs/pdf/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+
+# Rust (if used)
+target/
+Cargo.lock
+
+# Node (if used)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Vcpkg (if used)
+vcpkg/
+vcpkg_installed/
+
+# Conan (if used)
+conanbuildinfo.txt
+conaninfo.txt
+conan.lock
+
+# Valgrind
+vgcore.*
+
+# GDB
+.gdb_history
+
+# LLDB
+.lldb/
+
+# Clangd
+.clangd/
+
+# EditorConfig (if present)
+.editorconfig
+
+# Local overrides
+*.local
+local/
