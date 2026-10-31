@@ -1,6 +1,6 @@
 # Soul Knight 2.6.8 — Source Map
 
-> **Correction — 2026-10-31.** The original evidence column cites `analysis/class-map.md`, which is a DEX/SDK class map and does **not** contain the cited `RG*` IL2CPP classes. Those citations are broken. Correct evidence for reconstructed behaviour is `analysis/re/*.md` with metadata RVAs and disassembly addresses. All rows are `PLANNED`; none are implemented or verified.
+> **Correction — 2026-10-31.** The original evidence column cited `analysis/class-map.md`, a DEX/SDK class map that does **not** contain the cited `RG*` IL2CPP classes. Those citations were broken. They are replaced with `analysis/re/*.md` and the canonical phase reports. All implementation statuses remain `PLANNED`; none are implemented or verified.
 
 **Purpose:** Map reference (IL2CPP/DEX) classes to native implementation files.
 
@@ -21,17 +21,28 @@ Evidence:
 
 ---
 
+## Current evidence-backed mappings (Gate B/Phase 3)
+
+| Reference | Native target (planned) | Evidence |
+|---|---|---|
+| `RGRandom` / `RGRandomInterface` | `src/engine/math/UnityRandom.*` | `analysis/re/rgrandom.md` |
+| `RGController` / `RGJoyControl` / `MovementInput` | `src/game/player/*`, `src/platform/input/*` | `analysis/re/input_movement.md` |
+| `RGBulletTrigger` / `RGController.GetHurt` / `RGEController.GetHurt` / `RGBox.Hit` | `src/game/combat/*` | `analysis/re/damage.md` |
+| `MapManager` / `MapManagerLevel` / `RGRoomX` / `EnemyMaker` | `src/game/generation/*`, `src/game/rooms/*` | `analysis/re/rooms_scene.md` |
+| `RGWeapon` / `Gun001` / `RGBullet` / `Bullet01` | `src/game/weapons/*`, `src/game/projectiles/*` | `analysis/re/weapons_projectiles.md` |
+| `TimeManager` / `Time` | `src/platform/timing/*`, `src/sim/*` | `analysis/re/timing.md` |
+
 ## Core Game Flow
 
 | Reference | Native | Status | Evidence |
 |-----------|--------|--------|----------|
-| `RGGameProcess` | `src/game/core/GameProcess.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGGameSceneManager` | `src/game/core/SceneManager.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGGameInfo` | `src/game/core/GameInfo.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGGameConst` | `data/constants/game_constants.toml` | PLANNED | `analysis/class-map.md` |
+| `RGGameProcess` | `src/game/core/GameProcess.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGGameSceneManager` | `src/game/core/SceneManager.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGGameInfo` | `src/game/core/GameInfo.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGGameConst` | `data/constants/game_constants.toml` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
 | `RGRandom` / `RGRandomInterface` | `src/engine/math/Random.cpp` | PLANNED | `analysis/UNKNOWN_SYSTEMS.md#UNK-001` |
 | `RGSaveManager` | `src/game/save/SaveManager.cpp` | PLANNED | `docs/SAVE_SYSTEM.md` |
-| `RGNetWorkManager` | (stripped) | N/A | `analysis/class-map.md` |
+| `RGNetWorkManager` | (stripped) | N/A | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
 
 ---
 
@@ -39,14 +50,14 @@ Evidence:
 
 | Reference | Native | Status | Evidence |
 |-----------|--------|--------|----------|
-| `RGBaseController` | `src/game/player/ControllerBase.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGController` | `src/game/player/PlayerController.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGCharacterInfo` | `data/characters/*.toml` | PLANNED | `analysis/class-map.md` |
-| `RGCharGray` | `src/game/player/CharacterVisuals.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGPetController` | `src/game/player/PetController.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGMountController` | `src/game/player/MountController.cpp` | PLANNED | `analysis/class-map.md` |
+| `RGBaseController` | `src/game/player/ControllerBase.cpp` | PLANNED | `analysis/re/input_movement.md` |
+| `RGController` | `src/game/player/PlayerController.cpp` | PLANNED | `analysis/re/input_movement.md` |
+| `RGCharacterInfo` | `data/characters/*.toml` | PLANNED | `analysis/re/input_movement.md` |
+| `RGCharGray` | `src/game/player/CharacterVisuals.cpp` | PLANNED | `analysis/re/input_movement.md` |
+| `RGPetController` | `src/game/player/PetController.cpp` | PLANNED | `analysis/re/input_movement.md` |
+| `RGMountController` | `src/game/player/MountController.cpp` | PLANNED | `analysis/re/input_movement.md` |
 | `RGJoyControl` / `RGJoyStick` / `RGJoyBtn*` | `src/platform/input/InputManager.cpp` | PLANNED | `docs/INPUT.md` |
-| `MovementInput` | `src/game/player/MovementInput.cpp` | PLANNED | `analysis/class-map.md` |
+| `MovementInput` | `src/game/player/MovementInput.cpp` | PLANNED | `analysis/re/input_movement.md` |
 
 ---
 
@@ -54,19 +65,19 @@ Evidence:
 
 | Reference | Native | Status | Evidence |
 |-----------|--------|--------|----------|
-| `RGEController` | `src/game/enemies/EnemyController.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyAI01` – `EnemyAI20` | `src/game/enemies/ai/EnemyAI##.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyAIAlien` | `src/game/enemies/ai/EnemyAI_Alien.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyAIChestBattery` | `src/game/enemies/ai/EnemyAI_ChestBattery.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyAIFrog` | `src/game/enemies/ai/EnemyAI_Frog.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyAIGhost` | `src/game/enemies/ai/EnemyAI_Ghost.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyAIStake` | `src/game/enemies/ai/EnemyAI_Stake.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyAITombStone01/02` | `src/game/enemies/ai/EnemyAI_TombStone.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyAIWitch` | `src/game/enemies/ai/EnemyAI_Witch.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGEBossController` | `src/game/bosses/BossController.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGEWeapon` / `RGEHand` / `RGELaser*` | `src/game/enemies/EnemyWeapons.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemyDummy` | `src/game/enemies/EnemyDummy.cpp` | PLANNED | `analysis/class-map.md` |
-| `EnemySoccer` | (stripped) | N/A | `analysis/class-map.md` |
+| `RGEController` | `src/game/enemies/EnemyController.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyAI01` – `EnemyAI20` | `src/game/enemies/ai/EnemyAI##.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyAIAlien` | `src/game/enemies/ai/EnemyAI_Alien.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyAIChestBattery` | `src/game/enemies/ai/EnemyAI_ChestBattery.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyAIFrog` | `src/game/enemies/ai/EnemyAI_Frog.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyAIGhost` | `src/game/enemies/ai/EnemyAI_Ghost.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyAIStake` | `src/game/enemies/ai/EnemyAI_Stake.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyAITombStone01/02` | `src/game/enemies/ai/EnemyAI_TombStone.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyAIWitch` | `src/game/enemies/ai/EnemyAI_Witch.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `RGEBossController` | `src/game/bosses/BossController.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `RGEWeapon` / `RGEHand` / `RGELaser*` | `src/game/enemies/EnemyWeapons.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemyDummy` | `src/game/enemies/EnemyDummy.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `EnemySoccer` | (stripped) | N/A | `analysis/re/rooms_scene.md` |
 
 ---
 
@@ -74,20 +85,20 @@ Evidence:
 
 | Reference | Native | Status | Evidence |
 |-----------|--------|--------|----------|
-| `RGWeapon` | `src/game/weapons/WeaponBase.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGSword` / `RGSwordBuffTrigger` | `src/game/weapons/melee/Sword.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGLaser` / `RGLaserBuff` | `src/game/weapons/beam/Laser.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGShortLaser` | `src/game/weapons/beam/ShortLaser.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGDrill` / `RGDrillTrigger` | `src/game/weapons/melee/Drill.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGChain` | `src/game/weapons/special/Chain.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGRuinSword` | `src/game/weapons/melee/RuinSword.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBox` / `RGTBox` / `RGBatteryController` | `src/game/weapons/deployable/Box.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBothPot` / `RGAutoDestory` | `src/game/weapons/thrown/Pot.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGSBullet01` / `RGSBullet02` / `RGSBulletFollow` | `src/game/weapons/special/SpecialBullets.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGTaskBullet` | `src/game/weapons/special/TaskBullet.cpp` | PLANNED | `analysis/class-map.md` |
-| `GunBox*` / `GunJetPack` / `GunMagicStaff` / `GunTelescope` | `src/game/weapons/gunbox/*.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGAim` | `src/game/weapons/AimComponent.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGDash` | `src/game/player/DashComponent.cpp` | PLANNED | `analysis/class-map.md` |
+| `RGWeapon` | `src/game/weapons/WeaponBase.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGSword` / `RGSwordBuffTrigger` | `src/game/weapons/melee/Sword.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGLaser` / `RGLaserBuff` | `src/game/weapons/beam/Laser.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGShortLaser` | `src/game/weapons/beam/ShortLaser.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGDrill` / `RGDrillTrigger` | `src/game/weapons/melee/Drill.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGChain` | `src/game/weapons/special/Chain.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGRuinSword` | `src/game/weapons/melee/RuinSword.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGBox` / `RGTBox` / `RGBatteryController` | `src/game/weapons/deployable/Box.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGBothPot` / `RGAutoDestory` | `src/game/weapons/thrown/Pot.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGSBullet01` / `RGSBullet02` / `RGSBulletFollow` | `src/game/weapons/special/SpecialBullets.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGTaskBullet` | `src/game/weapons/special/TaskBullet.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `GunBox*` / `GunJetPack` / `GunMagicStaff` / `GunTelescope` | `src/game/weapons/gunbox/*.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGAim` | `src/game/weapons/AimComponent.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGDash` | `src/game/player/DashComponent.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
 
 ---
 
@@ -95,17 +106,17 @@ Evidence:
 
 | Reference | Native | Status | Evidence |
 |-----------|--------|--------|----------|
-| `RGBullet` / `DamageCarrier` | `src/game/projectiles/ProjectileBase.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBulletTrigger*` | `src/game/projectiles/triggers/*.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBDelayCreate` / `RGBDelayDivision` | `src/game/projectiles/DelayedProjectile.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBMoveToSpawn` | `src/game/projectiles/HomingProjectile.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBTCreate` / `RGBTDelayCreate` / `RGBTDivision` | `src/game/projectiles/TriggerProjectile.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBTEnergy` / `RGBTExplode` / `RGBTExplodeThrow` | `src/game/projectiles/ExplosiveProjectile.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBTHeart` / `RGBTMultiExplode` / `RGBTRebound` / `RGBTSpawn` | `src/game/projectiles/SpecialProjectile.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGArrowTrigger*` / `RGArrowBuffTrigger*` | `src/game/projectiles/ArrowProjectile.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGSwordTrigger*` / `RGSwordSlash` | `src/game/projectiles/MeleeArc.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGDrillTrigger` / `RGShortLaserTrigger` | `src/game/projectiles/BeamProjectile.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGChain` / `RGShield` / `RGParticleTrigger` | `src/game/projectiles/EffectProjectile.cpp` | PLANNED | `analysis/class-map.md` |
+| `RGBullet` / `DamageCarrier` | `src/game/projectiles/ProjectileBase.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGBulletTrigger*` | `src/game/projectiles/triggers/*.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGBDelayCreate` / `RGBDelayDivision` | `src/game/projectiles/DelayedProjectile.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGBMoveToSpawn` | `src/game/projectiles/HomingProjectile.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGBTCreate` / `RGBTDelayCreate` / `RGBTDivision` | `src/game/projectiles/TriggerProjectile.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGBTEnergy` / `RGBTExplode` / `RGBTExplodeThrow` | `src/game/projectiles/ExplosiveProjectile.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGBTHeart` / `RGBTMultiExplode` / `RGBTRebound` / `RGBTSpawn` | `src/game/projectiles/SpecialProjectile.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGArrowTrigger*` / `RGArrowBuffTrigger*` | `src/game/projectiles/ArrowProjectile.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGSwordTrigger*` / `RGSwordSlash` | `src/game/projectiles/MeleeArc.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGDrillTrigger` / `RGShortLaserTrigger` | `src/game/projectiles/BeamProjectile.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
+| `RGChain` / `RGShield` / `RGParticleTrigger` | `src/game/projectiles/EffectProjectile.cpp` | PLANNED | `analysis/re/weapons_projectiles.md` |
 
 ---
 
@@ -113,23 +124,23 @@ Evidence:
 
 | Reference | Native | Status | Evidence |
 |-----------|--------|--------|----------|
-| `MapManager` (base) | `src/game/generation/MapManager.cpp` | PLANNED | `analysis/class-map.md` |
-| `MapManagerLevel` | `src/game/generation/MapManagerLevel.cpp` | PLANNED | `analysis/class-map.md` |
-| `MapManagerEndless` | `src/game/generation/MapManagerEndless.cpp` | PLANNED | `analysis/class-map.md` |
-| `MapManagerDefence` | `src/game/generation/MapManagerDefence.cpp` | PLANNED | `analysis/class-map.md` |
-| `MapManagerBR` | (stripped) | N/A | `analysis/class-map.md` |
-| `MapManagerRace` | (stripped) | N/A | `analysis/class-map.md` |
-| `MapManagerSandbox` | `src/game/generation/MapManagerSandbox.cpp` | PLANNED | `analysis/class-map.md` |
-| `MapManagerSoccer` | (stripped) | N/A | `analysis/class-map.md` |
-| `MapManagerSurvive` | `src/game/generation/MapManagerSurvive.cpp` | PLANNED | `analysis/class-map.md` |
-| `MapManagerPattern` | `src/game/generation/MapManagerPattern.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGRoomX` / `RGRoomXEndless` / `RGRoomXZombie` | `src/game/rooms/RoomTemplate.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGAisle` / `RGBigRoom` / `RGMaze` | `src/game/rooms/RoomTypes.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGDoor` / `RGDoorTrigger` | `src/game/rooms/Door.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGTransferGate` / `RGTransferGateEndless` | `src/game/rooms/TransferGate.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGStartRoomEvent` | `src/game/rooms/StartRoom.cpp` | PLANNED | `analysis/class-map.md` |
-| `SerializeLinker*` | `src/game/generation/SerializeLinker.cpp` | PLANNED | `analysis/class-map.md` |
-| `RandomTile` | `src/game/generation/RandomTile.cpp` | PLANNED | `analysis/class-map.md` |
+| `MapManager` (base) | `src/game/generation/MapManager.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `MapManagerLevel` | `src/game/generation/MapManagerLevel.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `MapManagerEndless` | `src/game/generation/MapManagerEndless.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `MapManagerDefence` | `src/game/generation/MapManagerDefence.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `MapManagerBR` | (stripped) | N/A | `analysis/re/rooms_scene.md` |
+| `MapManagerRace` | (stripped) | N/A | `analysis/re/rooms_scene.md` |
+| `MapManagerSandbox` | `src/game/generation/MapManagerSandbox.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `MapManagerSoccer` | (stripped) | N/A | `analysis/re/rooms_scene.md` |
+| `MapManagerSurvive` | `src/game/generation/MapManagerSurvive.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `MapManagerPattern` | `src/game/generation/MapManagerPattern.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `RGRoomX` / `RGRoomXEndless` / `RGRoomXZombie` | `src/game/rooms/RoomTemplate.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `RGAisle` / `RGBigRoom` / `RGMaze` | `src/game/rooms/RoomTypes.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `RGDoor` / `RGDoorTrigger` | `src/game/rooms/Door.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `RGTransferGate` / `RGTransferGateEndless` | `src/game/rooms/TransferGate.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `RGStartRoomEvent` | `src/game/rooms/StartRoom.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `SerializeLinker*` | `src/game/generation/SerializeLinker.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
+| `RandomTile` | `src/game/generation/RandomTile.cpp` | PLANNED | `analysis/re/rooms_scene.md` |
 
 ---
 
@@ -137,15 +148,15 @@ Evidence:
 
 | Reference | Native | Status | Evidence |
 |-----------|--------|--------|----------|
-| `RGItem` / `RGStateItem` | `src/game/items/ItemBase.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGBuff` | `src/game/status/Buff.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGChest` / `RGChestAppoint` / `RGChestBig` / `RGChestBigButton` / `RGChestBoss` / `RGChestMaterial` / `RGChestRoomReward` | `src/game/items/Chest.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGCoin` | `src/game/items/Currency.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGHealthPot` / `RGHealthPotBox` / `RGArmorPot` / `RGEnergyPot` | `src/game/items/Consumable.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGSecretKey` / `RGSecretKeyList` | `src/game/items/Key.cpp` | PLANNED | `analysis/class-map.md` |
-| `ItemObjectProvider` | `src/game/items/ItemProvider.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGGameInfo` (progression) | `src/game/progression/ProgressionSystem.cpp` | PLANNED | `analysis/class-map.md` |
-| `RGCharacterInfo` (unlocks) | `data/characters/*.toml` | PLANNED | `analysis/class-map.md` |
+| `RGItem` / `RGStateItem` | `src/game/items/ItemBase.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGBuff` | `src/game/status/Buff.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGChest` / `RGChestAppoint` / `RGChestBig` / `RGChestBigButton` / `RGChestBoss` / `RGChestMaterial` / `RGChestRoomReward` | `src/game/items/Chest.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGCoin` | `src/game/items/Currency.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGHealthPot` / `RGHealthPotBox` / `RGArmorPot` / `RGEnergyPot` | `src/game/items/Consumable.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGSecretKey` / `RGSecretKeyList` | `src/game/items/Key.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `ItemObjectProvider` | `src/game/items/ItemProvider.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGGameInfo` (progression) | `src/game/progression/ProgressionSystem.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `RGCharacterInfo` (unlocks) | `data/characters/*.toml` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
 
 ---
 
@@ -153,12 +164,12 @@ Evidence:
 
 | Reference | Native | Status | Evidence |
 |-----------|--------|--------|----------|
-| `RGUIWindow` | `src/game/ui/UIWindow.cpp` | PLANNED | `analysis/class-map.md` |
+| `RGUIWindow` | `src/game/ui/UIWindow.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
 | `RGMusicManager` | `src/platform/audio/AudioEngine.cpp` | PLANNED | `docs/AUDIO.md` |
-| `RGMusicManager_emEffect` | `src/game/audio/EffectManager.cpp` | PLANNED | `analysis/class-map.md` |
-| `MapManagerSandbox` / `SandboxObject*` / `SandboxConfigData` | `src/game/sandbox/SandboxMode.cpp` | PLANNED | `analysis/class-map.md` |
-| `ColorPanel` / `SerializeLinkerColor` | `src/game/generation/ColorPanel.cpp` | PLANNED | `analysis/class-map.md` |
-| `SerializeLinkerGravity` / `SerializeLinkerDirection` / `SerializeLinkerSprites` | `src/game/generation/SerializeLinker.cpp` | PLANNED | `analysis/class-map.md` |
+| `RGMusicManager_emEffect` | `src/game/audio/EffectManager.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `MapManagerSandbox` / `SandboxObject*` / `SandboxConfigData` | `src/game/sandbox/SandboxMode.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `ColorPanel` / `SerializeLinkerColor` | `src/game/generation/ColorPanel.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
+| `SerializeLinkerGravity` / `SerializeLinkerDirection` / `SerializeLinkerSprites` | `src/game/generation/SerializeLinker.cpp` | PLANNED | `docs/PHASE_3_BEHAVIOURAL_RE.md` |
 
 ---
 
@@ -195,5 +206,5 @@ Evidence:
 
 ---
 
-**Last Updated:** 2026-10-31 (evidence citations corrected; all implementation statuses remain PLANNED)
+**Last Updated:** 2026-10-31 (Gate B / Phase 3 pass; evidence citations corrected, statuses remain PLANNED)
 **Next Review:** After each evidence-backed subsystem reconstruction

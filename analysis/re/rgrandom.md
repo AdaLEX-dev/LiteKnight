@@ -481,7 +481,9 @@ So the map manager's virtual `SetRGRandomSeed` receives `RGGameInfo.map_random_s
 | `insideUnitCircle` algorithm | CONFIRMED (static) | `0x37AD64` |
 | Multiple independent streams | CONFIRMED (structure + ctor xrefs) | fields and `SetUpRGRandom` |
 | Map seed virtual call path | CONFIRMED | `MapManager.Start` `0xD26A10` loads `RGGameInfo+0x1C` and calls vtable `+0x1E8` |
-| `seed_state` values 1/2 usage | UNRESOLVED | only value 3 observed in executed paths |
+| `seed_state` values 1/2 usage | UNRESOLVED (not required for single-player) | no static write of 1/2; only 0 (ctor) and 3 (`SetRandomSeed`) observed |
+| MapManagerLevel LongMap branch | CONFIRMED (static) | `0x103B1D8`: Normal mode, this_index 1..15, CompareFactor(10), 50% `Range(0,100)<=49`, increment `map_long` |
+| `RandomBehaviour` time/network seed path | HIGH CONFIDENCE | `SetUpRGRandom` `0xD31E18`; `ClientReady` `0xD31CB0` |
 | `RGController.rg_random` initialization | CONFIRMED | `AwakeController` at `0x11772A4` loads `+0x130`, reads `RGGameInfo.sample_random_seed` (`+0x18`) and `skillIndex` (`+0x150`), then calls `SetRandomSeed` with their sum |
 | Cross-platform float bit-exactness (`sinf/cosf/sqrtf`) | RISK | libm differences possible |
 
@@ -490,10 +492,92 @@ So the map manager's virtual `SetRGRandomSeed` receives `RGGameInfo.map_random_s
 ## 7. Unresolved questions and next experiments
 
 1. ~~**Map seed call path.**~~ RESOLVED: `MapManager.Start` loads `RGGameInfo.map_random_seed` (`+0x1C`) and calls virtual `SetRGRandomSeed` via vtable `+0x1E8`.
-2. **`seed_state` values 1/2.** No static write path to `seed_state` with value 1 or 2 was found; only the constructor default 0 and `SetRandomSeed` value 3 are written. The exact missing evidence is serialized prefab state or a runtime trace showing a multiplayer transition; do not assign semantics without it.
-3. **Map/room seed derivation.** `MapManagerLevel.SetRGRandomSeed` has extra `Range(0,100)` logic under `emBattleFactor.LongMap` (10); reconstruct the full condition set and how it affects `map_long`.
+2. **`seed_state` values 1/2.** No static write path to `seed_state` with value 1 or 2 was found; only the constructor default 0 and `SetRandomSeed` value 3 are written. `RandomBehaviour.SetUpRGRandom` creates and seeds `RGRandom` (time-based in the single-player branch; network-seeded in the multiplayer branch), and `SetRGRandomSeed` returns early when `seed_state == 3`. The 1/2 enum values are unused in all observed single-player paths. Exact missing evidence: a runtime/network transition that writes these states. Do not assign semantics without it.
+3. ~~**Map/room seed derivation.**~~ RESOLVED: `MapManagerLevel.SetRGRandomSeed` calls base `MapManager.SetRGRandomSeed`, then for `RGGameProcess.game_type == Normal`, `this_index >= 1`, `BattleData.IsNormalMode`, `CompareFactor(10)` (LongMap), and `this_index <= 15`, it draws `Range(0,100)` and increments `map_long` when the result is `<= 49` (50% chance). See `0x103B1D8`.
 4. **Reference vectors.** Obtain runtime observations (or a trusted Unity 2018.4 reference) to compare against the reconstructed algorithm. Until then, computed vectors are implementation tests, not parity proof.
 5. **Float parity.** The engine calls `sinf`, `cosf`, `sqrtf`; native code must either use the same libm implementation or accept last-bit differences. Document the chosen policy.
+
+---
+
+## 7.1 Seed-state and initialization findings
+
+### `RGRandom.ctor` (`0xDE95C8`)
+
+Only calls `System.Object..ctor`. It leaves:
+
+```text
+seed_state = 0   // C_NOT_READY
+seed       = 0
+this_state = zeroed four-word state
+```
+
+### `RGRandom.SetRandomSeed` (`0xDE9370`)
+
+```text
+seed = argument
+save global Unity RNG state
+InitState(seed)              // four-word LCG expansion
+this_state = global state
+restore global Unity RNG state
+seed_state = 3               // GET_SEED
+```
+
+### `RandomBehaviour.SetRGRandomSeed` (`0xD32224`)
+
+```text
+if (rg_random.seed_state == 3) return;   // already seeded
+rg_random.SetRandomSeed(seed);
+OnSetRGRandomSeed(seed);                 // virtual
+```
+
+### `RandomBehaviour.SetUpRGRandom` (`0xD31E18`)
+
+- Creates a new `RGRandom`.
+- In the single-player / no-network branch, derives a seed from
+  `DateTime.Now` and `UnityEngine.Random.Range(int.MinValue, int.MaxValue)`:
+  the observed sequence is `Random.Range(int.Min, int.Max)`, multiply by the
+  DateTime-derived 64-bit value, then pass the low 32 bits to
+  `RGRandom.SetRandomSeed`.
+- Draws `RGRandom.Range(int.MinValue, int.MaxValue)` after seeding and passes that
+  to `SetRGRandomSeed`.
+- In the multiplayer branch, `ClientReady` checks `seed_state == 3`; if not ready,
+  it obtains the object's net ID and calls
+  `RGGameInfo.SendRandomSeedMessage(...)` so the host can distribute a seed.
+
+The exact DateTime conversion (ticks/local time vs UTC) and the network seed
+message handling are not fully decoded; they are not required for a single-player
+vertical slice, but must be labelled in any implementation.
+
+### `RGController.rg_random`
+
+`RGController.AwakeController` (`0x1177318`) loads `rg_random` (`+0x130`), reads
+`RGGameInfo.sample_random_seed` (`+0x18`) and `skillIndex` (`+0x150`), and calls
+`RGRandom.SetRandomSeed(sample_random_seed + skillIndex)`. This is separate from
+`RandomBehaviour` streams and is confirmed.
+
+## 7.2 Status
+
+```text
+CORE ENGINE RNG:
+COMPLETE — Unity 2018.4 Xorshift128, 4-word LCG seeding, 23-bit floats,
+            integer branches, float operation order, insideUnitCircle.
+            Native implementation and regression tests exist.
+
+MAP RNG:
+COMPLETE (static, normal single-player) — MapManager.Start -> map_random_seed ->
+            SetRGRandomSeed; MapManagerLevel LongMap branch decoded.
+            Multiplayer seed distribution and seed_state 1/2 remain unresolved.
+
+REFERENCE VECTORS:
+NOT AVAILABLE — tests use reconstructed implementation vectors, not runtime traces.
+
+UNRESOLVED ITEMS:
+- seed_state C_READY/S_SEND_SEED (1/2) write paths;
+- exact DateTime-derived seed expression;
+- multiplayer SendRandomSeedMessage/receive path;
+- bit-exact libm sinf/cosf/sqrtf behaviour;
+- runtime reference vectors.
+```
 
 ---
 
@@ -555,4 +639,4 @@ llvm-objdump -d --no-show-raw-insn --start-address=0x37B9EC --stop-address=0x37B
 
 ---
 
-**Bottom line:** `RGRandom` is a local-state wrapper around Unity 2018.4's Xorshift128 RNG. It is not PCG32, and the global Unity RNG is only a shared scratch state. `UnityRandomState` + `RGRandomStream` are implemented in `src/engine/math/UnityRandom.*` and covered by `tests/unit/unity_random_test.cpp` (22 cases / 1273 assertions pass overall). They must not be used by gameplay until the remaining `seed_state` 1/2 / map-length questions are resolved or explicitly accepted as gaps.
+**Bottom line:** `RGRandom` is a local-state wrapper around Unity 2018.4's Xorshift128 RNG. It is not PCG32, and the global Unity RNG is only a shared scratch state. `UnityRandomState` + `RGRandomStream` are implemented in `src/engine/math/UnityRandom.*` and covered by `tests/unit/unity_random_test.cpp` (22 cases / 1273 assertions pass overall). They must not be used by gameplay until the remaining `seed_state` 1/2 / DateTime seed questions are resolved or explicitly accepted as gaps.

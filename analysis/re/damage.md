@@ -1,6 +1,6 @@
 # Damage Path — Evidence-Backed Reconstruction
 
-**Status:** first static reconstruction; player and enemy damage entry points are partly reconstructed; the projectile-trigger → target bridge is still unresolved.
+**Status:** player/enemy/box damage entry points and the projectile target bridge are reconstructed (CONFIRMED); effect-trigger/critical/element details and full death/reborn branches remain PARTIAL.
 **Date:** 2026-10-31
 **Reference:** Soul Knight 2.6.8, Unity **2018.4.12f1**, IL2CPP metadata **v24**
 **Binary:** `analysis/apktool_out/lib/arm64-v8a/libil2cpp.so`
@@ -312,21 +312,28 @@ Evidence:
 Exact static behaviour:
 
 ```text
-T singleton = Singleton<T>.get_Inst();   // resolved twice by the compiler
-if (singleton.<field +0x1C> == -1) return false;
-if (singleton.<field +0x1C> == -3) return false;
+RGGameProcess process = Singleton<RGGameProcess>.get_Inst();
+if (process.this_index == -1) return false;
+if (process.this_index == -3) return false;
 if (BattleData.IsSandboxEditing) return false;
 return true;
 ```
 
-The call is a generic-shared `Singleton<T>.get_Inst` at `0x1AB448C`; the two GOT slots used by the sequence (`0x030A2000+0xD88` → `0x030A2D88`, `0x030F2000+0x358` → `0x030F2358`) are shared generic-init/method-info helpers that also appear in unrelated methods, so they do **not** encode T at the call site. Static metadata narrows the candidate field to the only `Singleton<T>` classes with an `int` at `+0x1C`:
+The generic singleton is resolved through GOT slot `0x030F2358` → metadata method
+slot `0x3276848`, which `script.json` identifies exactly as:
 
-- `RGGameInfo.map_random_seed` (`+0x1C`, TypeDefIndex 7319),
-- `RGGameProcess.this_index` (`+0x1C`, TypeDefIndex 7320).
+```text
+Method$Singleton<RGGameProcess>.get_Inst()
+```
 
-The previous claim that this is specifically `RGGameInfo.map_random_seed` is therefore **not proven**. Exact missing evidence: the concrete `T` for this generic instantiation (metadata type-info mapping, Ghidra data-type propagation, or a runtime trace).
+The field at `+0x1C` is `RGGameProcess.this_index` (`dump.cs` TypeDefIndex 7344).
+The earlier `RGGameInfo.map_random_seed` interpretation was wrong; do not reintroduce
+it. The `-1`/`-3` values are sentinel map indexes, not seed values. Their high-level
+meaning (which scenes/modes they represent) is still a HYPOTHESIS, but the type and
+field identity are CONFIRMED.
 
-**Confidence:** PARTIAL. Comparisons and sandbox check CONFIRMED; singleton type/field semantics UNRESOLVED.
+**Confidence:** CONFIRMED for the singleton type, field, constants, and sandbox
+check; HYPOTHESIS for the high-level meaning of sentinel indexes -1/-3.
 
 ### 4.7 `RGController.Dead(GameObject source)` — `0x1179ECC`
 
@@ -441,9 +448,30 @@ Confirmed outline:
 - `RGBulletTrigger.OnHit` itself (`0x11621B4`) is `ret` in the base class; concrete effect triggers override the behaviour.
 - `RGBulletEffectTrigger.TriggerWith` (`0x1169D84`) is also `ret` in the base class; concrete subclasses implement it.
 
-**Box target bridge (HIGH CONFIDENCE):** at `0x1160ADC` the method calls shared `GameObject.GetComponent<T>` (`0xFF8A84`) using GOT slot `0x31003B0`, then calls a virtual `Hit` through vtable `+0x168` with `(damage, source_object, camp)` at `0x1160B70`. The only metadata method with that exact parameter/return shape is `RGBox.Hit` (`0x11675F8`, virtual, returns `bool`); `ExplodeIceBox.Hit` has the same parameters but is non-virtual. The GOT slot `0x31003B0` is also used by known box-hit paths (`RGLaser.HitBox`, `RGShortLaserTrigger.OnHit`, `RGSwordTrigger.OnHit`, `RGDash.OnTriggerEnter2D`, `RGDrillTrigger`, `RGEnergyBallTrigger.HitBox`). This resolves the **box** branch of projectile → target, but not the enemy/player branch.
+**Resolved target bridges:** the `RGBulletTrigger.OnTriggerEnter2D` body has three
+concrete target paths:
 
-**Enemy/player branch (UNRESOLVED):** later in the same method (`0x1160F78`) a component obtained through `GameObject.GetComponent<T>` (`0xFF8A84`, GOT slot `0x309A4E8`) receives a virtual call at vtable `+0x2C8` with `(damage, source_object)`. No direct `bl` to `RGController.GetHurt` (`0x11795CC`) or `RGEController.GetHurt` (`0x1108E60`) exists in `0x1160324..0x1161A80`; the target type and slot owner are not encoded at the call site. Exact missing evidence: identify the generic `T` for GOT slot `0x309A4E8` and the method at vtable `+0x2C8` (runtime trace or type-info resolution). This is the remaining projectile → controller bridge.
+1. **Box bridge — HIGH CONFIDENCE.** `0x1160ADC` calls shared
+   `GameObject.GetComponent<RGBox>` (`0xFF8A84`, GOT `0x31003B0` → method slot
+   `0x3254270`, `script.json`: `Method$UnityEngine.GameObject.GetComponent<RGBox>()`).
+   It then calls virtual `RGBox.Hit(damage, source_object, camp)` through vtable
+   `+0x168` at `0x1160B70` (`RGBox.Hit` `0x11675F8`).
+2. **Player bridge — CONFIRMED.** The player branch at `0x116078C` calls
+   `GameObject.GetComponent<RGController>` (GOT `0x30E8F80` → method slot
+   `0x32542B0`) and calls `RGController.GetHurt` through vtable `+0x228` at
+   `0x11608A0`. The vtable base is `0x128`; slot 16 × 16 bytes = `0x228`, matching
+   `RGController.GetHurt` (`0x11795CC`, `dump.cs` Slot 16).
+3. **Enemy bridge — CONFIRMED.** The enemy branch at `0x1160F78` calls
+   `GameObject.GetComponent<RGEController>` (GOT `0x309A4E8` → method slot
+   `0x32542C8`, `script.json`: `Method$UnityEngine.GameObject.GetComponent<RGEController>()`)
+   and calls `RGEController.GetHurt` through vtable `+0x2C8`. Vtable base `0x128` +
+   slot 26 × 16 bytes = `0x2C8`, matching `RGEController.GetHurt` (`0x1108E60`,
+   `dump.cs` Slot 26).
+
+The same `GetComponent<RGEController>` → vtable `+0x2C8` sequence appears in
+`RGLaserTrigger.OnTriggerStay2D` (`0xDDD6E0`), independently confirming the slot.
+The projectile → controller bridge is therefore closed. The effect-trigger
+`TriggerWith` override chain and critical/element details remain separate items.
 
 ### 6.4 `DamageCarrier` / `DamageTrigger` / `DamageTriggerHitChecker`
 
@@ -469,27 +497,28 @@ The complete chain from bullet collision to target HP is **PARTIAL**.
 | `RoleAttributePlayer.RestoreHealth` can survive at 1 HP via `CanDie` | CONFIRMED | `0xD40418`, `0xD40718` |
 | Enemy `GetHurt` subtracts HP and calls `Dead` | HIGH CONFIDENCE | `0x1108E60` |
 | `RGBulletTrigger.GetFinalDamage` multiplies effect `damageFactor` | CONFIRMED | `0x116A680` |
-| Projectile → `RGBox.Hit` box bridge | HIGH CONFIDENCE | `0x1160ADC`/`0x1160B70`; shared `GetComponent<T>` `0xFF8A84`; `RGBox.Hit` `0x11675F8` |
-| Projectile → controller `GetHurt` bridge | UNRESOLVED | virtual call `0x1160F78` vtable `+0x2C8`; generic `T` and slot owner unidentified |
-| Complete collision → target HP chain | UNRESOLVED | enemy/player bridge and effect-trigger override chain not identified |
+| Projectile → `RGBox.Hit` box bridge | HIGH CONFIDENCE | `0x1160ADC`/`0x1160B70`; `GetComponent<RGBox>` method slot `0x3254270`; `RGBox.Hit` `0x11675F8` |
+| Projectile → `RGController.GetHurt` player bridge | CONFIRMED | `GetComponent<RGController>` `0x30E8F80`; vtable `+0x228` = slot 16; `0x11608A0` |
+| Projectile → `RGEController.GetHurt` enemy bridge | CONFIRMED | `GetComponent<RGEController>` `0x309A4E8`; vtable `+0x2C8` = slot 26; `0x1160F78` |
+| Complete collision → target HP chain | HIGH CONFIDENCE | target dispatch resolved; effect-trigger override chain/crit/element still partial |
 | Critical-hit application | UNRESOLVED | `DamageInfo.critic` exists; no formula yet |
 | Element/status application | UNRESOLVED | `emDamageType` exists; no application path yet |
-| `CanDie` singleton/field `+0x1C` identity | UNRESOLVED | generic `Singleton<T>`; candidates are `RGGameInfo.map_random_seed` and `RGGameProcess.this_index` |
+| `CanDie` singleton/field `+0x1C` identity | CONFIRMED | `Singleton<RGGameProcess>.get_Inst()`; field `RGGameProcess.this_index` |
 
 ---
 
 ## 8. Unresolved questions / next experiments
 
-1. **Finish the projectile→controller damage bridge.**
-   - Box branch is HIGH CONFIDENCE `RGBox.Hit` (`0x1160B70`).
-   - Resolve the generic `T` for GOT slot `0x309A4E8` and the virtual method at vtable `+0x2C8` (`0x1160F78`).
+1. **Close the effect-trigger chain and critical/element rules.**
+   - Controller bridges are resolved (player `+0x228`, enemy `+0x2C8`).
    - Enumerate `RGBulletEffectTrigger` subclasses and their `TriggerWith`/`OnHit` overrides.
-   - Runtime experiment: log `GetHurt` arguments for a single bullet hit.
+   - Trace where the `isCritic` bool is consumed and whether any subclass multiplies damage.
+   - Trace `damageType`/buff application separately from base HP subtraction.
 2. **Decode critical hits.**
    - Find where `DamageInfo.critic` is read and how it changes `damage`.
    - Likely in `RGBulletTrigger` or `Weapon.BulletCreateUtils`; not yet located.
 3. **Battle factors — partially resolved.** `CompareFactor(6)` is `emBattleFactor.EnemyDefence`; `CompareFactor(8)` is `emBattleFactor.HardShield`. Their exact high-level intent still needs confirmation.
-4. **Identify `CanDie` generic singleton type.** Resolve `T` for `Singleton<T>.get_Inst` (`0x1AB448C`); candidate fields are `RGGameInfo.map_random_seed` and `RGGameProcess.this_index`. Do not assume either from the field name.
+4. **Resolve the high-level meaning of `RGGameProcess.this_index` sentinels.** The type/field are confirmed (`-1`/`-3` checks); the scene/mode meaning is still a hypothesis.
 5. **Enemy damage modifiers.**
    - `OnEnemyDamageProcess` callback and `RGEBossController` overrides.
 6. **Elements/status.**
@@ -548,4 +577,4 @@ tools/re/il2cpp_re.py disasm --address 0x116A680 --size 0x150
 
 ---
 
-**Bottom line:** the player damage path is largely reconstructed at the state-mutation level: incoming damage is reduced by `defence` and mount defence, one-shot shields absorb it, armor takes the hit first and overflows into HP, and `CanDie` can leave the player at 1 HP. The enemy path is a direct HP subtraction with a callback and death threshold. The missing link is the concrete projectile effect trigger that invokes these entry points, plus critical/element handling. Those must be resolved before implementing combat.
+**Bottom line:** the player damage path is largely reconstructed at the state-mutation level: incoming damage is reduced by `defence` and mount defence, one-shot shields absorb it, armor takes the hit first and overflows into HP, and `CanDie` can leave the player at 1 HP. The enemy path is a direct HP subtraction with a callback and death threshold. The projectile target bridge is resolved for player (`RGController.GetHurt`), enemy (`RGEController.GetHurt`), and box (`RGBox.Hit`). The remaining combat blockers are effect-trigger override behavior, critical/element rules, and full death/reborn branches.

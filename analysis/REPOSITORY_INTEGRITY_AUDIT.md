@@ -23,7 +23,8 @@ Run `git log -1 --format='%h %s'` for the commit that contains this report.
   code existed as a skeleton; gate status contradicted the tree.
 - `docs/ARCHITECTURE.md` was labelled a complete reconstruction although it is a class
   inventory plus hypotheses; it carried the wrong engine version and an unsupported
-  50 Hz claim.
+  50 Hz claim at that time. The 50 Hz figure is now confirmed from the serialized
+  `TimeManager`; see `analysis/re/timing.md`.
 - `docs/REVERSE_ENGINEERING.md` repeated the original "Phase 2 complete / Unity 2021"
   status and stale tool versions.
 - `CHANGELOG.md` mixed historical "build broken / tests disabled / no extraction"
