@@ -236,20 +236,29 @@ topology run rendered 531 instances / 15 sprite assets / 3 textures and logged:
 Collision: bounds [0.00,0.00]..[41.00,41.00], recovered solids=140, doors=4, topology=true
 Room interior: [12.50,13.00]..[27.50,28.00]
 Render batch: 471 sprite instances   (all four doors initially open -> leaves hidden)
-Door state: all recovered doors closed (solid, leaves visible); closed barriers=4
-pos=(15.919,12.900) input=(0.00,-1.00) blocked=(false,true)   // solid perimeter/door barrier
-Door trigger south: enter aisle=aisle_s open=false active=false
-Door state: all recovered doors open (passable, leaves hidden); closed barriers=0
-Door trigger south: exit aisle=aisle_s open=true active=true
-pos=(18.844,8.415) input=(0.00,-1.00)                          // passed through open south opening
-Door trigger east: enter aisle=aisle_e open=true active=true
+
+// Open east door: physical corridor traversal and trigger events
+pos=(28.580,20.000) input=(1.00,0.00)
 Door trigger east: exit aisle=aisle_e open=true active=true
-pos=(31.895,20.000) input=(1.00,0.00)                          // east corridor traversal
+pos=(33.455,20.000) input=(1.00,0.00)
+
+// O: close all four doors
+Door state: all recovered doors closed (solid, leaves visible); closed barriers=4
+
+// From the east aisle, walk left through the closed one-way door into the room
+pos=(32.480,20.000) input=(-1.00,0.00)
+pos=(27.605,20.000) input=(-1.00,0.00)
+Door trigger east: enter aisle=aisle_e open=false active=false
+pos=(22.730,20.000) input=(-1.00,0.00)
+
+// Continue to the closed west door; outward movement is blocked
+pos=(12.900,20.000) input=(-1.00,0.00) blocked=(true,false)
 ```
 
-The player remained blocked at the closed barrier, passed through the same
-opening after the door opened, generated door enter/exit events only while
-`door_open` was true, and camera follow remained active. The injected key stream
-was noisy (some keys remained held between runs), so these excerpts are evidence
-of the state transitions rather than a clean speed measurement. Unit tests cover
-all four doors in both directions deterministically.
+This verifies the recovered one-way semantics in the native runtime: open doors
+are passable in both directions; once closed, the player can enter from the aisle
+but cannot leave the room through another closed door. Reference door events are
+suppressed while `door_open` is false (debug logs show `active=false`), matching
+the `RGDoorTrigger` gate. Unit tests cover all four doors in both directions
+deterministically; the real-input run confirms the chosen key path and the
+observable collision/trigger behavior.
