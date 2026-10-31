@@ -9,10 +9,12 @@
 > `$XDG_DATA_HOME/liteknight/saves/slot_0.json` atomically, keeps
 > `slot_0.json.bak`, falls back to the backup on corruption, and rejects future
 > versions. v1 saves migrate additively with progression/settings defaults.
-> Unit tests cover round-trip, missing/corrupt files, migration,
-> invalid ranges, atomic replacement, backup recovery and deletion. This remains
-> a **native design**, not decoded RGSaveManager parity. The larger schema below
-> is a design proposal; only the implemented subset is active.
+> v2 now also stores the Manual/Auto Aim setting and the native map seed so a
+> loaded room can rebuild the same deterministic native room graph. Unit tests
+> cover round-trip, missing/corrupt files, migration, invalid ranges, atomic
+> replacement, backup recovery and deletion. This remains a **native design**,
+> not decoded RGSaveManager parity. The larger schema below is a design proposal;
+> only the implemented subset is active.
 
 ---
 

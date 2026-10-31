@@ -65,7 +65,7 @@ room_transition / test-room-transition  (Living Room <-> r1_1)
 hub (alias for Living Room)
 ```
 
-`room_transition` toggles between the recovered Living Room and `r1_1` with
+`room_transition` exercises recovered room traversal with
 state preservation. It is not procedural dungeon generation. Menu screens use
 `F1` to finalize a test when Enter is reserved for menu selection.
 

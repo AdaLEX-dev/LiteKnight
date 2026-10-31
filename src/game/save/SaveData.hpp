@@ -35,6 +35,8 @@ struct SaveData {
     std::vector<std::string> plants;
     bool fullscreen = false;
     bool hub_visited = false;
+    bool auto_aim = false;
+    std::int32_t map_seed = 0;
 };
 
 } // namespace soulknight::game::save

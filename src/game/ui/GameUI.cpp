@@ -28,8 +28,8 @@ constexpr Color kGreen{93, 190, 107, 255};
 
 const std::array<const char*, 3> kPauseItems{"HOME", "RESUME", "SETTINGS"};
 const std::array<const char*, 4> kMainItems{"NEW GAME", "CONTINUE", "SETTINGS", "QUIT"};
-const std::array<const char*, 4> kSettingsItems{
-    "FULLSCREEN", "DEBUG OVERLAY", "RESET SAVE", "BACK"};
+const std::array<const char*, 5> kSettingsItems{
+    "AIM MODE", "FULLSCREEN", "DEBUG OVERLAY", "RESET SAVE", "BACK"};
 
 void DrawFrame(UIRenderer& ui, const Rect& rect, Color fill, int32_t order) {
     ui.Rect({rect.x + 3, rect.y + 3, rect.w - 6, rect.h - 6}, kFrameGold, order);
@@ -132,7 +132,7 @@ void GameUI::Navigate(int delta) {
     } else if (screen_ == UIScreen::MainMenu) {
         main_index_ = (main_index_ + delta + 4) % 4;
     } else if (screen_ == UIScreen::Settings) {
-        settings_index_ = (settings_index_ + delta + 4) % 4;
+        settings_index_ = (settings_index_ + delta + 5) % 5;
     }
 }
 
@@ -159,9 +159,10 @@ void GameUI::Confirm() {
         return;
     }
     if (screen_ == UIScreen::Settings) {
-        if (settings_index_ == 0) action_ = UIAction::ToggleFullscreen;
-        else if (settings_index_ == 1) action_ = UIAction::ToggleDebugOverlay;
-        else if (settings_index_ == 2) action_ = UIAction::ResetSave;
+        if (settings_index_ == 0) action_ = UIAction::ToggleAimMode;
+        else if (settings_index_ == 1) action_ = UIAction::ToggleFullscreen;
+        else if (settings_index_ == 2) action_ = UIAction::ToggleDebugOverlay;
+        else if (settings_index_ == 3) action_ = UIAction::ResetSave;
         else action_ = UIAction::Back;
     }
 }
@@ -317,19 +318,21 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
     }
 
     // Desktop pause control and currency strip (native keyboard binding, real
-    // recovered icons; no mobile buttons or joysticks).
-    const Rect pause_rect{1790, 18, 86, 76};
+    // recovered icons; no mobile buttons or joysticks). The strip is anchored
+    // to the upper-right edge, next to the pause button.
+    const Rect pause_rect{1814, 16, 88, 78};
     ui.Panel(pause_rect, {42, 29, 22, 235}, kFrameBrown, 2.0f, 1900);
-    DrawAsset(ui, data, "ui_94", {1820, 34, 26, 26}, Color::White(), 1905);
-    DrawAsset(ui, data, "ui_5", {1640, 32, 26, 30}, Color::White(), 1905);
-    ui.Text("0", {1672, 28}, kCream, 1906, true, false, 28.0f);
+    DrawAsset(ui, data, "ui_94", {1845, 33, 26, 26}, Color::White(), 1905);
+    DrawAsset(ui, data, "ui_5", {1702, 32, 26, 30}, Color::White(), 1905);
+    ui.Text("0", {1734, 27}, kCream, 1906, true, false, 28.0f);
 
-    // Two-slot weapon strip. Weapon icons are recovered prefab sprites; empty
-    // equipment explicitly renders an empty slot with no weapon.
+    // Two-slot weapon strip, bottom-left as in the reference HUD. Weapon icons
+    // are recovered prefab sprites; empty equipment explicitly renders an
+    // empty slot with no weapon.
     if (data.weapons != nullptr && data.inventory != nullptr) {
         for (std::size_t slot = 0; slot < 2; ++slot) {
-            const Rect slot_rect{122.0f + static_cast<float>(slot) * 76.0f,
-                                 158.0f, 70.0f, 76.0f};
+            const Rect slot_rect{22.0f + static_cast<float>(slot) * 80.0f,
+                                 984.0f, 72.0f, 78.0f};
             const bool active =
                 data.inventory->ActiveSlot() == slot;
             const bool occupied = data.inventory->SlotOccupied(slot);
@@ -353,10 +356,31 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
                                 {130, 128, 122, 255}, 1904, 24.0f);
             }
             ui.TextCentered(slot == 0 ? "1" : "2",
-                            {slot_rect.x, slot_rect.y + 54, slot_rect.w, 18},
-                            active ? kGold : kMuted, 1905, 14.0f);
+                            {slot_rect.x, slot_rect.y + 56, slot_rect.w, 20},
+                            active ? kGold : kMuted, 1905, 16.0f);
         }
     }
+
+    // Character power, bottom-left next to the weapon strip. The recovered
+    // SkillInfo icon is intentionally larger than a weapon slot so its state
+    // is readable at a glance.
+    const Rect power_rect{198, 950, 112, 112};
+    ui.Panel(power_rect, {32, 29, 40, 235},
+             data.ability_state == 1 ? kFrameLight : kFrameBrown,
+             2.0f, 1900);
+    DrawAsset(ui, data, "ui_skill01",
+              {power_rect.x + 8, power_rect.y + 8, 96, 96},
+              data.ability_state == 0 ? Color{90, 90, 90, 255}
+                                     : Color::White(), 1905);
+    if (data.ability_cooldown > 0.0f) {
+        ui.Rect({power_rect.x + 8, power_rect.y + 8 +
+                 (power_rect.h - 16) * (1.0f - data.ability_cooldown),
+                 power_rect.w - 16,
+                 (power_rect.h - 16) * data.ability_cooldown},
+                {5, 8, 16, 180}, 1906);
+    }
+    ui.TextCentered("Q", {power_rect.x, power_rect.y + power_rect.h - 24,
+                          power_rect.w, 22}, kCream, 1907, 18.0f);
 
     if (!data.pickup_nearby && data.interaction_nearby) {
         const float x = std::clamp(data.interaction_screen.x + 46.0f,
@@ -373,20 +397,26 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
                         kGold, 1921, 16.0f);
     }
     if (data.pickup_nearby) {
-        const float x = std::clamp(data.pickup_screen.x + 46.0f,
-                                   16.0f, 1920.0f - 236.0f);
-        const float y = std::clamp(data.pickup_screen.y - 164.0f,
-                                   16.0f, 1080.0f - 120.0f);
-        const Rect prompt{x, y, 220, 78};
-        ui.Panel(prompt, {32, 27, 25, 242}, kFrameGold, 2.0f, 1920);
-        ui.TextCentered("E  PICK UP", {prompt.x, prompt.y + 8,
-                                       prompt.w, 30},
-                        Color::White(), 1921, 22.0f, true);
+        // Compact bottom-center equipment card. The reference weapon pickup
+        // prompt exposes the weapon name and its combat values; this avoids the
+        // oversized world-space blob used by the earlier development HUD.
+        const Rect prompt{750, 958, 420, 100};
+        ui.Panel(prompt, {26, 25, 30, 246}, kFrameGold, 2.0f, 1920);
+        ui.TextCentered("E  PICK UP", {prompt.x + 12, prompt.y + 4,
+                                       prompt.w - 24, 30},
+                        Color::White(), 1921, 26.0f, true);
         if (!data.pickup_name.empty()) {
-            ui.TextCentered(data.pickup_name, {prompt.x, prompt.y + 40,
-                                               prompt.w, 26},
-                            kGold, 1921, 16.0f);
+            ui.TextCentered(data.pickup_name, {prompt.x + 12, prompt.y + 32,
+                                               prompt.w - 24, 28},
+                            kGold, 1921, 20.0f);
         }
+        char stats[96];
+        std::snprintf(stats, sizeof(stats), "DMG %d   ENERGY %d   %.2fs",
+                      data.pickup_damage, data.pickup_energy_cost,
+                      static_cast<double>(data.pickup_cycle_seconds));
+        ui.TextCentered(stats, {prompt.x + 12, prompt.y + 62,
+                                prompt.w - 24, 28},
+                        kMuted, 1921, 17.0f);
     }
 }
 
@@ -436,7 +466,7 @@ void GameUI::DrawPause(UIRenderer& ui, const GameUIData& data) const {
         DrawButton(ui, data, buttons[i], kPauseItems[static_cast<std::size_t>(i)],
                    pause_index_ == i, true, 26.0f);
     }
-    ui.TextCentered("P / ESC  RESUME    ENTER  SELECT", {420, 760, 1080, 24},
+    ui.TextCentered("ESC  RESUME    ENTER  SELECT", {420, 760, 1080, 24},
                     kMuted, 1995, 16.0f);
 }
 
@@ -450,13 +480,14 @@ void GameUI::DrawSettings(UIRenderer& ui, const GameUIData& data) const {
              kPanelDark, {112, 92, 63, 255}, 3.0f, 1984);
     ui.TextCentered("SETTINGS", {panel.x, panel.y + 24, panel.w, 56},
                     Color::White(), 1990, 40.0f, true);
-    const char* values[4] = {
+    const char* values[5] = {
+        data.auto_aim ? "AUTO AIM" : "MANUAL",
         data.fullscreen ? "ON" : "OFF",
         data.debug_overlay ? "ON" : "OFF",
         "CONFIRM",
         ""
     };
-    for (int i = 0; i < 4; ++i) {
+    for (int i = 0; i < 5; ++i) {
         const Rect row{panel.x + 70,
                        panel.y + 120 + static_cast<float>(i) * 92.0f,
                        panel.w - 140, 70};
@@ -469,8 +500,8 @@ void GameUI::DrawSettings(UIRenderer& ui, const GameUIData& data) const {
                        {row.x + 20, row.y, row.w - 180, row.h},
                        selected ? Color::White() : kCream, 1991,
                        engine::rendering::TextAlign::Left, 22.0f, true);
-        if (i < 2) {
-            ui.TextAligned(values[i], {row.x, row.y, row.w - 25, row.h},
+        if (i < 3) {
+            ui.TextAligned(values[i], {row.x, row.y, row.w - 35, row.h},
                            selected ? kGold : kMuted, 1992,
                            engine::rendering::TextAlign::Right, 22.0f);
         }

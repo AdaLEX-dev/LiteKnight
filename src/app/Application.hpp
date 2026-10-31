@@ -31,6 +31,8 @@
 #include "game/ui/UIAssets.hpp"
 #include "game/ui/UIRenderer.hpp"
 #include "game/hub/PlantSystem.hpp"
+#include "game/player/Ability.hpp"
+#include "game/player/Aim.hpp"
 #include "game/player/Energy.hpp"
 #include "game/save/SaveManager.hpp"
 #include "game/weapons/WeaponInventory.hpp"
@@ -38,11 +40,15 @@
 #include "game/weapons/WeaponRegistry.hpp"
 #include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
+#include "game/room/DungeonPlan.hpp"
 #include "game/room/RoomManager.hpp"
 
+#include <cstdint>
 #include <filesystem>
 #include <memory>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace soulknight::engine::rendering {
@@ -77,10 +83,20 @@ private:
     void HandleUIKey(SDL_Scancode scancode, SDL_Keymod modifiers);
     void ProcessUIAction();
     void DrawGameUI();
-    bool LoadAlternateRoom();
-    void SwitchRoom();
+    bool LoadWorldRooms();
+    void ConfigureWorldGraph();
+    bool SwitchRoom(const std::string& door_id = {});
+    bool ActivateRoom(const std::string& room_id,
+                      const std::string& entrance_door);
+    void CaptureCurrentRoomState();
+    void RestoreCurrentRoomState();
     void UpdateRoomClear();
     bool NearOpenDoor() const;
+    const engine::assets::SceneDoor* NearbyOpenDoor() const;
+    engine::Vec2 DoorEntrancePosition(
+        const engine::assets::SceneAsset& scene,
+        const std::string& door_id) const;
+    std::string FirstConnectedDoor() const;
     void DrawCollisionDebug();
     void FixedUpdate(double dt);
     void ExerciseWindowIfRequested();
@@ -98,6 +114,13 @@ private:
     void ConfigureActiveWeapon();
     void SwitchWeaponSlot(std::size_t slot);
     void ApplyActiveCharacterStats();
+    void ConfigureSecondaryWeapon();
+    void ConfigureAbilities();
+    void ActivateKnightPower();
+    engine::Vec2 AimOrigin() const;
+    const soulknight::game::enemy::EnemyInstance* FindAutoAimTarget() const;
+    void UpdateAutoAim();
+    float AimAngleDegrees() const;
     void SpawnWeaponPickup(std::size_t weapon_index);
     bool TryPickupWeapon();
     void TryInteract();
@@ -147,6 +170,9 @@ private:
     std::unique_ptr<soulknight::game::test::InteractiveReplay> replay_;
     platform::InputSnapshot replay_snapshot_;
     soulknight::game::combat::Weapon weapon_;
+    soulknight::game::combat::Weapon secondary_weapon_;
+    soulknight::game::player::AbilityController abilities_;
+    soulknight::game::player::AimMode aim_mode_ = soulknight::game::player::AimMode::Manual;
     soulknight::game::combat::ProjectileSystem projectiles_;
     soulknight::game::enemy::EnemySystem enemies_;
     soulknight::game::combat::HealthState player_health_;
@@ -154,6 +180,10 @@ private:
     soulknight::game::hub::PlantSystem plant_system_;
     engine::Vec2 aim_direction_{1.0f, 0.0f};
     engine::Vec2 previous_player_position_{0.0f, 0.0f};
+    engine::Vec2 last_mouse_logical_{0.0f, 0.0f};
+    engine::Vec2 last_mouse_world_{0.0f, 0.0f};
+    engine::Vec2 auto_aim_target_{0.0f, 0.0f};
+    bool auto_aim_has_target_ = false;
     engine::Vec2 render_player_position_{0.0f, 0.0f};
     engine::Vec2 previous_camera_position_{0.0f, 0.0f};
     engine::Camera2D render_camera_;
@@ -173,8 +203,21 @@ private:
     int animation_logs_remaining_ = 0;
     std::vector<engine::rendering::TextureUpload> texture_uploads_;
     bool scene_mode_ = false;
-    bool alternate_room_available_ = false;
-    soulknight::engine::assets::SceneAsset alternate_scene_;
+    struct StoredRoom {
+        std::string id;
+        soulknight::engine::assets::SceneAsset scene;
+    };
+    std::vector<StoredRoom> stored_rooms_;
+    std::vector<soulknight::game::room::DungeonRoomTemplate> world_templates_;
+    std::string world_hub_id_ = "hero_room";
+    std::string world_hub_path_ = "scenes/hero_room/scene.json";
+    bool multi_room_world_ = false;
+    std::int32_t map_seed_ = 0;
+    std::string room_graph_text_ = "hero_room <-> r1_1_visual";
+    std::unordered_map<std::string,
+        std::vector<soulknight::game::enemy::EnemyInstance>>
+        room_enemy_snapshots_;
+    std::unordered_set<std::string> cleared_rooms_;
     bool main_menu_started_ = false;
     bool collision_debug_ = false;
     bool room_clear_pending_ = false;

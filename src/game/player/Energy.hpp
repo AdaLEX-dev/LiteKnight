@@ -5,9 +5,8 @@
 
 namespace soulknight::game::player {
 
-// RoleAttributePlayer serializes max_energy = 180 for c00. Passive regeneration
-// is not reconstructed for this slice; weapons consume energy per shot and a
-// zero-energy shot is rejected until a recovered recovery source is added.
+// RoleAttributePlayer serializes max_energy = 180 for c00. Weapons consume the
+// recovered per-attack energy value and a zero-energy shot is rejected.
 struct EnergyState {
     int energy = 0;
     int max_energy = 0;

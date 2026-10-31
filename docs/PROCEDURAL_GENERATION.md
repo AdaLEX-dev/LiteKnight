@@ -39,6 +39,28 @@
   `room_end_list`.
 - Enemy spawn table selection from `EnemyMaker`/`MapManagerLevel.enemy_infos`.
 
+## 2a. Native test-dungeon plan (0.5)
+
+The runtime now loads actual PatternRooms `r1_1`, `r1_2`, `r1_3` plus the
+Living Room and builds the fixed physical topology:
+
+```text
+       second
+         |
+ hub -- first -- third
+```
+
+`--map-seed <int>` seeds `RGRandomStream` (the reconstructed Unity 2018.4 RNG)
+and deterministically assigns the three actual room templates to the first,
+second and third slots. `RoomManager` stores directional door-to-door
+connections; walking into an open door swaps the loaded scene and places the
+player at the opposite entrance. Per-room enemy/clear state is preserved.
+
+This is explicitly a **NATIVE TEST / HYPOTHESIS** plan. It uses real recovered
+rooms and real RNG primitives, but it is not the reference `MapManagerLevel`
+algorithm. `analysis/assets/room_catalogue.json` records 108 actual PatternRooms,
+of which three are integrated.
+
 ## 3. Native plan (after evidence)
 
 1. Represent room templates as converted JSON descriptors (nodes, transforms,

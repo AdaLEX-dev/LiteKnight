@@ -18,10 +18,12 @@ Reference-derived UI pixels are LOCAL_ONLY / NOT_FOR_REDISTRIBUTION.
 | ui_btn5 | Main-menu NEW GAME frame | RECOVERED/INTEGRATED | nine-sliced yellow |
 | ui_btn7 | Main-menu CONTINUE frame | RECOVERED/INTEGRATED | nine-sliced blue |
 | ui_116 | Cloud/save icon | RECOVERED/INTEGRATED | local-only cloud icon |
+| ui_skill01 | Knight c00 Dual Wield HUD icon | RECOVERED/INTEGRATED | actual SkillInfo[0] icon sprite from c00; 5.0 s active / 10.0 s cooldown |
 | pixel_bold | All UI text | RECOVERED/INTEGRATED | TTF rasterized at 28 px; local-only atlas |
-| ui_buff_* | Power/buff icons | DISCOVERED | not assigned; no fabricated power |
+| ui_buff_* | Buff icons | DISCOVERED | not assigned; no fabricated buff UI |
 | panel/banner frames | Pause/settings/character panels | APPROXIMATED | native pixel borders; exact frame mapping UNKNOWN |
 | HUD outer plate | HUD frame | APPROXIMATED | native frame around recovered icons |
+| pickup stats card | Bottom-centre pickup prompt | APPROXIMATED | native panel with recovered weapon icon/name, damage, energy cost and cycle |
 | main menu background | Main menu | APPROXIMATED | native atmospheric bands, no copied screenshot |
 | character portraits | Character station | RECOVERED/INTEGRATED | recovered c00..c14 body sprites |
 | weapon icons | Weapon station/HUD | RECOVERED/INTEGRATED | recovered weapon visual sprites |

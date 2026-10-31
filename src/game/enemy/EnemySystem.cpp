@@ -1,6 +1,8 @@
 // Soul Knight Linux — deterministic enemy test targets and damage
 #include "EnemySystem.hpp"
 
+#include <utility>
+
 #include "engine/collision/AabbCollision.hpp"
 
 #include <algorithm>
@@ -64,6 +66,10 @@ bool EnemySystem::SpawnEnemy(std::size_t definition_index,
 
 void EnemySystem::ClearEnemies() {
     enemies_.clear();
+}
+
+void EnemySystem::RestoreEnemies(std::vector<EnemyInstance> enemies) {
+    enemies_ = std::move(enemies);
 }
 
 void EnemySystem::Reset() {

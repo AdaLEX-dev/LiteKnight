@@ -197,6 +197,30 @@ void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& contex
     line(std::string("ROOM: ") + context.room_id + (context.room_clear_pending
               ? "  [CLEAR PENDING]" : "  [READY]"));
     line(std::string("MAP GRAPH: ") + context.room_graph);
+    std::snprintf(buffer, sizeof(buffer), "MAP SEED: %d  ROOMS: %d",
+                  context.map_seed, context.room_count);
+    line(buffer);
+    std::snprintf(buffer, sizeof(buffer),
+                  "AIM: %s  ANGLE: %.1f DEG", context.aim_mode, context.aim_angle);
+    line(buffer);
+    std::snprintf(buffer, sizeof(buffer), "MOUSE L: %.1f,%.1f  W: %.2f,%.2f",
+                  context.mouse_logical.x, context.mouse_logical.y,
+                  context.mouse_world.x, context.mouse_world.y);
+    line(buffer);
+    std::snprintf(buffer, sizeof(buffer), "AIM ORIGIN: %.2f,%.2f  WEAPON: %.1f DEG%s",
+                  context.aim_origin.x, context.aim_origin.y,
+                  context.weapon_angle,
+                  context.auto_aim ? "  (AUTO)" : "");
+    line(buffer);
+    std::snprintf(buffer, sizeof(buffer), "MUZZLE: %.2f,%.2f  TARGET: %s",
+                  context.muzzle_world.x, context.muzzle_world.y,
+                  context.has_auto_target ? "LOCKED" : "NONE");
+    line(buffer);
+    if (context.has_auto_target) {
+        std::snprintf(buffer, sizeof(buffer), "TARGET POS: %.2f,%.2f",
+                      context.auto_target.x, context.auto_target.y);
+        line(buffer);
+    }
     line(std::string("RENDERER: ") + context.renderer + "  PLATFORM: " +
          context.platform);
     line("F4 COLLISION DEBUG  F6 CHARACTERS  F7 WEAPONS  F8 ENEMIES");

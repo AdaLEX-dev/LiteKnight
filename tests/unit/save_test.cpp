@@ -52,6 +52,8 @@ SaveData MakeSave() {
     data.plants = {"carrot_dev"};
     data.fullscreen = true;
     data.hub_visited = true;
+    data.auto_aim = true;
+    data.map_seed = 20261031;
     return data;
 }
 
@@ -96,6 +98,8 @@ TEST_CASE("Save round-trips through atomic slot file" *
     CHECK(loaded.plants.size() == 1);
     CHECK(loaded.fullscreen);
     CHECK(loaded.hub_visited);
+    CHECK(loaded.auto_aim);
+    CHECK(loaded.map_seed == 20261031);
 }
 
 TEST_CASE("Missing save returns a diagnostic rather than a fake default" *

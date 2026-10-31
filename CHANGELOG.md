@@ -5,6 +5,47 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.0-dev] - 2026-10-31
+
+### Added
+- Full 360° mouse aiming independent of movement, aim-driven body flip with a
+  documented hysteresis band, continuous weapon rotation, muzzle/projectile aim.
+- Manual / Auto Aim setting, persisted in save v2; auto-aim skips dead and
+  wall-obstructed enemies and does not permanently lock the weapon.
+- Recovered per-attack weapon energy costs: `weapon_000=0`, `weapon_002=1`,
+  `weapon_048=1`, `weapon_287=1`; insufficient-energy attack rejection.
+- Knight c00 Dual Wield on `Q`: recovered 5.0 s active, 10.0 s cooldown,
+  off-hand fire/render, `ui_skill01` icon and HUD cooldown mask.
+- Actual recovered `r1_2` and `r1_3` PatternRooms with unique obstacle/topology
+  metadata and generated wall maps.
+- Deterministic native three-room dungeon graph over actual room templates using
+  `RGRandomStream` and `--map-seed <int>`.
+- Automatic physical door transitions with opposite-entrance placement,
+  per-room enemy snapshots and room-clear state preservation.
+- Room catalogue audit (108 discovered PatternRooms, 3 integrated), Knight
+  ability audit and weapon energy audit.
+
+### Changed
+- `Q` activates Knight power; `Tab` switches weapon slots; `1`/`2` select slots.
+- HUD moved weapon slots and larger power button to the bottom-left; pause/coin
+  to the upper-right; pickup prompt is a compact bottom-centre stats card.
+- Settings adds AIM MODE and keeps labels inside their rows.
+- Save v2 adds `auto_aim` and `map_seed` additive fields.
+- Escape pause hierarchy fixed so a single press opens pause and a second
+  resumes; settings backs out to pause.
+
+### Testing
+- 139 doctest cases / 5,167 assertions.
+- Room graph, seed determinism, door-transition, aim hysteresis, weapon cost,
+  ability timing, save fields and pause hierarchy tests added.
+
+### Known gaps
+- 3 of 108 discovered PatternRooms integrated; reference map generation UNKNOWN.
+- Auto-aim priority and body-flip threshold are documented hypotheses.
+- Cooldown start phase and single-weapon off-hand duplication are hypotheses.
+- EnemyAI04 pathfinding, full forge/plant economy and full catalogue remain
+  incomplete.
+
 ## [0.4.0-dev] - 2026-10-31
 
 ### Added

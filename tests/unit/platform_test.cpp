@@ -58,6 +58,13 @@ TEST_CASE("Bootstrap command line parses bounded smoke options" * doctest::test_
     char* argv_debug[] = {executable, locomotion_debug};
     const AppConfig debug_config = ParseCommandLine(2, argv_debug);
     CHECK(debug_config.locomotion_debug);
+
+    char map_seed[] = "--map-seed";
+    char map_value[] = "20261031";
+    char* argv_map[] = {executable, map_seed, map_value};
+    const AppConfig map_config = ParseCommandLine(3, argv_map);
+    CHECK(map_config.map_seed_set);
+    CHECK(map_config.map_seed == 20261031);
 }
 
 TEST_CASE("Window state transitions are deterministic and idempotent" * doctest::test_suite("unit")) {

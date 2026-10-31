@@ -44,6 +44,10 @@ public:
     const engine::assets::WeaponDefinition& Definition() const {
         return definition_;
     }
+    // Same hand + gun_point composition used by SpawnProjectile, exposed for
+    // the F4 aim/muzzle debug overlay.
+    Vec2 MuzzlePosition(const Vec2& owner_position,
+                        const Vec2& aim_direction) const;
     bool IsAttacking() const { return attacking_; }
     float AttackTime() const { return attack_time_; }
 

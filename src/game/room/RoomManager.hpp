@@ -17,6 +17,10 @@ struct RoomConnection {
     std::string from;
     std::string to;
     std::string kind = "door";
+    // Physical door identifiers in the source/destination room. Empty means
+    // the connection is logical-only (for example the Living Room hub marker).
+    std::string from_door;
+    std::string to_door;
 };
 
 struct RoomTransition {
@@ -36,6 +40,13 @@ public:
     const Room* Find(const std::string& id) const;
     bool CanTransition(const std::string& to) const;
     bool TransitionTo(const std::string& to);
+    // Physical transitions select the connection owned by the door the player
+    // used. On success `destination_door` receives the matching door id in the
+    // destination room (empty for logical connections).
+    const RoomConnection* ConnectionFromDoor(const std::string& door_id) const;
+    bool TransitionThroughDoor(const std::string& door_id,
+                               std::string* destination_door = nullptr);
+    bool SetCurrent(const std::string& id);
     const std::vector<Room>& Rooms() const { return rooms_; }
     const std::vector<RoomConnection>& Connections() const { return connections_; }
     const RoomTransition& LastTransition() const { return last_; }

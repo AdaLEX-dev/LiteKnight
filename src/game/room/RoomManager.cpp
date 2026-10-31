@@ -37,6 +37,48 @@ bool RoomManager::CanTransition(const std::string& to) const {
     return false;
 }
 
+const RoomConnection* RoomManager::ConnectionFromDoor(
+    const std::string& door_id) const {
+    const Room* current = Current();
+    if (current == nullptr || door_id.empty()) return nullptr;
+    for (const RoomConnection& connection : connections_) {
+        if (connection.from == current->id && connection.from_door == door_id) {
+            return &connection;
+        }
+        if (connection.to == current->id && connection.to_door == door_id &&
+            connection.kind == "bidirectional") {
+            return &connection;
+        }
+    }
+    return nullptr;
+}
+
+bool RoomManager::TransitionThroughDoor(const std::string& door_id,
+                                        std::string* destination_door) {
+    const Room* current = Current();
+    const RoomConnection* connection = ConnectionFromDoor(door_id);
+    if (current == nullptr || connection == nullptr) return false;
+    const bool forward = connection->from == current->id;
+    const std::string& destination =
+        forward ? connection->to : connection->from;
+    if (!TransitionTo(destination)) return false;
+    if (destination_door != nullptr) {
+        *destination_door = forward ? connection->to_door
+                                    : connection->from_door;
+    }
+    return true;
+}
+
+bool RoomManager::SetCurrent(const std::string& id) {
+    for (std::size_t i = 0; i < rooms_.size(); ++i) {
+        if (rooms_[i].id == id) {
+            current_ = i;
+            return true;
+        }
+    }
+    return false;
+}
+
 bool RoomManager::TransitionTo(const std::string& to) {
     if (!CanTransition(to)) return false;
     std::size_t next = rooms_.size();

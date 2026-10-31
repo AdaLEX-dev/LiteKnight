@@ -1,0 +1,49 @@
+{
+  "ammo": "No separate serialized ammo cost recovered for these weapons; do not claim an ammo system.",
+  "evidence": [
+    "IL2CPP symbols: RGWeapon.MakeConsume, RGWeapon.GetDescConsume, MultiHand.CheckEnergyEnough, MultiHand.GetConsume, UICanvas.UpdateEnergyBar",
+    "RoleAttributePlayer.EnergyReLoad disassembly confirms +1 energy per 2.0 s below max",
+    "weapon_000 serialized consume=0; weapon_002/048/287 serialized consume=1"
+  ],
+  "scene": "analysis/assets/scenes/r1_1_visual.json",
+  "schema": 1,
+  "tool": "tools/asset/audit_weapon_energy.py",
+  "weapons": [
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 3,
+      "id": "weapon_000",
+      "native_energy_cost": 0,
+      "projectile": "bullet_0",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "id": "weapon_002",
+      "native_energy_cost": 1,
+      "projectile": "bullet_14",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 3,
+      "id": "weapon_048",
+      "native_energy_cost": 1,
+      "projectile": "bullet_11",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.13333334028720856,
+      "damage": 4,
+      "id": "weapon_287",
+      "native_energy_cost": 1,
+      "projectile": "bullet_14",
+      "serialized_consume": 1
+    }
+  ]
+}

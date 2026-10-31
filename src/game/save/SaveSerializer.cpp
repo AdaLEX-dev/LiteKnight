@@ -130,6 +130,8 @@ bool MigrateToCurrent(Json& document, std::string* error) {
             document["plants"] = Json::array();
             document["fullscreen"] = false;
             document["hub_visited"] = false;
+            document["auto_aim"] = false;
+            document["map_seed"] = 0;
             document["save_version"] = 2;
         } else {
             if (error != nullptr) {
@@ -153,6 +155,8 @@ Json Serialize(const SaveData& data) {
     document["plants"] = data.plants;
     document["fullscreen"] = data.fullscreen;
     document["hub_visited"] = data.hub_visited;
+    document["auto_aim"] = data.auto_aim;
+    document["map_seed"] = data.map_seed;
 
     Json player = Json::object();
     player["character_id"] = data.character_id;
@@ -251,6 +255,13 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
     }
     if (document.contains("hub_visited") && document["hub_visited"].is_boolean()) {
         loaded.hub_visited = document["hub_visited"].get<bool>();
+    }
+    if (document.contains("auto_aim") && document["auto_aim"].is_boolean()) {
+        loaded.auto_aim = document["auto_aim"].get<bool>();
+    }
+    if (document.contains("map_seed") &&
+        document["map_seed"].is_number_integer()) {
+        loaded.map_seed = document["map_seed"].get<std::int32_t>();
     }
     if (!inventory.contains("weapon_slots") ||
         !inventory["weapon_slots"].is_array() ||

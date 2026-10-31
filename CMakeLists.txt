@@ -359,6 +359,8 @@ add_library(game STATIC
     src/game/room/RoomDoorController.hpp
     src/game/room/RoomManager.cpp
     src/game/room/RoomManager.hpp
+    src/game/room/DungeonPlan.cpp
+    src/game/room/DungeonPlan.hpp
     # Combat
     src/game/combat/Damage.hpp
     src/game/combat/ProjectileSystem.cpp
@@ -598,6 +600,7 @@ add_executable(soul-knight-test
     tests/unit/room_manager_test.cpp
     tests/unit/ability_test.cpp
     tests/unit/ui_assets_test.cpp
+    tests/unit/ui_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp

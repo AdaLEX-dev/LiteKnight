@@ -153,7 +153,12 @@ struct WeaponDefinition {
     // RoleAttribute.deviation for the owning character. c00 does not serialize
     // this field and RoleAttribute's constructor leaves it at 0.
     int32_t owner_deviation = 0;
+    // Serialized RGWeapon/Gun001 `consume`; IL2CPP symbols
+    // RGWeapon.MakeConsume / MultiHand.CheckEnergyEnough identify it as the
+    // per-attack energy cost. -1 means derive from the serialized field.
     int32_t consume = 0;
+    int32_t energy_cost = -1;
+    int EnergyCost() const { return energy_cost >= 0 ? energy_cost : consume; }
     float weapon_speed = 1.0f;
     // RGWeapon.atk_move_speed; AttackStart adds this to speed_rate and
     // AttackStop subtracts it. weapon_000 serializes -0.1.

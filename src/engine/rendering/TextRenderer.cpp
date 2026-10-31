@@ -281,6 +281,26 @@ void TextRenderer::DrawRect(SpriteBatch& batch, const Vec2& top_left,
     (void)batch.DrawSprite(draw);
 }
 
+void TextRenderer::DrawLine(SpriteBatch& batch, const Vec2& start,
+                            const Vec2& end, float width, Color color,
+                            int32_t order) const {
+    if (!font_.IsValid() && !fallback_atlas_.IsValid()) return;
+    const Vec2 delta = end - start;
+    const float length = delta.Length();
+    if (length <= 0.0001f || width <= 0.0f) return;
+    SpriteDraw draw;
+    draw.position = start;
+    draw.size = {length, width};
+    draw.uv = WhiteUv();
+    draw.color = LinearColor(color);
+    draw.layer = SortLayer::UI;
+    draw.sorting_order = order;
+    draw.texture_id = kTextureId;
+    draw.pivot = {0.0f, 0.5f};
+    draw.rotation = std::atan2(delta.y, delta.x);
+    (void)batch.DrawSprite(draw);
+}
+
 void TextRenderer::DrawPanelBorder(SpriteBatch& batch, const Vec2& top_left,
                                    const Vec2& size, Color fill, Color border,
                                    float border_width, int32_t order) const {

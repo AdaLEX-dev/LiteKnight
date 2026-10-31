@@ -48,6 +48,9 @@ public:
     // recovered definition; Reset() restores only the scene fixtures.
     bool SpawnEnemy(std::size_t definition_index, const engine::Vec2& position);
     void ClearEnemies();
+    // Room-state preservation: restore a previously captured instance list.
+    // Definitions are owned by the scene and must match the same room.
+    void RestoreEnemies(std::vector<EnemyInstance> enemies);
     std::size_t DefinitionCount() const { return definitions_.size(); }
     const engine::assets::EnemyDefinition& DefinitionAt(std::size_t index) const {
         return definitions_[index];

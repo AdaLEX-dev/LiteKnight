@@ -37,7 +37,8 @@ enum class UIAction {
     ToggleDebugOverlay,
     ResetSave,
     SelectCharacter,
-    SelectWeapon
+    SelectWeapon,
+    ToggleAimMode
 };
 
 struct GameUIData {
@@ -53,9 +54,15 @@ struct GameUIData {
     bool fullscreen = false;
     bool debug_overlay = false;
     bool has_pixel_font = false;
+    bool auto_aim = false;
+    int ability_state = 0; // 0 empty, 1 ready, 2 active, 3 cooldown
+    float ability_cooldown = 0.0f;
     const UIAssets* ui_assets = nullptr;
     bool pickup_nearby = false;
     std::string pickup_name;
+    int pickup_damage = 0;
+    int pickup_energy_cost = 0;
+    float pickup_cycle_seconds = 0.0f;
     engine::Vec2 pickup_screen{0.0f, 0.0f};
     bool interaction_nearby = false;
     std::string interaction_label;

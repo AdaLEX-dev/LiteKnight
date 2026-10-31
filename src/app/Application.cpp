@@ -21,6 +21,13 @@
 #include <utility>
 
 namespace soulknight::app {
+
+using soulknight::game::room::BuildDungeonPlan;
+using soulknight::game::room::DungeonPlan;
+using soulknight::game::room::DungeonRoomTemplate;
+using soulknight::game::room::Room;
+using soulknight::game::room::RoomConnection;
+
 namespace {
 
 double NowSeconds() {
@@ -159,11 +166,16 @@ bool Application::Initialize() {
     asset_lab_ = {};
     weapon_ = {};
     projectiles_.Clear();
+    stored_rooms_.clear();
+    room_enemy_snapshots_.clear();
+    cleared_rooms_.clear();
+    multi_room_world_ = false;
+    map_seed_ = config_.map_seed;
     enemies_ = {};
     player_health_ = {};
     player_energy_ = {};
     aim_direction_ = {1.0f, 0.0f};
-    mouse_aim_valid_ = false;
+    mouse_aim_valid_ = true;
     facing_ = engine::locomotion::FacingDirection::Right;
     player_dead_ = false;
     attack_held_ = false;
@@ -186,7 +198,7 @@ bool Application::Initialize() {
             LOG_FATAL_APP("Scene loaded with no textures/sprites/instances");
             return false;
         }
-        LoadAlternateRoom();
+        LoadWorldRooms();
         std::vector<uint32_t> uploaded_ids;
         for (const engine::assets::TextureAsset& texture : scene_.textures) {
             texture_uploads_.push_back(engine::rendering::TextureUpload{
@@ -194,9 +206,9 @@ bool Application::Initialize() {
             });
             uploaded_ids.push_back(texture.id);
         }
-        if (alternate_room_available_) {
+        for (const StoredRoom& stored : stored_rooms_) {
             for (const engine::assets::TextureAsset& texture :
-                 alternate_scene_.textures) {
+                 stored.scene.textures) {
                 if (std::find(uploaded_ids.begin(), uploaded_ids.end(),
                               texture.id) != uploaded_ids.end()) {
                     continue;
@@ -305,6 +317,7 @@ bool Application::Initialize() {
                 ? scene_.player_stats.energy : 180);
         player_dead_ = false;
         aim_direction_ = {1.0f, 0.0f};
+        mouse_aim_valid_ = true;
         projectiles_.Clear();
         std::string enemy_error;
         if (!enemies_.Configure(scene_, &enemy_error)) {
@@ -316,6 +329,8 @@ bool Application::Initialize() {
         } else {
             weapon_inventory_.Configure(weapons_.Count());
             ConfigureActiveWeapon();
+            ConfigureSecondaryWeapon();
+            ConfigureAbilities();
             weapon_pickups_.Clear();
             if (weapons_.Count() > 0) SpawnWeaponPickup(0);
         }
@@ -340,6 +355,11 @@ bool Application::Initialize() {
             return false;
         }
         door_trigger_inside_.assign(room_doors_.Count(), false);
+        if (!scene_.is_hub && !scene_.doors.empty() &&
+            enemies_.AliveCount() > 0) {
+            room_doors_.CloseAll();
+            room_clear_pending_ = true;
+        }
         RebuildCollisionWorld();
         LOG_INFO_APP("Doors: {} recovered (open/close clips), initial target {}",
                      room_doors_.Count(),
@@ -746,6 +766,7 @@ void Application::BuildRenderBatch() {
     ui_context.energy = &player_energy_;
     ui_context.weapon_inventory = &weapon_inventory_;
     ui_context.room_id = scene_.id.c_str();
+    ui_context.room_graph = room_graph_text_.c_str();
     ui_context.facing = engine::locomotion::FacingDirectionName(facing_);
     ui_context.version = LITEKNIGHT_VERSION;
     ui_context.build = SOUL_KNIGHT_COMMIT_HASH;
@@ -758,6 +779,21 @@ void Application::BuildRenderBatch() {
     ui_context.active_projectiles = projectiles_.ActiveCount();
     ui_context.pickups = weapon_pickups_.ActiveCount();
     ui_context.room_clear_pending = room_clear_pending_;
+    ui_context.aim_mode = aim_mode_ == soulknight::game::player::AimMode::Auto
+        ? "AUTO AIM" : "MANUAL";
+    ui_context.aim_angle = AimAngleDegrees();
+    ui_context.mouse_logical = last_mouse_logical_;
+    ui_context.mouse_world = last_mouse_world_;
+    ui_context.aim_origin = AimOrigin();
+    ui_context.auto_aim = aim_mode_ == soulknight::game::player::AimMode::Auto;
+    ui_context.weapon_angle = AimAngleDegrees();
+    ui_context.has_auto_target = auto_aim_has_target_;
+    ui_context.auto_target = auto_aim_target_;
+    ui_context.muzzle_world = weapon_.IsConfigured()
+        ? weapon_.MuzzlePosition(player_.Position(), aim_direction_)
+        : AimOrigin();
+    ui_context.map_seed = map_seed_;
+    ui_context.room_count = static_cast<int>(room_manager_.Rooms().size());
     ui_context.logical_width = 1920;
     ui_context.logical_height = 1080;
     ui_context.framebuffer_width = window_.GetPixelWidth();
@@ -877,7 +913,7 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
         game_ui_.OpenPause();
         return;
     }
-    if (scancode == SDL_SCANCODE_T && alternate_room_available_) {
+    if (scancode == SDL_SCANCODE_T && multi_room_world_) {
         SwitchRoom();
         return;
     }
@@ -938,7 +974,10 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                 LoadGameFromDisk();
             } else if (scancode == SDL_SCANCODE_F4) {
                 collision_debug_ = !collision_debug_;
-                LOG_INFO_APP("Collision/debug bounds: {}",
+                if (collision_debug_ && !dev_ui_.OverlayVisible()) {
+                    dev_ui_.ToggleOverlay();
+                }
+                LOG_INFO_APP("Collision/aim debug: {}",
                              BooleanText(collision_debug_));
             } else if (scancode == SDL_SCANCODE_F5) {
                 asset_lab_.Open();
@@ -985,6 +1024,7 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                     } else if (menu == soulknight::game::ui::DevMenu::Weapons) {
                         if (weapon_inventory_.EquipActive(dev_ui_.SelectedIndex())) {
                             ConfigureActiveWeapon();
+                            ConfigureSecondaryWeapon();
                         }
                     }
                     dev_ui_.CloseMenu();
@@ -1027,7 +1067,13 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                        scancode == SDL_SCANCODE_0) {
                 SwitchCharacter(9);
             } else if (scancode == SDL_SCANCODE_Q) {
-                SwitchWeaponSlot((weapon_inventory_.ActiveSlot() + 1) % 2);
+                ActivateKnightPower();
+            } else if (scancode == SDL_SCANCODE_TAB) {
+                const std::size_t other =
+                    weapon_inventory_.ActiveSlot() == 0 ? 1 : 0;
+                if (weapon_inventory_.SlotOccupied(other)) {
+                    SwitchWeaponSlot(other);
+                }
             } else if (scancode == SDL_SCANCODE_1) {
                 SwitchWeaponSlot(0);
             } else if (scancode == SDL_SCANCODE_2) {
@@ -1054,10 +1100,10 @@ void Application::HandleUIKey(SDL_Scancode scancode,
         game_ui_.Confirm();
         ProcessUIAction();
     } else if (scancode == SDL_SCANCODE_ESCAPE) {
+        // The global Escape hierarchy owns pause/settings transitions. Do not
+        // also resume here, or a single Escape would pause and unpause.
         if (game_ui_.Screen() == UIScreen::Settings) {
             game_ui_.Back();
-        } else if (game_ui_.IsPaused()) {
-            game_ui_.Resume();
         }
     } else if (scancode == SDL_SCANCODE_P && game_ui_.IsPaused()) {
         game_ui_.Resume();
@@ -1112,8 +1158,18 @@ void Application::ProcessUIAction() {
             if (weapon_inventory_.EquipActive(static_cast<std::size_t>(
                     std::max(0, game_ui_.WeaponSelection())))) {
                 ConfigureActiveWeapon();
+                ConfigureSecondaryWeapon();
             }
             game_ui_.CloseSelection();
+            break;
+        case UIAction::ToggleAimMode:
+            aim_mode_ = aim_mode_ == soulknight::game::player::AimMode::Manual
+                ? soulknight::game::player::AimMode::Auto
+                : soulknight::game::player::AimMode::Manual;
+            mouse_aim_valid_ = true;
+            LOG_INFO_APP("Aiming mode: {}", aim_mode_ ==
+                soulknight::game::player::AimMode::Auto ? "AUTO AIM" : "MANUAL");
+            if (scene_mode_) SaveGameToDisk();
             break;
         case UIAction::ResetSave:
             if (save_manager_ != nullptr) {
@@ -1143,11 +1199,24 @@ void Application::DrawGameUI() {
     data.fullscreen = window_.IsFullscreen();
     data.debug_overlay = dev_ui_.OverlayVisible();
     data.has_pixel_font = dev_ui_.HasPixelFont();
+    data.auto_aim = aim_mode_ == soulknight::game::player::AimMode::Auto;
+    if (abilities_.Count() > 0) {
+        const auto& ability = abilities_.Abilities()[0];
+        data.ability_state = static_cast<int>(ability.state);
+        if (ability.state == soulknight::game::player::AbilityState::Cooldown &&
+            ability.definition.cooldown > 0.0f) {
+            data.ability_cooldown = ability.timer / ability.definition.cooldown;
+        }
+    }
     data.ui_assets = ui_assets_.IsLoaded() ? &ui_assets_ : nullptr;
     if (const auto* pickup = weapon_pickups_.Nearest(player_.Position(), 1.5f);
         pickup != nullptr && pickup->weapon_index < weapons_.Count()) {
         data.pickup_nearby = true;
-        data.pickup_name = weapons_.Definitions()[pickup->weapon_index].id;
+        const auto& pickup_weapon = weapons_.Definitions()[pickup->weapon_index];
+        data.pickup_name = pickup_weapon.id;
+        data.pickup_damage = pickup_weapon.damage;
+        data.pickup_energy_cost = pickup_weapon.EnergyCost();
+        data.pickup_cycle_seconds = pickup_weapon.attack_cycle_seconds;
         data.pickup_screen = render_camera_.WorldToScreen(pickup->position);
     } else if (const auto* marker = NearbyInteraction(); marker != nullptr) {
         data.interaction_nearby = true;
@@ -1311,6 +1380,7 @@ void Application::SwitchCharacter(std::size_t index) {
     last_animation_state_ = engine::animation::LocomotionState::Idle;
     animation_logs_remaining_ = 8;
     ApplyActiveCharacterStats();
+    ConfigureAbilities();
     const auto& character = player_characters_.Active();
     LOG_INFO_APP("Character switch: [{}] {} (controller {}, body={}, idle={}, run={})",
                  player_characters_.ActiveIndex() + 1, character.id,
@@ -1358,13 +1428,14 @@ void Application::CycleObstacleVariant() {
 }
 
 void Application::UpdateAimInput(const platform::InputSnapshot* override) {
+    if (aim_mode_ == soulknight::game::player::AimMode::Auto) return;
     const platform::InputSnapshot& snapshot =
         override != nullptr ? *override : input_manager_.GetSnapshot();
     // Reference path: RGController.AutoLock consumes the right-stick / locked
     // target direction into fixed_angle; Gun001.Attack uses that angle.
-    // NATIVE TEST BINDINGS: right stick or mouse cursor (after it has moved)
-    // provide the aim vector. Facing remains movement-driven and is a separate
-    // concept, so strafing and aiming in different directions is supported.
+    // NATIVE TEST BINDINGS: right stick or mouse cursor provide the aim vector.
+    // Body facing is resolved separately from the aim vector by
+    // ResolveAimFacing, so movement and aim stay independent.
     engine::Vec2 aim = aim_direction_;
     const float stick_magnitude =
         std::sqrt(snapshot.aim_x * snapshot.aim_x +
@@ -1388,7 +1459,9 @@ void Application::UpdateAimInput(const platform::InputSnapshot* override) {
         if (mouse_aim_valid_) {
             const engine::Vec2 mouse = logical_viewport_.WindowPointToLogical(
                 snapshot.mouse_position);
+            last_mouse_logical_ = mouse;
             const engine::Vec2 world = camera_.ScreenToWorld(mouse);
+            last_mouse_world_ = world;
             const engine::Vec2 delta = world - player_.Position();
             if (delta.LengthSquared() > 0.01f) {
                 aim = delta;
@@ -1523,6 +1596,8 @@ void Application::SaveGameToDisk() {
     }
     data.fullscreen = window_.IsFullscreen();
     data.hub_visited = scene_.is_hub;
+    data.auto_aim = aim_mode_ == soulknight::game::player::AimMode::Auto;
+    data.map_seed = map_seed_;
     for (const auto& plot : plant_system_.Plots()) {
         if (!plot.species.empty()) data.plants.push_back(plot.species);
     }
@@ -1546,9 +1621,18 @@ void Application::LoadGameFromDisk() {
     if (!error.empty()) {
         LOG_WARN_APP("Load recovered with warning: {}", error);
     }
-    if (data.scene_id != scene_.id && alternate_room_available_ &&
-        alternate_scene_.id == data.scene_id) {
-        SwitchRoom();
+    if (multi_room_world_) {
+        if (data.map_seed != map_seed_) {
+            map_seed_ = data.map_seed;
+            ConfigureWorldGraph();
+        }
+        if (data.scene_id != scene_.id &&
+            room_manager_.Find(data.scene_id) != nullptr) {
+            if (!ActivateRoom(data.scene_id, "")) {
+                LOG_ERROR_APP("Save scene activation failed: {}", data.scene_id);
+                return;
+            }
+        }
     }
     if (data.scene_id != scene_.id) {
         LOG_ERROR_APP("Save scene mismatch: save={} current={}",
@@ -1593,6 +1677,8 @@ void Application::LoadGameFromDisk() {
     player_health_.dead = data.dead || data.hp <= 0;
     player_health_.can_hurt = !player_health_.dead;
     player_energy_.Reset(data.max_energy, data.energy);
+    aim_mode_ = data.auto_aim ? soulknight::game::player::AimMode::Auto
+                              : soulknight::game::player::AimMode::Manual;
     if (data.fullscreen != window_.IsFullscreen()) {
         (void)window_.SetFullscreen(data.fullscreen);
     }
@@ -1608,6 +1694,7 @@ void Application::LoadGameFromDisk() {
     (void)weapon_inventory_.EquipActive(weapon_indices[1]);
     weapon_inventory_.SwitchSlot(static_cast<std::size_t>(data.active_slot));
     ConfigureActiveWeapon();
+    ConfigureSecondaryWeapon();
     LOG_INFO_APP("Loaded native game state: {} character={} slot={} ",
                  save_manager_->SlotPath().string(), data.character_id,
                  data.active_slot + 1);
@@ -1699,14 +1786,127 @@ bool Application::TryPickupWeapon() {
     }
     if (!weapon_inventory_.EquipActive(weapon_index)) return false;
     ConfigureActiveWeapon();
+    ConfigureSecondaryWeapon();
     LOG_INFO_APP("Weapon pickup equipped into slot {}: {}",
                  slot + 1, weapons_.Definitions()[weapon_index].id);
     return true;
 }
 
+engine::Vec2 Application::AimOrigin() const {
+    return player_.Position() + engine::Vec2{0.0f, 0.5f};
+}
+
+float Application::AimAngleDegrees() const {
+    return std::atan2(aim_direction_.y, aim_direction_.x) *
+           180.0f / 3.14159265358979323846f;
+}
+
+void Application::ConfigureSecondaryWeapon() {
+    secondary_weapon_.Clear();
+    if (weapons_.Count() == 0) return;
+    const std::size_t active = weapon_inventory_.ActiveSlot();
+    if (!weapon_inventory_.SlotOccupied(active)) return;
+    const std::size_t other = active == 0 ? 1 : 0;
+    // HYPOTHESIS (off-hand duplication): C01Controller owns hand2/hand3 and
+    // GunInitKnightXXSkillListener maintains an off-hand sprite. The recovered
+    // prefab does not expose a separate "empty off-hand" rule, so when only one
+    // weapon is equipped the native dual wield presents a copy of the active
+    // weapon. With two equipped weapons the other slot is used.
+    const std::size_t index = weapon_inventory_.SlotOccupied(other)
+        ? weapon_inventory_.Slot(other)
+        : weapon_inventory_.Slot(active);
+    if (index >= weapons_.Count()) return;
+    engine::assets::WeaponDefinition definition = weapons_.Definitions()[index];
+    if (scene_.player_stats.max_hp > 0) {
+        definition.owner_deviation = scene_.player_stats.deviation;
+    }
+    if (!secondary_weapon_.Configure(definition)) secondary_weapon_.Clear();
+}
+
+void Application::ConfigureAbilities() {
+    abilities_.Clear();
+    if (player_characters_.Count() == 0 ||
+        player_characters_.Active().id != "c00") {
+        return;
+    }
+    // CONFIRMED c00 SkillInfo[0]: maxTime=5.0, cd=10.0. The C01Controller
+    // hand2/hand3 paths and GunInitKnightXXSkillListener identify the Knight
+    // dual-wield mechanic; skill icon is recovered ui_skill01.
+    soulknight::game::player::AbilityDefinition dual;
+    dual.id = "knight_dual_wield";
+    dual.energy_cost = 0;
+    dual.active_time = 5.0f;
+    dual.cooldown = 10.0f;
+    abilities_.Add(dual);
+}
+
+void Application::ActivateKnightPower() {
+    if (player_dead_) return;
+    if (abilities_.Count() == 0) {
+        LOG_INFO_APP("Q: this character has no recovered power yet");
+        return;
+    }
+    if (!abilities_.Activate(0, player_energy_)) {
+        LOG_INFO_APP("Q: Knight power not ready");
+        return;
+    }
+    LOG_INFO_APP("Q: KNIGHT DUAL WIELD active (5.0 s, cooldown 10.0 s)");
+}
+
+const soulknight::game::enemy::EnemyInstance* Application::FindAutoAimTarget() const {
+    const engine::Vec2 origin = AimOrigin();
+    const auto* best = static_cast<const soulknight::game::enemy::EnemyInstance*>(nullptr);
+    float best_distance = std::numeric_limits<float>::max();
+    for (const auto& enemy : enemies_.Enemies()) {
+        if (!enemy.active || enemy.health.dead) continue;
+        const engine::Vec2 target = enemy.position + engine::Vec2{0.0f, 0.5f};
+        // Ignore targets behind recovered solid geometry.
+        bool blocked = false;
+        for (const auto& solid : collision_world_.Solids()) {
+            float hit = 0.0f;
+            if (soulknight::game::combat::ProjectileSystem::SegmentHitsAabb(
+                    origin, target, solid, {}, hit)) {
+                blocked = true;
+                break;
+            }
+        }
+        if (blocked) continue;
+        const float distance = (target - origin).LengthSquared();
+        if (distance < best_distance) {
+            best_distance = distance;
+            best = &enemy;
+        }
+    }
+    return best;
+}
+
+void Application::UpdateAutoAim() {
+    if (aim_mode_ != soulknight::game::player::AimMode::Auto) {
+        auto_aim_has_target_ = false;
+        return;
+    }
+    const auto* target = attack_held_ ? FindAutoAimTarget() : nullptr;
+    if (target == nullptr) {
+        auto_aim_has_target_ = false;
+        // The reference weapon is not permanently locked to the last target;
+        // with no attack (or no visible living target) it returns to the
+        // horizontal held pose while the body keeps its current facing.
+        aim_direction_ = facing_ == engine::locomotion::FacingDirection::Left
+            ? engine::Vec2{-1.0f, 0.0f} : engine::Vec2{1.0f, 0.0f};
+        return;
+    }
+    auto_aim_has_target_ = true;
+    auto_aim_target_ = target->position + engine::Vec2{0.0f, 0.5f};
+    const engine::Vec2 desired = auto_aim_target_ - AimOrigin();
+    if (desired.LengthSquared() > 1e-6f) {
+        aim_direction_ = desired.Normalized();
+    }
+}
+
 void Application::SwitchWeaponSlot(std::size_t slot) {
     if (!weapon_inventory_.SwitchSlot(slot)) return;
     ConfigureActiveWeapon();
+    ConfigureSecondaryWeapon();
     LOG_INFO_APP("Weapon slot: {} primary={} secondary={} active={}",
                  weapon_inventory_.ActiveSlot() + 1,
                  weapon_inventory_.Slot(0), weapon_inventory_.Slot(1),
@@ -1764,18 +1964,30 @@ void Application::ResetCombat() {
     attack_held_ = false;
     weapon_.Release();
     aim_direction_ = {1.0f, 0.0f};
-    mouse_aim_valid_ = false;
+    mouse_aim_valid_ = true;
     facing_ = engine::locomotion::FacingDirection::Right;
     projectiles_.Clear();
     enemies_.Reset();
+    cleared_rooms_.erase(scene_.id);
+    room_enemy_snapshots_.erase(scene_.id);
     obstacles_.Select(0);
     weapon_inventory_.Configure(weapons_.Count());
     ConfigureActiveWeapon();
+    ConfigureSecondaryWeapon();
+    ConfigureAbilities();
     weapon_pickups_.Clear();
     if (weapons_.Count() > 0) SpawnWeaponPickup(0);
     player_characters_.Select(0);
     ApplyActiveCharacterStats();
-    room_doors_.OpenAll();
+    ConfigureAbilities();
+    room_clear_pending_ = false;
+    if (!scene_.is_hub && !scene_.doors.empty() &&
+        enemies_.AliveCount() > 0) {
+        room_doors_.CloseAll();
+        room_clear_pending_ = true;
+    } else {
+        room_doors_.OpenAll();
+    }
     door_trigger_inside_.assign(room_doors_.Count(), false);
     RebuildCollisionWorld();
     camera_.position = scene_.spawn;
@@ -1794,6 +2006,17 @@ void Application::ResetCombat() {
 }
 
 void Application::UpdateDoorTriggers() {
+    if (multi_room_world_ && scene_.is_hub) {
+        for (const engine::assets::InteractionMarker& marker :
+             scene_.interaction_markers) {
+            if (marker.kind != "door") continue;
+            if ((marker.position - player_.Position()).LengthSquared() <=
+                2.25f) {
+                (void)SwitchRoom("hub_door");
+                return;
+            }
+        }
+    }
     if (!scene_.has_room_topology || scene_.doors.empty()) return;
     // The reference door trigger reacts to c00's root trigger box, offset
     // (0, 0.7). This native probe is for debug/traversal logging only.
@@ -1810,6 +2033,11 @@ void Application::UpdateDoorTriggers() {
         const bool was_inside = door_trigger_inside_[i];
         if (inside != was_inside) {
             door_trigger_inside_[i] = inside;
+            if (inside && multi_room_world_ && !room_doors_.At(i).IsBlocking() &&
+                room_manager_.ConnectionFromDoor(door.id) != nullptr) {
+                (void)SwitchRoom(door.id);
+                return;
+            }
             if (config_.locomotion_debug) {
                 const soulknight::game::room::Door& state =
                     room_doors_.At(i);
@@ -1855,17 +2083,35 @@ void Application::FixedUpdate(double dt) {
 
     previous_player_position_ = player_.Position();
     previous_camera_position_ = camera_.position;
+    abilities_.Update(static_cast<float>(dt));
+    UpdateAutoAim();
+    facing_ = engine::locomotion::ResolveAimFacing(facing_, aim_direction_);
     if (!player_dead_) {
         player_.SetSpeedRateBonus(
             attack_held_ ? weapon_.Definition().atk_move_speed : 0.0f);
         player_.FixedUpdate(movement_input_.direction, movement_input_.weight,
                             static_cast<float>(dt), collision_world_);
-        facing_ = engine::locomotion::ResolveFacing(
-            facing_, movement_input_.direction);
         locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
         const int shots = weapon_.Update(static_cast<float>(dt), attack_held_,
                                          player_.Position(), aim_direction_,
                                          projectiles_, &player_energy_);
+        const bool dual_active = abilities_.Count() > 0 &&
+            abilities_.Abilities()[0].state ==
+                soulknight::game::player::AbilityState::Active;
+        if (dual_active && secondary_weapon_.IsConfigured()) {
+            const engine::Vec2 offhand{
+                -aim_direction_.y * 0.34f, aim_direction_.x * 0.34f};
+            const int secondary_shots = secondary_weapon_.Update(
+                static_cast<float>(dt), attack_held_,
+                player_.Position() + offhand,
+                aim_direction_, projectiles_, &player_energy_);
+            if (secondary_shots > 0) {
+                LOG_INFO_APP("Dual wield: secondary fired {} shot(s)",
+                             secondary_shots);
+            }
+        } else if (!dual_active) {
+            secondary_weapon_.Release();
+        }
         if (shots > 0 && config_.locomotion_debug) {
             LOG_INFO_APP("Attack: fired={} projectile={} speed={:.1f} "
                          "damage={} cycle={:.6f}s first={:.6f}s "
@@ -2172,30 +2418,129 @@ void Application::ApplyInputSnapshot(const platform::InputSnapshot& snapshot) {
     UpdateAimInput(&snapshot);
 }
 
-bool Application::LoadAlternateRoom() {
-    const std::string alternate_path = scene_.id == "hero_room"
-        ? "scenes/r1_1_visual/scene.json"
-        : "scenes/hero_room/scene.json";
-    std::string error;
-    if (!engine::assets::SceneLoader::Load(filesystem_, alternate_path,
-                                           alternate_scene_, &error)) {
-        LOG_WARN_APP("Alternate room unavailable: {}", error);
-        alternate_scene_ = {};
-        alternate_room_available_ = false;
+bool Application::LoadWorldRooms() {
+    world_templates_ = {
+        {"r1_1_visual", "scenes/r1_1_visual/scene.json"},
+        {"r1_2_visual", "scenes/r1_2_visual/scene.json"},
+        {"r1_3_visual", "scenes/r1_3_visual/scene.json"},
+    };
+    multi_room_world_ = false;
+    const auto known_scene = [&](const std::string& path) {
+        if (path == world_hub_path_) return true;
+        for (const auto& room : world_templates_) {
+            if (room.scene_path == path) return true;
+        }
+        return false;
+    };
+    if (!known_scene(config_.scene_path)) {
+        LOG_INFO_APP("Custom scene mode: multi-room world disabled");
         return false;
     }
-    alternate_room_available_ = true;
-    room_manager_.Configure(
-        {{scene_.id, config_.scene_path},
-         {alternate_scene_.id, alternate_path}},
-        {{scene_.id, alternate_scene_.id, "bidirectional"}});
-    LOG_INFO_APP("Alternate room ready: {} ({})", alternate_scene_.id,
-                 alternate_path);
+    map_seed_ = config_.map_seed;
+    const DungeonPlan plan = BuildDungeonPlan(map_seed_, world_templates_);
+
+    const auto load_room = [&](const std::string& id,
+                               const std::string& path) -> bool {
+        if (path == config_.scene_path) return true;
+        for (const StoredRoom& stored : stored_rooms_) {
+            if (stored.id == id) return true;
+        }
+        StoredRoom stored;
+        std::string error;
+        if (!engine::assets::SceneLoader::Load(filesystem_, path,
+                                               stored.scene, &error)) {
+            LOG_WARN_APP("Dungeon room unavailable: {} ({})", path, error);
+            return false;
+        }
+        stored.id = stored.scene.id;
+        stored_rooms_.push_back(std::move(stored));
+        LOG_INFO_APP("Dungeon room loaded: {} ({})", stored_rooms_.back().id,
+                     path);
+        return true;
+    };
+    if (!load_room(world_hub_id_, world_hub_path_)) {
+        LOG_WARN_APP("Living Room unavailable for multi-room world");
+        return false;
+    }
+    for (const Room& room : plan.rooms) {
+        if (!load_room(room.id, room.scene_path)) {
+            LOG_WARN_APP("Dungeon graph incomplete without {}", room.id);
+            return false;
+        }
+    }
+    multi_room_world_ = true;
+    ConfigureWorldGraph();
     return true;
 }
 
-bool Application::NearOpenDoor() const {
-    if (scene_.is_hub || scene_.doors.empty()) return false;
+void Application::ConfigureWorldGraph() {
+    if (world_templates_.empty()) return;
+    const DungeonPlan plan = BuildDungeonPlan(map_seed_, world_templates_);
+    std::vector<Room> rooms;
+    rooms.push_back(Room{world_hub_id_, world_hub_path_});
+    for (const Room& room : plan.rooms) rooms.push_back(room);
+    std::vector<RoomConnection> connections = plan.connections;
+    connections.push_back(RoomConnection{
+        world_hub_id_, plan.start_room_id, "bidirectional",
+        "hub_door", "south"});
+    room_manager_.Configure(std::move(rooms), std::move(connections));
+    room_manager_.SetCurrent(scene_.id);
+    room_graph_text_.clear();
+    for (const RoomConnection& connection : room_manager_.Connections()) {
+        if (!room_graph_text_.empty()) room_graph_text_ += " | ";
+        room_graph_text_ += connection.from + ":" +
+            (connection.from_door.empty() ? "logical" : connection.from_door) +
+            " <-> " + connection.to + ":" +
+            (connection.to_door.empty() ? "logical" : connection.to_door);
+    }
+    LOG_INFO_APP("Map seed {}: {} rooms, {} physical connections, start {}",
+                 map_seed_, room_manager_.Rooms().size(),
+                 room_manager_.Connections().size(), plan.start_room_id);
+    for (const RoomConnection& connection : room_manager_.Connections()) {
+        LOG_INFO_APP("  room edge {}:{} <-> {}:{} ({})", connection.from,
+                     connection.from_door.empty() ? "logical" : connection.from_door,
+                     connection.to,
+                     connection.to_door.empty() ? "logical" : connection.to_door,
+                     connection.kind);
+    }
+}
+
+engine::Vec2 Application::DoorEntrancePosition(
+    const engine::assets::SceneAsset& scene, const std::string& door_id) const {
+    if (door_id.empty()) return scene.spawn;
+    if (scene.is_hub) {
+        for (const engine::assets::InteractionMarker& marker :
+             scene.interaction_markers) {
+            if (marker.kind == "door") {
+                return {marker.position.x, marker.position.y - 2.2f};
+            }
+        }
+        return scene.spawn;
+    }
+    const int32_t index = scene.FindDoorIndex(door_id);
+    if (index < 0) return scene.spawn;
+    const engine::assets::SceneDoor& door =
+        scene.doors[static_cast<std::size_t>(index)];
+    engine::Vec2 position{
+        (door.trigger.min.x + door.trigger.max.x) * 0.5f,
+        (door.trigger.min.y + door.trigger.max.y) * 0.5f};
+    constexpr float kEntranceInset = 1.35f;
+    if (door.id == "north") {
+        position.y = door.trigger.min.y - kEntranceInset;
+    } else if (door.id == "south") {
+        position.y = door.trigger.max.y + kEntranceInset;
+    } else if (door.id == "east") {
+        position.x = door.trigger.min.x - kEntranceInset;
+    } else if (door.id == "west") {
+        position.x = door.trigger.max.x + kEntranceInset;
+    }
+    return position;
+}
+
+const engine::assets::SceneDoor* Application::NearbyOpenDoor() const {
+    if (scene_.is_hub || scene_.doors.empty()) return nullptr;
+    const engine::assets::SceneDoor* best = nullptr;
+    float best_distance = 4.0f;
     for (std::size_t i = 0; i < scene_.doors.size() &&
                             i < room_doors_.Count(); ++i) {
         if (room_doors_.At(i).IsBlocking()) continue;
@@ -2203,11 +2548,31 @@ bool Application::NearOpenDoor() const {
         const engine::Vec2 center{
             (trigger.min.x + trigger.max.x) * 0.5f,
             (trigger.min.y + trigger.max.y) * 0.5f};
-        if ((center - player_.Position()).LengthSquared() <= 4.0f) {
-            return true;
+        const float distance = (center - player_.Position()).LengthSquared();
+        if (distance <= best_distance) {
+            best_distance = distance;
+            best = &scene_.doors[i];
         }
     }
-    return false;
+    return best;
+}
+
+bool Application::NearOpenDoor() const {
+    return NearbyOpenDoor() != nullptr;
+}
+
+std::string Application::FirstConnectedDoor() const {
+    if (scene_.is_hub) return "hub_door";
+    for (const RoomConnection& connection : room_manager_.Connections()) {
+        if (connection.from == scene_.id && !connection.from_door.empty()) {
+            return connection.from_door;
+        }
+        if (connection.to == scene_.id && !connection.to_door.empty() &&
+            connection.kind == "bidirectional") {
+            return connection.to_door;
+        }
+    }
+    return {};
 }
 
 void Application::UpdateRoomClear() {
@@ -2219,14 +2584,78 @@ void Application::UpdateRoomClear() {
     LOG_INFO_APP("Room clear: all enemies defeated; doors opened");
 }
 
-void Application::SwitchRoom() {
-    if (!alternate_room_available_) return;
+void Application::CaptureCurrentRoomState() {
+    if (scene_.id.empty()) return;
+    room_enemy_snapshots_[scene_.id] = enemies_.Enemies();
+    if (!scene_.is_hub &&
+        (enemies_.AliveCount() == 0 || !room_clear_pending_)) {
+        cleared_rooms_.insert(scene_.id);
+    }
+    LOG_INFO_APP("Room state captured: {} clear={} enemies={}", scene_.id,
+                 BooleanText(cleared_rooms_.contains(scene_.id)),
+                 enemies_.Enemies().size());
+}
+
+void Application::RestoreCurrentRoomState() {
+    const auto snapshot = room_enemy_snapshots_.find(scene_.id);
+    if (snapshot != room_enemy_snapshots_.end()) {
+        enemies_.RestoreEnemies(snapshot->second);
+    }
+}
+
+bool Application::SwitchRoom(const std::string& requested_door) {
+    if (!multi_room_world_) return false;
+    std::string door_id = requested_door;
+    if (door_id.empty()) {
+        if (scene_.is_hub) {
+            door_id = "hub_door";
+        } else if (const engine::assets::SceneDoor* door = NearbyOpenDoor()) {
+            door_id = door->id;
+        } else {
+            door_id = FirstConnectedDoor();
+        }
+    }
+    if (door_id.empty()) {
+        LOG_WARN_APP("Room transition: no connected door in {}", scene_.id);
+        return false;
+    }
+    CaptureCurrentRoomState();
+    std::string destination_door;
+    if (!room_manager_.TransitionThroughDoor(door_id, &destination_door)) {
+        LOG_WARN_APP("Room transition rejected: {} via door {}",
+                     scene_.id, door_id);
+        return false;
+    }
+    const Room* target = room_manager_.Current();
+    if (target == nullptr) return false;
+    LOG_INFO_APP("Physical room transition: {} door {} -> {} door {}",
+                 scene_.id, door_id, target->id,
+                 destination_door.empty() ? "logical" : destination_door);
+    return ActivateRoom(target->id, destination_door);
+}
+
+bool Application::ActivateRoom(const std::string& room_id,
+                               const std::string& entrance_door) {
+    if (room_id == scene_.id) return true;
+    StoredRoom* target = nullptr;
+    for (StoredRoom& stored : stored_rooms_) {
+        if (stored.id == room_id) {
+            target = &stored;
+            break;
+        }
+    }
+    if (target == nullptr) {
+        LOG_ERROR_APP("Room activation failed: unknown room {}", room_id);
+        return false;
+    }
     const std::string character_id =
         player_characters_.Count() > 0 ? player_characters_.Active().id : "c00";
     const std::size_t slot0 =
-        weapon_inventory_.SlotOccupied(0) ? weapon_inventory_.Slot(0) : weapons_.Count();
+        weapon_inventory_.SlotOccupied(0) ? weapon_inventory_.Slot(0)
+                                          : weapons_.Count();
     const std::size_t slot1 =
-        weapon_inventory_.SlotOccupied(1) ? weapon_inventory_.Slot(1) : weapons_.Count();
+        weapon_inventory_.SlotOccupied(1) ? weapon_inventory_.Slot(1)
+                                          : weapons_.Count();
     const std::string weapon0 = slot0 < weapons_.Count()
         ? weapons_.Definitions()[slot0].id : std::string{};
     const std::string weapon1 = slot1 < weapons_.Count()
@@ -2237,16 +2666,15 @@ void Application::SwitchRoom() {
     const int energy = player_energy_.energy;
     const bool dead = player_health_.dead;
 
-    if (!room_manager_.TransitionTo(alternate_scene_.id)) {
-        LOG_WARN_APP("RoomManager rejected transition to {}",
-                     alternate_scene_.id);
-        return;
-    }
-    std::swap(scene_, alternate_scene_);
+    const std::string previous_id = scene_.id;
+    std::swap(scene_, target->scene);
+    target->id = previous_id;
+    room_manager_.SetCurrent(scene_.id);
+
     std::string error;
     if (!player_characters_.Configure(scene_, &error)) {
         LOG_ERROR_APP("Room switch character setup failed: {}", error);
-        return;
+        return false;
     }
     std::size_t character_index = 0;
     for (std::size_t i = 0; i < player_characters_.Count(); ++i) {
@@ -2258,7 +2686,7 @@ void Application::SwitchRoom() {
     player_characters_.Select(character_index);
     if (!weapons_.Configure(scene_)) {
         LOG_ERROR_APP("Room switch weapon setup failed");
-        return;
+        return false;
     }
     weapon_inventory_.Configure(weapons_.Count());
     const auto equip_by_id = [&](std::size_t slot, const std::string& id) {
@@ -2275,13 +2703,17 @@ void Application::SwitchRoom() {
     equip_by_id(1, weapon1);
     weapon_inventory_.SwitchSlot(active_slot);
     ConfigureActiveWeapon();
+    ConfigureSecondaryWeapon();
+    ConfigureAbilities();
 
-    player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
+    const engine::Vec2 spawn = DoorEntrancePosition(scene_, entrance_door);
+    player_ = engine::locomotion::PlayerLocomotion(spawn);
     previous_player_position_ = player_.Position();
     render_player_position_ = player_.Position();
     camera_ = {};
-    camera_.position = scene_.spawn;
-    camera_.orthographic_size = 10.0f;
+    camera_.position = spawn;
+    camera_.orthographic_size = scene_.camera.orthographic_size > 0.0f
+        ? scene_.camera.orthographic_size : 10.0f;
     previous_camera_position_ = camera_.position;
     render_camera_ = camera_;
     player_health_.Reset(
@@ -2308,16 +2740,36 @@ void Application::SwitchRoom() {
     if (player_dead_) locomotion_animator_.PlayDead();
     last_animation_sprite_.clear();
     last_animation_state_ = engine::animation::LocomotionState::Idle;
+    animation_logs_remaining_ = 8;
     player_render_ = engine::rendering::BindPlayerRenderInstances(scene_);
     if (!player_render_.IsValid()) {
         LOG_ERROR_APP("Room switch player render binding missing");
-        return;
+        return false;
     }
     std::string enemy_error;
-    (void)enemies_.Configure(scene_, &enemy_error);
+    if (!enemies_.Configure(scene_, &enemy_error)) {
+        LOG_ERROR_APP("Room switch enemy setup failed: {}", enemy_error);
+        return false;
+    }
+    RestoreCurrentRoomState();
     (void)obstacles_.Configure(scene_, &error);
-    (void)room_doors_.Configure(scene_, &error);
+    if (!room_doors_.Configure(scene_, &error)) {
+        LOG_ERROR_APP("Room switch door setup failed: {}", error);
+        return false;
+    }
     door_trigger_inside_.assign(room_doors_.Count(), false);
+    room_clear_pending_ = false;
+    if (!scene_.is_hub && !scene_.doors.empty()) {
+        if (cleared_rooms_.contains(scene_.id) || enemies_.AliveCount() == 0) {
+            room_doors_.OpenAll();
+            cleared_rooms_.insert(scene_.id);
+            LOG_INFO_APP("Room clear: {} is already clear; doors open", scene_.id);
+        } else {
+            room_doors_.CloseAll();
+            room_clear_pending_ = true;
+            LOG_INFO_APP("Room clear: doors closed until enemies are defeated");
+        }
+    }
     RebuildCollisionWorld();
     projectiles_.Clear();
     weapon_pickups_.Clear();
@@ -2328,19 +2780,17 @@ void Application::SwitchRoom() {
         plant_system_.AddPlot("garden_3", {-27.0f, 0.0f}, 5.0f);
         plant_system_.AddPlot("garden_4", {-25.0f, 0.0f}, 5.0f);
     }
-    window_.SetTitle(scene_.is_hub ? "LiteKnight Living Room"
-                                   : "LiteKnight Devroom");
-    room_clear_pending_ = false;
-    if (!scene_.is_hub && !scene_.doors.empty()) {
-        room_doors_.CloseAll();
-        room_clear_pending_ = true;
-        RebuildCollisionWorld();
-        LOG_INFO_APP("Room clear: doors closed until enemies are defeated");
-    }
-    LOG_INFO_APP("Room transition: NOW {} spawn=({:.2f},{:.2f}) hp={} armor={} energy={} char={} weapon={}",
-                 scene_.id, scene_.spawn.x, scene_.spawn.y, player_health_.hp,
-                 player_health_.armor, player_energy_.energy, character_id,
-                 weapon_.IsConfigured() ? weapon_.Definition().id : "EMPTY");
+    window_.SetTitle(scene_.is_hub
+        ? "LiteKnight Living Room"
+        : std::string("LiteKnight Devroom - ") + scene_.id);
+    LOG_INFO_APP("Room transition: NOW {} entrance={} spawn=({:.2f},{:.2f}) "
+                 "hp={} armor={} energy={} char={} weapon={} clear={}",
+                 scene_.id, entrance_door.empty() ? "spawn" : entrance_door,
+                 spawn.x, spawn.y, player_health_.hp, player_health_.armor,
+                 player_energy_.energy, character_id,
+                 weapon_.IsConfigured() ? weapon_.Definition().id : "EMPTY",
+                 BooleanText(cleared_rooms_.contains(scene_.id)));
+    return true;
 }
 
 void Application::StartInteractiveTest() {

@@ -147,8 +147,9 @@ class SceneBuilder:
         self.args = args
         # level-objects supplies the runtime wall prefab; level-common supplies
         # the door AnimatorControllers referenced by the room prefab.
+        self.room_id = getattr(args, "room", "r1_1")
         self.env = UnityPy.load(
-            str(bundle_path("room/r1_1", args.bundle_root)),
+            str(bundle_path(f"room/{self.room_id}", args.bundle_root)),
             str(bundle_path("level-objects", args.bundle_root)),
             str(bundle_path("level-common", args.bundle_root)),
             str(bundle_path("res/floor", args.bundle_root)),
@@ -1694,7 +1695,7 @@ class SceneBuilder:
         }
 
         topology = {
-            "source_room": "room/r1_1",
+            "source_room": f"room/{self.room_id}",
             "source_wall_manager_path_id": WALL_PREFAB_MANAGER_PATH_ID,
             "create_wall": {
                 "room_width": width,
@@ -1971,7 +1972,7 @@ class SceneBuilder:
                 continue
             data = obj.read()
             name = getattr(data, "m_Name", "")
-            if name == "r1_1":
+            if name == self.room_id:
                 room_root = obj
             elif re.fullmatch(r"c\d{2}", name):
                 components = [c.component.type.name for c in data.m_Component]
@@ -1991,7 +1992,7 @@ class SceneBuilder:
                     if bool(animator.m_Enabled) and not bool(old_animator.m_Enabled):
                         character_roots[name] = obj
         if room_root is None:
-            raise SystemExit("r1_1 root GameObject not found")
+            raise SystemExit(f"{self.room_id} root GameObject not found")
         if "c00" not in character_roots:
             raise SystemExit("c00 character root GameObject not found")
         player_root = character_roots["c00"]
@@ -1999,7 +2000,7 @@ class SceneBuilder:
         room_transform = next(
             c.component for c in room_root.read().m_Component
             if c.component.type.name == "Transform")
-        self.walk_room(room_transform, (0.0, 0.0), 0.0, (1.0, 1.0), "r1_1")
+        self.walk_room(room_transform, (0.0, 0.0), 0.0, (1.0, 1.0), self.room_id)
         collision = self._extract_topology(room_root, room_transform)
 
         self._combat_metadata()
@@ -2054,8 +2055,8 @@ class SceneBuilder:
             })
 
         return {
-            "id": "r1_1_visual",
-            "source_room": "room/r1_1",
+            "id": f"{self.room_id}_visual",
+            "source_room": f"room/{self.room_id}",
             "source_player": "common/c00",
             "spawn": [spawn[0], spawn[1]],
             "characters": self.characters,
@@ -2096,6 +2097,7 @@ def main(argv=None) -> int:
     parser.add_argument(
         "--wall-map", type=Path,
         default=ROOT / "analysis/re/r1_1_wall_map.json")
+    parser.add_argument("--room", default="r1_1")
     parser.add_argument("--spawn", type=float, nargs=2, default=(20.0, 15.0))
     args = parser.parse_args(argv)
 
@@ -2112,7 +2114,7 @@ def main(argv=None) -> int:
     args.wall_map.write_text(wall_map_text, encoding="utf-8")
     wall_map_txt = args.wall_map.with_suffix(".txt")
     wall_map_txt.write_text(
-        "r1_1 recovered room topology (ASCII verification map)\n"
+        f"{args.room} recovered room topology (ASCII verification map)\n"
         "Legend: # room wall  + corridor wall  D five-cell door opening  "
         "O recovered wall603 obstacle  ':' corridor floor  '.' room floor\n"
         "Each cell is one world unit; coordinates are integer cell centers.\n\n" +
@@ -2137,7 +2139,7 @@ def main(argv=None) -> int:
     scene_sha = hashlib.sha256(scene_text.encode("utf-8")).hexdigest()
     wall_map_sha = hashlib.sha256(wall_map_text.encode("utf-8")).hexdigest()
     bundles = {
-        "room/r1_1": source_sha256(bundle_path("room/r1_1", args.bundle_root)),
+        f"room/{args.room}": source_sha256(bundle_path(f"room/{args.room}", args.bundle_root)),
         "level-objects": source_sha256(
             bundle_path("level-objects", args.bundle_root)),
         "level-common": source_sha256(
@@ -2191,7 +2193,7 @@ def main(argv=None) -> int:
             "wall_map_sha256": wall_map_sha,
         },
         "collision": scene["collision"],
-        "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, 15 recovered character prefabs with ide/run clips, 12 obstacle_list variants, weapon_000/bullet_0 combat metadata, two e_slime01 test fixtures, and no proprietary pixels committed.",
+        "notes": f"{args.room} native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, 15 recovered character prefabs with ide/run clips, 12 obstacle_list variants, weapon_000/bullet_0 combat metadata, two e_slime01 test fixtures, and no proprietary pixels committed.",
     }
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
     args.manifest.write_text(

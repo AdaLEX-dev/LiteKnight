@@ -67,6 +67,8 @@ public:
                          float border_width, int32_t order = 90) const;
     void DrawRect(SpriteBatch& batch, const Vec2& top_left,
                   const Vec2& size, Color color, int32_t order = 90) const;
+    void DrawLine(SpriteBatch& batch, const Vec2& start, const Vec2& end,
+                  float width, Color color, int32_t order = 90) const;
 
     float TextWidth(std::string_view text, float pixel_scale) const;
     float LineHeight(float pixel_scale) const;

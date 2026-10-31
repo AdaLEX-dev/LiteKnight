@@ -7,8 +7,8 @@ count characters: 15
 count doors: 0
 count enemies: 0
 count obstacle_variants: 0
-count sprites: 443
-count textures: 44
+count sprites: 434
+count textures: 42
 count weapons: 4
 WARNING: inventory texture count differs from scene texture count
 WARNING: inventory sprite count differs from scene sprite count

@@ -77,7 +77,7 @@ int Weapon::Update(float delta_seconds,
     // dropping one.
     constexpr float kEventEpsilon = 1e-6f;
     while (attack_time_ + kEventEpsilon >= next_shot_time_) {
-        const int cost = definition_.consume;
+        const int cost = definition_.EnergyCost();
         if (energy != nullptr && cost > 0 && !energy->CanConsume(cost)) {
             // RGWeapon.SetAttack rejects the attack path when the controller's
             // energy is below the serialized consume value. Stop this cycle
@@ -93,6 +93,17 @@ int Weapon::Update(float delta_seconds,
         next_shot_time_ += definition_.attack_cycle_seconds;
     }
     return fired;
+}
+
+Vec2 Weapon::MuzzlePosition(const Vec2& owner_position,
+                            const Vec2& aim_direction) const {
+    Vec2 aim = aim_direction;
+    if (aim.LengthSquared() < 1e-8f) aim = {1.0f, 0.0f};
+    aim = aim.Normalized();
+    const Vec2 hand_offset{0.0f, 0.5f};
+    const Vec2 gun_point = RotateDegrees(definition_.muzzle_offset,
+                                         DirectionDegrees(aim));
+    return owner_position + hand_offset + gun_point;
 }
 
 void Weapon::SpawnProjectile(const Vec2& owner_position,
@@ -119,10 +130,7 @@ void Weapon::SpawnProjectile(const Vec2& owner_position,
     // and weapon gun_point transforms. c00 exposes hand `h1` local (0, 0.5);
     // each weapon exposes its serialized gun_point local offset. The exact
     // animator-driven hand transform is not modeled.
-    const Vec2 hand_offset{0.0f, 0.5f};
-    const Vec2 gun_point = RotateDegrees(definition_.muzzle_offset,
-                                         DirectionDegrees(aim));
-    const Vec2 muzzle = owner_position + hand_offset + gun_point;
+    const Vec2 muzzle = MuzzlePosition(owner_position, aim);
 
     projectiles.Spawn(definition_.projectile, muzzle, direction,
                       definition_.bullet_speed, definition_.damage,

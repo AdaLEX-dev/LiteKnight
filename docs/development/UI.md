@@ -39,11 +39,14 @@ coordinates.
 
 ## Screens
 
-- HUD: top-left HP/armor/energy panel using recovered heart/shield/crystal icons, recovered pause/currency icons, weapon slot strip, pickup/interact prompt.
-- Pause: dark navy modal, red ribbon, character portrait, power slots, Home /
-  Resume / Settings.
-- Settings: fullscreen, debug overlay, reset save, back. Only working settings
-  are exposed. No social tab.
+- HUD: top-left HP/armor/energy panel using recovered heart/shield/crystal
+  icons; upper-right recovered pause/coin strip; bottom-left weapon slot strip;
+  larger recovered `ui_skill01` Knight power button with `Q` label and cooldown
+  mask; compact bottom-centre pickup card with damage/energy/cycle values.
+- Pause: dark navy modal, red ribbon, character portrait, recovered power slots,
+  Home / Resume / Settings.
+- Settings: Aim Mode (Manual / Auto Aim), fullscreen, debug overlay, reset save,
+  back. Only working settings are exposed. No social tab.
 - Main menu: recovered `title_en0` logo, NATIVE LINUX DEVROOM subtitle, New Game,
   Continue, Settings, Quit. No social tab.
 - Character station: 15 recovered body sprites and serialized HP/armor/energy
@@ -58,5 +61,10 @@ coordinates.
   matching the sRGB swapchain.
 - Pixel panels use hard-edged rectangles and borders; no gradients or rounded
   vector controls.
-- HUD/status icons are native parity recreations where the exact reference icon
-  sprite mapping is not yet proven. Character/weapon icons are recovered sprites.
+- HUD/status icons are recovered where mapped (`ui_33`, `ui_34`, `ui_67`,
+  `ui_94`, `ui_5`, `ui_skill01`). Panel/ribbon frames and the main-menu
+  background remain native approximations; exact frame mappings are UNKNOWN.
+  Character/weapon icons are recovered sprites.
+- All UI text uses the recovered 28 px `pixel_bold` atlas. Values below 28 are
+  clamped to the native atlas size by `UIRenderer::FontScale`, so text is never
+  downsampled; labels are measured/centered and kept inside their panels.

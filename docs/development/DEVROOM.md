@@ -43,9 +43,10 @@ Generated pixels are gitignored. See `docs/legal/reference-assets.md`.
 | Input | Action |
 |---|---|
 | `F2` / `F3` | save / load native slot 0 |
-| `P` | pause / resume |
-| `F4` | collision/visual/sort debug bounds |
-| `T` | Living Room <-> r1_1 transition |
+| `Esc` | pause / resume (settings backs out to pause first) |
+| `Q` | Knight c00 Dual Wield power |
+| `F4` | collision/visual/sort/aim debug bounds |
+| `T` | cycle through a connected room |
 | `H` / `B` | character station / weapon station (hub) |
 | `F5` | asset laboratory |
 | `F6` | character selector |
@@ -56,13 +57,15 @@ Generated pixels are gitignored. See `docs/legal/reference-assets.md`.
 | `F11` | toggle bordered fullscreen |
 | `F12` | clear enemies |
 | `F10` | developer overlay |
-| `1` / `2` | primary / secondary weapon slot |
+| `Tab`, `1`, `2` | next / primary / secondary weapon slot |
 | `E` / `G` | interact/pick up / spawn a weapon pickup |
 | `R` | reset player/combat/enemies/doors/obstacles to deterministic initial state |
-| `Esc` | close selector/asset lab, back, or quit |
 
-Selectors use `A/D` or left/right/up/down, `Enter` to confirm, `Esc` to return.
-Legacy controls remain available when a selector is closed.
+Aim with the mouse in Manual mode; movement and aim are independent. Enable
+Auto Aim in Settings. Walk through an open room door to change rooms
+automatically. `--map-seed <int>` reproduces the same deterministic native room
+assignment. Selectors use `A/D` or left/right/up/down, `Enter` to confirm, `Esc`
+to return. Legacy controls remain available when a selector is closed.
 
 ## Developer overlay
 

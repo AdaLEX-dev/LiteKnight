@@ -1,8 +1,8 @@
 {
   "counts": {
-    "approximated": 3,
+    "approximated": 4,
     "excluded": 2,
-    "recovered_integrated": 17,
+    "recovered_integrated": 18,
     "unknown": 0
   },
   "entries": [
@@ -105,6 +105,13 @@
       "use": "Cloud/save icon"
     },
     {
+      "asset": "ui_skill01",
+      "note": "actual SkillInfo[0] icon sprite from c00; 5.0 s active / 10.0 s cooldown",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Knight c00 Dual Wield HUD icon"
+    },
+    {
       "asset": "pixel_bold",
       "note": "TTF rasterized at 28 px; local-only atlas",
       "present_in_manifest": false,
@@ -113,10 +120,10 @@
     },
     {
       "asset": "ui_buff_*",
-      "note": "not assigned; no fabricated power",
+      "note": "not assigned; no fabricated buff UI",
       "present_in_manifest": true,
       "status": "DISCOVERED",
-      "use": "Power/buff icons"
+      "use": "Buff icons"
     },
     {
       "asset": "panel/banner frames",
@@ -131,6 +138,13 @@
       "present_in_manifest": false,
       "status": "APPROXIMATED",
       "use": "HUD frame"
+    },
+    {
+      "asset": "pickup stats card",
+      "note": "native panel with recovered weapon icon/name, damage, energy cost and cycle",
+      "present_in_manifest": false,
+      "status": "APPROXIMATED",
+      "use": "Bottom-centre pickup prompt"
     },
     {
       "asset": "main menu background",

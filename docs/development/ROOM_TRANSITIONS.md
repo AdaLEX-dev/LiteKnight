@@ -1,32 +1,66 @@
-# Room Transitions
+# Room Transitions and Native Map Graph
 
-**Status:** two-room state-preserving transition implemented between the
-recovered Living Room (`hero_room`) and the recovered `r1_1` gameplay room.
+**Status:** three-room deterministic native dungeon graph implemented with the
+recovered Living Room (`hero_room`) and recovered PatternRooms `r1_1`, `r1_2`,
+`r1_3`.
 
-## Implementation
+## Loaded world
 
-At startup the primary scene and one alternate scene are loaded. Textures from
-both are uploaded once to the Vulkan renderer. `SwitchRoom` swaps the active
-scene and reconfigures:
+At startup the runtime locates the four actual scene JSON files, loads every
+room and uploads the recovered textures once. The active room remains `scene_`;
+inactive rooms are stored in `stored_rooms_` and swapped on transition, so
+texture storage is stable and no room is a renamed copy of another.
 
-- player character set, animation clips and speed/stats
-- weapon registry, two equipment slots and active weapon
+The graph uses a fixed physical topology:
+
+```text
+          second
+            |
+  hub ---- first ---- third
+```
+
+Doors are the recovered five-cell room doors. Edges are directional in the
+data model and therefore resolve both the source door and the matching
+destination entrance:
+
+```text
+hub:hub_door          <-> first:south
+first:north           <-> second:south
+first:east            <-> third:west
+```
+
+`--map-seed <int>` deterministically assigns the actual room templates to the
+first/second/third slots using the reconstructed Unity 2018.4 `RGRandomStream`.
+The same seed produces the same graph; changing the seed can reorder which
+actual recovered room occupies each slot.
+
+## Physical transition
+
+Walking into an open door trigger invokes `RoomManager::TransitionThroughDoor`.
+The runtime swaps the target stored scene into the active slot and places the
+player at the opposite entrance door inset from its trigger. `T` is a developer
+shortcut that selects the first connected door. The Living Room marker also
+transitions on walk-through.
+
+The transition preserves:
+
+- character selection and animation clip set
+- both weapon slots / active slot
 - HP, armor, energy and dead state
-- doors, obstacles, enemies, projectiles and collision world
-- player render binding, camera and spawn position
-
-This preserves character, equipment, HP, armor and energy across the transition.
-The alternate scene is used as the return destination, so `T` or an interaction
-with the hub door/open recovered door toggles rooms. `N` places the player at the
-current room entrance; `F10` shows the current room, map graph and clear state.
+- per-room enemy snapshots, including dead enemies
+- per-room clear state and open doors on revisit
+- current map seed and graph identity
 
 ## Evidence boundary
 
-`CONFIRMED`: both scenes and their room geometry exist in the local reference.
-`HYPOTHESIS`: native doorway/entrance points and the exact open-door interaction
-radius. The original `EnterDungeonRoomEvent`/`ExitDungeonRoomEvent` listener
-chain and procedural dungeon room relations remain **UNKNOWN**. This is not
-procedural generation and does not claim a full dungeon map.
+`CONFIRMED`: `r1_1`, `r1_2`, `r1_3` are actual PatternRoom prefabs with unique
+serialized obstacle/topology data. The room catalogue is
+`analysis/assets/room_catalogue.json` (108 discovered rooms, 3 currently
+integrated).
 
-No arbitrary teleport-to-coordinate is used: the transition switches actual
-loaded scenes and preserves state.
+`HYPOTHESIS`: the native three-room topology, room-template assignment and
+entrance placement. These make the actual rooms physically traversable without
+claiming the unrecovered reference map algorithm. The reference
+`MapManagerLevel.CreateMap`/`CreateRoom`, room weights, special-room placement
+and full 108-room runtime catalogue remain **UNKNOWN**. See
+`docs/PROCEDURAL_GENERATION.md`.

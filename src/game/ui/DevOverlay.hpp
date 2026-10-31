@@ -62,6 +62,18 @@ struct DevOverlayContext {
     std::size_t pickups = 0;
     bool room_clear_pending = false;
     const char* room_graph = "hero_room <-> r1_1_visual";
+    const char* aim_mode = "MANUAL";
+    float aim_angle = 0.0f;
+    engine::Vec2 mouse_logical{0.0f, 0.0f};
+    engine::Vec2 mouse_world{0.0f, 0.0f};
+    engine::Vec2 aim_origin{0.0f, 0.0f};
+    bool auto_aim = false;
+    float weapon_angle = 0.0f;
+    engine::Vec2 muzzle_world{0.0f, 0.0f};
+    bool has_auto_target = false;
+    engine::Vec2 auto_target{0.0f, 0.0f};
+    int map_seed = 0;
+    int room_count = 0;
     int logical_width = 1920;
     int logical_height = 1080;
     int framebuffer_width = 1920;

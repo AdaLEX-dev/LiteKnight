@@ -22,6 +22,17 @@ inline FacingDirection ResolveFacing(FacingDirection current,
     return current;
 }
 
+// HYPOTHESIS: the exact reference body-flip threshold is not exposed in the
+// recovered serialized fields. The native contract uses the vertical axis
+// with a small hysteresis band so a pointer exactly above/below the player
+// cannot make the body jitter. The body still has only left/right frames.
+inline FacingDirection ResolveAimFacing(FacingDirection current, const Vec2& aim,
+                                        float hysteresis = 0.08f) {
+    if (aim.x > hysteresis) return FacingDirection::Right;
+    if (aim.x < -hysteresis) return FacingDirection::Left;
+    return current;
+}
+
 inline const char* FacingDirectionName(FacingDirection facing) {
     return facing == FacingDirection::Left ? "left" : "right";
 }

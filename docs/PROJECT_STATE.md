@@ -1,8 +1,9 @@
 # LiteKnight — Project State
 
-**Version:** `0.4.0-dev`
-**Last Updated:** 2026-10-31 (readable 28px pixel UI, recovered HUD/button assets,
-bordered fullscreen, HeroRoom void/mask cleanup, map inspection, energy regen)
+**Version:** `0.5.0-dev`
+**Last Updated:** 2026-10-31 (360° aiming, auto-aim, weapon energy costs, Knight
+Dual Wield, three actual dungeon rooms, deterministic native map seed, HUD/UI
+cleanup)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (devroom foundation FUNCTIONAL)**
 **Current status:** the native Wayland/Vulkan devroom is playable and is the
@@ -12,10 +13,12 @@ recovered weapons with real textures, deterministic projectiles, damage, enemy
 death, player death/reset, live enemy pursuit, a 1920x1080 pixel UI with real
 HP/armor/energy HUD, two weapon slots, physical pickups, recovered-font pause/
 settings/main-menu screens, character/weapon stations, a recovered Living Room
-hub, two-room transitions, native save/load, an asset laboratory, and a
-serialized interactive test/replay harness. Full EnemyAI04 scouting/pathfinding,
-procedural dungeon generation, production forge/plant economy and the full
-catalogue remain incomplete. Gate D remains unmet for a complete game, but the
+hub, 360° mouse aiming, auto-aim, weapon energy costs, Knight Dual Wield, a
+three-room deterministic dungeon graph over actual PatternRooms, native
+save/load, an asset laboratory, and a serialized interactive test/replay
+harness. Full EnemyAI04 scouting/pathfinding, reference procedural dungeon
+generation, production forge/plant economy and the full catalogue remain
+incomplete. Gate D remains unmet for a complete game, but the
 permanent devroom invariant is maintained.
 
 ---

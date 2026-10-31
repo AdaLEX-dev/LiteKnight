@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "character": "c00",
+  "name": "Knight",
+  "ability": "Dual Wield",
+  "evidence_status": "HIGH CONFIDENCE",
+  "skill_index": 0,
+  "max_time_seconds": 5.0,
+  "cooldown_seconds": 10.0,
+  "energy_cost": 0,
+  "icon_sprite": "ui_skill01",
+  "key_binding": "Q",
+  "evidence": [
+    "c00 prefab serialized SkillInfo[0] maxTime=5.0 cd=10.0 skillType=1 icon=ui_skill01",
+    "C01Controller has hand2/hand3, onKnightSkillStart/onKnightSkillEnd, RoleSkill, RoleSkillEnd, Hand2Atk, Hand3Atk",
+    "GunInitKnightXXSkillListener maintains off-hand HandState positions and sprite rendering",
+    "RGController exposes skillCasting, skill_time, hand and MultiHand[] hands"
+  ],
+  "hypotheses": [
+    "cooldown begins after the 5 s active window rather than at activation",
+    "with one equipped weapon the off-hand presents a duplicate of the active weapon"
+  ],
+  "not_implemented": "c00 SkillInfo[1] skill_0_1 (price 5000) remains unimplemented"
+}

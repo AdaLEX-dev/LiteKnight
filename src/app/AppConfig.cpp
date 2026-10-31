@@ -82,6 +82,24 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
         } else if (arg == "--scene" && i + 1 < argc) {
             config.scene_path = argv[i + 1];
             ++i;
+        } else if (arg == "--map-seed" && i + 1 < argc) {
+            errno = 0;
+            char* end = nullptr;
+            const long value = std::strtol(argv[i + 1], &end, 10);
+            if (end != argv[i + 1] && *end == '\0' && errno == 0) {
+                config.map_seed = static_cast<std::int32_t>(value);
+                config.map_seed_set = true;
+            }
+            ++i;
+        } else if (arg.rfind("--map-seed=", 0) == 0) {
+            errno = 0;
+            char* end = nullptr;
+            const std::string value_text = std::string(arg.substr(11));
+            const long value = std::strtol(value_text.c_str(), &end, 10);
+            if (end != value_text.c_str() && *end == '\0' && errno == 0) {
+                config.map_seed = static_cast<std::int32_t>(value);
+                config.map_seed_set = true;
+            }
         } else if (arg == "--smoke-seconds" && i + 1 < argc) {
             errno = 0;
             char* end = nullptr;

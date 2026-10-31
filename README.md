@@ -9,11 +9,12 @@ weapon fire, projectiles, damage, enemy death, player death, reset, live enemy
 pursuit, energy/HUD, two weapon slots, weapon pickup and save/load all run
 through the native fixed-step simulation. A 1920x1080 logical pixel UI,
 recovered pixel_bold font, pause/settings/main menu, Living Room hub, character
-and weapon stations, room transition, and native save/load are part of the same
-executable. The asset laboratory and serialized interactive test harness remain
-available.
+and weapon stations, a three-room dungeon graph, 360-degree mouse aiming,
+auto-aim, weapon energy consumption, Knight Dual Wield and native save/load are
+part of the same executable. The asset laboratory and serialized interactive
+test harness remain available.
 
-- **Version:** `0.4.0-dev`
+- **Version:** `0.5.0-dev`
 - **Platform:** Linux, Wayland only, Vulkan 1.3+
 - **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 (local reference only)
 - **Simulation:** 50 Hz fixed step; 60 FPS render target
@@ -105,8 +106,13 @@ source-controlled. Generated pixels remain gitignored. See
 
 - Native Wayland/Vulkan window, swapchain, resize/minimize/restore
 - 50 Hz deterministic player movement and swept AABB collision
-- Recovered 15×15 `r1_1` room, wall/corridor topology, floor, obstacles, doors
-- Animated doors with collision synchronization
+- Three recovered 15×15 PatternRooms (`r1_1`, `r1_2`, `r1_3`) plus the Living
+  Room hub, loaded together with unique recovered obstacle/topology layouts
+- Deterministic `--map-seed` assignment of actual rooms over a fixed physical
+  graph; same seed produces the same room graph
+- Animated doors with collision synchronization and automatic walk-through
+  transitions at the matching destination entrance
+- Room-clear and per-room enemy/clear state preservation across visits
 - All 15 recovered character IDs (`c00..c14`) with recovered body/dead sprites
   and idle/run clips
 - Four recovered `Gun001` weapon prefabs with real weapon textures:
@@ -118,7 +124,15 @@ source-controlled. Generated pixels remain gitignored. See
   and enemy spawner
 - Live `e_slime01` pursuit and contact combat with multi-enemy spawn/reset
 - Player HP/armor/energy HUD driven by gameplay state
-- Two independent weapon slots (`1`/`2`), per-slot projectiles/cooldowns/energy
+- Two independent weapon slots (`1`/`2`/`Tab`), per-slot projectiles/cooldowns
+- Recovered per-attack energy costs: `weapon_000=0`, `weapon_002=1`,
+  `weapon_048=1`, `weapon_287=1`; insufficient energy rejects the attack
+- 360° mouse aim independent of WASD movement, aim-driven body flip with
+  hysteresis, and a Manual/Auto Aim setting persisted in save v2
+- Auto Aim selects the nearest alive visible target with wall line-of-sight;
+  the weapon returns to the held pose when not firing (HYPOTHESIS)
+- Knight c00 Dual Wield on `Q`: 5.0 s active, recovered 10.0 s cooldown,
+  off-hand weapon presentation/fire and HUD cooldown state
 - World weapon pickup foundation with recovered weapon sprites (`G`/`E`)
 - Asset laboratory (`--asset-lab`, `F5`) with category/item cycling and playback
 - Serialized interactive tests and deterministic replay (`scripts/test-interactive.sh`)
@@ -132,21 +146,26 @@ source-controlled. Generated pixels remain gitignored. See
   button frames/icons; recovered title logo
 - Recovered Living Room (`level2`/HeroRoom) with tilemap floor, NPCs, furniture,
   collision, character station, forge station, garden plots and hub door
-- Two-room state-preserving transition between Living Room and recovered `r1_1`
+- Per-room state-preserving transitions between the Living Room and three
+  recovered dungeon rooms
 - Bordered fullscreen (`F11`) with integer-scale preference and 16:9 letterbox
-- Empty equipment state, E pickup prompt/replacement, two slots and Q switching
+- Empty equipment state, compact E pickup card with damage/energy stats, two
+  slots and `Tab` switching
 - Confirmed passive energy regeneration: +1 every 2.0 s while below maximum
-- Two-room room-clear flow: doors close on entry, open when enemies are dead
+- Room-clear flow: doors close on entry, open when all room enemies are dead
 - Idle/run/death character clips with render interpolation and hit flash
 - Versioned save v2 with hub/settings/progression fields
 - Deterministic tests, Debug ASan/UBSan build, Vulkan validation support
 
-Known limitations: full EnemyAI04 scouting/pathfinding, procedural dungeon
-rooms, production forge recipes/plant economy, full audio/effects/items and most
-of the recovered catalogue are not integrated. The two-room transition is not a
-procedural dungeon. UI icons are native parity recreations where exact icon
-sprite mapping remains UNKNOWN. See [project state](docs/PROJECT_STATE.md) and
-[known gaps](docs/ROADMAP.md).
+Known limitations: full EnemyAI04 scouting/pathfinding, the reference
+`MapManagerLevel.CreateMap/CreateRoom` algorithm, production forge recipes/plant
+economy, full audio/effects/items and most of the recovered catalogue are not
+integrated. The native room assignment is deterministic but is not a
+reconstruction of reference procedural generation; 3 of 108 discovered
+PatternRooms are integrated. Auto-aim target priority and the body-flip
+threshold are documented HYPOTHESES. UI panel frames remain native
+approximations where exact sprite mapping is UNKNOWN. See
+[project state](docs/PROJECT_STATE.md) and [known gaps](docs/ROADMAP.md).
 
 ---
 
@@ -156,12 +175,15 @@ sprite mapping remains UNKNOWN. See [project state](docs/PROJECT_STATE.md) and
 |---|---|
 | `WASD` / arrows | move |
 | `J`, `Space`, left mouse | attack (native test binding) |
-| mouse / right stick / keypad `8,2,4,6` | aim (native test binding; facing stays movement-driven) |
+| mouse / right stick / keypad `8,2,4,6` | 360° aim; body flips from aim, not movement |
+| `Q` | Knight c00 Dual Wield power (5 s active / 10 s cooldown) |
+| `Tab`, `1`, `2` | switch weapon slot / select primary / select secondary |
 | `F2` / `F3` | save / load native slot 0 |
-| `P` | pause / resume |
+| `Esc` | pause/resume; settings closes back to pause first |
 | `F4` | collision/visual/sort debug bounds |
-| `T` | Living Room <-> r1_1 transition |
+| `T` | developer cycle through a connected room |
 | `N` | teleport to current room entrance |
+| walk through an open door | automatic physical room transition |
 | `H` / `B` | character station / weapon station (hub) |
 | `F5` | asset laboratory |
 | `F6` | character selector |

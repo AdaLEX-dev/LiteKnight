@@ -1,6 +1,7 @@
 // Soul Knight Linux — Application configuration
 #pragma once
 
+#include <cstdint>
 #include <string>
 #include <string_view>
 
@@ -30,6 +31,10 @@ struct AppConfig {
     bool help_requested = false;
     std::string texture_path = "test/phase4_smoke.png";
     std::string scene_path;
+    // Native test-dungeon seed. This is not claimed to reproduce the reference
+    // MapManagerLevel algorithm; see docs/PROCEDURAL_GENERATION.md.
+    std::int32_t map_seed = 0;
+    bool map_seed_set = false;
     std::string title = "LiteKnight";
 };
 

@@ -16,9 +16,9 @@ enum class AbilityState {
     Cooldown
 };
 
-// HYPOTHESIS/UNKNOWN: c00's production Knight ability and exact energy costs are
-// not recovered. This controller only provides the reusable state machine; no
-// fabricated power is installed by default.
+// Ability state machine. c00 installs the recovered Knight Dual Wield values
+// (active 5.0 s, serialized cooldown 10.0 s, no energy cost); other characters
+// remain unimplemented until their SkillInfo/hand paths are recovered.
 struct AbilityDefinition {
     std::string id;
     int energy_cost = 0;

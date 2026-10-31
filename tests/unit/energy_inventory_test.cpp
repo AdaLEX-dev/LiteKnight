@@ -66,6 +66,16 @@ TEST_CASE("Recovered energy regeneration adds one every two seconds" *
     CHECK(energy.regeneration_timer == doctest::Approx(0.0f));
 }
 
+TEST_CASE("Weapon energy cost distinguishes zero-cost and consuming weapons" *
+          doctest::test_suite("unit")) {
+    WeaponDefinition free = MakeEnergyWeapon(0);
+    WeaponDefinition costly = MakeEnergyWeapon(1);
+    CHECK(free.EnergyCost() == 0);
+    CHECK(costly.EnergyCost() == 1);
+    costly.energy_cost = 3;
+    CHECK(costly.EnergyCost() == 3);
+}
+
 TEST_CASE("EnergyState rejects unaffordable consumption without going negative" *
           doctest::test_suite("unit")) {
     EnergyState energy;

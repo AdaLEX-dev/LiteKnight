@@ -96,17 +96,49 @@ else
     echo "Native generated scene: FOUND (${SOURCE_DIR}/scene.json)"
 fi
 
+# Additional actual PatternRooms r1_2/r1_3. Generate from the local room bundle
+# when absent; each has its own metadata, generated pixels and wall map.
+for room in r1_2 r1_3; do
+    room_source="${ROOT}/assets/generated/visual/${room}_visual"
+    if [[ ${FORCE_BUILD} -eq 1 || ! -f "${room_source}/scene.json" ]]; then
+        if [[ ! -x "${ROOT}/tools/asset/.venv/bin/python" || ! -d "${BUNDLE_ROOT}/room" ]]; then
+            echo "ERROR: cannot generate ${room} without UnityPy venv + room bundle." >&2
+            exit 2
+        fi
+        echo "Generating ${room} native scene metadata/textures..."
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_visual_scene.py" \
+            --room "${room}" \
+            --out "${room_source}" \
+            --scene "${ROOT}/analysis/assets/scenes/${room}_visual.json" \
+            --manifest "${ROOT}/analysis/assets/scenes/${room}_visual_manifest.json" \
+            --wall-map "${ROOT}/analysis/re/${room}_wall_map.json" \
+            --spawn 20 15
+    fi
+done
+
 copy_scene() {
-    mkdir -p "$(dirname "${SCENE_DIR}")"
+    local source_dir="$1"
+    local scene_dir="$2"
+    mkdir -p "$(dirname "${scene_dir}")"
     if command -v rsync >/dev/null 2>&1; then
-        rsync -a --delete "${SOURCE_DIR}/" "${SCENE_DIR}/"
+        rsync -a --delete "${source_dir}/" "${scene_dir}/"
     else
-        rm -rf "${SCENE_DIR}"
-        cp -a "${SOURCE_DIR}" "${SCENE_DIR}"
+        rm -rf "${scene_dir}"
+        cp -a "${source_dir}" "${scene_dir}"
     fi
 }
-copy_scene
+copy_scene "${SOURCE_DIR}" "${SCENE_DIR}"
 echo "Runtime scene: FOUND (${SCENE_DIR}/scene.json)"
+for room in r1_2_visual r1_3_visual; do
+    source_dir="${ROOT}/assets/generated/visual/${room}"
+    scene_dir="${BUILD_DIR}/assets/scenes/${room}"
+    if [[ ! -f "${source_dir}/scene.json" ]]; then
+        echo "ERROR: generated dungeon room missing: ${source_dir}/scene.json" >&2
+        exit 2
+    fi
+    copy_scene "${source_dir}" "${scene_dir}"
+    echo "Runtime scene: FOUND (${scene_dir}/scene.json)"
+done
 
 # 3b. Living Room / HeroRoom. The builder joins the local split sharedassets
 #     chunks and extracts level2 tilemaps, sprites and colliders.

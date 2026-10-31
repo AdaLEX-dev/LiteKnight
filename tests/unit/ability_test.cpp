@@ -44,3 +44,27 @@ TEST_CASE("Ability rejects insufficient energy and invalid indices" *
     CHECK(abilities.Count() == 1);
     CHECK(abilities.ReadyCount() == 1);
 }
+
+TEST_CASE("Knight Dual Wield uses recovered 5s active / 10s cooldown" *
+          doctest::test_suite("unit")) {
+    AbilityController abilities;
+    AbilityDefinition dual;
+    dual.id = "knight_dual_wield";
+    dual.energy_cost = 0;
+    dual.active_time = 5.0f;
+    dual.cooldown = 10.0f;
+    abilities.Add(dual);
+    EnergyState energy;
+    energy.Reset(180, 0);
+    CHECK(abilities.Activate(0, energy));
+    CHECK(energy.energy == 0);
+    CHECK(abilities.Abilities()[0].state == AbilityState::Active);
+    abilities.Update(4.999f);
+    CHECK(abilities.Abilities()[0].state == AbilityState::Active);
+    abilities.Update(0.002f);
+    CHECK(abilities.Abilities()[0].state == AbilityState::Cooldown);
+    abilities.Update(9.999f);
+    CHECK(abilities.Abilities()[0].state == AbilityState::Cooldown);
+    abilities.Update(0.002f);
+    CHECK(abilities.Abilities()[0].state == AbilityState::Ready);
+}

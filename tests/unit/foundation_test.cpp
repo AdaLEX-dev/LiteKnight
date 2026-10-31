@@ -4,6 +4,7 @@
 #include "engine/animation/AnimationClip.hpp"
 #include "engine/animation/LocomotionAnimator.hpp"
 #include "engine/rendering/LogicalViewport.hpp"
+#include "engine/locomotion/FacingDirection.hpp"
 #include "engine/rendering/TextRenderer.hpp"
 #include "game/combat/Weapon.hpp"
 #include "game/weapons/WeaponInventory.hpp"
@@ -11,6 +12,8 @@
 
 using soulknight::engine::Vec2;
 using soulknight::engine::animation::AnimationClip;
+using soulknight::engine::locomotion::FacingDirection;
+using soulknight::engine::locomotion::ResolveAimFacing;
 using soulknight::engine::animation::LocomotionAnimator;
 using soulknight::engine::animation::LocomotionState;
 using soulknight::engine::rendering::LogicalViewport;
@@ -45,6 +48,24 @@ TEST_CASE("Logical viewport keeps 16:9 and letterboxes arbitrary framebuffers" *
     viewport.Update(2560, 1080, 2560, 1080);
     CHECK(viewport.framebuffer_scale == doctest::Approx(1.0f));
     CHECK(viewport.framebuffer_x == 320);
+}
+
+TEST_CASE("Aim facing flips at the vertical threshold with hysteresis" *
+          doctest::test_suite("unit")) {
+    CHECK(ResolveAimFacing(FacingDirection::Right, {1.0f, 0.0f}) ==
+          FacingDirection::Right);
+    CHECK(ResolveAimFacing(FacingDirection::Right, {-1.0f, 0.0f}) ==
+          FacingDirection::Left);
+    CHECK(ResolveAimFacing(FacingDirection::Right, {0.04f, 1.0f}) ==
+          FacingDirection::Right);
+    CHECK(ResolveAimFacing(FacingDirection::Right, {-0.04f, 1.0f}) ==
+          FacingDirection::Right);
+    CHECK(ResolveAimFacing(FacingDirection::Right, {-0.2f, 0.98f}) ==
+          FacingDirection::Left);
+    CHECK(ResolveAimFacing(FacingDirection::Left, {0.2f, -0.98f}) ==
+          FacingDirection::Right);
+    CHECK(ResolveAimFacing(FacingDirection::Left, {0.0f, -1.0f}) ==
+          FacingDirection::Left);
 }
 
 TEST_CASE("Text renderer measures deterministic pixel glyph advances" *
