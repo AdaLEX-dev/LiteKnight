@@ -19,6 +19,7 @@ TEST_CASE("Application config defaults match the native target" * doctest::test_
     CHECK(config.resizable);
     CHECK(config.high_dpi);
     CHECK(config.smoke_test_seconds == doctest::Approx(0.0));
+    CHECK(config.texture_path == "test/phase4_smoke.png");
     CHECK(soulknight::app::kSimulationStepSeconds == doctest::Approx(0.02));
     CHECK(soulknight::app::kSimulationHz == doctest::Approx(50.0));
     CHECK(soulknight::app::kRenderTargetHz == doctest::Approx(60.0));
@@ -37,12 +38,15 @@ TEST_CASE("Bootstrap command line parses bounded smoke options" * doctest::test_
     char smoke_seconds[] = "--smoke-seconds";
     char five[] = "5";
     char exercise[] = "--exercise-window";
+    char texture_arg[] = "--texture";
+    char texture_path[] = "test/f903.png";
     char unknown[] = "--not-an-option";
-    char* argv[] = {executable, smoke_seconds, five, exercise, unknown};
+    char* argv[] = {executable, smoke_seconds, five, exercise, texture_arg, texture_path, unknown};
 
-    const AppConfig config = ParseCommandLine(5, argv);
+    const AppConfig config = ParseCommandLine(7, argv);
     CHECK(config.smoke_test_seconds == doctest::Approx(5.0));
     CHECK(config.exercise_window);
+    CHECK(config.texture_path == "test/f903.png");
     CHECK_FALSE(config.help_requested);
 
     char smoke_test[] = "--smoke-test";

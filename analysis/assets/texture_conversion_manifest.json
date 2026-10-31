@@ -1,0 +1,36 @@
+{
+  "bundle_root": "analysis/apktool_out/assets/AssetBundles",
+  "conversions": [
+    {
+      "decoded_png_rgba8_sha256": "3b566df519684d6b4d7c9ca5daa6608ab72f9faf073fd2bb713fbae648662acd",
+      "height": 24,
+      "mip_count": 1,
+      "note": "Direct Texture2D conversion; sprite metadata is separate.",
+      "output_png": "assets/generated/texture-conversion/f903_-8989119030688471403/f903_-8989119030688471403.png",
+      "pixel_format": "RGBA8",
+      "png_sha256": "a71dae026afe598a451723a466ccd1eec684405355a157fe9a306e91004f5505",
+      "raw_rgba_path": "assets/generated/texture-conversion/f903_-8989119030688471403/f903_-8989119030688471403.rgba8",
+      "rgba8_sha256": "3b566df519684d6b4d7c9ca5daa6608ab72f9faf073fd2bb713fbae648662acd",
+      "row_order": "top_first",
+      "source_asset_path": "assets/rgprefab/mapmanager/level1/map_c3.prefab",
+      "source_asset_path_kind": "bundle_container",
+      "source_bundle": "level-objects",
+      "source_bundle_sha256": "0ceed5578212398f4019943c759c3e67fb4338351732d09a2effa45dc5bf8829",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "source_complete_image_size": 1536,
+      "source_container_path": "assets/rgprefab/mapmanager/level1/map_c3.prefab",
+      "source_name": "f903",
+      "source_path_id": "-8989119030688471403",
+      "source_type": "Texture2D",
+      "status": "converted",
+      "texture_format": "RGBA32",
+      "width": 16
+    }
+  ],
+  "converter": "convert-texture",
+  "converter_version": "1.0.0",
+  "manifest_version": 1,
+  "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
+  "tool": "tools/asset/extract_unity.py",
+  "unitypy_version": "1.25.4"
+}

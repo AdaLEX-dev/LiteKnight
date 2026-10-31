@@ -28,18 +28,26 @@ from importlib.metadata import PackageNotFoundError, version as package_version
 from pathlib import Path
 from typing import Iterable
 
+from PIL import Image
+
 try:
     import UnityPy
+    from UnityPy.enums import TextureFormat
 except ImportError as exc:  # pragma: no cover - user environment issue
     raise SystemExit(
-        "UnityPy is required. Install it with: pip install UnityPy\n" + str(exc)
+        "UnityPy and Pillow are required. Install them with: "
+        "pip install -r tools/asset/requirements.txt\n" + str(exc)
     )
 
 ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_BUNDLE_ROOT = ROOT / "analysis/apktool_out/assets/AssetBundles"
 DEFAULT_OUT = ROOT / "assets/generated/first-pass"
 DEFAULT_MANIFEST = ROOT / "analysis/assets/extraction_manifest.json"
+DEFAULT_CONVERT_OUT = ROOT / "assets/generated/texture-conversion"
+DEFAULT_CONVERSION_MANIFEST = ROOT / "analysis/assets/texture_conversion_manifest.json"
 REFERENCE_APK_SHA256 = "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea"
+CONVERTER_VERSION = "1.0.0"
+SUPPORTED_TEXTURE_FORMATS = {"RGB24", "RGBA32"}
 
 try:
     UNITYPY_VERSION = package_version("UnityPy")
@@ -214,6 +222,187 @@ def export_text_asset(obj, out_dir: Path, manifest: Manifest, spec: Spec, bundle
         "status": "exported",
         "note": spec.note,
     })
+
+
+class ConversionError(RuntimeError):
+    pass
+
+
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
+
+
+def repo_relative(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT.resolve()))
+    except ValueError as exc:
+        raise ConversionError(
+            f"output path must remain inside the repository: {path}"
+        ) from exc
+
+
+def convert_texture(args) -> int:
+    bundle_path_obj = bundle_path(args.bundle, args.bundle_root)
+    if not bundle_path_obj.exists():
+        raise ConversionError(f"bundle not found: {bundle_path_obj}")
+
+    env = UnityPy.load(str(bundle_path_obj))
+    target = None
+    for obj in env.objects:
+        if obj.type.name != "Texture2D":
+            continue
+        if str(obj.path_id) != str(args.path_id):
+            continue
+        target = obj
+        break
+    if target is None:
+        raise ConversionError(
+            f"Texture2D path_id {args.path_id} not found in {args.bundle}"
+        )
+
+    data = target.read()
+    name = getattr(data, "m_Name", "") or f"texture_{target.path_id}"
+    if args.name and name != args.name:
+        raise ConversionError(
+            f"path_id {args.path_id} is {name!r}, not requested {args.name!r}"
+        )
+
+    try:
+        texture_format = TextureFormat(int(data.m_TextureFormat)).name
+    except (TypeError, ValueError) as exc:
+        raise ConversionError(
+            f"unsupported Texture2D format value {getattr(data, 'm_TextureFormat', None)!r}"
+        ) from exc
+    if texture_format not in SUPPORTED_TEXTURE_FORMATS:
+        raise ConversionError(
+            f"Texture2D format {texture_format} is not in the controlled allowlist "
+            f"{sorted(SUPPORTED_TEXTURE_FORMATS)}"
+        )
+
+    mip_count = int(getattr(data, "m_MipCount", 1) or 1)
+    if mip_count != 1:
+        raise ConversionError(
+            f"Texture2D has {mip_count} mips; this converter requires an unambiguous single mip"
+        )
+
+    image = getattr(data, "image", None)
+    if image is None:
+        raise ConversionError("UnityPy could not decode Texture2D.image")
+
+    rgba = image.convert("RGBA")
+    width, height = rgba.size
+    if width <= 0 or height <= 0:
+        raise ConversionError(f"decoded Texture2D has invalid dimensions {width}x{height}")
+    if width != int(data.m_Width) or height != int(data.m_Height):
+        raise ConversionError(
+            f"decoded dimensions {width}x{height} do not match serialized "
+            f"{data.m_Width}x{data.m_Height}"
+        )
+
+    rgba_bytes = rgba.tobytes()
+    expected_bytes = width * height * 4
+    if len(rgba_bytes) != expected_bytes:
+        raise ConversionError(
+            f"canonical RGBA8 size {len(rgba_bytes)} != expected {expected_bytes}"
+        )
+
+    complete_size = int(getattr(data, "m_CompleteImageSize", 0) or 0)
+    source_bpp = 4 if texture_format == "RGBA32" else 3
+    expected_source_size = width * height * source_bpp
+    if complete_size not in (0, expected_source_size):
+        raise ConversionError(
+            f"serialized complete image size {complete_size} != expected "
+            f"{expected_source_size} for {texture_format}"
+        )
+
+    out_dir = args.out / f"{safe_name(name)}_{target.path_id}"
+    out_dir.mkdir(parents=True, exist_ok=True)
+    png_path = out_dir / f"{safe_name(name)}_{target.path_id}.png"
+    raw_path = out_dir / f"{safe_name(name)}_{target.path_id}.rgba8"
+    rgba.save(png_path, format="PNG", optimize=False, compress_level=9)
+    raw_path.write_bytes(rgba_bytes)
+
+    # Check the deterministic PNG encoder itself before recording provenance.
+    with Image.open(png_path) as decoded:
+        decoded_rgba = decoded.convert("RGBA")
+        if decoded_rgba.size != (width, height):
+            raise ConversionError("re-opened PNG dimensions changed")
+        decoded_bytes = decoded_rgba.tobytes()
+    if decoded_bytes != rgba_bytes:
+        raise ConversionError("PNG encode/decode changed canonical RGBA8 bytes")
+
+    container = getattr(target, "container", None)
+    assets_file = getattr(target, "assets_file", None)
+    cab_name = getattr(assets_file, "name", None) if assets_file is not None else None
+
+    record = {
+        "source_bundle": args.bundle,
+        "source_bundle_sha256": source_sha256(bundle_path_obj),
+        "source_path_id": str(target.path_id),
+        "source_type": "Texture2D",
+        "source_name": name,
+        "source_asset_path": container,
+        "source_asset_path_kind": "bundle_container",
+        "source_container_path": container,
+        "source_cab": cab_name,
+        "texture_format": texture_format,
+        "source_complete_image_size": complete_size,
+        "mip_count": mip_count,
+        "width": width,
+        "height": height,
+        "pixel_format": "RGBA8",
+        "row_order": "top_first",
+        "rgba8_sha256": sha256_bytes(rgba_bytes),
+        "output_png": repo_relative(png_path),
+        "png_sha256": sha256_bytes(png_path.read_bytes()),
+        "decoded_png_rgba8_sha256": sha256_bytes(decoded_bytes),
+        "raw_rgba_path": repo_relative(raw_path),
+        "status": "converted",
+        "note": "Direct Texture2D conversion; sprite metadata is separate.",
+    }
+
+    manifest_path = args.manifest
+    if manifest_path.exists():
+        payload = json.loads(manifest_path.read_text(encoding="utf-8"))
+    else:
+        payload = {}
+    conversions = payload.get("conversions", [])
+    key = (record["source_bundle"], record["source_path_id"])
+    conversions = [
+        entry for entry in conversions
+        if (entry.get("source_bundle"), entry.get("source_path_id")) != key
+    ]
+    conversions.append(record)
+    conversions.sort(key=lambda entry: (entry.get("source_bundle", ""), entry.get("source_path_id", "")))
+
+    try:
+        bundle_root_text = str(args.bundle_root.resolve().relative_to(ROOT.resolve()))
+    except ValueError:
+        bundle_root_text = str(args.bundle_root.resolve())
+
+    manifest = {
+        "manifest_version": 1,
+        "tool": "tools/asset/extract_unity.py",
+        "converter": "convert-texture",
+        "converter_version": CONVERTER_VERSION,
+        "unitypy_version": UNITYPY_VERSION,
+        "source_apk_sha256": REFERENCE_APK_SHA256,
+        "bundle_root": bundle_root_text,
+        "conversions": conversions,
+    }
+    manifest_path.parent.mkdir(parents=True, exist_ok=True)
+    manifest_path.write_text(
+        json.dumps(manifest, indent=2, ensure_ascii=False, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+
+    print(f"converted Texture2D: {args.bundle}/{name} path_id={target.path_id}")
+    print(f"  {width}x{height} {texture_format} -> RGBA8")
+    print(f"  rgba8_sha256={record['rgba8_sha256']}")
+    print(f"  png_sha256={record['png_sha256']}")
+    print(f"  png={record['output_png']}")
+    print(f"  manifest={manifest_path}")
+    return 0
 
 
 def gameobject_tree(go_reader, depth: int = 0, seen: set[int] | None = None) -> dict:
@@ -413,7 +602,24 @@ def main(argv: list[str] | None = None) -> int:
     p_extract.add_argument("--limit", type=int, default=None)
     p_extract.add_argument("--dry-run", action="store_true")
 
+    p_convert = sub.add_parser(
+        "convert-texture",
+        help="convert one Unity Texture2D to deterministic canonical PNG + provenance",
+    )
+    p_convert.add_argument("--bundle", required=True)
+    p_convert.add_argument("--path-id", required=True)
+    p_convert.add_argument("--name", default=None)
+    p_convert.add_argument("--out", type=Path, default=DEFAULT_CONVERT_OUT)
+    p_convert.add_argument("--manifest", type=Path, default=DEFAULT_CONVERSION_MANIFEST)
+
     args = parser.parse_args(argv)
+
+    if args.command == "convert-texture":
+        try:
+            return convert_texture(args)
+        except ConversionError as exc:
+            print(f"conversion error: {exc}", file=sys.stderr)
+            return 1
 
     if args.command == "list":
         path = bundle_path(args.bundle, args.bundle_root)

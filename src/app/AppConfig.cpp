@@ -23,6 +23,9 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.smoke_test_seconds = 5.0;
         } else if (arg == "--exercise-window") {
             config.exercise_window = true;
+        } else if (arg == "--texture" && i + 1 < argc) {
+            config.texture_path = argv[i + 1];
+            ++i;
         } else if (arg == "--smoke-seconds" && i + 1 < argc) {
             errno = 0;
             char* end = nullptr;

@@ -432,6 +432,17 @@ target_link_libraries(soul-knight PRIVATE
 add_dependencies(soul-knight soul-knight-assets)
 
 # ============================================================
+# Tool: native PNG round-trip verifier
+# ============================================================
+add_executable(soul-knight-png-roundtrip
+    src/tools/png_roundtrip.cpp
+)
+
+target_link_libraries(soul-knight-png-roundtrip PRIVATE
+    engine
+)
+
+# ============================================================
 # Executable: soul-knight-test (Unit Tests)
 # ============================================================
 add_executable(soul-knight-test

@@ -82,9 +82,9 @@ bool Application::Initialize() {
         return false;
     }
 
-    const auto smoke_png = filesystem_.ReadFile("test/phase4_smoke.png");
+    const auto smoke_png = filesystem_.ReadFile(config_.texture_path);
     if (!smoke_png) {
-        LOG_FATAL_APP("Synthetic smoke PNG not found in asset search path: test/phase4_smoke.png");
+        LOG_FATAL_APP("PNG not found in asset search path: {}", config_.texture_path);
         return false;
     }
 
@@ -94,8 +94,8 @@ bool Application::Initialize() {
         LOG_FATAL_APP("PNG decode failed: {}", png_error);
         return false;
     }
-    LOG_INFO_APP("PNG decoded: test/phase4_smoke.png, {}x{}, {} bytes",
-                 smoke_texture_.width, smoke_texture_.height,
+    LOG_INFO_APP("PNG decoded: {}, {}x{}, {} bytes",
+                 config_.texture_path, smoke_texture_.width, smoke_texture_.height,
                  smoke_texture_.rgba8.size());
 
     const auto shader_dir = filesystem_.ResolvePath("shaders");
@@ -165,9 +165,18 @@ void Application::BuildSmokeScene() {
     // synthetic PNG asset, not from reference game content. It proves the
     // PNG -> RGBA8 -> staging -> VkImage -> descriptor -> sprite path.
     sprite_batch_.Clear();
+
+    constexpr float long_side = 640.0f;
+    const float width = static_cast<float>(smoke_texture_.width);
+    const float height = static_cast<float>(smoke_texture_.height);
+    const float aspect = width / height;
+    const engine::Vec2 size = aspect >= 1.0f
+        ? engine::Vec2{long_side, long_side / aspect}
+        : engine::Vec2{long_side * aspect, long_side};
+
     sprite_batch_.DrawSprite(
-        engine::Vec2{960.0f - 320.0f, 540.0f - 320.0f},
-        engine::Vec2{640.0f, 640.0f},
+        engine::Vec2{960.0f - size.x * 0.5f, 540.0f - size.y * 0.5f},
+        size,
         engine::Rect{0.0f, 0.0f, 1.0f, 1.0f},
         engine::Color::White(),
         engine::rendering::SortLayer::Character);
