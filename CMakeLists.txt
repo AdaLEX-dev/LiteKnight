@@ -597,6 +597,7 @@ add_executable(soul-knight-test
     tests/unit/plant_test.cpp
     tests/unit/room_manager_test.cpp
     tests/unit/ability_test.cpp
+    tests/unit/ui_assets_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp

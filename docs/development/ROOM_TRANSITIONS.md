@@ -17,7 +17,8 @@ scene and reconfigures:
 
 This preserves character, equipment, HP, armor and energy across the transition.
 The alternate scene is used as the return destination, so `T` or an interaction
-with the hub door/open recovered door toggles rooms.
+with the hub door/open recovered door toggles rooms. `N` places the player at the
+current room entrance; `F10` shows the current room, map graph and clear state.
 
 ## Evidence boundary
 

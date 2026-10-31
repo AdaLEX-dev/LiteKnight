@@ -172,8 +172,31 @@ UIAction GameUI::TakeAction() {
     return result;
 }
 
-void GameUI::DrawIcon(UIRenderer& ui, int kind, const Rect& rect,
-                      int32_t order) const {
+void GameUI::DrawAsset(UIRenderer& ui, const GameUIData& data,
+                       const std::string& name, const Rect& rect,
+                       Color color, int32_t order, bool nine_slice) const {
+    if (data.ui_assets == nullptr) return;
+    const UIAssetSprite* sprite = data.ui_assets->Find(name);
+    if (sprite == nullptr) return;
+    if (nine_slice) {
+        ui.NineSlice(*sprite, rect, color, order);
+    } else {
+        ui.Image(sprite->texture_id, sprite->uv, rect, color, order);
+    }
+}
+
+void GameUI::DrawIcon(UIRenderer& ui, const GameUIData& data, int kind,
+                      const Rect& rect, int32_t order) const {
+    static const char* kAssetNames[3] = {"ui_33", "ui_34", "ui_67"};
+    if (kind >= 0 && kind < 3) {
+        const UIAssetSprite* sprite = data.ui_assets != nullptr
+            ? data.ui_assets->Find(kAssetNames[kind]) : nullptr;
+        if (sprite != nullptr) {
+            ui.Image(sprite->texture_id, sprite->uv, rect, Color::White(),
+                     order);
+            return;
+        }
+    }
     const float u = rect.w / 16.0f;
     const auto px = [&](float x, float y, float w, float h, Color c) {
         ui.Rect({rect.x + x * u, rect.y + y * u, w * u, h * u}, c,
@@ -207,25 +230,50 @@ void GameUI::DrawIcon(UIRenderer& ui, int kind, const Rect& rect,
     }
 }
 
-void GameUI::DrawButton(UIRenderer& ui, const Rect& rect,
-                        const std::string& label, bool selected,
-                        bool enabled, float size) const {
-    const Color fill = !enabled ? Color{77, 67, 55, 255}
-        : selected ? Color{156, 104, 45, 255} : Color{111, 81, 48, 255};
-    ui.Rect({rect.x + 3, rect.y + 3, rect.w, rect.h},
-            {20, 16, 17, 255}, 2010);
-    ui.Panel(rect, fill, selected ? kFrameLight : kFrameGold, 3.0f, 2011);
-    if (selected) {
-        ui.Rect({rect.x + 5, rect.y + 5, rect.w - 10, 3},
-                {255, 230, 155, 255}, 2012);
+void GameUI::DrawButton(UIRenderer& ui, const GameUIData& data,
+                        const Rect& rect, const std::string& label,
+                        bool selected, bool enabled, float size) const {
+    const char* frame = label == "NEW GAME" ? "ui_btn5"
+        : label == "CONTINUE" ? "ui_btn7"
+        : "ui_btn1";
+    const char* icon = label == "HOME" ? "ui_98"
+        : label == "RESUME" ? "ui_92"
+        : label == "SETTINGS" ? "ui_93"
+        : label == "CLOUD/SAVE" ? "ui_116" : nullptr;
+    const bool have_asset = data.ui_assets != nullptr &&
+        data.ui_assets->Find(frame) != nullptr;
+    if (have_asset) {
+        DrawAsset(ui, data, frame, rect,
+                  enabled ? Color::White() : Color{130, 120, 108, 255},
+                  2010, true);
+        if (icon != nullptr) {
+            DrawAsset(ui, data, icon,
+                      {rect.x + 14, rect.y + (rect.h - 30) * 0.5f, 30, 30},
+                      Color::White(), 2012);
+        }
+        if (selected) {
+            ui.Panel(rect, {255, 230, 150, 0}, kFrameLight, 3.0f, 2011);
+            ui.Rect({rect.x + 5, rect.y + 5, rect.w - 10, 3},
+                    {255, 240, 180, 220}, 2012);
+        }
+    } else {
+        const Color fill = !enabled ? Color{77, 67, 55, 255}
+            : selected ? Color{156, 104, 45, 255} : Color{111, 81, 48, 255};
+        ui.Rect({rect.x + 3, rect.y + 3, rect.w, rect.h},
+                {20, 16, 17, 255}, 2010);
+        ui.Panel(rect, fill, selected ? kFrameLight : kFrameGold, 3.0f, 2011);
     }
-    ui.TextCentered(label, rect, enabled ? (selected ? Color::White()
-                                                     : kCream)
-                                          : Color{142, 130, 112, 255},
-                    2013, size, true);
+    const Rect text_rect = icon != nullptr
+        ? Rect{rect.x + 48, rect.y, rect.w - 48, rect.h} : rect;
+    const bool light_frame = label == "NEW GAME" || label == "RESUME";
+    const Color text_color = !enabled ? Color{142, 130, 112, 255}
+        : light_frame ? Color{43, 29, 18, 255}
+        : (selected ? Color::White() : kCream);
+    ui.TextCentered(label, text_rect, text_color, 2013, size, true);
 }
 
-void GameUI::DrawPowerSlots(UIRenderer& ui, const Rect& start, int count,
+void GameUI::DrawPowerSlots(UIRenderer& ui, const GameUIData& data,
+                            const Rect& start, int count,
                             int occupied) const {
     const float slot = 43.0f;
     const float gap = 5.0f;
@@ -233,12 +281,11 @@ void GameUI::DrawPowerSlots(UIRenderer& ui, const Rect& start, int count,
         const Rect rect{start.x + static_cast<float>(i) * (slot + gap),
                         start.y, slot, slot};
         ui.Rect({rect.x + 2, rect.y + 2, slot, slot}, {13, 17, 25, 255}, 2001);
-        ui.Panel(rect, i < occupied ? Color{42, 83, 110, 255}
-                                   : Color{35, 40, 53, 255},
-                 {73, 83, 99, 255}, 2.0f, 2002);
+        DrawAsset(ui, data, "ui_btn1", rect, Color::White(), 2002, true);
         if (i >= occupied) {
-            ui.TextCentered("+", rect, {178, 181, 186, 255}, 2003, 34.0f,
-                            true);
+            DrawAsset(ui, data, "ui_99", {rect.x + 10, rect.y + 10,
+                                          rect.w - 20, rect.h - 20},
+                      Color::White(), 2003);
         }
     }
 }
@@ -258,7 +305,7 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
                            data.energy->max_energy};
     const Color colors[3] = {kHealth, kArmor, kEnergy};
     for (int i = 0; i < 3; ++i) {
-        DrawIcon(ui, i, {31, row_y[i] + 1, 30, 30}, 1906);
+        DrawIcon(ui, data, i, {31, row_y[i] + 1, 30, 30}, 1906);
         const Rect bar{68, row_y[i] + 4, 282, 27};
         const float fraction = maxima[i] > 0
             ? static_cast<float>(values[i]) / static_cast<float>(maxima[i])
@@ -268,6 +315,14 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
         std::snprintf(text, sizeof(text), "%d/%d", values[i], maxima[i]);
         ui.TextCentered(text, bar, Color::White(), 1912, 20.0f, true);
     }
+
+    // Desktop pause control and currency strip (native keyboard binding, real
+    // recovered icons; no mobile buttons or joysticks).
+    const Rect pause_rect{1790, 18, 86, 76};
+    ui.Panel(pause_rect, {42, 29, 22, 235}, kFrameBrown, 2.0f, 1900);
+    DrawAsset(ui, data, "ui_94", {1820, 34, 26, 26}, Color::White(), 1905);
+    DrawAsset(ui, data, "ui_5", {1640, 32, 26, 30}, Color::White(), 1905);
+    ui.Text("0", {1672, 28}, kCream, 1906, true, false, 28.0f);
 
     // Two-slot weapon strip. Weapon icons are recovered prefab sprites; empty
     // equipment explicitly renders an empty slot with no weapon.
@@ -364,7 +419,7 @@ void GameUI::DrawPause(UIRenderer& ui, const GameUIData& data) const {
         }
     }
 
-    DrawPowerSlots(ui, Rect{600, 366, 0, 0}, 6, 1);
+    DrawPowerSlots(ui, data, Rect{600, 366, 0, 0}, 6, 0);
     for (int i = 0; i < 3; ++i) {
         const Rect slot{600.0f + static_cast<float>(i) * 48.0f, 432.0f,
                         43.0f, 43.0f};
@@ -378,7 +433,7 @@ void GameUI::DrawPause(UIRenderer& ui, const GameUIData& data) const {
         {1150, 610, 300, 120}
     };
     for (int i = 0; i < 3; ++i) {
-        DrawButton(ui, buttons[i], kPauseItems[static_cast<std::size_t>(i)],
+        DrawButton(ui, data, buttons[i], kPauseItems[static_cast<std::size_t>(i)],
                    pause_index_ == i, true, 26.0f);
     }
     ui.TextCentered("P / ESC  RESUME    ENTER  SELECT", {420, 760, 1080, 24},
@@ -471,10 +526,10 @@ void GameUI::DrawMainMenu(UIRenderer& ui, const GameUIData& data) const {
         {120, 910, 620, 92}
     };
     for (int i = 0; i < 3; ++i) {
-        DrawButton(ui, buttons[i], kMainItems[static_cast<std::size_t>(i)],
+        DrawButton(ui, data, buttons[i], kMainItems[static_cast<std::size_t>(i)],
                    main_index_ == i, i != 1 || data.save_exists, 30.0f);
     }
-    DrawButton(ui, {120, 1020, 300, 48}, kMainItems[3], main_index_ == 3,
+    DrawButton(ui, data, {120, 1020, 300, 48}, kMainItems[3], main_index_ == 3,
                true, 18.0f);
     ui.Text("LOCAL ONLY  //  NO SOCIAL FEATURES", {820, 1010},
             {118, 145, 148, 255}, 1995, false, false, 16.0f);
@@ -519,12 +574,12 @@ void GameUI::DrawCharacterSelect(UIRenderer& ui, const GameUIData& data) const {
         std::snprintf(stats, sizeof(stats), "HP %d  AR %d",
                       characters[static_cast<std::size_t>(i)].max_hp,
                       characters[static_cast<std::size_t>(i)].max_armor);
-        ui.Text(stats, {cell.x + 112, cell.y + 44}, kMuted, 1992,
-                false, false, 15.0f);
+        ui.Text(stats, {cell.x + 112, cell.y + 46}, kMuted, 1992,
+                false, false, 18.0f);
         std::snprintf(stats, sizeof(stats), "EN %d",
                       characters[static_cast<std::size_t>(i)].max_energy);
-        ui.Text(stats, {cell.x + 112, cell.y + 66}, kMuted, 1992,
-                false, false, 15.0f);
+        ui.Text(stats, {cell.x + 112, cell.y + 82}, kMuted, 1992,
+                false, false, 18.0f);
     }
     const auto& selected_character =
         characters[static_cast<std::size_t>(selected)];

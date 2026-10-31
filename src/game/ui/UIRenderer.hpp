@@ -6,6 +6,7 @@
 #include "engine/math/Rect.hpp"
 #include "engine/math/Vec2.hpp"
 #include "engine/rendering/TextRenderer.hpp"
+#include "UIAssets.hpp"
 
 #include <string>
 #include <string_view>
@@ -46,20 +47,23 @@ public:
     void Text(std::string_view text, const engine::Vec2& top_left,
               engine::Color color, int32_t order = 0,
               bool shadow = false, bool outline = false,
-              float size_pixels = 20.0f) const;
+              float size_pixels = 28.0f) const;
     void TextAligned(std::string_view text, const engine::Rect& rect,
                      engine::Color color, int32_t order = 0,
                      engine::rendering::TextAlign align =
                          engine::rendering::TextAlign::Left,
-                     float size_pixels = 20.0f, bool shadow = false) const;
+                     float size_pixels = 28.0f, bool shadow = false) const;
     void TextCentered(std::string_view text, const engine::Rect& rect,
                       engine::Color color, int32_t order = 0,
-                      float size_pixels = 20.0f, bool shadow = false) const;
-    float TextWidth(std::string_view text, float size_pixels = 20.0f) const;
-    float LineHeight(float size_pixels = 20.0f) const;
+                      float size_pixels = 28.0f, bool shadow = false) const;
+    float TextWidth(std::string_view text, float size_pixels = 28.0f) const;
+    float LineHeight(float size_pixels = 28.0f) const;
     void Image(uint32_t texture_id, const engine::Rect& uv,
                const engine::Rect& rect, engine::Color color,
                int32_t order = 0) const;
+    void NineSlice(const UIAssetSprite& sprite, const engine::Rect& rect,
+                   engine::Color color, int32_t order = 0,
+                   float border_pixels = 5.0f) const;
     void SceneSprite(int32_t sprite_index, const engine::Rect& rect,
                      engine::Color color, int32_t order = 0,
                      bool flip_x = false) const;

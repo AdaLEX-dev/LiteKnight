@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.0-dev] - 2026-10-31
+
+### Added
+- Readable 28px recovered `pixel_bold` atlas, line-height correction and
+  dark-shadow/outline text for menus/HUD.
+- Recovered HUD icons: heart (`ui_33`), shield (`ui_34`), energy (`ui_67`),
+  pause (`ui_94`), coin (`ui_5`); recovered pause/home/resume/settings/plus icons.
+- Recovered `ui_btn1/5/7` nine-sliced button frames for main menu and pause.
+- Bordered fullscreen (`F11`) with integer-scale preference and 16:9 letterbox.
+- Confirmed passive energy regeneration from IL2CPP disassembly:
+  `RoleAttributePlayer.EnergyReLoad` adds +1 energy every 2.0 s below max.
+- Room-clear flow: doors close when entering `r1_1`, open when enemies are gone.
+- Map inspection state in the developer overlay (current room, graph, clear
+  pending), entrance teleport (`N`) and room switch (`T`).
+- HeroRoom mask/void cleanup: skip unrecoverable opaque mask/curtain/carpet
+  sprites, recovered floor tile fill for missing tile cells.
+- UI asset audit (`analysis/assets/ui_audit.*`) and local UI/font loading tests.
+- Recovered 28px font metrics and UI atlas tests.
+
+### Changed
+- UI button labels use dark ink on yellow/gold frames for contrast.
+- Pause power slots show only recovered plus artwork; no fabricated power icon.
+- Main menu uses actual recovered title/button/icon assets.
+- `F11` is now fullscreen; five-enemy debug spawn moved to `Shift+F9`.
+
+### Testing
+- 132 doctest cases / 5,113 assertions.
+- Three CTest entries including HeroRoom audit.
+- ASan/UBSan, Vulkan validation, devroom/hub smoke and interactive room
+  transition/character/weapon/UI scenarios verified.
+
+### Known gaps
+- Procedural dungeon graph, additional enemy archetypes, actual forge/plant
+  economy, exact recovered power icons, full UI panel-frame mapping, and the
+  reference energy kill-recovery rule remain UNKNOWN/partial.
+- Some Living Room regions still use a native floor fill where reference tile
+  atlases/mask passes are unavailable.
+
 ## [0.3.0-dev] - 2026-10-31
 
 ### Added

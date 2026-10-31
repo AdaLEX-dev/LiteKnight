@@ -17,7 +17,7 @@ DEFAULT_OUTPUT = ROOT / "assets/generated/ui/font"
 
 GLYPHS = [chr(code) for code in range(32, 127)]
 FONT_NAME = "pixel_bold"
-FONT_SIZE = 20
+FONT_SIZE = 28
 CELL_PADDING = 2
 ALPHA_THRESHOLD = 96
 
@@ -49,7 +49,10 @@ def build(bundle_root: Path, output: Path) -> dict:
     font = ImageFont.truetype(str(ttf_path), FONT_SIZE)
 
     ascent, descent = font.getmetrics()
-    line_height = max(1, round(float(getattr(source, "m_LineSpacing", ascent + descent))))
+    source_size = float(getattr(source, "m_FontSize", FONT_SIZE) or FONT_SIZE)
+    scaled_spacing = float(getattr(source, "m_LineSpacing", ascent + descent)) * \
+        (float(FONT_SIZE) / source_size)
+    line_height = max(1, round(scaled_spacing), ascent + descent + 2)
     glyph_records = []
     max_width = 0
     for char in GLYPHS:

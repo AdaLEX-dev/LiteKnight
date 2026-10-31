@@ -52,7 +52,8 @@ Generated pixels are gitignored. See `docs/legal/reference-assets.md`.
 | `F7` | weapon selector |
 | `F8` | enemy selector |
 | `F9` | spawn selected enemy |
-| `F11` | spawn five selected enemies |
+| `Shift+F9` | spawn five selected enemies |
+| `F11` | toggle bordered fullscreen |
 | `F12` | clear enemies |
 | `F10` | developer overlay |
 | `1` / `2` | primary / secondary weapon slot |

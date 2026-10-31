@@ -126,8 +126,8 @@ void DevOverlay::Draw(SpriteBatch& batch, const DevOverlayContext& context) cons
 
 void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& context,
                              float left, float top, float scale) const {
-    const float panel_w = 13.6f;
-    const float panel_h = 8.0f;
+    const float panel_w = 15.8f;
+    const float panel_h = 10.8f;
     text_.DrawPanel(batch, {left - 0.15f, top + 0.15f},
                     {panel_w, panel_h}, Color{8, 12, 20, 205}, 100);
     float y = top;
@@ -194,11 +194,14 @@ void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& contex
                       context.facing);
         line(buffer);
     }
-    line(std::string("ROOM: ") + context.room_id);
+    line(std::string("ROOM: ") + context.room_id + (context.room_clear_pending
+              ? "  [CLEAR PENDING]" : "  [READY]"));
+    line(std::string("MAP GRAPH: ") + context.room_graph);
     line(std::string("RENDERER: ") + context.renderer + "  PLATFORM: " +
          context.platform);
     line("F4 COLLISION DEBUG  F6 CHARACTERS  F7 WEAPONS  F8 ENEMIES");
-    line("F9 SPAWN  F11 SPAWN X5  F12 CLEAR  P PAUSE  R RESET");
+    line("F9 SPAWN  SHIFT+F9 SPAWN X5  F11 FULLSCREEN  F12 CLEAR");
+    line("P PAUSE  R RESET  T ROOM TRANSITION");
 }
 
 void DevOverlay::DrawCharacterMenu(SpriteBatch& batch,

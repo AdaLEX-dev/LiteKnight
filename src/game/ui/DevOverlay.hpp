@@ -60,6 +60,8 @@ struct DevOverlayContext {
     std::uint64_t render_frames = 0;
     std::size_t active_projectiles = 0;
     std::size_t pickups = 0;
+    bool room_clear_pending = false;
+    const char* room_graph = "hero_room <-> r1_1_visual";
     int logical_width = 1920;
     int logical_height = 1080;
     int framebuffer_width = 1920;

@@ -602,6 +602,17 @@ bool SpriteRenderer::Render(VulkanContext& context, SpriteBatch& batch,
         viewport.height = static_cast<float>(extent.width) / target_aspect;
         viewport.y = (static_cast<float>(extent.height) - viewport.height) * 0.5f;
     }
+    // Integer-scale presentation: when a full 1920x1080 image fits, round the
+    // uniform scale down to the nearest integer and center it with dark borders.
+    const float integer_scale = std::floor(std::min(
+        static_cast<float>(extent.width) / 1920.0f,
+        static_cast<float>(extent.height) / 1080.0f));
+    if (integer_scale >= 1.0f) {
+        viewport.width = 1920.0f * integer_scale;
+        viewport.height = 1080.0f * integer_scale;
+        viewport.x = (static_cast<float>(extent.width) - viewport.width) * 0.5f;
+        viewport.y = (static_cast<float>(extent.height) - viewport.height) * 0.5f;
+    }
 
     VkRect2D scissor{};
     scissor.offset.x = static_cast<int32_t>(viewport.x);

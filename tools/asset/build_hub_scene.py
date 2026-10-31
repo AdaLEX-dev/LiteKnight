@@ -244,7 +244,14 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             continue
         if "/masks/" in p or p.endswith("/masks"):
             # SpriteMask content needs a mask pass; skip rather than draw black.
-
+            continue
+        if p.startswith("room_tilemap_blackedge/"):
+            # Black mask/curtain sprites would cover the floor with opaque
+            # rectangles because the native renderer has no mask pass.
+            continue
+        if p == "room/objects/carpet":
+            # The recovered carpet renderer is a near-opaque dark overlay whose
+            # mask/material stack is not reconstructed; skip the void-like quad.
             continue
         data = g["game_object"].read()
         pos, rot, scale = world_transform(pid, gos, tr_to_go)
@@ -279,6 +286,7 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
     # Tilemaps: convert every tile to a sprite instance. This is the actual
     # recovered floor/wall/garden/light tile layout, not a painted mockup.
     tile_count = 0
+    floor_tile_sprite = None
     for obj in objects:
         if obj.type.name != "Tilemap":
             continue
@@ -296,6 +304,9 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         if go_id is None or go_id not in gos:
             continue
         p = path(go_id)
+        if p.startswith("room_tilemap_blackedge"):
+            # Black-edge/mask tilemap stack; see SpriteRenderer skip above.
+            continue
         pos, rot, scale = world_transform(go_id, gos, tr_to_go)
         tilemap = obj.read()
         # TilemapRenderer on the same GameObject (or child) for sorting.
@@ -318,6 +329,8 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             sid = ensure_sprite(ref.m_Data)
             if sid is None:
                 continue
+            if floor_tile_sprite is None and layer in (2, 3) and "/floor_" in p:
+                floor_tile_sprite = sid
             bx = float(tile_pos.x) + 0.5
             by = float(tile_pos.y) + 0.5
             instances.append({
@@ -420,6 +433,36 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         miny, maxy = min(ys) - 2.0, max(ys) + 2.0
     else:
         minx, maxx, miny, maxy = -60.0, 60.0, -40.0, 40.0
+
+    # Fill only cells that have no recovered floor tile with the recovered
+    # cellar floor sprite. This closes unrecoverable mask/atlas holes without
+    # painting over recovered tiles.
+    if floor_tile_sprite is not None:
+        occupied = set()
+        for instance in instances:
+            if instance.get("sorting_layer") in (2, 3) and "/tile" in instance.get("path", ""):
+                occupied.add((math.floor(instance["position"][0]),
+                              math.floor(instance["position"][1])))
+        added = 0
+        for cell_x in range(math.floor(minx), math.ceil(maxx)):
+            for cell_y in range(math.floor(miny), math.ceil(maxy)):
+                if (cell_x, cell_y) in occupied:
+                    continue
+                if added >= 5000:
+                    break
+                instances.append({
+                    "sprite": floor_tile_sprite,
+                    "position": [cell_x + 0.5, cell_y + 0.5],
+                    "rotation": 0.0, "scale": [1.0, 1.0],
+                    "color": [255, 255, 255, 255],
+                    "sorting_layer": 2, "sorting_layer_name": "Floor",
+                    "sorting_order": -50, "flip_x": False, "flip_y": False,
+                    "path": "hub/floor_tile_fill",
+                })
+                added += 1
+            if added >= 5000:
+                break
+        print("floor tile fill instances:", added)
 
     # A solid recovered-floor-colored fill behind the tilemaps closes gaps left
     # by reference tiles whose atlases are not fully recoverable. It is a native

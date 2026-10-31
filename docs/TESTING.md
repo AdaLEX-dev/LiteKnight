@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **129 doctest cases / 5090 assertions**, all passing.
+**Status:** current baseline is **132 doctest cases / 5113 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -257,7 +257,7 @@ inside the recovered obstacle block. Deterministic tests are in
 `tests/unit/direction_test.cpp`, `tests/unit/character_switch_test.cpp`,
 `tests/unit/obstacle_field_test.cpp`, `tests/unit/room_visual_test.cpp`,
 `tests/unit/combat_test.cpp`, `tests/unit/devroom_test.cpp`, and `tests/unit/scene_test.cpp`. The suite is
-129 cases / 5090 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
+132 cases / 5113 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
 
 ### Assets / energy / inventory / save / replay (implemented units)
 

@@ -1,8 +1,8 @@
 # LiteKnight — Project State
 
-**Version:** `0.3.0-dev`
-**Last Updated:** 2026-10-31 (1080p pixel UI, recovered font, Living Room, room
-transition, equipment/pickups, character stations, save v2)
+**Version:** `0.4.0-dev`
+**Last Updated:** 2026-10-31 (readable 28px pixel UI, recovered HUD/button assets,
+bordered fullscreen, HeroRoom void/mask cleanup, map inspection, energy regen)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (devroom foundation FUNCTIONAL)**
 **Current status:** the native Wayland/Vulkan devroom is playable and is the
@@ -344,10 +344,10 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 129 cases / 5090 assertions, PASS (ASan/UBSan)
+- Debug tests: 132 cases / 5113 assertions, PASS (ASan/UBSan)
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 129 / 5090, PASS
+- RelWithDebInfo tests: 132 / 5113, PASS
 - Debug Vulkan validation: enabled, 0 messages; Debug and RelWithDebInfo smoke PASS
 - Real keyboard/mouse combat, death/reset, character/obstacle switching, doors,
   and window resize/minimize/restore: PASS

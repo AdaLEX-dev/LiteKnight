@@ -17,6 +17,7 @@ using soulknight::engine::rendering::LogicalViewport;
 using soulknight::engine::rendering::TextRenderer;
 using soulknight::game::combat::Weapon;
 using soulknight::game::weapons::WeaponInventory;
+using soulknight::game::player::EnergyState;
 using soulknight::game::weapons::WeaponPickupSystem;
 
 TEST_CASE("Logical viewport keeps 16:9 and letterboxes arbitrary framebuffers" *

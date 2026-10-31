@@ -78,7 +78,7 @@ same fixed simulation:
 ./scripts/test-interactive.sh --replay test-results/<file>.json
 ```
 
-Verified in this milestone: replay reproduced the recorded `combat_live` state
+Verified in the 0.2 milestone: replay reproduced the recorded `combat_live` state
 samples with zero differences, including enemy spawn (F11), player death and
 R reset.
 

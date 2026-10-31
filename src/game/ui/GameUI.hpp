@@ -98,13 +98,18 @@ private:
     void DrawMainMenu(UIRenderer& ui, const GameUIData& data) const;
     void DrawCharacterSelect(UIRenderer& ui, const GameUIData& data) const;
     void DrawWeaponSelect(UIRenderer& ui, const GameUIData& data) const;
-    void DrawButton(UIRenderer& ui, const engine::Rect& rect,
-                    const std::string& label, bool selected,
-                    bool enabled, float size = 26.0f) const;
-    void DrawPowerSlots(UIRenderer& ui, const engine::Rect& start,
-                        int count, int occupied) const;
-    void DrawIcon(UIRenderer& ui, int kind, const engine::Rect& rect,
-                  int32_t order) const;
+    void DrawButton(UIRenderer& ui, const GameUIData& data,
+                    const engine::Rect& rect, const std::string& label,
+                    bool selected, bool enabled, float size = 28.0f) const;
+    void DrawPowerSlots(UIRenderer& ui, const GameUIData& data,
+                        const engine::Rect& start, int count,
+                        int occupied) const;
+    void DrawIcon(UIRenderer& ui, const GameUIData& data, int kind,
+                  const engine::Rect& rect, int32_t order) const;
+    void DrawAsset(UIRenderer& ui, const GameUIData& data,
+                   const std::string& name, const engine::Rect& rect,
+                   engine::Color color, int32_t order,
+                   bool nine_slice = false) const;
 
     UIScreen screen_ = UIScreen::Gameplay;
     UIScreen settings_parent_ = UIScreen::Pause;

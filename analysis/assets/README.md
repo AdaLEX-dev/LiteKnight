@@ -132,7 +132,7 @@ the entire local reference tree:
 - 365 unique weapon IDs
 - 125 unique enemy IDs
 - 54,891 GameObject instances / 5,275 unique GameObject names
-- HeroRoom Living Room: 45 textures, 443 sprites, 4,260 instances, 91 solid
+- HeroRoom Living Room: 42 textures, 434 sprites, 9,236 instances, 91 solid
   collider bounds and 4 interaction markers (`analysis/assets/scenes/hero_room.json`)
 
 `asset_inventory.json` records the maturity ladder for integrated categories:

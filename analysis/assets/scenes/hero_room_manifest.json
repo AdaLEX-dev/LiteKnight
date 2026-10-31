@@ -1,10 +1,10 @@
 {
   "classification": "CONFIRMED HeroRoom tilemaps/SpriteRenderers/colliders; spawn and interaction markers are native development choices",
   "collision_solids": 91,
-  "instances": 4260,
+  "instances": 9236,
   "scene": "/home/jules/Documents/Programming/SoulKnight-Linux/assets/generated/visual/hero_room/scene.json",
   "schema": 1,
-  "sprites": 443,
-  "textures": 44,
+  "sprites": 434,
+  "textures": 42,
   "tile_instances": 3896
 }

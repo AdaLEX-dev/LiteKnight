@@ -27,7 +27,7 @@ pillarbox offsets do not shift the aim vector.
 ## Font
 
 `tools/asset/build_ui_font.py` extracts the recovered dynamic `pixel_bold` TTF,
-rasterizes ASCII 32..126 at native 20 px into a binary-alpha atlas, and records
+rasterizes ASCII 32..126 at 28 px into a binary-alpha atlas, and records
 per-glyph advance/bearing/UV metrics. `BitmapFont`/`TextRenderer` use those
 metrics for measured, left/center/right aligned, multiline text with optional
 shadow/outline. The generated atlas and TTF are local-only; the fallback
@@ -39,7 +39,7 @@ coordinates.
 
 ## Screens
 
-- HUD: top-left HP/armor/energy panel, weapon slot strip, pickup/interact prompt.
+- HUD: top-left HP/armor/energy panel using recovered heart/shield/crystal icons, recovered pause/currency icons, weapon slot strip, pickup/interact prompt.
 - Pause: dark navy modal, red ribbon, character portrait, power slots, Home /
   Resume / Settings.
 - Settings: fullscreen, debug overlay, reset save, back. Only working settings

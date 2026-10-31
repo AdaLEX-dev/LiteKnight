@@ -79,6 +79,7 @@ private:
     void DrawGameUI();
     bool LoadAlternateRoom();
     void SwitchRoom();
+    void UpdateRoomClear();
     bool NearOpenDoor() const;
     void DrawCollisionDebug();
     void FixedUpdate(double dt);
@@ -176,6 +177,7 @@ private:
     soulknight::engine::assets::SceneAsset alternate_scene_;
     bool main_menu_started_ = false;
     bool collision_debug_ = false;
+    bool room_clear_pending_ = false;
     float hit_flash_timer_ = 0.0f;
     int exit_code_ = 0;
     std::filesystem::path project_root_;

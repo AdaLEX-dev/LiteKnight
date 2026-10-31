@@ -757,6 +757,7 @@ void Application::BuildRenderBatch() {
     ui_context.render_frames = render_frames_;
     ui_context.active_projectiles = projectiles_.ActiveCount();
     ui_context.pickups = weapon_pickups_.ActiveCount();
+    ui_context.room_clear_pending = room_clear_pending_;
     ui_context.logical_width = 1920;
     ui_context.logical_height = 1080;
     ui_context.framebuffer_width = window_.GetPixelWidth();
@@ -880,6 +881,17 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
         SwitchRoom();
         return;
     }
+    if (scancode == SDL_SCANCODE_N) {
+        player_.SetPosition(scene_.spawn);
+        previous_player_position_ = scene_.spawn;
+        render_player_position_ = scene_.spawn;
+        camera_.position = scene_.spawn;
+        previous_camera_position_ = scene_.spawn;
+        render_camera_.position = scene_.spawn;
+        LOG_INFO_APP("Map tool: teleported to entrance ({:.2f},{:.2f})",
+                     scene_.spawn.x, scene_.spawn.y);
+        return;
+    }
     if (scene_.is_hub && scancode == SDL_SCANCODE_H) {
         game_ui_.OpenCharacterSelect(
             static_cast<int>(player_characters_.ActiveIndex()));
@@ -936,9 +948,11 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                 LOG_INFO_APP("Developer overlay: {}",
                              BooleanText(dev_ui_.OverlayVisible()));
             } else if (scancode == SDL_SCANCODE_F9) {
-                SpawnSelectedEnemy(1);
+                SpawnSelectedEnemy((modifiers & SDL_KMOD_SHIFT) != 0 ? 5 : 1);
             } else if (scancode == SDL_SCANCODE_F11) {
-                SpawnSelectedEnemy(5);
+                (void)window_.SetFullscreen(!window_.IsFullscreen());
+                LOG_INFO_APP("Fullscreen: {}",
+                             BooleanText(window_.IsFullscreen()));
             } else if (scancode == SDL_SCANCODE_F12) {
                 enemies_.ClearEnemies();
                 LOG_INFO_APP("Developer enemy spawner: enemies cleared");
@@ -1819,6 +1833,7 @@ void Application::FixedUpdate(double dt) {
 
     if (!scene_mode_) return;
     hit_flash_timer_ = std::max(0.0f, hit_flash_timer_ - static_cast<float>(dt));
+    player_energy_.Update(static_cast<float>(dt));
     asset_lab_.Update(static_cast<float>(dt));
     weapon_pickups_.Update(static_cast<float>(dt));
     plant_system_.Update(static_cast<float>(dt));
@@ -1886,6 +1901,7 @@ void Application::FixedUpdate(double dt) {
     const bool player_damaged = enemies_.FixedUpdate(
         static_cast<float>(dt), player_.Position(), player_health_,
         &collision_world_);
+    UpdateRoomClear();
     if (player_damaged) {
         hit_flash_timer_ = 0.12f;
         LOG_INFO_APP("Player damaged: hp={} armor={} dead={}",
@@ -2194,6 +2210,15 @@ bool Application::NearOpenDoor() const {
     return false;
 }
 
+void Application::UpdateRoomClear() {
+    if (!room_clear_pending_ || scene_.is_hub) return;
+    if (enemies_.AliveCount() != 0) return;
+    room_clear_pending_ = false;
+    room_doors_.OpenAll();
+    RebuildCollisionWorld();
+    LOG_INFO_APP("Room clear: all enemies defeated; doors opened");
+}
+
 void Application::SwitchRoom() {
     if (!alternate_room_available_) return;
     const std::string character_id =
@@ -2305,6 +2330,13 @@ void Application::SwitchRoom() {
     }
     window_.SetTitle(scene_.is_hub ? "LiteKnight Living Room"
                                    : "LiteKnight Devroom");
+    room_clear_pending_ = false;
+    if (!scene_.is_hub && !scene_.doors.empty()) {
+        room_doors_.CloseAll();
+        room_clear_pending_ = true;
+        RebuildCollisionWorld();
+        LOG_INFO_APP("Room clear: doors closed until enemies are defeated");
+    }
     LOG_INFO_APP("Room transition: NOW {} spawn=({:.2f},{:.2f}) hp={} armor={} energy={} char={} weapon={}",
                  scene_.id, scene_.spawn.x, scene_.spawn.y, player_health_.hp,
                  player_health_.armor, player_energy_.energy, character_id,

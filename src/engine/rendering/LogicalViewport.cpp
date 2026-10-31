@@ -21,6 +21,11 @@ Letterbox Fit(int width, int height) {
     const float sy = static_cast<float>(height) /
                      static_cast<float>(LogicalViewport::kLogicalHeight);
     box.scale = std::min(sx, sy);
+    // Prefer a crisp integer scale when the display can fit at least one full
+    // logical screen. Otherwise fall back to aspect-preserving fractional fit.
+    if (box.scale >= 1.0f) {
+        box.scale = std::floor(box.scale);
+    }
     box.width = static_cast<int>(static_cast<float>(LogicalViewport::kLogicalWidth) * box.scale);
     box.height = static_cast<int>(static_cast<float>(LogicalViewport::kLogicalHeight) * box.scale);
     box.x = (width - box.width) / 2;

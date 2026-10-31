@@ -38,8 +38,10 @@ engine::Vec2 UIRenderer::ToWorld(const engine::Vec2& logical) const {
 }
 
 float UIRenderer::FontScale(float size_pixels) const {
-    // The recovered pixel_bold atlas is rasterized at its native 20 px size.
-    return (size_pixels / 20.0f) * world_per_pixel_;
+    // The recovered pixel_bold atlas is rasterized at 28 px for desktop
+    // readability. Never render UI text smaller than that native size; large
+    // titles scale up cleanly.
+    return (std::max(28.0f, size_pixels) / 28.0f) * world_per_pixel_;
 }
 
 void UIRenderer::Rect(const engine::Rect& rect, engine::Color color,
@@ -124,6 +126,47 @@ void UIRenderer::Image(uint32_t texture_id, const engine::Rect& uv,
     draw.texture_id = texture_id;
     draw.pivot = {0.0f, 1.0f};
     (void)context_.batch->DrawSprite(draw);
+}
+
+void UIRenderer::NineSlice(const UIAssetSprite& sprite,
+                           const engine::Rect& rect, engine::Color color,
+                           int32_t order, float border_pixels) const {
+    if (!Ready() || sprite.texture_id == 0 || sprite.source_pixels.x <= 0.0f ||
+        sprite.source_pixels.y <= 0.0f) {
+        return;
+    }
+    const float sw = sprite.source_pixels.x;
+    const float sh = sprite.source_pixels.y;
+    const float sb = std::clamp(border_pixels, 0.0f,
+                                std::min(sw, sh) * 0.45f);
+    const float db = std::min({sb * (rect.w / sw), sb * (rect.h / sh),
+                               rect.w * 0.33f, rect.h * 0.33f});
+    const float u0 = sprite.uv.x;
+    const float v0 = sprite.uv.y;
+    const float uw = sprite.uv.w;
+    const float uh = sprite.uv.h;
+    const float su = sb / sw;
+    const float sv = sb / sh;
+    const float xs[4] = {rect.x, rect.x + db, rect.x + rect.w - db,
+                         rect.x + rect.w};
+    const float ys[4] = {rect.y, rect.y + db, rect.y + rect.h - db,
+                         rect.y + rect.h};
+    const float us[4] = {u0, u0 + uw * su, u0 + uw * (1.0f - su), u0 + uw};
+    const float vs[4] = {v0, v0 + uh * sv, v0 + uh * (1.0f - sv), v0 + uh};
+    for (int row = 0; row < 3; ++row) {
+        for (int col = 0; col < 3; ++col) {
+            // Avoid degenerate quads while still drawing the four corners and
+            // stretched edge/center bands.
+            const engine::Rect dst{xs[col], ys[row], xs[col + 1] - xs[col],
+                                   ys[row + 1] - ys[row]};
+            const engine::Rect uv{us[col], vs[row],
+                                  us[col + 1] - us[col],
+                                  vs[row + 1] - vs[row]};
+            if (dst.w > 0.0f && dst.h > 0.0f) {
+                Image(sprite.texture_id, uv, dst, color, order);
+            }
+        }
+    }
 }
 
 void UIRenderer::SceneSprite(int32_t sprite_index, const engine::Rect& rect,

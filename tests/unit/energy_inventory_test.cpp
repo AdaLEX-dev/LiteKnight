@@ -50,6 +50,22 @@ TEST_CASE("EnergyState clamps recovered maximum and initial values" *
     CHECK(energy.energy == 0);
 }
 
+TEST_CASE("Recovered energy regeneration adds one every two seconds" *
+          doctest::test_suite("unit")) {
+    EnergyState energy;
+    energy.Reset(180, 170);
+    energy.Update(1.9f);
+    CHECK(energy.energy == 170);
+    energy.Update(0.1f);
+    CHECK(energy.energy == 171);
+    energy.Update(4.0f);
+    CHECK(energy.energy == 173);
+    energy.Reset(180, 180);
+    energy.Update(10.0f);
+    CHECK(energy.energy == 180);
+    CHECK(energy.regeneration_timer == doctest::Approx(0.0f));
+}
+
 TEST_CASE("EnergyState rejects unaffordable consumption without going negative" *
           doctest::test_suite("unit")) {
     EnergyState energy;
