@@ -89,6 +89,33 @@ find_package(fmt REQUIRED)
 # Threads
 find_package(Threads REQUIRED)
 
+# ============================================================
+# Shader compilation (GLSL -> SPIR-V)
+# ============================================================
+find_program(GLSLC_EXECUTABLE glslc REQUIRED)
+set(SOUL_KNIGHT_SHADER_OUTPUT_DIR "${CMAKE_BINARY_DIR}/shaders")
+set(SOUL_KNIGHT_SPRITE_VERT_SPV "${SOUL_KNIGHT_SHADER_OUTPUT_DIR}/sprite.vert.spv")
+set(SOUL_KNIGHT_SPRITE_FRAG_SPV "${SOUL_KNIGHT_SHADER_OUTPUT_DIR}/sprite.frag.spv")
+
+add_custom_command(
+    OUTPUT "${SOUL_KNIGHT_SPRITE_VERT_SPV}" "${SOUL_KNIGHT_SPRITE_FRAG_SPV}"
+    COMMAND ${CMAKE_COMMAND} -E make_directory "${SOUL_KNIGHT_SHADER_OUTPUT_DIR}"
+    COMMAND ${GLSLC_EXECUTABLE} -fshader-stage=vert
+            "${CMAKE_CURRENT_SOURCE_DIR}/shaders/sprite.vert"
+            -o "${SOUL_KNIGHT_SPRITE_VERT_SPV}"
+    COMMAND ${GLSLC_EXECUTABLE} -fshader-stage=frag
+            "${CMAKE_CURRENT_SOURCE_DIR}/shaders/sprite.frag"
+            -o "${SOUL_KNIGHT_SPRITE_FRAG_SPV}"
+    DEPENDS
+        "${CMAKE_CURRENT_SOURCE_DIR}/shaders/sprite.vert"
+        "${CMAKE_CURRENT_SOURCE_DIR}/shaders/sprite.frag"
+    COMMENT "Compiling Sprite Shaders"
+    VERBATIM
+)
+add_custom_target(soul-knight-shaders ALL
+    DEPENDS "${SOUL_KNIGHT_SPRITE_VERT_SPV}" "${SOUL_KNIGHT_SPRITE_FRAG_SPV}"
+)
+
 # Commit hash for startup diagnostics. Never fail configuration if Git is absent.
 execute_process(
     COMMAND git rev-parse --short HEAD
@@ -182,6 +209,16 @@ add_library(engine STATIC
     src/engine/ecs/System.hpp
     # Rendering
     src/engine/rendering/Camera.hpp
+    src/engine/rendering/SpriteBatch.cpp
+    src/engine/rendering/SpriteBatch.hpp
+    src/engine/rendering/Texture2D.cpp
+    src/engine/rendering/Texture2D.hpp
+    src/engine/rendering/VulkanContext.cpp
+    src/engine/rendering/VulkanContext.hpp
+    src/engine/rendering/SpriteRenderer.cpp
+    src/engine/rendering/SpriteRenderer.hpp
+    src/engine/rendering/VulkanRenderer.cpp
+    src/engine/rendering/VulkanRenderer.hpp
     # src/engine/rendering/Shader.hpp
     # src/engine/rendering/DebugRenderer.hpp
     # Resources
@@ -212,6 +249,11 @@ target_link_libraries(engine PUBLIC
     ${VULKAN_LIBRARIES}
     nlohmann_json::nlohmann_json
 )
+
+target_compile_definitions(engine PRIVATE
+    "SOUL_KNIGHT_SHADER_DIR=\"${SOUL_KNIGHT_SHADER_OUTPUT_DIR}\""
+)
+add_dependencies(engine soul-knight-shaders)
 
 # ============================================================
 # Library: game (Soul Knight specific systems)
@@ -327,6 +369,26 @@ target_link_libraries(game PUBLIC
 )
 
 # ============================================================
+# Library: app (application lifecycle)
+# ============================================================
+add_library(app STATIC
+    src/app/AppConfig.cpp
+    src/app/AppConfig.hpp
+    src/app/Application.cpp
+    src/app/Application.hpp
+)
+
+target_include_directories(app PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+)
+
+target_link_libraries(app PUBLIC
+    game
+    engine
+    platform
+)
+
+# ============================================================
 # Executable: soul-knight (Main Game)
 # ============================================================
 add_executable(soul-knight
@@ -334,10 +396,10 @@ add_executable(soul-knight
 )
 
 target_link_libraries(soul-knight PRIVATE
-    game
-    engine
-    platform
+    app
 )
+
+add_dependencies(soul-knight soul-knight-shaders)
 
 # ============================================================
 # Executable: soul-knight-test (Unit Tests)
@@ -351,6 +413,8 @@ add_executable(soul-knight-test
     tests/unit/unity_random_test.cpp
     tests/unit/input_test.cpp
     tests/unit/timing_test.cpp
+    tests/unit/platform_test.cpp
+    tests/unit/render_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp
@@ -369,11 +433,14 @@ add_executable(soul-knight-test
 )
 
 target_link_libraries(soul-knight-test PRIVATE
+    app
     game
     engine
     platform
     doctest::doctest
 )
+
+add_dependencies(soul-knight-test soul-knight-shaders)
 
 # Doctest configuration. Do NOT define DOCTEST_CONFIG_DISABLE: doctest checks
 # only whether it is defined, so even DOCTEST_CONFIG_DISABLE=0 compiles all

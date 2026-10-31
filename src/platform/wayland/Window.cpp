@@ -1,12 +1,19 @@
 // Soul Knight Linux — Wayland Window Implementation
 #include "Window.hpp"
+
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_vulkan.h>
 #include <engine/core/Log.hpp>
+#include <utility>
 
 namespace soulknight::platform {
 
-Window::Window(const WindowConfig& config) : config_(config) {}
+Window::Window(const WindowConfig& config) : config_(config) {
+    state_.logical_width = config.width;
+    state_.logical_height = config.height;
+    state_.pixel_width = config.width;
+    state_.pixel_height = config.height;
+}
 
 Window::~Window() {
     Shutdown();
@@ -14,13 +21,10 @@ Window::~Window() {
 
 Window::Window(Window&& other) noexcept
     : config_(std::move(other.config_))
+    , state_(other.state_)
     , sdl_window_(other.sdl_window_)
-    , width_(other.width_)
-    , height_(other.height_)
     , fullscreen_(other.fullscreen_)
-    , minimized_(other.minimized_)
-    , initialized_(other.initialized_)
-    , resize_callback_(other.resize_callback_) {
+    , initialized_(other.initialized_) {
     other.sdl_window_ = nullptr;
     other.initialized_ = false;
 }
@@ -29,13 +33,10 @@ Window& Window::operator=(Window&& other) noexcept {
     if (this != &other) {
         Shutdown();
         config_ = std::move(other.config_);
+        state_ = other.state_;
         sdl_window_ = other.sdl_window_;
-        width_ = other.width_;
-        height_ = other.height_;
         fullscreen_ = other.fullscreen_;
-        minimized_ = other.minimized_;
         initialized_ = other.initialized_;
-        resize_callback_ = other.resize_callback_;
 
         other.sdl_window_ = nullptr;
         other.initialized_ = false;
@@ -46,24 +47,19 @@ Window& Window::operator=(Window&& other) noexcept {
 bool Window::Initialize() {
     if (initialized_) return true;
 
-    // The project target is Wayland-only. Force the SDL video driver so an
-    // accidental X11/XWayland fallback is not silently used.
-    SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland");
+    // These hints are set before SDL video initialization by Application. They
+    // are repeated here so Window cannot silently become an X11 window if used
+    // independently in a future tool.
+    (void)SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland");
+    (void)SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "0");
+    (void)SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, "1");
+    (void)SDL_SetHint(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
+    (void)SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
 
-    // Set Wayland-specific hints before window creation
-    SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "1");
-    SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, "1");
-    SDL_SetHint(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
-    SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
-
-    // Window flags
-    Uint32 flags = SDL_WINDOW_VULKAN | SDL_WINDOW_HIGH_PIXEL_DENSITY | SDL_WINDOW_HIDDEN;
-    if (config_.fullscreen) {
-        flags |= SDL_WINDOW_FULLSCREEN;
-    }
-    if (config_.high_dpi) {
-        flags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
-    }
+    Uint32 flags = SDL_WINDOW_VULKAN | SDL_WINDOW_HIDDEN;
+    if (config_.resizable) flags |= SDL_WINDOW_RESIZABLE;
+    if (config_.fullscreen) flags |= SDL_WINDOW_FULLSCREEN;
+    if (config_.high_dpi) flags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
 
     sdl_window_ = SDL_CreateWindow(
         config_.title.c_str(),
@@ -77,57 +73,43 @@ bool Window::Initialize() {
         return false;
     }
 
-    // Get actual window size (may differ due to DPI scaling)
-    int w, h;
-    SDL_GetWindowSize(sdl_window_, &w, &h);
-    width_ = w;
-    height_ = h;
-
-    // Show window
+    RefreshSizes();
     SDL_ShowWindow(sdl_window_);
 
-    // Register event callback. The callback must be the same function pointer
-    // when removing the watch; using a lambda twice would leak the watch.
-    SDL_AddEventWatch(OnWindowEvent, this);
-
     initialized_ = true;
-    LOG_INFO_RENDER("Window created: {}x{} (fullscreen: {})", width_, height_, fullscreen_);
+    LOG_INFO_RENDER("Window created: {}x{} logical, {}x{} pixels",
+                    state_.logical_width, state_.logical_height,
+                    state_.pixel_width, state_.pixel_height);
 
     return true;
 }
 
 void Window::Shutdown() {
-    if (!initialized_) return;
-
-    SDL_RemoveEventWatch(OnWindowEvent, this);
-
     if (sdl_window_) {
         SDL_DestroyWindow(sdl_window_);
         sdl_window_ = nullptr;
     }
-
     initialized_ = false;
-    LOG_INFO_RENDER("Window destroyed");
 }
 
-void Window::Resize(int width, int height) {
-    if (width == width_ && height == height_) return;
+bool Window::Resize(int width, int height) {
+    if (!sdl_window_ || width <= 0 || height <= 0) return false;
 
-    width_ = width;
-    height_ = height;
-
-    if (resize_callback_) {
-        resize_callback_(width, height);
+    if (!SDL_SetWindowSize(sdl_window_, width, height)) {
+        LOG_WARN_RENDER("SDL_SetWindowSize failed: {}", SDL_GetError());
+        return false;
     }
-}
 
-void Window::Present() {
-    // NOT IMPLEMENTED: there is no Vulkan swapchain yet. A future renderer will
-    // call vkQueuePresentKHR; this function is intentionally a no-op.
+    state_.OnLogicalResize(width, height);
+    return true;
 }
 
 VkSurfaceKHR Window::CreateVulkanSurface(VkInstance instance) const {
     VkSurfaceKHR surface = VK_NULL_HANDLE;
+    if (!sdl_window_) {
+        LOG_ERROR_RENDER("Cannot create Vulkan surface without an SDL window");
+        return VK_NULL_HANDLE;
+    }
     if (!SDL_Vulkan_CreateSurface(sdl_window_, instance, nullptr, &surface)) {
         LOG_ERROR_RENDER("Failed to create Vulkan surface: {}", SDL_GetError());
         return VK_NULL_HANDLE;
@@ -135,34 +117,88 @@ VkSurfaceKHR Window::CreateVulkanSurface(VkInstance instance) const {
     return surface;
 }
 
-bool SDLCALL Window::OnWindowEvent(void* userdata, SDL_Event* event) {
-    auto* self = static_cast<Window*>(userdata);
-    if (!self || !self->initialized_) return false;
+void Window::RefreshSizes() {
+    if (!sdl_window_) return;
 
-    switch (event->type) {
+    int logical_width = 0;
+    int logical_height = 0;
+    if (SDL_GetWindowSize(sdl_window_, &logical_width, &logical_height)) {
+        state_.OnLogicalResize(logical_width, logical_height);
+    }
+
+    int pixel_width = 0;
+    int pixel_height = 0;
+    if (SDL_GetWindowSizeInPixels(sdl_window_, &pixel_width, &pixel_height)) {
+        state_.OnPixelResize(pixel_width, pixel_height);
+    } else {
+        state_.OnPixelResize(state_.logical_width, state_.logical_height);
+    }
+}
+
+void Window::SyncRuntimeState() {
+    if (!sdl_window_) return;
+
+    const SDL_WindowFlags flags = SDL_GetWindowFlags(sdl_window_);
+    const bool minimized = (flags & SDL_WINDOW_MINIMIZED) != 0;
+    const bool focused = (flags & SDL_WINDOW_INPUT_FOCUS) != 0;
+
+    if (minimized != state_.minimized) {
+        if (minimized) {
+            state_.OnMinimized();
+        } else {
+            state_.OnRestored();
+        }
+        LOG_INFO_RENDER("Window state synchronized: minimized={}", minimized);
+    }
+    if (focused != state_.focused) {
+        if (focused) {
+            state_.OnFocusGained();
+        } else {
+            state_.OnFocusLost();
+        }
+        LOG_INFO_RENDER("Window state synchronized: focused={}", focused);
+    }
+}
+
+void Window::HandleEvent(const SDL_Event& event) {
+    switch (event.type) {
         case SDL_EVENT_WINDOW_RESIZED:
-            self->width_ = event->window.data1;
-            self->height_ = event->window.data2;
-            if (self->resize_callback_) {
-                self->resize_callback_(self->width_, self->height_);
-            }
+            state_.OnLogicalResize(event.window.data1, event.window.data2);
+            break;
+        case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
+            state_.OnPixelResize(event.window.data1, event.window.data2);
             break;
         case SDL_EVENT_WINDOW_MINIMIZED:
-            self->minimized_ = true;
+            state_.OnMinimized();
             break;
         case SDL_EVENT_WINDOW_RESTORED:
-            self->minimized_ = false;
+        case SDL_EVENT_WINDOW_MAXIMIZED:
+            state_.OnRestored();
+            break;
+        case SDL_EVENT_WINDOW_SHOWN:
+            RefreshSizes();
+            break;
+        case SDL_EVENT_WINDOW_FOCUS_GAINED:
+            state_.OnFocusGained();
+            break;
+        case SDL_EVENT_WINDOW_FOCUS_LOST:
+            state_.OnFocusLost();
+            break;
+        case SDL_EVENT_WINDOW_CLOSE_REQUESTED:
+            state_.RequestClose();
             break;
         case SDL_EVENT_WINDOW_ENTER_FULLSCREEN:
-            self->fullscreen_ = true;
+            fullscreen_ = true;
             break;
         case SDL_EVENT_WINDOW_LEAVE_FULLSCREEN:
-            self->fullscreen_ = false;
+            fullscreen_ = false;
+            break;
+        case SDL_EVENT_WINDOW_DISPLAY_CHANGED:
+            RefreshSizes();
             break;
         default:
             break;
     }
-    return false;
 }
 
 } // namespace soulknight::platform

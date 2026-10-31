@@ -9,3 +9,11 @@ TEST_CASE("FrameTimer uses confirmed 50 Hz reference fixed step" * doctest::test
     CHECK(FrameTimer::TARGET_DT != doctest::Approx(1.0 / 60.0));
     CHECK(FrameTimer::MAX_ACCUMULATOR >= FrameTimer::TARGET_DT);
 }
+
+TEST_CASE("FrameTimer reports consumed simulation steps per frame" * doctest::test_suite("unit")) {
+    FrameTimer timer;
+    CHECK(timer.GetStats().sim_steps == 0);
+    timer.ConsumeSimStep();
+    timer.ConsumeSimStep();
+    CHECK(timer.GetStats().sim_steps == 2);
+}

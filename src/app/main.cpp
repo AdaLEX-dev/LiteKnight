@@ -1,142 +1,53 @@
 // Soul Knight Linux — Main Entry Point
 // Native CachyOS/Wayland port of Soul Knight 2.6.8
 
-#include "platform/wayland/Window.hpp"
-#include "platform/input/InputManager.hpp"
-#include "platform/timing/FrameTimer.hpp"
-#include "platform/filesystem/FileSystem.hpp"
-#include "platform/audio/AudioEngine.hpp"
+#include "app/AppConfig.hpp"
+#include "app/Application.hpp"
 #include "engine/core/Log.hpp"
-#include "engine/core/Types.hpp"
-#include "platform/input/Action.hpp"
 
 #include <SDL3/SDL.h>
-#include <vulkan/vulkan.h>
-#include <iostream>
-#include <memory>
+#include <SDL3/SDL_main.h>
+
 #include <cstdlib>
-#include <string_view>
+#include <iostream>
 
 using namespace soulknight;
 
+namespace {
+
+void PrintUsage(const char* executable) {
+    std::cout
+        << "Soul Knight native runtime (Phase 4 foundation)\n"
+        << "Usage: " << executable << " [options]\n"
+        << "  --smoke-test             run the Wayland/Vulkan smoke test for 5 seconds\n"
+        << "  --smoke-seconds <secs>   run for a bounded duration\n"
+        << "  --exercise-window        resize/minimize/restore during the smoke test\n"
+        << "  --help, -h               show this help\n";
+}
+
+} // namespace
+
 int main(int argc, char* argv[]) {
-    (void)argc;
-    (void)argv;
-
-    // Initialize logging
     Log::Initialize();
-    LOG_INFO("[APP]", "Soul Knight Linux starting...");
-    LOG_INFO("[APP]", "Version: {}", SOUL_KNIGHT_VERSION);
-    LOG_INFO("[APP]", "Build:   {}", SOUL_KNIGHT_BUILD_TYPE);
-    LOG_INFO("[APP]", "Commit:  {}", SOUL_KNIGHT_COMMIT_HASH);
 
-    // Wayland-only target: force the SDL video driver and reject an X11 or
-    // XWayland fallback instead of silently running on the wrong backend.
-    SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland");
-
-    // Initialize SDL (video + gamepad only, no audio)
-    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD | SDL_INIT_EVENTS)) {
-        LOG_FATAL("[APP]", "SDL_Init failed: {}", SDL_GetError());
-        return EXIT_FAILURE;
+    app::AppConfig config = app::ParseCommandLine(argc, argv);
+    if (config.help_requested) {
+        PrintUsage(argv[0] != nullptr ? argv[0] : "soul-knight");
+        Log::Shutdown();
+        return EXIT_SUCCESS;
     }
 
-    const char* video_driver = SDL_GetCurrentVideoDriver();
-    if (!video_driver || std::string_view(video_driver) != "wayland") {
-        LOG_FATAL("[APP]", "Wayland video driver required, got: {}",
-                  video_driver ? video_driver : "<none>");
-        SDL_Quit();
-        return EXIT_FAILURE;
-    }
-    LOG_INFO("[APP]", "SDL initialized (video driver: {})", video_driver);
+#if defined(DEBUG) || defined(_DEBUG)
+    // Debug builds request validation when the system provides the layer.
+    // RelWithDebInfo/Release do not depend on validation-layer availability.
+    config.enable_validation = true;
+#endif
 
-    // Create window
-    platform::WindowConfig window_config;
-    window_config.title = "Soul Knight";
-    window_config.width = 1920;
-    window_config.height = 1080;
-    window_config.vsync = true;
-    window_config.fullscreen = false;
+    SDL_SetMainReady();
 
-    auto window = std::make_unique<platform::Window>(window_config);
-    if (!window->Initialize()) {
-        LOG_FATAL("[APP]", "Window initialization failed");
-        return EXIT_FAILURE;
-    }
-    LOG_INFO("[APP]", "Window created: {}x{}", window_config.width, window_config.height);
+    app::Application application(config);
+    const int result = application.Run();
 
-    // Initialize input
-    platform::InputManager input_manager;
-    input_manager.Initialize(window->GetSDLWindow());
-    LOG_INFO("[APP]", "Input initialized");
-
-    // Initialize filesystem
-    platform::FileSystem filesystem;
-    if (!filesystem.Initialize()) {
-        LOG_FATAL("[APP]", "Filesystem initialization failed");
-        return EXIT_FAILURE;
-    }
-    LOG_INFO("[APP]", "Filesystem initialized: data={}, config={}, cache={}",
-             filesystem.GetDataHome().string(),
-             filesystem.GetConfigHome().string(),
-             filesystem.GetCacheHome().string());
-
-    // Initialize audio
-    platform::AudioEngine audio_engine;
-    platform::AudioEngine::Config audio_config;
-    if (!audio_engine.Initialize(audio_config)) {
-        LOG_WARN("[APP]", "Audio initialization failed (continuing without audio)");
-    } else {
-        LOG_INFO("[APP]", "Audio initialized");
-    }
-
-    // Initialize frame timer
-    platform::FrameTimer frame_timer;
-    LOG_INFO("[APP]", "Frame timer initialized (simulation: 50 Hz, render target: 60 FPS)");
-
-    // Main loop
-    LOG_INFO("[APP]", "Entering main loop...");
-    bool running = true;
-    while (running) {
-        // Begin frame timing
-        frame_timer.BeginFrame();
-
-        // Process input
-        input_manager.ProcessEvents();
-        platform::InputSnapshot input = input_manager.GetSnapshot();
-        if (input.window_resized) {
-            window->Resize(static_cast<int>(input.window_size.x), static_cast<int>(input.window_size.y));
-        }
-        if (!input.window_focused) {
-            // Pause when unfocused
-        }
-
-        // Check for quit
-        if (input.IsPressed(platform::Action::Pause)) {
-            running = false;
-        }
-
-        // Fixed simulation step. ConsumeSimStep() must run or this loop never
-        // terminates once the accumulator crosses the fixed timestep.
-        while (frame_timer.ShouldSimulate()) {
-            // NOT IMPLEMENTED: no simulation systems exist yet.
-            frame_timer.ConsumeSimStep();
-        }
-
-        // Render (interpolated). GetInterpolationAlpha() will be used once a
-        // renderer exists; no renderer exists yet, so Gate C is NOT MET.
-
-        // End frame
-        frame_timer.EndFrame();
-        window->Present();
-    }
-
-    // Cleanup
-    LOG_INFO("[APP]", "Shutting down...");
-    audio_engine.Shutdown();
-    window.reset();
-    SDL_Quit();
     Log::Shutdown();
-
-    LOG_INFO("[APP]", "Goodbye!");
-    return EXIT_SUCCESS;
+    return result;
 }

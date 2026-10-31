@@ -24,7 +24,11 @@ public:
     // Fixed timestep interface
     bool ShouldSimulate() const { return accumulator_ >= TARGET_DT; }
     double GetFixedDeltaTime() const { return TARGET_DT; }
-    void ConsumeSimStep() { accumulator_ -= TARGET_DT; sim_steps_++; }
+    void ConsumeSimStep() {
+        accumulator_ -= TARGET_DT;
+        ++sim_steps_;
+        ++stats_.sim_steps;
+    }
 
     // Interpolation
     double GetInterpolationAlpha() const {

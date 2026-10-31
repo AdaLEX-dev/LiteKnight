@@ -60,6 +60,7 @@ void Log::LogMessage(uint8_t level, std::string_view subsystem, std::string_view
         } else {
             std::cout << formatted << '\n';
         }
+        std::cout.flush();
     }
 
     if (s_log_file.is_open()) {
@@ -119,6 +120,7 @@ void Log::LogMessageImpl(uint8_t level, std::string_view subsystem, std::string_
         } else {
             std::cout << formatted << '\n';
         }
+        std::cout.flush();
     }
 
     if (s_log_file.is_open()) {

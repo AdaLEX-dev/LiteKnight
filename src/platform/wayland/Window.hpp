@@ -3,9 +3,8 @@
 
 #include <SDL3/SDL.h>
 #include <vulkan/vulkan.h>
-#include <vulkan/vulkan_wayland.h>
 #include <string>
-#include <engine/core/Types.hpp>
+#include "WindowState.hpp"
 
 namespace soulknight::platform {
 
@@ -14,7 +13,7 @@ struct WindowConfig {
     int width = 1920;
     int height = 1080;
     bool fullscreen = false;
-    bool vsync = true;
+    bool resizable = true;
     bool high_dpi = true;
 };
 
@@ -32,34 +31,39 @@ public:
     bool Initialize();
     void Shutdown();
 
-    void Resize(int width, int height);
-    void Present();
+    // Feeds one real SDL event into the pure window-state transition model.
+    void HandleEvent(const SDL_Event& event);
+
+    // Reconciles event state with SDL's current window flags. This is a safety
+    // net for compositor/SDL combinations that omit a RESTORED or FOCUS event.
+    void SyncRuntimeState();
+
+    bool Resize(int width, int height);
 
     SDL_Window* GetSDLWindow() const { return sdl_window_; }
     VkSurfaceKHR CreateVulkanSurface(VkInstance instance) const;
 
-    int GetWidth() const { return width_; }
-    int GetHeight() const { return height_; }
+    int GetWidth() const { return state_.logical_width; }
+    int GetHeight() const { return state_.logical_height; }
+    int GetPixelWidth() const { return state_.pixel_width; }
+    int GetPixelHeight() const { return state_.pixel_height; }
     bool IsFullscreen() const { return fullscreen_; }
-    bool IsMinimized() const { return minimized_; }
-
-    // Callbacks
-    using ResizeCallback = void(*)(int, int);
-    void SetResizeCallback(ResizeCallback cb) { resize_callback_ = cb; }
+    bool IsMinimized() const { return state_.minimized; }
+    bool IsFocused() const { return state_.focused; }
+    bool ShouldClose() const { return state_.close_requested; }
+    bool HasPendingResize() const { return state_.resize_pending; }
+    void ClearResizeRequest() { state_.ClearResizeRequest(); }
+    const WindowState& GetState() const { return state_; }
 
 private:
     WindowConfig config_;
+    WindowState state_;
     SDL_Window* sdl_window_ = nullptr;
 
-    int width_ = 0;
-    int height_ = 0;
     bool fullscreen_ = false;
-    bool minimized_ = false;
     bool initialized_ = false;
 
-    void (*resize_callback_)(int, int) = nullptr;
-
-    static bool SDLCALL OnWindowEvent(void* userdata, SDL_Event* event);
+    void RefreshSizes();
 };
 
 } // namespace soulknight::platform

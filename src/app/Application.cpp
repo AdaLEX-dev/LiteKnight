@@ -1,0 +1,337 @@
+// Soul Knight Linux — Application lifecycle implementation
+#include "Application.hpp"
+
+#include "engine/core/Log.hpp"
+#include "engine/rendering/SpriteRenderer.hpp"
+#include "engine/rendering/VulkanRenderer.hpp"
+#include "engine/rendering/VulkanContext.hpp"
+
+#include <SDL3/SDL.h>
+#include <SDL3/SDL_vulkan.h>
+
+#include <chrono>
+#include <cstdlib>
+#include <string_view>
+#include <utility>
+
+namespace soulknight::app {
+namespace {
+
+double NowSeconds() {
+    using namespace std::chrono;
+    const auto now = steady_clock::now();
+    return duration<double>(now.time_since_epoch()).count();
+}
+
+const char* BooleanText(bool value) {
+    return value ? "true" : "false";
+}
+
+} // namespace
+
+Application::Application(AppConfig config) : config_(std::move(config)) {}
+
+Application::~Application() {
+    Shutdown();
+}
+
+bool Application::Initialize() {
+    if (initialized_) return true;
+
+    LOG_INFO_APP("Soul Knight native runtime");
+    LOG_INFO_APP("Platform: {}", SDL_GetPlatform());
+    LOG_INFO_APP("Version: {} ({})", SOUL_KNIGHT_VERSION, SOUL_KNIGHT_BUILD_TYPE);
+    LOG_INFO_APP("Commit: {}", SOUL_KNIGHT_COMMIT_HASH);
+    LOG_INFO_APP("Target: Wayland only, Vulkan 1.3, 1920x1080");
+    LOG_INFO_APP("Timing: {} Hz simulation, {} FPS render target",
+                 kSimulationHz, kRenderTargetHz);
+
+    // Wayland-only contract. The hint is set before SDL video initialization so
+    // SDL cannot choose X11/XWayland as a fallback. The post-init check below is
+    // the actual contract enforcement.
+    (void)SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland");
+    (void)SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "0");
+    (void)SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, "1");
+    (void)SDL_SetHint(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
+    (void)SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
+
+    if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS)) {
+        LOG_FATAL_APP("SDL_Init failed: {}", SDL_GetError());
+        return false;
+    }
+    sdl_initialized_ = true;
+
+    const char* video_driver = SDL_GetCurrentVideoDriver();
+    if (!video_driver || !IsWaylandDriver(std::string_view(video_driver))) {
+        LOG_FATAL_APP("Wayland-only mode violated: active SDL driver is '{}'",
+                      video_driver ? video_driver : "<none>");
+        LOG_FATAL_APP("Refusing X11, XWayland, KMSDRM, or any non-Wayland backend");
+        return false;
+    }
+    LOG_INFO_APP("SDL video driver: {}", video_driver);
+    LOG_INFO_APP("Wayland-only mode: enabled");
+
+    if (!SDL_Vulkan_LoadLibrary(nullptr)) {
+        LOG_FATAL_APP("SDL_Vulkan_LoadLibrary failed: {}", SDL_GetError());
+        return false;
+    }
+    vulkan_library_loaded_ = true;
+    LOG_INFO_APP("SDL revision: {}", SDL_GetRevision());
+
+    platform::WindowConfig window_config;
+    window_config.title = config_.title;
+    window_config.width = config_.window_width;
+    window_config.height = config_.window_height;
+    window_config.fullscreen = false;
+    window_config.resizable = config_.resizable;
+    window_config.high_dpi = config_.high_dpi;
+    window_ = platform::Window(window_config);
+
+    if (!window_.Initialize()) {
+        LOG_FATAL_APP("Window initialization failed");
+        return false;
+    }
+    LOG_INFO_APP("Window: {}x{} logical, {}x{} pixels",
+                 window_.GetWidth(), window_.GetHeight(),
+                 window_.GetPixelWidth(), window_.GetPixelHeight());
+
+    renderer_ = std::make_unique<engine::rendering::VulkanRenderer>();
+    engine::rendering::VulkanInitOptions render_options;
+    render_options.enable_validation = config_.enable_validation;
+    render_options.vsync = true;
+
+    if (!renderer_->Initialize(window_, render_options)) {
+        LOG_FATAL_APP("Vulkan renderer initialization failed");
+        return false;
+    }
+    LOG_INFO_APP("Vulkan device: {}", renderer_->DeviceName());
+    LOG_INFO_APP("Vulkan validation: {}",
+                 BooleanText(renderer_->ValidationEnabled()));
+
+    BuildSmokeScene();
+
+    warmup_frames_ = 30;
+    perf_samples_ = 0;
+    perf_total_frame_ms_ = 0.0;
+    perf_total_sim_steps_ = 0;
+    simulation_time_ = 0.0;
+    simulation_ticks_ = 0;
+    render_frames_ = 0;
+    exercise_stage_ = 0;
+
+    initialized_ = true;
+    running_ = true;
+    smoke_start_seconds_ = NowSeconds();
+
+    LOG_INFO_APP("Application started");
+    if (config_.smoke_test_seconds > 0.0) {
+        LOG_INFO_APP("Smoke test will run for {:.1f} seconds", config_.smoke_test_seconds);
+    }
+    if (config_.exercise_window) {
+        LOG_INFO_APP("Window exercise enabled: resize, minimize, restore, fail-safe");
+    }
+    return true;
+}
+
+void Application::BuildSmokeScene() {
+    // PROJECT DECISION / renderer bring-up only: this is a generated test
+    // texture, not a reference game asset. It proves texture upload, UV mapping,
+    // alpha blending, stable layer sorting, and dynamic batching.
+    sprite_batch_.Clear();
+    sprite_batch_.DrawSprite(
+        engine::Vec2{960.0f - 320.0f, 540.0f - 320.0f},
+        engine::Vec2{640.0f, 640.0f},
+        engine::Rect{0.0f, 0.0f, 1.0f, 1.0f},
+        engine::Color::White(),
+        engine::rendering::SortLayer::Character);
+}
+
+void Application::PollEvents() {
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        const bool was_minimized = window_.IsMinimized();
+        const bool was_focused = window_.IsFocused();
+
+        if (event.type == SDL_EVENT_QUIT) {
+            LOG_INFO_APP("SDL quit event");
+            running_ = false;
+        }
+
+        if (event.type == SDL_EVENT_KEY_DOWN &&
+            event.key.scancode == SDL_SCANCODE_ESCAPE && !event.key.repeat) {
+            LOG_INFO_APP("Escape pressed; requesting shutdown");
+            running_ = false;
+        }
+
+        window_.HandleEvent(event);
+
+        if (event.type == SDL_EVENT_WINDOW_RESIZED ||
+            event.type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED) {
+            LOG_INFO_APP("Window geometry event: {}x{} logical, {}x{} pixels",
+                         window_.GetWidth(), window_.GetHeight(),
+                         window_.GetPixelWidth(), window_.GetPixelHeight());
+        }
+        if (was_minimized != window_.IsMinimized()) {
+            LOG_INFO_APP("Window minimized: {}", BooleanText(window_.IsMinimized()));
+        }
+        if (was_focused != window_.IsFocused()) {
+            LOG_INFO_APP("Window focused: {}", BooleanText(window_.IsFocused()));
+        }
+        if (event.type == SDL_EVENT_WINDOW_CLOSE_REQUESTED) {
+            LOG_INFO_APP("Window close requested");
+        }
+
+        if (window_.ShouldClose()) {
+            running_ = false;
+        }
+    }
+
+    // Event delivery is normally sufficient, but SDL/compositor combinations
+    // vary in focus/restore notification. Reconcile against SDL's flags once per
+    // frame; this remains platform state, not gameplay input.
+    window_.SyncRuntimeState();
+}
+
+void Application::FixedUpdate(double dt) {
+    // No gameplay systems exist in this stage. The fixed clock is advanced and
+    // counted so the frame loop contract is exercised independently of render.
+    simulation_time_ += dt;
+    ++simulation_ticks_;
+}
+
+void Application::ExerciseWindowIfRequested() {
+    if (!config_.exercise_window || smoke_start_seconds_ < 0.0) return;
+
+    const double elapsed = NowSeconds() - smoke_start_seconds_;
+    if (exercise_stage_ == 0 && elapsed >= 1.0) {
+        exercise_stage_ = 1;
+        LOG_INFO_APP("Exercise: resize to 1600x900");
+        (void)window_.Resize(1600, 900);
+    } else if (exercise_stage_ == 1 && elapsed >= 2.0) {
+        exercise_stage_ = 2;
+        LOG_INFO_APP("Exercise: minimize");
+        SDL_MinimizeWindow(window_.GetSDLWindow());
+    } else if (exercise_stage_ == 2 && elapsed >= 2.6) {
+        exercise_stage_ = 3;
+        LOG_INFO_APP("Exercise: restore");
+        SDL_RestoreWindow(window_.GetSDLWindow());
+    } else if (exercise_stage_ == 3 && elapsed >= 3.4) {
+        exercise_stage_ = 4;
+        LOG_INFO_APP("Exercise: resize back to 1920x1080");
+        (void)window_.Resize(1920, 1080);
+    }
+}
+
+bool Application::SmokeTestExpired() const {
+    if (config_.smoke_test_seconds <= 0.0 || smoke_start_seconds_ < 0.0) return false;
+    return (NowSeconds() - smoke_start_seconds_) >= config_.smoke_test_seconds;
+}
+
+void Application::RequestShutdown() {
+    running_ = false;
+}
+
+int Application::Run() {
+    if (!Initialize()) {
+        Shutdown();
+        return EXIT_FAILURE;
+    }
+
+    bool render_failed = false;
+    int frame_log_counter = 0;
+
+    while (running_) {
+        PollEvents();
+        if (!running_) break;
+        if (SmokeTestExpired()) {
+            LOG_INFO_APP("Smoke test duration reached");
+            break;
+        }
+
+        frame_timer_.BeginFrame();
+
+        while (frame_timer_.ShouldSimulate()) {
+            FixedUpdate(frame_timer_.GetFixedDeltaTime());
+            frame_timer_.ConsumeSimStep();
+        }
+
+        const auto& stats = frame_timer_.GetStats();
+        if (window_.IsMinimized()) {
+            // Do not busy-loop or submit frames for a zero-sized/minimized
+            // surface. The compositor will send RESTORED when it is ready.
+            SDL_Delay(16);
+        } else {
+            if (!renderer_->Render(sprite_batch_)) {
+                LOG_FATAL_APP("Renderer frame failed");
+                render_failed = true;
+                running_ = false;
+            } else {
+                ++render_frames_;
+                window_.ClearResizeRequest();
+            }
+        }
+
+        frame_timer_.EndFrame();
+
+        if (warmup_frames_ > 0) {
+            --warmup_frames_;
+        } else {
+            ++perf_samples_;
+            perf_total_frame_ms_ += stats.frame_time_ms;
+            perf_total_sim_steps_ += static_cast<unsigned long long>(stats.sim_steps);
+        }
+
+        ++frame_log_counter;
+        if (frame_log_counter >= 120) {
+            frame_log_counter = 0;
+            LOG_INFO_PERF("frame_ms={:.3f} sim_steps={} render_frames={}",
+                          stats.frame_time_ms, stats.sim_steps, render_frames_);
+        }
+
+        ExerciseWindowIfRequested();
+    }
+
+    if (perf_samples_ > 0) {
+        const double average_frame_ms = perf_total_frame_ms_ / static_cast<double>(perf_samples_);
+        const double average_sim_steps = static_cast<double>(perf_total_sim_steps_) /
+                                         static_cast<double>(perf_samples_);
+        LOG_INFO_PERF("measured average frame: {:.3f} ms over {} frames ({:.3f} sim steps/frame)",
+                      average_frame_ms, perf_samples_, average_sim_steps);
+    }
+    LOG_INFO_APP("Rendered {} frames, advanced {} fixed simulation ticks ({:.3f} s sim time)",
+                 render_frames_, simulation_ticks_, simulation_time_);
+
+    running_ = false;
+    Shutdown();
+    return render_failed ? EXIT_FAILURE : EXIT_SUCCESS;
+}
+
+void Application::Shutdown() {
+    if (shutdown_complete_) return;
+    shutdown_complete_ = true;
+    running_ = false;
+
+    LOG_INFO_APP("Application shutdown");
+
+    if (renderer_) {
+        renderer_->Shutdown();
+        renderer_.reset();
+    }
+
+    window_.Shutdown();
+
+    if (vulkan_library_loaded_) {
+        SDL_Vulkan_UnloadLibrary();
+        vulkan_library_loaded_ = false;
+    }
+
+    if (sdl_initialized_) {
+        SDL_Quit();
+        sdl_initialized_ = false;
+    }
+
+    initialized_ = false;
+    LOG_INFO_APP("Shutdown complete");
+}
+
+} // namespace soulknight::app

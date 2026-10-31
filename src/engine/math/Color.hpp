@@ -14,10 +14,10 @@ struct Color {
         : r(r_), g(g_), b(b_), a(a_) {}
 
     constexpr Color(uint32_t rgba) {
-        r = (rgba >> 24) & 0xFF;
-        g = (rgba >> 16) & 0xFF;
-        b = (rgba >> 8) & 0xFF;
-        a = rgba & 0xFF;
+        r = static_cast<uint8_t>((rgba >> 24) & 0xFFU);
+        g = static_cast<uint8_t>((rgba >> 16) & 0xFFU);
+        b = static_cast<uint8_t>((rgba >> 8) & 0xFFU);
+        a = static_cast<uint8_t>(rgba & 0xFFU);
     }
 
     constexpr uint32_t ToUint32() const {
