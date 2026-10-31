@@ -33,7 +33,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wconversion -W
 # Build type specific flags
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3 -fsanitize=address,undefined -fno-omit-frame-pointer -DDEBUG=1")
 set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -O2 -g -DNDEBUG=1")
-set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -march=native -flto -DNDEBUG=1")
+# Do not use -march=native: it makes release binaries host-specific and breaks
+# reproducible packaging. See docs/RELEASE.md once packaging exists.
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -flto -DNDEBUG=1")
 
 # Linker flags
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "-fsanitize=address,undefined")
@@ -69,25 +71,9 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(tomlplusplus)
 
-# miniaudio — Audio (single header)
-# We'll copy miniaudio.h to src/platform/audio/ manually
-# FetchContent_Declare(
-#     miniaudio
-#     GIT_REPOSITORY https://github.com/mackron/miniaudio.git
-#     GIT_TAG        v0.11.20
-# )
-# FetchContent_MakeAvailable(miniaudio)
-
-# VMA — Vulkan Memory Allocator (optional, use system or single-header)
-# FetchContent_Declare(
-#     vma
-#     GIT_REPOSITORY https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
-#     GIT_TAG        v3.0.1
-# )
-# FetchContent_MakeAvailable(vma)
-
-# For now, use VMA single header (download to src/engine/rendering/vk_mem_alloc.h)
-# Or implement simple allocator
+# miniaudio — vendored single header at src/platform/audio/miniaudio.h.
+# Version is recorded in that header; there is no CMake download step.
+# VMA is not used yet; no renderer exists.
 
 # ============================================================
 # System Dependencies
@@ -123,8 +109,6 @@ add_compile_definitions(
     SOUL_KNIGHT_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
     SOUL_KNIGHT_COMMIT_HASH="${SOUL_KNIGHT_COMMIT_HASH}"
     SDL_MAIN_HANDLED
-    MINIAUDIO_IMPLEMENTATION
-    VMA_IMPLEMENTATION
     NLOHMANN_JSON_NAMESPACE=nlohmann
 )
 
@@ -160,7 +144,6 @@ add_library(platform STATIC
     src/platform/filesystem/FileSystem.hpp
     src/platform/audio/AudioEngine.cpp
     src/platform/audio/AudioEngine.hpp
-    src/platform/audio/SoundHandle.hpp
     src/platform/audio/miniaudio.h
 )
 
@@ -176,8 +159,6 @@ target_link_libraries(platform PUBLIC
     ${VULKAN_LIBRARIES}
     Threads::Threads
 )
-
-target_compile_options(platform PUBLIC ${COMMON_WARNING_FLAGS})
 
 # ============================================================
 # Library: engine (core, math, ecs, rendering, resources, audio, collision)
@@ -200,8 +181,6 @@ add_library(engine STATIC
     src/engine/ecs/World.hpp
     src/engine/ecs/System.hpp
     # Rendering
-    src/engine/rendering/VulkanContext.hpp
-    src/engine/rendering/SpriteBatcher.hpp
     src/engine/rendering/Camera.hpp
     # src/engine/rendering/Shader.hpp
     # src/engine/rendering/DebugRenderer.hpp
@@ -233,8 +212,6 @@ target_link_libraries(engine PUBLIC
     ${VULKAN_LIBRARIES}
     nlohmann_json::nlohmann_json
 )
-
-target_compile_options(engine PUBLIC ${COMMON_WARNING_FLAGS})
 
 # ============================================================
 # Library: game (Soul Knight specific systems)
@@ -349,8 +326,6 @@ target_link_libraries(game PUBLIC
     nlohmann_json::nlohmann_json
 )
 
-target_compile_options(game PUBLIC ${COMMON_WARNING_FLAGS})
-
 # ============================================================
 # Executable: soul-knight (Main Game)
 # ============================================================
@@ -459,10 +434,7 @@ set(CPACK_PACKAGE_NAME "soul-knight")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "Native Linux port of Soul Knight 2.6.8")
 set(CPACK_PACKAGE_VENDOR "Soul Knight Linux Project")
-set(CPACK_PACKAGE_CONTACT "https://github.com/soulknight-linux/soulknight-linux")
-set(CPACK_GENERATOR "DEB;TGZ")
-set(CPACK_DEBIAN_PACKAGE_MAINTAINER "Soul Knight Linux Team")
-set(CPACK_DEBIAN_PACKAGE_SECTION "games")
-set(CPACK_DEBIAN_PACKAGE_PRIORITY "optional")
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "sdl3, libvulkan1, pipewire, libasound2")
+# CachyOS is Arch-based. A DEB package is not the target; the real Phase 10
+# deliverable is a PKGBUILD. Keep a generic TGZ archive until that exists.
+set(CPACK_GENERATOR "TGZ")
 include(CPack)

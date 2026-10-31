@@ -15,6 +15,7 @@
 #include <iostream>
 #include <memory>
 #include <cstdlib>
+#include <string_view>
 
 using namespace soulknight;
 
@@ -29,12 +30,24 @@ int main(int argc, char* argv[]) {
     LOG_INFO("[APP]", "Build:   {}", SOUL_KNIGHT_BUILD_TYPE);
     LOG_INFO("[APP]", "Commit:  {}", SOUL_KNIGHT_COMMIT_HASH);
 
+    // Wayland-only target: force the SDL video driver and reject an X11 or
+    // XWayland fallback instead of silently running on the wrong backend.
+    SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland");
+
     // Initialize SDL (video + gamepad only, no audio)
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD | SDL_INIT_EVENTS)) {
         LOG_FATAL("[APP]", "SDL_Init failed: {}", SDL_GetError());
         return EXIT_FAILURE;
     }
-    LOG_INFO("[APP]", "SDL initialized");
+
+    const char* video_driver = SDL_GetCurrentVideoDriver();
+    if (!video_driver || std::string_view(video_driver) != "wayland") {
+        LOG_FATAL("[APP]", "Wayland video driver required, got: {}",
+                  video_driver ? video_driver : "<none>");
+        SDL_Quit();
+        return EXIT_FAILURE;
+    }
+    LOG_INFO("[APP]", "SDL initialized (video driver: {})", video_driver);
 
     // Create window
     platform::WindowConfig window_config;
@@ -102,20 +115,15 @@ int main(int argc, char* argv[]) {
             running = false;
         }
 
-        // Fixed simulation step
+        // Fixed simulation step. ConsumeSimStep() must run or this loop never
+        // terminates once the accumulator crosses the fixed timestep.
         while (frame_timer.ShouldSimulate()) {
-            const double dt = frame_timer.GetFixedDeltaTime();
-
-            // TODO: Game simulation
-            // game_state.Update(dt);
-            // physics_system.Step(dt);
-            // ai_system.Update(dt);
+            // NOT IMPLEMENTED: no simulation systems exist yet.
+            frame_timer.ConsumeSimStep();
         }
 
-        // Render (interpolated)
-        const double alpha = frame_timer.GetInterpolationAlpha();
-        // TODO: Render
-        // renderer.Render(alpha);
+        // Render (interpolated). GetInterpolationAlpha() will be used once a
+        // renderer exists; no renderer exists yet, so Gate C is NOT MET.
 
         // End frame
         frame_timer.EndFrame();

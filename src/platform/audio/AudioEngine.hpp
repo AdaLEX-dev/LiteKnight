@@ -80,9 +80,11 @@ public:
     // Engine control
     void PauseAll();
     void ResumeAll();
-    void StopAll(Bus bus = Bus::COUNT);  // COUNT = all
+    // Engine-wide stop. Bus-specific stop is not implemented; do not expose a
+    // parameter that implies otherwise.
+    void StopAll();
 
-    // Stats
+    // Stats (NOT IMPLEMENTED: currently returns zeros; no voice tracking exists)
     struct Stats { int active_voices = 0; int peak_voices = 0; };
     Stats GetStats() const;
 

@@ -108,7 +108,7 @@ public:
     }
 
     // Float distributions
-    float Float() { return rng_.Next() * (1.0f / 4294967296.0f); } // [0, 1)
+    float Float() { return static_cast<float>(rng_.Next()) * (1.0f / 4294967296.0f); } // [0, 1)
     float Float(float min, float max) { return min + Float() * (max - min); }
 
     // Double distributions

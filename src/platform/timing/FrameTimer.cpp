@@ -41,15 +41,13 @@ void FrameTimer::Tick() {
         ConsumeSimStep();
     }
 
-    // Interpolation alpha for rendering
-    double alpha = GetInterpolationAlpha();
-
     EndFrame();
 }
 
 double FrameTimer::GetTimeSeconds() {
     using namespace std::chrono;
-    auto now = high_resolution_clock::now();
+    // steady_clock is monotonic and must be used for frame simulation timing.
+    const auto now = steady_clock::now();
     return duration<double>(now.time_since_epoch()).count();
 }
 

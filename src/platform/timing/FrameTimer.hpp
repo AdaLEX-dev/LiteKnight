@@ -9,6 +9,9 @@ namespace soulknight::platform {
 
 class FrameTimer {
 public:
+    // PROVISIONAL: 60 Hz is the rendering/FPS target, not a verified reference
+    // simulation tick. The reference tick rate is unresolved; see
+    // docs/VERTICAL_SLICE.md. Do not treat this as parity evidence.
     static constexpr double TARGET_DT = 1.0 / 60.0;       // 16.666... ms
     static constexpr double MAX_ACCUMULATOR = 0.2;         // 200 ms spiral of death protection
 

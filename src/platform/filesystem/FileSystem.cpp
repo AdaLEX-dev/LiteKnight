@@ -38,8 +38,11 @@ bool FileSystem::Initialize() {
     std::filesystem::create_directories(logs_path_, ec);
     std::filesystem::create_directories(config_file_.parent_path(), ec);
 
-    // Executable directory (for built-in assets)
-    exe_dir_ = std::filesystem::current_path(); // TODO: get actual exe path
+    // Executable directory (for built-in assets). Resolve /proc/self/exe so
+    // asset lookup is independent of the caller's current working directory.
+    std::error_code exe_error;
+    const std::filesystem::path exe_path = std::filesystem::read_symlink("/proc/self/exe", exe_error);
+    exe_dir_ = exe_error ? std::filesystem::current_path() : exe_path.parent_path();
 
     // Search paths (priority order)
     search_paths_ = {
@@ -66,12 +69,14 @@ std::optional<std::vector<uint8_t>> FileSystem::ReadFile(const std::filesystem::
     std::ifstream file(full_path, std::ios::binary | std::ios::ate);
     if (!file) return {};
 
-    std::streamsize size = file.tellg();
+    const std::streamoff size = file.tellg();
+    if (size < 0) return {};
     file.seekg(0, std::ios::beg);
 
-    std::vector<uint8_t> buffer(size);
+    std::vector<uint8_t> buffer(static_cast<std::vector<uint8_t>::size_type>(size));
     if (size > 0) {
-        file.read(reinterpret_cast<char*>(buffer.data()), size);
+        file.read(reinterpret_cast<char*>(buffer.data()), static_cast<std::streamsize>(size));
+        if (!file) return {};
     }
     return buffer;
 }
@@ -103,7 +108,8 @@ bool FileSystem::WriteFile(const std::filesystem::path& relative_path, const std
     }
 
     if (!data.empty()) {
-        file.write(reinterpret_cast<const char*>(data.data()), data.size());
+        file.write(reinterpret_cast<const char*>(data.data()),
+                   static_cast<std::streamsize>(data.size()));
     }
     return file.good();
 }

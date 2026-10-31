@@ -89,54 +89,6 @@ public:
         GetPool<T>().Remove(entity);
     }
 
-    // Iterate all entities with component T
-    template<typename T>
-    class Iterator {
-    public:
-        using iterator_category = std::forward_iterator_tag;
-        using value_type = std::pair<Entity, T*>;
-        using difference_type = std::ptrdiff_t;
-        using pointer = value_type*;
-        using reference = value_type&;
-
-        Iterator() = default;
-        Iterator(World* world, size_t index) : world_(world), index_(index) {
-            Advance();
-        }
-
-        bool operator==(const Iterator& other) const { return index_ == other.index_; }
-        bool operator!=(const Iterator& other) const { return index_ != other.index_; }
-
-        Iterator& operator++() {
-            index_++;
-            Advance();
-            return *this;
-        }
-
-        value_type operator*() {
-            u32 dense_index = world_->GetPool<T>().GetDenseIndex(index_);
-            Entity entity = MakeEntity(dense_index, world_->entities_[dense_index].generation);
-            T* component = world_->GetPool<T>().Get(entity);
-            return {entity, component};
-        }
-
-    private:
-        World* world_ = nullptr;
-        size_t index_ = 0;
-
-        void Advance() {
-            auto& pool = world_->GetPool<T>();
-            while (index_ < pool.Size() && !world_->IsAlive(MakeEntity(index_, world_->entities_[index_].generation))) {
-                index_++;
-            }
-        }
-    };
-
-    template<typename T>
-    Iterator<T> begin() { return Iterator<T>(this, 0); }
-    template<typename T>
-    Iterator<T> end() { return Iterator<T>(this, GetPool<T>().Size()); }
-
     size_t EntityCount() const {
         size_t count = 0;
         for (const auto& e : entities_) if (e.alive) count++;
@@ -154,16 +106,12 @@ private:
     struct PoolBase {
         virtual ~PoolBase() = default;
         virtual void Remove(Entity) = 0;
-        virtual size_t Size() const = 0;
-        virtual u32 GetDenseIndex(size_t) const = 0;
     };
 
     template<typename T>
     struct TypedPool : PoolBase {
         ComponentPool<T> pool;
         void Remove(Entity e) override { pool.Remove(e); }
-        size_t Size() const override { return pool.Size(); }
-        u32 GetDenseIndex(size_t i) const override { return static_cast<u32>(i); }
     };
 
     template<typename T>

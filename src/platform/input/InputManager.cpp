@@ -34,21 +34,14 @@ InputManager::InputManager() {
         {SDL_SCANCODE_2, Action::WeaponSlot2},
         {SDL_SCANCODE_3, Action::WeaponSlot3},
 
-        {SDL_SCANCODE_W, Action::MenuUp},
-        {SDL_SCANCODE_UP, Action::MenuUp},
-        {SDL_SCANCODE_S, Action::MenuDown},
-        {SDL_SCANCODE_DOWN, Action::MenuDown},
-        {SDL_SCANCODE_A, Action::MenuLeft},
-        {SDL_SCANCODE_LEFT, Action::MenuLeft},
-        {SDL_SCANCODE_D, Action::MenuRight},
-        {SDL_SCANCODE_RIGHT, Action::MenuRight},
+        // One key maps to one action in this implementation. UI navigation is
+        // not separately context-bound yet; menu screens must reuse the move
+        // actions or a future context-aware mapping. Do not duplicate scancodes
+        // here: unordered_map silently keeps only the first binding.
         {SDL_SCANCODE_RETURN, Action::Confirm},
-        {SDL_SCANCODE_SPACE, Action::Confirm},
-        {SDL_SCANCODE_ESCAPE, Action::Cancel},
         {SDL_SCANCODE_BACKSPACE, Action::Cancel},
         {SDL_SCANCODE_ESCAPE, Action::Pause},
         {SDL_SCANCODE_P, Action::Pause},
-        {SDL_SCANCODE_TAB, Action::Inventory},
         {SDL_SCANCODE_I, Action::Inventory},
         {SDL_SCANCODE_M, Action::Map},
 
@@ -337,13 +330,13 @@ void InputManager::BindGamepadAxis(SDL_GamepadAxis axis, Action pos_action, Acti
 }
 
 bool InputManager::LoadMappings(const std::string& path) {
-    // TODO: Load from TOML
+    // UNIMPLEMENTED: no mapping-file format or parser exists yet.
     (void)path;
     return false;
 }
 
 bool InputManager::SaveMappings(const std::string& path) const {
-    // TODO: Save to TOML
+    // UNIMPLEMENTED: no mapping-file format or serializer exists yet.
     (void)path;
     return false;
 }

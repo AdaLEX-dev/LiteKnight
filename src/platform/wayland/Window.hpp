@@ -2,9 +2,9 @@
 #pragma once
 
 #include <SDL3/SDL.h>
-#include "minimal_vulkan.h"
+#include <vulkan/vulkan.h>
+#include <vulkan/vulkan_wayland.h>
 #include <string>
-#include <memory>
 #include <engine/core/Types.hpp>
 
 namespace soulknight::platform {
@@ -50,7 +50,6 @@ public:
 private:
     WindowConfig config_;
     SDL_Window* sdl_window_ = nullptr;
-    VkSurfaceKHR surface_ = VK_NULL_HANDLE;
 
     int width_ = 0;
     int height_ = 0;
@@ -60,7 +59,7 @@ private:
 
     void (*resize_callback_)(int, int) = nullptr;
 
-    static void SDLCALL OnWindowEvent(void* userdata, SDL_Event* event);
+    static bool SDLCALL OnWindowEvent(void* userdata, SDL_Event* event);
 };
 
 } // namespace soulknight::platform

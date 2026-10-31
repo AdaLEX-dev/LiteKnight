@@ -1,6 +1,9 @@
 // Soul Knight Linux — Camera
+// UNIMPLEMENTED SCAFFOLDING: this math helper is not used by the current build
+// and no renderer/camera behavior has been validated against the reference.
 #pragma once
 
+#include <cmath>
 #include "engine/math/Vec2.hpp"
 #include "engine/math/Mat4.hpp"
 

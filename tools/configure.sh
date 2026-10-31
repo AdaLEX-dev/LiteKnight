@@ -50,7 +50,6 @@ else
     cmake -B "${BUILD_DIR}" \
         -DCMAKE_BUILD_TYPE="${CONFIG}" \
         -DCMAKE_CXX_COMPILER=g++ \
-        -DCMAKE_C_COMPILER=gcc \
         -G Ninja \
         -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 fi

@@ -1,4 +1,6 @@
 // Soul Knight Linux — Player Input
+// PROVISIONAL SCAFFOLDING: the mapping below is a platform abstraction, not a
+// reconstruction of the reference input semantics. See docs/VERTICAL_SLICE.md.
 #pragma once
 
 #include "engine/math/Vec2.hpp"

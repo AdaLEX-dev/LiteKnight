@@ -43,14 +43,9 @@ mkdir -p "${XDG_DATA_HOME}/soul-knight/assets"
 mkdir -p "${XDG_CONFIG_HOME}/soul-knight"
 mkdir -p "${XDG_CACHE_HOME}/soul-knight/logs"
 
-# Wayland-specific
+# Wayland-only target. Do not hardcode a Vulkan ICD; let the system loader
+# select the installed driver.
 export SDL_VIDEODRIVER=wayland
-export SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR=1
-export SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY=1
-
-# Vulkan
-export VK_ICD_FILENAMES="/usr/share/vulkan/icd.d/radeon_icd.x86_64.json:/usr/share/vulkan/icd.d/nvidia_icd.json"
-export VK_LAYER_PATH="/usr/share/vulkan/explicit_layer.d"
 
 # Run
 cd "${PROJECT_ROOT}"
