@@ -29,7 +29,7 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 | Asset-runtime PNG | FUNCTIONAL | libpng, exact-byte tests, synthetic PNGs |
 | Controlled Unity Texture2D | FUNCTIONAL / MANUAL PASS | `level-objects`/`f903`; deterministic conversion + native round-trip + render |
 | Unity Sprite metadata / camera | FUNCTIONAL | `SpriteData`, `Camera2D`, `analysis/assets/sprites.md`, `coordinate_system.md` |
-| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 482 static instances, 176 sprite assets, 13 textures, obstacle field, 2 enemies, native SceneLoader, Wayland/Vulkan render |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 482 static instances, 182 sprite assets, 14 textures, obstacle field, 2 enemies, four weapon definitions, native SceneLoader, Wayland/Vulkan render |
 | Player simulation/render sync | FUNCTIONAL / TESTED | `PlayerRenderSync`, `--locomotion-debug` sim/render/body/shadow/camera logs |
 | Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`/`AnimationPlayer`/`LocomotionAnimator`, real 4-frame clips, fixed-step loops |
 | Door animation / obstacle replacement | FUNCTIONAL / MANUAL PASS | `Door`/`RoomDoorController`, recovered clips, 49 wall603 obstacles |
@@ -357,13 +357,13 @@ allows:
 - The upper-right stray wall geometry was traced to applying the `wall601` prefab
   asset root local position `(20,20)` as an offset; root positions are now
   ignored and a source/path regression test covers it.
-- `r1_1_visual.json` now has 482 static instances / 176 sprite assets /
-  13 textures / 30 animations; the initial all-open combat state draws 593. Scene
+- `r1_1_visual.json` now has 482 static instances / 182 sprite assets /
+  14 textures / 30 animations; the initial all-open combat state draws 594. Scene
   SHA-256:
-  `36dfc1222bbe0022e10c1fe0d3d14dcb2627a4c1156b6c9155e2fc4d6638a774`;
+  `39e7ad867b51bddfede11321b9d426d46eb17af29995cc81151891860aa01ebb`;
   wall-map SHA-256:
   `1d7d10c84bfdad1855910513703176b91f895a47dd189c932387d30c8cf1e8da`.
-- Tests: **84 cases / 4759 assertions** (Debug ASan/UBSan and RelWithDebInfo).
+- Tests: **87 cases / 4796 assertions** (Debug ASan/UBSan and RelWithDebInfo).
 - Runtime smoke: `recovered solids=140 obstacles=49 doors=4 topology=true`, room
   interior `[12.5,13]..[27.5,28]`, animated door lifecycle and trigger traversal
   observed manually; Debug Vulkan validation clean and ASan/UBSan clean.

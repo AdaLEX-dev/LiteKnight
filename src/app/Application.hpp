@@ -22,6 +22,8 @@
 #include "game/combat/Weapon.hpp"
 #include "game/enemy/EnemySystem.hpp"
 #include "game/player/PlayerCharacterSet.hpp"
+#include "game/ui/DevOverlay.hpp"
+#include "game/weapons/WeaponRegistry.hpp"
 #include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
 
@@ -70,6 +72,8 @@ private:
     void CycleObstacleVariant();
     void ResetCombat();
     void UpdateAimInput();
+    void ConfigureActiveWeapon();
+    void SpawnSelectedEnemy(int count);
     bool SmokeTestExpired() const;
 
     AppConfig config_;
@@ -87,6 +91,8 @@ private:
     soulknight::game::room::RoomDoorController room_doors_;
     soulknight::game::room::ObstacleField obstacles_;
     soulknight::game::player::PlayerCharacterSet player_characters_;
+    soulknight::game::weapons::WeaponRegistry weapons_;
+    soulknight::game::ui::DevOverlay dev_ui_;
     soulknight::game::combat::Weapon weapon_;
     soulknight::game::combat::ProjectileSystem projectiles_;
     soulknight::game::enemy::EnemySystem enemies_;

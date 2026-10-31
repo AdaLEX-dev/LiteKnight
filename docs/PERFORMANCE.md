@@ -24,15 +24,16 @@ machine.
 
 Command: `build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug --smoke-seconds 10`
 from `/tmp`, with the recovered wall/door/corridor geometry and wall603
-obstacles and two e_slime01 fixtures. RelWithDebInfo, 482 static sprite instances
-plus 147 active obstacle sprites and four enemy sprites (593 drawn while all
-doors are open), 13 textures, 176 sprite assets, 30 recovered character clips:
+obstacles, two e_slime01 fixtures, four recovered weapon definitions and the
+equipped real weapon sprite. RelWithDebInfo, 482 static sprite instances plus
+147 active obstacle sprites and four enemy sprites (594 drawn while all doors
+are open), 14 scene textures plus the developer font (15 renderer textures),
+182 sprite assets, 30 recovered character clips:
 
-- `FrameTimer` average: **17.595 ms** over 533 samples on the current loaded
-  desktop run (earlier clean run: 16.663 ms / 573 samples).
-- **563 frames** over ~10.12 s (~55.6 presents/s).
-- **506 fixed simulation ticks** (0.880 sim steps/frame in the perf samples).
-- Scene validation: 0 errors.
+- `FrameTimer` average: **16.658 ms** over 571 samples.
+- **601 frames** over ~10.14 s (~59.3 presents/s).
+- **507 fixed simulation ticks** (0.832 sim steps/frame).
+- Vulkan validation: 0 messages.
 - A 30-second run with active movement measured ~**16.66 ms** and ~59.8
   presents/s in an earlier unloaded run; the recovered wall/door geometry and
   first-slice combat sprites did not change CPU pacing materially versus the

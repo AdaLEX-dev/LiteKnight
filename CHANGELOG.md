@@ -5,7 +5,55 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.1.0-dev] - 2026-10-31
+
+### Added
+- Permanent native developer executable `build/bin/liteknight-devroom` and
+  `--devroom` mode.
+- One-command workflow: `scripts/dev.sh`, `scripts/build-dev.sh`,
+  `scripts/test.sh`, `scripts/run-devroom.sh`, `scripts/smoke-devroom.sh`.
+- Developer overlay (`F10`) with version/build, FPS/frame time, fixed ticks,
+  character, weapon, HP/armor, enemies, projectiles, position, facing, room,
+  renderer and platform.
+- Character selector (`F6`) for all recovered `c00..c14` with real body sprites,
+  current selection, keyboard navigation and confirmation.
+- Weapon selector (`F7`) and real recovered weapon textures. Four Gun001
+  weapons are integrated: `weapon_000`, `weapon_002`, `weapon_048`, `weapon_287`.
+- Enemy selector (`F8`), spawner (`F9`/`F11`) and clear (`F12`) for recovered
+  enemy definitions (`e_slime01` initially).
+- `analysis/assets/texture_inventory.json`, `asset_inventory.json`, metadata
+  audit tooling and `tools/asset/pipeline.py`.
+- Legal boundary documentation, MIT native source license, NOTICE, LEGAL.md and
+  docs/legal.
+- GitHub remote/CI/release documentation and release notes.
+
+### Changed
+- Project/version identity is now LiteKnight `0.1.0-dev`; startup logs and
+  window title reflect the native version.
+- Weapon rendering is separated into `WeaponRenderer`; recovered weapon visuals
+  are drawn from real prefab sprites.
+- EnemySystem now exposes deterministic developer spawn/clear/reset semantics.
+- Scene metadata now carries four recovered weapon definitions and their
+  projectile/visual metadata.
+
+### Fixed
+- Player facing no longer shifts the body against its shadow: sprite flips mirror
+  quad geometry around the pivot as well as swapping UVs.
+
+### Reverse Engineering
+- Recovered the held attack path, weapon Animator cadence and c00 spread formula.
+- Corrected the enemy despawn timing: 4.0 s destruction default; 0.95 is friction.
+
+### Assets
+- 14 texture records / 182 sprites integrated into the devroom scene.
+- 15 characters, 4 weapons, 3 unique projectiles, 1 enemy, 4 doors and 12 obstacle
+  variants integrated; reference-derived pixels remain `local_only`.
+- Developer 5x7 text atlas is a native PLACEHOLDER pending a licensed/recovered
+  UI font.
+
+### Testing
+- 87 cases / 4796 assertions in RelWithDebInfo and Debug ASan/UBSan, plus
+  Vulkan validation, devroom smoke and real-input manual checks.
 
 ### First playable combat prototype — 2026-10-31
 

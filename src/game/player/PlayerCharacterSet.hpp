@@ -24,6 +24,12 @@ public:
     const engine::assets::SceneCharacter& Active() const {
         return characters_[active_];
     }
+    const engine::assets::SceneCharacter& CharacterAt(std::size_t index) const {
+        return characters_[index];
+    }
+    const std::vector<engine::assets::SceneCharacter>& Characters() const {
+        return characters_;
+    }
 
     bool Select(std::size_t index);
     void Cycle(int delta);

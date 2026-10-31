@@ -23,15 +23,22 @@ tools/asset/extract.sh convert-texture \
 # Controlled r1_1 + c00 visual scene and real idle/run animation metadata
 # (runtime pixels/scene JSON remain under gitignored assets/generated/)
 tools/asset/.venv/bin/python tools/asset/build_visual_scene.py
+
+# Source-controlled inventories and metadata audit
+python3 tools/asset/build_asset_inventory.py
+python3 tools/asset/audit_assets.py
+# Or orchestrate the stages:
+python3 tools/asset/pipeline.py all
 ```
 
 Outputs go to `assets/generated/` (gitignored). The extraction manifest is
 `analysis/assets/extraction_manifest.json`; the conversion provenance is
 `analysis/assets/texture_conversion_manifest.json`; the visual scene metadata is
 `analysis/assets/scenes/r1_1_visual.json`; animation metadata is written to
-`analysis/assets/scenes/animations/c00_idle.json` and `c00_run.json`. The tool
-never commits
-proprietary asset bytes.
+`analysis/assets/scenes/animations/c00_idle.json` and `c00_run.json`; inventories
+are `analysis/assets/texture_inventory.json` and
+`analysis/assets/asset_inventory.json`. The tool never commits proprietary asset
+bytes.
 
 The local venv and pinned dependencies (UnityPy 1.25.4, Pillow 13.0.0) are in
 `requirements.txt`. The converter accepts only RGBA32/RGB24 single-mip textures,

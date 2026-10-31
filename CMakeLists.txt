@@ -2,10 +2,25 @@
 # CMake 3.25+ required (CMake 4 recommended)
 
 cmake_minimum_required(VERSION 3.25)
-project(soul-knight
-    VERSION 0.0.1
+
+# VERSION is the single source of truth for the application/version string.
+# CMake's project() accepts only numeric x.y.z, so the full semantic version
+# (including -dev) is kept separately and exported to the executable.
+file(STRINGS "${CMAKE_CURRENT_SOURCE_DIR}/VERSION" LITEKNIGHT_VERSION LIMIT_COUNT 1)
+string(STRIP "${LITEKNIGHT_VERSION}" LITEKNIGHT_VERSION)
+if(NOT LITEKNIGHT_VERSION)
+    set(LITEKNIGHT_VERSION "0.0.0-dev")
+endif()
+string(REGEX MATCH "^[0-9]+\.[0-9]+\.[0-9]+" LITEKNIGHT_PROJECT_VERSION
+       "${LITEKNIGHT_VERSION}")
+if(NOT LITEKNIGHT_PROJECT_VERSION)
+    set(LITEKNIGHT_PROJECT_VERSION "0.0.0")
+endif()
+
+project(liteknight
+    VERSION ${LITEKNIGHT_PROJECT_VERSION}
     LANGUAGES CXX
-    DESCRIPTION "Native Linux port of Soul Knight 2.6.8"
+    DESCRIPTION "LiteKnight — native Linux devroom and game reconstruction"
 )
 
 # ============================================================
@@ -89,6 +104,7 @@ find_package(fmt REQUIRED)
 
 # Threads
 find_package(Threads REQUIRED)
+find_program(PYTHON3_EXECUTABLE NAMES python3)
 
 # ============================================================
 # Shader compilation (GLSL -> SPIR-V)
@@ -157,7 +173,8 @@ endif()
 # Platform-Specific Definitions
 # ============================================================
 add_compile_definitions(
-    SOUL_KNIGHT_VERSION="${PROJECT_VERSION}"
+    LITEKNIGHT_VERSION="${LITEKNIGHT_VERSION}"
+    SOUL_KNIGHT_VERSION="${LITEKNIGHT_VERSION}"
     SOUL_KNIGHT_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
     SOUL_KNIGHT_COMMIT_HASH="${SOUL_KNIGHT_COMMIT_HASH}"
     SDL_MAIN_HANDLED
@@ -236,6 +253,8 @@ add_library(engine STATIC
     src/engine/rendering/Camera.hpp
     src/engine/rendering/SpriteBatch.cpp
     src/engine/rendering/SpriteBatch.hpp
+    src/engine/rendering/DebugText.cpp
+    src/engine/rendering/DebugText.hpp
     src/engine/rendering/Texture2D.cpp
     src/engine/rendering/Texture2D.hpp
     src/engine/rendering/VulkanContext.cpp
@@ -339,6 +358,12 @@ add_library(game STATIC
     src/game/combat/ProjectileSystem.hpp
     src/game/combat/Weapon.cpp
     src/game/combat/Weapon.hpp
+    src/game/weapons/WeaponRegistry.cpp
+    src/game/weapons/WeaponRegistry.hpp
+    src/game/weapons/WeaponRenderer.cpp
+    src/game/weapons/WeaponRenderer.hpp
+    src/game/ui/DevOverlay.cpp
+    src/game/ui/DevOverlay.hpp
     src/game/enemy/EnemySystem.cpp
     src/game/enemy/EnemySystem.hpp
     # Characters
@@ -478,6 +503,22 @@ target_link_libraries(soul-knight PRIVATE
 
 add_dependencies(soul-knight soul-knight-assets)
 
+# First-class developer launcher. This is a tiny script because it uses the
+# same tested executable and therefore the same binary-relative asset lookup.
+set(LITEKNIGHT_DEVROOM_LAUNCHER "${CMAKE_BINARY_DIR}/bin/liteknight-devroom")
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/scripts/liteknight-devroom.in"
+    "${LITEKNIGHT_DEVROOM_LAUNCHER}"
+    @ONLY
+)
+file(CHMOD "${LITEKNIGHT_DEVROOM_LAUNCHER}"
+     PERMISSIONS OWNER_READ OWNER_WRITE OWNER_EXECUTE
+                 GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+add_custom_target(liteknight-devroom ALL
+    DEPENDS soul-knight
+    COMMENT "Preparing build/bin/liteknight-devroom"
+)
+
 # ============================================================
 # Tool: native PNG round-trip verifier
 # ============================================================
@@ -512,6 +553,7 @@ add_executable(soul-knight-test
     tests/unit/character_switch_test.cpp
     tests/unit/obstacle_field_test.cpp
     tests/unit/combat_test.cpp
+    tests/unit/devroom_test.cpp
     tests/unit/animation_test.cpp
     tests/unit/locomotion_test.cpp
     # Integration tests
@@ -587,6 +629,13 @@ enable_testing()
 add_test(NAME soul-knight-unit-tests
     COMMAND soul-knight-test --test-suite=unit --reporter=console
 )
+if(PYTHON3_EXECUTABLE)
+    add_test(NAME liteknight-asset-audit
+        COMMAND "${PYTHON3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_assets.py"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
+endif()
 # FAIL_REGULAR_EXPRESSION (not PASS) so a real test failure still turns CTest
 # red. This only rejects the old false-green case where the filter selected zero
 # test cases.

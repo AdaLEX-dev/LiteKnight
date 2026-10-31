@@ -93,12 +93,14 @@
 | Controlled Unity Texture2D | `tools/asset/extract_unity.py`, `analysis/assets/texture_conversion_manifest.json` | ✅ One real asset converted, deterministic, native round-trip/render verified |
 | Unity Sprite metadata / PPU | `SpriteData`, `analysis/assets/sprites.md` | ✅ Rect/pivot/PPU/border/filter/wrap; rectangular tight-crop approximation |
 | 2D camera / coordinate system | `Camera2D`, `analysis/assets/coordinate_system.md` | ✅ Y-up world, PPU 16, aspect-fit; exact reference camera size unresolved |
-| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 482 static instances + obstacle field (593 draw batch), 176 sprite assets, 13 textures, rendered Wayland/Vulkan |
+| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 482 static instances + obstacle field (594 draw batch), 182 sprite assets, 14 textures, rendered Wayland/Vulkan |
 | Player simulation/render sync | `PlayerLocomotion`, `PlayerRenderSync`, `Application` | ✅ body follows sim exactly; shadow offset preserved; animation/camera cannot move player |
 | Eight-way movement / facing | `MovementInput`, `PlayerLocomotion`, `FacingDirection` | ✅ normalized 8-way, 9.75 speed, horizontal mirror facing, 50 Hz |
 | Character test switching | `PlayerCharacterSet`, recovered c00..c14 | ✅ 15 recovered prefabs, 30 ide/run clips, keys 1..0 and [ ] |
 | Obstacle variant switching | `ObstacleField`, `obstacle_list` | ✅ 8 solid recovered variants selectable (12 entries in metadata), 49 marker cells, per-variant collision |
-| Combat prototype | `Weapon`, `ProjectileSystem`, `Damage`, `EnemySystem`, `Application` | ✅ weapon_000/bullet_0 -> e_slime01 damage/death; player contact/death/reset; native aim/attack bindings |
+| Combat prototype | `Weapon`, `ProjectileSystem`, `Damage`, `EnemySystem`, `Application` | ✅ four recovered Gun001 weapons -> e_slime01 damage/death; player contact/death/reset; native aim/attack bindings |
+| Developer devroom / UI | `scripts/dev.sh`, `DevOverlay`, `DebugTextRenderer`, selectors | ✅ permanent launcher, overlay, character/weapon/enemy selectors, spawner |
+| Asset inventory / audit | `tools/asset/pipeline.py`, `build_asset_inventory.py`, `audit_assets.py` | ✅ texture/category inventories, metadata validation, redistribution classes |
 | Door animation / collision lifecycle | `Door`, `RoomDoorController`, recovered Animator clips | ✅ open/close clips, four states, animation-synchronized blocking, all four orientations |
 | Obstacle replacement / wall visuals | `RGObjectSkin`, `obstacle_list`, `wall603` | ✅ 49 markers replaced; 140 wall + 49 obstacle collision cells match visible instances |
 | Sprite animation / Animator frames | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`, `analysis/assets/animation.md` | ✅ real `char_1_skin_0_ide` and `c00_run`; 4 frames each, 0.5 s loop; fixed-step native sampling |
@@ -136,7 +138,7 @@ is not. The 60 FPS target is measured only on the test machine, not guaranteed.
 | Damage application + death | `src/game/combat/Damage.hpp`, `EnemySystem.cpp` | ✅ first-slice damage/death; crit/elements open |
 | Player death + restart | `src/app/Application.cpp` (`R` reset) | ✅ minimum dev reset; production game-over/reborn not started |
 | One room load + transition | `src/game/rooms/RoomSystem.cpp` | ⬜ |
-| Basic HUD (health, weapon) | `src/game/ui/HUD.cpp` | ⬜ |
+| Basic HUD (health, weapon) | `src/game/ui/DevOverlay.cpp` | ⚠️ developer overlay only; production HUD not started |
 | Audio: player hit, enemy hit, shoot | `src/game/audio/` | ⬜ |
 | Save/load (slot 0) | `src/game/save/SaveSystem.cpp` | ⬜ |
 

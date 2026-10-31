@@ -25,6 +25,10 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.exercise_window = true;
         } else if (arg == "--locomotion-debug") {
             config.locomotion_debug = true;
+        } else if (arg == "--devroom") {
+            config.devroom = true;
+            config.scene_path = "scenes/r1_1_visual/scene.json";
+            config.title = "LiteKnight Devroom";
         } else if (arg == "--texture" && i + 1 < argc) {
             config.texture_path = argv[i + 1];
             ++i;

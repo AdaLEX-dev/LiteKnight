@@ -157,6 +157,15 @@ struct WeaponDefinition {
     // 1.0, so the effective period is 1/3 s with a 1/30 s first-shot delay.
     float attack_cycle_seconds = 1.0f / 3.0f;
     float first_shot_delay_seconds = 1.0f / 30.0f;
+
+    // Recovered weapon prefab visual (`w` child SpriteRenderer) and gun_point
+    // local offset. The devroom renders the real weapon texture in the hand.
+    int32_t visual_sprite_index = -1;
+    Vec2 visual_offset{0.0f, 0.0f};
+    Vec2 muzzle_offset{0.6f, 0.15f};
+    float visual_rotation = 0.0f;
+    int32_t sorting_layer = 5;
+    int32_t sorting_order = 1;
 };
 
 struct EnemyDefinition {

@@ -19,10 +19,11 @@ struct AppConfig {
     double smoke_test_seconds = 0.0;
     bool exercise_window = false;
     bool locomotion_debug = false;
+    bool devroom = false;
     bool help_requested = false;
     std::string texture_path = "test/phase4_smoke.png";
     std::string scene_path;
-    std::string title = "Soul Knight";
+    std::string title = "LiteKnight";
 };
 
 inline constexpr double kSimulationStepSeconds = 1.0 / 50.0;

@@ -1,16 +1,17 @@
-# Soul Knight 2.6.8 — Project State
+# LiteKnight — Project State
 
-**Last Updated:** 2026-10-31 (clean dev room, eight-way facing, character/obstacle test switching)
+**Version:** `0.1.0-dev`
+**Last Updated:** 2026-10-31 (permanent devroom, developer UI, four weapons, asset inventory)
 **Commit:** session head; run `git log -1 --format='%h %s'`
-**Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
-**Current status:** Phase 4A-4F foundation is implemented and manually verified:
-Wayland-only SDL3 window, Vulkan 1.3 device/swapchain, 50 Hz/60 FPS loop, a
-batched textured sprite renderer, a native `r1_1` reconstruction test scene,
-real `c00` idle/run animation, keyboard movement, recovered `CreateWall`
-perimeter/aisle/door geometry, fixed-step collision, animated one-way doors with
-their recovered clips, `RGObjectSkin` obstacle replacement, and camera follow.
-Combat, AI, audio, and UI are not implemented. The vertical slice is **not**
-cleared.
+**Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (devroom foundation FUNCTIONAL)**
+**Current status:** the native Wayland/Vulkan devroom is playable and is the
+primary development environment. It includes the recovered `r1_1` room,
+movement/collision/camera, animated doors, obstacles, 15 characters, four
+recovered weapons with real textures, deterministic projectiles, damage, enemy
+death, player death/reset, and a native developer overlay with character/weapon/
+enemy selectors and enemy spawning. Full enemy AI, production menus/UI, audio,
+room transitions, and the full catalogue are not implemented. Gate D remains
+unmet for a complete game, but the permanent devroom invariant is maintained.
 
 ---
 
@@ -23,7 +24,7 @@ cleared.
 | Phase 2 — Engine Reconstruction | ⚠️ PARTIAL — Gate B **PARTIAL** |
 | Phase 3 — Behavioural Reconstruction | ⚠️ PARTIAL — vertical-slice contract largely known; full-game content UNKNOWN |
 | Phase 4 — Native Runtime | ⚠️ PARTIAL — foundation FUNCTIONAL; Gate C **PARTIAL** |
-| Phase 5 — First Playable | ⛔ BLOCKED by Gate B/C |
+| Phase 5 — First Playable | ⚠️ DEVROOM PLAYABLE; full Gate D NOT MET |
 | Phase 6+ — Systems/Content/Fidelity/Release | ⛔ BLOCKED |
 
 Canonical baseline:
@@ -246,15 +247,29 @@ Implemented and manually verified on 2026-10-31:
   camera. `P` cycles the 8 recovered solid `obstacle_list` variants (4 decorative
   no-collider entries remain in metadata but are not selectable); render and
   collision cells are derived from the same active variant.
+- **Permanent devroom infrastructure PASSED:** `build/bin/liteknight-devroom`
+  plus `--devroom`; `scripts/dev.sh` builds, tests, prepares local assets and
+  launches, refusing to run a known-broken executable. Version `0.1.0-dev` and
+  build hash are shown in the developer overlay. Source-controlled asset
+  inventories and metadata audits live in `analysis/assets/` and
+  `tools/asset/`; reference-derived pixels remain local-only.
+- **Developer UI PASSED:** `F6` character selector (all c00..c14 with real
+  sprites), `F7` weapon selector (four recovered Gun001 weapons with real
+  weapon textures), `F8` enemy selector, `F9`/`F11`/`F12` spawn one/five/clear,
+  and `F10` overlay (version/build/FPS/ticks/player/weapon/enemies/projectiles/
+  position/facing/room/platform). Selectors preserve player position, collision,
+  camera and combat state. `R` is a full deterministic developer reset.
 - **First playable combat prototype PASSED (native reconstruction):** the
   dev room now runs `player -> weapon_000 -> bullet_0 -> wall/obstacle/enemy ->
   damage -> enemy death -> player damage/death -> R reset`. Attack is a native
   test binding (`J`/`Space`/LMB) because the recovered mobile path is
   `RGJoyControl.UpdateBtnAtkClick -> RGController.BtnAtkClick -> SetAttack ->
   AttackStart -> set_atk_b`; aim is a separate native test vector (mouse/right
-  stick) and facing remains movement-driven. `weapon_000`'s `w_pistol` Animator
-  state loops for 1/3 s with its `Attack` event at 1/30 s; weapon speed factors
-  are 1.0. The effective projectile is speed 36, damage 3, camp 1, lifetime 5 s;
+  stick/keypad) and facing remains movement-driven. Four recovered Gun001
+  weapons are selectable: `weapon_000`, `weapon_002`, `weapon_048`,
+  `weapon_287`; each preserves its own attack-cycle/event timing and real sprite.
+  `weapon_000`'s `w_pistol` loops for 1/3 s with its `Attack` event at 1/30 s;
+  the effective projectile is speed 36, damage 3, camp 1, lifetime 5 s.
   `bullet_0` prefab speed 10 is retained as metadata. `e_slime01` is the test
   target: hp 12, contact damage 3 every 1.5 s. Player stats are the recovered
   c00 RoleAttributePlayer (6 hp, 5 armor, camp 1). Enemy colliders are disabled
@@ -277,10 +292,12 @@ Implemented and manually verified on 2026-10-31:
 
 Not implemented: full AnimatorController transitions/layers/blend trees, other
 clips/states, the exact event-to-map-manager traversal listener, room-clear
-lifecycle, full enemy AI/spawning, production player death/game-over/reborn UI,
-critical/element/effect triggers, mounts/one-shot shields/badass modifiers,
-adjacent-room generation/coordinate updates, general KTX2/atlas packing, the full
-asset registry/manifest loader, audio, UI, content, or parity comparison. Native sorting numbers are mapped to recovered
+lifecycle, full enemy AI and production enemy spawning, production player
+death/game-over/reborn UI, critical/element/effect triggers,
+mounts/one-shot shields/badass modifiers, adjacent-room generation/coordinate
+updates, general KTX2/atlas packing, the full asset registry/manifest loader,
+recovered UI/font assets (developer text is a PLACEHOLDER), audio, content, or
+parity comparison. Native sorting numbers are mapped to recovered
 TagManager layers; camera size, camera follow smoothing, the AABB-vs-circle
 player collision approximation, linear replay of the recovered streamed keys,
 transient door-collider size animation, and fixed-step rather than Normal-update
@@ -320,17 +337,17 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 84 cases / 4759 assertions, PASS (ASan/UBSan)
+- Debug tests: 87 cases / 4796 assertions, PASS (ASan/UBSan)
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 84 / 4759, PASS
+- RelWithDebInfo tests: 87 / 4796, PASS
 - Debug Vulkan validation: enabled, 0 messages; Debug and RelWithDebInfo smoke PASS
 - Real keyboard/mouse combat, death/reset, character/obstacle switching, doors,
   and window resize/minimize/restore: PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 71/4638 to 84/4759 in this combat pass because new
+The count changed from 71/4638 to 87/4796 in this development pass because new
 deterministic tests cover the weapon Animator cycle, projectile speed/lifetime
 and wall/obstacle/enemy collision ordering, armor/HP/defence damage, enemy
 death/despawn, the attack movement modifier, combat scene metadata, and pivot-

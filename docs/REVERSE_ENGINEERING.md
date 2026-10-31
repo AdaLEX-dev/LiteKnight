@@ -28,7 +28,7 @@ Session: Initial reconnaissance
   (mouse/right stick) separate from movement/facing.
 - Fixed the body-shift regression on facing changes by mirroring sprite quad
   geometry around the pivot, not only UVs.
-- Evidence: `analysis/re/combat_prototype.md`; tests: 84 cases / 4759
+- Evidence: `analysis/re/combat_prototype.md`; combat-slice tests: 84 cases / 4759
   assertions in RelWithDebInfo and Debug ASan/UBSan.
 
 ---

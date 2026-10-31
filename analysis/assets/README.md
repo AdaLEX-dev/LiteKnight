@@ -84,11 +84,14 @@ and the real `r1_1` + `c00` Unity objects to produce:
 - `analysis/assets/scenes/r1_1_visual.json` — native scene metadata (textures,
   sprite rects/pivots/PPU, 482 static instances, 15 recovered characters,
   30 character clips, 12 obstacle variants, recovered c00 player stats,
-  weapon_000/bullet_0 combat metadata, two e_slime01 fixtures, camera, recovered
-  wall/door/aisle collision topology and door animation keyframes), no pixels.
+  four recovered Gun001 weapon definitions with real weapon visuals and three
+  unique projectiles, two e_slime01 fixtures, camera, recovered wall/door/aisle
+  collision topology and door animation keyframes), no pixels.
 - `analysis/re/r1_1_wall_map.json` / `.txt` — machine-readable and ASCII recovered
   room topology.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — provenance and hashes.
+- `analysis/assets/texture_inventory.json` and `analysis/assets/asset_inventory.json`
+  — texture/category inventory with redistribution status.
 - gitignored `assets/generated/visual/r1_1_visual/` — runtime scene JSON and PNGs.
 
 The scene was rendered through Wayland/Vulkan; see

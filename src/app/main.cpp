@@ -17,8 +17,9 @@ namespace {
 
 void PrintUsage(const char* executable) {
     std::cout
-        << "Soul Knight native runtime (Phase 4 foundation)\n"
+        << "LiteKnight native development executable\n"
         << "Usage: " << executable << " [options]\n"
+        << "  --devroom                launch the playable LiteKnight devroom\n"
         << "  --smoke-test             run the Wayland/Vulkan smoke test for 5 seconds\n"
         << "  --smoke-seconds <secs>   run for a bounded duration\n"
         << "  --exercise-window        resize/minimize/restore during the smoke test\n"
@@ -32,6 +33,9 @@ void PrintUsage(const char* executable) {
         << "                           native test binding for the recovered attack\n"
         << "  Mouse / right stick / keypad 8,2,4,6\n"
         << "                           native test aim vector (facing stays movement)\n"
+        << "  F6 / F7 / F8             character / weapon / enemy selector\n"
+        << "  F9 / F11 / F12           spawn enemy / spawn x5 / clear enemies\n"
+        << "  F10                      toggle developer overlay\n"
         << "  R (in scene mode)        reset combat test state\n"
         << "  --texture <asset-path>   PNG relative to the native asset root\n"
         << "  --scene <asset-path>     native scene JSON relative to the asset root\n"

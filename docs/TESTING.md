@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **84 doctest cases / 4759 assertions**, all passing.
+**Status:** current baseline is **87 doctest cases / 4796 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -14,7 +14,7 @@ Future tests must be evidence-backed; do not invent expected values.
 ctest --test-dir build --output-on-failure
 ```
 
-- doctest 2.4.11, CTest entry `soul-knight-unit-tests`.
+- doctest 2.4.11, CTest entries `soul-knight-unit-tests` and `liteknight-asset-audit`.
 - Debug: ASan/UBSan.
 - RelWithDebInfo: optimized, no sanitizers.
 - CTest fails if the filter selects zero cases (`FAIL_REGULAR_EXPRESSION`).
@@ -148,6 +148,18 @@ ctest --test-dir build --output-on-failure
   pivot, so an asymmetric player pivot no longer shifts the body relative to the
   shadow when facing changes.
 
+### Developer UI / registries / asset inventory (implemented units)
+
+- Generated developer font atlas: dimensions, RGBA buffer, text width/line height.
+- WeaponRegistry: recovered definition load, active selection, cycle/wrap.
+- EnemySystem developer spawner: spawn, clear, and reset back to scene fixtures.
+- Scene metadata: four weapon definitions with visual/projectile sprites and
+  attack timing; player stats; two enemy fixtures.
+- Asset inventory generation and metadata audit: unique IDs, sprite bounds,
+  pivots/PPU, animation references, weapon/enemy/projectile references,
+  redistribution status. Structural errors fail; generated-pixel absence is a
+  local-only warning unless `--require-generated` is used.
+
 ### Integration / manual smoke
 
 ```bash
@@ -177,10 +189,10 @@ cd /tmp
 The committed metadata lives in `analysis/assets/scenes/r1_1_visual.json` and
 `analysis/assets/scenes/animations/`; generated PNG/scene bytes remain
 gitignored. The scene now has 482 static instances (420 walls + 60 doors +
-2 player), 176 sprite assets, 13 textures, 30 recovered character clips,
+2 player), 182 sprite assets, 14 textures, 30 recovered character clips,
 49 obstacle markers with 12 recovered variants (8 solid selectable), one
 weapon/projectile pair, and two e_slime01 fixtures. Its current render batch is
-593 sprites (static room + obstacles + two enemies + active projectiles). This
+594 sprites (static room + obstacles + two enemies + equipped weapon + active projectiles). This
 scene is a reverse-engineering test reconstruction, not a proven canonical
 gameplay level.
 Run with `--locomotion-debug` to log `sim`/`render`/`body`/`shadow`/camera
@@ -197,7 +209,11 @@ Controls:
 P         cycle recovered obstacle variants
 J / Space / LMB   attack (native test binding)
 Mouse / right stick / keypad 8,2,4,6   aim vector (facing remains movement-driven)
-R         reset combat state (position, HP, armor, enemies, doors)
+F6 / F7 / F8      character / weapon / enemy selector
+F9 / F11 / F12    spawn enemy / spawn x5 / clear enemies
+F10               developer overlay
+R         full deterministic developer reset (player, HP/armor, enemies, doors,
+          obstacles, weapon, character, projectiles)
 O         toggle OpenDoor()/CloseDoor()
 C         CloseDoor() on all four doors
 ```
@@ -212,15 +228,16 @@ inside the recovered obstacle block. Deterministic tests are in
 `tests/unit/door_test.cpp`, `tests/unit/player_render_sync_test.cpp`,
 `tests/unit/direction_test.cpp`, `tests/unit/character_switch_test.cpp`,
 `tests/unit/obstacle_field_test.cpp`, `tests/unit/room_visual_test.cpp`,
-`tests/unit/combat_test.cpp`, and `tests/unit/scene_test.cpp`. The suite is
-84 cases / 4759 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
+`tests/unit/combat_test.cpp`, `tests/unit/devroom_test.cpp`, and `tests/unit/scene_test.cpp`. The suite is
+87 cases / 4796 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
 
 ### Combat manual verification (2026-10-31)
 
 Run from `/tmp` against the generated scene:
 
 ```bash
-build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug     --smoke-seconds 12
+build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug \
+    --smoke-seconds 12
 ```
 
 Observed with real SDL input through `/dev/uinput` (`ydotool`) against the focused
@@ -252,6 +269,27 @@ Wayland window:
 The recovered room is smaller than the 5 s projectile lifetime in every
 direction, so wall/obstacle collision and the 5 s expiry are additionally covered
 by deterministic unit tests rather than waiting for an in-room expiry.
+
+### Developer devroom UI (manual)
+
+```bash
+./scripts/dev.sh
+```
+
+Observed on the real Wayland/Vulkan devroom:
+
+- `F10` shows the overlay with LiteKnight/version/build, FPS/frame time, fixed
+  ticks, active character/weapon, HP/armor, enemy/projectile counts, position,
+  facing, room, renderer and platform.
+- `F6` shows all 15 recovered character sprites with C00..C14 labels and current
+  selection. `D` + `Enter` selected c01 and preserved player/camera/collision.
+- `F7` lists the four recovered weapons with their real sprites and stats. `D` +
+  `Enter` equipped `weapon_002`; subsequent attack logs use its projectile and
+  cadence.
+- `F8` opens the enemy selector. `F9` spawned one `e_slime01`, `F11` spawned
+  five, and `F12` cleared all dynamic enemies. `R` restored the scene fixtures.
+- The generated developer text atlas is a documented PLACEHOLDER; all character,
+  weapon and enemy imagery in the selectors is recovered native texture data.
 
 ### Unity Texture2D conversion / native round-trip (manual)
 

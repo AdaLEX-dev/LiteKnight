@@ -6,6 +6,7 @@
 #include "engine/animation/AnimationClip.hpp"
 #include "engine/core/Log.hpp"
 #include "engine/rendering/VulkanRenderer.hpp"
+#include "game/weapons/WeaponRenderer.hpp"
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_vulkan.h>
@@ -69,10 +70,13 @@ Application::~Application() {
 bool Application::Initialize() {
     if (initialized_) return true;
 
-    LOG_INFO_APP("Soul Knight native runtime");
+    LOG_INFO_APP("LiteKnight native runtime");
     LOG_INFO_APP("Platform: {}", SDL_GetPlatform());
-    LOG_INFO_APP("Version: {} ({})", SOUL_KNIGHT_VERSION, SOUL_KNIGHT_BUILD_TYPE);
+    LOG_INFO_APP("Version: {} ({})", LITEKNIGHT_VERSION, SOUL_KNIGHT_BUILD_TYPE);
     LOG_INFO_APP("Commit: {}", SOUL_KNIGHT_COMMIT_HASH);
+    if (config_.devroom) {
+        LOG_INFO_APP("Mode: developer devroom");
+    }
     LOG_INFO_APP("Target: Wayland only, Vulkan 1.3, 1920x1080");
     LOG_INFO_APP("Timing: {} Hz simulation, {} FPS render target",
                  kSimulationHz, kRenderTargetHz);
@@ -123,6 +127,8 @@ bool Application::Initialize() {
     room_doors_ = {};
     obstacles_ = {};
     player_characters_ = {};
+    weapons_ = {};
+    dev_ui_ = {};
     weapon_ = {};
     projectiles_.Clear();
     enemies_ = {};
@@ -156,6 +162,16 @@ bool Application::Initialize() {
                 texture.id, &texture.data, texture.filter, texture.wrap
             });
         }
+        if (!dev_ui_.BuildFont()) {
+            LOG_FATAL_APP("Developer UI font atlas failed");
+            return false;
+        }
+        texture_uploads_.push_back(engine::rendering::TextureUpload{
+            engine::rendering::DebugTextRenderer::kTextureId,
+            &dev_ui_.FontTexture(),
+            engine::assets::TextureFilter::Point,
+            engine::assets::TextureWrap::Clamp
+        });
         camera_.position = scene_.camera.position;
         camera_.orthographic_size = scene_.camera.orthographic_size;
         camera_.viewport_width = scene_.camera.viewport_width;
@@ -225,29 +241,10 @@ bool Application::Initialize() {
             LOG_FATAL_APP("Enemy configuration failed: {}", enemy_error);
             return false;
         }
-        if (scene_.weapons.empty()) {
+        if (!weapons_.Configure(scene_)) {
             LOG_ERROR_APP("No recovered weapon definition; attack disabled");
         } else {
-            engine::assets::WeaponDefinition weapon_definition =
-                scene_.weapons.front();
-            if (scene_.player_stats.max_hp > 0) {
-                weapon_definition.owner_deviation =
-                    scene_.player_stats.deviation;
-            }
-            if (!weapon_.Configure(weapon_definition)) {
-                LOG_ERROR_APP("Weapon configuration failed: {}",
-                              weapon_definition.id);
-            } else {
-                LOG_INFO_APP("Weapon: {} projectile={} speed={:.1f} damage={} "
-                             "deviation={} consume={} weapon_speed={:.2f}",
-                             weapon_.Definition().id,
-                             weapon_.Definition().projectile.id,
-                             weapon_.Definition().bullet_speed,
-                             weapon_.Definition().damage,
-                             weapon_.Definition().deviation,
-                             weapon_.Definition().consume,
-                             weapon_.Definition().weapon_speed);
-            }
+            ConfigureActiveWeapon();
         }
         LOG_INFO_APP("Combat: player hp={} armor={} camp={}; enemies={} "
                      "(definitions={}), projectiles=0",
@@ -606,6 +603,31 @@ void Application::BuildRenderBatch() {
                                    projectile.velocity.x);
         (void)sprite_batch_.DrawSprite(draw);
     }
+
+    soulknight::game::weapons::WeaponRenderer::Draw(
+        sprite_batch_, scene_, weapon_.Definition(), player_.Position(),
+        aim_direction_, player_dead_);
+
+    soulknight::game::ui::DevOverlayContext ui_context;
+    ui_context.scene = &scene_;
+    ui_context.camera = &camera_;
+    ui_context.characters = &player_characters_;
+    ui_context.weapons = &weapons_;
+    ui_context.enemies = &enemies_;
+    ui_context.player = &player_;
+    ui_context.health = &player_health_;
+    ui_context.room_id = scene_.id.c_str();
+    ui_context.facing = engine::locomotion::FacingDirectionName(facing_);
+    ui_context.version = LITEKNIGHT_VERSION;
+    ui_context.build = SOUL_KNIGHT_COMMIT_HASH;
+    const char* video_driver = SDL_GetCurrentVideoDriver();
+    ui_context.platform = video_driver != nullptr ? video_driver : "unknown";
+    ui_context.renderer = "Vulkan";
+    ui_context.frame_ms = static_cast<float>(frame_timer_.GetStats().frame_time_ms);
+    ui_context.simulation_ticks = simulation_ticks_;
+    ui_context.render_frames = render_frames_;
+    ui_context.active_projectiles = projectiles_.ActiveCount();
+    dev_ui_.Draw(sprite_batch_, ui_context);
 }
 
 void Application::BuildSyntheticBatch() {
@@ -642,39 +664,93 @@ void Application::PollEvents() {
             running_ = false;
         }
 
-        if (event.type == SDL_EVENT_KEY_DOWN &&
-            event.key.scancode == SDL_SCANCODE_ESCAPE && !event.key.repeat) {
-            LOG_INFO_APP("Escape pressed; requesting shutdown");
-            running_ = false;
+        const bool key_down = event.type == SDL_EVENT_KEY_DOWN &&
+                              !event.key.repeat;
+        if (key_down && event.key.scancode == SDL_SCANCODE_ESCAPE) {
+            if (dev_ui_.MenuOpen()) {
+                dev_ui_.CloseMenu();
+            } else {
+                LOG_INFO_APP("Escape pressed; requesting shutdown");
+                running_ = false;
+            }
         }
 
-        if (event.type == SDL_EVENT_KEY_DOWN &&
-            event.key.scancode == SDL_SCANCODE_O && !event.key.repeat &&
-            scene_mode_ && !scene_.doors.empty()) {
-            ToggleAllDoors();
-        }
-
-        if (event.type == SDL_EVENT_KEY_DOWN &&
-            event.key.scancode == SDL_SCANCODE_C && !event.key.repeat &&
-            scene_mode_ && !scene_.doors.empty()) {
-            CloseAllDoors();
-        }
-
-        if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat &&
-            scene_mode_) {
-            if (event.key.scancode == SDL_SCANCODE_LEFTBRACKET) {
+        if (key_down && scene_mode_) {
+            const SDL_Scancode scancode = event.key.scancode;
+            if (scancode == SDL_SCANCODE_F10) {
+                dev_ui_.ToggleOverlay();
+                LOG_INFO_APP("Developer overlay: {}",
+                             BooleanText(dev_ui_.OverlayVisible()));
+            } else if (scancode == SDL_SCANCODE_F9) {
+                SpawnSelectedEnemy(1);
+            } else if (scancode == SDL_SCANCODE_F11) {
+                SpawnSelectedEnemy(5);
+            } else if (scancode == SDL_SCANCODE_F12) {
+                enemies_.ClearEnemies();
+                LOG_INFO_APP("Developer enemy spawner: enemies cleared");
+            } else if (dev_ui_.MenuOpen()) {
+                const auto menu = dev_ui_.CurrentMenu();
+                if (scancode == SDL_SCANCODE_F6) {
+                    dev_ui_.OpenMenu(soulknight::game::ui::DevMenu::Characters,
+                                     player_characters_.ActiveIndex(),
+                                     player_characters_.Count());
+                } else if (scancode == SDL_SCANCODE_F7) {
+                    dev_ui_.OpenMenu(soulknight::game::ui::DevMenu::Weapons,
+                                     weapons_.ActiveIndex(), weapons_.Count());
+                } else if (scancode == SDL_SCANCODE_F8) {
+                    dev_ui_.OpenMenu(soulknight::game::ui::DevMenu::Enemies,
+                                     dev_ui_.SelectedIndex(),
+                                     enemies_.DefinitionCount());
+                } else if (scancode == SDL_SCANCODE_A ||
+                    scancode == SDL_SCANCODE_LEFT ||
+                    scancode == SDL_SCANCODE_W ||
+                    scancode == SDL_SCANCODE_UP) {
+                    dev_ui_.Navigate(-1);
+                } else if (scancode == SDL_SCANCODE_D ||
+                           scancode == SDL_SCANCODE_RIGHT ||
+                           scancode == SDL_SCANCODE_S ||
+                           scancode == SDL_SCANCODE_DOWN) {
+                    dev_ui_.Navigate(1);
+                } else if (scancode == SDL_SCANCODE_RETURN) {
+                    if (menu == soulknight::game::ui::DevMenu::Characters) {
+                        SwitchCharacter(dev_ui_.SelectedIndex());
+                    } else if (menu == soulknight::game::ui::DevMenu::Weapons) {
+                        if (weapons_.Select(dev_ui_.SelectedIndex())) {
+                            ConfigureActiveWeapon();
+                        }
+                    }
+                    dev_ui_.CloseMenu();
+                }
+            } else if (scancode == SDL_SCANCODE_F6) {
+                dev_ui_.OpenMenu(soulknight::game::ui::DevMenu::Characters,
+                                 player_characters_.ActiveIndex(),
+                                 player_characters_.Count());
+            } else if (scancode == SDL_SCANCODE_F7) {
+                dev_ui_.OpenMenu(soulknight::game::ui::DevMenu::Weapons,
+                                 weapons_.ActiveIndex(), weapons_.Count());
+            } else if (scancode == SDL_SCANCODE_F8) {
+                dev_ui_.OpenMenu(soulknight::game::ui::DevMenu::Enemies,
+                                 dev_ui_.SelectedIndex(),
+                                 enemies_.DefinitionCount());
+            } else if (scancode == SDL_SCANCODE_O &&
+                       !scene_.doors.empty()) {
+                ToggleAllDoors();
+            } else if (scancode == SDL_SCANCODE_C &&
+                       !scene_.doors.empty()) {
+                CloseAllDoors();
+            } else if (scancode == SDL_SCANCODE_LEFTBRACKET) {
                 CycleCharacter(-1);
-            } else if (event.key.scancode == SDL_SCANCODE_RIGHTBRACKET) {
+            } else if (scancode == SDL_SCANCODE_RIGHTBRACKET) {
                 CycleCharacter(1);
-            } else if (event.key.scancode == SDL_SCANCODE_P) {
+            } else if (scancode == SDL_SCANCODE_P) {
                 CycleObstacleVariant();
-            } else if (event.key.scancode == SDL_SCANCODE_R) {
+            } else if (scancode == SDL_SCANCODE_R) {
                 ResetCombat();
-            } else if (event.key.scancode >= SDL_SCANCODE_1 &&
-                       event.key.scancode <= SDL_SCANCODE_9) {
+            } else if (scancode >= SDL_SCANCODE_1 &&
+                       scancode <= SDL_SCANCODE_9) {
                 SwitchCharacter(static_cast<std::size_t>(
-                    event.key.scancode - SDL_SCANCODE_1));
-            } else if (event.key.scancode == SDL_SCANCODE_0) {
+                    scancode - SDL_SCANCODE_1));
+            } else if (scancode == SDL_SCANCODE_0) {
                 SwitchCharacter(9);
             }
         }
@@ -859,6 +935,53 @@ void Application::UpdateAimInput() {
     }
 }
 
+void Application::SpawnSelectedEnemy(int count) {
+    if (enemies_.DefinitionCount() == 0) {
+        LOG_WARN_APP("Enemy spawn requested but the scene has no enemy definitions");
+        return;
+    }
+    const std::size_t definition =
+        std::min(dev_ui_.SelectedIndex(), enemies_.DefinitionCount() - 1);
+    const engine::Vec2 base = player_.Position();
+    const engine::Vec2 offsets[5] = {
+        {2.0f, 0.0f}, {-2.0f, 0.0f}, {0.0f, 2.0f},
+        {0.0f, -2.0f}, {2.0f, 2.0f}
+    };
+    const int spawn_count = std::max(1, count);
+    for (int i = 0; i < spawn_count; ++i) {
+        const engine::Vec2 offset =
+            offsets[static_cast<std::size_t>(i) % 5U] +
+            engine::Vec2{0.15f * static_cast<float>(i / 5),
+                         0.15f * static_cast<float>(i / 5)};
+        if (!enemies_.SpawnEnemy(definition, base + offset)) {
+            LOG_WARN_APP("Enemy spawn failed for definition {}", definition);
+            break;
+        }
+    }
+    LOG_INFO_APP("Developer enemy spawner: definition={} spawned={} total={}",
+                 enemies_.DefinitionAt(definition).id, spawn_count,
+                 enemies_.Enemies().size());
+}
+
+void Application::ConfigureActiveWeapon() {
+    if (weapons_.Count() == 0) return;
+    engine::assets::WeaponDefinition weapon_definition = weapons_.Active();
+    if (scene_.player_stats.max_hp > 0) {
+        weapon_definition.owner_deviation = scene_.player_stats.deviation;
+    }
+    if (!weapon_.Configure(weapon_definition)) {
+        LOG_ERROR_APP("Weapon configuration failed: {}", weapon_definition.id);
+        return;
+    }
+    LOG_INFO_APP("Weapon active: [{}] {} projectile={} speed={:.1f} "
+                 "damage={} deviation={} consume={} cycle={:.6f}s",
+                 weapons_.ActiveIndex() + 1, weapon_definition.id,
+                 weapon_definition.projectile.id, weapon_definition.bullet_speed,
+                 weapon_definition.damage, weapon_definition.deviation,
+                 weapon_definition.consume,
+                 weapon_definition.attack_cycle_seconds);
+}
+
 void Application::ResetCombat() {
     player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
     player_.SetSpeedRateBonus(0.0f);
@@ -877,7 +1000,12 @@ void Application::ResetCombat() {
     facing_ = engine::locomotion::FacingDirection::Right;
     projectiles_.Clear();
     enemies_.Reset();
+    obstacles_.Select(0);
+    weapons_.Select(0);
+    ConfigureActiveWeapon();
+    player_characters_.Select(0);
     room_doors_.OpenAll();
+    door_trigger_inside_.assign(room_doors_.Count(), false);
     RebuildCollisionWorld();
     camera_.position = scene_.spawn;
     locomotion_animator_.Configure(player_characters_.IdleClip(),
@@ -885,8 +1013,9 @@ void Application::ResetCombat() {
     last_animation_sprite_.clear();
     last_animation_state_ = engine::animation::LocomotionState::Idle;
     animation_logs_remaining_ = 8;
-    LOG_INFO_APP("Combat reset: spawn=({:.2f},{:.2f}) hp={} armor={} "
-                 "enemies={} doors=open",
+    LOG_INFO_APP("Developer reset: spawn=({:.2f},{:.2f}) hp={} armor={} "
+                 "enemies={} doors=open character=c00 weapon=weapon_000 "
+                 "obstacle=wall603",
                  scene_.spawn.x, scene_.spawn.y, player_health_.hp,
                  player_health_.armor, enemies_.Enemies().size());
 }
@@ -1092,7 +1221,7 @@ int Application::Run() {
 
     while (running_) {
         PollEvents();
-        movement_input_ = scene_mode_
+        movement_input_ = scene_mode_ && !dev_ui_.MenuOpen()
             ? platform::ReadDigitalMovement(input_manager_.GetSnapshot())
             : platform::MovementInput{};
         if (scene_mode_) {
@@ -1101,8 +1230,9 @@ int Application::Run() {
             // NATIVE TEST BINDING: the reference uses a mobile attack button
             // (RGJoyControl.UpdateBtnAtkClick -> RGController.BtnAtkClick).
             // Keyboard Space/J and left mouse are the native dev equivalents.
-            attack_held_ = snapshot.IsHeld(platform::Action::Attack) ||
-                           snapshot.mouse_pressed[0];
+            attack_held_ = !dev_ui_.MenuOpen() &&
+                           (snapshot.IsHeld(platform::Action::Attack) ||
+                            snapshot.mouse_pressed[0]);
             UpdateAimInput();
         }
         if (!running_) break;

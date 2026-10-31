@@ -153,7 +153,7 @@ texture bytes are written. The committed native metadata is
 Deterministic scene generation:
 
 - Scene metadata SHA-256 (current topology pass):
-  `36dfc1222bbe0022e10c1fe0d3d14dcb2627a4c1156b6c9155e2fc4d6638a774`
+  `39e7ad867b51bddfede11321b9d426d46eb17af29995cc81151891860aa01ebb`
 - Idle animation metadata SHA-256:
   `ed7a2eea3800ee41186fb73f93936936b7e427843598f18271116434b1e0ffbb`
 - Run animation metadata SHA-256:

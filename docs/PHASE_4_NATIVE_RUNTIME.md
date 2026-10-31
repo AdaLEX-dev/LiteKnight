@@ -37,13 +37,15 @@ full gameplay is not. The evidence record is
 | Controlled Unity Texture2D | FUNCTIONAL | `extract_unity.py convert-texture`, manifest, deterministic PNG/native round-trip |
 | Unity Sprite metadata / PPU | FUNCTIONAL | `SpriteData`, `analysis/assets/sprites.md`, tests |
 | Camera / world coordinates | FUNCTIONAL | `Camera2D`, `analysis/assets/coordinate_system.md`, tests |
-| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 482 static instances + 147 active obstacle sprites + 2 enemies (593 draw batch), 176 sprites, 13 textures |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 482 static instances + 147 active obstacle sprites + 2 enemies + equipped weapon (594 draw batch), 182 sprites, 14 textures |
 | Player simulation/render sync | FUNCTIONAL / TESTED | `PlayerRenderSync`, `--locomotion-debug` sim/render/body/shadow/camera logs |
 | Door animation / obstacle replacement | FUNCTIONAL / MANUAL PASS | `Door`, `RoomDoorController`, recovered clips, 49 wall603 obstacles |
 | Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`; 4-key 0.5 s loops |
 | Movement / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, recovered wall/door AABBs, one-way closed doors, `Camera2D` follow |
 | Room topology / door traversal | FUNCTIONAL / MANUAL PASS | `analysis/re/room_topology.md`, `analysis/re/r1_1_wall_map.json`, `SceneLoader`, `AabbCollision` |
 | Combat prototype | FUNCTIONAL / MANUAL PASS | `Weapon`, `ProjectileSystem`, `Damage`, `EnemySystem`; `analysis/re/combat_prototype.md` |
+| Developer devroom / UI | FUNCTIONAL / MANUAL PASS | `bin/liteknight-devroom`, `scripts/dev.sh`, `DevOverlay`, selectors, overlay, enemy spawner |
+| Asset inventory / audit | FUNCTIONAL | `asset_inventory.json`, `texture_inventory.json`, `tools/asset/pipeline.py`, `audit_assets.py` |
 | Higher-level room transition listener / adjacent room | NOT STARTED | next bounded investigation |
 | Full Animator / registry / KTX2 | NOT STARTED | next dependencies |
 | Full enemy AI / room clear / game-over UI | NOT STARTED | deliberate boundary |

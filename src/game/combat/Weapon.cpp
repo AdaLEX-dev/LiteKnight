@@ -99,11 +99,10 @@ void Weapon::SpawnProjectile(const Vec2& owner_position,
 
     // APPROXIMATION: the recovered muzzle is composed through the player hand
     // and weapon gun_point transforms. c00 exposes hand `h1` local (0, 0.5);
-    // weapon_000's gun_point is local (0.6, 0.15). The exact animator-driven
-    // hand transform is not modeled, so this native composition uses those two
-    // recovered local offsets in the aim frame.
+    // each weapon exposes its serialized gun_point local offset. The exact
+    // animator-driven hand transform is not modeled.
     const Vec2 hand_offset{0.0f, 0.5f};
-    const Vec2 gun_point = RotateDegrees({0.6f, 0.15f},
+    const Vec2 gun_point = RotateDegrees(definition_.muzzle_offset,
                                          DirectionDegrees(aim));
     const Vec2 muzzle = owner_position + hand_offset + gun_point;
 

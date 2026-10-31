@@ -239,12 +239,12 @@ for tests.
 
 The native executable was driven with real SDL keyboard events through
 `/dev/uinput` (`ydotool`) against the focused Wayland window. The current
-topology/combat run renders 482 static instances (plus 147 active obstacle sprites and two e_slime01 fixtures) / 176 sprite assets / 13 textures and logs:
+topology/combat run renders 482 static instances (plus 147 active obstacle sprites, two e_slime01 fixtures and the equipped weapon) / 182 sprite assets / 14 scene textures and logs:
 
 ```text
 Collision: bounds [0.00,0.00]..[41.00,41.00], recovered solids=140, obstacle cells=49, doors=4, topology=true
 Room interior: [12.50,13.00]..[27.50,28.00]
-Render batch: 593 sprite instances   (open clip hides 40 door shadows/ornaments; includes two enemies)
+Render batch: 594 sprite instances   (open clip hides 40 door shadows/ornaments; includes two enemies and equipped weapon)
 
 locomotion: sim=(20.000,15.000) render=(20.000,15.000)
             body=(20.000,15.000) shadow=(20.000,14.950) camera=(20.000,15.000)

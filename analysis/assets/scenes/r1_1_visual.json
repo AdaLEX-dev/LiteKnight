@@ -16226,6 +16226,276 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_19_-4519551836381203921",
+      "pivot": [
+        0.03594794496893883,
+        0.3799997866153717
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        101.0,
+        131.0,
+        13.0,
+        9.0
+      ],
+      "source_name": "weapons_19",
+      "source_pivot": [
+        0.03594794496893883,
+        0.3799997866153717
+      ],
+      "source_rect": [
+        41.0,
+        210.0,
+        13.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        101.0,
+        372.0,
+        13.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-4519551836381203921",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "bullet_34_-4649028297119661206",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        332.0,
+        274.0,
+        26.0,
+        9.0
+      ],
+      "source_name": "bullet_34",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        125.0,
+        114.0,
+        26.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        332.0,
+        229.0,
+        26.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-4649028297119661206",
+      "texture": "auto_atlas_m304717225150204165",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_21_-7468549729405344503",
+      "pivot": [
+        0.30000001192092896,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        344.0,
+        348.0,
+        26.0,
+        11.0
+      ],
+      "source_name": "weapons_21",
+      "source_pivot": [
+        0.30000001192092896,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        163.0,
+        208.0,
+        26.0,
+        11.0
+      ],
+      "source_texture_rect": [
+        344.0,
+        153.0,
+        26.0,
+        11.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-7468549729405344503",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "bullet_33_-5031097994251344653",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        882.0,
+        47.0,
+        22.0,
+        9.0
+      ],
+      "source_name": "bullet_33",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        3.0,
+        83.0,
+        22.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        882.0,
+        456.0,
+        22.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-5031097994251344653",
+      "texture": "auto_atlas_m304717225150204165",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_120_1378400027513746796",
+      "pivot": [
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        228.0,
+        350.0,
+        27.0,
+        12.0
+      ],
+      "source_name": "weapons_120",
+      "source_pivot": [
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "source_rect": [
+        28.0,
+        149.0,
+        27.0,
+        12.0
+      ],
+      "source_texture_rect": [
+        228.0,
+        150.0,
+        27.0,
+        12.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "1378400027513746796",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons4_10_9068103689744152087",
+      "pivot": [
+        0.0,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        90.0,
+        16.0,
+        9.0
+      ],
+      "source_name": "weapons4_10",
+      "source_pivot": [
+        0.0,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        1.0,
+        233.0,
+        16.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        157.0,
+        16.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "9068103689744152087",
+      "texture": "auto_atlas_6364077752768854847",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "enemy01_4_6916287646018367429",
       "pivot": [
         0.5503835212612179,
@@ -22870,6 +23140,38 @@
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
       "format": "RGBA4444",
+      "height": 512,
+      "id": "auto_atlas_m7138671102567859681",
+      "png": "textures/auto_atlas_m7138671102567859681.png",
+      "png_sha256": "87e67fa9279bf292edc63d715806a2004f68e956a823c242f0469e1f29f7f587",
+      "rgba8_sha256": "2c8e4b29bf4eb33c9a316c4de53f470df809547cb58b9ddb8865d6e7f3775650",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-weapon (Group 0)-512x512-fmt13",
+      "source_path_id": "-7138671102567859681",
+      "width": 512,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 256,
+      "id": "auto_atlas_6364077752768854847",
+      "png": "textures/auto_atlas_6364077752768854847.png",
+      "png_sha256": "d27f90d8129ba853ff7f05ecb9782a22b99edfa24ce36ff807d5643231f3f228",
+      "rgba8_sha256": "03e3e2ea576497d6673bfa62c8a92df871355c15bc524300106ea2884cb99790",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-weapon (Group 1)-256x256-fmt4",
+      "source_path_id": "6364077752768854847",
+      "width": 256,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
       "height": 256,
       "id": "charactor_common_atlas",
       "png": "textures/charactor_common_atlas.png",
@@ -22942,22 +23244,6 @@
       "source_name": "c07_s8",
       "source_path_id": "-5982969649399678507",
       "width": 272,
-      "wrap": "clamp"
-    },
-    {
-      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
-      "filter": "point",
-      "format": "RGBA4444",
-      "height": 512,
-      "id": "auto_atlas_m7138671102567859681",
-      "png": "textures/auto_atlas_m7138671102567859681.png",
-      "png_sha256": "87e67fa9279bf292edc63d715806a2004f68e956a823c242f0469e1f29f7f587",
-      "rgba8_sha256": "2c8e4b29bf4eb33c9a316c4de53f470df809547cb58b9ddb8865d6e7f3775650",
-      "source_bundle": "common",
-      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "source_name": "SpriteAtlasTexture-weapon (Group 0)-512x512-fmt13",
-      "source_path_id": "-7138671102567859681",
-      "width": 512,
       "wrap": "clamp"
     },
     {
@@ -26958,17 +27244,21 @@
       "atk_move_speed": -0.10000000149011612,
       "attack_cycle_seconds": 0.3333333432674408,
       "bullet_speed": 36.0,
-      "classification": "CONFIRMED weapon_000/Gun001 serialized fields; w_pistol Animator state loops for 0.333333 s with Attack event at 0.033333 s; weapon_speed 1.0",
+      "classification": "CONFIRMED weapon_000/Gun001 serialized fields; first Attack state w_pistol; display name not proven; attack cycle scaled by weapon_speed",
       "consume": 0,
       "damage": 3,
       "deviation": 5,
       "first_shot_delay_seconds": 0.03333333507180214,
       "id": "weapon_000",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
       "owner_deviation": 0,
       "projectile": {
         "camp": 1,
         "can_rebound": true,
-        "classification": "CONFIRMED bullet_0/Bullet01 prefab; serialized speed 10 is overridden to 36 by weapon_000 BulletInfo",
+        "classification": "CONFIRMED bullet_0/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
         "collider_offset": [
           0.25,
           0.0
@@ -26986,7 +27276,156 @@
       },
       "repel": 2,
       "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
       "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_19_-4519551836381203921",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.1666666716337204,
+      "bullet_speed": 40.0,
+      "classification": "CONFIRMED weapon_002/Gun001 serialized fields; first Attack state w_m4; display name not proven; attack cycle scaled by weapon_speed",
+      "consume": 1,
+      "damage": 3,
+      "deviation": 10,
+      "first_shot_delay_seconds": 0.06666667014360428,
+      "id": "weapon_002",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_14/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.4000000059604645,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_14",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_34_-4649028297119661206"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_21_-7468549729405344503",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.20000000298023224,
+      "attack_cycle_seconds": 0.5,
+      "bullet_speed": 36.0,
+      "classification": "CONFIRMED weapon_048/Gun001 serialized fields; first Attack state w_smg; display name not proven; attack cycle scaled by weapon_speed",
+      "consume": 1,
+      "damage": 3,
+      "deviation": 5,
+      "first_shot_delay_seconds": 0.03333333507180214,
+      "id": "weapon_048",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_11/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.4000000059604645,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_11",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_33_-5031097994251344653"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_120_1378400027513746796",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": 0.10000000149011612,
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 42.0,
+      "classification": "CONFIRMED weapon_287/Gun001 serialized fields; first Attack state w_gold_revolver_atk; display name not proven; attack cycle scaled by weapon_speed",
+      "consume": 1,
+      "damage": 4,
+      "deviation": 3,
+      "first_shot_delay_seconds": 0.03333333507180214,
+      "id": "weapon_287",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_14/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.4000000059604645,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_14",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_34_-4649028297119661206"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons4_10_9068103689744152087",
       "weapon_speed": 1.0
     }
   ]

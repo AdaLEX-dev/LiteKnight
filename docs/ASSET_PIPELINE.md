@@ -202,10 +202,11 @@ All three textures are `RGBA32`, 1 mip, import filter **Point**, wrap **Clamp**.
 
 Scene metadata:
 
-- `analysis/assets/scenes/r1_1_visual.json` — 176 sprite assets, 482 static
+- `analysis/assets/scenes/r1_1_visual.json` — 182 sprite assets, 482 static
   instances, 30 recovered character ide/run clips, 15 character entries, door
   animation keyframes, 12 obstacle variants with 49 marker cells, recovered c00
-  player stats, one `weapon_000`/`bullet_0` pair, two `e_slime01` fixtures with
+  player stats, four recovered Gun001 weapon definitions/projectiles, two
+  `e_slime01` fixtures with
   body/dead/shadow sprites, textures/sprites/positions/camera, recovered 44-cell
   room walls + 96-cell aisle corridor walls + four door barriers/triggers, and no
   proprietary pixels.
@@ -214,7 +215,7 @@ Scene metadata:
   `1d7d10c84bfdad1855910513703176b91f895a47dd189c932387d30c8cf1e8da`.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — source bundle hashes,
   scene JSON SHA-256
-  `36dfc1222bbe0022e10c1fe0d3d14dcb2627a4c1156b6c9155e2fc4d6638a774`,
+  `39e7ad867b51bddfede11321b9d426d46eb17af29995cc81151891860aa01ebb`,
   plus player_stats, weapon_count, enemy_definition_count and
   enemy_fixture_count. The committed scene metadata, generated scene.json, and
   copied runtime scene have the same SHA-256.
@@ -236,8 +237,10 @@ Scene contents:
 - `c00` shadow (`shadow3`) at (20,14.95),
 - two `e_slime01` fixtures at `(18,15.5)` and `(22,15.5)` with the recovered
   `enemy01_4` body and `enemy01_6` dead sprites plus `shadow3`,
-- `weapon_000`/`bullet_0` combat metadata (speed 36 effective, damage 3,
-  lifetime 5 s, 1/3 s attack cycle, 1/30 s first shot, bullet sprite `bullet_5`).
+- four recovered Gun001 weapon definitions with real weapon sprites:
+  `weapon_000`/`bullet_0`, `weapon_002`/`bullet_14`,
+  `weapon_048`/`bullet_11`, `weapon_287`/`bullet_14`. Effective speed,
+  damage, lifetime and Animator attack cycle are stored per weapon.
 
 This is a **controlled reverse-engineering test chamber assembled from real
 `r1_1` data**, not a proven canonical gameplay level, starting room, or character
@@ -254,8 +257,9 @@ build/soul-knight --scene scenes/r1_1_visual/scene.json --smoke-seconds 7
 ```
 
 The scene was rendered successfully through Wayland/Vulkan with 482 static
-instances (593 drawn while all doors are open, including the active obstacle
-field and two enemies), 13 textures, and no validation errors. The same scene
+instances (594 drawn while all doors are open, including the active obstacle
+field, two enemies and the equipped weapon), 14 scene textures, and no
+validation errors. The same scene
 now drives the first-slice weapon/projectile/damage/enemy-death prototype. The
 runtime log confirms `recovered solids=140 obstacles=49 doors=4 topology=true`,
 room interior `[12.5,13]..[27.5,28]`, and door trigger enter/exit events. This is

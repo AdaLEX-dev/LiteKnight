@@ -260,7 +260,7 @@ TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *
     CHECK(player.value("camp", 0) == 1);
     CHECK(player.value("deviation", -1) == 0);
 
-    CHECK(scene["weapons"].size() == 1);
+    CHECK(scene["weapons"].size() == 4);
     const Json& weapon = scene["weapons"].at(0);
     CHECK(weapon.value("id", "") == "weapon_000");
     CHECK(weapon.value("damage", 0) == 3);
@@ -271,6 +271,12 @@ TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *
           doctest::Approx(1.0 / 3.0).epsilon(1e-5));
     CHECK(weapon.value("first_shot_delay_seconds", 0.0) ==
           doctest::Approx(1.0 / 30.0).epsilon(1e-5));
+    for (const Json& entry : scene["weapons"]) {
+        CAPTURE(entry.value("id", ""));
+        CHECK_FALSE(entry.value("visual_sprite", "").empty());
+        CHECK(entry.value("attack_cycle_seconds", 0.0) > 0.0);
+        CHECK_FALSE(entry["projectile"].value("sprite", "").empty());
+    }
     const Json& projectile = weapon["projectile"];
     CHECK(projectile.value("id", "") == "bullet_0");
     CHECK(projectile.value("prefab_speed", 0.0) == doctest::Approx(10.0));

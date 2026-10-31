@@ -37,6 +37,15 @@ public:
 
     bool ApplyDamage(std::size_t index, int damage, int source_camp);
 
+    // Developer spawner API. Spawned enemies are deterministic instances of a
+    // recovered definition; Reset() restores only the scene fixtures.
+    bool SpawnEnemy(std::size_t definition_index, const engine::Vec2& position);
+    void ClearEnemies();
+    std::size_t DefinitionCount() const { return definitions_.size(); }
+    const engine::assets::EnemyDefinition& DefinitionAt(std::size_t index) const {
+        return definitions_[index];
+    }
+
     const std::vector<EnemyInstance>& Enemies() const { return enemies_; }
     const std::vector<engine::assets::EnemyDefinition>& Definitions() const {
         return definitions_;
@@ -50,7 +59,8 @@ public:
 private:
     std::vector<engine::assets::EnemyDefinition> definitions_;
     std::vector<EnemyInstance> enemies_;
-    std::vector<engine::Vec2> spawn_positions_;
+    std::vector<std::size_t> fixture_definitions_;
+    std::vector<engine::Vec2> fixture_positions_;
     bool configured_ = false;
 };
 

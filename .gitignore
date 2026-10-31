@@ -1,9 +1,10 @@
 # Soul Knight Linux — .gitignore
 
-# Build artifacts
+# Build artifacts / compiled output
 build/
 build-*/
 out/
+dist/
 bin/
 *.o
 *.obj
@@ -20,6 +21,8 @@ bin/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
+CTestTestfile.cmake
+Testing/
 *.cmake
 CMakePresets.json.local
 
@@ -137,16 +140,19 @@ docs/_build/
 docs/html/
 docs/pdf/
 
-# Python
+# Python / tool environments
 __pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
 *.pyd
 .pytest_cache/
 .mypy_cache/
 *.egg-info/
+**/.venv/
+.venv/
+.cache/
 dist/
-build/
 
 # Rust (if used)
 target/
@@ -181,9 +187,20 @@ vgcore.*
 # EditorConfig (if present)
 .editorconfig
 
-# Local overrides
+# Local / reference-only trees
 *.local
 local/
+reference/
+assets/local/
+docs/local/
+
+# Core dumps / crash artifacts
+core
+core.*
+*.core
+
+# Local overrides
+
 # Generated reverse-engineering artifacts (large / machine-specific)
 analysis/re/generated/
 analysis/re/ghidra_project/

@@ -884,6 +884,34 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 item.value("attack_cycle_seconds", 1.0f / 3.0f);
             weapon.first_shot_delay_seconds =
                 item.value("first_shot_delay_seconds", 1.0f / 30.0f);
+            if (item.contains("visual_sprite") &&
+                item["visual_sprite"].is_string()) {
+                const auto visual_it =
+                    sprite_ids.find(item["visual_sprite"].get<std::string>());
+                if (visual_it == sprite_ids.end()) {
+                    SetError(error, "weapon references unknown visual sprite: " +
+                                    item["visual_sprite"].get<std::string>());
+                    return false;
+                }
+                weapon.visual_sprite_index =
+                    static_cast<int32_t>(visual_it->second);
+            }
+            if (item.contains("visual_offset")) {
+                if (!ReadVec2(item["visual_offset"], weapon.visual_offset)) {
+                    SetError(error, "weapon visual_offset is invalid: " + weapon.id);
+                    return false;
+                }
+            }
+            if (item.contains("muzzle_offset")) {
+                if (!ReadVec2(item["muzzle_offset"], weapon.muzzle_offset) ||
+                    weapon.muzzle_offset.LengthSquared() <= 0.0f) {
+                    SetError(error, "weapon muzzle_offset is invalid: " + weapon.id);
+                    return false;
+                }
+            }
+            weapon.visual_rotation = item.value("visual_rotation", 0.0f);
+            weapon.sorting_layer = item.value("sorting_layer", 5);
+            weapon.sorting_order = item.value("sorting_order", 1);
             if (weapon.attack_cycle_seconds <= 0.0f ||
                 weapon.first_shot_delay_seconds < 0.0f) {
                 SetError(error, "weapon attack timing is invalid: " + weapon.id);

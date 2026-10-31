@@ -1,0 +1,18 @@
+LiteKnight is an independent native Linux development/reconstruction project.
+It is not affiliated with, endorsed by, or sponsored by ChillyRoom.
+
+Soul Knight, its name, characters, artwork, audio, code, and other game content
+are the property of their respective owners. This repository does not grant any
+license to Soul Knight or to reference-derived proprietary assets.
+
+The MIT license in LICENSE applies only to the native LiteKnight source code
+authored for this project. Reference assets, extracted Unity data, the original
+APK, and generated proprietary pixels are not included in that license and are
+not intended for redistribution.
+
+Unless a specific asset says otherwise:
+
+  LICENSE STATUS: UNKNOWN
+  DISTRIBUTION STATUS: DO NOT REDISTRIBUTE
+
+See LEGAL.md and docs/legal/ for the asset boundary.

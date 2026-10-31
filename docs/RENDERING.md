@@ -70,13 +70,13 @@ Unity Texture2D + Sprite metadata + shared atlas
   not recovered; this is a **PROJECT DECISION**.
 - The `Mat4` column-major multiplication bug that dropped camera translation was
   fixed; the projection maps world +Y up.
-- The `r1_1` scene has 482 static instances across 13 textures and 176 sprite assets:
+- The `r1_1` scene has 482 static instances across 14 textures and 182 sprite assets:
   420 recovered wall-cell sprites (140 wall cells × root/shadow/WallFont), 60
   animated door-leaf sprites (four doors × five leaf/shadow/ornament clusters),
   1 player body (recovered character frame sprites selected over time), and
   1 player shadow. The active obstacle field adds 147 wall603 sprites for the
   49 marker cells. Two e_slime01 fixtures add four body/shadow sprites. The
-  all-open combat scene draws 593 instances because the
+  all-open combat scene draws 594 instances because the
   recovered open clip hides 40 door shadow/ornament renderers.
 - The player uses recovered `c00..c14` `ide`/`run` clips (30 clips total). For
   c00 the real `char_1_skin_0_ide`/`run` clips use four discrete keys at `0`,
@@ -133,6 +133,13 @@ The native animation model is deliberately separate from sprite and texture data
   recovered `(0,-0.05)` shadow offset.
 - The player body animation is evaluated after the fixed step, then the body
   sprite is flipped according to `FacingDirection`; the shadow is never flipped.
+- `WeaponRenderer` draws the recovered weapon prefab `w` sprite at the player
+  hand using the serialized visual/gun-point offsets and the aim rotation. The
+  weapon is not a placeholder rectangle.
+- The developer overlay/selectors use `DebugTextRenderer`, a generated 5x7
+  nearest-filtered `PLACEHOLDER` atlas, plus recovered character/weapon/enemy
+  sprites. The atlas is uploaded through the same texture path as scene
+  textures and drawn on the `UI` layer.
 
 Player movement is fixed-step keyboard input only:
 

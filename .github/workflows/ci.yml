@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linux-build-test:
+    name: Arch Linux / build + metadata tests
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+    steps:
+      - name: Install build dependencies
+        run: |
+          pacman -Syu --noconfirm --needed \
+            git nodejs cmake ninja gcc pkgconf python \
+            sdl3 vulkan-headers vulkan-icd-loader shaderc \
+            libpng fmt
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: |
+          cmake -S . -B build -G Ninja \
+            -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+
+      - name: Build
+        run: cmake --build build -j"$(nproc)"
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure
+
+      - name: Asset metadata audit
+        run: python3 tools/asset/audit_assets.py
+
+      - name: Verify devroom launcher exists
+        run: test -x build/bin/liteknight-devroom

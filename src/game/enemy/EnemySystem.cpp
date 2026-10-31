@@ -19,8 +19,9 @@ bool Overlaps(const engine::collision::Aabb& a,
 bool EnemySystem::Configure(const engine::assets::SceneAsset& scene,
                             std::string* error) {
     definitions_ = scene.enemy_definitions;
-    spawn_positions_.clear();
     enemies_.clear();
+    fixture_definitions_.clear();
+    fixture_positions_.clear();
     configured_ = false;
     if (error != nullptr) error->clear();
 
@@ -41,31 +42,35 @@ bool EnemySystem::Configure(const engine::assets::SceneAsset& scene,
             }
             return false;
         }
-        spawn_positions_.push_back(fixture.position);
-        EnemyInstance enemy;
-        enemy.definition = static_cast<std::size_t>(definition);
-        enemy.position = fixture.position;
-        enemy.health.max_hp = definitions_[enemy.definition].hp;
-        enemy.health.hp = definitions_[enemy.definition].hp;
-        enemy.health.camp = definitions_[enemy.definition].camp;
-        enemy.health.Reset(enemy.health.max_hp);
-        enemy.health.camp = definitions_[enemy.definition].camp;
-        enemies_.push_back(enemy);
+        fixture_definitions_.push_back(static_cast<std::size_t>(definition));
+        fixture_positions_.push_back(fixture.position);
     }
+    Reset();
     configured_ = true;
     return true;
 }
 
+bool EnemySystem::SpawnEnemy(std::size_t definition_index,
+                             const engine::Vec2& position) {
+    if (definition_index >= definitions_.size()) return false;
+    EnemyInstance enemy;
+    enemy.definition = definition_index;
+    enemy.position = position;
+    enemy.health.Reset(definitions_[definition_index].hp);
+    enemy.health.camp = definitions_[definition_index].camp;
+    enemies_.push_back(enemy);
+    return true;
+}
+
+void EnemySystem::ClearEnemies() {
+    enemies_.clear();
+}
+
 void EnemySystem::Reset() {
-    for (std::size_t i = 0; i < enemies_.size() && i < spawn_positions_.size(); ++i) {
-        EnemyInstance& enemy = enemies_[i];
-        enemy.position = spawn_positions_[i];
-        enemy.health.Reset(definitions_[enemy.definition].hp);
-        enemy.health.camp = definitions_[enemy.definition].camp;
-        enemy.idle_time = 0.0f;
-        enemy.death_timer = 0.0f;
-        enemy.contact_timer = 0.0f;
-        enemy.active = true;
+    enemies_.clear();
+    for (std::size_t i = 0; i < fixture_definitions_.size() &&
+                            i < fixture_positions_.size(); ++i) {
+        (void)SpawnEnemy(fixture_definitions_[i], fixture_positions_[i]);
     }
 }
 

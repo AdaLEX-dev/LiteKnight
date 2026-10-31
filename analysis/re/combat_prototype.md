@@ -301,6 +301,24 @@ PARTIAL, but e_slime01's serialized tag path is consistent with the 4.0 s value.
 
 ---
 
+## 6.1 Developer weapon set (0.1.0-dev)
+
+The devroom includes four recovered `Gun001` prefabs, each with its own serialized
+damage/speed/consume values, real `w` SpriteRenderer texture, gun-point offset,
+and first non-idle Animator state carrying an `Attack` event:
+
+| Weapon | Projectile | Damage | Speed | Cycle | First event |
+|---|---|---:|---:|---:|---:|
+| `weapon_000` | `bullet_0` | 3 | 36 | 0.333333 s | 0.033333 s |
+| `weapon_002` | `bullet_14` | 3 | 40 | 0.166667 s | 0.066667 s |
+| `weapon_048` | `bullet_11` | 3 | 36 | 0.5 s | 0.033333 s |
+| `weapon_287` | `bullet_14` | 4 | 42 | 0.133333 s | 0.033333 s |
+
+The full 383 observed weapon GameObjects are **not** integrated. The four are a
+representative first set for weapon selection and projectile testing. `consume`
+is displayed but ammo/energy accounting is not implemented. Weapon visuals are
+drawn by `WeaponRenderer` from the real prefab sprites.
+
 ## 7. Player death and reset
 
 `RGController.Dead` (`0x1179ECC`) sets `dead`, sets the local game-fail flag,
