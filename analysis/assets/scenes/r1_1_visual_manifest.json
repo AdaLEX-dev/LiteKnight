@@ -14,7 +14,7 @@
   "instance_count": 111,
   "manifest_version": 1,
   "notes": "r1_1 room sprites plus c00 body/shadow; no proprietary pixels committed.",
-  "scene_json_sha256": "1258245b7dd05b7bc1ad6ee7c7bbbad07304827831b3e95158770fb6ccd60ad4",
+  "scene_json_sha256": "ba9f3bdca080ddc67045ea64060f3b8353e1027d7b56356cc6d92995de708194",
   "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {

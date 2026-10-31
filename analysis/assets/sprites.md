@@ -108,6 +108,17 @@ yet exported.
 - Room world transforms are serialized; the reconstructed layout is a 7x7 floor
   block centered at (20,20) with four five-unit door clusters at the sides.
 
+### Sprite object path IDs (CONFIRMED)
+
+| Sprite | Object path ID | Texture |
+|---|---|---|
+| `skin` | `3625433789698647512` | `floor_atlas` |
+| `door02` | `-6196740020252790978` | `floor_atlas` |
+| `shadow0` | `6418692892874173330` | `floor_atlas` |
+| `door01` | `-4876205757651736817` | `floor_atlas` |
+| `c01_5` | `6827566613129973144` | `character_atlas` |
+| `shadow3` | `-8753147750278292345` | `object_common_atlas` |
+
 ### Player
 
 - `common/c00` hierarchy.

@@ -222,7 +222,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
   256×256 floor atlas plus `c00` body/shadow from the character/object atlases;
   111 instances, 3 textures, 6 sprite assets.
 - Scene metadata SHA-256:
-  `1258245b7dd05b7bc1ad6ee7c7bbbad07304827831b3e95158770fb6ccd60ad4`.
+  `ba9f3bdca080ddc67045ea64060f3b8353e1027d7b56356cc6d92995de708194`.
   Rendered through Wayland/Vulkan with 0 validation errors.
 - Tests: **39 cases / 1439 assertions**.
 - Next dependency: Unity animation frame selection; no gameplay started.

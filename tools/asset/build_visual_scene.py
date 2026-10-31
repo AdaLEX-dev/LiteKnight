@@ -144,10 +144,9 @@ class SceneBuilder:
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, target)
 
-    def sprite_record(self, sprite, texture_name: str) -> str:
-        sprite_path_id = str(sprite.m_RD.texture.path_id)
-        # Key by texture path ID plus source name to avoid collisions across atlases.
-        key = (str(sprite.m_RD.texture.path_id), str(getattr(sprite, "m_Name", "")))
+    def sprite_record(self, sprite, texture_name: str, sprite_path_id: str) -> str:
+        # Key by the actual Sprite object path ID plus texture/name.
+        key = (sprite_path_id, str(getattr(sprite, "m_Name", "")))
         existing = self.sprites.get(key)
         if existing is not None:
             return existing["id"]
@@ -228,7 +227,7 @@ class SceneBuilder:
             "character_atlas": "common",
             "object_common_atlas": "common",
         }[texture_name], texture_path_id)
-        sprite_id = self.sprite_record(sprite, texture_name)
+        sprite_id = self.sprite_record(sprite, texture_name, str(sprite_ptr.path_id))
         self.instances.append({
             "sprite": sprite_id,
             "position": [world_pos[0], world_pos[1]],

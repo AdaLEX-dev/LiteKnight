@@ -229,7 +229,7 @@ serialized `r1_1` hierarchy and `common/c00` prefab:
 - Camera center `(20,20)`, orthographic half-height `10.5` (camera size is a
   project decision; reference value not recovered).
 - Scene metadata SHA-256:
-  `1258245b7dd05b7bc1ad6ee7c7bbbad07304827831b3e95158770fb6ccd60ad4`.
+  `ba9f3bdca080ddc67045ea64060f3b8353e1027d7b56356cc6d92995de708194`.
 
 The run from `/tmp` with `--scene scenes/r1_1_visual/scene.json` rendered the
 7×7 floor block, four door clusters, and the `c00` player/shadows successfully.
