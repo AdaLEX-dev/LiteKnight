@@ -344,7 +344,7 @@ allows:
   all-open state draws 471. Scene SHA-256:
   `e7721abf2d90121cb0165c6f0cd1363b8f723c7574d3b09ca9a5780033b1e1d0`;
   wall-map SHA-256:
-  `935a03bebd7d41c286cd978ce787f03f388cd65efdadc30474dd4e4937f1cd26`.
+  `10d5b9e5710f532c1006fdb06cdb5f91655db78b39503c878a0c3ac48ad252f9`.
 - Tests: **55 cases / 1838 assertions**.
 - Runtime smoke: `recovered solids=140 doors=4 topology=true`, room interior
   `[12.5,13]..[27.5,28]`, door state toggle via **O**, closed-door blocking and

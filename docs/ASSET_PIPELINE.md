@@ -208,7 +208,7 @@ Scene metadata:
   and no pixels.
 - `analysis/re/r1_1_wall_map.json` and `.txt` — machine-readable and ASCII
   recovered topology. JSON SHA-256
-  `935a03bebd7d41c286cd978ce787f03f388cd65efdadc30474dd4e4937f1cd26`.
+  `10d5b9e5710f532c1006fdb06cdb5f91655db78b39503c878a0c3ac48ad252f9`.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — source bundle hashes,
   scene JSON SHA-256
   `e7721abf2d90121cb0165c6f0cd1363b8f723c7574d3b09ca9a5780033b1e1d0`.

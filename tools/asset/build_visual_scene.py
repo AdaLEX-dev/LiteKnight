@@ -976,7 +976,7 @@ class SceneBuilder:
             if TEST_ENTRANCE[side]:
                 for (x, y) in cells:
                     grid[y][x] = ":"
-        lines = ["".join(row) for row in reversed(grid)]
+        lines = ["".join(row).rstrip() for row in reversed(grid)]
         return "\n".join(lines) + "\n"
 
     def walk_room(self, tf_ptr, parent_pos, parent_angle, parent_scale, path):

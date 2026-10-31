@@ -1088,7 +1088,7 @@
     "opening_count": 4,
     "wall_cell_count": 44,
     "wall_map_json": "analysis/re/r1_1_wall_map.json",
-    "wall_map_sha256": "935a03bebd7d41c286cd978ce787f03f388cd65efdadc30474dd4e4937f1cd26",
+    "wall_map_sha256": "10d5b9e5710f532c1006fdb06cdb5f91655db78b39503c878a0c3ac48ad252f9",
     "wall_map_txt": "analysis/re/r1_1_wall_map.txt"
   },
   "unitypy_version": "1.25.4"
