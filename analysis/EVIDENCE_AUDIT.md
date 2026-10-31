@@ -1,7 +1,14 @@
 # Soul Knight Linux — Evidence Audit
 
-**Date:** 2026-10-31  
-**Purpose:** Check the project's factual claims against the actual APK, metadata, build, and source tree.  
+> **HISTORICAL DOCUMENT (2026-10-31, pre-repair).** This audit records the false
+> claims found before the P0/P1 integrity pass and the evidence that contradicted
+> them. The claims have since been corrected in the live documents. See
+> `docs/PROJECT_STATE.md` and `analysis/REPOSITORY_INTEGRITY_AUDIT.md` for
+> current truth. The verdict counts below describe the pre-repair repository,
+> not the present tree.
+
+**Date:** 2026-10-31
+**Purpose:** Check the project's factual claims against the actual APK, metadata, build, and source tree.
 **Companion report:** `analysis/PROJECT_DIAGNOSIS.md`
 
 ---

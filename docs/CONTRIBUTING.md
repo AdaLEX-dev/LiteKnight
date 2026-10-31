@@ -32,9 +32,9 @@ cd SoulKnight-Linux
 ```bash
 sudo pacman -S --needed \
     base-devel cmake ninja gcc \
-    sdl3 vulkan-headers vulkan-validation-layers \
-    libx11 libxkbcommon wayland wayland-protocols \
-    pipewire jack2 alsa-lib \
+    sdl3 vulkan-headers vulkan-icd-loader vulkan-validation-layers \
+    libxkbcommon wayland wayland-protocols \
+    pipewire alsa-lib \
     python3 git
 ```
 
@@ -55,7 +55,7 @@ sudo pacman -S --needed \
 |--------|----------|-------|
 | `Debug` | Development, debugging | `-O0 -g -fsanitize=address,undefined` |
 | `RelWithDebInfo` | Profiling, testing | `-O2 -g -DNDEBUG` |
-| `Release` | Final binary | `-O3 -march=native -flto -DNDEBUG` |
+| `Release` | Final binary | `-O3 -flto -DNDEBUG` (no `-march=native`; binaries must stay reproducible) |
 
 ```bash
 ./tools/build.sh Debug       # Default
@@ -67,41 +67,28 @@ sudo pacman -S --needed \
 
 ## Project Structure
 
+Actual tracked source (do not document empty directories as if they exist):
+
 ```
 src/
-├── app/                    # Entry point (main.cpp)
-├── platform/               # Platform abstraction (SDL3, Vulkan, miniaudio)
-│   ├── wayland/            # Window, surface
-│   ├── input/              # Keyboard, mouse, gamepad
-│   ├── timing/             # Fixed timestep, high-res timer
-│   ├── filesystem/         # XDG paths, asset loading
-│   └── audio/              # miniaudio engine
-├── engine/                 # Reusable engine systems
-│   ├── core/               # Log, math, ECS, timer
-│   ├── math/               # Vec2, Mat4, Random (reference-compatible; algorithm pending)
-│   ├── ecs/                # Entity, ComponentPool, World
-│   ├── rendering/          # Vulkan, SpriteBatcher, Camera
-│   ├── animation/          # Animation system
-│   ├── resources/          # AssetManager, loaders
-│   ├── audio/              # AudioManager, buses
-│   └── collision/          # AABB, circle, broadphase
-└── game/                   # Soul Knight specific
-    ├── player/
-    ├── characters/
-    ├── enemies/
-    ├── weapons/
-    ├── projectiles/
-    ├── items/
-    ├── rooms/
-    ├── generation/
-    ├── combat/
-    ├── status/
-    ├── progression/
-    ├── npc/
-    ├── bosses/
-    ├── ui/
-    └── save/
+├── app/                    # main.cpp entry point
+├── platform/
+│   ├── wayland/            # SDL3 window, Wayland enforcement, Vulkan surface creation
+│   ├── input/              # SDL3 keyboard/mouse/gamepad snapshot + action mapping
+│   ├── timing/             # fixed-step accumulator scaffold
+│   ├── filesystem/         # XDG paths, asset lookup
+│   └── audio/              # miniaudio wrapper + vendored header
+├── engine/
+│   ├── core/               # Log, foundational types
+│   ├── math/               # Vec2/Vec3/Mat4, PCG32 utility, UnityRandom/RGRandomStream
+│   ├── ecs/                # Entity, ComponentPool, World (no iteration API yet)
+│   └── rendering/          # Camera math helper only; NO renderer implementation
+└── game/
+    └── player/             # unimplemented player/input scaffolding only
 ```
+
+Planned directories from the roadmap are not created until their evidence gates
+pass. Do not add empty folder trees to make the layout look complete.
 
 ---
 
@@ -127,7 +114,7 @@ Run: `./tools/format.sh` (clang-format)
 ### Naming
 | Type | Convention | Example |
 |------|------------|---------|
-| Types | PascalCase | `SpriteBatcher` |
+| Types | PascalCase | `PlayerController` |
 | Functions/Methods | PascalCase | `Initialize()` |
 | Variables | snake_case | `frame_time_ms` |
 | Constants | kPascalCase | `kMaxEntities` |
@@ -137,7 +124,7 @@ Run: `./tools/format.sh` (clang-format)
 ### Architecture Rules
 1. **No platform headers in game code** — use `platform/` interfaces
 2. **No Vulkan in game code** — use `engine::rendering` abstractions
-3. **Deterministic simulation** — fixed timestep, isolated RNG streams
+3. **Deterministic simulation** — fixed-step scaffold and isolated RNG streams; the reference tick rate is unresolved
 4. **Data-oriented** — struct of arrays, component pools
 5. **No singletons** — pass dependencies explicitly
 6. **RAII everywhere** — `unique_ptr`, custom deleters for Vulkan objects
@@ -207,15 +194,16 @@ git diff
 ```
 
 ### Categories
+Only `all` and `unit` currently exist:
+
 ```bash
-./tools/test.sh unit          # Unit tests (doctest)
-./tools/test.sh integration   # Integration tests
-./tools/test.sh gameplay      # Gameplay simulation
-./tools/test.sh regression    # Bug regression
-./tools/test.sh serialization # Save/load
-./tools/test.sh procedural    # Determinism
-./tools/test.sh performance   # Benchmarks (RelWithDebInfo)
+./tools/test.sh               # all 22 cases
+./tools/test.sh unit          # unit suite
 ```
+
+`integration`, `gameplay`, `regression`, `serialization`, `procedural`, and
+`performance` are planned. `tools/test.sh` exits non-zero for them instead of
+running an empty filter.
 
 ### Writing Tests
 ```cpp
@@ -226,7 +214,7 @@ git diff
 TEST_CASE("Vec2 operations") {
     Vec2 a{3, 4};
     Vec2 b{1, 2};
-    
+
     CHECK(a.Length() == 5.0f);
     CHECK((a + b) == Vec2{4, 6});
     CHECK(a.Dot(b) == 11.0f);

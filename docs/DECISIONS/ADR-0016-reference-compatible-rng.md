@@ -31,7 +31,7 @@ PCG32 remains only as a non-parity utility (e.g., debug/editor sampling).
 
 ## Consequences
 
-- `src/engine/math/UnityRandom.*` is the gameplay RNG.
+- `src/engine/math/UnityRandom.*` is the designated gameplay RNG; no gameplay subsystem uses it yet.
 - Stream ownership and call order must be preserved (run seeds → map/sample
   seeds → object streams).
 - Exact float parity depends on the same `sinf`/`cosf`/`sqrtf` behaviour; that

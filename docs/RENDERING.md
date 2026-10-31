@@ -1,5 +1,9 @@
 # Soul Knight 2.6.8 — Rendering Design
 
+> **Status:** design proposal only. There is **no renderer implementation** in
+> the repository: no Vulkan context, swapchain, sprite batcher, shader, or VMA
+> integration. `docs/PARITY.md` Gate C remains **NOT MET**.
+
 **Target:** Vulkan 1.3, 1920×1080, 60 FPS, 2D sprite batching
 
 ---
@@ -62,11 +66,11 @@ struct SpriteInstance {
 class SpriteBatcher {
     static constexpr size_t MAX_INSTANCES = 10000;
     static constexpr size_t MAX_TEXTURES = 256;
-    
+
     std::vector<SpriteInstance> instances_;
     std::array<TextureHandle, MAX_TEXTURES> textures_;
     size_t texture_count_ = 0;
-    
+
     // Per-frame
     void BeginFrame();
     void Draw(const SpriteInstance& instance);
@@ -86,7 +90,7 @@ struct Atlas {
     VkImageView view_;
     VkSampler sampler_;
     uint32_t width_, height_, layers_;
-    
+
     // Runtime: pack sprites at startup
     uint32_t AddSprite(const KTX2Texture& sprite);  // Returns layer index
 };
@@ -107,20 +111,20 @@ struct VulkanContext {
     VkQueue present_queue_;
     uint32_t graphics_queue_family_;
     uint32_t present_queue_family_;
-    
+
     VkSurfaceKHR surface_;
     VkSwapchainKHR swapchain_;
     std::vector<VkImage> swapchain_images_;
     std::vector<VkImageView> swapchain_views_;
     VkFormat swapchain_format_;
     VkExtent2D swapchain_extent_;
-    
+
     VkRenderPass render_pass_;
     VkPipelineLayout pipeline_layout_;
     VkPipeline pipeline_;
-    
+
     VmaAllocator allocator_;
-    
+
     // Frame resources (triple-buffered)
     struct FrameData {
         VkCommandBuffer cmd_buffer_;
@@ -130,7 +134,7 @@ struct VulkanContext {
         VkBuffer instance_buffer_;  // Sprite instances
         VkDeviceMemory instance_memory_;
     } frames_[3];
-    
+
     uint32_t current_frame_ = 0;
 };
 ```
@@ -185,13 +189,13 @@ layout(location = 2) out float v_texture_index;
 void main() {
     vec4 world_pos = sprite.transform * vec4(in_pos, 0.0, 1.0);
     gl_Position = world_pos;
-    
+
     // Atlas UV calculation
     vec2 atlas_uv = sprite.uv_rect.xy + in_uv * sprite.uv_rect.zw;
     v_uv = atlas_uv;
     v_color = sprite.color;
     v_texture_index = float(sprite.texture_index);
-    
+
     // Flip flags
     if (sprite.flags & 1u) v_uv.x = 1.0 - v_uv.x;  // FLIP_X
     if (sprite.flags & 2u) v_uv.y = 1.0 - v_uv.y;  // FLIP_Y
@@ -213,10 +217,10 @@ layout(location = 0) out vec4 out_color;
 void main() {
     uint layer = uint(v_texture_index);
     vec4 tex_color = texture(u_atlas, vec3(v_uv, layer));
-    
+
     // Premultiplied alpha blending handled by pipeline
     out_color = tex_color * v_color;
-    
+
     // Additive flag
     // if (flags & 4u) { ... } // handled via blend state or separate pipeline
 }
@@ -236,24 +240,24 @@ struct Camera {
     float shake_intensity = 0.0f;
     float shake_timer = 0.0f;
     Vec2 target_position = {0, 0};  // For smooth follow
-    
+
     Mat4 ViewProjection() const {
         // Ortho: left=-width/2, right=width/2, bottom=-height/2, top=height/2
         float half_w = 960.0f / zoom;   // 1920/2
         float half_h = 540.0f / zoom;   // 1080/2
-        
+
         Mat4 proj = Mat4::Orthographic(-half_w, half_w, -half_h, half_h, -1000, 1000);
         Mat4 view = Mat4::Translate(-position) * Mat4::Rotate(rotation);
-        
+
         // Shake offset
         if (shake_timer > 0) {
             Vec2 offset = RandomInCircle(shake_intensity);
             view = Mat4::Translate(offset) * view;
         }
-        
+
         return proj * view;
     }
-    
+
     void Follow(Vec2 target, float lerp_speed = 10.0f);
     void Shake(float intensity, float duration);
     void Update(float dt);
@@ -268,19 +272,19 @@ struct Camera {
 void RenderFrame() {
     // 1. Acquire swapchain image
     uint32_t image_index;
-    vkAcquireNextImageKHR(device, swapchain, UINT64_MAX, 
-                          frames[current_frame].image_available, 
+    vkAcquireNextImageKHR(device, swapchain, UINT64_MAX,
+                          frames[current_frame].image_available,
                           VK_NULL_HANDLE, &image_index);
-    
+
     // 2. Wait for fence
     vkWaitForFences(device, 1, &frames[current_frame].fence, VK_TRUE, UINT64_MAX);
     vkResetFences(device, 1, &frames[current_frame].fence);
-    
+
     // 3. Record command buffer
     VkCommandBuffer cmd = frames[current_frame].cmd_buffer;
     vkResetCommandBuffer(cmd, 0);
     vkBeginCommandBuffer(cmd, &begin_info);
-    
+
     // 4. Begin render pass
     VkRenderPassBeginInfo rp_info = {
         .renderPass = render_pass_,
@@ -290,21 +294,21 @@ void RenderFrame() {
         .pClearValues = &clear_color  // Black or sky color
     };
     vkCmdBeginRenderPass(cmd, &rp_info, VK_SUBPASS_CONTENTS_INLINE);
-    
+
     // 5. Bind pipeline
     vkCmdBindPipeline(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, pipeline_);
-    
+
     // 6. Bind descriptor set (atlas texture array)
-    vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS, 
+    vkCmdBindDescriptorSets(cmd, VK_PIPELINE_BIND_POINT_GRAPHICS,
                             pipeline_layout_, 0, 1, &descriptor_set_, 0, nullptr);
-    
+
     // 7. Draw batched sprites (sorted by texture)
     sprite_batcher.Flush(cmd);
-    
+
     // 8. End render pass
     vkCmdEndRenderPass(cmd);
     vkEndCommandBuffer(cmd);
-    
+
     // 9. Submit
     VkSubmitInfo submit = {
         .waitSemaphoreCount = 1,
@@ -316,7 +320,7 @@ void RenderFrame() {
         .pSignalSemaphores = &frames[current_frame].render_finished
     };
     vkQueueSubmit(graphics_queue_, 1, &submit, frames[current_frame].fence);
-    
+
     // 10. Present
     VkPresentInfoKHR present = {
         .waitSemaphoreCount = 1,
@@ -326,7 +330,7 @@ void RenderFrame() {
         .pImageIndices = &image_index
     };
     vkQueuePresentKHR(present_queue_, &present);
-    
+
     current_frame = (current_frame + 1) % 3;
 }
 ```
@@ -402,4 +406,4 @@ show_frame_times = true
 
 ---
 
-**Status:** DESIGN COMPLETE — Ready for implementation in Phase 4.
+**Status:** DESIGN PROPOSAL ONLY — not reference evidence. Implementation is blocked by the evidence gates; this design is not a completion claim.

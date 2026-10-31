@@ -1,5 +1,9 @@
 # Soul Knight 2.6.8 — Input Design
 
+> **Status:** design proposal only. The reference input semantics are **NOT**
+> reconstructed. The SDL3 action mapping in `src/platform/input/` is a native
+> scaffold and must not be cited as parity evidence. See `docs/VERTICAL_SLICE.md`.
+
 **Target:** Keyboard, Mouse, Gamepad (SDL3), Wayland
 
 ---
@@ -15,15 +19,15 @@ enum class Action : uint8_t {
     MoveDown,
     MoveLeft,
     MoveRight,
-    
+
     // Analog movement (gamepad left stick)
     MoveAxisX,  // -1.0..1.0
     MoveAxisY,  // -1.0..1.0
-    
+
     // Aiming (mouse / right stick)
     AimAxisX,   // -1.0..1.0
     AimAxisY,   // -1.0..1.0
-    
+
     // Primary actions
     Attack,         // Tap: shoot/melee, Hold: charge
     Skill,          // Character ability
@@ -33,7 +37,7 @@ enum class Action : uint8_t {
     WeaponSlot1,    // Direct slot access
     WeaponSlot2,
     WeaponSlot3,
-    
+
     // UI Navigation
     MenuUp,
     MenuDown,
@@ -44,13 +48,13 @@ enum class Action : uint8_t {
     Pause,
     Inventory,
     Map,
-    
+
     // Debug (dev builds)
     DebugToggle,
     DebugNoclip,
     DebugKillAll,
     DebugSpawnEnemy,
-    
+
     COUNT  // Must be last
 };
 ```
@@ -129,7 +133,7 @@ struct InputSnapshot {
     std::bitset<Action::COUNT> pressed;   // True only on frame pressed
     std::bitset<Action::COUNT> released;  // True only on frame released
     std::bitset<Action::COUNT> held;      // True while held
-    
+
     // Analog axes (-1.0 to 1.0)
     float move_x = 0.0f;
     float move_y = 0.0f;
@@ -137,19 +141,19 @@ struct InputSnapshot {
     float aim_y = 0.0f;
     float trigger_left = 0.0f;   // 0.0 to 1.0
     float trigger_right = 0.0f;  // 0.0 to 1.0
-    
+
     // Mouse (if not using gamepad aim)
     Vec2 mouse_position = {0, 0};      // Screen coords
     Vec2 mouse_delta = {0, 0};         // Relative motion
     bool mouse_pressed[3] = {false};   // Left, Middle, Right
     bool mouse_released[3] = {false};
     float mouse_wheel = 0.0f;          // Scroll delta
-    
+
     // Window
     bool window_focused = true;
     bool window_resized = false;
     Vec2 window_size = {1920, 1080};
-    
+
     // Helpers
     bool IsPressed(Action a) const { return pressed[static_cast<uint8_t>(a)]; }
     bool IsReleased(Action a) const { return released[static_cast<uint8_t>(a)]; }
@@ -169,22 +173,22 @@ class InputManager {
 public:
     InputManager();
     ~InputManager();
-    
+
     // Called once per frame from platform layer
     void ProcessEvents();
-    
+
     // Get current frame snapshot
     const InputSnapshot& GetSnapshot() const { return current_; }
-    
+
     // Remapping (runtime)
     void BindKey(SDL_Scancode key, Action action);
     void BindGamepadButton(SDL_GamepadButton btn, Action action);
     void BindGamepadAxis(SDL_GamepadAxis axis, Action action_pos, Action action_neg);
-    
+
     // Load/save mappings
     void LoadMappings(const std::string& path);
     void SaveMappings(const std::string& path) const;
-    
+
     // Debug
     void SetGamepadConnected(bool connected);
     bool IsGamepadConnected() const;
@@ -192,14 +196,14 @@ public:
 private:
     InputSnapshot current_;
     InputSnapshot previous_;
-    
+
     // Mappings
     std::unordered_map<SDL_Scancode, Action> key_map_;
     std::unordered_map<SDL_GamepadButton, Action> gamepad_btn_map_;
     std::unordered_map<SDL_GamepadAxis, std::pair<Action, Action>> gamepad_axis_map_;
-    
+
     SDL_Gamepad* gamepad_ = nullptr;
-    
+
     void UpdateDigitalState();
     void UpdateAnalogState();
     void HandleSDLEvent(const SDL_Event& event);
@@ -298,18 +302,18 @@ struct PlayerInput {
     bool interact_pressed = false;
     bool weapon_switch_pressed = false;
     int weapon_slot = -1;  // 0,1,2 or -1
-    
+
     void UpdateFromSnapshot(const InputSnapshot& snap) {
         // Movement (keyboard WASD or gamepad left stick)
         move_intent = snap.GetMoveVector();
         if (move_intent.LengthSquared() > 1.0f) move_intent.Normalize();
-        
+
         // Aiming (mouse or right stick)
         Vec2 aim = snap.GetAimVector();
         if (aim.LengthSquared() > 0.01f) {
             aim_direction = aim.Normalized();
         }
-        
+
         // Buttons
         attack_pressed = snap.IsPressed(Action::Attack);
         attack_held = snap.IsHeld(Action::Attack);
@@ -317,7 +321,7 @@ struct PlayerInput {
         dodge_pressed = snap.IsPressed(Action::Dodge);
         interact_pressed = snap.IsPressed(Action::Interact);
         weapon_switch_pressed = snap.IsPressed(Action::WeaponSwitch);
-        
+
         // Direct weapon slots
         if (snap.IsPressed(Action::WeaponSlot1)) weapon_slot = 0;
         else if (snap.IsPressed(Action::WeaponSlot2)) weapon_slot = 1;
@@ -341,11 +345,11 @@ enum class InputContext {
 class InputContextManager {
     InputContext current_ = InputContext::Gameplay;
     std::stack<InputContext> stack_;
-    
+
     void Push(InputContext ctx) { stack_.push(current_); current_ = ctx; }
     void Pop() { if (!stack_.empty()) { current_ = stack_.top(); stack_.pop(); } }
     void Set(InputContext ctx) { current_ = ctx; while (!stack_.empty()) stack_.pop(); }
-    
+
     // Consumes snapshot based on context
     PlayerInput GetPlayerInput(const InputSnapshot& snap) {
         PlayerInput input;
@@ -373,13 +377,13 @@ struct AnalogSettings {
 
 float ProcessAxis(float raw, const AnalogSettings& settings) {
     if (std::abs(raw) < settings.deadzone) return 0.0f;
-    
+
     // Map deadzone..outer_deadzone to 0..1
     float sign = raw > 0 ? 1.0f : -1.0f;
     float abs_raw = std::abs(raw);
     float mapped = (abs_raw - settings.deadzone) / (settings.outer_deadzone - settings.deadzone);
     mapped = std::clamp(mapped, 0.0f, 1.0f);
-    
+
     return sign * mapped * settings.sensitivity;
 }
 ```
@@ -393,18 +397,18 @@ float ProcessAxis(float raw, const AnalogSettings& settings) {
 TEST("Input snapshot captures press/release/hold") {
     InputManager mgr;
     mgr.BindKey(SDL_SCANCODE_W, Action::MoveUp);
-    
+
     // Simulate press
     mgr.InjectKeyDown(SDL_SCANCODE_W);
     mgr.ProcessEvents();
     CHECK(mgr.GetSnapshot().IsPressed(Action::MoveUp));
     CHECK(mgr.GetSnapshot().IsHeld(Action::MoveUp));
-    
+
     // Next frame - hold
     mgr.ProcessEvents();
     CHECK(!mgr.GetSnapshot().IsPressed(Action::MoveUp));
     CHECK(mgr.GetSnapshot().IsHeld(Action::MoveUp));
-    
+
     // Release
     mgr.InjectKeyUp(SDL_SCANCODE_W);
     mgr.ProcessEvents();
@@ -417,7 +421,7 @@ TEST("Analog deadzone applied") {
     mgr.InjectGamepadAxis(SDL_GAMEPAD_AXIS_LEFTX, 0.1f);  // Below deadzone
     mgr.ProcessEvents();
     CHECK(mgr.GetSnapshot().move_x == 0.0f);
-    
+
     mgr.InjectGamepadAxis(SDL_GAMEPAD_AXIS_LEFTX, 0.5f);
     mgr.ProcessEvents();
     CHECK(mgr.GetSnapshot().move_x > 0.0f);
@@ -449,4 +453,4 @@ vibration_strength = 1.0     # 0.0 to 1.0
 
 ---
 
-**Status:** DESIGN COMPLETE — Ready for implementation in Phase 4.
+**Status:** DESIGN PROPOSAL ONLY — not reference evidence. Implementation is blocked by the evidence gates; this design is not a completion claim.

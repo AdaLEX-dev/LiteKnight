@@ -533,4 +533,4 @@ Purpose: Firebase Analytics, Crashlytics, Remote Config, Messaging
 
 ---
 
-**Status:** Native library inventory complete. `libil2cpp.so` confirmed as sole gameplay logic container. Ready for IL2CPP metadata extraction.
+**Status:** Native library inventory complete. `libil2cpp.so` is confirmed as the sole gameplay-logic container. IL2CPP metadata extraction has since been performed; in-repo metadata is partial and the full dump remains outside Git (`tools/re/README.md`).

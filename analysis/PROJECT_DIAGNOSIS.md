@@ -1,7 +1,14 @@
 # Soul Knight Linux — Project Diagnosis
 
-**Date:** 2026-10-31  
-**Scope:** Read-only investigation of the repository, build, tests, evidence trail, asset pipeline, and reverse-engineering workflow. No native source was changed.  
+> **HISTORICAL DOCUMENT (2026-10-31, pre-repair).** This report describes the
+> repository *before* the P0/P1 integrity pass. Its findings have been acted on:
+> the build/tests are repaired, the evidence pipelines exist, and current status
+> lives in `docs/PROJECT_STATE.md`, `docs/PARITY.md`, and
+> `analysis/REPOSITORY_INTEGRITY_AUDIT.md`. Keep this document as the record of
+> what was wrong; do not cite it as current state.
+
+**Date:** 2026-10-31
+**Scope:** Read-only investigation of the repository, build, tests, evidence trail, asset pipeline, and reverse-engineering workflow. No native source was changed.
 **Companion report:** `analysis/EVIDENCE_AUDIT.md`
 
 ---
@@ -393,13 +400,13 @@ The project does not need a new engine, a new language, or a new platform decisi
 
 Pick one, explicitly:
 
-**Option A — Physical ARM Android device (best fidelity).**  
+**Option A — Physical ARM Android device (best fidelity).**
 Use ADB + Frida or an IL2CPP inspector to run the reference, log RNG/damage/AI/room generation, and record reproducible experiments. The final product still has no Android runtime; this is analysis tooling only.
 
-**Option B — Emulator/Waydroid with ARM translation (usable, slower).**  
+**Option B — Emulator/Waydroid with ARM translation (usable, slower).**
 Same observation goal, but requires setup and may be too slow for frame-level work. Document it as an analysis environment, not a runtime target.
 
-**Option C — Ghidra static analysis (no device required).**  
+**Option C — Ghidra static analysis (no device required).**
 Import `libil2cpp.so`, apply `script.json`/`il2cpp.h`, and reconstruct one subsystem at a time. This is slower per question but works today. Start with:
    - `RGRandom` / Unity `Random` state,
    - `DamageCarrier` / `RoleAttribute` damage path,

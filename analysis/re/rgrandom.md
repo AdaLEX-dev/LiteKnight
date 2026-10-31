@@ -1,8 +1,8 @@
 # RGRandom — Evidence-Backed Reconstruction
 
-**Status:** behavioural reconstruction in progress; core algorithm and wrapper semantics reconstructed from ARM64 disassembly.  
-**Date:** 2026-10-31  
-**Reference:** Soul Knight 2.6.8, Unity **2018.4.12f1**, IL2CPP metadata **v24**  
+**Status:** behavioural reconstruction in progress; core algorithm and wrapper semantics reconstructed from ARM64 disassembly.
+**Date:** 2026-10-31
+**Reference:** Soul Knight 2.6.8, Unity **2018.4.12f1**, IL2CPP metadata **v24**
 **Binaries:**
 - managed methods: `analysis/apktool_out/lib/arm64-v8a/libil2cpp.so`
 - engine RNG: `analysis/apktool_out/lib/arm64-v8a/libunity.so`
@@ -407,7 +407,7 @@ Representative call sites:
 | `SerializedRandomBahaviour` | `+0x58` | `dump.cs` |
 | `MapManager` | `+0x58` | `dump.cs`; `SetRGRandomSeed` |
 | `RGWeapon` | `+0x78` | `dump.cs`; `Start` |
-| `RGController` | `+0x130` | `dump.cs` (initialization path not yet identified) |
+| `RGController` | `+0x130` | `dump.cs`; seeded in `RGController.AwakeController` (`0x1177318`, seed = `RGGameInfo.sample_random_seed` + `skillIndex`) |
 | `EnemyMaker` | `+0x18` | `dump.cs`; `CreateEnemy` |
 | `TaskDatas` | property-created | `get_rg_random` |
 | `C15Controller` | field/ctor-created | ctor xref |
@@ -482,7 +482,7 @@ So the map manager's virtual `SetRGRandomSeed` receives `RGGameInfo.map_random_s
 | Multiple independent streams | CONFIRMED (structure + ctor xrefs) | fields and `SetUpRGRandom` |
 | Map seed virtual call path | CONFIRMED | `MapManager.Start` `0xD26A10` loads `RGGameInfo+0x1C` and calls vtable `+0x1E8` |
 | `seed_state` values 1/2 usage | UNRESOLVED | only value 3 observed in executed paths |
-| `RGController.rg_random` initialization | UNRESOLVED | no ctor xref found |
+| `RGController.rg_random` initialization | CONFIRMED | `AwakeController` at `0x11772A4` loads `+0x130`, reads `RGGameInfo.sample_random_seed` (`+0x18`) and `skillIndex` (`+0x150`), then calls `SetRandomSeed` with their sum |
 | Cross-platform float bit-exactness (`sinf/cosf/sqrtf`) | RISK | libm differences possible |
 
 ---
@@ -490,17 +490,18 @@ So the map manager's virtual `SetRGRandomSeed` receives `RGGameInfo.map_random_s
 ## 7. Unresolved questions and next experiments
 
 1. ~~**Map seed call path.**~~ RESOLVED: `MapManager.Start` loads `RGGameInfo.map_random_seed` (`+0x1C`) and calls virtual `SetRGRandomSeed` via vtable `+0x1E8`.
-2. **`seed_state` state machine.** Determine whether `C_READY` (1) and `S_SEND_SEED` (2) are used in multiplayer transitions. Search writes to `+0x10` after `SetRandomSeed`; no such writes found yet.
-3. **`RGController.rg_random` initialization.** Find where `RGController` obtains/seeds its `+0x130` field.
-4. **Map/room seed derivation.** `MapManagerLevel.SetRGRandomSeed` has extra `Range(0,100)` logic under normal-mode conditions; reconstruct the full condition set and how it affects `map_long`.
-5. **Reference vectors.** Obtain runtime observations (or a trusted Unity 2018.4 reference) to compare against the reconstructed algorithm. Until then, computed vectors are implementation tests, not parity proof.
-6. **Float parity.** The engine calls `sinf`, `cosf`, `sqrtf`; native code must either use the same libm implementation or accept last-bit differences. Document the chosen policy.
+2. **`seed_state` values 1/2.** No static write path to `seed_state` with value 1 or 2 was found; only the constructor default 0 and `SetRandomSeed` value 3 are written. The exact missing evidence is serialized prefab state or a runtime trace showing a multiplayer transition; do not assign semantics without it.
+3. **Map/room seed derivation.** `MapManagerLevel.SetRGRandomSeed` has extra `Range(0,100)` logic under `emBattleFactor.LongMap` (10); reconstruct the full condition set and how it affects `map_long`.
+4. **Reference vectors.** Obtain runtime observations (or a trusted Unity 2018.4 reference) to compare against the reconstructed algorithm. Until then, computed vectors are implementation tests, not parity proof.
+5. **Float parity.** The engine calls `sinf`, `cosf`, `sqrtf`; native code must either use the same libm implementation or accept last-bit differences. Document the chosen policy.
 
 ---
 
-## 8. Native implementation requirements (do not implement yet)
+## 8. Native implementation requirements (core implemented; no gameplay use yet)
 
-When implementation begins:
+The core is implemented in `src/engine/math/UnityRandom.*` and covered by
+`tests/unit/unity_random_test.cpp`. This section records the requirements it must
+continue to satisfy; it is not a fresh implementation plan.
 
 1. Create an explicit `UnityRandomState { uint32 s0,s1,s2,s3; }`.
 2. Implement `InitState`, `Next`, `NextFloat`, `Range(int,int)`, `Range(float,float)`, `Value`, `InsideUnitCircle` exactly as above:
@@ -554,4 +555,4 @@ llvm-objdump -d --no-show-raw-insn --start-address=0x37B9EC --stop-address=0x37B
 
 ---
 
-**Bottom line:** `RGRandom` is a local-state wrapper around Unity 2018.4's Xorshift128 RNG. It is not PCG32, and the global Unity RNG is only a shared scratch state. The next native work should be a reference-compatible `UnityRandomState` + `RGRandomStream`, covered by the tests above, before any gameplay code uses it.
+**Bottom line:** `RGRandom` is a local-state wrapper around Unity 2018.4's Xorshift128 RNG. It is not PCG32, and the global Unity RNG is only a shared scratch state. `UnityRandomState` + `RGRandomStream` are implemented in `src/engine/math/UnityRandom.*` and covered by `tests/unit/unity_random_test.cpp` (22 cases / 1273 assertions pass overall). They must not be used by gameplay until the remaining `seed_state` 1/2 / map-length questions are resolved or explicitly accepted as gaps.

@@ -25,24 +25,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed SDL3 Vulkan surface creation and `std::filesystem::path` formatting.
 - Enabled doctest, fixed ECS component storage and input injection, and replaced empty CTest filters with a real unit-test entry.
 - An intentional test failure now turns CTest red; the restored suite passes.
+- Integrity pass removed unimplemented renderer/audio placeholders, fixed the window event watch, forced Wayland, removed `-march=native`, and corrected the CachyOS packaging assumption.
+
+### Changed
+- Current project state, roadmap, parity, architecture, RE log, and bug tracker now distinguish current truth from historical claims.
+- `docs/PARITY.md` now contains only evidence-backed rows; the old speculative matrix is preserved in Git history/evidence audit.
+- `docs/VERTICAL_SLICE.md` gates now list exact missing evidence and responsible subsystems.
 
 ### Known Issues
 - No runtime observation oracle (no device/emulator/Frida); analysis is static-only.
 - Projectile-effect → target `GetHurt` bridge, critical hits, and element/status formulas remain unresolved.
+- RGRandom `seed_state` 1/2 and map-length branch remain unresolved.
 - Renderer/Vulkan context is not implemented; Gate C remains NOT MET.
 - Vertical slice implementation is blocked on the evidence gates in `docs/VERTICAL_SLICE.md`.
 - `analysis/il2cpp_dump/` is partial; the full Il2CppDumper output remains outside Git.
-- `src/`, `tests/`, `tools/`, and the new analysis docs require a coherent Git baseline commit.
+- The first-pass asset extraction manifest uses candidate identities (`c01`, `enemy01`, generic weapon); no identity is proven.
 
 ### Reverse Engineering
 - APK forensics complete: manifest, DEX inventory, native libraries, AssetBundles
 - IL2CPP metadata extracted from `libil2cpp.so` (original entry claimed Unity 2021 / metadata v24.1; corrected 2026-10-31 to Unity 2018.4.12f1 / metadata v24)
-- 200+ `RG*` game classes discovered and catalogued
-- Engine architecture documented: Unity IL2CPP, 100% gameplay in native lib
-- Technology decisions recorded: 15 ADRs (C++20, SDL3, Vulkan, miniaudio, etc.)
-- Platform layer designs: Wayland window, Vulkan renderer, miniaudio, input, save system
+- Structural class inventory documented; this is not a complete behavioural reconstruction
+- Technology decisions recorded: 15 ADRs (C++20, SDL3, Vulkan, miniaudio, etc.), with ADR-0014 superseded by ADR-0016
+- Platform layer design documents exist; renderer implementation does not
 - Unknown systems tracker: 15 unresolved mysteries (RNG, damage formula, room gen, AI, etc.)
-- Source map: 100+ IL2CPP classes mapped to planned native implementations
+- Source map: planned native mappings only; no gameplay system is implemented
 
 ---
 

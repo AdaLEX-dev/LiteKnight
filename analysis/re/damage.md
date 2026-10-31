@@ -1,8 +1,8 @@
 # Damage Path — Evidence-Backed Reconstruction
 
-**Status:** first static reconstruction; player and enemy damage entry points are partly reconstructed; the projectile-trigger → target bridge is still unresolved.  
-**Date:** 2026-10-31  
-**Reference:** Soul Knight 2.6.8, Unity **2018.4.12f1**, IL2CPP metadata **v24**  
+**Status:** first static reconstruction; player and enemy damage entry points are partly reconstructed; the projectile-trigger → target bridge is still unresolved.
+**Date:** 2026-10-31
+**Reference:** Soul Knight 2.6.8, Unity **2018.4.12f1**, IL2CPP metadata **v24**
 **Binary:** `analysis/apktool_out/lib/arm64-v8a/libil2cpp.so`
 
 > **Evidence rule:** field names are structural; the formulas below come from disassembly. Unresolved pieces are labelled, not filled in with guesses.
@@ -183,9 +183,9 @@ Evidence:
 - `oneshot_shields` at `+0x128`; `get_Count > 0` → `csel w21, wzr, w21, gt` (damage = 0).
 - `role_attribute.armor` at `+0x54`; `cmp >= 1` selects vtable `+0x248` (`HurtArmor`) vs `+0x258` (`HurtHp`).
 
-**Unresolved branch:** `BattleData.CompareFactor(8)` plus an `armor >= 1` condition at `0x1179718`..`0x11797a4` can set `dmg = 1` under some condition involving the mount. The exact predicate is not fully decoded. Treat the formula above as the main path, not the complete condition set.
+**Battle factor branch (partly decoded):** `CompareFactor(8)` is `emBattleFactor.HardShield` (metadata enum). When it is active and `role_attribute.armor >= 1`, the code at `0x1179718`..`0x11797a4` sets `dmg = 1` when `mount == null` or `mount.hasHp` (`+0xAC`) is false; if a mount exists with `hasHp == true`, the normal damage path continues. The exact design intent of this branch is not proven, but the predicate and constant are static evidence.
 
-**Confidence:** HIGH CONFIDENCE for the subtraction/selection path; PARTIAL for the `CompareFactor(8)` branch.
+**Confidence:** HIGH CONFIDENCE for subtraction/selection and the HardShield predicate; intent of HardShield remains a hypothesis.
 
 ### 4.2 `RGController.HurtArmor(int damage, GameObject source)` — `0x1179D44`
 
@@ -214,9 +214,9 @@ Evidence:
 - `neg w1, damage; RoleAttributePlayer.RestoreArmor(-damage,false)` — `0xD3FFD8`.
 - `tbz w23,#31` tests `armorAfter < 0`.
 - `BattleData.HasBuff(6)` (`0x124DAB8`); if false, calls vtable `+0x258` with `w1 = -w23` (leftover damage) and source.
-- If buff 6 is present, plays the hit effect instead.
+- If `emBuff.ShieldBlue` (index 6) is present, plays the hit effect instead of overflowing.
 
-**Confidence:** CONFIRMED for the subtraction and overflow branch; buff 6 identity is **UNKNOWN** (only its index is known).
+**Confidence:** CONFIRMED for subtraction/overflow; index 6 is `emBuff.ShieldBlue` from metadata.
 
 ### 4.3 `RGController.HurtHp(int damage, GameObject source)` — `0x1179E38`
 
@@ -309,18 +309,24 @@ Evidence:
 
 ### 4.6 `RoleAttributePlayer.CanDie()` — `0xD40718`
 
-Reconstructed:
+Exact static behaviour:
 
-```csharp
-if (RGGameInfo.Inst.<field +0x1C> == -1) return false; // mode/flag
-if (RGGameInfo.Inst.<field +0x1C> == -3) return false; // mode/flag
+```text
+T singleton = Singleton<T>.get_Inst();   // resolved twice by the compiler
+if (singleton.<field +0x1C> == -1) return false;
+if (singleton.<field +0x1C> == -3) return false;
 if (BattleData.IsSandboxEditing) return false;
 return true;
 ```
 
-The `RGGameInfo` field at `+0x1C` is `map_random_seed` per metadata, but this method treats it as a mode/state value. This is a **contradiction between field name and use** and needs follow-up; the field may be overloaded or the offset mapping may differ in this context.
+The call is a generic-shared `Singleton<T>.get_Inst` at `0x1AB448C`; the two GOT slots used by the sequence (`0x030A2000+0xD88` → `0x030A2D88`, `0x030F2000+0x358` → `0x030F2358`) are shared generic-init/method-info helpers that also appear in unrelated methods, so they do **not** encode T at the call site. Static metadata narrows the candidate field to the only `Singleton<T>` classes with an `int` at `+0x1C`:
 
-**Confidence:** PARTIAL. The comparisons and sandbox check are CONFIRMED; the semantic interpretation of `+0x1C` is UNRESOLVED.
+- `RGGameInfo.map_random_seed` (`+0x1C`, TypeDefIndex 7319),
+- `RGGameProcess.this_index` (`+0x1C`, TypeDefIndex 7320).
+
+The previous claim that this is specifically `RGGameInfo.map_random_seed` is therefore **not proven**. Exact missing evidence: the concrete `T` for this generic instantiation (metadata type-info mapping, Ghidra data-type propagation, or a runtime trace).
+
+**Confidence:** PARTIAL. Comparisons and sandbox check CONFIRMED; singleton type/field semantics UNRESOLVED.
 
 ### 4.7 `RGController.Dead(GameObject source)` — `0x1179ECC`
 
@@ -423,7 +429,7 @@ if (has_ice_buff && BattleData.HasBuff(23))
 return 1.0f;
 ```
 
-**Confidence:** CONFIRMED for the branch and constant; the identity of buff 23 is UNKNOWN.
+**Confidence:** CONFIRMED for the branch and constant; index 23 is `emBuff.ShieldIce` from metadata. The `has_ice_buff` condition at `+0x74` is confirmed; its gameplay meaning remains to be verified.
 
 ### 6.3 `RGBulletTrigger.OnTriggerEnter2D` — `0x1160324`
 
@@ -435,7 +441,9 @@ Confirmed outline:
 - `RGBulletTrigger.OnHit` itself (`0x11621B4`) is `ret` in the base class; concrete effect triggers override the behaviour.
 - `RGBulletEffectTrigger.TriggerWith` (`0x1169D84`) is also `ret` in the base class; concrete subclasses implement it.
 
-**Unresolved bridge:** the exact concrete effect-trigger method that calls `RGController.GetHurt` or `RGEController.GetHurt` is not yet identified. Direct xrefs to those methods come only from controller subclasses, so the call is reached through a virtual/delegate path or a subclass not yet scanned. This must be resolved before claiming a complete damage formula.
+**Box target bridge (HIGH CONFIDENCE):** at `0x1160ADC` the method calls shared `GameObject.GetComponent<T>` (`0xFF8A84`) using GOT slot `0x31003B0`, then calls a virtual `Hit` through vtable `+0x168` with `(damage, source_object, camp)` at `0x1160B70`. The only metadata method with that exact parameter/return shape is `RGBox.Hit` (`0x11675F8`, virtual, returns `bool`); `ExplodeIceBox.Hit` has the same parameters but is non-virtual. The GOT slot `0x31003B0` is also used by known box-hit paths (`RGLaser.HitBox`, `RGShortLaserTrigger.OnHit`, `RGSwordTrigger.OnHit`, `RGDash.OnTriggerEnter2D`, `RGDrillTrigger`, `RGEnergyBallTrigger.HitBox`). This resolves the **box** branch of projectile → target, but not the enemy/player branch.
+
+**Enemy/player branch (UNRESOLVED):** later in the same method (`0x1160F78`) a component obtained through `GameObject.GetComponent<T>` (`0xFF8A84`, GOT slot `0x309A4E8`) receives a virtual call at vtable `+0x2C8` with `(damage, source_object)`. No direct `bl` to `RGController.GetHurt` (`0x11795CC`) or `RGEController.GetHurt` (`0x1108E60`) exists in `0x1160324..0x1161A80`; the target type and slot owner are not encoded at the call site. Exact missing evidence: identify the generic `T` for GOT slot `0x309A4E8` and the method at vtable `+0x2C8` (runtime trace or type-info resolution). This is the remaining projectile → controller bridge.
 
 ### 6.4 `DamageCarrier` / `DamageTrigger` / `DamageTriggerHitChecker`
 
@@ -455,32 +463,33 @@ The complete chain from bullet collision to target HP is **PARTIAL**.
 | Player `GetHurt` subtracts `defence` and mount defence, clamps ≥0 | HIGH CONFIDENCE | `0x11795CC` |
 | Player `GetHurt` zeroes damage when one-shot shields exist | CONFIRMED | `0x11795CC` |
 | Player chooses armor path when `armor >= 1` | CONFIRMED | `0x11795CC` |
-| `HurtArmor` overflows negative armor into HP unless buff 6 | CONFIRMED | `0x1179D44` |
+| `HurtArmor` overflows negative armor into HP unless `emBuff.ShieldBlue` (6) | CONFIRMED | `0x1179D44` |
 | `HurtHp` subtracts HP and calls `Dead` at ≤0 | CONFIRMED | `0x1179E38` |
 | `RoleAttribute.RestoreHealth` clamps HP | CONFIRMED | `0xD3DD2C` |
 | `RoleAttributePlayer.RestoreHealth` can survive at 1 HP via `CanDie` | CONFIRMED | `0xD40418`, `0xD40718` |
 | Enemy `GetHurt` subtracts HP and calls `Dead` | HIGH CONFIDENCE | `0x1108E60` |
 | `RGBulletTrigger.GetFinalDamage` multiplies effect `damageFactor` | CONFIRMED | `0x116A680` |
-| Complete collision → target HP chain | UNRESOLVED | concrete effect trigger not identified |
+| Projectile → `RGBox.Hit` box bridge | HIGH CONFIDENCE | `0x1160ADC`/`0x1160B70`; shared `GetComponent<T>` `0xFF8A84`; `RGBox.Hit` `0x11675F8` |
+| Projectile → controller `GetHurt` bridge | UNRESOLVED | virtual call `0x1160F78` vtable `+0x2C8`; generic `T` and slot owner unidentified |
+| Complete collision → target HP chain | UNRESOLVED | enemy/player bridge and effect-trigger override chain not identified |
 | Critical-hit application | UNRESOLVED | `DamageInfo.critic` exists; no formula yet |
 | Element/status application | UNRESOLVED | `emDamageType` exists; no application path yet |
-| `CanDie` field `+0x1C` semantics | UNRESOLVED | metadata says `map_random_seed`; code compares -1/-3 |
+| `CanDie` singleton/field `+0x1C` identity | UNRESOLVED | generic `Singleton<T>`; candidates are `RGGameInfo.map_random_seed` and `RGGameProcess.this_index` |
 
 ---
 
 ## 8. Unresolved questions / next experiments
 
-1. **Find the concrete projectile→target damage call.**
+1. **Finish the projectile→controller damage bridge.**
+   - Box branch is HIGH CONFIDENCE `RGBox.Hit` (`0x1160B70`).
+   - Resolve the generic `T` for GOT slot `0x309A4E8` and the virtual method at vtable `+0x2C8` (`0x1160F78`).
    - Enumerate `RGBulletEffectTrigger` subclasses and their `TriggerWith`/`OnHit` overrides.
-   - Scan for calls to `RGEController.GetHurt`/`RGController.GetHurt` through delegates or interface dispatch.
    - Runtime experiment: log `GetHurt` arguments for a single bullet hit.
 2. **Decode critical hits.**
    - Find where `DamageInfo.critic` is read and how it changes `damage`.
    - Likely in `RGBulletTrigger` or `Weapon.BulletCreateUtils`; not yet located.
-3. **Decode `BattleData.CompareFactor(6)` and `(8)` semantics.**
-   - Identify the difficulty/badass flags and their effect on damage.
-4. **Decode `CanDie` + `RGGameInfo +0x1C`.**
-   - Confirm whether `map_random_seed` is overloaded as a mode flag or whether this is a metadata/offset mismatch.
+3. **Battle factors — partially resolved.** `CompareFactor(6)` is `emBattleFactor.EnemyDefence`; `CompareFactor(8)` is `emBattleFactor.HardShield`. Their exact high-level intent still needs confirmation.
+4. **Identify `CanDie` generic singleton type.** Resolve `T` for `Singleton<T>.get_Inst` (`0x1AB448C`); candidate fields are `RGGameInfo.map_random_seed` and `RGGameProcess.this_index`. Do not assume either from the field name.
 5. **Enemy damage modifiers.**
    - `OnEnemyDamageProcess` callback and `RGEBossController` overrides.
 6. **Elements/status.**

@@ -11,7 +11,7 @@ Session: Initial reconnaissance
 
 **Date:** 2026-10-30
 **Original phase claim:** 0 → 1 → 2 (Environment → APK Forensics → Engine Reconstruction)
-**Corrected status:** Phase 1 artifact inventory is useful; Phase 2 behavioural reconstruction is **not complete**. Phase 3 has not started.
+**Corrected status:** Phase 1 artifact inventory is useful; Phase 2 behavioural reconstruction is **not complete**. Phase 3 is **CURRENT** (RNG core reconstructed; damage partial).
 **APK:** `original/SoulKnight-2.6.8.apk` (SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)
 
 ---
@@ -26,7 +26,7 @@ Session: Initial reconnaissance
 | CMake | 4.4.5 | ✅ |
 | Ninja | 1.13.2 | ✅ |
 | Git | 2.56.0 | ✅ |
-| Java | OpenJDK 21.0.12 | ✅ |
+| Java | OpenJDK 27.0.1 (JDK) | ✅ |
 | apktool | 2.11.0 | ✅ Working |
 | jadx | 1.5.6 | ✅ Working (30 errors — obfuscated SDK code) |
 | Ghidra | 12.2 PUBLIC | ✅ Installed |
@@ -98,7 +98,7 @@ Session: Initial reconnaissance
 | RE-003 | CONFIRMED | RG* namespace for game classes | CONFIRMED |
 | RE-004 | CONFIRMED (structural) | 20 distinct EnemyAI class names | HIGH STRUCTURAL |
 | RE-005 | CONFIRMED (structural) | Multiple MapManager classes for game modes | HIGH STRUCTURAL |
-| RE-006 | PARTIAL | `RGRandom` wraps `UnityEngine.Random.State`; wrapper semantics under reconstruction | PARTIAL |
+| RE-006 | CONFIRMED (structural + disassembly) | `RGRandom` wrapper and Unity Xorshift128 engine reconstructed; map-seed path resolved | HIGH |
 | RE-007 | CONFIRMED (structural) | Room serialization classes `SerializeLinker*` exist | HIGH STRUCTURAL |
 | RE-008 | HYPOTHESIS | Damage formula: `(atk - def) * crit * element` | UNVERIFIED |
 | RE-009 | HYPOTHESIS | Room gen: BSP + graph + template placement | UNVERIFIED |
@@ -107,7 +107,7 @@ Session: Initial reconnaissance
 
 ---
 
-## Next Actions
+## Next Actions (historical 2026-10-30 list — superseded)
 
 1. **Create Technology Decisions** — `docs/TECHNOLOGY_DECISIONS.md`
 2. **Create Project State** — `docs/PROJECT_STATE.md`
@@ -117,13 +117,14 @@ Session: Initial reconnaissance
 
 ---
 
-## Blockers (corrected)
+## Blockers (current)
 
 - **No runtime oracle**: no Android device/emulator/Waydroid/QEMU/Frida.
-- **No disassembly workflow** at the time of the original session (Ghidra installed but no project).
-- **Build and tests were not working**; test results were false-green.
-- **Asset/data extraction not started**.
-- Behavioural specs are hypotheses, not evidence.
+- **Build/test baseline is fixed**; static-analysis pipeline exists.
+- **Damage bridge, critical/element rules, and RGRandom residuals remain unresolved**.
+- **Renderer/Vulkan runtime is not implemented**; Gate C NOT MET.
+- **Asset extraction is first-pass only**; identities unverified and no native conversion.
+- Behavioural specs remain partial; see `docs/PARITY.md`.
 
 ---
 
@@ -145,4 +146,4 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Reconstructed `RGRandom` in `analysis/re/rgrandom.md`; native `UnityRandom`/`RGRandomStream` implemented and tested.
 - Started `analysis/re/damage.md`; player/enemy entry points and state mutation reconstructed, projectile bridge unresolved.
 - Added UnityPy extraction under `tools/asset/`; first-pass manifest has 284 entries and no proprietary bytes committed.
-- Next: resolve the projectile→target damage bridge, critical/element rules, and the map-seed virtual path before a vertical slice.
+- Next: resolve the projectile→target damage bridge and critical/element rules; finish RGRandom residuals. The map-seed path is resolved. Vertical slice remains blocked by evidence gates.

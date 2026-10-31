@@ -517,5 +517,5 @@ The native RNG must be **reference-compatible**, not a convenient substitute. Im
 
 Decisions are binding unless marked **SUPERSEDED**. ADR-0014 is superseded by ADR-0016. In particular:
 
-- The "PCG32" language in ADR-0011 applies only to non-parity math utilities until the reference RNG is reconstructed.
+- The "PCG32" language in ADR-0011 applies only to non-parity math utilities. The reference RNG has since been reconstructed (ADR-0016); PCG32 is not used for parity-sensitive streams.
 - The reference game uses Unity 2018.4.12f1; any port of `UnityEngine.Random` must match that version's state transition.

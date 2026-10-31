@@ -1,5 +1,9 @@
 # Soul Knight 2.6.8 — Audio Design
 
+> **Status:** design proposal only. No reference audio trigger, mixing, or
+> playback behaviour has been reconstructed. The miniaudio wrapper is platform
+> scaffolding, not game audio parity.
+
 **Target:** miniaudio, PipeWire/PulseAudio/ALSA, 48kHz, 16-32 voices
 
 ---
@@ -35,31 +39,31 @@ public:
         int buffer_size = 1024;  // frames
         int num_periods = 3;
     };
-    
+
     enum class Bus : uint8_t { Master = 0, Music = 1, SFX = 2, UI = 3, Ambience = 4, COUNT = 5 };
     enum class SoundType { Static, Streaming };
-    
+
     bool Initialize(const Config& cfg = {});
     void Shutdown();
-    
+
     // Volume control (0.0 - 1.0)
     void SetBusVolume(Bus bus, float volume);
     float GetBusVolume(Bus bus) const;
     void SetMasterVolume(float volume);
-    
+
     // Sound playback
     SoundHandle PlayStatic(const std::string& path, Bus bus, float volume = 1.0f, float pitch = 1.0f, bool loop = false);
     SoundHandle PlayStreaming(const std::string& path, Bus bus, float volume = 1.0f, bool loop = true);
-    
+
     // Listener (for future 3D)
     void SetListenerPosition(const Vec2& pos);
     void SetListenerOrientation(float angle_rad);
-    
+
     // Engine control
     void PauseAll();
     void ResumeAll();
     void StopAll(Bus bus = Bus::COUNT);  // COUNT = all
-    
+
     // Debug
     struct Stats { int active_voices = 0; int peak_voices = 0; };
     Stats GetStats() const;
@@ -81,26 +85,26 @@ public:
     SoundHandle(const SoundHandle&) = delete;
     SoundHandle(SoundHandle&& other) noexcept : sound_(other.sound_), streaming_(other.streaming_) { other.sound_ = {}; }
     ~SoundHandle() { if (valid()) ma_sound_uninit(&sound_); }
-    
+
     bool valid() const { return sound_.pDataSource != nullptr; }
-    
+
     void Play();
     void Stop();
     void Pause();
     void Resume();
     bool IsPlaying() const;
-    
+
     void SetVolume(float volume);      // 0.0 - 1.0 (multiplied by bus volume)
     void SetPitch(float pitch);        // 0.5 - 2.0
     void SetPan(float pan);            // -1.0 (left) to 1.0 (right)
     void SetLooping(bool loop);
     void SetPosition(const Vec2& pos); // For 3D (future)
-    
+
     float GetVolume() const;
     float GetPitch() const;
     float GetPan() const;
     bool IsLooping() const;
-    
+
     // Streaming only
     float GetDuration() const;         // Seconds
     float GetCurrentTime() const;      // Seconds
@@ -129,7 +133,7 @@ public:
         UI_Error,
         UI_LevelUp,
         UI_Unlock,
-        
+
         // Player
         Player_Hurt,
         Player_Death,
@@ -137,7 +141,7 @@ public:
         Player_Heal,
         Player_Pickup,
         Player_WeaponSwitch,
-        
+
         // Weapons (per weapon type)
         Weapon_Gun_Shot,
         Weapon_Gun_Reload,
@@ -148,7 +152,7 @@ public:
         Weapon_Laser_Fire,
         Weapon_Explosion,
         Weapon_Magic_Cast,
-        
+
         // Enemies
         Enemy_Hurt,
         Enemy_Death,
@@ -157,7 +161,7 @@ public:
         Enemy_Spawn,
         Enemy_Boss_Roar,
         Enemy_Boss_PhaseChange,
-        
+
         // Environment
         Chest_Open,
         Chest_Locked,
@@ -171,7 +175,7 @@ public:
         Electric_Zap,
         Poison_Tick,
         Ice_Freeze,
-        
+
         // Music (streaming)
         Music_Menu,
         Music_Dungeon_1,
@@ -179,15 +183,15 @@ public:
         Music_Boss,
         Music_Victory,
         Music_GameOver,
-        
+
         // Ambience
         Ambience_Dungeon,
         Ambience_BossRoom,
         Ambience_SafeRoom,
-        
+
         COUNT
     };
-    
+
     struct SoundDef {
         SoundID id;
         std::string path;           // Relative to assets/audio/
@@ -201,42 +205,42 @@ public:
         float min_distance = 1.0f;  // For 3D
         float max_distance = 50.0f;
     };
-    
+
     static const std::array<SoundDef, static_cast<size_t>(SoundID::COUNT)>& GetSoundDefs();
-    
+
     // Playback
     SoundHandle Play(SoundID id, const Vec2* position = nullptr, float volume_mult = 1.0f);
     SoundHandle PlayAt(SoundID id, const Vec2& position, float volume_mult = 1.0f);
     void Stop(SoundID id);
     void StopAll();
-    
+
     // Music control
     void PlayMusic(SoundID id, float fade_in = 1.0f);
     void StopMusic(float fade_out = 1.0f);
     void CrossfadeMusic(SoundID from, SoundID to, float duration = 2.0f);
     void SetMusicVolume(float volume);  // 0.0 - 1.0
-    
+
     // Ambience
     void SetAmbience(SoundID id, float fade_in = 2.0f);
     void StopAmbience(float fade_out = 2.0f);
-    
+
     // Listener (player position)
     void SetListenerPosition(const Vec2& pos);
-    
+
     // Config
     void SetMasterVolume(float v);
     void SetSFXVolume(float v);
     void SetMusicVolume(float v);
     void SetUIVolume(float v);
     void SetAmbienceVolume(float v);
-    
+
 private:
     AudioEngine engine_;
     std::vector<SoundHandle> active_sounds_;
     SoundHandle current_music_;
     SoundHandle current_ambience_;
     Vec2 listener_pos_ = {0, 0};
-    
+
     // Sound pool for SFX
     struct PooledSound {
         SoundHandle handle;
@@ -253,15 +257,15 @@ private:
 // When all voices busy, steal lowest priority
 SoundHandle AudioManager::Play(SoundID id, const Vec2* pos, float vol_mult) {
     const auto& def = GetSoundDef(id);
-    
+
     if (def.stream) {
         // Music/ambience — single instance
         return engine_.PlayStreaming(def.path, def.bus, def.volume * vol_mult, def.loop);
     }
-    
+
     // SFX — use pool
     auto& pool = pools_[static_cast<size_t>(id)];
-    
+
     // Find free or steal
     PooledSound* best = nullptr;
     for (auto& ps : pool) {
@@ -273,7 +277,7 @@ SoundHandle AudioManager::Play(SoundID id, const Vec2* pos, float vol_mult) {
             best = &ps;
         }
     }
-    
+
     if (!best) {
         // Expand pool if under max_instances
         if (pool.size() < def.max_instances) {
@@ -281,22 +285,22 @@ SoundHandle AudioManager::Play(SoundID id, const Vec2* pos, float vol_mult) {
             best = &pool.back();
         }
     }
-    
+
     if (best) {
         if (best->in_use) best->handle.Stop();
         best->handle = engine_.PlayStatic(def.path, def.bus, def.volume * vol_mult, def.pitch, def.loop);
         best->id = id;
         best->in_use = true;
         best->last_used = GetTimeSeconds();
-        
+
         // 3D positioning
         if (pos) {
             best->handle.SetPosition(*pos);
         }
-        
+
         return best->handle;
     }
-    
+
     return {}; // Invalid handle
 }
 ```
@@ -391,37 +395,37 @@ assets/audio/
 ```cpp
 class DynamicMusic {
     enum class Layer { Base, Drums, Melody, Intensity };
-    
+
     struct Stem {
         SoundID id;
         float volume = 1.0f;
         bool active = false;
     };
-    
+
     std::array<Stem, 4> stems_;
     float target_intensity_ = 0.0f;
     float current_intensity_ = 0.0f;
-    
+
     void SetIntensity(float intensity) {  // 0.0 (calm) to 1.0 (combat)
         target_intensity_ = std::clamp(intensity, 0.0f, 1.0f);
     }
-    
+
     void Update(float dt) {
         current_intensity_ = Lerp(current_intensity_, target_intensity_, dt * 2.0f);
-        
+
         // Fade stems based on intensity
         stems_[0].volume = 1.0f;  // Base always
         stems_[1].volume = current_intensity_;           // Drums
         stems_[2].volume = current_intensity_ * 0.7f;    // Melody
         stems_[3].volume = current_intensity_ * current_intensity_; // Intensity
-        
+
         for (auto& stem : stems_) {
             if (stem.handle.valid()) {
                 stem.handle.SetVolume(stem.volume * master_music_volume_);
             }
         }
     }
-    
+
     void OnCombatStart() { SetIntensity(1.0f); }
     void OnCombatEnd() { SetIntensity(0.0f); }
     void OnBossPhase(int phase) { SetIntensity(0.5f + phase * 0.2f); }
@@ -484,13 +488,13 @@ TEST("Audio engine initializes") {
 TEST("SFX pooling works") {
     AudioManager mgr;
     mgr.Initialize();
-    
+
     // Play more than pool size
     for (int i = 0; i < 10; i++) {
         auto h = mgr.Play(AudioManager::SoundID::Weapon_Gun_Shot);
         CHECK(h.valid());
     }
-    
+
     // Oldest should be stolen
     CHECK(mgr.GetActiveVoiceCount() <= 32);
 }
@@ -524,4 +528,4 @@ ma_backend backends[] = {
 
 ---
 
-**Status:** DESIGN COMPLETE — Ready for implementation in Phase 4.
+**Status:** DESIGN PROPOSAL ONLY — not reference evidence. Implementation is blocked by the evidence gates; this design is not a completion claim.

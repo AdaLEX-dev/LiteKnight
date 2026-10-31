@@ -1,69 +1,84 @@
 # Soul Knight 2.6.8 — Roadmap
 
-**Version:** 1.1 (evidence-first correction, 2026-10-31)
+**Version:** 1.2 (integrity pass, 2026-10-31)
 **Target:** CachyOS, x86-64, Wayland, 1920×1080, 60 FPS
 **Baseline:** Soul Knight 2.6.8 (APK SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)
 **Reference engine:** Unity **2018.4.12f1**, IL2CPP metadata **v24**
 
-> **Status correction:** Phase 2 is not complete; Gate B is **NOT MET**. Phase 3 has not started. Phase 4 code exists only as a skeleton and Gate C is **NOT MET**. The schedule below is a historical estimate, not a commitment. Behavioural work now follows `analysis/PROJECT_DIAGNOSIS.md` and `tools/re/`.
+> **Current status (2026-10-31):**
+>
+> - Phase 0 — COMPLETE
+> - Phase 1 — COMPLETE (artifact inventory)
+> - Phase 2 — PARTIAL; Gate B **NOT MET**
+> - Phase 3 — CURRENT (behavioural reconstruction; RNG core reconstructed, damage partial)
+> - Phase 4 — NOT STARTED; Gate C **NOT MET**
+> - Phase 5+ — BLOCKED by evidence gates
+>
+> The build/test baseline and platform scaffold were repaired during the integrity pass; that is not a Phase 4 gate completion. The schedule below is a historical estimate, not a commitment. Behavioural work follows `analysis/PROJECT_DIAGNOSIS.md`, `docs/EVIDENCE_STANDARD.md`, and `tools/re/`.
 
 ---
 
 ## Phase Overview
 
-| Phase | Name | Target | Gate |
-|-------|------|--------|------|
-| 0 | Environment | Tooling verified | A |
-| 1 | APK Forensics | Inventory complete | B |
-| 2 | Engine Reconstruction | Architecture mapped | B |
-| 3 | Gameplay Reconstruction | Behavioural specs | B |
-| 4 | Native Runtime | Wayland app launches | C |
-| 5 | First Playable | Core loop playable | D |
-| 6 | Core Systems | All major systems | E |
-| 7 | Content Parity | Full catalog implemented | E |
-| 8 | Fidelity | Pixel-perfect behaviour | F |
-| 9 | Performance | 60 FPS stable | F |
-| 10 | Packaging | CachyOS package | F |
-| 11 | Release | v1.0.0 tagged | F |
+| Phase | Name | Target | Gate | Current status |
+|-------|------|--------|------|----------------|
+| 0 | Environment | Tooling verified | A | ✅ COMPLETE |
+| 1 | APK Forensics | Inventory complete | B | ✅ COMPLETE |
+| 2 | Engine Reconstruction | Architecture mapped | B | ⚠️ PARTIAL / Gate B NOT MET |
+| 3 | Gameplay Reconstruction | Behavioural specs | B | 🔄 CURRENT |
+| 4 | Native Runtime | Wayland app launches | C | ⬜ NOT STARTED / Gate C NOT MET |
+| 5 | First Playable | Core loop playable | D | ⛔ BLOCKED |
+| 6 | Core Systems | All major systems | E | ⛔ BLOCKED |
+| 7 | Content Parity | Full catalog implemented | E | ⛔ BLOCKED |
+| 8 | Fidelity | Pixel-perfect behaviour | F | ⛔ BLOCKED |
+| 9 | Performance | 60 FPS stable | F | ⛔ BLOCKED |
+| 10 | Packaging | CachyOS package | F | ⛔ BLOCKED |
+| 11 | Release | v1.0.0 tagged | F | ⛔ BLOCKED |
 
 ---
 
 ## Detailed Milestones
 
-### Phase 3 — Gameplay Reconstruction (Weeks 1-3)
+### Phase 3 — Gameplay Reconstruction (CURRENT)
 **Goal:** Behavioural specification for every subsystem
 
-| Task | Deliverable | Status |
-|------|-------------|--------|
-| Player movement & physics | `docs/PLAYER.md` | ⬜ |
-| Player combat (attack, dodge, skill) | `docs/COMBAT.md` (player section) | ⬜ |
-| Enemy AI (20+ types) | `docs/AI.md` | ⬜ |
-| Weapon mechanics (all 25+ types) | `docs/WEAPONS.md` | ⬜ |
-| Projectile physics & triggers | `docs/PROJECTILES.md` | ⬜ |
-| Damage system (armor, crit, elements, status) | `docs/COMBAT.md` (damage section) | ⬜ |
-| Room generation algorithm | `docs/PROCEDURAL_GENERATION.md` | ⬜ |
-| Item/buff/chest systems | `docs/ITEMS.md` | ⬜ |
-| Progression & unlocks | `docs/PROGRESSION.md` | ⬜ |
-| Save/load system | `docs/SAVE_SYSTEM.md` | ⬜ |
-| Audio triggers & music | `docs/AUDIO.md` | ⬜ |
-| UI/HUD/Menu flow | `docs/UI.md` | ⬜ |
-| RNG stream isolation design | `docs/DETERMINISM.md` | ⬜ |
-| Unknown systems tracking | `analysis/UNKNOWN_SYSTEMS.md` | ⬜ |
-| Source map (ref → native) | `analysis/SOURCE_MAP.md` | ⬜ |
+> Deliverable filenames below are planned labels, not files that currently
+> exist. Actual evidence documents live in `analysis/re/`. A task is not complete
+> because a document exists; it is complete only when its evidence gate is met.
 
-**Gate B:** All major behavioural specs documented with evidence references. **Current status: NOT MET** — no subsystem has an evidence-backed behavioural spec yet.
+| Task | Evidence document / planned deliverable | Status |
+|------|------------------------------------------|--------|
+| RNG stream isolation design | `analysis/re/rgrandom.md` | 🔄 PARTIAL — core/map-seed path reconstructed; `seed_state` 1/2 and map-length branch open |
+| Damage system (armor, crit, elements, status) | `analysis/re/damage.md` | 🔄 PARTIAL — player/enemy state mutation; projectile bridge/crit/element unresolved |
+| Unknown systems tracking | `analysis/UNKNOWN_SYSTEMS.md` | 🔄 ACTIVE |
+| Source map (reference → native) | `analysis/SOURCE_MAP.md` | 🔄 ACTIVE (planning only; no implementation) |
+| Player movement & physics | `docs/PLAYER.md` (planned) | ⬜ NOT STARTED |
+| Player combat (attack, dodge, skill) | `docs/COMBAT.md` (planned) | ⬜ NOT STARTED |
+| Enemy AI (20+ types) | `docs/AI.md` (planned) | ⬜ NOT STARTED |
+| Weapon mechanics (25+ types) | `docs/WEAPONS.md` (planned) | ⬜ NOT STARTED |
+| Projectile physics & triggers | `docs/PROJECTILES.md` (planned) | ⬜ NOT STARTED |
+| Room generation algorithm | `docs/PROCEDURAL_GENERATION.md` (planned) | ⬜ NOT STARTED |
+| Item/buff/chest systems | `docs/ITEMS.md` (planned) | ⬜ NOT STARTED |
+| Progression & unlocks | `docs/PROGRESSION.md` (planned) | ⬜ NOT STARTED |
+| Save/load system | `docs/SAVE_SYSTEM.md` (design only) | ⬜ NOT STARTED |
+| Audio triggers & music | `docs/AUDIO.md` (design only) | ⬜ NOT STARTED |
+| UI/HUD/Menu flow | `docs/UI.md` (planned) | ⬜ NOT STARTED |
+
+**Gate B:** All major behavioural specs documented with evidence references. **Current status: NOT MET** — RNG and damage are partial; movement, AI, weapons, rooms, items, progression, UI, audio, and save behaviour are not reconstructed.
 
 ---
 
-### Phase 4 — Native Runtime (Weeks 3-6)
+### Phase 4 — Native Runtime (NOT STARTED; Gate C NOT MET)
 **Goal:** Native Wayland application launches reliably
+
+> The build/test baseline and a window/input/audio/filesystem scaffold exist, but there is no Vulkan context/swapchain/renderer and no Gate C runtime checkpoint. The task table remains `NOT STARTED` for gate purposes.
 
 | Task | Deliverable | Status |
 |------|-------------|--------|
 | Git repo init + CMake + FetchContent | `CMakeLists.txt`, `tools/*.sh` | ⬜ |
 | SDL3 Wayland window (1920×1080, vsync) | `src/platform/wayland/Window.cpp` | ⬜ |
 | Vulkan instance + device + swapchain | `src/engine/rendering/VulkanContext.cpp` | ⬜ |
-| Frame timing (fixed 60 Hz sim, variable render) | `src/platform/timing/FrameTimer.cpp` | ⬜ |
+| Frame timing (render target 60 FPS; reference sim tick UNRESOLVED) | `src/platform/timing/FrameTimer.cpp` | ⬜ |
 | Input abstraction (keyboard, mouse, gamepad) | `src/platform/input/InputManager.cpp` | ⬜ |
 | miniaudio engine + bus system | `src/platform/audio/AudioEngine.cpp` | ⬜ |
 | FileSystem (XDG paths, asset loading) | `src/platform/filesystem/FileSystem.cpp` | ⬜ |
@@ -75,7 +90,7 @@
 
 ---
 
-### Phase 5 — First Playable (Weeks 6-9)
+### Phase 5 — First Playable (BLOCKED; Gate D NOT MET)
 **Goal:** Genuinely playable native loop
 
 | Task | Deliverable | Status |
@@ -87,7 +102,7 @@
 | Player entity + movement + collision | `src/game/player/PlayerSystem.cpp` | ⬜ |
 | Input → Player action mapping | `src/game/player/PlayerInput.cpp` | ⬜ |
 | Basic collision (AABB / circle) | `src/engine/collision/Collision.cpp` | ⬜ |
-| One weapon (pistol/sword) + projectile | `src/game/weapons/`, `src/game/projectiles/` | ⬜ |
+| One confirmed weapon + projectile | `src/game/weapons/`, `src/game/projectiles/` | ⬜ |
 | One enemy (EnemyAI01) + AI | `src/game/enemies/EnemySystem.cpp` | ⬜ |
 | Damage application + death | `src/game/combat/CombatSystem.cpp` | ⬜ |
 | Player death + restart | `src/game/player/PlayerDeath.cpp` | ⬜ |
@@ -110,7 +125,7 @@
 | **Combat** | Damage formula, armor, crit, elements, status effects, knockback | ⬜ |
 | **Enemies** | All 20+ EnemyAI types, boss phases, RGEBossController | ⬜ |
 | **Rooms** | All MapManager modes, room templates, doors, transitions | ⬜ |
-| **Procedural Gen** | BSP + graph + template placement, deterministic seeds | ⬜ |
+| **Procedural Gen** | Generation algorithm unreconstructed (BSP/graph/template is a hypothesis) | ⬜ |
 | **Items** | Pickups, chests (7 types), buffs, consumables, keys | ⬜ |
 | **Characters** | All characters, stats, skills, passives, skins | ⬜ |
 | **Progression** | Unlocks, currency, achievements, NG+ | ⬜ |
@@ -248,17 +263,18 @@ Phase 11 (Release) ────────────┘
 
 | Phase | Est. Time | Focus |
 |-------|-----------|-------|
-| 0-2 | 1 week | ✅ DONE |
-| 3 | 3 weeks | RE documentation |
-| 4 | 3 weeks | Platform + Renderer |
-| 5 | 3 weeks | First playable |
+| 0-1 | 1 week | ✅ DONE |
+| 2 | — | ⚠️ PARTIAL / Gate B NOT MET |
+| 3 | — | 🔄 CURRENT (estimate suspended until evidence gates pass) |
+| 4 | — | ⬜ NOT STARTED / Gate C NOT MET |
+| 5 | — | ⛔ BLOCKED |
 | 6 | 9 weeks | Core systems (parallelizable) |
 | 7 | 6 weeks | Content implementation |
 | 8 | 6 weeks | Fidelity polishing |
 | 9 | 4 weeks | Profiling + optimization |
 | 10 | 2 weeks | Packaging |
 | 11 | 1 week | Release |
-| **Total** | **~41 weeks** | **~10 months** |
+| **Total** | **—** | **estimate suspended: Phase 4/5 have not started and Phase 3 is evidence-gated** |
 
 ---
 
@@ -266,7 +282,7 @@ Phase 11 (Release) ────────────┘
 
 | Risk | Impact | Likelihood | Mitigation |
 |------|--------|------------|------------|
-| IL2CPP RE incomplete | Missed mechanics | Medium | Phase 3 thoroughness, runtime experiments |
+| IL2CPP RE incomplete | Missed mechanics | Medium | Phase 3 thoroughness, static analysis, approved native observation |
 | Vulkan complexity | Delay Phase 4 | Medium | Minimal renderer, copy from working examples |
 | Determinism bugs | Desync in gen/combat | High | Reference-compatible RNG streams, regression tests per system |
 | Asset pipeline | Content missing | Medium | AssetRipper automation, validation step |
@@ -296,4 +312,4 @@ Phase 11 (Release) ────────────┘
 ---
 
 **Next Review:** After Phase 3 complete (Gate B).
-**Roadmap Version:** 1.0 — Update at each gate.
+**Roadmap Version:** 1.2 — Update at each gate.

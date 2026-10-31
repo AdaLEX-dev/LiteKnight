@@ -1,5 +1,10 @@
 # Soul Knight 2.6.8 — Platform Layer Design
 
+> **Status:** design proposal only. The current implementation is limited to an
+> SDL3 window/input/audio/file-system scaffold; there is no Vulkan context or
+> swapchain. Gate C is **NOT MET**. Do not treat code snippets here as
+> implemented architecture.
+
 **Target:** CachyOS, x86-64, Wayland, SDL3, Vulkan 1.3
 
 ---
@@ -21,7 +26,7 @@ struct WindowConfig {
 class Window {
     SDL_Window* sdl_window_ = nullptr;
     VkSurfaceKHR surface_ = VK_NULL_HANDLE;
-    
+
     // Wayland-specific: no X11 fallback
     // SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR=1
     // SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY=1
@@ -35,15 +40,16 @@ SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR, "1");
 SDL_SetHint(SDL_HINT_VIDEO_WAYLAND_SCALE_TO_DISPLAY, "1");
 SDL_SetHint(SDL_HINT_MOUSE_FOCUS_CLICKTHROUGH, "1");
 SDL_SetHint(SDL_HINT_VIDEO_MINIMIZE_ON_FOCUS_LOSS, "0");
-SDL_SetHint(SDL_HINT_VIDEO_X11_NET_WM_BYPASS_COMPOSITOR, "0"); // Disable X11 path
+SDL_SetHint(SDL_HINT_VIDEO_DRIVER, "wayland"); // Force Wayland; no X11 fallback
 ```
 
 ### Surface Creation
 ```cpp
 VkSurfaceKHR CreateVulkanSurface(VkInstance instance) {
-    VkSurfaceKHR surface;
-    if (!SDL_Vulkan_CreateSurface(sdl_window_, instance, &surface)) {
-        throw std::runtime_error("Failed to create Vulkan surface: " + std::string(SDL_GetError()));
+    VkSurfaceKHR surface = VK_NULL_HANDLE;
+    if (!SDL_Vulkan_CreateSurface(sdl_window_, instance, nullptr, &surface)) {
+        // The project builds with -fno-exceptions; return an invalid surface.
+        return VK_NULL_HANDLE;
     }
     return surface;
 }
@@ -96,18 +102,18 @@ struct InputSnapshot {
     std::bitset<Action::COUNT> pressed;
     std::bitset<Action::COUNT> released;
     std::bitset<Action::COUNT> held;
-    
+
     // Analog
     Vec2 move_axis = {0, 0};      // -1..1
     Vec2 aim_axis = {0, 0};       // -1..1
     float trigger_left = 0.0f;    // 0..1
     float trigger_right = 0.0f;   // 0..1
-    
+
     // Mouse (if used)
     Vec2 mouse_pos = {0, 0};
     Vec2 mouse_delta = {0, 0};
     bool mouse_pressed[3] = {false};
-    
+
     // Window events
     bool window_focused = true;
     bool window_resized = false;
@@ -119,7 +125,7 @@ class InputManager {
     InputSnapshot previous_;
     std::unordered_map<SDL_Scancode, Action> key_map_;
     std::unordered_map<SDL_GamepadButton, Action> gamepad_map_;
-    
+
     void ProcessSDLEvent(const SDL_Event& event);
     InputSnapshot GetSnapshot() const;
 };
@@ -135,41 +141,41 @@ class InputManager {
 class FrameTimer {
     static constexpr double TARGET_DT = 1.0 / 60.0;  // 16.666... ms
     static constexpr double MAX_ACCUMULATOR = 0.2;    // 200 ms spiral of death protection
-    
+
     double accumulator_ = 0.0;
     double current_time_ = 0.0;
-    
+
     struct FrameStats {
         double frame_time_ms = 0;
         double sim_time_ms = 0;
         double render_time_ms = 0;
         int sim_steps = 0;
     } stats_;
-    
+
     void Tick() {
         double new_time = GetTimeSeconds();
         double frame_time = new_time - current_time_;
         current_time_ = new_time;
-        
+
         // Clamp spiral of death
         if (frame_time > MAX_ACCUMULATOR) frame_time = MAX_ACCUMULATOR;
         accumulator_ += frame_time;
-        
+
         stats_.frame_time_ms = frame_time * 1000.0;
         stats_.sim_steps = 0;
-        
+
         // Fixed simulation steps
         while (accumulator_ >= TARGET_DT) {
             SimStep(TARGET_DT);
             accumulator_ -= TARGET_DT;
             stats_.sim_steps++;
         }
-        
+
         // Interpolation alpha for rendering
         double alpha = accumulator_ / TARGET_DT;
         RenderStep(alpha);
     }
-    
+
     void SimStep(double dt);      // Physics, AI, gameplay
     void RenderStep(double alpha); // Interpolated render
 };
@@ -196,7 +202,7 @@ class FileSystem {
     std::string data_home_;      // $XDG_DATA_HOME/soul-knight/ or ~/.local/share/soul-knight/
     std::string config_home_;    // $XDG_CONFIG_HOME/soul-knight/ or ~/.config/soul-knight/
     std::string cache_home_;     // $XDG_CACHE_HOME/soul-knight/ or ~/.cache/soul-knight/
-    
+
     // Subdirectories
     std::string saves_dir_;      // data_home/saves/
     std::string assets_dir_;     // data_home/assets/ (converted native assets)
@@ -225,7 +231,7 @@ std::optional<std::string> ReadTextFile(const std::string& relative_path);
 class AudioEngine {
     ma_engine engine_;
     ma_engine_config config_;
-    
+
     // Bus indices
     enum Bus : uint32_t {
         MASTER = 0,
@@ -235,7 +241,7 @@ class AudioEngine {
         AMBIENCE = 4,
         COUNT = 5
     };
-    
+
     bool Init() {
         config_ = ma_engine_config_init();
         config_.channels = 2;
@@ -243,25 +249,25 @@ class AudioEngine {
         config_.periodSizeInFrames = 1024;  // ~21ms @ 48kHz
         config_.periods = 3;
         config_.noAutoStart = true;
-        
+
         // Enable PipeWire/PulseAudio/ALSA backends
         config_.backend = ma_backend_pipewire; // Try PipeWire first
-        
+
         if (ma_engine_init(&config_, &engine_) != MA_SUCCESS) {
             // Fallback to auto
             config_.backend = ma_backend_null;
             if (ma_engine_init(&config_, &engine_) != MA_SUCCESS) return false;
         }
-        
+
         // Create bus connections
         for (uint32_t i = 1; i < COUNT; i++) {
             ma_engine_node_set_output_bus(&engine_, i, MASTER);
         }
-        
+
         ma_engine_start(&engine_);
         return true;
     }
-    
+
     ma_sound* PlaySound(const char* path, Bus bus, bool looping = false);
     void SetBusVolume(Bus bus, float volume);  // 0.0..1.0
     void SetMasterVolume(float volume);
@@ -273,7 +279,7 @@ class AudioEngine {
 struct SoundHandle {
     ma_sound sound_;
     bool is_streaming_ = false;  // Music vs SFX
-    
+
     void Play();
     void Stop();
     void SetVolume(float vol);
@@ -364,4 +370,4 @@ target_compile_definitions(platform_static PRIVATE
 
 ---
 
-**Status:** DESIGN COMPLETE — Ready for implementation in Phase 4.
+**Status:** DESIGN PROPOSAL ONLY — not reference evidence. Implementation is blocked by the evidence gates; this design is not a completion claim.

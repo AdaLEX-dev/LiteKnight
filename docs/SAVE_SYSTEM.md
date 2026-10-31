@@ -35,7 +35,7 @@ $XDG_DATA_HOME/soul-knight/
   "timestamp": 1701234567,
   "playtime_seconds": 3600,
   "slot": 0,
-  
+
   "run": {
     "seed": 1234567890,
     "mode": "normal",           // "normal", "endless", "defence", "race", "sandbox", "boss_rush"
@@ -51,7 +51,7 @@ $XDG_DATA_HOME/soul-knight/
       "vfx": "hex64..."
     }
   },
-  
+
   "player": {
     "character_id": "knight",
     "skin_id": "default",
@@ -91,7 +91,7 @@ $XDG_DATA_HOME/soul-knight/
       "skill_cooldowns": {"dash": 0.0}
     }
   },
-  
+
   "progression": {
     "currency": {
       "coins": 5000,
@@ -115,7 +115,7 @@ $XDG_DATA_HOME/soul-knight/
       "distance_traveled": 125000.0
     }
   },
-  
+
   "world": {
     "cleared_rooms": ["room_001", "room_002", "room_005"],
     "activated_portals": ["portal_01", "portal_02"],
@@ -187,7 +187,7 @@ const std::array<MigrationFn, 3> MIGRATIONS = {nullptr, Migrate1to2, Migrate2to3
 bool MigrateToCurrent(nlohmann::json& save) {
     int from = save.value("save_version", 1);
     int to = CURRENT_SAVE_VERSION;  // 3
-    
+
     for (int v = from; v < to; v++) {
         if (!MIGRATIONS[v](save)) {
             LOG_ERROR("Save migration {}→{} failed", v, v+1);
@@ -210,7 +210,7 @@ class SaveManager {
 public:
     static constexpr int MAX_SLOTS = 5;
     static constexpr int CURRENT_VERSION = 3;
-    
+
     struct SaveMetadata {
         int slot = 0;
         int version = 0;
@@ -221,39 +221,39 @@ public:
         int floor = 1;
         bool valid = false;
     };
-    
+
     // Initialize (create directories)
     bool Initialize(const FileSystem& fs);
-    
+
     // List all saves
     std::vector<SaveMetadata> ListSaves() const;
-    
+
     // Save operations
     bool SaveGame(int slot, const GameState& state);
     bool SaveGame(int slot, const nlohmann::json& save_data);
-    
+
     // Load operations
     std::optional<nlohmann::json> LoadGame(int slot);
     std::optional<GameState> LoadGameState(int slot);
-    
+
     // Delete
     bool DeleteSave(int slot);
-    
+
     // Auto-save
     void EnableAutoSave(bool enable, float interval_seconds = 30.0f);
     void TriggerAutoSave(const GameState& state);
-    
+
     // Validation
     bool ValidateSave(const nlohmann::json& save) const;
     std::string GetSaveHash(const nlohmann::json& save) const;  // SHA-256 for integrity
-    
+
 private:
     FileSystem fs_;
     std::string saves_dir_;
     bool auto_save_enabled_ = true;
     float auto_save_timer_ = 0.0f;
     float auto_save_interval_ = 30.0f;
-    
+
     std::string GetSlotPath(int slot) const;
     nlohmann::json CreateSaveData(const GameState& state);
     bool WriteSaveFile(const std::string& path, const nlohmann::json& data);
@@ -271,10 +271,10 @@ class GameStateSerializer {
 public:
     // Serialize entire game state to JSON
     static nlohmann::json Serialize(const GameState& state);
-    
+
     // Deserialize JSON to game state
     static std::optional<GameState> Deserialize(const nlohmann::json& json);
-    
+
 private:
     // Sub-serializers
     static nlohmann::json SerializePlayer(const Player& player);
@@ -283,7 +283,7 @@ private:
     static nlohmann::json SerializeWorld(const WorldState& world);
     static nlohmann::json SerializeRun(const RunState& run);
     static nlohmann::json SerializeRNG(const RNGState& rng);
-    
+
     static std::optional<Player> DeserializePlayer(const nlohmann::json& json);
     static std::optional<Inventory> DeserializeInventory(const nlohmann::json& json);
     static std::optional<Progression> DeserializeProgression(const nlohmann::json& json);
@@ -301,13 +301,13 @@ struct RNGState {
         uint64_t state = 0;
         uint64_t inc = 0;
     };
-    
+
     Stream world;      // Dungeon generation
     Stream combat;     // Damage, crit, procs
     Stream ai;         // Enemy behavior
     Stream loot;       // Drop tables
     Stream vfx;        // Particle variance
-    
+
     nlohmann::json ToJson() const {
         return {
             {"world", StreamToHex(world)},
@@ -317,7 +317,7 @@ struct RNGState {
             {"vfx", StreamToHex(vfx)}
         };
     }
-    
+
     static std::optional<RNGState> FromJson(const nlohmann::json& json) {
         RNGState state;
         if (!HexToStream(json.value("world", "0"), state.world)) return {};
@@ -340,14 +340,14 @@ class AutoSaveSystem {
 public:
     void Update(float dt, const GameState& state) {
         if (!enabled_) return;
-        
+
         timer_ += dt;
         if (timer_ >= interval_) {
             timer_ = 0.0f;
             save_manager_.SaveGame(0, state);  // Slot 0 = auto
         }
     }
-    
+
     // Also trigger on:
     // - Room clear
     // - Level up
@@ -357,7 +357,7 @@ public:
     void OnRoomCleared(const GameState& state) { save_manager_.SaveGame(0, state); }
     void OnLevelUp(const GameState& state) { save_manager_.SaveGame(0, state); }
     void OnBossDefeated(const GameState& state) { save_manager_.SaveGame(0, state); }
-    
+
 private:
     SaveManager& save_manager_;
     bool enabled_ = true;
@@ -423,11 +423,11 @@ struct SaveFile {
     uint32_t crc32 = 0;         // CRC32 of JSON payload
     uint64_t timestamp = 0;
     std::string json_payload;   // Minified JSON
-    
+
     bool Verify() const {
         return crc32 == ComputeCRC32(json_payload);
     }
-    
+
     static SaveFile Pack(const nlohmann::json& json) {
         SaveFile file;
         file.json_payload = json.dump(-1, ' ', false, nlohmann::json::error_handler_t::replace);
@@ -435,7 +435,7 @@ struct SaveFile {
         file.timestamp = GetTimeUnix();
         return file;
     }
-    
+
     static std::optional<nlohmann::json> Unpack(const SaveFile& file) {
         if (!file.Verify()) return {};
         try {
@@ -453,7 +453,7 @@ std::optional<nlohmann::json> SaveManager::LoadGame(int slot) {
     auto path = GetSlotPath(slot);
     auto file_data = fs_.ReadFile(path);
     if (!file_data) return {};
-    
+
     // Try to parse as SaveFile (with CRC)
     SaveFile save_file;
     if (DeserializeSaveFile(*file_data, save_file)) {
@@ -464,7 +464,7 @@ std::optional<nlohmann::json> SaveManager::LoadGame(int slot) {
             }
         }
     }
-    
+
     // Fallback: try raw JSON (legacy/corrupted CRC)
     LOG_WARN("Save slot {} CRC failed, attempting raw JSON parse", slot);
     try {
@@ -474,7 +474,7 @@ std::optional<nlohmann::json> SaveManager::LoadGame(int slot) {
             return json;
         }
     } catch (...) {}
-    
+
     LOG_ERROR("Save slot {} corrupted beyond recovery", slot);
     return {};
 }
@@ -490,7 +490,7 @@ std::vector<uint8_t> CompressSave(const nlohmann::json& json) {
     std::string json_str = json.dump();
     size_t compressed_size = ZSTD_compressBound(json_str.size());
     std::vector<uint8_t> compressed(compressed_size);
-    
+
     size_t actual_size = ZSTD_compress(
         compressed.data(), compressed_size,
         json_str.data(), json_str.size(),
@@ -505,11 +505,11 @@ std::optional<nlohmann::json> DecompressSave(const std::vector<uint8_t>& data) {
     if (original_size == ZSTD_CONTENTSIZE_ERROR || original_size == ZSTD_CONTENTSIZE_UNKNOWN) {
         return {};
     }
-    
+
     std::vector<char> decompressed(original_size);
     size_t result = ZSTD_decompress(decompressed.data(), original_size, data.data(), data.size());
     if (ZSTD_isError(result)) return {};
-    
+
     try {
         return nlohmann::json::parse(std::string(decompressed.data(), result));
     } catch (...) {
@@ -528,20 +528,20 @@ TEST("Save/Load roundtrip preserves state") {
     original.run.seed = 42;
     original.player.stats.health = 73;
     original.progression.currency.coins = 12345;
-    
+
     // Save
     nlohmann::json json = GameStateSerializer::Serialize(original);
     SaveManager mgr;
     mgr.Initialize(fs);
     CHECK(mgr.SaveGame(1, json));
-    
+
     // Load
     auto loaded_json = mgr.LoadGame(1);
     REQUIRE(loaded_json);
-    
+
     auto loaded_state = GameStateSerializer::Deserialize(*loaded_json);
     REQUIRE(loaded_state);
-    
+
     // Verify critical fields
     CHECK(loaded_state->run.seed == original.run.seed);
     CHECK(loaded_state->player.stats.health == original.player.stats.health);
@@ -556,7 +556,7 @@ TEST("Migration v1→v3 works") {
         "player": {"character_id": "knight"},
         "progression": {"currency": {"coins": 100}}
     })"_json;
-    
+
     CHECK(SaveMigrations::MigrateToCurrent(v1_save));
     CHECK(v1_save["save_version"] == 3);
     CHECK(v1_save["run"]["rng_state"].contains("world"));
@@ -566,10 +566,10 @@ TEST("Migration v1→v3 works") {
 TEST("Corrupted save rejected") {
     SaveManager mgr;
     mgr.Initialize(fs);
-    
+
     // Write garbage
     fs.WriteFile("saves/slot_1.json", std::vector<uint8_t>{'b','a','d',' ','d','a','t','a'});
-    
+
     auto result = mgr.LoadGame(1);
     CHECK(!result);
 }
@@ -579,10 +579,10 @@ TEST("RNG state preserved exactly") {
     original.world.state = 0x123456789ABCDEF0;
     original.world.inc = 0xFEDCBA9876543210;
     // ... other streams
-    
+
     auto json = original.ToJson();
     auto restored = RNGState::FromJson(json);
-    
+
     REQUIRE(restored);
     CHECK(restored->world.state == original.world.state);
     CHECK(restored->world.inc == original.world.inc);
@@ -610,4 +610,4 @@ public:
 
 ---
 
-**Status:** DESIGN COMPLETE — Ready for implementation in Phase 5.
+**Status:** DESIGN PROPOSAL ONLY — not reference evidence. Implementation is blocked by the evidence gates; this design is not a completion claim.

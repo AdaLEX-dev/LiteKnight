@@ -117,7 +117,7 @@ res/
 | `UnityPy` 1.25.4 | Python extraction (verified in this environment) | ✅ Works; tool at `tools/asset/extract_unity.py` |
 | `AssetStudio` / UABE | GUI/CLI extraction alternatives | Optional; not required for first pass |
 | `il2cppdumper` + `AssetRipper` | Combined IL2CPP + asset extraction | Optional; may help with prefabs/materials |
-| Custom Python/C# script | Batch extraction, conversion | 🚧 First-pass tool being added |
+| Custom Python script | Batch extraction, manifest | ✅ `tools/asset/extract_unity.py` (first pass; conversion not started) |
 
 ### Target Native Formats
 | Asset Type | Source Format | Native Target | Conversion Tool |
@@ -137,14 +137,17 @@ res/
 ```
 Reference APK
     ↓
-Extraction (AssetRipper/AssetStudio)
+Extraction (UnityPy first pass; AssetRipper optional)
     ↓
-Validation (checksums, completeness)
+Validation (bundle SHA-256 + object path IDs in manifest)
     ↓
-Conversion (to native formats)
+Conversion (NOT STARTED: KTX2/OGG/JSON)
     ↓
-Native Packaging (asset bundles → game data)
+Native Packaging (NOT STARTED)
 ```
+
+Only the extraction/manifest stage is implemented. Do not claim a native asset
+pipeline until conversion and runtime loading exist.
 
 ### Extraction Priority
 1. **Sprites/Atlases** — Player, enemies, weapons, UI, particles
@@ -230,4 +233,4 @@ Per Master Spec §4: **Never commit proprietary extracted assets to Git.**
 
 ---
 
-**Status:** Resource inventory complete. AssetBundle catalog documented. Ready for extraction phase.
+**Status:** Resource inventory complete. AssetBundle catalog documented. First-pass extraction is implemented (`tools/asset/extract_unity.py`, 284 manifest entries); asset identity and native conversion remain incomplete.

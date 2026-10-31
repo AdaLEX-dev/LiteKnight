@@ -44,9 +44,9 @@ Reference APK: SHA-256 `8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5
 ├─────────────────────────────────────────────────────────────────┤
 │  RGGameProcess              ← Main game state machine           │
 │  RGGameSceneManager         ← Scene loading/transitions         │
-│  RGGameInfo                 ← Runtime game data                 │
-│  RGGameConst                ← Constants/balance data            │
-│  RGRandom / RGRandomInterface ← Deterministic RNG               │
+│  RGGameInfo                 ← run seeds + network seed sync     │
+│  RGGameConst                ← constants/balance (unverified)    │
+│  RGRandom / RGRandomInterface ← local wrapper over Unity RNG    │
 │  RGSaveManager              ← Persistence                       │
 │  RGNetWorkManager           ← Multiplayer (out of scope v1)     │
 └─────────────────────────────────────────────────────────────────┘
@@ -111,7 +111,7 @@ Awake() → OnEnable() → Start() → [Update()/FixedUpdate()/LateUpdate()] →
 ```
 
 ### Game State Machine (RGGameProcess)
-Key states observed:
+Candidate states (HYPOTHESIS; not observed in a runtime trace):
 - Initialization
 - Main Menu (Hall)
 - Character Selection
@@ -194,6 +194,8 @@ A reusable method → RVA → disassembly workflow is being added under `tools/r
 
 ### 3.3 Weapon System (`RGWeapon` hierarchy)
 
+> The parenthetical annotations in this hierarchy (melee, beam, homing, etc.) are inferred from class names and are **HYPOTHESIS**, not reconstructed behaviour.
+
 ```
 RGWeapon (MonoBehaviour) ← Base weapon
   ├─ RGSword (melee, slash triggers)
@@ -234,6 +236,8 @@ The original list (`damage`, `fireRate`, `bulletCount`, `spread`, `energyCost`, 
 Field names are structural evidence; formulas are not implied.
 
 ### 3.4 Projectile System (`RGBullet` hierarchy)
+
+> Parenthetical trigger/effect roles are inferred from class names and remain **UNVERIFIED**.
 
 ```
 RGBullet (DamageCarrier)
@@ -301,6 +305,8 @@ MapManager (Singleton)
 - `SerializeLinkerSprites` — Visual variants
 
 ### 3.6 Item / Progression System
+
+> The item/chest hierarchy is structural inventory only; loot and progression behaviour is **UNKNOWN**.
 
 ```
 RGItem (SerializedRandomBahaviour) ← Base item
@@ -430,7 +436,7 @@ RGMusicManager (singleton)
 | ParticleSystem | Custom particle system | MEDIUM |
 | UI (uGUI/TextMeshPro) | Dear ImGui / custom UI | MEDIUM |
 | Save (BinaryFormatter) | JSON + schema versioning | HIGH |
-| RNG (Unity.Random) | Reference-compatible `RandomStream` (PCG32 rejected for parity) | CRITICAL |
+| RNG (Unity.Random) | Reference-compatible `RGRandomStream` (PCG32 rejected for parity) | CRITICAL |
 | SceneManager | Custom scene graph | MEDIUM |
 
 ---

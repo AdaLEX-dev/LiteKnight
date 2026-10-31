@@ -49,4 +49,5 @@ annotation, and `tools/asset/` for local asset extraction.
 - A 500-line verified subsystem is preferred over a large speculative port.
 - The PCG32 decision and speculative architecture claims were superseded.
 - Runtime observation remains desirable; static analysis is the current
-  substitute until a device/emulator is available.
+  substitute until an approved native/observation method exists. Android
+  runtimes, Waydroid, emulators, Wine, and X11/XWayland remain forbidden.

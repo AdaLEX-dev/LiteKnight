@@ -148,10 +148,10 @@ Same libraries, ~20-30% smaller due to 32-bit pointers.
 | Okio | `okio/` | 2.x |
 | Retrofit | `retrofit2/` | 2.x |
 | Facebook SDK | `com/facebook/` | 12+ |
-| Firebase | `com/google/firebase/` | 2021 era |
-| Google Play Services | `com/google/android/gms/` | 2021 era |
+| Firebase | `com/google/firebase/` | Unknown (not extracted) |
+| Google Play Services | `com/google/android/gms/` | Unknown (not extracted) |
 | AppsFlyer | `com/appsflyer/` | 6+ |
-| Unity Ads/Services | `com/unity3d/services/` | 2021+ |
+| Unity Ads/Services | `com/unity3d/services/` | Unknown (not extracted) |
 
 ---
 

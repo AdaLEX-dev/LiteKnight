@@ -29,13 +29,40 @@ Regression Test: Test name added
 
 ## Active Bugs
 
-*None yet — Phase 3 not started*
+*None known in the current build.* Unresolved reverse-engineering questions are
+tracked in `analysis/UNKNOWN_SYSTEMS.md` and `docs/PARITY.md`, not here. The
+current build/test baseline is verified in `analysis/REPOSITORY_INTEGRITY_AUDIT.md`.
 
 ---
 
 ## Resolved Bugs
 
-*None yet*
+### BUG-CORE-0001: Test suite was falsely green
+- **Severity:** P0
+- **Actual:** `DOCTEST_CONFIG_DISABLE=0` compiled every test out; CTest passed with zero cases.
+- **Fix:** Removed the define, fixed ECS/input tests, added a real CTest entry and zero-test guard.
+- **Regression:** `./tools/test.sh` now executes 22 cases; intentional break turns CTest red.
+
+### BUG-PLAT-0001: Window event watch removal used a different callback
+- **Severity:** P2
+- **Actual:** `SDL_RemoveEventWatch` received a newly constructed lambda, not the registered callback.
+- **Fix:** Use the static `Window::OnWindowEvent` pointer for add/remove.
+- **Regression:** Build + platform smoke audit; no automated callback test yet.
+
+### BUG-PLAT-0002: Build could fall back to non-Wayland video driver
+- **Severity:** P1 (scope violation)
+- **Fix:** Force `SDL_HINT_VIDEO_DRIVER=wayland` and fail startup if the active driver is not `wayland`.
+### BUG-CORE-0002: Fixed-step loop never consumed its accumulator
+- **Severity:** P0 (hang)
+- **Actual:** `main.cpp` looped while `ShouldSimulate()` but never called `ConsumeSimStep()`, so any frame over 16.7 ms would spin forever.
+- **Fix:** Call `ConsumeSimStep()` inside the loop; `FrameTimer::Tick` remains the tested helper.
+- **Regression:** Debug/RelWithDebInfo clean builds and test runs; no automated runtime-loop test yet.
+
+### BUG-CORE-0003: Unused World component iterator used entity indices as dense indices
+- **Severity:** P2 (contradictory API)
+- **Actual:** `World<T>::Iterator` walked the dense component array but looked up `entities_[dense_index]` and returned null/invalid pairs for sparse sets. Nothing used it.
+- **Fix:** Removed the broken iterator and its unused type-erased `Size()` accessor rather than leaving a false API.
+- **Regression:** ECS unit tests still pass (22 cases / 1273 assertions).
 
 ---
 
