@@ -5,29 +5,33 @@ The living inventory is generated from committed scene metadata:
 - [texture_inventory.json](../../analysis/assets/texture_inventory.json)
 - [asset_inventory.json](../../analysis/assets/asset_inventory.json)
 
-## Current statistics (`0.1.0-dev`)
+## Current statistics (`0.2.0-dev`)
 
-| Category | Integrated | Observed reference candidates | Status |
+| Category | Integrated | Observed reference candidates | Highest status |
 |---|---:|---:|---|
-| Textures | 14 | 365 | PARTIAL |
-| Sprites | 182 | 6408 | PARTIAL |
-| Characters | 15 | 15 | PARTIAL: idle/run only |
-| Weapons | 4 | 383 weapon GameObjects | PARTIAL: first Gun001 set |
-| Projectiles | 3 unique | not counted | PARTIAL |
-| Enemies | 1 (`e_slime01`) | 126 enemy IDs | PARTIAL |
-| Animations | 30 | not counted | PARTIAL: character ide/run |
-| Doors | 4 | 4 in `r1_1` | INTEGRATED |
-| Obstacle variants | 12 (8 solid) | recovered `obstacle_list` | INTEGRATED |
-| Walls | 140 cells / 420 sprites | room topology | INTEGRATED |
-| Effects / items / UI / audio | 0 | unknown | UNRECOVERED / PLACEHOLDER |
+| Textures | 14 | 365 | INTEGRATED |
+| Sprites | 182 | 6408 | INTEGRATED |
+| Characters | 15 | 15 | DEVROOM_TESTED (c00 live) |
+| Weapons | 4 | 365 unique IDs | DEVROOM_TESTED |
+| Projectiles | 3 unique | not counted | DEVROOM_TESTED |
+| Enemies | 1 (`e_slime01`) | 125 unique IDs | DEVROOM_TESTED |
+| Animations | 30 | 2098 clips | INTEGRATED (idle/run subset) |
+| Doors | 4 | 4 in `r1_1` | DEVROOM_TESTED |
+| Obstacle variants | 12 (8 solid) | recovered `obstacle_list` | DEVROOM_TESTED |
+| Walls | 140 cells / 420 sprites | room topology | DEVROOM_TESTED |
+| Effects / items / UI / audio | 0 | discovery names only | UNRECOVERED / PLACEHOLDER |
+
+The maturity ladder is `DISCOVERED`, `EXTRACTED`, `TRANSLATED`, `VALIDATED`,
+`INTEGRATED`, `DEVROOM_TESTED`. It is recorded per category in
+`analysis/assets/asset_inventory.json`.
 
 The observed reference counts are from local UnityPy scans. They are not a claim
 that every candidate is recoverable, licensed, or appropriate for release.
 
 ## Missing / not integrated
 
-- 125 observed enemy IDs not integrated
-- 379 observed weapon GameObjects not integrated
+- 124 observed enemy IDs not integrated
+- 361 observed unique weapon IDs not integrated
 - attack/charge/hit/death animation states not integrated
 - effects, items, pickups, UI assets, audio, environment decorations
 - recovered UI font atlas (developer text atlas is a PLACEHOLDER)

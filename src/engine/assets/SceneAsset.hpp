@@ -113,6 +113,8 @@ struct PlayerStats {
     int32_t hp = 0;
     int32_t max_armor = 0;
     int32_t armor = 0;
+    int32_t max_energy = 0;
+    int32_t energy = 0;
     int32_t camp = 1;
     int32_t atk = 0;
     int32_t critical = 0;

@@ -22,11 +22,19 @@
 #include "game/combat/Weapon.hpp"
 #include "game/enemy/EnemySystem.hpp"
 #include "game/player/PlayerCharacterSet.hpp"
+#include "game/test/InteractiveReplay.hpp"
+#include "game/test/InteractiveTest.hpp"
+#include "game/ui/AssetLab.hpp"
 #include "game/ui/DevOverlay.hpp"
+#include "game/player/Energy.hpp"
+#include "game/save/SaveManager.hpp"
+#include "game/weapons/WeaponInventory.hpp"
+#include "game/weapons/WeaponPickup.hpp"
 #include "game/weapons/WeaponRegistry.hpp"
 #include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
 
+#include <filesystem>
 #include <memory>
 #include <string>
 #include <vector>
@@ -59,6 +67,7 @@ public:
 
 private:
     void PollEvents();
+    void HandleSceneKeyDown(SDL_Scancode scancode, SDL_Keymod modifiers);
     void FixedUpdate(double dt);
     void ExerciseWindowIfRequested();
     void BuildRenderBatch();
@@ -71,9 +80,25 @@ private:
     void CycleCharacter(int delta);
     void CycleObstacleVariant();
     void ResetCombat();
-    void UpdateAimInput();
+    void UpdateAimInput(const platform::InputSnapshot* snapshot = nullptr);
     void ConfigureActiveWeapon();
+    void SwitchWeaponSlot(std::size_t slot);
+    void SpawnWeaponPickup(std::size_t weapon_index);
+    void TryPickupWeapon();
+    void SaveGameToDisk();
+    void LoadGameFromDisk();
     void SpawnSelectedEnemy(int count);
+    void CycleAssetLabCategory(int delta);
+    void CycleAssetLabItem(int delta);
+    void ActivateAssetLabSelection();
+    void StartInteractiveTest();
+    bool LoadReplayIfRequested();
+    void StartReplaySession();
+    bool ApplyReplayInputForNextTick();
+    void ApplyInputSnapshot(const platform::InputSnapshot& snapshot);
+    void RecordInteractiveTestTick();
+    void FinalizeInteractiveTest(const std::string& result,
+                                 const std::string& notes);
     bool SmokeTestExpired() const;
 
     AppConfig config_;
@@ -92,11 +117,19 @@ private:
     soulknight::game::room::ObstacleField obstacles_;
     soulknight::game::player::PlayerCharacterSet player_characters_;
     soulknight::game::weapons::WeaponRegistry weapons_;
+    soulknight::game::weapons::WeaponInventory weapon_inventory_;
+    soulknight::game::weapons::WeaponPickupSystem weapon_pickups_;
+    std::unique_ptr<soulknight::game::save::SaveManager> save_manager_;
     soulknight::game::ui::DevOverlay dev_ui_;
+    soulknight::game::ui::AssetLab asset_lab_;
+    soulknight::game::test::InteractiveTest interactive_test_;
+    std::unique_ptr<soulknight::game::test::InteractiveReplay> replay_;
+    platform::InputSnapshot replay_snapshot_;
     soulknight::game::combat::Weapon weapon_;
     soulknight::game::combat::ProjectileSystem projectiles_;
     soulknight::game::enemy::EnemySystem enemies_;
     soulknight::game::combat::HealthState player_health_;
+    soulknight::game::player::EnergyState player_energy_;
     engine::Vec2 aim_direction_{1.0f, 0.0f};
     bool mouse_aim_valid_ = false;
     engine::locomotion::FacingDirection facing_ =
@@ -113,6 +146,11 @@ private:
     int animation_logs_remaining_ = 0;
     std::vector<engine::rendering::TextureUpload> texture_uploads_;
     bool scene_mode_ = false;
+    int exit_code_ = 0;
+    std::filesystem::path project_root_;
+    std::string scene_sha256_;
+    std::string reference_apk_sha256_;
+    std::string asset_inventory_sha256_;
 
     bool sdl_initialized_ = false;
     bool vulkan_library_loaded_ = false;

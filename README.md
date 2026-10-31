@@ -5,10 +5,12 @@
 LiteKnight is a native C++20/SDL3/Vulkan project built around a permanent,
 playable **developer room**. The executable is not a mock-up: movement,
 collision, camera, animated doors, obstacle switching, character switching,
-weapon fire, projectiles, damage, enemy death, player death, and reset all run
-through the native fixed-step simulation.
+weapon fire, projectiles, damage, enemy death, player death, reset, live enemy
+pursuit, energy/HUD, two weapon slots, weapon pickup and save/load all run
+through the native fixed-step simulation. The asset laboratory and serialized
+interactive test harness are part of the same executable.
 
-- **Version:** `0.1.0-dev`
+- **Version:** `0.2.0-dev`
 - **Platform:** Linux, Wayland only, Vulkan 1.3+
 - **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 (local reference only)
 - **Simulation:** 50 Hz fixed step; 60 FPS render target
@@ -53,6 +55,9 @@ Useful variants:
 ./scripts/test.sh             # CTest
 ./scripts/run-devroom.sh      # launch only
 ./scripts/smoke-devroom.sh    # non-interactive playable check
+./scripts/prepare-assets.sh   # full local reference/native preparation
+./scripts/audit-assets.sh     # metadata + generated-pixel audit
+./scripts/test-interactive.sh --list
 ```
 
 The built launcher is:
@@ -107,12 +112,19 @@ source-controlled. Generated pixels remain gitignored. See
 - Player HP/armor/damage/death and developer reset
 - Native developer overlay, character selector, weapon selector, enemy selector,
   and enemy spawner
+- Live `e_slime01` pursuit and contact combat with multi-enemy spawn/reset
+- Player HP/armor/energy HUD driven by gameplay state
+- Two independent weapon slots (`1`/`2`), per-slot projectiles/cooldowns/energy
+- World weapon pickup foundation with recovered weapon sprites (`G`/`E`)
+- Asset laboratory (`--asset-lab`, `F5`) with category/item cycling and playback
+- Serialized interactive tests and deterministic replay (`scripts/test-interactive.sh`)
+- Versioned native save/load at `$XDG_DATA_HOME/liteknight/saves/` (`F2`/`F3`)
 - Deterministic tests, Debug ASan/UBSan build, Vulkan validation support
 
-Known limitations: enemies are static fixtures (no full AI), only a small
-weapon/enemy subset is integrated, production menus/UI/audio/items/room
-transitions are not implemented, and the developer text atlas is a placeholder.
-See [project state](docs/PROJECT_STATE.md) and
+Known limitations: full EnemyAI04 scouting/pathfinding, room transitions, start
+GUI, hub, forge, plants, production UI/audio/items and most of the recovered
+catalogue are not integrated. Room transitions and the hub are not claimed as
+working. See [project state](docs/PROJECT_STATE.md) and
 [known gaps](docs/ROADMAP.md).
 
 ---
@@ -124,12 +136,16 @@ See [project state](docs/PROJECT_STATE.md) and
 | `WASD` / arrows | move |
 | `J`, `Space`, left mouse | attack (native test binding) |
 | mouse / right stick / keypad `8,2,4,6` | aim (native test binding; facing stays movement-driven) |
+| `F2` / `F3` | save / load native slot 0 |
+| `F5` | asset laboratory |
 | `F6` | character selector |
 | `F7` | weapon selector |
 | `F8` | enemy selector |
 | `F9` / `F11` / `F12` | spawn one / spawn five / clear enemies |
 | `F10` | developer overlay |
-| `1..9`, `0`, `[` / `]` | legacy character shortcuts |
+| `1` / `2` | primary / secondary weapon slot |
+| `E` / `G` | pick up / spawn weapon pickup |
+| `Ctrl+1..9`, `Ctrl+0`, `[` / `]` | legacy character shortcuts |
 | `P` | cycle solid recovered obstacle variant |
 | `O` / `C` | toggle / close animated doors |
 | `R` | deterministic dev reset |
@@ -148,9 +164,10 @@ ctest --test-dir build --output-on-failure
 ./scripts/smoke-devroom.sh
 ```
 
-Current baseline: **87 test cases / 4796 assertions** (RelWithDebInfo and Debug
-ASan/UBSan), Vulkan validation clean, real Wayland/Vulkan devroom smoke passes.
-The counts in `docs/TESTING.md` are authoritative for the exact commit.
+Current baseline: **115 test cases / 4983 assertions** (RelWithDebInfo and Debug
+ASan/UBSan), Vulkan validation clean, real Wayland/Vulkan devroom smoke passes,
+and interactive replay reproduces recorded combat state exactly. The counts in
+`docs/TESTING.md` are authoritative for the exact commit.
 
 The CI workflow builds/tests only source-controlled metadata and native code; it
 does not require the proprietary reference bundle tree.
@@ -177,6 +194,8 @@ Development docs:
 - [BUILD.md](docs/development/BUILD.md)
 - [DEVROOM.md](docs/development/DEVROOM.md)
 - [WORKFLOW.md](docs/development/WORKFLOW.md)
+- [Asset laboratory](docs/development/ASSET_LAB.md)
+- [Serialized interactive tests](docs/development/INTERACTIVE_TESTS.md)
 - [DEVROOM architecture](docs/architecture/DEVROOM.md)
 - [PIPELINE.md](docs/assets/PIPELINE.md)
 - [INVENTORY.md](docs/assets/INVENTORY.md)

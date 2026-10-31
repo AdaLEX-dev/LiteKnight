@@ -803,6 +803,9 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         loaded.player_stats.max_armor = item.value("max_armor", 0);
         loaded.player_stats.armor =
             item.value("armor", loaded.player_stats.max_armor);
+        loaded.player_stats.max_energy = item.value("max_energy", 0);
+        loaded.player_stats.energy =
+            item.value("energy", loaded.player_stats.max_energy);
         loaded.player_stats.camp = item.value("camp", 1);
         loaded.player_stats.atk = item.value("atk", 0);
         loaded.player_stats.critical = item.value("critical", 0);

@@ -1759,13 +1759,15 @@
     "classification": "CONFIRMED serialized c00 RoleAttributePlayer; deviation is not serialized and defaults to 0",
     "critical": 5,
     "deviation": 0,
+    "energy": 180,
     "hp": 6,
     "max_armor": 5,
+    "max_energy": 180,
     "max_hp": 6,
     "speed": 6.5,
     "speed_rate": 0.5
   },
-  "scene_json_sha256": "39e7ad867b51bddfede11321b9d426d46eb17af29995cc81151891860aa01ebb",
+  "scene_json_sha256": "77bc1fa75caf24ef1f4cf512da069b607a014cfef8f4bf0c46c5924772325059",
   "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {

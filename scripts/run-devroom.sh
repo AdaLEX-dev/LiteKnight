@@ -13,6 +13,8 @@ fi
 
 # Wayland-only by design; do not silently fall back to X11/XWayland.
 export SDL_VIDEODRIVER=wayland
+export LITEKNIGHT_PROJECT_ROOT="${ROOT}"
+export LITEKNIGHT_REFERENCE_APK="${ROOT}/original/SoulKnight-2.6.8.apk"
 if [[ -x "${BUILD_DIR}/bin/liteknight-devroom" ]]; then
     exec "${BUILD_DIR}/bin/liteknight-devroom" "$@"
 fi

@@ -22,6 +22,7 @@ class Audit:
     def __init__(self) -> None:
         self.errors: list[str] = []
         self.warnings: list[str] = []
+        self.counts: dict[str, int] = {}
 
     def error(self, message: str) -> None:
         self.errors.append(message)
@@ -131,6 +132,17 @@ def audit(scene_path: Path, inventory_path: Path, require_generated: bool) -> Au
         if fixture.get("definition") not in {e.get("id") for e in scene.get("enemy_definitions", [])}:
             result.error(f"enemy fixture references missing definition: {fixture.get('definition')}")
 
+    result.counts = {
+        "textures": len(scene.get("textures", [])),
+        "sprites": len(scene.get("sprites", [])),
+        "animations": len(scene.get("animations", [])),
+        "characters": len(scene.get("characters", [])),
+        "weapons": len(scene.get("weapons", [])),
+        "enemies": len(scene.get("enemy_definitions", [])),
+        "doors": len(scene.get("collision", {}).get("doors", [])),
+        "obstacle_variants": len(scene.get("obstacles", {}).get("variants", [])),
+    }
+
     summary = inventory.get("summary", {})
     if summary.get("textures_integrated") != len(scene.get("textures", [])):
         result.warn("inventory texture count differs from scene texture count")
@@ -147,20 +159,65 @@ def audit(scene_path: Path, inventory_path: Path, require_generated: bool) -> Au
     return result
 
 
+def write_reports(result: Audit, scene_path: Path, inventory_path: Path,
+                  report_dir: Path) -> None:
+    report_dir.mkdir(parents=True, exist_ok=True)
+    status = "ERROR" if result.errors else ("WARNING" if result.warnings else "VALID")
+    document = {
+        "schema": 1,
+        "tool": "tools/asset/audit_assets.py",
+        "scene": str(scene_path.relative_to(ROOT)),
+        "inventory": str(inventory_path.relative_to(ROOT)),
+        "status": status,
+        "counts": result.counts,
+        "errors": result.errors,
+        "warnings": result.warnings,
+        "status_vocabulary": [
+            "VALID", "WARNING", "ERROR", "UNRECOVERABLE", "UNKNOWN"
+        ],
+        "note": (
+            "Reference-derived pixels are LOCAL_ONLY / NOT FOR REDISTRIBUTION. "
+            "This report audits metadata and local generated files; it does not "
+            "grant redistribution rights."
+        ),
+    }
+    (report_dir / "audit-report.json").write_text(
+        json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    lines = [
+        "LiteKnight asset audit",
+        f"scene: {document['scene']}",
+        f"status: {status}",
+        f"errors: {len(result.errors)}  warnings: {len(result.warnings)}",
+    ]
+    lines.extend(f"count {key}: {value}" for key, value in sorted(result.counts.items()))
+    lines.extend(f"ERROR: {message}" for message in result.errors)
+    lines.extend(f"WARNING: {message}" for message in result.warnings)
+    lines.extend([
+        "UNRECOVERABLE: categories with no native representation are listed in asset_inventory.json",
+        "UNKNOWN: reference save format, UI flow and many MonoBehaviour behaviours",
+        "local_only / reference_derived / not_for_redistribution",
+    ])
+    (report_dir / "audit-report.txt").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scene", type=Path, default=DEFAULT_SCENE)
     parser.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY)
+    parser.add_argument("--report-dir", type=Path,
+                        default=ROOT / "analysis/assets")
     parser.add_argument("--require-generated", action="store_true",
                         help="also fail when generated local texture PNGs are absent")
     args = parser.parse_args()
     result = audit(args.scene, args.inventory, args.require_generated)
+    write_reports(result, args.scene, args.inventory, args.report_dir)
     print(f"LiteKnight asset audit: {args.scene}")
     print(f"  errors: {len(result.errors)}  warnings: {len(result.warnings)}")
     for message in result.errors:
         print(f"  ERROR: {message}")
     for message in result.warnings:
         print(f"  WARN:  {message}")
+    print(f"  Reports: {args.report_dir.relative_to(ROOT)}/audit-report.json/.txt")
     if result.errors:
         return 1
     print("  RESULT: metadata integrity PASS")

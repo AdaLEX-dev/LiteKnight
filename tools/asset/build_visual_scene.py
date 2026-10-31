@@ -670,6 +670,8 @@ class SceneBuilder:
                         "hp": int(candidate.hp),
                         "max_armor": int(candidate.max_armor),
                         "armor": int(candidate.armor),
+                        "max_energy": int(candidate.max_energy),
+                        "energy": int(getattr(candidate, "energy", candidate.max_energy)),
                         "camp": int(candidate.camp),
                         "atk": int(candidate.atk),
                         "critical": int(candidate.critical),
@@ -926,9 +928,11 @@ class SceneBuilder:
                 "RGEController.Dead; dead_destory_delay_time defaults to 4.0 s "
                 "(the 0.95 write is friction, not a death delay)"),
         })
+        # Devroom fixture positions, not recovered room placements. They sit
+        # outside the first-slice aggro radius so startup is inspectable.
         self.enemy_fixtures = [
-            {"definition": "e_slime01", "position": [18.0, 15.5]},
-            {"definition": "e_slime01", "position": [22.0, 15.5]},
+            {"definition": "e_slime01", "position": [14.0, 15.5]},
+            {"definition": "e_slime01", "position": [26.0, 15.5]},
         ]
 
     def extract_player_animations(self, player_root, character_id="c00") -> None:

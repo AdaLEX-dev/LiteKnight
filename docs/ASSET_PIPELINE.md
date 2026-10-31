@@ -33,6 +33,25 @@ The renderer receives RGBA8 bytes and does not know the source format.
 
 ---
 
+## 0.1 Complete discovery and asset laboratory (2026-10-31)
+
+- `tools/asset/discover_reference.py` scans every local AssetBundle and writes
+  `analysis/assets/reference_catalogue.json` (metadata/provenance only).
+- `scripts/prepare-assets.sh` verifies the reference APK SHA-256, regenerates
+  native scene/metadata on demand, refreshes the catalogue optionally, rewrites
+  inventories, runs the audit and copies the runtime scene into the build tree.
+- `scripts/audit-assets.sh` validates metadata, dangling references, dimensions,
+  rects, pivots, PPU, animations and generated PNG presence, then writes
+  `analysis/assets/audit-report.json` and `.txt`.
+- The asset laboratory (`--asset-lab`/`F5`) previews integrated categories and
+  reports `UNRECOVERED` categories without substituting placeholders.
+- Lifecycle vocabulary in the inventory:
+  `DISCOVERED -> EXTRACTED -> TRANSLATED -> VALIDATED -> INTEGRATED ->
+  DEVROOM_TESTED`.
+
+Reference pixels remain local-only and are never committed. See
+`docs/development/ASSET_LAB.md`.
+
 ## 1. Decoder and dependency
 
 - Library: **libpng** (`libpng16`), via the system package and `pkg-config`.

@@ -1798,14 +1798,14 @@
     {
       "definition": "e_slime01",
       "position": [
-        18.0,
+        14.0,
         15.5
       ]
     },
     {
       "definition": "e_slime01",
       "position": [
-        22.0,
+        26.0,
         15.5
       ]
     }
@@ -14854,8 +14854,10 @@
     "classification": "CONFIRMED serialized c00 RoleAttributePlayer; deviation is not serialized and defaults to 0",
     "critical": 5,
     "deviation": 0,
+    "energy": 180,
     "hp": 6,
     "max_armor": 5,
+    "max_energy": 180,
     "max_hp": 6,
     "speed": 6.5,
     "speed_rate": 0.5

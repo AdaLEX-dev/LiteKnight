@@ -29,6 +29,32 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.devroom = true;
             config.scene_path = "scenes/r1_1_visual/scene.json";
             config.title = "LiteKnight Devroom";
+        } else if (arg == "--asset-lab") {
+            config.asset_lab = true;
+            config.scene_path = "scenes/r1_1_visual/scene.json";
+            config.title = "LiteKnight Asset Lab";
+        } else if (arg.rfind("--interactive-test=", 0) == 0) {
+            config.interactive_test = true;
+            config.interactive_test_name = std::string(arg.substr(19));
+            config.scene_path = "scenes/r1_1_visual/scene.json";
+            config.title = "LiteKnight Interactive Test";
+        } else if (arg == "--interactive-test" && i + 1 < argc) {
+            config.interactive_test = true;
+            config.interactive_test_name = argv[i + 1];
+            config.scene_path = "scenes/r1_1_visual/scene.json";
+            config.title = "LiteKnight Interactive Test";
+            ++i;
+        } else if (arg == "--replay" && i + 1 < argc) {
+            config.replay = true;
+            config.replay_path = argv[i + 1];
+            config.scene_path = "scenes/r1_1_visual/scene.json";
+            config.title = "LiteKnight Replay";
+            ++i;
+        } else if (arg.rfind("--replay=", 0) == 0) {
+            config.replay = true;
+            config.replay_path = std::string(arg.substr(9));
+            config.scene_path = "scenes/r1_1_visual/scene.json";
+            config.title = "LiteKnight Replay";
         } else if (arg == "--texture" && i + 1 < argc) {
             config.texture_path = argv[i + 1];
             ++i;

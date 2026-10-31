@@ -20,6 +20,11 @@ struct AppConfig {
     bool exercise_window = false;
     bool locomotion_debug = false;
     bool devroom = false;
+    bool asset_lab = false;
+    bool interactive_test = false;
+    std::string interactive_test_name;
+    bool replay = false;
+    std::string replay_path;
     bool help_requested = false;
     std::string texture_path = "test/phase4_smoke.png";
     std::string scene_path;

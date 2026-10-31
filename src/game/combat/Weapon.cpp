@@ -48,7 +48,8 @@ int Weapon::Update(float delta_seconds,
                    bool attack_held,
                    const Vec2& owner_position,
                    const Vec2& aim_direction,
-                   ProjectileSystem& projectiles) {
+                   ProjectileSystem& projectiles,
+                   player::EnergyState* energy) {
     if (!configured_ || delta_seconds <= 0.0f || !std::isfinite(delta_seconds)) {
         return 0;
     }
@@ -70,7 +71,18 @@ int Weapon::Update(float delta_seconds,
     // dropping one.
     constexpr float kEventEpsilon = 1e-6f;
     while (attack_time_ + kEventEpsilon >= next_shot_time_) {
+        const int cost = definition_.consume;
+        if (energy != nullptr && cost > 0 && !energy->CanConsume(cost)) {
+            // RGWeapon.SetAttack rejects the attack path when the controller's
+            // energy is below the serialized consume value. Stop this cycle
+            // until energy is restored by a recovered source.
+            Release();
+            break;
+        }
         SpawnProjectile(owner_position, aim_direction, projectiles);
+        if (energy != nullptr && cost > 0) {
+            (void)energy->Consume(cost);
+        }
         ++fired;
         next_shot_time_ += definition_.attack_cycle_seconds;
     }

@@ -362,8 +362,23 @@ add_library(game STATIC
     src/game/weapons/WeaponRegistry.hpp
     src/game/weapons/WeaponRenderer.cpp
     src/game/weapons/WeaponRenderer.hpp
+    src/game/weapons/WeaponInventory.cpp
+    src/game/weapons/WeaponInventory.hpp
+    src/game/weapons/WeaponPickup.cpp
+    src/game/weapons/WeaponPickup.hpp
+    src/game/save/SaveData.hpp
+    src/game/save/SaveSerializer.cpp
+    src/game/save/SaveSerializer.hpp
+    src/game/save/SaveManager.cpp
+    src/game/save/SaveManager.hpp
     src/game/ui/DevOverlay.cpp
     src/game/ui/DevOverlay.hpp
+    src/game/ui/AssetLab.cpp
+    src/game/ui/AssetLab.hpp
+    src/game/test/InteractiveTest.cpp
+    src/game/test/InteractiveTest.hpp
+    src/game/test/InteractiveReplay.cpp
+    src/game/test/InteractiveReplay.hpp
     src/game/enemy/EnemySystem.cpp
     src/game/enemy/EnemySystem.hpp
     # Characters
@@ -472,6 +487,8 @@ target_link_libraries(game PUBLIC
 # Library: app (application lifecycle)
 # ============================================================
 add_library(app STATIC
+    src/app/AssetEnvironment.cpp
+    src/app/AssetEnvironment.hpp
     src/app/AppConfig.cpp
     src/app/AppConfig.hpp
     src/app/Application.cpp
@@ -556,6 +573,11 @@ add_executable(soul-knight-test
     tests/unit/devroom_test.cpp
     tests/unit/animation_test.cpp
     tests/unit/locomotion_test.cpp
+    tests/unit/energy_inventory_test.cpp
+    tests/unit/enemy_ai_test.cpp
+    tests/unit/weapon_pickup_test.cpp
+    tests/unit/save_test.cpp
+    tests/unit/replay_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp

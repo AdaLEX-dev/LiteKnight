@@ -1,5 +1,21 @@
 # Development Workflow
 
+## Asset laboratory and interactive tests
+
+```bash
+./scripts/prepare-assets.sh --refresh-catalogue
+./scripts/prepare-assets.sh --extract --refresh-catalogue  # only if extraction is absent
+./scripts/audit-assets.sh
+./scripts/test-interactive.sh --list
+./scripts/test-interactive.sh --test combat_live
+./scripts/test-interactive.sh --replay test-results/<recorded>.json
+```
+
+`F5` (or `--asset-lab`) opens the asset laboratory. Interactive tests create a
+real Wayland/Vulkan window and write serialized results under `test-results/`;
+those results are gitignored. See `docs/development/ASSET_LAB.md` and
+`docs/development/INTERACTIVE_TESTS.md`.
+
 ## Daily loop
 
 ```bash

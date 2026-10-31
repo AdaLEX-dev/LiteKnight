@@ -1,17 +1,20 @@
 # LiteKnight — Project State
 
-**Version:** `0.1.0-dev`
-**Last Updated:** 2026-10-31 (permanent devroom, developer UI, four weapons, asset inventory)
+**Version:** `0.2.0-dev`
+**Last Updated:** 2026-10-31 (asset laboratory, interactive tests/replay, live combat,
+energy/HUD, two weapons, pickups, native save/load)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (devroom foundation FUNCTIONAL)**
 **Current status:** the native Wayland/Vulkan devroom is playable and is the
 primary development environment. It includes the recovered `r1_1` room,
 movement/collision/camera, animated doors, obstacles, 15 characters, four
 recovered weapons with real textures, deterministic projectiles, damage, enemy
-death, player death/reset, and a native developer overlay with character/weapon/
-enemy selectors and enemy spawning. Full enemy AI, production menus/UI, audio,
-room transitions, and the full catalogue are not implemented. Gate D remains
-unmet for a complete game, but the permanent devroom invariant is maintained.
+death, player death/reset, live enemy pursuit, player HP/armor/energy HUD, two
+weapon slots, weapon pickups, native save/load, an asset laboratory, and a
+serialized interactive test/replay harness. Full EnemyAI04 scouting/pathfinding,
+production menus/UI/audio, room transitions, the hub, forge/plants and the full
+catalogue are not implemented. Gate D remains unmet for a complete game, but the
+permanent devroom invariant is maintained.
 
 ---
 
@@ -326,7 +329,9 @@ Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
    deferred. Enemy destruction delay is 4.0 s; 0.95 is friction, not death delay.
 4. Full `EnemyAI04`/other AI, all weapons, procedural generation, and content
    identities remain Phase 3 breadth. Minimal AI04 contact behavior is known.
-5. Save payload/versioning remains UNKNOWN; not required for the slice.
+5. Reference save payload/versioning remains UNKNOWN. A native versioned JSON
+   save (`src/game/save`, slot 0, atomic write + backup) is implemented; it is
+   not claimed to match the original RGSaveManager format.
 6. No approved runtime oracle; static analysis only.
 
 ---
@@ -337,10 +342,10 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 87 cases / 4796 assertions, PASS (ASan/UBSan)
+- Debug tests: 115 cases / 4983 assertions, PASS (ASan/UBSan)
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 87 / 4796, PASS
+- RelWithDebInfo tests: 115 / 4983, PASS
 - Debug Vulkan validation: enabled, 0 messages; Debug and RelWithDebInfo smoke PASS
 - Real keyboard/mouse combat, death/reset, character/obstacle switching, doors,
   and window resize/minimize/restore: PASS

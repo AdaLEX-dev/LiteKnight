@@ -1,0 +1,16 @@
+LiteKnight asset audit
+scene: analysis/assets/scenes/r1_1_visual.json
+status: WARNING
+errors: 0  warnings: 1
+count animations: 30
+count characters: 15
+count doors: 4
+count enemies: 1
+count obstacle_variants: 12
+count sprites: 182
+count textures: 14
+count weapons: 4
+WARNING: 14 texture records are local_only (expected for reference-derived pixels)
+UNRECOVERABLE: categories with no native representation are listed in asset_inventory.json
+UNKNOWN: reference save format, UI flow and many MonoBehaviour behaviours
+local_only / reference_derived / not_for_redistribution

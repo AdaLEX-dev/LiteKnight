@@ -87,7 +87,8 @@ engine::collision::Aabb EnemySystem::WorldCollider(
 
 bool EnemySystem::FixedUpdate(float delta_seconds,
                               const engine::Vec2& player_position,
-                              combat::HealthState& player_health) {
+                              combat::HealthState& player_health,
+                              const engine::collision::AabbCollisionWorld* world) {
     if (delta_seconds <= 0.0f) return false;
     bool player_damaged = false;
     const engine::collision::Aabb player_box{
@@ -108,6 +109,44 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
         }
 
         enemy.contact_timer = std::max(0.0f, enemy.contact_timer - delta_seconds);
+
+        // Chase slice: approach the player when outside contact distance and
+        // inside the aggro radius. The speed is the recovered RoleAttribute
+        // speed (3 for e_slime01). No pathfinding is claimed; collision sliding
+        // keeps movement safe inside the recovered room geometry.
+        const engine::Vec2 to_player = player_position - enemy.position;
+        const float distance = to_player.Length();
+        // HYPOTHESIS: the recovered prefab does not expose a native aggro radius.
+        // A short radius keeps the devroom safe at spawn and makes approach
+        // deliberate; full EnemyAI04 scouting/pathfinding remains UNKNOWN.
+        constexpr float kAggroRadius = 5.0f;
+        constexpr float kContactRange = 0.75f;
+        if (distance > kContactRange && distance < kAggroRadius &&
+            distance > 0.0001f) {
+            const engine::Vec2 direction = to_player * (1.0f / distance);
+            enemy.facing_left = direction.x < 0.0f;
+            const float speed = static_cast<float>(std::max(0, definition.speed));
+            if (speed > 0.0f) {
+                const engine::Vec2 delta = direction * (speed * delta_seconds);
+                if (world != nullptr) {
+                    const engine::Vec2 center_offset{
+                        (definition.collider.min.x + definition.collider.max.x) * 0.5f,
+                        (definition.collider.min.y + definition.collider.max.y) * 0.5f};
+                    const engine::Vec2 half_extents{
+                        (definition.collider.max.x - definition.collider.min.x) * 0.5f,
+                        (definition.collider.max.y - definition.collider.min.y) * 0.5f};
+                    engine::Vec2 resolved = enemy.position + center_offset;
+                    (void)world->Move(enemy.position + center_offset,
+                                      half_extents, delta, resolved);
+                    enemy.position = resolved - center_offset;
+                } else {
+                    enemy.position += delta;
+                }
+            }
+        } else if (distance > 0.0001f) {
+            enemy.facing_left = to_player.x < 0.0f;
+        }
+
         if (definition.contact_damage > 0 && enemy.contact_timer <= 0.0f &&
             player_health.Alive() &&
             Overlaps(WorldCollider(definition, enemy.position), player_box)) {

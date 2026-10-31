@@ -4,6 +4,8 @@
 #include "engine/assets/TextureData.hpp"
 #include "engine/rendering/DebugText.hpp"
 #include "game/combat/Damage.hpp"
+#include "game/player/Energy.hpp"
+#include "game/weapons/WeaponInventory.hpp"
 #include "game/enemy/EnemySystem.hpp"
 #include "game/player/PlayerCharacterSet.hpp"
 #include "game/weapons/WeaponRegistry.hpp"
@@ -43,6 +45,9 @@ struct DevOverlayContext {
     const enemy::EnemySystem* enemies = nullptr;
     const engine::locomotion::PlayerLocomotion* player = nullptr;
     const combat::HealthState* health = nullptr;
+    const player::EnergyState* energy = nullptr;
+    const weapons::WeaponInventory* weapon_inventory = nullptr;
+    bool hud_visible = true;
     const char* room_id = "r1_1_visual";
     const char* facing = "Right";
     const char* version = "0.1.0-dev";
@@ -53,6 +58,7 @@ struct DevOverlayContext {
     std::uint64_t simulation_ticks = 0;
     std::uint64_t render_frames = 0;
     std::size_t active_projectiles = 0;
+    std::size_t pickups = 0;
 };
 
 // The developer UI is deliberately a native overlay, not the production menu.
@@ -64,6 +70,7 @@ public:
     const engine::assets::TextureData& FontTexture() const {
         return text_.Atlas();
     }
+    const engine::rendering::DebugTextRenderer& Text() const { return text_; }
 
     bool OverlayVisible() const { return overlay_visible_; }
     void ToggleOverlay() { overlay_visible_ = !overlay_visible_; }
@@ -94,6 +101,9 @@ private:
     void DrawEnemyMenu(engine::rendering::SpriteBatch& batch,
                        const DevOverlayContext& context,
                        float scale) const;
+    void DrawHud(engine::rendering::SpriteBatch& batch,
+                 const DevOverlayContext& context,
+                 float scale) const;
 
     engine::rendering::DebugTextRenderer text_;
     bool overlay_visible_ = false;

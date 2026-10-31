@@ -1,0 +1,29 @@
+{
+  "counts": {
+    "animations": 30,
+    "characters": 15,
+    "doors": 4,
+    "enemies": 1,
+    "obstacle_variants": 12,
+    "sprites": 182,
+    "textures": 14,
+    "weapons": 4
+  },
+  "errors": [],
+  "inventory": "analysis/assets/asset_inventory.json",
+  "note": "Reference-derived pixels are LOCAL_ONLY / NOT FOR REDISTRIBUTION. This report audits metadata and local generated files; it does not grant redistribution rights.",
+  "scene": "analysis/assets/scenes/r1_1_visual.json",
+  "schema": 1,
+  "status": "WARNING",
+  "status_vocabulary": [
+    "VALID",
+    "WARNING",
+    "ERROR",
+    "UNRECOVERABLE",
+    "UNKNOWN"
+  ],
+  "tool": "tools/asset/audit_assets.py",
+  "warnings": [
+    "14 texture records are local_only (expected for reference-derived pixels)"
+  ]
+}

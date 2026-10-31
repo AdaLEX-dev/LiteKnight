@@ -5,6 +5,7 @@
 #include "ProjectileSystem.hpp"
 #include "engine/assets/SceneAsset.hpp"
 #include "engine/math/UnityRandom.hpp"
+#include "game/player/Energy.hpp"
 #include "engine/math/Vec2.hpp"
 
 namespace soulknight::game::combat {
@@ -32,7 +33,8 @@ public:
                bool attack_held,
                const Vec2& owner_position,
                const Vec2& aim_direction,
-               ProjectileSystem& projectiles);
+               ProjectileSystem& projectiles,
+               player::EnergyState* energy = nullptr);
 
     // Stops the attack cycle without discarding the current cooldown state.
     void Release();

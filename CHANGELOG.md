@@ -5,6 +5,59 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0-dev] - 2026-10-31
+
+### Added
+- Full local reference catalogue (`analysis/assets/reference_catalogue.json`)
+  from all AssetBundles: 365 textures, 6408 sprites, 365 unique weapon IDs,
+  125 unique enemy IDs, 2098 clips and 54,891 GameObjects.
+- Deterministic `scripts/prepare-assets.sh` and `scripts/audit-assets.sh`;
+  APK SHA-256/version verification, catalogue refresh, inventory generation,
+  generated-pixel audit and `analysis/assets/audit-report.{json,txt}`.
+- Asset laboratory (`--asset-lab`, `F5`): category/item cycling, real previews,
+  metadata, PPU/pivot, animation play/pause/step and test actions.
+- Serialized interactive tests (`--interactive-test=<name>`) with real
+  Wayland/Vulkan window, per-tick input/state recording, commands, asset/scene
+  hashes and `test-results/<timestamp>_<name>.json`.
+- Named scenarios and `scripts/test-interactive.sh --list|--test|--replay`.
+- Deterministic replay; verified zero state differences against recorded
+  `combat_live` including enemy spawn, death and reset.
+- Live `e_slime01` pursuit/contact behavior with collision sliding, multi-enemy
+  spawn/reset, player damage/death and HUD updates.
+- Player energy state (recovered c00 max 180), per-shot consumption and native
+  HP/armor/energy HUD bars.
+- Two independent weapon slots (`1`/`2`) preserving weapon, projectile,
+  cooldown and energy behavior.
+- Weapon pickup foundation using real weapon sprites (`G` spawn, `E` pickup).
+- Versioned native save/load (`F2`/`F3`) with atomic write, backup fallback,
+  migrations and XDG path.
+- `AssetEnvironment` startup report with actual local paths and counts.
+
+### Changed
+- Weapon fire accepts an optional `EnergyState`; unaffordable shots are
+  rejected deterministically.
+- Character quick-select moved to `Ctrl+1..0`; plain `1`/`2` switch weapons.
+- Enemy fixtures moved outside the first-slice aggro radius so the devroom is
+  inspectable at spawn.
+- Asset inventory now records the maturity ladder and per-category lifecycle.
+
+### Fixed
+- Asset-lab weapon activation now equips into the active inventory slot.
+- Ctrl+number no longer gets consumed by weapon slot switching.
+- HUD/energy context is populated from live gameplay state.
+
+### Testing
+- 115 test cases / 4983 assertions in RelWithDebInfo and Debug ASan/UBSan.
+- Metadata audit: 0 errors, 1 expected local-only warning.
+- Interactive results recorded for character/weapon/enemy/energy/health/
+  two-weapon/save-load/combat scenarios; replay state comparison exact.
+
+### Assets / legal
+- Reference-derived pixels remain `LOCAL_ONLY`, `REFERENCE_DERIVED`,
+  `NOT_FOR_REDISTRIBUTION`; no proprietary binaries or pixels are committed.
+- Developer text atlas remains PLACEHOLDER UI.
+- Room transitions, start GUI and hub remain UNIMPLEMENTED/UNRECOVERED.
+
 ## [0.1.0-dev] - 2026-10-31
 
 ### Added

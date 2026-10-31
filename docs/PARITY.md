@@ -22,7 +22,7 @@
 | Feature | Reference Evidence | Native Status | Confidence | Validation |
 |---|---|---|---|---|
 | Reference identity | Unity 2018.4.12f1, metadata v24, APK hash | N/A | **CONFIRMED** | `analysis/ARTIFACT.md`, `analysis/EVIDENCE_AUDIT.md` |
-| Build/test baseline | N/A (tooling) | Debug ASan/UBSan + RelWithDebInfo, 87/4796 | **VERIFIED (tooling)** | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
+| Build/test baseline | N/A (tooling) | Debug ASan/UBSan + RelWithDebInfo, 115/4983 | **VERIFIED (tooling)** | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
 | RNG core | Unity 2018.4 Xorshift128, LCG seed, 23-bit floats | `UnityRandom`/`RGRandomStream` implemented | **CONFIRMED (static)** | `analysis/re/rgrandom.md`, `tests/unit/unity_random_test.cpp` |
 | RNG wrapper / streams | `seed_state`, map seed, `RandomBehaviour`, `RGController` seed | Native wrapper implemented | **PARTIAL** — seed_state 1/2 and DateTime seed exactness open | `analysis/re/rgrandom.md` |
 | Fixed timestep | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) | `FrameTimer` + application loop consume 50 Hz fixed steps | **CONFIRMED reference** | `analysis/re/timing.md`, `tests/unit/timing_test.cpp`, smoke log |

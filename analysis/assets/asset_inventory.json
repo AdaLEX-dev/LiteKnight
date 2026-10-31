@@ -215,80 +215,211 @@
     {
       "category": "characters",
       "integrated": 15,
+      "lifecycle": {
+        "DEVROOM_TESTED": 1,
+        "DISCOVERED": 15,
+        "EXTRACTED": 15,
+        "INTEGRATED": 15,
+        "TRANSLATED": 15,
+        "VALIDATED": 15,
+        "highest": "DEVROOM_TESTED",
+        "note": "c00 live; c01..c14 integrated for selector/idle/run"
+      },
       "note": "15 recovered c00..c14; idle/run integrated",
       "observed_reference_candidates": 15,
-      "status": "PARTIAL"
+      "status": "DEVROOM_TESTED_PARTIAL"
     },
     {
       "category": "weapons",
       "integrated": 4,
+      "lifecycle": {
+        "DEVROOM_TESTED": 4,
+        "DISCOVERED": 365,
+        "EXTRACTED": 4,
+        "INTEGRATED": 4,
+        "TRANSLATED": 4,
+        "VALIDATED": 4,
+        "highest": "DEVROOM_TESTED",
+        "note": "four recovered Gun001 weapons: fire/equip/pickup"
+      },
       "note": "first four Gun001 weapons integrated",
-      "observed_reference_candidates": 383,
-      "status": "PARTIAL"
+      "observed_reference_candidates": 365,
+      "status": "DEVROOM_TESTED_PARTIAL"
     },
     {
       "category": "projectiles",
       "integrated": 3,
+      "lifecycle": {
+        "DEVROOM_TESTED": 3,
+        "DISCOVERED": 3,
+        "EXTRACTED": 3,
+        "INTEGRATED": 3,
+        "TRANSLATED": 3,
+        "VALIDATED": 3,
+        "highest": "DEVROOM_TESTED",
+        "note": "bullet_0/bullet_11/bullet_14 integrated"
+      },
       "note": "projectile prefabs used by the four integrated weapons",
       "observed_reference_candidates": null,
-      "status": "PARTIAL"
+      "status": "DEVROOM_TESTED_PARTIAL"
     },
     {
       "category": "enemies",
       "integrated": 1,
+      "lifecycle": {
+        "DEVROOM_TESTED": 1,
+        "DISCOVERED": 125,
+        "EXTRACTED": 1,
+        "INTEGRATED": 1,
+        "TRANSLATED": 1,
+        "VALIDATED": 1,
+        "highest": "DEVROOM_TESTED",
+        "note": "e_slime01 pursuit/contact/damage/death/live reset"
+      },
       "note": "e_slime01 developer fixture only",
-      "observed_reference_candidates": 126,
-      "status": "PARTIAL"
+      "observed_reference_candidates": 125,
+      "status": "DEVROOM_TESTED"
     },
     {
       "category": "walls",
       "integrated": 140,
+      "lifecycle": {
+        "DEVROOM_TESTED": 420,
+        "DISCOVERED": 420,
+        "EXTRACTED": 420,
+        "INTEGRATED": 420,
+        "TRANSLATED": 420,
+        "VALIDATED": 420,
+        "highest": "DEVROOM_TESTED",
+        "note": "recovered room/corridor wall cells"
+      },
       "note": "420 wall sprites across 140 room/corridor cells",
-      "status": "INTEGRATED"
+      "status": "DEVROOM_TESTED"
     },
     {
       "category": "floors",
       "integrated": 1,
+      "lifecycle": {
+        "DEVROOM_TESTED": 1,
+        "DISCOVERED": 1,
+        "EXTRACTED": 1,
+        "INTEGRATED": 1,
+        "TRANSLATED": 1,
+        "VALIDATED": 1,
+        "highest": "DEVROOM_TESTED",
+        "note": "recovered floor atlas"
+      },
       "note": "recovered floor atlas; full floor decoration inventory pending",
-      "status": "INTEGRATED"
+      "status": "DEVROOM_TESTED"
     },
     {
       "category": "doors",
       "integrated": 4,
+      "lifecycle": {
+        "DEVROOM_TESTED": 4,
+        "DISCOVERED": 4,
+        "EXTRACTED": 4,
+        "INTEGRATED": 4,
+        "TRANSLATED": 4,
+        "VALIDATED": 4,
+        "highest": "DEVROOM_TESTED",
+        "note": "open/close animation, collision timing and triggers"
+      },
       "note": "four animated doors/triggers",
-      "status": "INTEGRATED"
+      "status": "DEVROOM_TESTED"
     },
     {
       "category": "obstacles",
       "integrated": 12,
+      "lifecycle": {
+        "DEVROOM_TESTED": 12,
+        "DISCOVERED": 12,
+        "EXTRACTED": 12,
+        "INTEGRATED": 12,
+        "TRANSLATED": 12,
+        "VALIDATED": 12,
+        "highest": "DEVROOM_TESTED",
+        "note": "selector/cycling and collider variants"
+      },
       "note": "12 recovered obstacle_list variants; 8 solid selectable",
-      "status": "INTEGRATED"
+      "status": "DEVROOM_TESTED"
     },
     {
       "category": "effects",
       "integrated": 0,
+      "lifecycle": {
+        "DEVROOM_TESTED": 0,
+        "DISCOVERED": 305,
+        "EXTRACTED": 0,
+        "INTEGRATED": 0,
+        "TRANSLATED": 0,
+        "VALIDATED": 0,
+        "highest": "DISCOVERED",
+        "note": "ParticleSystem objects discovered, no native effects"
+      },
       "note": "muzzle/hit/death effects not integrated",
       "status": "UNRECOVERED"
     },
     {
       "category": "ui",
       "integrated": 0,
+      "lifecycle": {
+        "DEVROOM_TESTED": 0,
+        "DISCOVERED": 139,
+        "EXTRACTED": 0,
+        "INTEGRATED": 0,
+        "TRANSLATED": 0,
+        "VALIDATED": 0,
+        "highest": "DISCOVERED",
+        "note": "reference UI names discovered; developer text atlas is PLACEHOLDER UI"
+      },
       "note": "generated developer text atlas; recovered UI atlas not integrated",
       "status": "PLACEHOLDER"
     },
     {
       "category": "items/pickups",
       "integrated": 0,
+      "lifecycle": {
+        "DEVROOM_TESTED": 0,
+        "DISCOVERED": 68,
+        "EXTRACTED": 0,
+        "INTEGRATED": 0,
+        "TRANSLATED": 0,
+        "VALIDATED": 0,
+        "highest": "DISCOVERED",
+        "note": "name-heuristic discovery only"
+      },
+      "note": "weapon pickup foundation exists; item/pickup catalogue not translated",
       "status": "UNRECOVERED"
     },
     {
       "category": "environment decorations",
       "integrated": 0,
+      "lifecycle": {
+        "DEVROOM_TESTED": 0,
+        "DISCOVERED": 80,
+        "EXTRACTED": 0,
+        "INTEGRATED": 0,
+        "TRANSLATED": 0,
+        "VALIDATED": 0,
+        "highest": "DISCOVERED",
+        "note": "name-heuristic discovery only"
+      },
       "status": "UNRECOVERED"
     },
     {
       "category": "audio",
       "integrated": 0,
+      "lifecycle": {
+        "DEVROOM_TESTED": 0,
+        "DISCOVERED": 288,
+        "EXTRACTED": 0,
+        "INTEGRATED": 0,
+        "TRANSLATED": 0,
+        "VALIDATED": 0,
+        "highest": "DISCOVERED",
+        "note": "AudioClip discovery only"
+      },
       "status": "UNRECOVERED"
     }
   ],
@@ -300,6 +431,7 @@
       "id": "c00",
       "idle_animation": "c00_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -318,6 +450,7 @@
       "id": "c01",
       "idle_animation": "c01_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -336,6 +469,7 @@
       "id": "c02",
       "idle_animation": "c02_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -354,6 +488,7 @@
       "id": "c03",
       "idle_animation": "c03_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -372,6 +507,7 @@
       "id": "c04",
       "idle_animation": "c04_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -390,6 +526,7 @@
       "id": "c05",
       "idle_animation": "c05_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -408,6 +545,7 @@
       "id": "c06",
       "idle_animation": "c06_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -426,6 +564,7 @@
       "id": "c07",
       "idle_animation": "c07_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -444,6 +583,7 @@
       "id": "c08",
       "idle_animation": "c08_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -462,6 +602,7 @@
       "id": "c09",
       "idle_animation": "c09_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -480,6 +621,7 @@
       "id": "c10",
       "idle_animation": "c10_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -498,6 +640,7 @@
       "id": "c11",
       "idle_animation": "c11_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -516,6 +659,7 @@
       "id": "c12",
       "idle_animation": "c12_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -534,6 +678,7 @@
       "id": "c13",
       "idle_animation": "c13_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -552,6 +697,7 @@
       "id": "c14",
       "idle_animation": "c14_idle",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "missing": [
         "attack/charge animation",
         "hit animation",
@@ -573,8 +719,9 @@
       "hp": 12,
       "id": "e_slime01",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
       "missing": [
-        "full EnemyAI04 movement/scout behavior",
+        "full EnemyAI04 scouting/pathfinding",
         "death effect object",
         "room-clear lifecycle"
       ],
@@ -595,13 +742,21 @@
     "unknown": "unreviewed recovered content"
   },
   "scene": "analysis/assets/scenes/r1_1_visual.json",
-  "scene_sha256": "39e7ad867b51bddfede11321b9d426d46eb17af29995cc81151891860aa01ebb",
+  "scene_sha256": "77bc1fa75caf24ef1f4cf512da069b607a014cfef8f4bf0c46c5924772325059",
   "schema": 1,
   "summary": {
     "animations_integrated": 30,
     "characters_integrated": 15,
     "doors_integrated": 4,
     "enemies_integrated": 1,
+    "lifecycle_statuses": [
+      "DISCOVERED",
+      "EXTRACTED",
+      "TRANSLATED",
+      "VALIDATED",
+      "INTEGRATED",
+      "DEVROOM_TESTED"
+    ],
     "not_integrated_categories": 5,
     "obstacle_variants": 12,
     "placeholders": [
@@ -609,11 +764,12 @@
     ],
     "reference_candidates_observed": {
       "characters": 15,
-      "enemy_ids": 126,
+      "enemy_ids": 125,
       "sprites": 6408,
       "textures": 365,
-      "weapon_game_objects": 383
+      "weapon_ids": 365
     },
+    "reference_catalogue": "analysis/assets/reference_catalogue.json",
     "sprites_integrated": 182,
     "textures_integrated": 14,
     "unique_projectiles_integrated": 3,
@@ -639,6 +795,7 @@
       "generated_png_exists": true,
       "id": "floor_atlas",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/floor_atlas.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -683,6 +840,7 @@
       "generated_png_exists": true,
       "id": "object_level_atlas",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/object_level_atlas.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -739,6 +897,7 @@
       "generated_png_exists": true,
       "id": "object_common_group0_atlas",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/object_common_group0_atlas.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -777,6 +936,7 @@
       "generated_png_exists": true,
       "id": "object_common_atlas",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/object_common_atlas.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -815,6 +975,7 @@
       "generated_png_exists": true,
       "id": "auto_atlas_m304717225150204165",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/auto_atlas_m304717225150204165.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -857,6 +1018,7 @@
       "generated_png_exists": true,
       "id": "auto_atlas_m7138671102567859681",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/auto_atlas_m7138671102567859681.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -898,6 +1060,7 @@
       "generated_png_exists": true,
       "id": "auto_atlas_6364077752768854847",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/auto_atlas_6364077752768854847.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -936,6 +1099,7 @@
       "generated_png_exists": true,
       "id": "charactor_common_atlas",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/charactor_common_atlas.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -976,6 +1140,7 @@
       "generated_png_exists": true,
       "id": "character_atlas",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/character_atlas.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -1109,6 +1274,7 @@
       "generated_png_exists": true,
       "id": "auto_atlas_8145931484269276276",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/auto_atlas_8145931484269276276.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -1155,6 +1321,7 @@
       "generated_png_exists": true,
       "id": "auto_atlas_1719784523446444581",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/auto_atlas_1719784523446444581.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -1201,6 +1368,7 @@
       "generated_png_exists": true,
       "id": "auto_atlas_m5982969649399678507",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/auto_atlas_m5982969649399678507.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -1247,6 +1415,7 @@
       "generated_png_exists": true,
       "id": "auto_atlas_m2523084235641821235",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/auto_atlas_m2523084235641821235.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -1293,6 +1462,7 @@
       "generated_png_exists": true,
       "id": "auto_atlas_m1477371714499098320",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
       "native_output": "textures/auto_atlas_m1477371714499098320.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
@@ -1348,6 +1518,7 @@
       "damage": 3,
       "id": "weapon_000",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
       "missing": [
         "item display name",
         "pickup/drop identity",
@@ -1366,6 +1537,7 @@
       "damage": 3,
       "id": "weapon_002",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
       "missing": [
         "item display name",
         "pickup/drop identity",
@@ -1384,6 +1556,7 @@
       "damage": 3,
       "id": "weapon_048",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
       "missing": [
         "item display name",
         "pickup/drop identity",
@@ -1402,6 +1575,7 @@
       "damage": 4,
       "id": "weapon_287",
       "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
       "missing": [
         "item display name",
         "pickup/drop identity",

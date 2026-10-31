@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **87 doctest cases / 4796 assertions**, all passing.
+**Status:** current baseline is **115 doctest cases / 4983 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -19,6 +19,21 @@ ctest --test-dir build --output-on-failure
 - RelWithDebInfo: optimized, no sanitizers.
 - CTest fails if the filter selects zero cases (`FAIL_REGULAR_EXPRESSION`).
 - Negative control: break an assertion, confirm CTest exits non-zero, restore.
+
+## 1.1 Serialized interactive tests
+
+Interactive tests are not CTest cases because they require a real
+Wayland/Vulkan window. Run them explicitly:
+
+```bash
+./scripts/test-interactive.sh --test combat_live
+./scripts/test-interactive.sh --replay test-results/<file>.json
+```
+
+They serialize fixed-tick inputs, key commands and state samples under
+`test-results/`. Unit tests cover the replay loader, action mapping, save
+format/migrations/atomicity, energy, inventory, pickup and enemy pursuit.
+See `docs/development/INTERACTIVE_TESTS.md`.
 
 ## 2. Test layers
 
@@ -125,6 +140,19 @@ ctest --test-dir build --output-on-failure
   cell. This catches the prefab-root-offset bug by source/path identity, not by
   screen coordinates.
 
+### Assets / energy / inventory / save / replay (implemented units)
+
+- Asset audit metadata and generated-pixel presence; audit report generation.
+- `EnergyState` clamps, affordability and zero-cost weapons.
+- Weapon energy consumption per accepted shot and rejection below cost.
+- Two-slot `WeaponInventory` independence, switching, wraparound safety.
+- Weapon pickup nearest-target selection, boundary radius and animation.
+- Enemy pursuit speed/aggro range, collision sliding, contact cooldown, death.
+- Native save round-trip, missing/corrupt files, backup fallback, version 0
+  migration, future-version rejection, invalid ranges, delete and atomic write.
+- Interactive replay loader: action mapping, commands, corrupt/empty/missing
+  files, unknown future action tolerance.
+
 ### Combat prototype (implemented units)
 
 - `Weapon_000` attack cycle: first projectile after the recovered 1/30 s
@@ -229,7 +257,20 @@ inside the recovered obstacle block. Deterministic tests are in
 `tests/unit/direction_test.cpp`, `tests/unit/character_switch_test.cpp`,
 `tests/unit/obstacle_field_test.cpp`, `tests/unit/room_visual_test.cpp`,
 `tests/unit/combat_test.cpp`, `tests/unit/devroom_test.cpp`, and `tests/unit/scene_test.cpp`. The suite is
-87 cases / 4796 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
+115 cases / 4983 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
+
+### Assets / energy / inventory / save / replay (implemented units)
+
+- Asset audit metadata and generated-pixel presence; audit report generation.
+- `EnergyState` clamps, affordability and zero-cost weapons.
+- Weapon energy consumption per accepted shot and rejection below cost.
+- Two-slot `WeaponInventory` independence, switching, wraparound safety.
+- Weapon pickup nearest-target selection, boundary radius and animation.
+- Enemy pursuit speed/aggro range, collision sliding, contact cooldown, death.
+- Native save round-trip, missing/corrupt files, backup fallback, version 0
+  migration, future-version rejection, invalid ranges, delete and atomic write.
+- Interactive replay loader: action mapping, commands, corrupt/empty/missing
+  files, unknown future action tolerance.
 
 ### Combat manual verification (2026-10-31)
 

@@ -4,6 +4,7 @@
 #include "game/combat/Damage.hpp"
 #include "game/combat/ProjectileSystem.hpp"
 #include "engine/assets/SceneAsset.hpp"
+#include "engine/collision/AabbCollision.hpp"
 #include "engine/math/Vec2.hpp"
 
 #include <cstddef>
@@ -19,6 +20,7 @@ struct EnemyInstance {
     float idle_time = 0.0f;
     float death_timer = 0.0f;
     float contact_timer = 0.0f;
+    bool facing_left = false;
     bool active = true;
 };
 
@@ -29,10 +31,15 @@ public:
     bool Configure(const engine::assets::SceneAsset& scene, std::string* error);
     void Reset();
 
-    // Returns true when the player was damaged this tick.
+    // Returns true when the player was damaged this tick. Enemies pursue the
+    // player while outside contact range and slide against the supplied world
+    // collision geometry. The chase is a deliberate first-slice approximation:
+    // the recovered e_slime01 has speed/contact fields but no native pathfinding
+    // yet, so no obstacle avoidance beyond collision sliding is implied.
     bool FixedUpdate(float delta_seconds,
                      const engine::Vec2& player_position,
-                     combat::HealthState& player_health);
+                     combat::HealthState& player_health,
+                     const engine::collision::AabbCollisionWorld* world = nullptr);
     void ResolveProjectileHits(combat::ProjectileSystem& projectiles);
 
     bool ApplyDamage(std::size_t index, int damage, int source_camp);

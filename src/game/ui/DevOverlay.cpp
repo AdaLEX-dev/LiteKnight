@@ -113,6 +113,9 @@ void DevOverlay::Draw(SpriteBatch& batch, const DevOverlayContext& context) cons
     if (overlay_visible_) {
         DrawOverlay(batch, context, left, top, scale);
     }
+    if (context.hud_visible) {
+        DrawHud(batch, context, scale);
+    }
 }
 
 void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& context,
@@ -144,10 +147,26 @@ void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& contex
     line(std::string("WEAPON: ") +
          (context.weapons != nullptr && context.weapons->Count() > 0
               ? Upper(context.weapons->Active().id) : "NONE"));
-    std::snprintf(buffer, sizeof(buffer), "HP: %d/%d  ARMOR: %d",
+    if (context.weapon_inventory != nullptr && context.weapons != nullptr) {
+        const std::size_t primary = context.weapon_inventory->Slot(0);
+        const std::size_t secondary = context.weapon_inventory->Slot(1);
+        const auto weapon_id = [&](std::size_t index) {
+            return index < context.weapons->Count()
+                ? Upper(context.weapons->Definitions()[index].id) : "NONE";
+        };
+        std::snprintf(buffer, sizeof(buffer), "SLOT1: %s  SLOT2: %s",
+                      weapon_id(primary).c_str(), weapon_id(secondary).c_str());
+        line(buffer);
+    }
+    std::snprintf(buffer, sizeof(buffer), "PICKUPS: %zu  [E] TAKE  [G] SPAWN  [F2] SAVE  [F3] LOAD",
+                  context.pickups);
+    line(buffer);
+    std::snprintf(buffer, sizeof(buffer), "HP: %d/%d  ARMOR: %d  ENERGY: %d/%d",
                   context.health != nullptr ? context.health->hp : 0,
                   context.health != nullptr ? context.health->max_hp : 0,
-                  context.health != nullptr ? context.health->armor : 0);
+                  context.health != nullptr ? context.health->armor : 0,
+                  context.energy != nullptr ? context.energy->energy : 0,
+                  context.energy != nullptr ? context.energy->max_energy : 0);
     line(buffer);
     std::snprintf(buffer, sizeof(buffer), "ENEMIES: %zu  PROJECTILES: %zu",
                   context.enemies != nullptr ? context.enemies->AliveCount() : 0,
@@ -268,6 +287,48 @@ void DevOverlay::DrawEnemyMenu(SpriteBatch& batch,
                    {context.camera->position.x - 7.5f,
                     context.camera->position.y - 5.7f},
                    scale * 0.9f, Color{180, 200, 225, 255}, 101);
+}
+
+void DevOverlay::DrawHud(SpriteBatch& batch, const DevOverlayContext& context,
+                         float scale) const {
+    if (context.camera == nullptr || context.health == nullptr) return;
+    const float left = context.camera->position.x -
+                       context.camera->HalfWidth() + 0.5f;
+    const float bottom = context.camera->position.y -
+                         context.camera->HalfHeight() + 0.55f;
+    const float hud_scale = std::max(0.013f, scale * 0.75f);
+    const float bar_width = 6.2f;
+    const float bar_height = 0.32f;
+    const auto bar = [&](const char* label, int value, int maximum,
+                         Color color, float y) {
+        text_.DrawPanel(batch, {left, y + 0.42f},
+                        {bar_width, bar_height + 0.50f},
+                        Color{5, 8, 14, 190}, 80);
+        text_.DrawText(batch, label, {left + 0.12f, y + 0.38f},
+                       hud_scale, Color{225, 232, 242, 255}, 107);
+        const int clamped = std::max(0, std::min(value, maximum));
+        const float fraction = maximum > 0
+            ? static_cast<float>(clamped) / static_cast<float>(maximum) : 0.0f;
+        text_.DrawPanel(batch, {left + 2.15f, y + 0.20f},
+                        {bar_width - 2.35f, bar_height},
+                        Color{35, 42, 55, 230}, 107);
+        if (fraction > 0.0f) {
+            text_.DrawPanel(batch, {left + 2.15f, y + 0.20f},
+                            {(bar_width - 2.35f) * fraction, bar_height},
+                            color, 108);
+        }
+        char value_text[48];
+        std::snprintf(value_text, sizeof(value_text), "%d/%d", value, maximum);
+        text_.DrawText(batch, value_text, {left + 2.25f, y + 0.38f},
+                       hud_scale * 0.78f, Color{235, 240, 248, 255}, 109);
+    };
+    bar("HP", context.health->hp, context.health->max_hp,
+        Color{220, 65, 75, 255}, bottom + 0.95f);
+    bar("ARMOR", context.health->armor, context.health->max_armor,
+        Color{80, 150, 235, 255}, bottom + 0.40f);
+    const int energy = context.energy != nullptr ? context.energy->energy : 0;
+    const int max_energy = context.energy != nullptr ? context.energy->max_energy : 0;
+    bar("ENERGY", energy, max_energy, Color{75, 205, 140, 255}, bottom - 0.15f);
 }
 
 } // namespace soulknight::game::ui

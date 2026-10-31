@@ -1,5 +1,6 @@
 // Soul Knight Linux — Application lifecycle implementation
 #include "Application.hpp"
+#include "AssetEnvironment.hpp"
 
 #include "engine/assets/PngDecoder.hpp"
 #include "engine/assets/SceneLoader.hpp"
@@ -7,6 +8,7 @@
 #include "engine/core/Log.hpp"
 #include "engine/rendering/VulkanRenderer.hpp"
 #include "game/weapons/WeaponRenderer.hpp"
+#include "game/ui/AssetLab.hpp"
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_vulkan.h>
@@ -117,6 +119,20 @@ bool Application::Initialize() {
         LOG_FATAL_APP("Filesystem initialization failed");
         return false;
     }
+    const AssetEnvironmentReport asset_environment =
+        DetectAssetEnvironment(filesystem_);
+    project_root_ = asset_environment.project_root;
+    scene_sha256_ = asset_environment.scene_sha256;
+    reference_apk_sha256_ = asset_environment.reference_apk_sha256;
+    asset_inventory_sha256_ = asset_environment.asset_inventory_sha256;
+    LogAssetEnvironment(asset_environment);
+    save_manager_ = std::make_unique<soulknight::game::save::SaveManager>(
+        filesystem_.GetDataHome() / "liteknight" / "saves");
+    LOG_INFO_APP("Native save slot: {}",
+                 save_manager_->SlotPath().string());
+    if (config_.replay && !LoadReplayIfRequested()) {
+        return false;
+    }
 
     texture_uploads_.clear();
     camera_ = engine::Camera2D{};
@@ -128,11 +144,15 @@ bool Application::Initialize() {
     obstacles_ = {};
     player_characters_ = {};
     weapons_ = {};
+    weapon_inventory_ = {};
+    weapon_pickups_ = {};
     dev_ui_ = {};
+    asset_lab_ = {};
     weapon_ = {};
     projectiles_.Clear();
     enemies_ = {};
     player_health_ = {};
+    player_energy_ = {};
     aim_direction_ = {1.0f, 0.0f};
     mouse_aim_valid_ = false;
     facing_ = engine::locomotion::FacingDirection::Right;
@@ -233,6 +253,11 @@ bool Application::Initialize() {
         player_health_.Reset(player_max_hp, player_max_armor, 0);
         player_health_.camp =
             scene_.player_stats.max_hp > 0 ? scene_.player_stats.camp : 1;
+        player_energy_.Reset(
+            scene_.player_stats.max_energy > 0
+                ? scene_.player_stats.max_energy : 180,
+            scene_.player_stats.max_energy > 0
+                ? scene_.player_stats.energy : 180);
         player_dead_ = false;
         aim_direction_ = {1.0f, 0.0f};
         projectiles_.Clear();
@@ -244,13 +269,21 @@ bool Application::Initialize() {
         if (!weapons_.Configure(scene_)) {
             LOG_ERROR_APP("No recovered weapon definition; attack disabled");
         } else {
+            weapon_inventory_.Configure(weapons_.Count());
             ConfigureActiveWeapon();
+            weapon_pickups_.Clear();
+            if (weapons_.Count() > 2) {
+                SpawnWeaponPickup(2);
+            }
         }
         LOG_INFO_APP("Combat: player hp={} armor={} camp={}; enemies={} "
                      "(definitions={}), projectiles=0",
                      player_health_.hp, player_health_.armor,
                      player_health_.camp, enemies_.Enemies().size(),
                      enemies_.Definitions().size());
+        if (config_.asset_lab) {
+            asset_lab_.Open();
+        }
         std::string door_error;
         if (!room_doors_.Configure(scene_, &door_error)) {
             LOG_FATAL_APP("Room door configuration failed: {}", door_error);
@@ -377,6 +410,12 @@ bool Application::Initialize() {
     running_ = true;
     smoke_start_seconds_ = NowSeconds();
 
+    if (config_.interactive_test) {
+        StartInteractiveTest();
+    }
+    if (config_.replay && replay_ != nullptr) {
+        StartReplaySession();
+    }
     LOG_INFO_APP("Application started");
     if (config_.smoke_test_seconds > 0.0) {
         LOG_INFO_APP("Smoke test will run for {:.1f} seconds", config_.smoke_test_seconds);
@@ -559,6 +598,7 @@ void Application::BuildRenderBatch() {
             draw.sorting_order = definition.body_sorting_order;
             draw.texture_id = sprite.texture_id;
             draw.pivot = sprite.pivot;
+            draw.flip_x = enemy.facing_left;
             (void)sprite_batch_.DrawSprite(draw);
         }
         if (definition.shadow_sprite_index >= 0 &&
@@ -578,6 +618,31 @@ void Application::BuildRenderBatch() {
             draw.pivot = sprite.pivot;
             (void)sprite_batch_.DrawSprite(draw);
         }
+    }
+
+    for (const soulknight::game::weapons::WeaponPickup& pickup :
+         weapon_pickups_.Pickups()) {
+        if (!pickup.active || pickup.weapon_index >= scene_.weapons.size()) continue;
+        const engine::assets::WeaponDefinition& definition =
+            scene_.weapons[pickup.weapon_index];
+        if (definition.visual_sprite_index < 0 ||
+            static_cast<std::size_t>(definition.visual_sprite_index) >=
+                scene_.sprites.size()) {
+            continue;
+        }
+        const engine::assets::SpriteData& sprite =
+            scene_.sprites[static_cast<std::size_t>(definition.visual_sprite_index)];
+        engine::rendering::SpriteDraw draw;
+        const float bob = std::sin(pickup.animation_time * 3.0f) * 0.08f;
+        draw.position = pickup.position + engine::Vec2{0.0f, bob};
+        draw.size = sprite.WorldSize();
+        draw.uv = sprite.UvRect();
+        draw.color = engine::Color::White();
+        draw.layer = MapSortingLayer(5);
+        draw.sorting_order = 5;
+        draw.texture_id = sprite.texture_id;
+        draw.pivot = sprite.pivot;
+        (void)sprite_batch_.DrawSprite(draw);
     }
 
     for (const soulknight::game::combat::Projectile& projectile :
@@ -616,6 +681,8 @@ void Application::BuildRenderBatch() {
     ui_context.enemies = &enemies_;
     ui_context.player = &player_;
     ui_context.health = &player_health_;
+    ui_context.energy = &player_energy_;
+    ui_context.weapon_inventory = &weapon_inventory_;
     ui_context.room_id = scene_.id.c_str();
     ui_context.facing = engine::locomotion::FacingDirectionName(facing_);
     ui_context.version = LITEKNIGHT_VERSION;
@@ -627,7 +694,9 @@ void Application::BuildRenderBatch() {
     ui_context.simulation_ticks = simulation_ticks_;
     ui_context.render_frames = render_frames_;
     ui_context.active_projectiles = projectiles_.ActiveCount();
+    ui_context.pickups = weapon_pickups_.ActiveCount();
     dev_ui_.Draw(sprite_batch_, ui_context);
+    asset_lab_.Draw(sprite_batch_, scene_, camera_, dev_ui_);
 }
 
 void Application::BuildSyntheticBatch() {
@@ -652,32 +721,48 @@ void Application::BuildSyntheticBatch() {
     (void)sprite_batch_.DrawSprite(draw);
 }
 
-void Application::PollEvents() {
-    input_manager_.BeginFrame();
-    SDL_Event event;
-    while (SDL_PollEvent(&event)) {
-        const bool was_minimized = window_.IsMinimized();
-        const bool was_focused = window_.IsFocused();
-
-        if (event.type == SDL_EVENT_QUIT) {
-            LOG_INFO_APP("SDL quit event");
-            running_ = false;
-        }
-
-        const bool key_down = event.type == SDL_EVENT_KEY_DOWN &&
-                              !event.key.repeat;
-        if (key_down && event.key.scancode == SDL_SCANCODE_ESCAPE) {
-            if (dev_ui_.MenuOpen()) {
-                dev_ui_.CloseMenu();
-            } else {
-                LOG_INFO_APP("Escape pressed; requesting shutdown");
+void Application::HandleSceneKeyDown(SDL_Scancode scancode,
+                                   SDL_Keymod modifiers) {
+    if (interactive_test_.Active() && replay_ == nullptr) {
+        interactive_test_.RecordCommand(
+            simulation_ticks_ + 1, static_cast<int>(scancode),
+            static_cast<int>(modifiers));
+    }
+            if (interactive_test_.Active() && replay_ == nullptr &&
+                scancode == SDL_SCANCODE_RETURN &&
+                !dev_ui_.MenuOpen() && !asset_lab_.IsOpen()) {
+                FinalizeInteractiveTest("PASS", "user finalized with Enter");
                 running_ = false;
-            }
-        }
-
-        if (key_down && scene_mode_) {
-            const SDL_Scancode scancode = event.key.scancode;
-            if (scancode == SDL_SCANCODE_F10) {
+            } else if (asset_lab_.IsOpen()) {
+                if (scancode == SDL_SCANCODE_LEFTBRACKET ||
+                    scancode == SDL_SCANCODE_KP_MINUS) {
+                    CycleAssetLabCategory(-1);
+                } else if (scancode == SDL_SCANCODE_RIGHTBRACKET ||
+                           scancode == SDL_SCANCODE_KP_PLUS) {
+                    CycleAssetLabCategory(1);
+                } else if (scancode == SDL_SCANCODE_COMMA ||
+                           scancode == SDL_SCANCODE_LEFT) {
+                    CycleAssetLabItem(-1);
+                } else if (scancode == SDL_SCANCODE_PERIOD ||
+                           scancode == SDL_SCANCODE_RIGHT) {
+                    CycleAssetLabItem(1);
+                } else if (scancode == SDL_SCANCODE_SPACE) {
+                    asset_lab_.TogglePause();
+                } else if (scancode == SDL_SCANCODE_N) {
+                    asset_lab_.StepFrame(1);
+                } else if (scancode == SDL_SCANCODE_RETURN) {
+                    ActivateAssetLabSelection();
+                } else if (scancode == SDL_SCANCODE_F5) {
+                    asset_lab_.Close();
+                }
+            } else if (scancode == SDL_SCANCODE_F2) {
+                SaveGameToDisk();
+            } else if (scancode == SDL_SCANCODE_F3) {
+                LoadGameFromDisk();
+            } else if (scancode == SDL_SCANCODE_F5) {
+                asset_lab_.Open();
+                LOG_INFO_APP("Asset laboratory opened");
+            } else if (scancode == SDL_SCANCODE_F10) {
                 dev_ui_.ToggleOverlay();
                 LOG_INFO_APP("Developer overlay: {}",
                              BooleanText(dev_ui_.OverlayVisible()));
@@ -715,7 +800,7 @@ void Application::PollEvents() {
                     if (menu == soulknight::game::ui::DevMenu::Characters) {
                         SwitchCharacter(dev_ui_.SelectedIndex());
                     } else if (menu == soulknight::game::ui::DevMenu::Weapons) {
-                        if (weapons_.Select(dev_ui_.SelectedIndex())) {
+                        if (weapon_inventory_.EquipActive(dev_ui_.SelectedIndex())) {
                             ConfigureActiveWeapon();
                         }
                     }
@@ -732,6 +817,10 @@ void Application::PollEvents() {
                 dev_ui_.OpenMenu(soulknight::game::ui::DevMenu::Enemies,
                                  dev_ui_.SelectedIndex(),
                                  enemies_.DefinitionCount());
+            } else if (scancode == SDL_SCANCODE_E) {
+                TryPickupWeapon();
+            } else if (scancode == SDL_SCANCODE_G) {
+                SpawnWeaponPickup(weapons_.ActiveIndex());
             } else if (scancode == SDL_SCANCODE_O &&
                        !scene_.doors.empty()) {
                 ToggleAllDoors();
@@ -746,13 +835,52 @@ void Application::PollEvents() {
                 CycleObstacleVariant();
             } else if (scancode == SDL_SCANCODE_R) {
                 ResetCombat();
-            } else if (scancode >= SDL_SCANCODE_1 &&
+            } else if ((modifiers & SDL_KMOD_CTRL) != 0 &&
+                       scancode >= SDL_SCANCODE_1 &&
                        scancode <= SDL_SCANCODE_9) {
                 SwitchCharacter(static_cast<std::size_t>(
                     scancode - SDL_SCANCODE_1));
-            } else if (scancode == SDL_SCANCODE_0) {
+            } else if ((modifiers & SDL_KMOD_CTRL) != 0 &&
+                       scancode == SDL_SCANCODE_0) {
                 SwitchCharacter(9);
+            } else if (scancode == SDL_SCANCODE_1) {
+                SwitchWeaponSlot(0);
+            } else if (scancode == SDL_SCANCODE_2) {
+                SwitchWeaponSlot(1);
             }
+}
+
+void Application::PollEvents() {
+    input_manager_.BeginFrame();
+    SDL_Event event;
+    while (SDL_PollEvent(&event)) {
+        const bool was_minimized = window_.IsMinimized();
+        const bool was_focused = window_.IsFocused();
+
+        if (event.type == SDL_EVENT_QUIT) {
+            LOG_INFO_APP("SDL quit event");
+            running_ = false;
+        }
+
+        const bool key_down = event.type == SDL_EVENT_KEY_DOWN &&
+                              !event.key.repeat;
+        if (key_down && event.key.scancode == SDL_SCANCODE_ESCAPE) {
+            if (interactive_test_.Active()) {
+                FinalizeInteractiveTest("ABORTED", "user aborted with Escape");
+                running_ = false;
+            } else if (asset_lab_.IsOpen()) {
+                asset_lab_.Close();
+            } else if (dev_ui_.MenuOpen()) {
+                dev_ui_.CloseMenu();
+            } else {
+                LOG_INFO_APP("Escape pressed; requesting shutdown");
+                running_ = false;
+            }
+        }
+
+        if (key_down && scene_mode_) {
+            HandleSceneKeyDown(event.key.scancode,
+                               static_cast<SDL_Keymod>(event.key.mod));
         }
 
         window_.HandleEvent(event);
@@ -881,8 +1009,9 @@ void Application::CycleObstacleVariant() {
                  variant.visuals.size(), obstacles_.ColliderCellCount());
 }
 
-void Application::UpdateAimInput() {
-    const platform::InputSnapshot& snapshot = input_manager_.GetSnapshot();
+void Application::UpdateAimInput(const platform::InputSnapshot* override) {
+    const platform::InputSnapshot& snapshot =
+        override != nullptr ? *override : input_manager_.GetSnapshot();
     // Reference path: RGController.AutoLock consumes the right-stick / locked
     // target direction into fixed_angle; Gun001.Attack uses that angle.
     // NATIVE TEST BINDINGS: right stick or mouse cursor (after it has moved)
@@ -935,6 +1064,71 @@ void Application::UpdateAimInput() {
     }
 }
 
+void Application::CycleAssetLabCategory(int delta) {
+    asset_lab_.NextCategory(delta);
+    CycleAssetLabItem(0);
+    LOG_INFO_APP("Asset lab category: {}", asset_lab_.CategoryName());
+}
+
+void Application::CycleAssetLabItem(int delta) {
+    const std::size_t count = asset_lab_.ItemCount(scene_);
+    if (count == 0) {
+        asset_lab_.SetItemIndex(0);
+        return;
+    }
+    std::size_t current = std::min(asset_lab_.ItemIndex(), count - 1);
+    if (delta != 0) {
+        const int count_i = static_cast<int>(count);
+        int next = (static_cast<int>(current) + delta) % count_i;
+        if (next < 0) next += count_i;
+        current = static_cast<std::size_t>(next);
+    }
+    asset_lab_.SetItemIndex(current);
+    LOG_INFO_APP("Asset lab: {} [{}] {}", asset_lab_.CategoryName(),
+                 current + 1, asset_lab_.ItemId(scene_));
+}
+
+void Application::ActivateAssetLabSelection() {
+    const std::size_t count = asset_lab_.ItemCount(scene_);
+    if (count == 0) {
+        LOG_INFO_APP("Asset lab: {} has no integrated assets",
+                     asset_lab_.CategoryName());
+        return;
+    }
+    const std::size_t index = std::min(asset_lab_.ItemIndex(), count - 1);
+    using soulknight::game::ui::AssetCategory;
+    switch (asset_lab_.Category()) {
+        case AssetCategory::Characters:
+            SwitchCharacter(index);
+            LOG_INFO_APP("Asset lab: activated character {}", index);
+            break;
+        case AssetCategory::Weapons:
+            if (weapon_inventory_.EquipActive(index)) {
+                ConfigureActiveWeapon();
+            }
+            LOG_INFO_APP("Asset lab: equipped weapon {}", index);
+            break;
+        case AssetCategory::Enemies: {
+            const engine::Vec2 position =
+                player_.Position() + engine::Vec2{2.0f, 0.0f};
+            if (enemies_.SpawnEnemy(index, position)) {
+                LOG_INFO_APP("Asset lab: spawned enemy {}", index);
+            }
+            break;
+        }
+        case AssetCategory::Obstacles:
+            if (obstacles_.Select(index)) {
+                RebuildCollisionWorld();
+                LOG_INFO_APP("Asset lab: selected obstacle variant {}", index);
+            }
+            break;
+        default:
+            LOG_INFO_APP("Asset lab: preview-only asset {}[{}]",
+                         asset_lab_.CategoryName(), index + 1);
+            break;
+    }
+}
+
 void Application::SpawnSelectedEnemy(int count) {
     if (enemies_.DefinitionCount() == 0) {
         LOG_WARN_APP("Enemy spawn requested but the scene has no enemy definitions");
@@ -963,8 +1157,146 @@ void Application::SpawnSelectedEnemy(int count) {
                  enemies_.Enemies().size());
 }
 
+void Application::SaveGameToDisk() {
+    if (save_manager_ == nullptr || weapons_.Count() == 0) return;
+    soulknight::game::save::SaveData data;
+    data.game_version = LITEKNIGHT_VERSION;
+    data.scene_id = scene_.id;
+    data.character_id = player_characters_.Count() > 0
+        ? player_characters_.Active().id : scene_.player_stats.character_id;
+    data.weapon_slots[0] = weapons_.Definitions()[weapon_inventory_.Slot(0)].id;
+    data.weapon_slots[1] = weapons_.Definitions()[weapon_inventory_.Slot(1)].id;
+    data.active_slot = static_cast<int>(weapon_inventory_.ActiveSlot());
+    data.position_x = player_.Position().x;
+    data.position_y = player_.Position().y;
+    data.hp = player_health_.hp;
+    data.max_hp = player_health_.max_hp;
+    data.armor = player_health_.armor;
+    data.max_armor = player_health_.max_armor;
+    data.energy = player_energy_.energy;
+    data.max_energy = player_energy_.max_energy;
+    data.dead = player_health_.dead;
+    data.playtime_seconds = static_cast<std::int64_t>(simulation_time_);
+    std::string error;
+    if (save_manager_->Save(data, &error)) {
+        LOG_INFO_APP("Saved native game state: {}",
+                     save_manager_->SlotPath().string());
+    } else {
+        LOG_ERROR_APP("Save failed: {}", error);
+    }
+}
+
+void Application::LoadGameFromDisk() {
+    if (save_manager_ == nullptr) return;
+    soulknight::game::save::SaveData data;
+    std::string error;
+    if (!save_manager_->Load(&data, &error)) {
+        LOG_ERROR_APP("Load failed: {}", error);
+        return;
+    }
+    if (!error.empty()) {
+        LOG_WARN_APP("Load recovered with warning: {}", error);
+    }
+    if (data.scene_id != scene_.id) {
+        LOG_ERROR_APP("Save scene mismatch: save={} current={}",
+                      data.scene_id, scene_.id);
+        return;
+    }
+    std::size_t character_index = scene_.characters.size();
+    for (std::size_t i = 0; i < scene_.characters.size(); ++i) {
+        if (scene_.characters[i].id == data.character_id) {
+            character_index = i;
+            break;
+        }
+    }
+    if (character_index == scene_.characters.size()) {
+        LOG_ERROR_APP("Save references unknown character: {}",
+                      data.character_id);
+        return;
+    }
+    std::array<std::size_t, 2> weapon_indices{};
+    for (std::size_t slot = 0; slot < 2; ++slot) {
+        std::size_t found = weapons_.Count();
+        for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+            if (weapons_.Definitions()[i].id == data.weapon_slots[slot]) {
+                found = i;
+                break;
+            }
+        }
+        if (found == weapons_.Count()) {
+            LOG_ERROR_APP("Save references unknown weapon: {}",
+                          data.weapon_slots[slot]);
+            return;
+        }
+        weapon_indices[slot] = found;
+    }
+
+    SwitchCharacter(character_index);
+    player_.SetPosition({data.position_x, data.position_y});
+    camera_.position = {data.position_x, data.position_y};
+    player_health_.Reset(data.max_hp, data.max_armor, 0);
+    player_health_.hp = data.hp;
+    player_health_.armor = data.armor;
+    player_health_.dead = data.dead || data.hp <= 0;
+    player_health_.can_hurt = !player_health_.dead;
+    player_energy_.Reset(data.max_energy, data.energy);
+    player_dead_ = player_health_.dead;
+    attack_held_ = false;
+    weapon_.Release();
+    projectiles_.Clear();
+
+    weapon_inventory_.Configure(weapons_.Count());
+    weapon_inventory_.SwitchSlot(0);
+    (void)weapon_inventory_.EquipActive(weapon_indices[0]);
+    weapon_inventory_.SwitchSlot(1);
+    (void)weapon_inventory_.EquipActive(weapon_indices[1]);
+    weapon_inventory_.SwitchSlot(static_cast<std::size_t>(data.active_slot));
+    ConfigureActiveWeapon();
+    LOG_INFO_APP("Loaded native game state: {} character={} slot={} ",
+                 save_manager_->SlotPath().string(), data.character_id,
+                 data.active_slot + 1);
+}
+
+void Application::SpawnWeaponPickup(std::size_t weapon_index) {
+    if (weapon_index >= weapons_.Count()) return;
+    const engine::Vec2 position{
+        player_.Position().x + 1.4f,
+        player_.Position().y - 0.1f
+    };
+    if (weapon_pickups_.Spawn(weapon_index, position)) {
+        LOG_INFO_APP("Weapon pickup spawned: {} at ({:.2f},{:.2f}) [E to take]",
+                     weapons_.Definitions()[weapon_index].id, position.x,
+                     position.y);
+    }
+}
+
+void Application::TryPickupWeapon() {
+    std::size_t weapon_index = 0;
+    if (!weapon_pickups_.TakeNearest(player_.Position(), 1.5f,
+                                     &weapon_index)) {
+        LOG_INFO_APP("No weapon pickup in range (1.5)");
+        return;
+    }
+    if (!weapon_inventory_.EquipActive(weapon_index)) return;
+    ConfigureActiveWeapon();
+    LOG_INFO_APP("Weapon pickup equipped into slot {}: {}",
+                 weapon_inventory_.ActiveSlot() + 1,
+                 weapons_.Definitions()[weapon_index].id);
+}
+
+void Application::SwitchWeaponSlot(std::size_t slot) {
+    if (!weapon_inventory_.SwitchSlot(slot)) return;
+    ConfigureActiveWeapon();
+    LOG_INFO_APP("Weapon slot: {} primary={} secondary={} active={}",
+                 weapon_inventory_.ActiveSlot() + 1,
+                 weapon_inventory_.Slot(0), weapon_inventory_.Slot(1),
+                 weapons_.Count() > 0 ? weapons_.Active().id : "none");
+}
+
 void Application::ConfigureActiveWeapon() {
     if (weapons_.Count() == 0) return;
+    const std::size_t active_index = weapon_inventory_.ActiveIndex();
+    if (!weapons_.Select(active_index)) return;
     engine::assets::WeaponDefinition weapon_definition = weapons_.Active();
     if (scene_.player_stats.max_hp > 0) {
         weapon_definition.owner_deviation = scene_.player_stats.deviation;
@@ -992,6 +1324,11 @@ void Application::ResetCombat() {
     player_health_.Reset(player_max_hp, player_max_armor, 0);
     player_health_.camp =
         scene_.player_stats.max_hp > 0 ? scene_.player_stats.camp : 1;
+    player_energy_.Reset(
+        scene_.player_stats.max_energy > 0
+            ? scene_.player_stats.max_energy : 180,
+        scene_.player_stats.max_energy > 0
+            ? scene_.player_stats.energy : 180);
     player_dead_ = false;
     attack_held_ = false;
     weapon_.Release();
@@ -1001,8 +1338,10 @@ void Application::ResetCombat() {
     projectiles_.Clear();
     enemies_.Reset();
     obstacles_.Select(0);
-    weapons_.Select(0);
+    weapon_inventory_.Configure(weapons_.Count());
     ConfigureActiveWeapon();
+    weapon_pickups_.Clear();
+    if (weapons_.Count() > 2) SpawnWeaponPickup(2);
     player_characters_.Select(0);
     room_doors_.OpenAll();
     door_trigger_inside_.assign(room_doors_.Count(), false);
@@ -1059,6 +1398,8 @@ void Application::FixedUpdate(double dt) {
     ++simulation_ticks_;
 
     if (!scene_mode_) return;
+    asset_lab_.Update(static_cast<float>(dt));
+    weapon_pickups_.Update(static_cast<float>(dt));
 
     if (room_doors_.Update(static_cast<float>(dt))) {
         RebuildCollisionWorld();
@@ -1085,7 +1426,7 @@ void Application::FixedUpdate(double dt) {
         locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
         const int shots = weapon_.Update(static_cast<float>(dt), attack_held_,
                                          player_.Position(), aim_direction_,
-                                         projectiles_);
+                                         projectiles_, &player_energy_);
         if (shots > 0 && config_.locomotion_debug) {
             LOG_INFO_APP("Attack: fired={} projectile={} speed={:.1f} "
                          "damage={} cycle={:.6f}s first={:.6f}s "
@@ -1119,7 +1460,8 @@ void Application::FixedUpdate(double dt) {
     }
     enemies_.ResolveProjectileHits(projectiles_);
     const bool player_damaged = enemies_.FixedUpdate(
-        static_cast<float>(dt), player_.Position(), player_health_);
+        static_cast<float>(dt), player_.Position(), player_health_,
+        &collision_world_);
     if (player_damaged) {
         LOG_INFO_APP("Player damaged: hp={} armor={} dead={}",
                      player_health_.hp, player_health_.armor,
@@ -1132,6 +1474,7 @@ void Application::FixedUpdate(double dt) {
                      player_.Position().y);
     }
     UpdateDoorTriggers();
+    RecordInteractiveTestTick();
 
     if (config_.locomotion_debug && simulation_ticks_ % 25 == 0) {
         const engine::animation::SpriteKeyframe* frame =
@@ -1201,6 +1544,205 @@ void Application::ExerciseWindowIfRequested() {
     }
 }
 
+std::string InteractiveTestInstructions(const std::string& name) {
+    if (name == "character_all") {
+        return "F6 cycles all 15 recovered characters. Confirm each, move and "
+               "attack. Enter finalizes, Esc aborts.";
+    }
+    if (name == "weapon_all") {
+        return "F7 selects weapons, Enter equips, 1/2 switches slots, Space "
+               "fires. Inspect real projectile and cooldown. Enter finalizes.";
+    }
+    if (name == "enemy_all") {
+        return "F8 selects enemy definitions; F9 spawns one, F11 five, F12 "
+               "clears. Inspect real sprites/metadata. Enter finalizes.";
+    }
+    if (name == "projectile_all") {
+        return "F5 opens the asset lab; cycle to PROJECTILES with [ or ], "
+               "comma/period cycles items. Enter finalizes.";
+    }
+    if (name == "object_all" || name == "door_all") {
+        return "F5 asset lab: cycle TEXTURES/SPRITES/OBSTACLES/DOORS with "
+               "[ or ]. O opens doors, C closes them. Enter finalizes.";
+    }
+    if (name == "combat_live") {
+        return "F9 spawns one enemy, F11 five. Slimes pursue and contact-damage "
+               "the player. Space fires; damage, death and R reset are live. "
+               "Enter finalizes.";
+    }
+    if (name == "two_weapon") {
+        return "Press 1 for primary, 2 for secondary; each slot keeps its own "
+               "weapon, projectile, cooldown and energy cost. Fire both. Enter "
+               "finalizes.";
+    }
+    if (name == "energy") {
+        return "Switch to slot 2 (weapon_002 consumes 1) and fire. HUD ENERGY "
+               "must decrease per shot and stop firing at zero. Enter finalizes.";
+    }
+    if (name == "health") {
+        return "Let an enemy contact-hit you; HUD HP/ARMOR must change. "
+               "Reset with R. Enter finalizes.";
+    }
+    if (name == "save_load") {
+        return "Move, switch weapons, spend energy, then F2 save and F3 load. "
+               "Verify character/weapons/HP/energy/position restore. Enter "
+               "finalizes.";
+    }
+    if (name == "room_transition") {
+        return "Native room transitions are not recovered yet. O/C only open "
+               "and close recovered r1_1 doors. Record this limitation and "
+               "press Enter; do not treat door motion as a room transition.";
+    }
+    if (name == "hub") {
+        return "HUB IS UNRECOVERED. No hub scene/interactables exist in this "
+               "build. Press Enter to record the missing-feature result; Esc "
+               "aborts.";
+    }
+    return "Exercise the devroom controls. Enter finalizes, Esc aborts. Use "
+           "--asset-lab for preview-only inspection.";
+}
+
+bool Application::LoadReplayIfRequested() {
+    replay_ = std::make_unique<soulknight::game::test::InteractiveReplay>();
+    std::string error;
+    if (!replay_->Load(config_.replay_path, &error)) {
+        LOG_FATAL_APP("Replay load failed: {}", error);
+        replay_.reset();
+        return false;
+    }
+    LOG_INFO_APP("Replay loaded: {} inputs from {} (test={} commit={})",
+                 replay_->InputCount(), replay_->Path().string(),
+                 replay_->TestName(), replay_->Commit());
+    return true;
+}
+
+void Application::StartReplaySession() {
+    if (replay_ == nullptr) return;
+    const std::string name = "replay_" + replay_->TestName();
+    const std::string instructions =
+        "Deterministic replay of " + std::to_string(replay_->InputCount()) +
+        " recorded fixed-tick inputs. Movement, aim, attack, weapon-slot and "
+        "interact actions are replayed together with serialized key commands "
+        "(menus, spawners, doors, reset, save/load).";
+    const std::filesystem::path output = project_root_ / "test-results";
+    if (interactive_test_.Start(name, instructions, LITEKNIGHT_VERSION,
+                                SOUL_KNIGHT_COMMIT_HASH, scene_.id,
+                                scene_sha256_, output)) {
+        interactive_test_.SetAssetHashes(reference_apk_sha256_,
+                                         asset_inventory_sha256_,
+                                         scene_sha256_);
+        LOG_INFO_APP("==================================================");
+        LOG_INFO_APP("LiteKnight Interactive Replay");
+        LOG_INFO_APP("==================================================");
+        LOG_INFO_APP("Source: {}", replay_->Path().string());
+        LOG_INFO_APP("Inputs: {}  first tick: {}", replay_->InputCount(),
+                     replay_->FirstTick());
+        LOG_INFO_APP("Recording replay result under {}", output.string());
+    }
+}
+
+bool Application::ApplyReplayInputForNextTick() {
+    if (replay_ == nullptr) return false;
+    const std::uint64_t next_tick = simulation_ticks_ + 1;
+    for (const game::test::InteractiveReplay::Command& command :
+         replay_->CommandsForTick(next_tick)) {
+        HandleSceneKeyDown(static_cast<SDL_Scancode>(command.scancode),
+                           static_cast<SDL_Keymod>(command.modifiers));
+    }
+    if (!replay_->Next(&replay_snapshot_)) return false;
+    if (replay_snapshot_.IsPressed(platform::Action::WeaponSlot1)) {
+        SwitchWeaponSlot(0);
+    }
+    if (replay_snapshot_.IsPressed(platform::Action::WeaponSlot2)) {
+        SwitchWeaponSlot(1);
+    }
+    if (replay_snapshot_.IsPressed(platform::Action::Interact)) {
+        TryPickupWeapon();
+    }
+    ApplyInputSnapshot(replay_snapshot_);
+    return true;
+}
+
+void Application::ApplyInputSnapshot(const platform::InputSnapshot& snapshot) {
+    movement_input_ = scene_mode_ && !dev_ui_.MenuOpen() &&
+                     !asset_lab_.IsOpen()
+        ? platform::ReadDigitalMovement(snapshot)
+        : platform::MovementInput{};
+    if (!scene_mode_) return;
+    // NATIVE TEST BINDING: the reference uses a mobile attack button
+    // (RGJoyControl.UpdateBtnAtkClick -> RGController.BtnAtkClick).
+    // Keyboard Space/J and left mouse are the native dev equivalents.
+    attack_held_ = !dev_ui_.MenuOpen() && !asset_lab_.IsOpen() &&
+                   (snapshot.IsHeld(platform::Action::Attack) ||
+                    snapshot.mouse_pressed[0]);
+    UpdateAimInput(&snapshot);
+}
+
+void Application::StartInteractiveTest() {
+    const std::string& name = config_.interactive_test_name;
+    const std::string instructions = InteractiveTestInstructions(name);
+    const std::filesystem::path output = project_root_ / "test-results";
+    if (interactive_test_.Start(name, instructions, LITEKNIGHT_VERSION,
+                                SOUL_KNIGHT_COMMIT_HASH, scene_.id,
+                                scene_sha256_, output)) {
+        interactive_test_.SetAssetHashes(reference_apk_sha256_,
+                                         asset_inventory_sha256_,
+                                         scene_sha256_);
+        LOG_INFO_APP("==================================================");
+        LOG_INFO_APP("LiteKnight Interactive Test");
+        LOG_INFO_APP("==================================================");
+        LOG_INFO_APP("Test: {}", name);
+        LOG_INFO_APP("Instructions: {}", instructions);
+        LOG_INFO_APP("Recording... [ENTER] finalize  [ESC] abort");
+        LOG_INFO_APP("Output directory: {}", output.string());
+    } else {
+        LOG_ERROR_APP("Interactive test could not be started");
+    }
+}
+
+void Application::RecordInteractiveTestTick() {
+    if (!interactive_test_.Active()) return;
+    game::test::TestState state;
+    state.position = player_.Position();
+    state.velocity = player_.Velocity();
+    state.camera_x = camera_.position.x;
+    state.camera_y = camera_.position.y;
+    state.animation_state =
+        engine::animation::LocomotionStateName(locomotion_animator_.State());
+    const engine::animation::SpriteKeyframe* frame =
+        locomotion_animator_.Evaluate("c00/img/body");
+    state.animation_frame = frame != nullptr ? frame->sprite_id : "none";
+    state.character = player_characters_.Count() > 0
+        ? player_characters_.Active().id : "none";
+    state.weapon = weapons_.Count() > 0 ? weapon_.Definition().id : "none";
+    state.room = scene_.id;
+    state.hp = player_health_.hp;
+    state.max_hp = player_health_.max_hp;
+    state.armor = player_health_.armor;
+    state.energy = player_energy_.energy;
+    state.max_energy = player_energy_.max_energy;
+    state.enemies = enemies_.Enemies().size();
+    state.projectiles = projectiles_.ActiveCount();
+    state.dead = player_dead_;
+    state.doors_open = room_doors_.TargetOpen();
+    const platform::InputSnapshot& snapshot =
+        replay_ != nullptr ? replay_snapshot_ : input_manager_.GetSnapshot();
+    interactive_test_.RecordTick(simulation_ticks_, snapshot, state);
+}
+
+void Application::FinalizeInteractiveTest(const std::string& result,
+                                          const std::string& notes) {
+    if (!interactive_test_.Active()) return;
+    if (interactive_test_.Finalize(result, notes)) {
+        LOG_INFO_APP("Interactive test {}: {} -> {}", interactive_test_.Name(),
+                     result, interactive_test_.OutputPath());
+        if (result != "PASS") exit_code_ = 1;
+    } else {
+        LOG_ERROR_APP("Interactive test {} could not be serialized",
+                      interactive_test_.Name());
+    }
+}
+
 bool Application::SmokeTestExpired() const {
     if (config_.smoke_test_seconds <= 0.0 || smoke_start_seconds_ < 0.0) return false;
     return (NowSeconds() - smoke_start_seconds_) >= config_.smoke_test_seconds;
@@ -1221,19 +1763,10 @@ int Application::Run() {
 
     while (running_) {
         PollEvents();
-        movement_input_ = scene_mode_ && !dev_ui_.MenuOpen()
-            ? platform::ReadDigitalMovement(input_manager_.GetSnapshot())
-            : platform::MovementInput{};
-        if (scene_mode_) {
-            const platform::InputSnapshot& snapshot =
-                input_manager_.GetSnapshot();
-            // NATIVE TEST BINDING: the reference uses a mobile attack button
-            // (RGJoyControl.UpdateBtnAtkClick -> RGController.BtnAtkClick).
-            // Keyboard Space/J and left mouse are the native dev equivalents.
-            attack_held_ = !dev_ui_.MenuOpen() &&
-                           (snapshot.IsHeld(platform::Action::Attack) ||
-                            snapshot.mouse_pressed[0]);
-            UpdateAimInput();
+        if (scene_mode_ && replay_ == nullptr) {
+            ApplyInputSnapshot(input_manager_.GetSnapshot());
+        } else if (!scene_mode_) {
+            movement_input_ = {};
         }
         if (!running_) break;
         if (SmokeTestExpired()) {
@@ -1244,8 +1777,22 @@ int Application::Run() {
         frame_timer_.BeginFrame();
 
         while (frame_timer_.ShouldSimulate()) {
+            if (replay_ != nullptr && !ApplyReplayInputForNextTick()) {
+                FinalizeInteractiveTest(
+                    "PASS", "replay input stream exhausted: " +
+                            replay_->Path().string());
+                running_ = false;
+                break;
+            }
             FixedUpdate(frame_timer_.GetFixedDeltaTime());
             frame_timer_.ConsumeSimStep();
+            if (replay_ != nullptr && replay_->Finished()) {
+                FinalizeInteractiveTest(
+                    "PASS", "replay input stream exhausted: " +
+                            replay_->Path().string());
+                running_ = false;
+                break;
+            }
         }
 
         if (scene_mode_) {
@@ -1301,9 +1848,12 @@ int Application::Run() {
     LOG_INFO_APP("Rendered {} frames, advanced {} fixed simulation ticks ({:.3f} s sim time)",
                  render_frames_, simulation_ticks_, simulation_time_);
 
+    if (interactive_test_.Active()) {
+        FinalizeInteractiveTest("ABORTED", "application exited before finalization");
+    }
     running_ = false;
     Shutdown();
-    return render_failed ? EXIT_FAILURE : EXIT_SUCCESS;
+    return (render_failed || exit_code_ != 0) ? EXIT_FAILURE : EXIT_SUCCESS;
 }
 
 void Application::Shutdown() {

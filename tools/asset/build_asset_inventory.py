@@ -23,8 +23,8 @@ REFERENCE_OBSERVED = {
     "textures": 365,
     "sprites": 6408,
     "characters": 15,
-    "weapon_game_objects": 383,
-    "enemy_ids": 126,
+    "weapon_ids": 365,
+    "enemy_ids": 125,
 }
 
 REDISTRIBUTION_LOCAL = "local_only"
@@ -40,6 +40,29 @@ def sha256_file(path: Path) -> str | None:
         for chunk in iter(lambda: handle.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def lifecycle(discovered: int, extracted: int, translated: int,
+              validated: int, integrated: int, tested: int,
+              note: str = "") -> dict[str, Any]:
+    """Explicit asset maturity ladder used by the asset laboratory."""
+    return {
+        "DISCOVERED": discovered,
+        "EXTRACTED": extracted,
+        "TRANSLATED": translated,
+        "VALIDATED": validated,
+        "INTEGRATED": integrated,
+        "DEVROOM_TESTED": tested,
+        "highest": (
+            "DEVROOM_TESTED" if tested > 0 else
+            "INTEGRATED" if integrated > 0 else
+            "VALIDATED" if validated > 0 else
+            "TRANSLATED" if translated > 0 else
+            "EXTRACTED" if extracted > 0 else
+            "DISCOVERED"
+        ),
+        "note": note,
+    }
 
 
 def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
@@ -79,6 +102,7 @@ def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
                 "sprite_count": len(sprites),
             },
             "status": "INTEGRATED" if sprites else "EXTRACTED",
+            "lifecycle_status": "INTEGRATED" if sprites else "EXTRACTED",
             "redistribution": REDISTRIBUTION_LOCAL,
             "license_status": "UNKNOWN",
             "note": "Reference-derived pixels are local development assets; do not redistribute.",
@@ -95,6 +119,7 @@ def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
             "idle_animation": character.get("idle_animation"),
             "run_animation": character.get("run_animation"),
             "status": "INTEGRATED_IDLE_RUN",
+            "lifecycle_status": "DEVROOM_TESTED" if character.get("id") == "c00" else "INTEGRATED",
             "missing": ["attack/charge animation", "hit animation", "full dead animation curves", "display name"],
             "redistribution": REDISTRIBUTION_LOCAL,
             "license_status": "UNKNOWN",
@@ -112,6 +137,7 @@ def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
             "attack_cycle_seconds": weapon.get("attack_cycle_seconds"),
             "consume": weapon.get("consume"),
             "status": "INTEGRATED_INSPECTION_FIRE",
+            "lifecycle_status": "DEVROOM_TESTED",
             "missing": ["item display name", "pickup/drop identity", "weapon-specific special effects"],
             "redistribution": REDISTRIBUTION_LOCAL,
             "license_status": "UNKNOWN",
@@ -128,7 +154,8 @@ def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
             "contact_damage": enemy.get("contact_damage"),
             "contact_cooldown": enemy.get("contact_cooldown"),
             "status": "INTEGRATED_SPAWN_DAMAGE_DEATH",
-            "missing": ["full EnemyAI04 movement/scout behavior", "death effect object", "room-clear lifecycle"],
+            "lifecycle_status": "DEVROOM_TESTED",
+            "missing": ["full EnemyAI04 scouting/pathfinding", "death effect object", "room-clear lifecycle"],
             "redistribution": REDISTRIBUTION_LOCAL,
             "license_status": "UNKNOWN",
         })
@@ -152,33 +179,68 @@ def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     categories = [
         {"category": "characters", "integrated": len(characters),
          "observed_reference_candidates": REFERENCE_OBSERVED["characters"],
-         "status": "PARTIAL", "note": "15 recovered c00..c14; idle/run integrated"},
+         "status": "DEVROOM_TESTED_PARTIAL",
+         "lifecycle": lifecycle(15, 15, 15, 15, len(characters), 1,
+                                "c00 live; c01..c14 integrated for selector/idle/run"),
+         "note": "15 recovered c00..c14; idle/run integrated"},
         {"category": "weapons", "integrated": len(weapons),
-         "observed_reference_candidates": REFERENCE_OBSERVED["weapon_game_objects"],
-         "status": "PARTIAL", "note": "first four Gun001 weapons integrated"},
+         "observed_reference_candidates": REFERENCE_OBSERVED["weapon_ids"],
+         "status": "DEVROOM_TESTED_PARTIAL",
+         "lifecycle": lifecycle(365, 4, 4, 4, len(weapons), 4,
+                                "four recovered Gun001 weapons: fire/equip/pickup"),
+         "note": "first four Gun001 weapons integrated"},
         {"category": "projectiles", "integrated": len(unique_projectiles),
-         "observed_reference_candidates": None, "status": "PARTIAL",
+         "observed_reference_candidates": None, "status": "DEVROOM_TESTED_PARTIAL",
+         "lifecycle": lifecycle(3, 3, 3, 3, len(unique_projectiles), 3,
+                                "bullet_0/bullet_11/bullet_14 integrated"),
          "note": "projectile prefabs used by the four integrated weapons"},
         {"category": "enemies", "integrated": len(enemies),
          "observed_reference_candidates": REFERENCE_OBSERVED["enemy_ids"],
-         "status": "PARTIAL", "note": "e_slime01 developer fixture only"},
+         "status": "DEVROOM_TESTED",
+         "lifecycle": lifecycle(125, 1, 1, 1, len(enemies), 1,
+                                "e_slime01 pursuit/contact/damage/death/live reset"),
+         "note": "e_slime01 developer fixture only"},
         {"category": "walls", "integrated": (
             scene.get("topology", {}).get("wall_cell_count", 0) +
             scene.get("topology", {}).get("corridor_wall_cell_count", 0)),
-         "status": "INTEGRATED", "note": "420 wall sprites across 140 room/corridor cells"},
-        {"category": "floors", "integrated": 1, "status": "INTEGRATED",
+         "status": "DEVROOM_TESTED",
+         "lifecycle": lifecycle(420, 420, 420, 420, 420, 420,
+                                "recovered room/corridor wall cells"),
+         "note": "420 wall sprites across 140 room/corridor cells"},
+        {"category": "floors", "integrated": 1, "status": "DEVROOM_TESTED",
+         "lifecycle": lifecycle(1, 1, 1, 1, 1, 1,
+                                "recovered floor atlas"),
          "note": "recovered floor atlas; full floor decoration inventory pending"},
         {"category": "doors", "integrated": len(scene.get("collision", {}).get("doors", [])),
-         "status": "INTEGRATED", "note": "four animated doors/triggers"},
+         "status": "DEVROOM_TESTED",
+         "lifecycle": lifecycle(4, 4, 4, 4,
+                                len(scene.get("collision", {}).get("doors", [])), 4,
+                                "open/close animation, collision timing and triggers"),
+         "note": "four animated doors/triggers"},
         {"category": "obstacles", "integrated": len(scene.get("obstacles", {}).get("variants", [])),
-         "status": "INTEGRATED", "note": "12 recovered obstacle_list variants; 8 solid selectable"},
+         "status": "DEVROOM_TESTED",
+         "lifecycle": lifecycle(12, 12, 12, 12,
+                                len(scene.get("obstacles", {}).get("variants", [])), 12,
+                                "selector/cycling and collider variants"),
+         "note": "12 recovered obstacle_list variants; 8 solid selectable"},
         {"category": "effects", "integrated": 0, "status": "UNRECOVERED",
+         "lifecycle": lifecycle(305, 0, 0, 0, 0, 0,
+                                "ParticleSystem objects discovered, no native effects"),
          "note": "muzzle/hit/death effects not integrated"},
         {"category": "ui", "integrated": 0, "status": "PLACEHOLDER",
+         "lifecycle": lifecycle(139, 0, 0, 0, 0, 0,
+                                "reference UI names discovered; developer text atlas is PLACEHOLDER UI"),
          "note": "generated developer text atlas; recovered UI atlas not integrated"},
-        {"category": "items/pickups", "integrated": 0, "status": "UNRECOVERED"},
-        {"category": "environment decorations", "integrated": 0, "status": "UNRECOVERED"},
-        {"category": "audio", "integrated": 0, "status": "UNRECOVERED"},
+        {"category": "items/pickups", "integrated": 0, "status": "UNRECOVERED",
+         "lifecycle": lifecycle(68, 0, 0, 0, 0, 0,
+                                "name-heuristic discovery only"),
+         "note": "weapon pickup foundation exists; item/pickup catalogue not translated"},
+        {"category": "environment decorations", "integrated": 0, "status": "UNRECOVERED",
+         "lifecycle": lifecycle(80, 0, 0, 0, 0, 0,
+                                "name-heuristic discovery only")},
+        {"category": "audio", "integrated": 0, "status": "UNRECOVERED",
+         "lifecycle": lifecycle(288, 0, 0, 0, 0, 0,
+                                "AudioClip discovery only")},
     ]
 
     texture_inventory = {
@@ -227,10 +289,15 @@ def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
             "doors_integrated": len(scene.get("collision", {}).get("doors", [])),
             "obstacle_variants": len(scene.get("obstacles", {}).get("variants", [])),
             "reference_candidates_observed": REFERENCE_OBSERVED,
+            "reference_catalogue": "analysis/assets/reference_catalogue.json",
             "placeholders": ["developer 5x7 text atlas (PLACEHOLDER)"],
             "not_integrated_categories": sum(
                 1 for item in categories if item["status"] in ("UNRECOVERED", "PLACEHOLDER")
             ),
+            "lifecycle_statuses": [
+                "DISCOVERED", "EXTRACTED", "TRANSLATED", "VALIDATED",
+                "INTEGRATED", "DEVROOM_TESTED"
+            ],
         },
         "categories": categories,
         "characters": characters,
