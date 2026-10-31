@@ -9,9 +9,10 @@ renderer implementation was started.
 
 Run `git log -1 --format='%h %s'` for the commit that contains this report.
 
-> **Note:** build/test counts in this report describe the P0/P1 pass at baseline
-> `4f61c3d`. The current baseline is 23 cases / 1276 assertions after the later
-> 50 Hz `FrameTimer` regression test; see `docs/TESTING.md`.
+> **Note:** build/test counts and Phase 4 status in this report describe the
+> P0/P1 pass at baseline `4f61c3d`. The current baseline is 31 cases / 1335
+> assertions, and the Phase 4 native foundation is implemented (Gate C PARTIAL).
+> See `docs/TESTING.md` and `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
 ---
 
@@ -233,7 +234,7 @@ also unverified because no runtime reference trace exists.
 
 ### 3.6 Renderer, tick rate, and gameplay gates — NOT MET
 
-- No Vulkan instance/device/swapchain/pipeline/sprite batcher exists. Gate C is NOT MET.
+- **Superseded (2026-10-31 Phase 4):** a Vulkan instance/device/swapchain and batched sprite renderer now exist. Gate C is **PARTIAL**, not NOT MET. This bullet records the earlier P0/P1 state.
 - **Superseded (2026-10-31 late pass):** the serialized Unity `TimeManager` value is
   now decoded as `Fixed_Timestep = 0.019999999552965164` (50 Hz), and the native
   `FrameTimer` has been corrected to match; 60 Hz remains the render target. See
@@ -396,7 +397,7 @@ Before committing the repair pass:
 | Phase 1 — APK Forensics | ✅ COMPLETE (artifact inventory) |
 | Phase 2 — Engine Reconstruction | ⚠️ PARTIAL — Gate B **NOT MET** |
 | Phase 3 — Behavioural Reconstruction | 🔄 **CURRENT** — RNG core reconstructed; damage partial |
-| Phase 4 — Native Runtime | ⬜ NOT STARTED — Gate C **NOT MET** |
+| Phase 4 — Native Runtime | ⚠️ PARTIAL — foundation implemented; Gate C **PARTIAL** (superseded note above) |
 | Phase 5 — First Playable | ⛔ BLOCKED |
 | Phase 6+ — Systems/Content/Fidelity/Release | ⛔ BLOCKED |
 
@@ -413,14 +414,14 @@ What is genuinely done:
 - box projectile target bridge is HIGH CONFIDENCE,
 - asset extraction is reproducible.
 
-What is not done:
+What was not done at this audit baseline (superseded where noted):
 
-- no renderer/swapchain,
+- no renderer/swapchain (superseded: Phase 4 foundation),
 - no gameplay loop,
 - no verified player/enemy/weapon/room identities,
 - no projectile → controller damage bridge,
 - no crit/element rules,
-- no resolved reference tick rate,
+- no resolved reference tick rate (superseded: 50 Hz confirmed),
 - no vertical slice.
 
 ---

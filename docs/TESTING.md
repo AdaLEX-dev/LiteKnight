@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is 23 doctest cases / 1276 assertions, all passing.
+**Status:** current baseline is **31 doctest cases / 1335 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -29,16 +29,36 @@ ctest --test-dir build --output-on-failure
 - Math: Vec2/Vec3/Mat4/camera.
 - Timing: 50 Hz fixed step, accumulator clamp, interpolation.
 
-### Platform
+### Platform (implemented units)
 
-- Wayland driver enforcement; non-Wayland startup fails.
-- SDL event handling/resize/minimize/focus.
-- Vulkan instance/device/queue selection.
-- Swapchain create/recreate/present.
-- Validation-clean Debug frame.
-- Clean shutdown/idempotence.
+- AppConfig defaults: 1920x1080, 50 Hz simulation, 60 FPS target.
+- Wayland-only driver validation; non-Wayland rejected.
+- Bootstrap CLI bounds and unknown-option tolerance.
+- Window-state resize/minimize/restore/focus/close transitions.
+- Safe repeated Application shutdown before initialization.
+- FrameTimer consumed-step statistics.
 
-### Assets
+### Renderer (implemented units)
+
+- SpriteBatch layer sort and stable insertion order.
+- SpriteBatch quad budget.
+- Shader build is a CMake target (`glslc`); SPIR-V is generated in the build tree.
+- Vulkan instance/device/swapchain/present is an **integration/manual** test,
+  not a CTest case: it requires a real Wayland compositor and GPU.
+
+### Integration / manual smoke
+
+```bash
+./tools/smoke_phase4.sh
+# or: ./build/soul-knight --smoke-seconds 10
+```
+
+Requirements: real Wayland session, SDL3, Vulkan 1.3, working GPU. The script
+checks driver, Wayland enforcement, validation status, swapchain/renderer markers,
+clean smoke completion, and rejects validation/renderer errors. It is intentionally
+not registered with CTest.
+
+### Assets (planned; not implemented)
 
 - Manifest path-ID/hash stability.
 - PNG decode dimensions/format.

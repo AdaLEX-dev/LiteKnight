@@ -123,7 +123,7 @@ Session: Initial reconnaissance
 - **Build/test baseline is fixed**; static-analysis and asset pipelines exist.
 - **Gate B blockers**: wall-collision placement, spawn/door state, weapon fire/projectile velocity, full death/reborn.
 - **RGRandom residuals**: `seed_state` 1/2, DateTime seed exactness, runtime reference vectors.
-- **Renderer/Vulkan runtime is not implemented**; Gate C NOT MET.
+- **Renderer/Vulkan foundation is implemented** (Wayland window, Vulkan device/swapchain, textured-quad present); asset/input/gameplay layers remain incomplete. Gate C is **PARTIAL**.
 - **Asset extraction is reproducible**, but native conversion and display-name identity are incomplete.
 - Full AI/procedural generation/save/content remain Phase 3 work; see `docs/PHASE_3_BEHAVIOURAL_RE.md` and `docs/PARITY.md`.
 
@@ -142,7 +142,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 ## 2026-10-31 — Evidence-First Session
 
 - Corrected Unity version/metadata and Gate B/C status.
-- Restored build/test feedback loop; 22 tests executed at that stage and an intentional failure turns CTest red (now 23).
+- Restored build/test feedback loop; 22 tests executed at that stage and an intentional failure turns CTest red (now 31).
 - Added `tools/re/il2cpp_re.py` for metadata → RVA → disassembly → xrefs.
 - Reconstructed `RGRandom` in `analysis/re/rgrandom.md`; native `UnityRandom`/`RGRandomStream` implemented and tested.
 - Added UnityPy extraction under `tools/asset/`; first-pass manifest has 284 entries and no proprietary bytes committed.
@@ -176,6 +176,20 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Resolved death/reborn/game-over/restart entry flow; exact virtual slots/UI remain PARTIAL.
 - Resolved the save boundary as Unity `PlayerPrefs`; payload remains UNKNOWN.
 - Corrected native `FrameTimer` to the confirmed 50 Hz step and added a regression
-  test: **23 cases / 1276 assertions**.
+  test: **23 cases / 1276 assertions at that time** (now 31/1335 after Phase 4).
 - Gate B and Phase 3 remain **PARTIAL**; first-slice approximations are explicitly
   scoped in `docs/GATE_B.md` and `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`.
+
+## 2026-10-31 — Phase 4 Native Runtime Foundation
+
+- Added `Application` lifecycle, Wayland-only SDL3 window, resumable window-state
+  model, measured 50 Hz/60 FPS loop, and idempotent shutdown.
+- Added Vulkan 1.3 instance/device/queues/swapchain/render pass/frame resources,
+  Debug validation, and compositor-aware resize/recreation.
+- Added GLSL sprite shaders, dynamic batched quads, RGBA8 staging texture upload,
+  alpha blending, stable layer sorting, and aspect-fit resize.
+- Manual 10 s smoke: exit 0, 0 validation messages, 602 presented frames,
+  505 fixed ticks, 16.679 ms average `FrameTimer` frame.
+- Tests: **31 cases / 1335 assertions**.
+- Gate C is **PARTIAL**; asset decoding, input-to-simulation, audio, UI, and
+  gameplay remain unimplemented. See `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.

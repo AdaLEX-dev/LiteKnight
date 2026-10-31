@@ -71,18 +71,18 @@ Actual tracked source (do not document empty directories as if they exist):
 
 ```
 src/
-├── app/                    # main.cpp entry point
+├── app/                    # Application lifecycle, config, bootstrap, main.cpp
 ├── platform/
 │   ├── wayland/            # SDL3 window, Wayland enforcement, Vulkan surface creation
 │   ├── input/              # SDL3 keyboard/mouse/gamepad snapshot + action mapping
-│   ├── timing/             # fixed-step accumulator scaffold
+│   ├── timing/             # 50 Hz fixed-step accumulator
 │   ├── filesystem/         # XDG paths, asset lookup
 │   └── audio/              # miniaudio wrapper + vendored header
 ├── engine/
 │   ├── core/               # Log, foundational types
 │   ├── math/               # Vec2/Vec3/Mat4, PCG32 utility, UnityRandom/RGRandomStream
 │   ├── ecs/                # Entity, ComponentPool, World (no iteration API yet)
-│   └── rendering/          # Camera math helper only; NO renderer implementation
+│   └── rendering/          # Vulkan context/swapchain, sprite batch/pipeline, RGBA8 texture
 └── game/
     └── player/             # unimplemented player/input scaffolding only
 ```
@@ -197,7 +197,7 @@ git diff
 Only `all` and `unit` currently exist:
 
 ```bash
-./tools/test.sh               # all 23 cases
+./tools/test.sh               # all 31 cases
 ./tools/test.sh unit          # unit suite
 ```
 

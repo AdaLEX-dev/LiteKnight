@@ -11,7 +11,7 @@
 > - Phase 1 — COMPLETE (artifact inventory)
 > - Phase 2 — PARTIAL; Gate B **PARTIAL** (see `docs/GATE_B.md`)
 > - Phase 3 — PARTIAL/CURRENT (vertical-slice contract largely reconstructed; full content/AI/save unknown; see `docs/PHASE_3_BEHAVIOURAL_RE.md`)
-> - Phase 4 — **PLANNED only**; Gate C **NOT MET** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
+> - Phase 4 — **PARTIAL**; foundation FUNCTIONAL, Gate C **PARTIAL** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
 > - Phase 5+ — BLOCKED by Gate B/C
 >
 > The build/test/evidence pipeline is clean and reproducible. This is not a Phase 4
@@ -29,7 +29,7 @@
 | 1 | APK Forensics | Inventory complete | B | ✅ COMPLETE |
 | 2 | Engine Reconstruction | Architecture mapped | B | ⚠️ PARTIAL / Gate B PARTIAL |
 | 3 | Gameplay Reconstruction | Behavioural specs | B | ⚠️ PARTIAL / CURRENT |
-| 4 | Native Runtime | Wayland app launches | C | ⬜ PLANNED / Gate C NOT MET |
+| 4 | Native Runtime | Wayland app launches | C | ⚠️ PARTIAL / Gate C PARTIAL |
 | 5 | First Playable | Core loop playable | D | ⛔ BLOCKED |
 | 6 | Core Systems | All major systems | E | ⛔ BLOCKED |
 | 7 | Content Parity | Full catalog implemented | E | ⛔ BLOCKED |
@@ -71,28 +71,34 @@
 
 ---
 
-### Phase 4 — Native Runtime (PLANNED; Gate C NOT MET)
+### Phase 4 — Native Runtime (PARTIAL; Gate C PARTIAL)
 **Goal:** Native Wayland application launches reliably
 
-> The full implementation plan is `docs/PHASE_4_NATIVE_RUNTIME.md`. The build/test
-> baseline and window/input/audio/filesystem scaffold exist, but there is no Vulkan
-> context/swapchain/renderer and no Gate C runtime checkpoint. No Phase 4 feature
-> code has been started.
+> The full implementation plan is `docs/PHASE_4_NATIVE_RUNTIME.md`; the evidence
+> record is `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`. The bootstrap, window,
+> Vulkan context/swapchain, sprite renderer, and 50 Hz/60 FPS loop are functional.
+> Asset decoding, input-to-simulation, audio, UI, and gameplay remain unimplemented.
 
 | Task | Deliverable | Status |
 |------|-------------|--------|
-| Git repo init + CMake + FetchContent | `CMakeLists.txt`, `tools/*.sh` | ⬜ |
-| SDL3 Wayland window (1920×1080, vsync) | `src/platform/wayland/Window.cpp` | ⬜ |
-| Vulkan instance + device + swapchain | `src/engine/rendering/VulkanContext.cpp` | ⬜ |
-| Frame timing (render target 60 FPS; reference sim tick UNRESOLVED) | `src/platform/timing/FrameTimer.cpp` | ⬜ |
-| Input abstraction (keyboard, mouse, gamepad) | `src/platform/input/InputManager.cpp` | ⬜ |
-| miniaudio engine + bus system | `src/platform/audio/AudioEngine.cpp` | ⬜ |
-| FileSystem (XDG paths, asset loading) | `src/platform/filesystem/FileSystem.cpp` | ⬜ |
-| Logger + profiler integration | `src/engine/core/Log.cpp`, `Perf.cpp` | ⬜ |
-| Basic render loop (clear + present) | `src/app/main.cpp` | ⬜ |
-| Debug overlay (FPS, frame graph, entity count) | `src/engine/core/DebugOverlay.cpp` | ⬜ |
+| Git repo init + CMake + FetchContent | `CMakeLists.txt`, `tools/*.sh` | ✅ |
+| SDL3 Wayland window (1920×1080 requested) | `src/platform/wayland/Window.cpp` | ✅ functional/manual |
+| Wayland-only enforcement + event lifecycle | `Application`, `WindowState` | ✅ functional |
+| Vulkan instance + device + swapchain | `src/engine/rendering/VulkanContext.cpp` | ✅ functional |
+| Frame timing (50 Hz sim, 60 FPS render target) | `FrameTimer`, `Application` | ✅ functional |
+| Sprite renderer (textured batched quad) | `SpriteRenderer`, `SpriteBatch`, `shaders/` | ✅ bring-up |
+| Asset runtime / PNG decode | `src/engine/rendering/Texture2D.cpp` (RGBA8 only) | ⚠️ RGBA8 path; PNG NOT STARTED |
+| Input abstraction (keyboard, mouse, gamepad) | `src/platform/input/InputManager.cpp` | ⚠️ scaffold, not wired |
+| miniaudio engine + bus system | `src/platform/audio/AudioEngine.cpp` | ⚠️ scaffold, not wired |
+| FileSystem (XDG paths) | `src/platform/filesystem/FileSystem.cpp` | ⚠️ scaffold |
+| Logger + startup diagnostics | `src/engine/core/Log.cpp` | ✅ |
+| Basic render loop (clear + present) | `Application`, `VulkanRenderer` | ✅ functional |
+| Debug overlay (FPS/frame graph) | planned | ⬜ |
 
-**Gate C:** Native app launches, shows window, maintains 60 FPS clear screen, handles input, clean exit. **Current status: NOT MET** — no renderer/swapchain/simulation; the implementation plan is `docs/PHASE_4_NATIVE_RUNTIME.md`, but no Phase 4 code has started.
+**Gate C:** Native app launches, shows window, presents frames, handles resize/
+minimize/focus, and exits cleanly. **Current status: PARTIAL** — launch/present are
+verified; input/gameplay are not. The 60 FPS target is measured only on the test
+machine, not guaranteed.
 
 ---
 
@@ -272,7 +278,7 @@ Phase 11 (Release) ────────────┘
 | 0-1 | 1 week | ✅ DONE (historical) |
 | 2 | — | ⚠️ PARTIAL / Gate B PARTIAL |
 | 3 | — | ⚠️ PARTIAL/CURRENT (estimate suspended) |
-| 4 | — | ⬜ PLANNED / Gate C NOT MET |
+| 4 | — | ⚠️ PARTIAL / Gate C PARTIAL |
 | 5 | — | ⛔ BLOCKED |
 | 6 | 9 weeks | Core systems (parallelizable) |
 | 7 | 6 weeks | Content implementation |

@@ -1,11 +1,12 @@
 # Soul Knight 2.6.8 — Project State
 
-**Last Updated:** 2026-10-31 (Gate B / Phase 3 evidence pass)
+**Last Updated:** 2026-10-31 (Phase 4 runtime foundation)
 **Commit:** session head; run `git log -1 --format='%h %s'`
-**Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PLANNED only**
-**Current status:** Engine/runtime evidence is substantially reconstructed; the
-vertical slice is **not** cleared for gameplay implementation because four Gate B
-blockers remain.
+**Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
+**Current status:** Phase 4A-4E foundation is implemented and manually verified:
+Wayland-only SDL3 window, Vulkan 1.3 device/swapchain, 50 Hz/60 FPS loop, and a
+batched textured-quad renderer. Input/gameplay, asset decoding, audio, and UI are
+not implemented. The vertical slice is **not** cleared.
 
 ---
 
@@ -17,7 +18,7 @@ blockers remain.
 | Phase 1 — APK Forensics | ✅ COMPLETE (artifact inventory) |
 | Phase 2 — Engine Reconstruction | ⚠️ PARTIAL — Gate B **PARTIAL** |
 | Phase 3 — Behavioural Reconstruction | ⚠️ PARTIAL — vertical-slice contract largely known; full-game content UNKNOWN |
-| Phase 4 — Native Runtime | ⬜ PLANNED — Gate C **NOT MET** |
+| Phase 4 — Native Runtime | ⚠️ PARTIAL — foundation FUNCTIONAL; Gate C **PARTIAL** |
 | Phase 5 — First Playable | ⛔ BLOCKED by Gate B/C |
 | Phase 6+ — Systems/Content/Fidelity/Release | ⛔ BLOCKED |
 
@@ -38,8 +39,9 @@ Canonical reports:
 
 - Gate B: `docs/GATE_B.md` — **PARTIAL**
 - Phase 3: `docs/PHASE_3_BEHAVIOURAL_RE.md` — **PARTIAL**
-- Phase 4 plan: `docs/PHASE_4_NATIVE_RUNTIME.md` — **PLAN ONLY**
-- Final audit: `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`
+- Phase 4 plan/state: `docs/PHASE_4_NATIVE_RUNTIME.md` — **PARTIAL**
+- Phase 4 runtime audit: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`
+- Gate B/Phase 3 final audit: `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`
 - Evidence standard: `docs/EVIDENCE_STANDARD.md`
 
 ---
@@ -120,6 +122,37 @@ Legacy `Input` axes (WASD + joystick, deadzone 0.19), `MovementInput {dir, weigh
 
 ---
 
+## Phase 4 runtime foundation (new)
+
+Implemented and manually verified on 2026-10-31:
+
+- `Application` lifecycle with explicit ownership and idempotent shutdown.
+- SDL3 video/events, `SDL_HINT_VIDEO_DRIVER=wayland`; post-init driver check
+  rejects every non-Wayland backend.
+- Window state for resize, pixel-size changes, minimize, restore, focus, and
+  close; event handling reconciled against SDL window flags.
+- Vulkan instance API 1.3, `VK_KHR_surface` + `VK_KHR_wayland_surface`,
+  Debug validation layers, physical-device selection, graphics/present queues,
+  `B8G8R8A8_SRGB` FIFO 3-image swapchain, render pass, 2 frames in flight.
+- GLSL 450 sprite shaders compiled to SPIR-V by a CMake `glslc` target.
+- Batched textured quads with UVs, tint, alpha blending, stable layer sorting,
+  generated 64x64 RGBA8 test texture, staging upload, aspect-fit resize.
+- 50 Hz fixed simulation consumed from the existing `FrameTimer`; rendering is
+  decoupled and targets 60 FPS.
+- Manual smoke: 10 s run, exit 0, 0 validation messages, 602 presented frames,
+  505 fixed ticks, measured 16.679 ms average `FrameTimer` frame, 0.834 sim
+  steps/frame.
+- Non-Wayland startup fails with exit 1 (`wayland not available`), no X11
+  fallback.
+
+Not implemented: PNG/KTX2/asset registry, input-to-simulation bridge, audio, UI,
+rooms, gameplay, content, parity comparison. Native sorting numbers are a
+**PROJECT DECISION**, not recovered Unity values.
+
+Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
+
+---
+
 ## Gate B blockers (must close or explicitly accept)
 
 1. Exact per-cell wall/door gap placement and the full door/aisle state machine
@@ -144,21 +177,24 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 23 cases / 1276 assertions, PASS
+- Debug tests: 31 cases / 1335 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 23 / 1276, PASS
+- RelWithDebInfo tests: 31 / 1335, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 22/1273 to 23/1276 because a `FrameTimer` regression test was added for the newly confirmed 50 Hz reference step. No existing test was removed or weakened.
+The count changed from 23/1276 to 31/1335 because Phase 4 added platform,
+window-state, sprite-batch, and frame-timer-step tests. No existing test was
+removed or weakened. The Phase 4 integration smoke test is manual because it
+requires a real Wayland compositor and GPU.
 
 ---
 
 ## Next Action
 
-Gate B remains **PARTIAL**, but the remaining approximations are explicitly scoped
-for the first slice. The next implementation task is the Phase 4 application
-bootstrap + Wayland-only SDL3 window; it does not depend on the unresolved exact
-fire cadence, wall gaps, or reborn UI. Do not start gameplay/vertical-slice code
-until the slice gates are accepted.
+Phase 4 foundation is **FUNCTIONAL**. The next implementation task is **Stage 4 —
+asset runtime foundation**: a non-proprietary PNG decode path producing RGBA8,
+uploaded through the existing `Texture2D`/`SpriteRenderer` path, with deterministic
+decode tests. Do not start gameplay/vertical-slice code until the asset/input
+gates and slice prerequisites are accepted.

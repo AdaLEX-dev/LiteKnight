@@ -1,16 +1,38 @@
 # Soul Knight 2.6.8 — Rendering Design
 
-> **Current plan (2026-10-31):** `docs/PHASE_4_NATIVE_RUNTIME.md` §4 is the canonical
-> renderer plan (SDL3 Wayland → Vulkan 1.3, swapchain, sprite pipeline, frame
-> pacing). No renderer code exists; Gate C is **NOT MET**.
-
-> **Status:** design proposal only. There is **no renderer implementation** in
-> the repository: no Vulkan context, swapchain, sprite batcher, shader, or VMA
-> integration. `docs/PARITY.md` Gate C remains **NOT MET**.
+> **Current implementation (2026-10-31):** the Vulkan 1.3 context, Wayland
+> surface, swapchain, render pass, frame resources, GLSL sprite shaders, dynamic
+> sprite batch, RGBA8 staging upload, alpha blending, and aspect-fit resize path
+> are implemented and manually verified. A generated 64x64 checkerboard texture
+> is presented as a textured quad. `docs/PARITY.md` Gate C is **PARTIAL**.
+>
+> **Not implemented:** PNG/KTX2/atlas decoding, real game assets, camera follow,
+> room sprite pivots/PPU validation, VMA, GPU timestamp profiling, or rendering
+> parity. The sections below remain design guidance beyond the implemented smoke
+> path. Evidence: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
 **Target:** Vulkan 1.3, 1920×1080, 60 FPS, 2D sprite batching
 
 ---
+
+## 0. Implemented smoke renderer (2026-10-31)
+
+```text
+Wayland window / SDL3 surface
+  -> Vulkan 1.3 instance (validation in Debug)
+  -> Intel UHD 620 (integrated fallback)
+  -> graphics+present queue family 0
+  -> B8G8R8A8_SRGB / FIFO / 3-image swapchain
+  -> render pass + 2 frames in flight
+  -> sprite.vert/sprite.frag SPIR-V
+  -> generated RGBA8 texture -> staging upload -> sampler
+  -> batched textured quad (alpha, UV, tint)
+  -> present
+```
+
+The native sorting layers are a **PROJECT DECISION**; no reference numeric
+sorting-layer values are claimed. The textured quad is a renderer bring-up asset,
+not APK content.
 
 ## 1. Rendering Architecture
 

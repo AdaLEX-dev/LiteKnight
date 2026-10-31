@@ -41,13 +41,13 @@ current build/test baseline is verified in `analysis/REPOSITORY_INTEGRITY_AUDIT.
 - **Severity:** P0
 - **Actual:** `DOCTEST_CONFIG_DISABLE=0` compiled every test out; CTest passed with zero cases.
 - **Fix:** Removed the define, fixed ECS/input tests, added a real CTest entry and zero-test guard.
-- **Regression:** `./tools/test.sh` now executes 23 cases; intentional break turns CTest red.
+- **Regression:** `./tools/test.sh` now executes 31 cases; intentional break turns CTest red.
 
 ### BUG-PLAT-0001: Window event watch removal used a different callback
 - **Severity:** P2
 - **Actual:** `SDL_RemoveEventWatch` received a newly constructed lambda, not the registered callback.
 - **Fix:** Use the static `Window::OnWindowEvent` pointer for add/remove.
-- **Regression:** Build + platform smoke audit; no automated callback test yet.
+- **Regression:** `WindowState` unit tests cover resize/minimize/restore/focus/close transitions.
 
 ### BUG-PLAT-0002: Build could fall back to non-Wayland video driver
 - **Severity:** P1 (scope violation)
@@ -62,7 +62,7 @@ current build/test baseline is verified in `analysis/REPOSITORY_INTEGRITY_AUDIT.
 - **Severity:** P2 (contradictory API)
 - **Actual:** `World<T>::Iterator` walked the dense component array but looked up `entities_[dense_index]` and returned null/invalid pairs for sparse sets. Nothing used it.
 - **Fix:** Removed the broken iterator and its unused type-erased `Size()` accessor rather than leaving a false API.
-- **Regression:** ECS unit tests still pass (23 cases / 1276 assertions overall).
+- **Regression:** ECS unit tests still pass (31 cases / 1335 assertions overall).
 
 ---
 

@@ -1,14 +1,16 @@
 # Soul Knight 2.6.8 — Platform Layer Design
 
-> **Current plan (2026-10-31):** `docs/PHASE_4_NATIVE_RUNTIME.md` is the canonical
-> Phase 4 platform plan. Gate B is **PARTIAL**; Gate C is **NOT MET**; no Vulkan or
-> renderer code exists. Confirmed reference facts: fixed timestep 0.02 s, Physics2D
-> gravity `(0,-9.81)`, legacy input, Wayland-only target.
-
-> **Status:** design proposal only. The current implementation is limited to an
-> SDL3 window/input/audio/file-system scaffold; there is no Vulkan context or
-> swapchain. Gate C is **NOT MET**. Do not treat code snippets here as
-> implemented architecture.
+> **Current implementation (2026-10-31):** the Phase 4A-4E foundation is
+> implemented. `Application` owns SDL3/wayland enforcement, window state, Vulkan
+> renderer lifecycle, the 50 Hz/60 FPS loop, and shutdown. The window is
+> Wayland-only; a Vulkan 1.3 device/swapchain and a texture-batched sprite
+> renderer are present. Gate C is **PARTIAL** — launch/present/resize are manually
+> verified; input/gameplay are not. Evidence:
+> `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
+>
+> **Status:** mixed. Sections 1-3 describe the implemented platform contract;
+> later snippets remain design guidance. Confirmed reference facts: fixed timestep
+> 0.02 s, Physics2D gravity `(0,-9.81)`, legacy input, Wayland-only target.
 
 **Target:** CachyOS, x86-64, Wayland, SDL3, Vulkan 1.3
 
@@ -30,7 +32,9 @@ struct WindowConfig {
 
 class Window {
     SDL_Window* sdl_window_ = nullptr;
-    VkSurfaceKHR surface_ = VK_NULL_HANDLE;
+    WindowState state_;   // implemented: resize/minimize/focus/close transitions
+    // VkSurfaceKHR is created through SDL_Vulkan_CreateSurface and owned by
+    // VulkanContext, not by Window.
 
     // Wayland-specific: no X11 fallback
     // SDL_HINT_VIDEO_WAYLAND_PREFER_LIBDECOR=1

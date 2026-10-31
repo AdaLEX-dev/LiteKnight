@@ -1,9 +1,24 @@
 # Performance Plan
 
 **Target:** 60 FPS / 16.6667 ms frame at 1920×1080; simulation fixed at 50 Hz.
-**Status:** no renderer or playable build exists; no performance claim is valid yet.
+**Status:** the Phase 4 smoke renderer exists and has been measured on one machine
+(Intel UHD 620, KWin/Wayland, 1.25 scale). No playable content exists and no
+cross-machine 60 FPS guarantee is claimed.
 
 ---
+
+## 0. Measured smoke result (2026-10-31)
+
+Command: `./build/soul-knight --smoke-seconds 10` on the target CachyOS/Wayland
+machine.
+
+- `FrameTimer` average: **16.679 ms** over 572 samples.
+- Presented **602 frames** over ~10.1 s wall time (~59.6 presents/s).
+- **505 fixed simulation ticks** in ~10.1 s (50 Hz contract).
+- **0.834 simulation steps/render frame** (expected 50/60 ≈ 0.833).
+- Debug validation: 0 messages.
+- Measurement type: CPU frame pacing (`steady_clock` via `FrameTimer`), not GPU
+  timestamp queries. FIFO present mode. Do not generalize to other GPUs/displays.
 
 ## 1. Budgets (provisional, main thread)
 

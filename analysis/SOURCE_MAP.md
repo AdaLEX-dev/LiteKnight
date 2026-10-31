@@ -1,6 +1,6 @@
 # Soul Knight 2.6.8 — Source Map
 
-> **Correction — 2026-10-31.** The original evidence column cited `analysis/class-map.md`, a DEX/SDK class map that does **not** contain the cited `RG*` IL2CPP classes. Those citations were broken. They are replaced with `analysis/re/*.md` and the canonical phase reports. All implementation statuses remain `PLANNED`; none are implemented or verified.
+> **Correction — 2026-10-31.** The original evidence column cited `analysis/class-map.md`, a DEX/SDK class map that does **not** contain the cited `RG*` IL2CPP classes. Those citations were broken. They are replaced with `analysis/re/*.md` and the canonical phase reports. Gameplay implementation statuses remain `PLANNED`; the Phase 4 platform/renderer foundation is implemented and manually verified (see `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`).
 
 **Purpose:** Map reference (IL2CPP/DEX) classes to native implementation files.
 
@@ -31,6 +31,10 @@ Evidence:
 | `MapManager` / `MapManagerLevel` / `RGRoomX` / `EnemyMaker` | `src/game/generation/*`, `src/game/rooms/*` | `analysis/re/rooms_scene.md` |
 | `RGWeapon` / `Gun001` / `RGBullet` / `Bullet01` | `src/game/weapons/*`, `src/game/projectiles/*` | `analysis/re/weapons_projectiles.md` |
 | `TimeManager` / `Time` | `src/platform/timing/*`, `src/sim/*` | `analysis/re/timing.md` |
+| Native application lifecycle | `src/app/Application.*`, `src/app/AppConfig.*` | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
+| SDL3 / Wayland window | `src/platform/wayland/Window.*`, `WindowState.hpp` | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
+| Native Vulkan renderer | `src/engine/rendering/VulkanContext.*`, `VulkanRenderer.*` | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
+| Native sprite batch/renderer | `src/engine/rendering/SpriteBatch.*`, `SpriteRenderer.*`, `Texture2D.*`, `shaders/*` | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
 | `EnemyAI04` / `e_slime01` | `src/game/enemies/*` | `analysis/re/enemy_ai04.md` |
 | `RGSaveManager` / `PlayerSaveData` | `src/game/save/*` | `analysis/re/save.md` |
 

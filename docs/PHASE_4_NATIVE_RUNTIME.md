@@ -1,12 +1,33 @@
 # Phase 4 — Native Runtime Implementation Plan
 
-**Status:** PLAN ONLY — no runtime code is implemented by this document.
+**Status:** **PARTIAL — native foundation implemented and manually verified.**
+The application bootstrap, Wayland-only SDL3 window, Vulkan 1.3 context/swapchain,
+50 Hz fixed loop, and batched textured-quad renderer are implemented. Asset
+runtime, PNG decoding, input-to-simulation wiring, audio, and gameplay are not.
 **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 / metadata v24.
 **Target:** CachyOS x86-64, Wayland only, Vulkan 1.3, 1920×1080, 60 FPS.
-**Gate:** Phase 4 may start only after the Gate B blockers in `docs/GATE_B.md` are
-closed or explicitly accepted for the first slice. Gate C remains **NOT MET**.
+**Gate:** Gate B remains **PARTIAL**. Gate C is **PARTIAL** — launch, present, and
+resize are manually verified; input/gameplay are not. The evidence record is
+`analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
 ---
+
+## 0. Current implementation state (2026-10-31)
+
+| Area | State | Evidence |
+|---|---|---|
+| Application lifecycle / shutdown | FUNCTIONAL | `src/app/Application.*` |
+| SDL3 Wayland-only window | FUNCTIONAL / manual PASS | `src/platform/wayland/Window.*` |
+| Event resize/minimize/focus/close | FUNCTIONAL; restore handler unit-tested | `WindowState`, smoke log |
+| Vulkan instance/device/queues/swapchain | FUNCTIONAL / validation-clean | `src/engine/rendering/VulkanContext.*` |
+| Clear + textured quad | FUNCTIONAL / visual PASS | `SpriteRenderer`, `shaders/` |
+| 50 Hz fixed loop with 60 FPS render | FUNCTIONAL | `FrameTimer`, smoke log |
+| PNG/asset registry | NOT STARTED | generated RGBA8 test texture only |
+| Input → fixed simulation | NOT STARTED | `InputManager` not wired |
+| Audio/UI/gameplay | NOT STARTED | deliberate boundary |
+
+Do not read this table as parity. The reference layer order and native rendering
+mechanism are **PROJECT DECISION** unless explicitly marked otherwise.
 
 ## 1. Architecture
 
@@ -203,10 +224,14 @@ Acceptance:
 
 - Wayland-only window opens at 1920×1080.
 - Vulkan instance/device/swapchain created and logged.
-- Clear color presents for 5 seconds.
-- Resize and minimize/restore work.
-- Clean exit with no validation errors in Debug.
-- `vulkaninfo` not required at runtime; no hardcoded ICD.
+- Clear color presents for 5 seconds. **PASS 2026-10-31** (textured quad added).
+- Resize and minimize/restore work. **PARTIAL** — resize/minimize/focus observed;
+  programmatic restore event was not delivered by this xdg-shell compositor.
+- Clean exit with no validation errors in Debug. **PASS** — 0 validation messages.
+- `vulkaninfo` not required at runtime; no hardcoded ICD. **PASS**.
+
+Manual command: `./build/soul-knight --smoke-seconds 10` (or
+`./tools/smoke_phase4.sh`). See `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
 ---
 
@@ -327,7 +352,7 @@ where evidence exists (damage → death → collider/weapon disable).
 
 Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 
-### Stage 1 — Application bootstrap
+### Stage 1 — Application bootstrap — **FUNCTIONAL (2026-10-31)**
 
 - **Goal:** deterministic startup/shutdown, logging, config, XDG paths.
 - **Modules:** `src/app/Application.*`, `src/engine/core/Log.*`,
@@ -336,7 +361,7 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 - **Acceptance:** clean exit, no leaked SDL/Vulkan handles.
 - **Risks:** early GPU init complicates headless tests; keep platform init lazy.
 
-### Stage 2 — Wayland/SDL3 window
+### Stage 2 — Wayland/SDL3 window — **FUNCTIONAL (2026-10-31)**
 
 - **Goal:** Wayland-only window, event loop, resize/minimize/focus.
 - **Modules:** `src/platform/wayland/Window.*`, `src/platform/input/*`.
@@ -344,7 +369,7 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 - **Acceptance:** refuses non-Wayland; 1920×1080.
 - **Risks:** compositor differences; libdecor availability.
 
-### Stage 3 — Vulkan smoke renderer
+### Stage 3 — Vulkan smoke renderer — **FUNCTIONAL (2026-10-31)**
 
 - **Goal:** instance/device/swapchain/clear/present/resize.
 - **Modules:** `src/renderer/vulkan/*`.
@@ -352,7 +377,7 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 - **Acceptance:** 5-second clear-screen run, clean exit.
 - **Risks:** driver-specific format/present support; handle fallbacks.
 
-### Stage 4 — Asset runtime foundation
+### Stage 4 — Asset runtime foundation — **NEXT**
 
 - **Goal:** manifest → CPU asset registry; PNG/room/audio decode.
 - **Modules:** `src/assets/*`, `tools/asset/convert_*`.
@@ -361,17 +386,23 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
   metadata without proprietary bytes committed.
 - **Risks:** identity ambiguity; keep candidate labels.
 
-### Stage 5 — Sprite renderer
+### Stage 5 — Sprite renderer — **PARTIAL (2026-10-31)**
 
 - **Goal:** textured quads, atlas UVs, camera, sorting layers.
+- **Implemented:** GLSL sprite pipeline, generated RGBA8 texture, alpha blending,
+  dynamic batched quads, stable layer sort, aspect-fit resize.
+- **Not yet:** PNG/atlas assets, camera follow, real room sprite scale/pivots.
 - **Modules:** `src/renderer/vulkan/SpriteRenderer.*`, `src/engine/rendering/Camera.*`.
 - **Tests:** one sprite; atlas sprite; camera transform; resize.
 - **Acceptance:** room floor/wall sprites render at correct scale.
 - **Risks:** pixels-per-unit/pivot mismatches; validate against extracted sprite metadata.
 
-### Stage 6 — Simulation clock
+### Stage 6 — Simulation clock — **PARTIAL (2026-10-31)**
 
 - **Goal:** 50 Hz fixed step, accumulator, input snapshots, interpolation.
+- **Implemented:** confirmed 50 Hz accumulator, consumed-step statistics, render
+  decoupling in `Application`.
+- **Not yet:** gameplay systems, input snapshot bridge.
 - **Modules:** `src/sim/Clock.*`, `src/platform/timing/FrameTimer.*`.
 - **Tests:** tick count over simulated time; render-rate independence; catch-up cap.
 - **Acceptance:** 50 ticks per simulated second; no spiral of death.
@@ -584,18 +615,17 @@ Rules:
 
 ---
 
-## 11. Exact first task for the next session
+## 11. Next implementation task
 
-Implement **Stage 1 + Stage 2 only**: an application bootstrap that creates a
-Wayland-only SDL3 window at 1920×1080, pumps events, enforces the `wayland` driver,
-and shuts down cleanly. Do not add Vulkan, gameplay, or renderer code in that
-session.
+Implement **Stage 4 — asset runtime foundation**: a non-proprietary PNG decoder
+that produces RGBA8, the existing `Texture2D` staging upload, and deterministic
+decode tests for the current `SpriteBatch`/`SpriteRenderer` path. Do not import
+the proprietary asset catalogue and do not begin gameplay/content work.
 
 Acceptance:
 
-- `SDL_GetCurrentVideoDriver()` is `wayland`;
-- non-Wayland startup fails with a clear error;
-- resize/minimize/focus events update window state;
-- clean exit with no leaks;
-- existing tests still pass;
-- no proprietary assets or build output committed.
+- a committed generated/own PNG decodes to the expected RGBA8 bytes;
+- the decoded texture renders through the existing sprite pipeline;
+- decode failure is explicit and non-crashing;
+- Debug/RelWithDebInfo build and CTest remain green;
+- no APK/extracted proprietary assets or build output are tracked.
