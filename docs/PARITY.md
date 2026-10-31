@@ -17,7 +17,7 @@
 |-----------|---------------------|------------------|------------|------|--------|-------|
 | **Engine** | | | | | | |
 | Game Loop | MonoBehaviour (Update/FixedUpdate) | Fixed timestep (60 Hz sim) | HIGH | frame_timing_test | UNKNOWN | |
-| RNG | `RGRandom` wraps `UnityEngine.Random.State`; wrapper semantics under reconstruction | Not implemented; PCG32 rejected for parity | PARTIAL | none | UNKNOWN | `analysis/re/rgrandom.md`, UNK-001 |
+| RNG | `RGRandom` wraps `UnityEngine.Random.State`; core wrapper and Xorshift128 engine reconstructed | `UnityRandom` / `RGRandomStream` implemented; map-seed virtual path unresolved | HIGH | `unity_random_test` | PARTIAL | `analysis/re/rgrandom.md`, UNK-001 |
 | Asset Loading | AssetBundles (LZ4/LZMA) | KTX2/JSON/Ogg pipeline | HIGH | asset_load_test | UNKNOWN | |
 | Save/Load | `RGSaveManager` (format?) | JSON + schema version | HIGH | save_roundtrip_test | UNKNOWN | UNK-007 |
 | **Player** | | | | | | |
@@ -43,9 +43,9 @@
 | Triggers | `RGBulletTrigger*` variants | Collision → effect | HIGH | projectile_trigger_test | UNKNOWN | |
 | Pierce/Multi-hit | `pierce_count`, `max_hits` | Hit tracking per projectile | MEDIUM | projectile_pierce_test | UNKNOWN | |
 | **Combat** | | | | | | |
-| Damage Formula | `DamageCarrier` → target | Formula from RE | HIGH | damage_formula_test | UNKNOWN | UNK-002 |
-| Armor/Resist | Flat reduction? %? | Configurable per element | MEDIUM | armor_test | UNKNOWN | |
-| Crit | Chance + multiplier | Per-weapon + global | MEDIUM | crit_test | UNKNOWN | |
+| Damage Formula | Player/enemy `GetHurt` entry points reconstructed; projectile→target bridge unresolved | Not implemented | PARTIAL | none | UNKNOWN | `analysis/re/damage.md`, UNK-002 |
+| Armor/Resist | Armor absorbs first, negative armor overflows to HP; buff 6 blocks overflow | Not implemented | HIGH | none | UNKNOWN | `analysis/re/damage.md` |
+| Crit | `DamageInfo.critic` exists; application rule not yet reconstructed | Not implemented | LOW | crit_test | UNKNOWN | `analysis/re/damage.md` |
 | Knockback | `knockback` on hit | Velocity impulse | MEDIUM | knockback_test | UNKNOWN | |
 | Elements | Fire/Electric/Poison/Ice | Status effect system | MEDIUM | element_test | UNKNOWN | |
 | Status Effects | Burn/Shock/Poison/Freeze | DoT + visual + cleanup | MEDIUM | status_effect_test | UNKNOWN | UNK-006 |
