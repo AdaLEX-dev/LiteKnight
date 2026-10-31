@@ -1,0 +1,76 @@
+{
+  "camera": {
+    "orthographic_size": 10.5,
+    "position": [
+      20.0,
+      20.0
+    ],
+    "viewport": [
+      1920.0,
+      1080.0
+    ]
+  },
+  "converter_version": "1.0.0",
+  "instance_count": 111,
+  "manifest_version": 1,
+  "notes": "r1_1 room sprites plus c00 body/shadow; no proprietary pixels committed.",
+  "scene_json_sha256": "1258245b7dd05b7bc1ad6ee7c7bbbad07304827831b3e95158770fb6ccd60ad4",
+  "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
+  "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
+  "source_bundles": {
+    "common": "4f49c9d3aa24f5f6b9771125245f9a1dd5ea5e3718d2864b50f3b60e8df511cb",
+    "res/floor": "238c27db3a4a062f4be282c4a35fd9157774743b1be5549bada450db807aadba",
+    "room/r1_1": "cef33f8731952a957b34ab602f940d3bb2a94c98243d6083861d58be5d50a142"
+  },
+  "spawn": [
+    20.0,
+    20.0
+  ],
+  "sprite_count": 6,
+  "textures": [
+    {
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 256,
+      "id": "floor_atlas",
+      "png": "textures/floor_atlas.png",
+      "png_sha256": "0d52d1e1ef4d8ebaf033c753ea04f389cfd23b9b46723e997c2f5746c2da1810",
+      "rgba8_sha256": "48564b90ba7eb278149533f4ea265a55122b5cd7b3590c10174c6e462ff09186",
+      "source_bundle": "res/floor",
+      "source_name": "SpriteAtlasTexture-floor-256x256-fmt4",
+      "source_path_id": "5467841708608453938",
+      "width": 256,
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 1024,
+      "id": "character_atlas",
+      "png": "textures/character_atlas.png",
+      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
+      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
+      "source_path_id": "6092784074628815488",
+      "width": 2048,
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 32,
+      "id": "object_common_atlas",
+      "png": "textures/object_common_atlas.png",
+      "png_sha256": "1ae26e72351683a73039647637476ae7b39b7366a3b31ed409b9e1af33d1ac4a",
+      "rgba8_sha256": "ba5d7bf36d78b9a94ade218ad538db51af2f105f5c263a3cae7a51f8ad41ff52",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-object_common (Group 1)-32x32-fmt4",
+      "source_path_id": "3188784419113904678",
+      "width": 32,
+      "wrap": "clamp"
+    }
+  ],
+  "tool": "tools/asset/build_visual_scene.py",
+  "unitypy_version": "1.25.4"
+}

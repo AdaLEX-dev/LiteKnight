@@ -241,10 +241,17 @@ add_library(engine STATIC
     src/engine/rendering/SpriteRenderer.hpp
     src/engine/rendering/VulkanRenderer.cpp
     src/engine/rendering/VulkanRenderer.hpp
-    # Asset decoding
+    # Asset decoding / native scene
     src/engine/assets/TextureData.hpp
+    src/engine/assets/TextureSampling.hpp
     src/engine/assets/PngDecoder.cpp
     src/engine/assets/PngDecoder.hpp
+    src/engine/assets/SpriteData.hpp
+    src/engine/assets/SceneAsset.hpp
+    src/engine/assets/SceneLoader.cpp
+    src/engine/assets/SceneLoader.hpp
+    src/engine/rendering/Camera2D.cpp
+    src/engine/rendering/Camera2D.hpp
     # src/engine/rendering/Shader.hpp
     # src/engine/rendering/DebugRenderer.hpp
     # Resources
@@ -457,6 +464,7 @@ add_executable(soul-knight-test
     tests/unit/platform_test.cpp
     tests/unit/render_test.cpp
     tests/unit/png_test.cpp
+    tests/unit/scene_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp

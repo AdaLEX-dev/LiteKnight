@@ -12,7 +12,9 @@ proprietary data.
 | `phase4_gray_alpha.png` | 2x2 gray+alpha | grayscale+alpha → RGBA8 |
 | `phase4_palette.png` | 2x2 palette + tRNS | palette/alpha → RGBA8 |
 | `phase4_smoke.png` | 64x64 RGBA8 | asymmetric renderer orientation/alpha proof |
+| `scene_test.json` | native scene JSON | SceneLoader/SpriteData/Camera2D contract test |
 
 The runtime copies this directory to `build/assets/test` so the existing
 `FileSystem` executable-relative asset search works from any current working
-directory. The application never loads APK/UnityPy output in this stage.
+directory. The application never loads the APK or Unity bundles directly;
+converted reference bytes stay outside Git.

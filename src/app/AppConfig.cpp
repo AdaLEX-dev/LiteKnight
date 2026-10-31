@@ -26,6 +26,9 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
         } else if (arg == "--texture" && i + 1 < argc) {
             config.texture_path = argv[i + 1];
             ++i;
+        } else if (arg == "--scene" && i + 1 < argc) {
+            config.scene_path = argv[i + 1];
+            ++i;
         } else if (arg == "--smoke-seconds" && i + 1 < argc) {
             errno = 0;
             char* end = nullptr;

@@ -2,6 +2,7 @@
 #pragma once
 
 #include "engine/assets/TextureData.hpp"
+#include "engine/assets/TextureSampling.hpp"
 
 #include <vulkan/vulkan.h>
 #include <cstdint>
@@ -20,11 +21,19 @@ public:
 
     bool CreateFromTextureData(VkDevice device, VkPhysicalDevice physical_device,
                                VkQueue queue, uint32_t queue_family,
-                               const soulknight::engine::assets::TextureData& texture);
+                               const soulknight::engine::assets::TextureData& texture,
+                               soulknight::engine::assets::TextureFilter filter =
+                                   soulknight::engine::assets::TextureFilter::Bilinear,
+                               soulknight::engine::assets::TextureWrap wrap =
+                                   soulknight::engine::assets::TextureWrap::Clamp);
     bool CreateFromRGBA8(VkDevice device, VkPhysicalDevice physical_device,
                          VkQueue queue, uint32_t queue_family,
                          uint32_t width, uint32_t height,
-                         const uint8_t* pixels);
+                         const uint8_t* pixels,
+                         soulknight::engine::assets::TextureFilter filter =
+                             soulknight::engine::assets::TextureFilter::Bilinear,
+                         soulknight::engine::assets::TextureWrap wrap =
+                             soulknight::engine::assets::TextureWrap::Clamp);
     void Destroy(VkDevice device);
 
     bool IsValid() const { return image_ != VK_NULL_HANDLE && view_ != VK_NULL_HANDLE; }

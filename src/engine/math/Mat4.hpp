@@ -53,14 +53,17 @@ struct Mat4 {
         return m;
     }
 
+    // Mat4 stores column-major data: m[col * 4 + row]. This matches
+    // Mat4::Translate, TransformPoint, and GLSL's mat4 memory layout.
     Mat4 operator*(const Mat4& other) const {
         Mat4 result;
-        for (int row = 0; row < 4; ++row) {
-            for (int col = 0; col < 4; ++col) {
-                result.m[row * 4 + col] = 0;
+        for (int col = 0; col < 4; ++col) {
+            for (int row = 0; row < 4; ++row) {
+                float value = 0.0f;
                 for (int k = 0; k < 4; ++k) {
-                    result.m[row * 4 + col] += m[row * 4 + k] * other.m[k * 4 + col];
+                    value += m[k * 4 + row] * other.m[col * 4 + k];
                 }
+                result.m[col * 4 + row] = value;
             }
         }
         return result;

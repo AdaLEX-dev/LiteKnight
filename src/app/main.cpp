@@ -23,6 +23,7 @@ void PrintUsage(const char* executable) {
         << "  --smoke-seconds <secs>   run for a bounded duration\n"
         << "  --exercise-window        resize/minimize/restore during the smoke test\n"
         << "  --texture <asset-path>   PNG relative to the native asset root\n"
+        << "  --scene <asset-path>     native scene JSON relative to the asset root\n"
         << "  --help, -h               show this help\n";
 }
 

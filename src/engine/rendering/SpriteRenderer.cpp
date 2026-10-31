@@ -4,6 +4,7 @@
 #include "SpriteBatch.hpp"
 #include "VulkanContext.hpp"
 #include "engine/core/Log.hpp"
+#include "engine/rendering/Camera2D.hpp"
 
 #include <algorithm>
 #include <cstddef>
@@ -11,6 +12,7 @@
 #include <fstream>
 #include <limits>
 #include <string>
+#include <utility>
 #include <vector>
 
 namespace soulknight::engine::rendering {
@@ -39,18 +41,26 @@ SpriteRenderer::~SpriteRenderer() {
 }
 
 bool SpriteRenderer::Initialize(VulkanContext& context,
-                                const soulknight::engine::assets::TextureData& texture,
+                                const std::vector<TextureUpload>& textures,
                                 const std::filesystem::path& shader_dir) {
     if (initialized_) return true;
     if (shader_dir.empty()) {
         LOG_ERROR_RENDER("Sprite renderer: shader directory is empty");
         return false;
     }
+    if (textures.empty()) {
+        LOG_ERROR_RENDER("Sprite renderer: no textures supplied");
+        return false;
+    }
     shader_dir_ = shader_dir;
 
     vertices_.reserve(kMaxQuads * 4);
 
-    if (!CreateDescriptorResources(context)) {
+    if (!CreateDescriptorResources(context, textures.size())) {
+        Shutdown(context);
+        return false;
+    }
+    if (!CreateTextures(context, textures)) {
         Shutdown(context);
         return false;
     }
@@ -66,31 +76,28 @@ bool SpriteRenderer::Initialize(VulkanContext& context,
         Shutdown(context);
         return false;
     }
-    if (!CreateTexture(context, texture)) {
-        Shutdown(context);
-        return false;
-    }
-    if (!UpdateDescriptor(context)) {
-        Shutdown(context);
-        return false;
-    }
 
     initialized_ = true;
-    LOG_INFO_RENDER("Sprite renderer ready: max_quads={}, texture={}x{}",
-                    kMaxQuads, texture_.Width(), texture_.Height());
+    LOG_INFO_RENDER("Sprite renderer ready: max_quads={}, textures={}",
+                    kMaxQuads, textures_.size());
     return true;
 }
 
 void SpriteRenderer::Shutdown(VulkanContext& context) {
     VkDevice device = context.Device();
     if (device != VK_NULL_HANDLE) {
-        // Release the descriptor pool first: its descriptor set still refers to
-        // the decoded texture sampler/image until this point.
+        // Release descriptor sets before their referenced textures.
         if (descriptor_pool_ != VK_NULL_HANDLE) {
             vkDestroyDescriptorPool(device, descriptor_pool_, nullptr);
             descriptor_pool_ = VK_NULL_HANDLE;
         }
-        texture_.Destroy(device);
+        descriptor_sets_.clear();
+        texture_indices_.clear();
+
+        for (std::unique_ptr<Texture2D>& texture : textures_) {
+            if (texture) texture->Destroy(device);
+        }
+        textures_.clear();
 
         for (FrameBuffer& frame : frame_buffers_) {
             if (frame.buffer != VK_NULL_HANDLE) {
@@ -127,14 +134,13 @@ void SpriteRenderer::Shutdown(VulkanContext& context) {
         }
     }
 
-    descriptor_set_ = VK_NULL_HANDLE;
     pipeline_format_ = VK_FORMAT_UNDEFINED;
     pipeline_serial_ = 0;
     vertices_.clear();
     initialized_ = false;
 }
 
-bool SpriteRenderer::CreateDescriptorResources(VulkanContext& context) {
+bool SpriteRenderer::CreateDescriptorResources(VulkanContext& context, std::size_t texture_count) {
     VkDescriptorSetLayoutBinding binding{};
     binding.binding = 0;
     binding.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -154,26 +160,28 @@ bool SpriteRenderer::CreateDescriptorResources(VulkanContext& context) {
 
     VkDescriptorPoolSize pool_size{};
     pool_size.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    pool_size.descriptorCount = 1;
+    pool_size.descriptorCount = static_cast<uint32_t>(texture_count);
 
     VkDescriptorPoolCreateInfo pool_info{};
     pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
     pool_info.poolSizeCount = 1;
     pool_info.pPoolSizes = &pool_size;
-    pool_info.maxSets = 1;
+    pool_info.maxSets = static_cast<uint32_t>(texture_count);
     if (vkCreateDescriptorPool(context.Device(), &pool_info, nullptr,
                                &descriptor_pool_) != VK_SUCCESS) {
         LOG_ERROR_RENDER("Sprite pipeline: descriptor pool creation failed");
         return false;
     }
 
+    std::vector<VkDescriptorSetLayout> layouts(texture_count, descriptor_set_layout_);
+    descriptor_sets_.resize(texture_count, VK_NULL_HANDLE);
     VkDescriptorSetAllocateInfo allocate_info{};
     allocate_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
     allocate_info.descriptorPool = descriptor_pool_;
-    allocate_info.descriptorSetCount = 1;
-    allocate_info.pSetLayouts = &descriptor_set_layout_;
+    allocate_info.descriptorSetCount = static_cast<uint32_t>(texture_count);
+    allocate_info.pSetLayouts = layouts.data();
     if (vkAllocateDescriptorSets(context.Device(), &allocate_info,
-                                 &descriptor_set_) != VK_SUCCESS) {
+                                 descriptor_sets_.data()) != VK_SUCCESS) {
         LOG_ERROR_RENDER("Sprite pipeline: descriptor set allocation failed");
         return false;
     }
@@ -373,8 +381,7 @@ bool SpriteRenderer::CreatePipeline(VulkanContext& context) {
 
     pipeline_format_ = context.SwapchainFormat();
     pipeline_serial_ = context.SwapchainSerial();
-    LOG_INFO_RENDER("Sprite pipeline created for render pass {}, format {}",
-                    static_cast<const void*>(context.RenderPass()),
+    LOG_INFO_RENDER("Sprite pipeline created: format {}",
                     static_cast<int>(pipeline_format_));
     return true;
 }
@@ -467,28 +474,54 @@ bool SpriteRenderer::CreateIndexBuffer(VulkanContext& context) {
     return true;
 }
 
-bool SpriteRenderer::CreateTexture(
-    VulkanContext& context, const soulknight::engine::assets::TextureData& texture) {
-    if (!texture.IsValid()) {
-        LOG_ERROR_RENDER("Sprite renderer: decoded TextureData is invalid");
-        return false;
+bool SpriteRenderer::CreateTextures(VulkanContext& context,
+                                    const std::vector<TextureUpload>& textures) {
+    textures_.reserve(textures.size());
+    for (std::size_t i = 0; i < textures.size(); ++i) {
+        const TextureUpload& upload = textures[i];
+        if (upload.data == nullptr || !upload.data->IsValid()) {
+            LOG_ERROR_RENDER("Sprite renderer: invalid TextureData upload");
+            return false;
+        }
+        if (texture_indices_.find(upload.id) != texture_indices_.end()) {
+            LOG_ERROR_RENDER("Sprite renderer: duplicate texture id {}", upload.id);
+            return false;
+        }
+
+        auto texture = std::make_unique<Texture2D>();
+        if (!texture->CreateFromTextureData(
+                context.Device(), context.PhysicalDevice(),
+                context.GraphicsQueue(), context.GraphicsQueueFamily(),
+                *upload.data, upload.filter, upload.wrap)) {
+            LOG_ERROR_RENDER("Sprite renderer: texture upload failed id {}", upload.id);
+            return false;
+        }
+
+        texture_indices_.emplace(upload.id, i);
+        textures_.push_back(std::move(texture));
     }
-    return texture_.CreateFromTextureData(
-        context.Device(), context.PhysicalDevice(),
-        context.GraphicsQueue(), context.GraphicsQueueFamily(), texture);
+
+    for (std::size_t i = 0; i < textures_.size(); ++i) {
+        if (!UpdateDescriptor(context, i)) return false;
+    }
+    return true;
 }
 
-bool SpriteRenderer::UpdateDescriptor(VulkanContext& context) {
-    if (!texture_.IsValid()) return false;
+bool SpriteRenderer::UpdateDescriptor(VulkanContext& context, std::size_t texture_index) {
+    if (texture_index >= textures_.size() || texture_index >= descriptor_sets_.size()) {
+        return false;
+    }
+    const Texture2D& texture = *textures_[texture_index];
+    if (!texture.IsValid()) return false;
 
     VkDescriptorImageInfo image_info{};
     image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    image_info.imageView = texture_.View();
-    image_info.sampler = texture_.Sampler();
+    image_info.imageView = texture.View();
+    image_info.sampler = texture.Sampler();
 
     VkWriteDescriptorSet write{};
     write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-    write.dstSet = descriptor_set_;
+    write.dstSet = descriptor_sets_[texture_index];
     write.dstBinding = 0;
     write.dstArrayElement = 0;
     write.descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
@@ -499,14 +532,13 @@ bool SpriteRenderer::UpdateDescriptor(VulkanContext& context) {
     return true;
 }
 
-bool SpriteRenderer::Render(VulkanContext& context, SpriteBatch& batch) {
+bool SpriteRenderer::Render(VulkanContext& context, SpriteBatch& batch,
+                            const Camera2D& camera) {
     if (!initialized_) return false;
 
     if (pipeline_ == VK_NULL_HANDLE ||
         pipeline_serial_ != context.SwapchainSerial() ||
         pipeline_format_ != context.SwapchainFormat()) {
-        // Swapchain recreation waits for device idle before this point, so the
-        // old pipeline cannot still be in use by an in-flight submission.
         if (!CreatePipeline(context)) return false;
     }
 
@@ -520,23 +552,22 @@ bool SpriteRenderer::Render(VulkanContext& context, SpriteBatch& batch) {
 
     vertices_.clear();
     for (const SpriteDraw& draw : draws) {
+        if (texture_indices_.find(draw.texture_id) == texture_indices_.end()) {
+            LOG_ERROR_RENDER("Sprite batch references unknown texture id {}", draw.texture_id);
+            return false;
+        }
+        const SpriteQuad quad = BuildSpriteQuad(draw);
         const float r = static_cast<float>(draw.color.r) / 255.0f;
         const float g = static_cast<float>(draw.color.g) / 255.0f;
         const float b = static_cast<float>(draw.color.b) / 255.0f;
         const float a = static_cast<float>(draw.color.a) / 255.0f;
-        const float x0 = draw.position.x;
-        const float y0 = draw.position.y;
-        const float x1 = draw.position.x + draw.size.x;
-        const float y1 = draw.position.y + draw.size.y;
-        const float u0 = draw.uv.x;
-        const float v0 = draw.uv.y;
-        const float u1 = draw.uv.x + draw.uv.w;
-        const float v1 = draw.uv.y + draw.uv.h;
-
-        vertices_.push_back(SpriteVertex{x0, y0, u0, v0, r, g, b, a});
-        vertices_.push_back(SpriteVertex{x1, y0, u1, v0, r, g, b, a});
-        vertices_.push_back(SpriteVertex{x1, y1, u1, v1, r, g, b, a});
-        vertices_.push_back(SpriteVertex{x0, y1, u0, v1, r, g, b, a});
+        for (std::size_t i = 0; i < 4; ++i) {
+            vertices_.push_back(SpriteVertex{
+                quad.positions[i].x, quad.positions[i].y,
+                quad.uvs[i].x, quad.uvs[i].y,
+                r, g, b, a
+            });
+        }
     }
 
     const uint32_t frame_index = context.CurrentFrameIndex();
@@ -553,9 +584,7 @@ bool SpriteRenderer::Render(VulkanContext& context, SpriteBatch& batch) {
     const VkExtent2D extent = context.SwapchainExtent();
     if (extent.width == 0 || extent.height == 0) return false;
 
-    constexpr float logical_width = 1920.0f;
-    constexpr float logical_height = 1080.0f;
-    const float target_aspect = logical_width / logical_height;
+    const float target_aspect = camera.Aspect();
     const float window_aspect = static_cast<float>(extent.width) /
                                 static_cast<float>(extent.height);
 
@@ -587,16 +616,42 @@ bool SpriteRenderer::Render(VulkanContext& context, SpriteBatch& batch) {
     VkDeviceSize vertex_offset = 0;
     vkCmdBindVertexBuffers(command_buffer, 0, 1, &frame.buffer, &vertex_offset);
     vkCmdBindIndexBuffer(command_buffer, index_buffer_, 0, VK_INDEX_TYPE_UINT32);
-    vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                            pipeline_layout_, 0, 1, &descriptor_set_, 0, nullptr);
 
-    const Mat4 projection = Mat4::Orthographic(
-        0.0f, logical_width, 0.0f, logical_height, -1.0f, 1.0f);
+    const Mat4 projection = camera.ViewProjection();
     vkCmdPushConstants(command_buffer, pipeline_layout_, VK_SHADER_STAGE_VERTEX_BIT,
                        0, sizeof(Mat4), projection.m);
 
-    const uint32_t index_count = static_cast<uint32_t>(draws.size() * 6U);
-    vkCmdDrawIndexed(command_buffer, index_count, 1, 0, 0, 0);
+    std::size_t group_start = 0;
+    std::size_t group_count = 0;
+    uint32_t current_texture = std::numeric_limits<uint32_t>::max();
+    const auto flush = [&]() {
+        if (group_count == 0) return;
+        const auto texture_it = texture_indices_.find(current_texture);
+        if (texture_it == texture_indices_.end() ||
+            texture_it->second >= descriptor_sets_.size()) {
+            return;
+        }
+        vkCmdBindDescriptorSets(command_buffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
+                                pipeline_layout_, 0, 1,
+                                &descriptor_sets_[texture_it->second], 0, nullptr);
+        // The index buffer already encodes global quad base indices
+        // (quad n -> vertices 4n..4n+3), so firstIndex selects the group while
+        // vertexOffset must remain zero.
+        vkCmdDrawIndexed(command_buffer,
+                         static_cast<uint32_t>(group_count * 6U), 1,
+                         static_cast<uint32_t>(group_start * 6U), 0, 0);
+    };
+
+    for (std::size_t i = 0; i < draws.size(); ++i) {
+        if (draws[i].texture_id != current_texture) {
+            flush();
+            current_texture = draws[i].texture_id;
+            group_start = i;
+            group_count = 0;
+        }
+        ++group_count;
+    }
+    flush();
     return true;
 }
 

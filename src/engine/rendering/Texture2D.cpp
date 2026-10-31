@@ -31,19 +31,24 @@ Texture2D::~Texture2D() {
 
 bool Texture2D::CreateFromTextureData(VkDevice device, VkPhysicalDevice physical_device,
                                       VkQueue queue, uint32_t queue_family,
-                                      const soulknight::engine::assets::TextureData& texture) {
+                                      const soulknight::engine::assets::TextureData& texture,
+                                      soulknight::engine::assets::TextureFilter filter,
+                                      soulknight::engine::assets::TextureWrap wrap) {
     if (!texture.IsValid()) {
         LOG_ERROR_RENDER("Texture: canonical TextureData is invalid");
         return false;
     }
     return CreateFromRGBA8(device, physical_device, queue, queue_family,
-                           texture.width, texture.height, texture.rgba8.data());
+                           texture.width, texture.height, texture.rgba8.data(),
+                           filter, wrap);
 }
 
 bool Texture2D::CreateFromRGBA8(VkDevice device, VkPhysicalDevice physical_device,
                                 VkQueue queue, uint32_t queue_family,
                                 uint32_t width, uint32_t height,
-                                const uint8_t* pixels) {
+                                const uint8_t* pixels,
+                                soulknight::engine::assets::TextureFilter filter,
+                                soulknight::engine::assets::TextureWrap wrap) {
     if (device == VK_NULL_HANDLE || physical_device == VK_NULL_HANDLE ||
         queue == VK_NULL_HANDLE || pixels == nullptr || width == 0 || height == 0) {
         return false;
@@ -310,12 +315,24 @@ bool Texture2D::CreateFromRGBA8(VkDevice device, VkPhysicalDevice physical_devic
 
     VkSamplerCreateInfo sampler_info{};
     sampler_info.sType = VK_STRUCTURE_TYPE_SAMPLER_CREATE_INFO;
-    sampler_info.magFilter = VK_FILTER_LINEAR;
-    sampler_info.minFilter = VK_FILTER_LINEAR;
-    sampler_info.mipmapMode = VK_SAMPLER_MIPMAP_MODE_LINEAR;
-    sampler_info.addressModeU = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-    sampler_info.addressModeV = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
-    sampler_info.addressModeW = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+    const bool nearest = filter == soulknight::engine::assets::TextureFilter::Point;
+    const VkFilter vk_filter = nearest ? VK_FILTER_NEAREST : VK_FILTER_LINEAR;
+    sampler_info.magFilter = vk_filter;
+    sampler_info.minFilter = vk_filter;
+    sampler_info.mipmapMode =
+        filter == soulknight::engine::assets::TextureFilter::Trilinear
+            ? VK_SAMPLER_MIPMAP_MODE_LINEAR
+            : (nearest ? VK_SAMPLER_MIPMAP_MODE_NEAREST : VK_SAMPLER_MIPMAP_MODE_LINEAR);
+
+    VkSamplerAddressMode address_mode = VK_SAMPLER_ADDRESS_MODE_CLAMP_TO_EDGE;
+    if (wrap == soulknight::engine::assets::TextureWrap::Repeat) {
+        address_mode = VK_SAMPLER_ADDRESS_MODE_REPEAT;
+    } else if (wrap == soulknight::engine::assets::TextureWrap::Mirror) {
+        address_mode = VK_SAMPLER_ADDRESS_MODE_MIRRORED_REPEAT;
+    }
+    sampler_info.addressModeU = address_mode;
+    sampler_info.addressModeV = address_mode;
+    sampler_info.addressModeW = address_mode;
     sampler_info.anisotropyEnable = VK_FALSE;
     sampler_info.maxAnisotropy = 1.0f;
     sampler_info.compareEnable = VK_FALSE;

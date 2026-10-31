@@ -6,8 +6,8 @@
 
 #include <filesystem>
 
-namespace soulknight::engine::assets {
-struct TextureData;
+namespace soulknight::engine {
+struct Camera2D;
 }
 
 namespace soulknight::platform {
@@ -29,10 +29,10 @@ public:
     VulkanRenderer& operator=(const VulkanRenderer&) = delete;
 
     bool Initialize(platform::Window& window, const VulkanInitOptions& options,
-                    const soulknight::engine::assets::TextureData& texture,
+                    const std::vector<TextureUpload>& textures,
                     const std::filesystem::path& shader_dir);
     void Shutdown();
-    bool Render(SpriteBatch& batch);
+    bool Render(SpriteBatch& batch, const Camera2D& camera);
 
     const std::string& DeviceName() const { return context_.DeviceName(); }
     bool ValidationEnabled() const { return context_.ValidationEnabled(); }

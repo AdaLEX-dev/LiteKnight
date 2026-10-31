@@ -2,6 +2,7 @@
 #include "Application.hpp"
 
 #include "engine/assets/PngDecoder.hpp"
+#include "engine/assets/SceneLoader.hpp"
 #include "engine/core/Log.hpp"
 #include "engine/rendering/VulkanRenderer.hpp"
 
@@ -24,6 +25,20 @@ double NowSeconds() {
 
 const char* BooleanText(bool value) {
     return value ? "true" : "false";
+}
+
+engine::rendering::SortLayer MapSortingLayer(int32_t unity_sorting_layer) {
+    switch (unity_sorting_layer) {
+        case 1: return engine::rendering::SortLayer::BackGround;
+        case 2: return engine::rendering::SortLayer::Floor;
+        case 3: return engine::rendering::SortLayer::Shadow;
+        case 4: return engine::rendering::SortLayer::Wall;
+        case 5: return engine::rendering::SortLayer::Character;
+        case 6: return engine::rendering::SortLayer::WallFont;
+        case 7: return engine::rendering::SortLayer::Effect;
+        case 8: return engine::rendering::SortLayer::UI;
+        default: return engine::rendering::SortLayer::BackGround;
+    }
 }
 
 } // namespace
@@ -82,21 +97,61 @@ bool Application::Initialize() {
         return false;
     }
 
-    const auto smoke_png = filesystem_.ReadFile(config_.texture_path);
-    if (!smoke_png) {
-        LOG_FATAL_APP("PNG not found in asset search path: {}", config_.texture_path);
-        return false;
-    }
+    texture_uploads_.clear();
+    camera_ = engine::Camera2D{};
+    scene_mode_ = !config_.scene_path.empty();
 
-    std::string png_error;
-    if (!engine::assets::PngDecoder::Decode(smoke_png->data(), smoke_png->size(),
-                                            smoke_texture_, &png_error)) {
-        LOG_FATAL_APP("PNG decode failed: {}", png_error);
-        return false;
+    if (scene_mode_) {
+        std::string scene_error;
+        if (!engine::assets::SceneLoader::Load(filesystem_, config_.scene_path,
+                                               scene_, &scene_error)) {
+            LOG_FATAL_APP("Scene load failed: {}", scene_error);
+            return false;
+        }
+        if (scene_.textures.empty() || scene_.sprites.empty() ||
+            scene_.instances.empty()) {
+            LOG_FATAL_APP("Scene loaded with no textures/sprites/instances");
+            return false;
+        }
+        for (const engine::assets::TextureAsset& texture : scene_.textures) {
+            texture_uploads_.push_back(engine::rendering::TextureUpload{
+                texture.id, &texture.data, texture.filter, texture.wrap
+            });
+        }
+        camera_.position = scene_.camera.position;
+        camera_.orthographic_size = scene_.camera.orthographic_size;
+        camera_.viewport_width = scene_.camera.viewport_width;
+        camera_.viewport_height = scene_.camera.viewport_height;
+        LOG_INFO_APP("Scene loaded: {} ({} textures, {} sprites, {} instances)",
+                     scene_.id, scene_.textures.size(), scene_.sprites.size(),
+                     scene_.instances.size());
+        LOG_INFO_APP("Camera: center ({:.2f},{:.2f}), ortho size {:.2f}",
+                     camera_.position.x, camera_.position.y,
+                     camera_.orthographic_size);
+    } else {
+        const auto smoke_png = filesystem_.ReadFile(config_.texture_path);
+        if (!smoke_png) {
+            LOG_FATAL_APP("PNG not found in asset search path: {}", config_.texture_path);
+            return false;
+        }
+
+        std::string png_error;
+        if (!engine::assets::PngDecoder::Decode(smoke_png->data(), smoke_png->size(),
+                                                smoke_texture_, &png_error)) {
+            LOG_FATAL_APP("PNG decode failed: {}", png_error);
+            return false;
+        }
+        LOG_INFO_APP("PNG decoded: {}, {}x{}, {} bytes",
+                     config_.texture_path, smoke_texture_.width, smoke_texture_.height,
+                     smoke_texture_.rgba8.size());
+        texture_uploads_.push_back(engine::rendering::TextureUpload{
+            0, &smoke_texture_,
+            engine::assets::TextureFilter::Bilinear,
+            engine::assets::TextureWrap::Clamp
+        });
+        camera_.position = {0.0f, 0.0f};
+        camera_.orthographic_size = 10.0f;
     }
-    LOG_INFO_APP("PNG decoded: {}, {}x{}, {} bytes",
-                 config_.texture_path, smoke_texture_.width, smoke_texture_.height,
-                 smoke_texture_.rgba8.size());
 
     const auto shader_dir = filesystem_.ResolvePath("shaders");
     if (shader_dir.empty()) {
@@ -127,7 +182,7 @@ bool Application::Initialize() {
     render_options.enable_validation = config_.enable_validation;
     render_options.vsync = true;
 
-    if (!renderer_->Initialize(window_, render_options, smoke_texture_, shader_dir)) {
+    if (!renderer_->Initialize(window_, render_options, texture_uploads_, shader_dir)) {
         LOG_FATAL_APP("Vulkan renderer initialization failed");
         return false;
     }
@@ -135,7 +190,7 @@ bool Application::Initialize() {
     LOG_INFO_APP("Vulkan validation: {}",
                  BooleanText(renderer_->ValidationEnabled()));
 
-    BuildSmokeScene();
+    BuildRenderBatch();
 
     warmup_frames_ = 30;
     perf_samples_ = 0;
@@ -160,13 +215,40 @@ bool Application::Initialize() {
     return true;
 }
 
-void Application::BuildSmokeScene() {
-    // PROJECT DECISION / renderer bring-up only: the texture was decoded from the
-    // synthetic PNG asset, not from reference game content. It proves the
-    // PNG -> RGBA8 -> staging -> VkImage -> descriptor -> sprite path.
+void Application::BuildRenderBatch() {
     sprite_batch_.Clear();
+    if (!scene_mode_) {
+        BuildSyntheticBatch();
+        return;
+    }
 
-    constexpr float long_side = 640.0f;
+    for (const engine::assets::SpriteInstance& instance : scene_.instances) {
+        if (instance.sprite_index >= scene_.sprites.size()) continue;
+        const engine::assets::SpriteData& sprite = scene_.sprites[instance.sprite_index];
+        engine::rendering::SpriteDraw draw;
+        draw.position = instance.position;
+        draw.size = engine::Vec2{
+            sprite.WorldSize().x * instance.scale.x,
+            sprite.WorldSize().y * instance.scale.y
+        };
+        draw.uv = sprite.UvRect();
+        draw.color = instance.color;
+        draw.layer = MapSortingLayer(instance.sorting_layer);
+        draw.sorting_order = instance.sorting_order;
+        draw.texture_id = sprite.texture_id;
+        draw.pivot = sprite.pivot;
+        draw.rotation = instance.rotation;
+        draw.flip_x = instance.flip_x;
+        draw.flip_y = instance.flip_y;
+        (void)sprite_batch_.DrawSprite(draw);
+    }
+    LOG_INFO_APP("Render batch: {} sprite instances", sprite_batch_.GetDraws().size());
+}
+
+void Application::BuildSyntheticBatch() {
+    // PROJECT DECISION / renderer bring-up only: the default texture is the
+    // synthetic PNG fixture, not reference game content.
+    constexpr float long_side = 8.0f;
     const float width = static_cast<float>(smoke_texture_.width);
     const float height = static_cast<float>(smoke_texture_.height);
     const float aspect = width / height;
@@ -174,12 +256,15 @@ void Application::BuildSmokeScene() {
         ? engine::Vec2{long_side, long_side / aspect}
         : engine::Vec2{long_side * aspect, long_side};
 
-    sprite_batch_.DrawSprite(
-        engine::Vec2{960.0f - size.x * 0.5f, 540.0f - size.y * 0.5f},
-        size,
-        engine::Rect{0.0f, 0.0f, 1.0f, 1.0f},
-        engine::Color::White(),
-        engine::rendering::SortLayer::Character);
+    engine::rendering::SpriteDraw draw;
+    draw.position = {0.0f, 0.0f};
+    draw.size = size;
+    draw.uv = {0.0f, 0.0f, 1.0f, 1.0f};
+    draw.color = engine::Color::White();
+    draw.layer = engine::rendering::SortLayer::Character;
+    draw.texture_id = 0;
+    draw.pivot = {0.5f, 0.5f};
+    (void)sprite_batch_.DrawSprite(draw);
 }
 
 void Application::PollEvents() {
@@ -297,7 +382,7 @@ int Application::Run() {
             // surface. The compositor will send RESTORED when it is ready.
             SDL_Delay(16);
         } else {
-            if (!renderer_->Render(sprite_batch_)) {
+            if (!renderer_->Render(sprite_batch_, camera_)) {
                 LOG_FATAL_APP("Renderer frame failed");
                 render_failed = true;
                 running_ = false;

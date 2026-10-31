@@ -9,16 +9,27 @@
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
+#include <memory>
+#include <unordered_map>
 #include <vector>
 
-namespace soulknight::engine::assets {
-struct TextureData;
+namespace soulknight::engine {
+struct Camera2D;
 }
 
 namespace soulknight::engine::rendering {
 
 class SpriteBatch;
 class VulkanContext;
+
+struct TextureUpload {
+    uint32_t id = 0;
+    const soulknight::engine::assets::TextureData* data = nullptr;
+    soulknight::engine::assets::TextureFilter filter =
+        soulknight::engine::assets::TextureFilter::Point;
+    soulknight::engine::assets::TextureWrap wrap =
+        soulknight::engine::assets::TextureWrap::Clamp;
+};
 
 class SpriteRenderer {
 public:
@@ -28,10 +39,11 @@ public:
     SpriteRenderer(const SpriteRenderer&) = delete;
     SpriteRenderer& operator=(const SpriteRenderer&) = delete;
 
-    bool Initialize(VulkanContext& context, const soulknight::engine::assets::TextureData& texture,
+    bool Initialize(VulkanContext& context,
+                    const std::vector<TextureUpload>& textures,
                     const std::filesystem::path& shader_dir);
     void Shutdown(VulkanContext& context);
-    bool Render(VulkanContext& context, SpriteBatch& batch);
+    bool Render(VulkanContext& context, SpriteBatch& batch, const Camera2D& camera);
 
     bool IsReady() const { return initialized_; }
 
@@ -55,12 +67,12 @@ private:
 
     static constexpr std::size_t kMaxQuads = 4096;
 
-    bool CreateDescriptorResources(VulkanContext& context);
+    bool CreateDescriptorResources(VulkanContext& context, std::size_t texture_count);
     bool CreatePipeline(VulkanContext& context);
     bool CreateFrameBuffers(VulkanContext& context);
     bool CreateIndexBuffer(VulkanContext& context);
-    bool CreateTexture(VulkanContext& context, const soulknight::engine::assets::TextureData& texture);
-    bool UpdateDescriptor(VulkanContext& context);
+    bool CreateTextures(VulkanContext& context, const std::vector<TextureUpload>& textures);
+    bool UpdateDescriptor(VulkanContext& context, std::size_t texture_index);
     bool CreateHostVisibleBuffer(VulkanContext& context, VkDeviceSize size,
                                  VkBufferUsageFlags usage, VkBuffer& buffer,
                                  VkDeviceMemory& memory, void** mapped) const;
@@ -70,7 +82,6 @@ private:
 
     VkDescriptorSetLayout descriptor_set_layout_ = VK_NULL_HANDLE;
     VkDescriptorPool descriptor_pool_ = VK_NULL_HANDLE;
-    VkDescriptorSet descriptor_set_ = VK_NULL_HANDLE;
     VkPipelineLayout pipeline_layout_ = VK_NULL_HANDLE;
     VkPipeline pipeline_ = VK_NULL_HANDLE;
     VkFormat pipeline_format_ = VK_FORMAT_UNDEFINED;
@@ -79,7 +90,9 @@ private:
     std::array<FrameBuffer, 2> frame_buffers_{};
     VkBuffer index_buffer_ = VK_NULL_HANDLE;
     VkDeviceMemory index_memory_ = VK_NULL_HANDLE;
-    Texture2D texture_;
+    std::vector<std::unique_ptr<Texture2D>> textures_;
+    std::vector<VkDescriptorSet> descriptor_sets_;
+    std::unordered_map<uint32_t, std::size_t> texture_indices_;
     std::filesystem::path shader_dir_;
     std::vector<SpriteVertex> vertices_;
 

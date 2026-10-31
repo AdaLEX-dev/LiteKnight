@@ -20,6 +20,7 @@ struct AppConfig {
     bool exercise_window = false;
     bool help_requested = false;
     std::string texture_path = "test/phase4_smoke.png";
+    std::string scene_path;
     std::string title = "Soul Knight";
 };
 

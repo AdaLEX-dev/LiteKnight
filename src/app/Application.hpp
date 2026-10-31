@@ -5,10 +5,14 @@
 #include "platform/wayland/Window.hpp"
 #include "platform/timing/FrameTimer.hpp"
 #include "platform/filesystem/FileSystem.hpp"
+#include "engine/assets/SceneAsset.hpp"
 #include "engine/assets/TextureData.hpp"
+#include "engine/rendering/Camera2D.hpp"
 #include "engine/rendering/SpriteBatch.hpp"
+#include "engine/rendering/SpriteRenderer.hpp"
 
 #include <memory>
+#include <vector>
 
 namespace soulknight::engine::rendering {
 class VulkanRenderer;
@@ -40,7 +44,8 @@ private:
     void PollEvents();
     void FixedUpdate(double dt);
     void ExerciseWindowIfRequested();
-    void BuildSmokeScene();
+    void BuildRenderBatch();
+    void BuildSyntheticBatch();
     bool SmokeTestExpired() const;
 
     AppConfig config_;
@@ -50,6 +55,10 @@ private:
     platform::FrameTimer frame_timer_;
     platform::FileSystem filesystem_;
     soulknight::engine::assets::TextureData smoke_texture_;
+    soulknight::engine::assets::SceneAsset scene_;
+    engine::Camera2D camera_;
+    std::vector<engine::rendering::TextureUpload> texture_uploads_;
+    bool scene_mode_ = false;
 
     bool sdl_initialized_ = false;
     bool vulkan_library_loaded_ = false;

@@ -11,7 +11,7 @@ VulkanRenderer::~VulkanRenderer() {
 }
 
 bool VulkanRenderer::Initialize(platform::Window& window, const VulkanInitOptions& options,
-                                const soulknight::engine::assets::TextureData& texture,
+                                const std::vector<TextureUpload>& textures,
                                 const std::filesystem::path& shader_dir) {
     if (initialized_) return true;
 
@@ -19,7 +19,7 @@ bool VulkanRenderer::Initialize(platform::Window& window, const VulkanInitOption
         LOG_ERROR_RENDER("Vulkan context initialization failed");
         return false;
     }
-    if (!sprite_renderer_.Initialize(context_, texture, shader_dir)) {
+    if (!sprite_renderer_.Initialize(context_, textures, shader_dir)) {
         LOG_ERROR_RENDER("Sprite renderer initialization failed");
         context_.WaitIdle();
         sprite_renderer_.Shutdown(context_);
@@ -42,14 +42,14 @@ void VulkanRenderer::Shutdown() {
     initialized_ = false;
 }
 
-bool VulkanRenderer::Render(SpriteBatch& batch) {
+bool VulkanRenderer::Render(SpriteBatch& batch, const Camera2D& camera) {
     if (!initialized_) return false;
 
     const FrameStatus status = context_.BeginFrame();
     if (status == FrameStatus::Skipped) return true;
     if (status == FrameStatus::Error) return false;
 
-    const bool sprites_ok = sprite_renderer_.Render(context_, batch);
+    const bool sprites_ok = sprite_renderer_.Render(context_, batch, camera);
     const bool frame_ok = context_.EndFrame();
     if (!sprites_ok) {
         LOG_ERROR_RENDER("Sprite draw recording failed; frame was submitted without sprites");
