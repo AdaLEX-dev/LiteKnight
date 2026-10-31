@@ -124,7 +124,7 @@ Key states observed:
 - Save/Load
 
 ### Fixed Timestep
-- Physics: `FixedUpdate()` at 50 Hz (0.02s) — **CONFIRMED** from `Time.fixedDeltaTime` usage
+- Physics: the original document claimed `FixedUpdate()` at 50 Hz (0.02s) and labelled it **CONFIRMED**. No citation or runtime measurement exists in the repository; this is **UNSUPPORTED** until the actual `Time.fixedDeltaTime` value or a runtime trace is recorded. Do not build the native tick rate on this claim yet.
 - Rendering: `Update()` at monitor refresh (variable)
 - **Critical:** Simulation speed MUST NOT depend on frame rate
 
@@ -437,18 +437,20 @@ RGMusicManager (singleton)
 
 ## 7. Determinism Requirements
 
-**Confirmed Deterministic Systems:**
-- RNG: `RGRandom` / `RGRandomInterface` — must preserve exact sequence
-- Room Generation: `MapManager*` — same seed = same dungeon
-- Enemy Spawn: `EnemyCreateInfo` — deterministic placement
-- Combat: Damage calculation, crit rolls, proc effects
+**Determinism claims (corrected):**
+- RNG: `RGRandom`/`RGRandomInterface` — core wrapper and Xorshift128 engine reconstructed in `analysis/re/rgrandom.md`; exact native implementation exists. **PARTIAL/CONFIRMED** for the core.
+- Room Generation: `MapManager*` — "same seed = same dungeon" is **HYPOTHESIS**; the generation algorithm has not been reconstructed.
+- Enemy Spawn: `EnemyCreateInfo` — deterministic placement is **HYPOTHESIS**; not yet traced.
+- Combat: damage/crit/proc determinism is **UNKNOWN**; the damage bridge and crit rule are unresolved.
 
-**RNG Streams (must isolate):**
+**RNG Streams (candidate isolation domains, not yet proven):**
 1. World Generation (dungeon layout)
 2. Combat (damage, crit, proc)
 3. Enemy AI (behavior selection)
 4. Loot (drop tables)
 5. Visual Effects (particle variance)
+
+Only the RNG wrapper/engine layer has been reconstructed. Do not claim deterministic generation or combat until their call order is traced.
 
 ---
 
