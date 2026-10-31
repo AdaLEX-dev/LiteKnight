@@ -11,11 +11,14 @@
 #include "engine/assets/SceneAsset.hpp"
 #include "engine/collision/AabbCollision.hpp"
 #include "engine/locomotion/PlayerLocomotion.hpp"
+#include "engine/locomotion/FacingDirection.hpp"
 #include "engine/assets/TextureData.hpp"
 #include "engine/rendering/Camera2D.hpp"
 #include "engine/rendering/PlayerRenderSync.hpp"
 #include "engine/rendering/SpriteBatch.hpp"
 #include "engine/rendering/SpriteRenderer.hpp"
+#include "game/player/PlayerCharacterSet.hpp"
+#include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
 
 #include <memory>
@@ -58,6 +61,9 @@ private:
     void ToggleAllDoors();
     void CloseAllDoors();
     void UpdateDoorTriggers();
+    void SwitchCharacter(std::size_t index);
+    void CycleCharacter(int delta);
+    void CycleObstacleVariant();
     bool SmokeTestExpired() const;
 
     AppConfig config_;
@@ -73,6 +79,10 @@ private:
     engine::collision::AabbCollisionWorld collision_world_;
     engine::rendering::PlayerRenderBinding player_render_;
     soulknight::game::room::RoomDoorController room_doors_;
+    soulknight::game::room::ObstacleField obstacles_;
+    soulknight::game::player::PlayerCharacterSet player_characters_;
+    engine::locomotion::FacingDirection facing_ =
+        engine::locomotion::FacingDirection::Right;
     std::vector<bool> door_trigger_inside_;
     platform::InputManager input_manager_;
     platform::MovementInput movement_input_;

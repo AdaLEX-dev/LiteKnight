@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **63 doctest cases / 3913 assertions**, all passing.
+**Status:** current baseline is **71 doctest cases / 4638 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -97,6 +97,15 @@ ctest --test-dir build --output-on-failure
   keeps the recovered `(0,-0.05)` offset, non-player instances stay authored,
   and animation frames plus camera/viewport changes cannot move either render
   transform.
+- Direction: eight-way digital input, opposing-axis cancellation, cardinal vs
+  diagonal magnitude 9.75/0.195, horizontal-only facing resolution, body flip,
+  and run/idle selection for every movement direction.
+- Character switching: recovered body sprite and idle/run clip source changes
+  while position, render binding, shadow offset, movement and camera persist.
+- Obstacle variants: all 12 recovered obstacle list entries in metadata, the
+  8 solid selectable variants, marker-cell equality between rendered and
+  collision geometry, and cycle wrap. Decorative entries without a collider
+  are intentionally excluded from selection.
 
 ### Door animation / room visual correspondence (implemented units)
 
@@ -108,8 +117,13 @@ ctest --test-dir build --output-on-failure
 - `RoomDoorController`: collision feed across all four orientations, one-way
   normals, trigger-time rebuild, and animated south-door blocking/passage.
 - r1_1 visual/collision correspondence: 140 wall cells ↔ 420 wall instances,
-  49 obstacle cells ↔ 147 obstacle instances and 49 AABBs, no placeholder
-  `skin` markers, door role bindings, spawn free of recovered solids.
+  49 obstacle markers ↔ 8 selectable solid recovered variants (12 entries in metadata); no placeholder `skin` markers,
+  no obstacle sprites baked into static instances, door role bindings, spawn
+  free of recovered solids.
+- Upper-right artifact regression: every `native_wall/...@x,y` sprite position
+  equals `(x,y)`, and no scene instance lies outside the recovered 41×41 map
+  cell. This catches the prefab-root-offset bug by source/path identity, not by
+  screen coordinates.
 
 ### Integration / manual smoke
 
@@ -139,19 +153,35 @@ cd /tmp
 
 The committed metadata lives in `analysis/assets/scenes/r1_1_visual.json` and
 `analysis/assets/scenes/animations/`; generated PNG/scene bytes remain
-gitignored. This scene is a reverse-engineering test reconstruction, not a proven
-canonical gameplay level. Run with `--locomotion-debug` to log
-`sim`/`render`/`body`/`shadow`/camera positions, input, velocity, animation
-state/frame, collision blocking, animated door state, and door-trigger
-enter/exit events. Press **O** to toggle all four recovered doors
-(`OpenDoor()`/`CloseDoor()`) and **C** to close them. Doors replay the recovered
+gitignored. The scene now has 482 static instances (420 walls + 60 doors +
+2 player), 156 sprite assets, 12 textures, 30 recovered character clips and
+49 obstacle markers with 12 recovered variants (8 solid selectable). This scene is a
+reverse-engineering test reconstruction, not a proven canonical gameplay level.
+Run with `--locomotion-debug` to log `sim`/`render`/`body`/`shadow`/camera
+positions, input, velocity, animation state/frame, facing, active character,
+active obstacle variant, collision blocking, animated door state, and
+door-trigger enter/exit events.
+
+Controls:
+
+```text
+1..9, 0   select recovered character c00..c09
+[ / ]     cycle all 15 recovered character prefabs
+P         cycle recovered obstacle variants
+O         toggle OpenDoor()/CloseDoor()
+C         CloseDoor() on all four doors
+```
+
+Character switching changes only the active body sprite/clip pair. Obstacle
+switching keeps the 49 marker cells and derives both sprites and collision from
+the same recovered variant. Doors replay the recovered
 `door_open`/`door_close`/`door_close2` timing; closed doors use the recovered
 one-way inward barrier, and opening collision becomes passable at the recovered
-`m_IsTrigger` key (0.133333 s). The scene replaces the 49 `RGObjectSkin`
-placeholders with `wall603` instances and corresponding obstacle AABBs; the test
-spawn is `(20,15)` because `(20,20)` is inside that recovered obstacle block.
-Deterministic tests are in `tests/unit/door_test.cpp`,
-`tests/unit/player_render_sync_test.cpp`, `tests/unit/room_visual_test.cpp`, and
+`m_IsTrigger` key (0.133333 s). The test spawn is `(20,15)` because `(20,20)` is
+inside the recovered obstacle block. Deterministic tests are in
+`tests/unit/door_test.cpp`, `tests/unit/player_render_sync_test.cpp`,
+`tests/unit/direction_test.cpp`, `tests/unit/character_switch_test.cpp`,
+`tests/unit/obstacle_field_test.cpp`, `tests/unit/room_visual_test.cpp`, and
 `tests/unit/scene_test.cpp`.
 
 ### Unity Texture2D conversion / native round-trip (manual)

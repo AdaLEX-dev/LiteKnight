@@ -25,6 +25,9 @@ void PrintUsage(const char* executable) {
         << "  --locomotion-debug       log fixed-step movement/input/collision state\n"
         << "  O (in scene mode)        toggle recovered r1_1 doors open/closed\n"
         << "  C (in scene mode)        close recovered r1_1 doors\n"
+        << "  1..9,0 (in scene mode)   switch recovered test character\n"
+        << "  [ / ] (in scene mode)    cycle recovered test characters\n"
+        << "  P (in scene mode)        cycle recovered obstacle variant\n"
         << "  --texture <asset-path>   PNG relative to the native asset root\n"
         << "  --scene <asset-path>     native scene JSON relative to the asset root\n"
         << "  --help, -h               show this help\n";

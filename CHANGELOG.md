@@ -7,6 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Clean dev room, eight-way facing, character/obstacle test switching — 2026-10-31
+
+- Removed the mysterious upper-right wall geometry. Root cause: the native scene
+  builder added the `wall601` prefab asset root local position `(20,20)` as a
+  sprite offset even though `CreateWall` overrides it with the wall-cell
+  coordinate. The builder now ignores root-prefab positions; a source/path
+  regression test asserts wall sprite positions equal their cells and no
+  instance lies outside the 41×41 map cell.
+- Formalized eight-way normalized movement, opposing-axis cancellation, and
+  equal cardinal/diagonal speed (9.75 effective) at the fixed 50 Hz step.
+- Recovered the directional facing model: no directional character clips exist;
+  `RGController.facing` mirrors the `img` hierarchy 180° around Y. Native
+  rendering uses body-only horizontal flip, retains facing on pure vertical
+  input, and never flips the shadow.
+- Extracted all 15 recovered character prefabs (`c00..c14`) and their 30
+  `ide`/`run` clips. Dev controls: 1..0 select, `[`/`]` cycle. Switching changes
+  only body sprite/clip source; position, collision, and camera persist.
+- Added runtime obstacle variant switching over the 8 solid recovered
+  `MapManagerLevel.obstacle_list` entries (`P` cycles; 12 entries remain in
+  metadata). Render and collision cells are generated from the same variant.
+- Added direction, player-render, character-switch, obstacle-variant, and
+  wall-artifact tests. Suite: 71 cases / 4638 assertions.
+
 ### Player render sync / animated doors / obstacle replacement — 2026-10-31
 
 - Fixed the stationary-Knight bug: `Application::BuildRenderBatch` now resolves

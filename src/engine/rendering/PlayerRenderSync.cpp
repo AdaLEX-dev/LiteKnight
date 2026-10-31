@@ -45,4 +45,9 @@ Vec2 ResolvePlayerRenderPosition(
     return {};
 }
 
+bool ResolvePlayerBodyFlipX(bool authored_flip_x,
+                            locomotion::FacingDirection facing) {
+    return authored_flip_x != (facing == locomotion::FacingDirection::Left);
+}
+
 } // namespace soulknight::engine::rendering

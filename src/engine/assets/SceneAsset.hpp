@@ -63,6 +63,46 @@ struct DoorLeafBinding {
     int32_t ornament_instance = -1;
 };
 
+struct ObstacleVisual {
+    int32_t sprite_index = -1;
+    Vec2 offset{0.0f, 0.0f};
+    float rotation = 0.0f;
+    Vec2 scale{1.0f, 1.0f};
+    Color color = Color::White();
+    int32_t sorting_layer = 0;
+    int32_t sorting_order = 0;
+    bool flip_x = false;
+    bool flip_y = false;
+};
+
+struct ObstacleVariant {
+    int32_t index = 0;
+    std::string name;
+    std::string path_id;
+    CollisionBox collider{};
+    bool has_collider = false;
+    bool collider_trigger = false;
+    std::vector<ObstacleVisual> visuals;
+};
+
+struct ObstacleMarker {
+    Vec2 position{0.0f, 0.0f};
+    int32_t variant = 0;
+    std::string name;
+    std::string path;
+};
+
+struct SceneCharacter {
+    std::string id;
+    std::string controller_name;
+    std::string controller_path_id;
+    std::string source_path_id;
+    std::string body_sprite_id;
+    int32_t body_sprite_index = -1;
+    std::string idle_animation_id;
+    std::string run_animation_id;
+};
+
 struct SceneDoor {
     std::string id;      // north/south/east/west
     std::string aisle;   // aisle_n/aisle_s/aisle_e/aisle_w
@@ -106,7 +146,9 @@ struct SceneAsset {
     Rect collision_bounds{0.0f, 0.0f, 0.0f, 0.0f};
     Rect interior_bounds{0.0f, 0.0f, 0.0f, 0.0f};
     std::vector<CollisionBox> collision_solids;
-    std::vector<CollisionBox> obstacle_solids;
+    std::vector<ObstacleVariant> obstacle_variants;
+    std::vector<ObstacleMarker> obstacle_markers;
+    std::vector<SceneCharacter> characters;
     std::vector<SceneDoor> doors;
     bool has_room_topology = false;
 
@@ -120,6 +162,15 @@ struct SceneAsset {
     int32_t FindDoorIndex(const std::string& door_id) const {
         for (std::size_t i = 0; i < doors.size(); ++i) {
             if (doors[i].id == door_id) return static_cast<int32_t>(i);
+        }
+        return -1;
+    }
+
+    int32_t FindAnimationIndex(const std::string& animation_id) const {
+        for (std::size_t i = 0; i < animations.size(); ++i) {
+            if (animations[i].id == animation_id) {
+                return static_cast<int32_t>(i);
+            }
         }
         return -1;
     }

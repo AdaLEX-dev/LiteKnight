@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 import math
+import re
 import shutil
 import struct
 import sys
@@ -50,6 +51,7 @@ TEXTURE_SPECS = (
     ("floor_atlas", "res/floor", "5467841708608453938"),
     ("character_atlas", "common", "6092784074628815488"),
     ("object_common_atlas", "common", "3188784419113904678"),
+    ("object_common_group0_atlas", "common", "-1240183975920528313"),
     ("object_level_atlas", "level-common", "8607965889740011037"),
 )
 
@@ -155,6 +157,8 @@ class SceneBuilder:
         self.sprite_order: list[str] = []
         self.instances: list[dict] = []
         self.object_markers: list[dict] = []
+        self.characters: list[dict] = []
+        self.obstacles: dict = {}
         self.textures: dict[str, dict] = {}
         self.animations: dict[str, dict] = {}
         self.animation_json: dict[str, str] = {}
@@ -166,6 +170,7 @@ class SceneBuilder:
             for entry in self.texture_manifest.get("conversions", [])
         }
         self.bundle_cab_names: dict[str, set[str]] = {}
+        self.cab_to_bundle: dict[str, str] = {}
         for bundle in self.env.files.values():
             bundle_name = str(getattr(bundle, "name", ""))
             files = getattr(bundle, "files", {})
@@ -174,6 +179,8 @@ class SceneBuilder:
                     cab for cab in files
                     if not cab.endswith((".resS", ".resource"))
                 }
+                for cab in self.bundle_cab_names[bundle_name]:
+                    self.cab_to_bundle[cab] = bundle_name
 
     def _find_texture(self, path_id: str, source_bundle: str):
         expected_cabs = self.bundle_cab_names.get(source_bundle, set())
@@ -286,10 +293,13 @@ class SceneBuilder:
             -local_left / float(tex_rect.width),
             -local_bottom / float(tex_rect.height),
         ]
-        if not (-0.02 <= pivot[0] <= 1.02 and -0.02 <= pivot[1] <= 1.02):
+        if not (-0.25 <= pivot[0] <= 1.25 and -0.25 <= pivot[1] <= 1.25):
             raise SystemExit(
                 f"sprite {sprite.m_Name} has an out-of-range adjusted pivot {pivot}"
             )
+        # Tight-crop transparent padding can move the adjusted pivot slightly
+        # beyond the texture rect. Clamp it to the renderable quad instead of
+        # rejecting otherwise valid character frames.
         pivot = [max(0.0, min(1.0, pivot[0])), max(0.0, min(1.0, pivot[1]))]
 
         record = {
@@ -329,10 +339,17 @@ class SceneBuilder:
         texture_path_id = str(sprite.m_RD.texture.path_id)
         spec = TEXTURE_BY_PATH_ID.get(texture_path_id)
         if spec is None:
-            raise SystemExit(
-                f"unhandled texture path_id {texture_path_id} for {sprite.m_Name}")
-        texture_name, source_bundle = spec
-        self.texture_info(texture_name, source_bundle, texture_path_id)
+            # Character-skin atlases are scene-specific and outside the fixed
+            # conversion profile. Derive a stable name and bundle from the
+            # sprite's texture PPtr, then use the direct UnityPy fallback.
+            texture_reader = sprite.m_RD.texture
+            cab = texture_reader.assetsfile.name
+            source_bundle = self.cab_to_bundle.get(cab, "")
+            texture_name = f"auto_atlas_{texture_path_id.replace('-', 'm')}"
+            self.texture_info(texture_name, source_bundle, texture_path_id)
+        else:
+            texture_name, source_bundle = spec
+            self.texture_info(texture_name, source_bundle, texture_path_id)
         sprite_id = self.sprite_record(sprite, texture_name, str(sprite_ptr.path_id))
         return sprite_id, sprite
 
@@ -531,23 +548,46 @@ class SceneBuilder:
             },
         }
 
-    def extract_player_animations(self, player_root) -> None:
+    def _player_body_sprite(self, player_root):
+        def find(transform):
+            game_object = transform.m_GameObject.read()
+            if getattr(game_object, "m_Name", "") == "body":
+                for component in game_object.m_Component:
+                    if component.component.type.name == "SpriteRenderer":
+                        renderer = component.component.read()
+                        if renderer.m_Sprite is not None and renderer.m_Sprite.path_id != 0:
+                            return renderer.m_Sprite
+            for child in transform.m_Children:
+                found = find(child.read())
+                if found is not None:
+                    return found
+            return None
+
+        transform = next(
+            component.component.read() for component in player_root.read().m_Component
+            if component.component.type.name == "Transform")
+        return find(transform)
+
+    def extract_player_animations(self, player_root, character_id="c00") -> None:
         animator_component = None
         for component in player_root.read().m_Component:
             if component.component.type.name == "Animator":
                 animator_component = component.component
                 break
         if animator_component is None:
-            raise SystemExit("c00 has no Animator component")
+            raise SystemExit(f"{character_id} has no Animator component")
 
         animator = animator_component.read()
         controller_ptr = animator.m_Controller
         if controller_ptr is None or controller_ptr.path_id == 0:
-            raise SystemExit("c00 Animator has no controller")
+            raise SystemExit(f"{character_id} Animator has no controller")
         controller = controller_ptr.read()
         state_machine = controller.m_Controller.m_StateMachineArray[0].data
         state_names = {2215514825: "ide", 1349952704: "run", 3978643748: "dead"}
-        selected_states = {"ide": "c00_idle", "run": "c00_run"}
+        selected_states = {
+            "ide": f"{character_id}_idle",
+            "run": f"{character_id}_run",
+        }
 
         states_by_name: dict[str, object] = {}
         for state_offset in state_machine.m_StateConstantArray:
@@ -559,7 +599,8 @@ class SceneBuilder:
         for state_name, native_id in selected_states.items():
             state = states_by_name.get(state_name)
             if state is None:
-                raise SystemExit(f"c00 controller has no selected {state_name} state")
+                raise SystemExit(
+                    f"{character_id} controller has no selected {state_name} state")
             clip_index = int(
                 state.m_BlendTreeConstantArray[0].data.m_NodeArray[0].data.m_ClipID)
             clip_ptr = controller.m_AnimationClips[clip_index]
@@ -637,6 +678,7 @@ class SceneBuilder:
                     else str(int(animator.m_UpdateMode))),
                 "tracks": [track],
                 "source": {
+                    "character_id": character_id,
                     "apk_sha256": REFERENCE_APK_SHA256,
                     "bundle": "common",
                     "bundle_sha256": source_sha256(
@@ -735,8 +777,13 @@ class SceneBuilder:
             if c.component.type.name == "Transform").read()
         records = []
 
-        def collect(transform, path):
+        def collect(transform, path, is_root=False):
             go = transform.m_GameObject.read()
+            # CreateWall instantiates the prefab and overwrites the root local
+            # position with the wall-cell coordinate. The serialized prefab asset
+            # retains an editor position (e.g. 20,20); it is NOT a sprite offset.
+            offset_x = 0.0 if is_root else float(transform.m_LocalPosition.x)
+            offset_y = 0.0 if is_root else float(transform.m_LocalPosition.y)
             for component in go.m_Component:
                 if component.component.type.name != "SpriteRenderer":
                     continue
@@ -749,13 +796,13 @@ class SceneBuilder:
                     "sorting_layer": int(sr.m_SortingLayer),
                     "sorting_order": int(sr.m_SortingOrder),
                     "color": color_bytes(sr.m_Color),
-                    "local_x": float(transform.m_LocalPosition.x),
-                    "local_y": float(transform.m_LocalPosition.y),
+                    "local_x": offset_x,
+                    "local_y": offset_y,
                 })
             for child in transform.m_Children:
                 collect(child.read(), f"{path}/{go.m_Name}")
 
-        collect(wall_tf, wall_go.m_Name)
+        collect(wall_tf, wall_go.m_Name, is_root=True)
         return records
 
     def _wall_prefab_info(self):
@@ -893,76 +940,58 @@ class SceneBuilder:
             })
         return prefabs
 
-    def _add_obstacle_instances(self):
-        if not self.object_markers:
-            return [], []
+    def _obstacle_metadata(self):
         prefabs = self._obstacle_prefabs()
-        obstacle_solids = []
-        markers = []
-        for marker in self.object_markers:
-            index = int(marker["obj_index"])
-            if not (0 <= index < len(prefabs)):
-                raise SystemExit(
-                    f"RGObjectSkin obj_index {index} is outside "
-                    f"MapManagerLevel.obstacle_list")
-            prefab = prefabs[index]
-            marker_x, marker_y = marker["position"]
-            marker_angle = float(marker["rotation"])
+        variants = []
+        for prefab in prefabs:
+            visuals = []
             for visual in prefab["visuals"]:
                 sprite_id, _ = self.ensure_sprite_asset(visual["sprite_ptr"])
-                self.instances.append({
+                visuals.append({
                     "sprite": sprite_id,
-                    "position": [marker_x + float(visual["local_x"]),
-                                 marker_y + float(visual["local_y"])],
-                    "rotation": math.radians(
-                        marker_angle + float(visual["angle"])),
+                    "offset": [float(visual["local_x"]),
+                               float(visual["local_y"])],
+                    "rotation": math.radians(float(visual["angle"])),
                     "scale": [float(visual["scale"][0]),
                               float(visual["scale"][1])],
                     "color": visual["color"],
-                    "sorting_layer": visual["sorting_layer"],
-                    "sorting_layer_name": SORTING_LAYER_NAMES.get(
-                        visual["sorting_layer"], "Unknown"),
-                    "sorting_order": visual["sorting_order"],
-                    "flip_x": visual["flip_x"],
-                    "flip_y": visual["flip_y"],
-                    "path": (f"native_obstacle/{prefab['name']}/"
-                             f"{visual['path'].lstrip('/')}@{marker_x:g},{marker_y:g}"),
+                    "sorting_layer": int(visual["sorting_layer"]),
+                    "sorting_order": int(visual["sorting_order"]),
+                    "flip_x": bool(visual["flip_x"]),
+                    "flip_y": bool(visual["flip_y"]),
                 })
-            collider_rect = None
+            collider = None
             if (prefab["collider_size"] is not None and
                     prefab["collider_offset"] is not None):
-                size_x, size_y = prefab["collider_size"]
-                offset_x, offset_y = prefab["collider_offset"]
-                center_x = marker_x + float(offset_x)
-                center_y = marker_y + float(offset_y)
-                collider_rect = [
-                    center_x - float(size_x) * 0.5,
-                    center_y - float(size_y) * 0.5,
-                    center_x + float(size_x) * 0.5,
-                    center_y + float(size_y) * 0.5,
-                ]
-                if not prefab["collider_trigger"]:
-                    obstacle_solids.append(collider_rect)
+                collider = {
+                    "size": [float(prefab["collider_size"][0]),
+                             float(prefab["collider_size"][1])],
+                    "offset": [float(prefab["collider_offset"][0]),
+                               float(prefab["collider_offset"][1])],
+                    "trigger": bool(prefab["collider_trigger"]),
+                }
+            variants.append({
+                "index": int(prefab["index"]),
+                "name": prefab["name"],
+                "path_id": prefab["path_id"],
+                "collider": collider,
+                "visuals": visuals,
+            })
+        markers = []
+        for marker in self.object_markers:
+            index = int(marker["obj_index"])
+            if not (0 <= index < len(variants)):
+                raise SystemExit(
+                    f"RGObjectSkin obj_index {index} is outside "
+                    f"MapManagerLevel.obstacle_list")
             markers.append({
+                "position": [float(marker["position"][0]),
+                             float(marker["position"][1])],
+                "obj_index": index,
                 "name": marker["name"],
                 "path": marker["path"],
-                "obj_index": index,
-                "prefab_name": prefab["name"],
-                "prefab_path_id": prefab["path_id"],
-                "position": [marker_x, marker_y],
-                "rotation_degrees": marker_angle,
-                "collider": collider_rect,
             })
-        serializable_prefabs = []
-        for prefab in prefabs:
-            record = dict(prefab)
-            record["visuals"] = [
-                {key: value for key, value in visual.items()
-                 if key != "sprite_ptr"}
-                for visual in prefab["visuals"]
-            ]
-            serializable_prefabs.append(record)
-        return serializable_prefabs, markers, obstacle_solids
+        return variants, markers
 
     def _add_wall_instances(self, wall_cells, corridor_cells):
         records = self._wall_prefab()
@@ -1197,8 +1226,7 @@ class SceneBuilder:
         wall_prefabs = self._wall_prefab_info()
 
         self._add_wall_instances(sorted(room_walls), sorted(corridor_walls))
-        obstacle_prefabs, obstacle_markers, obstacle_solids = \
-            self._add_obstacle_instances()
+        obstacle_variants, obstacle_markers = self._obstacle_metadata()
         for instance in self.instances:
             path = instance.get("path", "")
             for aisle_name, (side, _, _) in AISLE_DIRECTIONS.items():
@@ -1239,8 +1267,6 @@ class SceneBuilder:
                                 float(width), float(height)],
             "solids": solids,
             "solid_count": len(solids),
-            "obstacle_solids": obstacle_solids,
-            "obstacle_solid_count": len(obstacle_solids),
             "doors": [
                 {
                     "id": opening["side"],
@@ -1316,9 +1342,28 @@ class SceneBuilder:
             "aisle_cells": [list(cell) for cell in sorted(aisle_cells)],
             "room_center": room_center,
             "wall_prefabs": wall_prefabs,
-            "obstacle_prefabs": obstacle_prefabs,
+            "obstacle_prefabs": [
+                {
+                    "index": variant["index"],
+                    "name": variant["name"],
+                    "path_id": variant["path_id"],
+                    "collider_size": (
+                        variant["collider"]["size"]
+                        if variant["collider"] else None),
+                    "collider_offset": (
+                        variant["collider"]["offset"]
+                        if variant["collider"] else None),
+                    "collider_trigger": (
+                        variant["collider"]["trigger"]
+                        if variant["collider"] else None),
+                }
+                for variant in obstacle_variants
+            ],
             "obstacle_markers": obstacle_markers,
-            "obstacle_solid_count": len(obstacle_solids),
+            "obstacle_solid_count": sum(
+                1 for marker in obstacle_markers
+                if obstacle_variants[marker["obj_index"]]["collider"] is not None
+                and not obstacle_variants[marker["obj_index"]]["collider"]["trigger"]),
             "wall_cell_count": len(room_walls),
             "corridor_wall_cell_count": len(corridor_walls),
             "floor_cell_count": len(floor_cells),
@@ -1329,6 +1374,16 @@ class SceneBuilder:
                 "CONFIRMED geometry from CreateWall/CreateAisleWall and "
                 "serialized r1_1; entrance and door_open runtime state are "
                 "NATIVE TEST CONFIGURATION"),
+        }
+
+        self.obstacles = {
+            "markers": obstacle_markers,
+            "variants": obstacle_variants,
+            "default_variant": 0,
+            "classification": (
+                "CONFIRMED MapManagerLevel.obstacle_list prefabs and "
+                "RGObjectSkin marker positions; runtime variant switching is "
+                "a NATIVE TEST FEATURE"),
         }
 
         wall_map = {
@@ -1351,14 +1406,20 @@ class SceneBuilder:
             ],
             "obstacle_prefabs": [
                 {
-                    "index": prefab["index"],
-                    "name": prefab["name"],
-                    "path_id": prefab["path_id"],
-                    "collider_size": prefab["collider_size"],
-                    "collider_offset": prefab["collider_offset"],
-                    "collider_trigger": prefab["collider_trigger"],
+                    "index": variant["index"],
+                    "name": variant["name"],
+                    "path_id": variant["path_id"],
+                    "collider_size": (
+                        variant["collider"]["size"]
+                        if variant["collider"] else None),
+                    "collider_offset": (
+                        variant["collider"]["offset"]
+                        if variant["collider"] else None),
+                    "collider_trigger": (
+                        variant["collider"]["trigger"]
+                        if variant["collider"] else None),
                 }
-                for prefab in obstacle_prefabs
+                for variant in obstacle_variants
             ],
             "spawn": [float(self.args.spawn[0]), float(self.args.spawn[1])],
             "floor_cells": [list(cell) for cell in floor_cells],
@@ -1520,21 +1581,36 @@ class SceneBuilder:
 
     def build(self):
         room_root = None
-        player_root = None
+        character_roots: dict[str, object] = {}
         for obj in self.env.objects:
             if obj.type.name != "GameObject":
                 continue
             data = obj.read()
-            if getattr(data, "m_Name", "") == "r1_1":
+            name = getattr(data, "m_Name", "")
+            if name == "r1_1":
                 room_root = obj
-            elif getattr(data, "m_Name", "") == "c00":
+            elif re.fullmatch(r"c\d{2}", name):
                 components = [c.component.type.name for c in data.m_Component]
-                if "MonoBehaviour" in components and player_root is None:
-                    player_root = obj
+                if "Animator" not in components:
+                    continue
+                existing = character_roots.get(name)
+                if existing is None:
+                    character_roots[name] = obj
+                else:
+                    # Prefer an enabled Animator when the bundle contains both
+                    # a disabled prefab instance and a runtime instance.
+                    animator = next(c.component.read() for c in data.m_Component
+                                    if c.component.type.name == "Animator")
+                    old_animator = next(
+                        c.component.read() for c in existing.read().m_Component
+                        if c.component.type.name == "Animator")
+                    if bool(animator.m_Enabled) and not bool(old_animator.m_Enabled):
+                        character_roots[name] = obj
         if room_root is None:
             raise SystemExit("r1_1 root GameObject not found")
-        if player_root is None:
-            raise SystemExit("c00 root GameObject not found")
+        if "c00" not in character_roots:
+            raise SystemExit("c00 character root GameObject not found")
+        player_root = character_roots["c00"]
 
         room_transform = next(
             c.component for c in room_root.read().m_Component
@@ -1548,13 +1624,36 @@ class SceneBuilder:
         spawn = self.args.spawn
         for child in player_transform.m_Children:
             self.walk_player(child, spawn, 0.0, (1.0, 1.0), "c00")
-        self.extract_player_animations(player_root)
+
+        for character_id, root in sorted(character_roots.items()):
+            body_sprite_ptr = self._player_body_sprite(root)
+            if body_sprite_ptr is None:
+                raise SystemExit(f"{character_id} has no body SpriteRenderer")
+            body_sprite_id, _ = self.ensure_sprite_asset(body_sprite_ptr)
+            animator = next(
+                c.component.read() for c in root.read().m_Component
+                if c.component.type.name == "Animator")
+            controller = animator.m_Controller.read()
+            self.extract_player_animations(root, character_id)
+            self.characters.append({
+                "id": character_id,
+                "controller_name": getattr(controller, "m_Name", ""),
+                "controller_path_id": str(animator.m_Controller.path_id),
+                "source_path_id": str(root.path_id),
+                "body_sprite": body_sprite_id,
+                "idle_animation": f"{character_id}_idle",
+                "run_animation": f"{character_id}_run",
+                "classification": (
+                    "CONFIRMED serialized c00..c14 character prefabs from the "
+                    "common bundle; display names are not proven"),
+            })
 
         return {
             "id": "r1_1_visual",
             "source_room": "room/r1_1",
             "source_player": "common/c00",
             "spawn": [spawn[0], spawn[1]],
+            "characters": self.characters,
             "spawn_classification": (
                 "NATIVE TEST CONFIGURATION: player starts just inside the "
                 "south door on free floor; the recovered c00 prefab transform "
@@ -1565,18 +1664,15 @@ class SceneBuilder:
                 "orthographic_size": 10.5,
                 "viewport": [1920.0, 1080.0],
             },
-            "textures": [self.textures[key] for key in
-                         ("floor_atlas", "character_atlas", "object_common_atlas",
-                          "object_level_atlas")
-                         if key in self.textures],
+            "textures": list(self.textures.values()),
             "sprites": [self.sprites[key] for key in self.sprites],
             "instances": self.instances,
+            "obstacles": self.obstacles,
             "topology": self.topology,
             "collision": collision,
             "animations": [
                 f"animations/{native_id}.json"
-                for native_id in ("c00_idle", "c00_run")
-                if native_id in self.animations
+                for native_id in sorted(self.animations)
             ],
         }
 
@@ -1655,6 +1751,9 @@ def main(argv=None) -> int:
         "camera": scene["camera"],
         "spawn": scene["spawn"],
         "animation_count": len(scene["animations"]),
+        "character_count": len(scene["characters"]),
+        "obstacle_variant_count": len(scene["obstacles"]["variants"]),
+        "obstacle_marker_count": len(scene["obstacles"]["markers"]),
         "animation_keyframe_count": sum(
             len(track["keys"])
             for animation in builder.animations.values()
@@ -1679,7 +1778,7 @@ def main(argv=None) -> int:
             "wall_map_sha256": wall_map_sha,
         },
         "collision": scene["collision"],
-        "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, RGObjectSkin -> wall603 obstacle replacement, and c00 idle/run clips; no proprietary pixels committed.",
+        "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, 15 recovered character prefabs with ide/run clips, 12 obstacle_list variants, and no proprietary pixels committed.",
     }
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
     args.manifest.write_text(

@@ -249,6 +249,7 @@ add_library(engine STATIC
     src/engine/collision/AabbCollision.hpp
     src/engine/locomotion/PlayerLocomotion.cpp
     src/engine/locomotion/PlayerLocomotion.hpp
+    src/engine/locomotion/FacingDirection.hpp
     # Rendering: explicit player scene binding
     src/engine/rendering/PlayerRenderSync.cpp
     src/engine/rendering/PlayerRenderSync.hpp
@@ -323,9 +324,13 @@ add_library(game STATIC
     src/game/player/PlayerInput.hpp
     src/game/player/Character.cpp
     src/game/player/Character.hpp
+    src/game/player/PlayerCharacterSet.cpp
+    src/game/player/PlayerCharacterSet.hpp
     # Rooms
     src/game/room/Door.cpp
     src/game/room/Door.hpp
+    src/game/room/ObstacleField.cpp
+    src/game/room/ObstacleField.hpp
     src/game/room/RoomDoorController.cpp
     src/game/room/RoomDoorController.hpp
     # Characters
@@ -495,6 +500,9 @@ add_executable(soul-knight-test
     tests/unit/room_visual_test.cpp
     tests/unit/door_test.cpp
     tests/unit/player_render_sync_test.cpp
+    tests/unit/direction_test.cpp
+    tests/unit/character_switch_test.cpp
+    tests/unit/obstacle_field_test.cpp
     tests/unit/animation_test.cpp
     tests/unit/locomotion_test.cpp
     # Integration tests

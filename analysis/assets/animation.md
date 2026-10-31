@@ -153,11 +153,11 @@ texture bytes are written. The committed native metadata is
 Deterministic scene generation:
 
 - Scene metadata SHA-256 (current topology pass):
-  `e7721abf2d90121cb0165c6f0cd1363b8f723c7574d3b09ca9a5780033b1e1d0`
+  `ed39c652589b66cca93ba15389fb500abaa727e34ab84b2391532d9d1af25ef9`
 - Idle animation metadata SHA-256:
-  `23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44`
+  `ed7a2eea3800ee41186fb73f93936936b7e427843598f18271116434b1e0ffbb`
 - Run animation metadata SHA-256:
-  `5a464af90c3e61c4b5e3ac6340583234bf6cae114d0a0f281980f2c80e5a3693`
+  `b874084e07bdf2eb150efc7fd34802f64226b5403e2a62e9f530e6a65efcb46e`
 - Converted character atlas GPU bytes are unchanged:
   RGBA8 `7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc`,
   PNG `4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6`.
@@ -212,3 +212,71 @@ a state change.
 - Animator update-mode parity is not established.
 - The original `m_PPtrCurves` absence is documented, not silently normalized into
   a claim of direct serialized PPtr keyframes.
+
+## 7. Directional facing and character switching (2026-10-31)
+
+**Scope:** c00 and the serialized `c00..c14` character prefabs in the `common`
+bundle.
+
+### Recovered controller shape
+
+`char_0_skin_0` Base Layer contains `ide`, `run`, `dead`, and `char_hit` states
+(plus a separate `HitLayer`). The controller values include `run` (bool),
+`hit`/`reborn` (trigger/int), `GravityWeight`, and no direction/axis parameter.
+The same state-name hashes (`ide=2215514825`, `run=1349952704`) are present on
+every recovered `char_N_skin_M` controller used by `c00..c14`. The selected
+`ide`/`run` clips are 0.5 s, 8 Hz, looping, and bind
+`SpriteRenderer.m_Sprite` at `img/body`. There are **no separate up/down/left/
+right/diagonal clips** in the recovered character controllers.
+
+Confidence: **CONFIRMED** for the serialized state names, clip bindings, and
+absence of directional state clips in the inspected controllers.
+
+### How facing is represented
+
+`RGController` exposes an integer `facing` property:
+
+- `get_facing` (`0x11768D4`) compares the rotation of the `transform_img`
+  (`img`) to the static `RotLeft` quaternion and returns `-1` for `RotLeft`,
+  otherwise `+1`.
+- `set_facing` (`0x11769EC`) applies `RotRight` when `value == 1`; every other
+  value applies `RotLeft`.
+- `RGController..cctor` (`0x1180C8C`) initializes `RotLeft` with
+  `Quaternion.Euler(0, 180, 0)` and `RotRight` with identity.
+
+This is a 180-degree rotation around **Y**, i.e. a horizontal mirror of the
+whole `img` hierarchy. It is not evidence for eight directional animation sets.
+The `shadow` object is a sibling of `img` and is not mirrored. The serialized
+`body` SpriteRenderer has `m_FlipX=false`; the reference achieves the mirror via
+the `img` transform rather than the SpriteRenderer flag.
+
+Native implementation: a horizontal `FacingDirection::{Right,Left}` model is
+resolved from the movement vector's X sign; pure vertical input retains the last
+horizontal facing. Rendering applies `flip_x` to the player body only, which is
+the equivalent 2D projection of the recovered Y rotation. The shadow is not
+flipped. Some recovered character frames have a tight-crop adjusted pivot
+slightly outside the texture rect (for example c04_4 y=-0.037); the native
+builder clamps it to `[0,1]` for the renderable quad. The serialized
+`source_pivot` is retained in the metadata, so this is a documented rendering
+approximation, not a new pivot claim.
+
+Confidence: **HIGH CONFIDENCE** for horizontal-only facing and mirroring;
+**UNKNOWN/UNIMPLEMENTED** for any animation features outside the selected
+`ide`/`run` states (attack/dead/hit layers, transitions, blend trees).
+
+### Recovered test character assets
+
+The builder now extracts the `ide`/`run` pair and initial body sprite for all 15
+serialized character prefabs:
+
+```text
+c00 char_0_skin_0   c01 char_1_skin_0   c02 char_2_skin_9
+c03 char_3_skin_0   c04 char_4_skin_6   c05 char_5_skin_0
+c06 char_6_skin_8   c07 char_7_skin_0   c08 char_8_skin_7
+c09 char_9_skin_0   c10 char_10_skin_0  c11 char_11_skin_6
+c12 char_12_skin_0  c13 char_13_skin_7  c14 char_14_skin_0
+```
+
+Display names such as Knight/Rogue are **CANDIDATE** only; the native dev
+mechanism uses the recovered asset IDs and does not claim display-name parity.
+All shadow children use the shared `shadow3` sprite.

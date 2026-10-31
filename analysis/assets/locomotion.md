@@ -239,10 +239,10 @@ for tests.
 
 The native executable was driven with real SDL keyboard events through
 `/dev/uinput` (`ydotool`) against the focused Wayland window. The current
-topology run renders 629 instances / 17 sprite assets / 4 textures and logs:
+topology run renders 482 static instances (plus 147 active obstacle sprites) / 156 sprite assets / 12 textures and logs:
 
 ```text
-Collision: bounds [0.00,0.00]..[41.00,41.00], recovered solids=140, obstacles=49, doors=4, topology=true
+Collision: bounds [0.00,0.00]..[41.00,41.00], recovered solids=140, obstacle cells=49, doors=4, topology=true
 Room interior: [12.50,13.00]..[27.50,28.00]
 Render batch: 589 sprite instances   (open clip hides 40 door shadows/ornaments)
 
@@ -267,3 +267,72 @@ Reference door events are suppressed while `door_open` is false (debug logs show
 doors in both directions deterministically, the animation/collision timing, and
 the player render-sync invariant; the real-input runs confirm the key path and
 the observable collision/trigger behavior.
+
+## 8. Eight-way movement, facing and dev-room controls (2026-10-31)
+
+### Movement
+
+`ReadDigitalMovement` produces the normalized eight-way vectors:
+
+```text
+W       ( 0, +1)        S       ( 0, -1)
+A       (-1,  0)        D       (+1,  0)
+W+A     (-1, +1)/√2     W+D     (+1, +1)/√2
+S+A     (-1, -1)/√2     S+D     (+1, -1)/√2
+```
+
+W+S cancels Y; A+D cancels X. `PlayerLocomotion` applies the normalized vector
+at the recovered effective speed 9.75 in the fixed 0.02 s tick, with no added
+acceleration. Cardinal and diagonal displacement magnitudes are therefore equal
+for the same number of ticks. Unit tests cover all eight directions, both
+cancellation cases, velocity magnitude, displacement magnitude, and the player
+render invariant.
+
+### Facing and directional animation
+
+The recovered data does **not** contain up/down/left/right/diagonal run clips.
+`char_0_skin_0` contains `ide`, `run`, `dead` and `char_hit`; `RGController`
+represents facing as an integer ±1 and applies `Quaternion.Euler(0,180,0)` to
+the `img` root for left facing (identity for right). In 2D this is a horizontal
+mirror; the shadow is a sibling and is not mirrored. See
+`analysis/assets/animation.md` §7 for the disassembly evidence.
+
+Native implementation:
+
+```text
+movement direction  -> PlayerLocomotion (independent)
+horizontal X sign   -> FacingDirection::Left/Right
+pure vertical input -> retains previous horizontal facing
+body render         -> flip_x when facing left
+shadow render       -> never flipped
+idle/run selection  -> movement presence only
+```
+
+Confidence: **HIGH CONFIDENCE** for horizontal-only facing; **UNKNOWN** for any
+additional directional animation states outside the inspected controllers.
+
+### Dev-room controls
+
+```text
+1..9, 0        select recovered character c00..c09
+[ / ]          cycle all 15 recovered character prefabs c00..c14
+P              cycle the central obstacle among the 8 recoverable solid
+               MapManagerLevel.obstacle_list variants (12 entries in metadata)
+O              toggle OpenDoor()/CloseDoor()
+C              CloseDoor() on all four doors
+```
+
+Character switching changes only the active body sprite/animation clips; the
+player world position, collision footprint, and camera follow state are
+untouched. Obstacle switching regenerates the same 49 marker cells from the
+selected recovered prefab and rebuilds collision from that variant. Display
+names remain CANDIDATE; the mechanism uses recovered asset IDs.
+
+### Clean dev room
+
+The previous upper-right stray geometry was caused by the builder applying the
+`wall601` prefab **asset** root local position `(20,20)` as a sprite offset.
+`RGRoomX.CreateWall` overrides that root position with the wall-cell coordinate
+when instantiating. The builder now ignores the root asset position; child
+offsets remain. The regression test asserts all 420 wall instances sit at their
+`@x,y` cell and that no scene instance lies outside the 41×41 map cell.

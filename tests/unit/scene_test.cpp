@@ -184,9 +184,6 @@ TEST_CASE("SceneLoader reads native sprite and instance metadata" * doctest::tes
     CHECK(scene.collision_solids.size() == 1);
     CHECK(scene.collision_solids[0].min.x == doctest::Approx(4.0f));
     CHECK(scene.collision_solids[0].max.y == doctest::Approx(10.0f));
-    CHECK(scene.obstacle_solids.size() == 1);
-    CHECK(scene.obstacle_solids[0].min.x == doctest::Approx(2.0f));
-    CHECK(scene.obstacle_solids[0].max.y == doctest::Approx(3.0f));
     CHECK(scene.doors.size() == 1);
     CHECK(scene.doors[0].id == "south");
     CHECK(scene.doors[0].aisle == "aisle_s");
@@ -214,6 +211,16 @@ TEST_CASE("SceneLoader reads native sprite and instance metadata" * doctest::tes
     CHECK(scene.doors[0].leaves[0].name == "d1");
     CHECK(scene.doors[0].leaves[0].leaf_instance == 0);
     CHECK(scene.doors[0].leaves[0].shadow_instance == -1);
+    CHECK(scene.obstacle_variants.size() == 1);
+    CHECK(scene.obstacle_variants[0].name == "test_obstacle");
+    CHECK(scene.obstacle_variants[0].has_collider);
+    CHECK(scene.obstacle_variants[0].collider.min.x == doctest::Approx(-0.5f));
+    CHECK(scene.obstacle_variants[0].collider.max.y == doctest::Approx(1.0f));
+    CHECK(scene.obstacle_variants[0].visuals.size() == 1);
+    CHECK(scene.obstacle_variants[0].visuals[0].sprite_index == 0);
+    CHECK(scene.obstacle_markers.size() == 2);
+    CHECK(scene.obstacle_markers[0].position.x == doctest::Approx(2.0f));
+    CHECK(scene.obstacle_markers[0].variant == 0);
     CHECK(scene.instances[0].door_role == "leaf");
     CHECK(scene.instances[0].door_leaf == "d1");
 

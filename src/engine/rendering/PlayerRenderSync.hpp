@@ -2,6 +2,7 @@
 #pragma once
 
 #include "engine/assets/SceneAsset.hpp"
+#include "engine/locomotion/FacingDirection.hpp"
 #include "engine/math/Vec2.hpp"
 
 #include <cstdint>
@@ -38,5 +39,11 @@ Vec2 ResolvePlayerRenderPosition(
     const PlayerRenderBinding& binding,
     int32_t instance_index,
     const Vec2& player_world_position);
+
+// The reference rotates the character "img" root 180 degrees around Y for
+// left facing, which is a horizontal mirror in the 2D renderer. The shadow is
+// a sibling of "img" in the recovered hierarchy and must not flip.
+bool ResolvePlayerBodyFlipX(bool authored_flip_x,
+                            locomotion::FacingDirection facing);
 
 } // namespace soulknight::engine::rendering

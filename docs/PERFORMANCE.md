@@ -24,8 +24,9 @@ machine.
 
 Command: `build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug --smoke-seconds 10`
 from `/tmp`, with the recovered wall/door/corridor geometry and wall603
-obstacles. RelWithDebInfo, 629 sprite instances (589 drawn while all doors are
-open), 4 textures, 17 sprite assets, 2 c00 animation clips (4 keyframes each):
+obstacles. RelWithDebInfo, 482 static sprite instances plus 147 active obstacle
+sprites (589 drawn while all doors are open), 12 textures, 156 sprite assets,
+30 recovered character clips:
 
 - `FrameTimer` average: **16.663 ms** over 573 samples.
 - **603 frames** over ~10.10 s (~59.7 presents/s).

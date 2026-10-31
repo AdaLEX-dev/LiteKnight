@@ -82,8 +82,9 @@ before writing the manifest.
 and the real `r1_1` + `c00` Unity objects to produce:
 
 - `analysis/assets/scenes/r1_1_visual.json` — native scene metadata (textures,
-  sprite rects/pivots/PPU, 629 instances, camera, recovered wall/door/aisle/
-  obstacle collision topology and door animation keyframes), no pixels.
+  sprite rects/pivots/PPU, 482 static instances, 15 recovered characters,
+  30 character clips, 12 obstacle variants, camera, recovered wall/door/aisle
+  collision topology and door animation keyframes), no pixels.
 - `analysis/re/r1_1_wall_map.json` / `.txt` — machine-readable and ASCII recovered
   room topology.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — provenance and hashes.

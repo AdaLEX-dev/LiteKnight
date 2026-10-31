@@ -1,6 +1,6 @@
 # Soul Knight 2.6.8 — Project State
 
-**Last Updated:** 2026-10-31 (player render sync, animated door lifecycle, obstacle replacement)
+**Last Updated:** 2026-10-31 (clean dev room, eight-way facing, character/obstacle test switching)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
 **Current status:** Phase 4A-4F foundation is implemented and manually verified:
@@ -228,6 +228,24 @@ Implemented and manually verified on 2026-10-31:
   scene carries 140 wall AABBs with 420 wall sprites, and 49 obstacle AABBs with
   147 obstacle sprites. The test spawn moved to `(20,15)` because the c00
   prefab origin `(20,20)` is inside the recovered obstacle block.
+- **Dev-room cleanliness PASSED:** the upper-right stray wall geometry was caused
+  by treating the `wall601` prefab asset root local position `(20,20)` as a
+  sprite offset. `CreateWall` overrides the root position with the wall-cell
+  coordinate; the builder now does the same. A regression test asserts every
+  wall instance position equals its `@x,y` cell and no instance escapes the
+  41×41 map cell.
+- **Eight-way movement / facing PASSED:** all cardinal and diagonal inputs are
+  normalized; diagonal speed equals the recovered 9.75 cardinal speed; opposing
+  axes cancel. The recovered controllers contain only `ide`/`run` (plus
+  dead/hit), with no directional clips. `RGController.facing` mirrors the `img`
+  hierarchy 180° around Y for left; native rendering uses body-only horizontal
+  flip and retains facing on pure vertical input.
+- **Character / obstacle test controls PASSED:** all 15 recovered c00..c14
+  character prefabs and 30 ide/run clips are selectable with 1..0 and [/]; the
+  body sprite and clip source change without moving the player, collision, or
+  camera. `P` cycles the 8 recovered solid `obstacle_list` variants (4 decorative
+  no-collider entries remain in metadata but are not selectable); render and
+  collision cells are derived from the same active variant.
 - Sprite metadata/camera/animation evidence: `analysis/assets/sprites.md`,
   `analysis/assets/coordinate_system.md`, `analysis/assets/animation.md`.
 - Manual smoke from `/tmp` (path-independent): PNG decoded, real scene rendered,
@@ -276,19 +294,20 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 55 cases / 1838 assertions, PASS
+- Debug tests: 71 cases / 4638 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 55 / 1838, PASS
+- RelWithDebInfo tests: 71 / 4638, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 52/1676 to 55/1838 in the room-topology pass because new
-deterministic tests cover the recovered 44 room wall cells, 96 corridor wall
-cells, four exact door/trigger rectangles, one-way closed doors, open-door
-passage, wall sliding, and synthetic loader parsing. No existing test was removed
-or weakened. The real scene conversion/smoke remains manual because it requires
-the local reference bundles and a Wayland/Vulkan GPU.
+The count changed from 63/3913 to 71/4638 in this dev-room pass because new
+deterministic tests cover eight-way movement and facing, player render sync for
+every direction, character switching, all recoverable obstacle variants,
+visual/collision cell correspondence, and the upper-right wall-root offset
+regression. No existing test was removed or weakened. The real scene
+conversion/smoke remains manual because it requires the local reference bundles
+and a Wayland/Vulkan GPU.
 
 ---
 

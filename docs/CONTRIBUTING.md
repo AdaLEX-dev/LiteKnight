@@ -198,7 +198,7 @@ git diff
 Only `all` and `unit` currently exist:
 
 ```bash
-./tools/test.sh               # all 55 cases
+./tools/test.sh               # all 71 cases
 ./tools/test.sh unit          # unit suite
 ```
 

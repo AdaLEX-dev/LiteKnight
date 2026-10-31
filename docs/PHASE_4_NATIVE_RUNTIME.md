@@ -34,7 +34,7 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | Controlled Unity Texture2D | FUNCTIONAL | `extract_unity.py convert-texture`, manifest, deterministic PNG/native round-trip |
 | Unity Sprite metadata / PPU | FUNCTIONAL | `SpriteData`, `analysis/assets/sprites.md`, tests |
 | Camera / world coordinates | FUNCTIONAL | `Camera2D`, `analysis/assets/coordinate_system.md`, tests |
-| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 629 instances (589 drawn open-door batch) |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 482 static instances + 147 active obstacle sprites (589 drawn open-door batch) |
 | Player simulation/render sync | FUNCTIONAL / TESTED | `PlayerRenderSync`, `--locomotion-debug` sim/render/body/shadow/camera logs |
 | Door animation / obstacle replacement | FUNCTIONAL / MANUAL PASS | `Door`, `RoomDoorController`, recovered clips, 49 wall603 obstacles |
 | Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`; 4-key 0.5 s loops |
@@ -372,7 +372,12 @@ where evidence exists (damage → death → collider/weapon disable).
   replay the recovered 0.2 s opening / 0.1667 s closing clips.
 - Player spawn: `b_point` children populate `RGRoomX.floor_list`; the test scene
   uses explicit native spawn `(20,15)` on free floor because `(20,20)` lies
-  inside the recovered wall603 obstacle block.
+  inside the recovered obstacle block.
+- Dev character switching exposes all 15 recovered c00..c14 prefabs and their
+  `ide`/`run` clips (`1..0`, `[`/`]`). Facing is horizontal-only, matching the
+  recovered `img` Y-mirror; no directional clip sets exist.
+- Dev obstacle switching cycles the 8 solid recovered `obstacle_list` variants (`P`);
+  both rendered instances and collision boxes derive from the active variant.
 
 ---
 

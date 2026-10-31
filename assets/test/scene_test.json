@@ -1,9 +1,15 @@
 {
   "id": "synthetic_scene",
   "camera": {
-    "position": [0.0, 0.0],
+    "position": [
+      0.0,
+      0.0
+    ],
     "orthographic_size": 5.0,
-    "viewport": [1920.0, 1080.0]
+    "viewport": [
+      1920.0,
+      1080.0
+    ]
   },
   "textures": [
     {
@@ -17,10 +23,23 @@
     {
       "id": "quad",
       "texture": "rgba",
-      "rect": [0.0, 0.0, 4.0, 4.0],
-      "pivot": [0.5, 0.5],
+      "rect": [
+        0.0,
+        0.0,
+        4.0,
+        4.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
       "pixels_per_unit": 4.0,
-      "border": [0.0, 0.0, 0.0, 0.0],
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
       "filter": "point",
       "wrap": "clamp"
     }
@@ -28,10 +47,21 @@
   "instances": [
     {
       "sprite": "quad",
-      "position": [1.0, 2.0],
+      "position": [
+        1.0,
+        2.0
+      ],
       "rotation": 0.5,
-      "scale": [2.0, 3.0],
-      "color": [255, 128, 0, 255],
+      "scale": [
+        2.0,
+        3.0
+      ],
+      "color": [
+        255,
+        128,
+        0,
+        255
+      ],
       "sorting_layer": 5,
       "sorting_order": 2,
       "flip_x": true,
@@ -42,13 +72,25 @@
     }
   ],
   "collision": {
-    "bounds": [-5.0, -5.0, 10.0, 10.0],
-    "interior_bounds": [1.0, 1.0, 8.0, 8.0],
-    "solids": [
-      [4.0, 0.0, 5.0, 10.0]
+    "bounds": [
+      -5.0,
+      -5.0,
+      10.0,
+      10.0
     ],
-    "obstacle_solids": [
-      [2.0, 2.0, 3.0, 3.0]
+    "interior_bounds": [
+      1.0,
+      1.0,
+      8.0,
+      8.0
+    ],
+    "solids": [
+      [
+        4.0,
+        0.0,
+        5.0,
+        10.0
+      ]
     ],
     "doors": [
       {
@@ -58,8 +100,18 @@
         "enter_exit_direction": 2,
         "door_path": "synthetic-door",
         "trigger_path": "synthetic-trigger",
-        "barrier": [3.0, 3.0, 4.0, 4.0],
-        "trigger": [5.0, 5.0, 6.0, 6.0],
+        "barrier": [
+          3.0,
+          3.0,
+          4.0,
+          4.0
+        ],
+        "trigger": [
+          5.0,
+          5.0,
+          6.0,
+          6.0
+        ],
         "one_way_block": "positive_y",
         "enabled": true,
         "open": true,
@@ -68,23 +120,157 @@
           "duration": 0.2,
           "sample_rate": 30.0,
           "loop": false,
-          "leaf_extent": [[0.0, 1.0], [0.13333334, 0.1]],
-          "shadow_visible": [[0.0, 1.0], [0.13333334, 0.0]],
-          "ornament_visible": [[0.0, 1.0], [0.16666667, 0.0]],
-          "collider_trigger": [[0.0, 0.0], [0.13333334, 1.0]],
-          "leaf_sprites": [[0.0, "quad"]]
+          "leaf_extent": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334,
+              0.1
+            ]
+          ],
+          "shadow_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334,
+              0.0
+            ]
+          ],
+          "ornament_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.16666667,
+              0.0
+            ]
+          ],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.13333334,
+              1.0
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "quad"
+            ]
+          ]
         },
         "close_animation": {
           "id": "synthetic_door_close",
           "duration": 0.16666667,
           "sample_rate": 30.0,
           "loop": false,
-          "leaf_extent": [[0.0, 0.1], [0.16666667, 1.0]],
-          "shadow_visible": [[0.0, 0.0], [0.03333334, 1.0]],
-          "ornament_visible": [[0.0, 0.0], [0.03333334, 1.0]],
-          "collider_trigger": [[0.0, 0.0]],
-          "leaf_sprites": [[0.0, "quad"]]
+          "leaf_extent": [
+            [
+              0.0,
+              0.1
+            ],
+            [
+              0.16666667,
+              1.0
+            ]
+          ],
+          "shadow_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333334,
+              1.0
+            ]
+          ],
+          "ornament_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333334,
+              1.0
+            ]
+          ],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "quad"
+            ]
+          ]
         }
+      }
+    ]
+  },
+  "obstacles": {
+    "default_variant": 0,
+    "variants": [
+      {
+        "index": 0,
+        "name": "test_obstacle",
+        "path_id": "1",
+        "collider": {
+          "size": [
+            1.0,
+            1.0
+          ],
+          "offset": [
+            0.0,
+            0.5
+          ],
+          "trigger": false
+        },
+        "visuals": [
+          {
+            "sprite": "quad",
+            "offset": [
+              0.0,
+              0.0
+            ],
+            "color": [
+              255,
+              255,
+              255,
+              255
+            ],
+            "sorting_layer": 4,
+            "sorting_order": 0,
+            "flip_x": false,
+            "flip_y": false
+          }
+        ]
+      }
+    ],
+    "markers": [
+      {
+        "position": [
+          2.0,
+          2.0
+        ],
+        "obj_index": 0
+      },
+      {
+        "position": [
+          3.0,
+          2.0
+        ],
+        "obj_index": 0
       }
     ]
   }

@@ -202,30 +202,32 @@ All three textures are `RGBA32`, 1 mip, import filter **Point**, wrap **Clamp**.
 
 Scene metadata:
 
-- `analysis/assets/scenes/r1_1_visual.json` — 17 sprite assets, 629 instances,
-  idle/run animation entries, door animation keyframes,
+- `analysis/assets/scenes/r1_1_visual.json` — 156 sprite assets, 482 static
+  instances, 30 recovered character ide/run clips, 15 character entries, door
+  animation keyframes, 12 obstacle variants with 49 marker cells,
   textures/sprites/positions/camera, recovered 44-cell room walls + 96-cell
-  aisle corridor walls + four door barriers/triggers + 49 wall603 obstacle
-  cells, and no pixels.
+  aisle corridor walls + four door barriers/triggers, and no pixels.
 - `analysis/re/r1_1_wall_map.json` and `.txt` — machine-readable and ASCII
   recovered topology. JSON SHA-256
   `1d7d10c84bfdad1855910513703176b91f895a47dd189c932387d30c8cf1e8da`.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — source bundle hashes,
   scene JSON SHA-256
-  `a56c2bac853aeb245c03bd721156f195e0546e06d9ee469672c06a51a3d4bc03`.
+  `ed39c652589b66cca93ba15389fb500abaa727e34ab84b2391532d9d1af25ef9`.
 - Generated pixels remain under gitignored
   `assets/generated/visual/r1_1_visual/`.
 
 Scene contents:
 
-- 49 × recovered `wall603` obstacles (147 sprites: root/`shadow0`/`WallFont`)
-  replacing the 49 placeholder `skin_wall` `RGObjectSkin` markers; they occupy
-  the central 7×7 block and contribute 49 separate collision AABBs,
+- 49 obstacle marker cells with all 12 recovered `obstacle_list` variants;
+  the default `wall603` variant draws 147 sprites (root/`shadow0`/`WallFont`)
+  and contributes 49 collision AABBs. The dev room cycles the 8 solid variants
+  at runtime; no obstacle sprites are baked into static instances,
 - 20 × `door02`/`door03` animated leaf sprites, 20 × `shadow0`, 20 × `door01` at
   the four room edges (tagged by door side and animated by the recovered clips),
 - 420 recovered wall sprites: 140 wall cells × root/`shadow0`/`WallFont`,
-- `c00` body (initial `c01_5`) at native test spawn (20,15), animated through real
-  idle/run clips,
+- `c00` body (initial `c01_5`) at native test spawn (20,15), animated through
+  real idle/run clips; all 15 recovered character prefabs and 30 clips are
+  exposed for dev switching,
 - `c00` shadow (`shadow3`) at (20,14.95).
 
 This is a **controlled reverse-engineering test chamber assembled from real
@@ -242,8 +244,9 @@ cd /tmp
 build/soul-knight --scene scenes/r1_1_visual/scene.json --smoke-seconds 7
 ```
 
-The scene was rendered successfully through Wayland/Vulkan with 629 instances
-(589 drawn while all doors are open), 4 textures, and no validation errors. The
+The scene was rendered successfully through Wayland/Vulkan with 482 static
+instances (589 drawn while all doors are open, including the active obstacle
+field), 12 textures, and no validation errors. The
 runtime log confirms `recovered solids=140 obstacles=49 doors=4 topology=true`,
 room interior `[12.5,13]..[27.5,28]`, and door trigger enter/exit events. This is
 a visual and collision milestone, not full gameplay or parity.
@@ -270,9 +273,9 @@ The selected real animations are `common/c00` Animator → controller
 Animation metadata:
 
 - `analysis/assets/scenes/animations/c00_idle.json`, SHA-256
-  `23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44`.
+  `ed7a2eea3800ee41186fb73f93936936b7e427843598f18271116434b1e0ffbb`.
 - `analysis/assets/scenes/animations/c00_run.json`, SHA-256
-  `5a464af90c3e61c4b5e3ac6340583234bf6cae114d0a0f281980f2c80e5a3693`.
+  `b874084e07bdf2eb150efc7fd34802f64226b5403e2a62e9f530e6a65efcb46e`.
 - Four keyframes per clip, one track each, no duplicated texture bytes.
 - The clip is evaluated deterministically at the 50 Hz fixed step; movement
   selects run and zero movement selects idle. The serialized Animator update mode

@@ -121,6 +121,9 @@ bool Application::Initialize() {
     collision_world_ = {};
     player_render_ = {};
     room_doors_ = {};
+    obstacles_ = {};
+    player_characters_ = {};
+    facing_ = engine::locomotion::FacingDirection::Right;
     movement_input_ = {};
     scene_ = {};
     last_animation_sprite_.clear();
@@ -152,21 +155,20 @@ bool Application::Initialize() {
         LOG_INFO_APP("Scene loaded: {} ({} textures, {} sprites, {} instances, {} animations)",
                      scene_.id, scene_.textures.size(), scene_.sprites.size(),
                      scene_.instances.size(), scene_.animations.size());
-        const engine::animation::AnimationClip* idle_clip = nullptr;
-        const engine::animation::AnimationClip* run_clip = nullptr;
         for (const engine::animation::AnimationClip& clip : scene_.animations) {
-            if (clip.id == "c00_idle") idle_clip = &clip;
-            if (clip.id == "c00_run") run_clip = &clip;
             LOG_INFO_APP("Animation: {} ({} s, {} Hz, loop={}, tracks={})",
                          clip.id, clip.duration, clip.sample_rate,
                          BooleanText(clip.loop), clip.tracks.size());
-            for (const engine::animation::SpriteTrack& track : clip.tracks) {
-                LOG_INFO_APP("Animation track: {} keys={}", track.target_path,
-                             track.keys.size());
-            }
         }
-        locomotion_animator_.Configure(idle_clip, run_clip);
+        std::string character_error;
+        if (!player_characters_.Configure(scene_, &character_error)) {
+            LOG_FATAL_APP("Character configuration failed: {}", character_error);
+            return false;
+        }
+        locomotion_animator_.Configure(player_characters_.IdleClip(),
+                                       player_characters_.RunClip());
         player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
+        facing_ = engine::locomotion::FacingDirection::Right;
         player_render_ = engine::rendering::BindPlayerRenderInstances(scene_);
         if (!player_render_.IsValid()) {
             LOG_FATAL_APP("Recovered player body/shadow render instances are missing");
@@ -177,6 +179,29 @@ bool Application::Initialize() {
                      player_render_.body_instance, player_render_.shadow_instance,
                      player_render_.shadow_offset.x,
                      player_render_.shadow_offset.y);
+        LOG_INFO_APP("Characters: {} recovered; active {} ({}, controller {})",
+                     player_characters_.Count(),
+                     player_characters_.Active().id,
+                     player_characters_.Active().controller_name,
+                     player_characters_.Active().controller_path_id);
+        for (std::size_t i = 0; i < player_characters_.Count(); ++i) {
+            const auto& character = scene_.characters[i];
+            LOG_INFO_APP("  character [{}] {}: body={} idle={} run={}",
+                         i + 1, character.id, character.body_sprite_id,
+                         character.idle_animation_id, character.run_animation_id);
+        }
+        std::string obstacle_error;
+        if (!obstacles_.Configure(scene_, &obstacle_error)) {
+            LOG_FATAL_APP("Obstacle configuration failed: {}", obstacle_error);
+            return false;
+        }
+        LOG_INFO_APP("Obstacles: {} recovered entries, {} solid selectable, "
+                     "{} markers, active {} ({} collider cells)",
+                     scene_.obstacle_variants.size(),
+                     obstacles_.Variants().size(), obstacles_.Markers().size(),
+                     obstacles_.Variants().empty()
+                         ? "none" : obstacles_.ActiveVariant().name,
+                     obstacles_.ColliderCellCount());
         std::string door_error;
         if (!room_doors_.Configure(scene_, &door_error)) {
             LOG_FATAL_APP("Room door configuration failed: {}", door_error);
@@ -198,15 +223,17 @@ bool Application::Initialize() {
                          door.Data().close_animation.duration,
                          soulknight::game::room::DoorStateName(door.State()));
         }
-        LOG_INFO_APP("Locomotion: spawn ({:.2f},{:.2f}), effective speed {:.2f}, idle={}, run={}",
+        LOG_INFO_APP("Locomotion: spawn ({:.2f},{:.2f}), effective speed {:.2f}, "
+                     "character={}, idle={}, run={}",
                      scene_.spawn.x, scene_.spawn.y, player_.Config().EffectiveSpeed(),
-                     idle_clip != nullptr ? "yes" : "no",
-                     run_clip != nullptr ? "yes" : "no");
+                     player_characters_.Active().id,
+                     player_characters_.IdleClip() != nullptr ? "yes" : "no",
+                     player_characters_.RunClip() != nullptr ? "yes" : "no");
         LOG_INFO_APP("Collision: bounds [{:.2f},{:.2f}]..[{:.2f},{:.2f}], "
-                     "recovered solids={}, obstacles={}, doors={}, topology={}",
+                     "recovered solids={}, obstacle cells={}, doors={}, topology={}",
                      collision_world_.Bounds().min.x, collision_world_.Bounds().min.y,
                      collision_world_.Bounds().max.x, collision_world_.Bounds().max.y,
-                     scene_.collision_solids.size(), scene_.obstacle_solids.size(),
+                     scene_.collision_solids.size(), obstacles_.ColliderCellCount(),
                      scene_.doors.size(), BooleanText(scene_.has_room_topology));
         if (scene_.interior_bounds.w > 0.0f && scene_.interior_bounds.h > 0.0f) {
             LOG_INFO_APP("Room interior: [{:.2f},{:.2f}]..[{:.2f},{:.2f}]",
@@ -354,6 +381,18 @@ void Application::BuildRenderBatch() {
         }
         const engine::assets::SpriteData* sprite =
             &scene_.sprites[instance.sprite_index];
+        const bool is_player_body =
+            instance_index == player_render_.body_instance;
+        if (is_player_body && player_characters_.Count() > 0) {
+            const engine::assets::SceneCharacter& character =
+                player_characters_.Active();
+            if (character.body_sprite_index >= 0 &&
+                static_cast<std::size_t>(character.body_sprite_index) <
+                    scene_.sprites.size()) {
+                sprite = &scene_.sprites[
+                    static_cast<std::size_t>(character.body_sprite_index)];
+            }
+        }
         if (door_visual_override && instance.door_role == "leaf" &&
             !door_visuals.leaf_sprite_id.empty()) {
             const int32_t animated_index =
@@ -404,11 +443,45 @@ void Application::BuildRenderBatch() {
         draw.pivot = sprite->pivot;
         draw.rotation = instance.rotation;
         draw.flip_x = instance.flip_x;
+        if (is_player_body) {
+            draw.flip_x = engine::rendering::ResolvePlayerBodyFlipX(
+                instance.flip_x, facing_);
+        }
         draw.flip_y = instance.flip_y;
         (void)sprite_batch_.DrawSprite(draw);
     }
-    // BuildRenderBatch is called after fixed updates while an animation is
-    // active; avoid spamming the log from the per-frame path.
+
+    if (obstacles_.Variants().empty()) return;
+    const engine::assets::ObstacleVariant& obstacle_variant =
+        obstacles_.ActiveVariant();
+    for (const engine::assets::ObstacleMarker& marker : obstacles_.Markers()) {
+        for (const engine::assets::ObstacleVisual& visual :
+             obstacle_variant.visuals) {
+            if (visual.sprite_index < 0 ||
+                static_cast<std::size_t>(visual.sprite_index) >=
+                    scene_.sprites.size()) {
+                continue;
+            }
+            const engine::assets::SpriteData& sprite =
+                scene_.sprites[static_cast<std::size_t>(visual.sprite_index)];
+            engine::rendering::SpriteDraw draw;
+            draw.position = marker.position + visual.offset;
+            draw.size = engine::Vec2{
+                sprite.WorldSize().x * visual.scale.x,
+                sprite.WorldSize().y * visual.scale.y
+            };
+            draw.uv = sprite.UvRect();
+            draw.color = visual.color;
+            draw.layer = MapSortingLayer(visual.sorting_layer);
+            draw.sorting_order = visual.sorting_order;
+            draw.texture_id = sprite.texture_id;
+            draw.pivot = sprite.pivot;
+            draw.rotation = visual.rotation;
+            draw.flip_x = visual.flip_x;
+            draw.flip_y = visual.flip_y;
+            (void)sprite_batch_.DrawSprite(draw);
+        }
+    }
 }
 
 void Application::BuildSyntheticBatch() {
@@ -463,6 +536,23 @@ void Application::PollEvents() {
             CloseAllDoors();
         }
 
+        if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat &&
+            scene_mode_) {
+            if (event.key.scancode == SDL_SCANCODE_LEFTBRACKET) {
+                CycleCharacter(-1);
+            } else if (event.key.scancode == SDL_SCANCODE_RIGHTBRACKET) {
+                CycleCharacter(1);
+            } else if (event.key.scancode == SDL_SCANCODE_P) {
+                CycleObstacleVariant();
+            } else if (event.key.scancode >= SDL_SCANCODE_1 &&
+                       event.key.scancode <= SDL_SCANCODE_9) {
+                SwitchCharacter(static_cast<std::size_t>(
+                    event.key.scancode - SDL_SCANCODE_1));
+            } else if (event.key.scancode == SDL_SCANCODE_0) {
+                SwitchCharacter(9);
+            }
+        }
+
         window_.HandleEvent(event);
         input_manager_.ProcessEvent(event);
 
@@ -510,9 +600,7 @@ void Application::RebuildCollisionWorld() {
         for (const engine::assets::CollisionBox& solid : scene_.collision_solids) {
             collision_world_.AddSolid(ToAabb(solid));
         }
-        for (const engine::assets::CollisionBox& solid : scene_.obstacle_solids) {
-            collision_world_.AddSolid(ToAabb(solid));
-        }
+        obstacles_.AddColliders(collision_world_);
         room_doors_.AddColliders(collision_world_);
         return;
     }
@@ -558,6 +646,37 @@ void Application::CloseAllDoors() {
                      BooleanText(door.IsBlocking()), door.AnimationTime(),
                      door.Data().close_animation.duration);
     }
+}
+
+void Application::SwitchCharacter(std::size_t index) {
+    if (player_characters_.Count() == 0) return;
+    if (!player_characters_.Select(index)) return;
+    locomotion_animator_.Configure(player_characters_.IdleClip(),
+                                   player_characters_.RunClip());
+    last_animation_sprite_.clear();
+    last_animation_state_ = engine::animation::LocomotionState::Idle;
+    animation_logs_remaining_ = 8;
+    const auto& character = player_characters_.Active();
+    LOG_INFO_APP("Character switch: [{}] {} (controller {}, body={}, idle={}, run={})",
+                 player_characters_.ActiveIndex() + 1, character.id,
+                 character.controller_name, character.body_sprite_id,
+                 character.idle_animation_id, character.run_animation_id);
+}
+
+void Application::CycleCharacter(int delta) {
+    if (player_characters_.Count() == 0) return;
+    player_characters_.Cycle(delta);
+    SwitchCharacter(player_characters_.ActiveIndex());
+}
+
+void Application::CycleObstacleVariant() {
+    if (obstacles_.Variants().empty()) return;
+    obstacles_.CycleNext();
+    RebuildCollisionWorld();
+    const auto& variant = obstacles_.ActiveVariant();
+    LOG_INFO_APP("Obstacle switch: [{}] {} path_id={} visuals={} collider_cells={}",
+                 obstacles_.ActiveIndex() + 1, variant.name, variant.path_id,
+                 variant.visuals.size(), obstacles_.ColliderCellCount());
 }
 
 void Application::UpdateDoorTriggers() {
@@ -617,6 +736,8 @@ void Application::FixedUpdate(double dt) {
 
     player_.FixedUpdate(movement_input_.direction, movement_input_.weight,
                         static_cast<float>(dt), collision_world_);
+    facing_ = engine::locomotion::ResolveFacing(
+        facing_, movement_input_.direction);
     locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
     camera_.Follow(player_.Position(), static_cast<float>(dt));
     UpdateDoorTriggers();
@@ -635,7 +756,7 @@ void Application::FixedUpdate(double dt) {
             "locomotion: sim=({:.3f},{:.3f}) render=({:.3f},{:.3f}) "
             "body=({:.3f},{:.3f}) shadow=({:.3f},{:.3f}) camera=({:.3f},{:.3f}) "
             "input=({:.2f},{:.2f}) vel=({:.3f},{:.3f}) state={} frame={} "
-            "blocked=({},{})",
+            "facing={} character={} obstacle={} blocked=({},{})",
             player_.Position().x, player_.Position().y,
             body.x, body.y,
             body.x, body.y,
@@ -645,6 +766,11 @@ void Application::FixedUpdate(double dt) {
             player_.Velocity().x, player_.Velocity().y,
             engine::animation::LocomotionStateName(locomotion_animator_.State()),
             frame != nullptr ? frame->sprite_id : "none",
+            engine::locomotion::FacingDirectionName(facing_),
+            player_characters_.Count() > 0
+                ? player_characters_.Active().id.c_str() : "none",
+            obstacles_.Variants().empty()
+                ? "none" : obstacles_.ActiveVariant().name.c_str(),
             BooleanText(collision.blocked_x), BooleanText(collision.blocked_y));
     }
 }

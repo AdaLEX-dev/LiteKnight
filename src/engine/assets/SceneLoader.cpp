@@ -264,20 +264,6 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 loaded.collision_solids.push_back(solid);
             }
         }
-        if (collision.contains("obstacle_solids")) {
-            if (!collision["obstacle_solids"].is_array()) {
-                SetError(error, "scene obstacle_solids is not an array");
-                return false;
-            }
-            for (const Json& item : collision["obstacle_solids"]) {
-                CollisionBox solid;
-                if (!ReadCollisionBox(item, solid)) {
-                    SetError(error, "scene obstacle solid is invalid");
-                    return false;
-                }
-                loaded.obstacle_solids.push_back(solid);
-            }
-        }
         if (collision.contains("doors")) {
             if (!collision["doors"].is_array()) {
                 SetError(error, "scene collision doors is not an array");
@@ -477,6 +463,128 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         loaded.sprites.push_back(std::move(sprite));
     }
 
+    if (document.contains("obstacles")) {
+        if (!document["obstacles"].is_object()) {
+            SetError(error, "scene obstacles is not an object");
+            return false;
+        }
+        const Json& obstacles = document["obstacles"];
+        if (!obstacles.contains("variants") || !obstacles["variants"].is_array()) {
+            SetError(error, "scene obstacles.variants is not an array");
+            return false;
+        }
+        for (const Json& item : obstacles["variants"]) {
+            if (!item.is_object() || !item.contains("name") ||
+                !item["name"].is_string() || !item.contains("visuals") ||
+                !item["visuals"].is_array()) {
+                SetError(error, "scene obstacle variant is invalid");
+                return false;
+            }
+            ObstacleVariant variant;
+            variant.name = item["name"].get<std::string>();
+            variant.index = item.value("index", static_cast<int32_t>(
+                loaded.obstacle_variants.size()));
+            variant.path_id = item.value("path_id", std::string{});
+            if (item.contains("collider") && !item["collider"].is_null()) {
+                const Json& collider = item["collider"];
+                if (!collider.is_object() || !collider.contains("size") ||
+                    !collider.contains("offset")) {
+                    SetError(error, "scene obstacle collider is invalid: " +
+                                    variant.name);
+                    return false;
+                }
+                Vec2 size;
+                Vec2 offset;
+                if (!ReadVec2(collider["size"], size) ||
+                    !ReadVec2(collider["offset"], offset) ||
+                    size.x <= 0.0f || size.y <= 0.0f) {
+                    SetError(error, "scene obstacle collider geometry is invalid: " +
+                                    variant.name);
+                    return false;
+                }
+                variant.has_collider = true;
+                variant.collider_trigger = collider.value("trigger", false);
+                variant.collider.min = {
+                    offset.x - size.x * 0.5f,
+                    offset.y - size.y * 0.5f
+                };
+                variant.collider.max = {
+                    offset.x + size.x * 0.5f,
+                    offset.y + size.y * 0.5f
+                };
+            }
+            for (const Json& visual_item : item["visuals"]) {
+                if (!visual_item.is_object() ||
+                    !visual_item.contains("sprite") ||
+                    !visual_item["sprite"].is_string() ||
+                    !visual_item.contains("offset") ||
+                    !visual_item.contains("color")) {
+                    SetError(error, "scene obstacle visual is invalid: " +
+                                    variant.name);
+                    return false;
+                }
+                ObstacleVisual visual;
+                const auto sprite_it = sprite_ids.find(
+                    visual_item["sprite"].get<std::string>());
+                if (sprite_it == sprite_ids.end()) {
+                    SetError(error, "obstacle visual references unknown sprite: " +
+                                    visual_item["sprite"].get<std::string>());
+                    return false;
+                }
+                visual.sprite_index = static_cast<int32_t>(sprite_it->second);
+                if (!ReadVec2(visual_item["offset"], visual.offset) ||
+                    !ReadColor(visual_item["color"], visual.color)) {
+                    SetError(error, "scene obstacle visual fields are invalid: " +
+                                    variant.name);
+                    return false;
+                }
+                if (visual_item.contains("rotation") &&
+                    !ReadFloat(visual_item["rotation"], visual.rotation)) {
+                    SetError(error, "scene obstacle visual rotation is invalid");
+                    return false;
+                }
+                if (visual_item.contains("scale") &&
+                    !ReadVec2(visual_item["scale"], visual.scale)) {
+                    SetError(error, "scene obstacle visual scale is invalid");
+                    return false;
+                }
+                visual.sorting_layer =
+                    visual_item.value("sorting_layer", 0);
+                visual.sorting_order =
+                    visual_item.value("sorting_order", 0);
+                visual.flip_x = visual_item.value("flip_x", false);
+                visual.flip_y = visual_item.value("flip_y", false);
+                variant.visuals.push_back(visual);
+            }
+            loaded.obstacle_variants.push_back(std::move(variant));
+        }
+        if (!obstacles.contains("markers") || !obstacles["markers"].is_array()) {
+            SetError(error, "scene obstacles.markers is not an array");
+            return false;
+        }
+        for (const Json& item : obstacles["markers"]) {
+            if (!item.is_object() || !item.contains("position")) {
+                SetError(error, "scene obstacle marker is invalid");
+                return false;
+            }
+            ObstacleMarker marker;
+            if (!ReadVec2(item["position"], marker.position)) {
+                SetError(error, "scene obstacle marker position is invalid");
+                return false;
+            }
+            marker.variant = item.value("variant", item.value("obj_index", 0));
+            if (marker.variant < 0 ||
+                static_cast<std::size_t>(marker.variant) >=
+                    loaded.obstacle_variants.size()) {
+                SetError(error, "scene obstacle marker variant is invalid");
+                return false;
+            }
+            marker.name = item.value("name", std::string{});
+            marker.path = item.value("path", std::string{});
+            loaded.obstacle_markers.push_back(std::move(marker));
+        }
+    }
+
     if (document.contains("animations")) {
         if (!document["animations"].is_array()) {
             SetError(error, "scene JSON animations is not an array");
@@ -613,6 +721,60 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                                 track.target_path);
                 return false;
             }
+        }
+    }
+
+    if (document.contains("characters")) {
+        if (!document["characters"].is_array()) {
+            SetError(error, "scene characters is not an array");
+            return false;
+        }
+        for (const Json& item : document["characters"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string() || !item.contains("body_sprite") ||
+                !item["body_sprite"].is_string() ||
+                !item.contains("idle_animation") ||
+                !item["idle_animation"].is_string() ||
+                !item.contains("run_animation") ||
+                !item["run_animation"].is_string()) {
+                SetError(error, "scene character entry is invalid");
+                return false;
+            }
+            SceneCharacter character;
+            character.id = item["id"].get<std::string>();
+            for (const SceneCharacter& existing : loaded.characters) {
+                if (existing.id == character.id) {
+                    SetError(error, "duplicate scene character id: " +
+                                    character.id);
+                    return false;
+                }
+            }
+            character.controller_name =
+                item.value("controller_name", std::string{});
+            character.controller_path_id =
+                item.value("controller_path_id", std::string{});
+            character.source_path_id =
+                item.value("source_path_id", std::string{});
+            character.body_sprite_id =
+                item["body_sprite"].get<std::string>();
+            const auto sprite_it = sprite_ids.find(character.body_sprite_id);
+            if (sprite_it == sprite_ids.end()) {
+                SetError(error, "character references unknown body sprite: " +
+                                character.body_sprite_id);
+                return false;
+            }
+            character.body_sprite_index = static_cast<int32_t>(sprite_it->second);
+            character.idle_animation_id =
+                item["idle_animation"].get<std::string>();
+            character.run_animation_id =
+                item["run_animation"].get<std::string>();
+            if (loaded.FindAnimationIndex(character.idle_animation_id) < 0 ||
+                loaded.FindAnimationIndex(character.run_animation_id) < 0) {
+                SetError(error, "character references unknown animation: " +
+                                character.id);
+                return false;
+            }
+            loaded.characters.push_back(std::move(character));
         }
     }
 

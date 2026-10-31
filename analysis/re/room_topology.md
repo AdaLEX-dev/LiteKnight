@@ -483,10 +483,11 @@ claimed.
 collision.bounds          = [0, 0, 41, 41]       (native map-cell test boundary)
 collision.interior_bounds = [12.5, 13, 15, 15]   (recovered room interior)
 collision.solids          = 140 wall-cell AABBs  (44 room + 96 corridor)
-collision.obstacle_solids = 49 wall603 obstacle AABBs
 collision.doors[4]        = recovered barrier/trigger AABBs,
                             directions, path IDs, one-way normals, open state,
                             open/close animation keyframes
+obstacles.markers         = 49 RGObjectSkin replacement positions
+obstacles.variants[12]    = recovered obstacle_list prefabs, visuals and AABBs
 topology.wall_cells       = 44
 topology.corridor_wall_cells = 96
 topology.floor_cells      = 225  (15x15 interior cell centers)
@@ -496,8 +497,9 @@ topology.wall_prefabs     = wall601/wall602, 1x1 collider offset (0,0.5)
 topology.obstacle_prefabs = level-1-1 obstacle_list[0..11]
 topology.obstacle_markers = 49 RGObjectSkin replacements (all -> wall603)
 topology.openings         = four serialized doors/aisles
-instances                 = 629: 420 wall sprites + 147 wall603 sprites +
-                            60 door sprites + 2 player sprites
+instances                 = 482: 420 wall sprites + 60 door sprites +
+                            2 player sprites; obstacle sprites are generated
+                            from the active variant (147 for wall603)
 ```
 
 The native test configuration is:
@@ -521,6 +523,36 @@ collision. Generated wall visuals are one deterministic variant (`wall601`) per
 collision cell; the reference randomizes `wall601`/`wall602`, which share the
 same 1×1 collider. The 49 central `wall603` obstacles are the recovered runtime
 replacement for the `RGObjectSkin` markers, not additional room-wall cells.
+
+### 10.1 Native reconstruction artifact: upper-right wall sprites (fixed)
+
+The original native builder treated each wall prefab's **root** local position
+as a sprite offset. The `wall601` prefab asset serializes a root local position
+of `(20,20)` in its source bundle; `RGRoomX.CreateWall` overrides that root
+position when instantiating at the wall-cell coordinate. The builder therefore
+placed 140 root wall sprites at `cell + (20,20)`, producing the unexplained
+upper-right geometry that extended beyond the room. The shadow and WallFont
+children were already correct because their prefab-local positions are zero.
+
+Fix: wall prefab collection ignores the root local position and keeps only
+child-relative offsets; the wall-cell coordinate is authoritative. The
+regression tests in `tests/unit/room_visual_test.cpp` assert every
+`native_wall/...@x,y` instance position equals `(x,y)` and that no scene instance
+lies outside the recovered 41×41 map cell. This is an artifact of the native
+reconstruction, not part of the recovered Unity room.
+
+### 10.2 Dev obstacle variant switching
+
+`analysis/assets/scenes/r1_1_visual.json` carries the recovered
+`MapManagerLevel.obstacle_list` variants and the 49 `RGObjectSkin` marker
+positions. The native dev room starts with `obstacle_list[0]` (`wall603`) and
+allows cycling the 8 solid recovered variants at runtime. Rendering derives every
+obstacle sprite from the active variant's visual records; collision derives one
+AABB per marker from the same variant, so rendered and physical obstacle cells
+stay synchronized. The four decorative entries without a BoxCollider2D
+(`sting01`, `speed_up`, `speed_down`, `signs01`) remain in metadata but are not
+selectable. This switching mechanism is a **NATIVE TEST FEATURE**, not recovered
+gameplay behavior.
 
 ---
 

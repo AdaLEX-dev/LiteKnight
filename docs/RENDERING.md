@@ -70,16 +70,18 @@ Unity Texture2D + Sprite metadata + shared atlas
   not recovered; this is a **PROJECT DECISION**.
 - The `Mat4` column-major multiplication bug that dropped camera translation was
   fixed; the projection maps world +Y up.
-- The `r1_1` scene has 629 instances across 4 textures and 17 sprite assets:
-  420 recovered wall-cell sprites (140 wall cells × root/shadow/WallFont), 147
-  `wall603` obstacle sprites (49 recovered `RGObjectSkin` replacements × 3), 60
+- The `r1_1` scene has 482 static instances across 12 textures and 156 sprite assets:
+  420 recovered wall-cell sprites (140 wall cells × root/shadow/WallFont), 60
   animated door-leaf sprites (four doors × five leaf/shadow/ornament clusters),
-  1 player body (four idle-frame sprites selected over time), and 1 player shadow.
-  The initial all-open state draws 589 instances because the recovered open clip
-  hides 40 door shadow/ornament renderers.
-- The player uses the real `char_1_skin_0_ide` and `char_1_skin_0_run` clips:
-  four discrete sprite keys each at `0`, `0.125`, `0.25`, `0.375 s`, looping at
-  `0.5 s`. Movement presence selects run; zero movement selects idle.
+  1 player body (recovered character frame sprites selected over time), and
+  1 player shadow. The active obstacle field adds 147 wall603 sprites for the
+  49 marker cells. The initial all-open state draws 589 instances because the
+  recovered open clip hides 40 door shadow/ornament renderers.
+- The player uses recovered `c00..c14` `ide`/`run` clips (30 clips total). For
+  c00 the real `char_1_skin_0_ide`/`run` clips use four discrete keys at `0`,
+  `0.125`, `0.25`, `0.375 s`, looping at `0.5 s`. Movement presence selects run;
+  zero movement selects idle. Horizontal facing flips only the body sprite; the
+  shadow is not flipped.
 - The renderer groups contiguous texture runs (5 draw groups for this scene) and
   uses global index-buffer quad offsets with `vertexOffset=0`.
 - Screenshot evidence is temporary and not committed; the actual native scene is

@@ -1,18 +1,186 @@
 {
-  "animation_count": 2,
-  "animation_keyframe_count": 8,
+  "animation_count": 30,
+  "animation_keyframe_count": 120,
   "animations": [
     {
       "generated": "assets/generated/visual/r1_1_visual/animations/c00_idle.json",
       "id": "c00_idle",
       "metadata": "analysis/assets/scenes/animations/c00_idle.json",
-      "sha256": "23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44"
+      "sha256": "ed7a2eea3800ee41186fb73f93936936b7e427843598f18271116434b1e0ffbb"
     },
     {
       "generated": "assets/generated/visual/r1_1_visual/animations/c00_run.json",
       "id": "c00_run",
       "metadata": "analysis/assets/scenes/animations/c00_run.json",
-      "sha256": "5a464af90c3e61c4b5e3ac6340583234bf6cae114d0a0f281980f2c80e5a3693"
+      "sha256": "b874084e07bdf2eb150efc7fd34802f64226b5403e2a62e9f530e6a65efcb46e"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c01_idle.json",
+      "id": "c01_idle",
+      "metadata": "analysis/assets/scenes/animations/c01_idle.json",
+      "sha256": "a585d55308ff484783b958a1afdd91eca6cc90cb6e92a4b410180096a9edd39e"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c01_run.json",
+      "id": "c01_run",
+      "metadata": "analysis/assets/scenes/animations/c01_run.json",
+      "sha256": "4e8e029802400db0876cbc33c0e9e07026478453f3381df4d167042bd3e69b73"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c02_idle.json",
+      "id": "c02_idle",
+      "metadata": "analysis/assets/scenes/animations/c02_idle.json",
+      "sha256": "3bf471b4a8b261feda5bcbf7f21a740fb2928bbe60529bab43099a73a74e286c"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c02_run.json",
+      "id": "c02_run",
+      "metadata": "analysis/assets/scenes/animations/c02_run.json",
+      "sha256": "232ab037b3b6b4a9bc67c80e4ed1d3f5e99fc0ab443deb150cd76b37487c9be1"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c03_idle.json",
+      "id": "c03_idle",
+      "metadata": "analysis/assets/scenes/animations/c03_idle.json",
+      "sha256": "bfef646e6e28976ad3082ff4c97f9eaf188ebe3f2d26b68db308305d52b15451"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c03_run.json",
+      "id": "c03_run",
+      "metadata": "analysis/assets/scenes/animations/c03_run.json",
+      "sha256": "fed168aa6e4c937efd0c694a9b801088584463c2fc1d76c1ffa1134970fea80f"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c04_idle.json",
+      "id": "c04_idle",
+      "metadata": "analysis/assets/scenes/animations/c04_idle.json",
+      "sha256": "e686b78141eafc125b1288b720905b81795fdc888b11523dc3dcbffada161944"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c04_run.json",
+      "id": "c04_run",
+      "metadata": "analysis/assets/scenes/animations/c04_run.json",
+      "sha256": "0fac29bff4694fbec2a20c8c63e4d9bbdb4511b5c87a6a6dd7dc51a320d6c0ca"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c05_idle.json",
+      "id": "c05_idle",
+      "metadata": "analysis/assets/scenes/animations/c05_idle.json",
+      "sha256": "a5f55b92d0f926f2cecb26c02f9c668cb1749f82013b64a08a18f7452da449c9"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c05_run.json",
+      "id": "c05_run",
+      "metadata": "analysis/assets/scenes/animations/c05_run.json",
+      "sha256": "8c547564abb6d4fc3e582e0b9ec954d9df4c7d86b5d4023c29c578525b08d3c3"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c06_idle.json",
+      "id": "c06_idle",
+      "metadata": "analysis/assets/scenes/animations/c06_idle.json",
+      "sha256": "2917605ecba8e68f8e302fee84afe03e922bac0c52187768e52fa7453bc2866c"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c06_run.json",
+      "id": "c06_run",
+      "metadata": "analysis/assets/scenes/animations/c06_run.json",
+      "sha256": "62f450c8e1adda916e737dfc5d54e8bf8fd5fadc55f33b8fc606a00b2cfa417e"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c07_idle.json",
+      "id": "c07_idle",
+      "metadata": "analysis/assets/scenes/animations/c07_idle.json",
+      "sha256": "5245c0ada19e0b5903d455b19a5dffc2d2ccbc59928724b2d1da9c505e054ae8"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c07_run.json",
+      "id": "c07_run",
+      "metadata": "analysis/assets/scenes/animations/c07_run.json",
+      "sha256": "8333cd8231b14d88f95b5624af07aee341e034a3dc1e13c8b96b1931b2edf959"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c08_idle.json",
+      "id": "c08_idle",
+      "metadata": "analysis/assets/scenes/animations/c08_idle.json",
+      "sha256": "bc33612e7dbe0593873a3050eec8411ff1c2cfe281c3ef0a9493b85edca3d38c"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c08_run.json",
+      "id": "c08_run",
+      "metadata": "analysis/assets/scenes/animations/c08_run.json",
+      "sha256": "43acc5d473df4ead493104f4740ab500c4613f6badd236eff797da3b1050efae"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c09_idle.json",
+      "id": "c09_idle",
+      "metadata": "analysis/assets/scenes/animations/c09_idle.json",
+      "sha256": "4f689c965d9aade7e2d9ab5c3a4673121401159825483807b6b64249b02adc2e"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c09_run.json",
+      "id": "c09_run",
+      "metadata": "analysis/assets/scenes/animations/c09_run.json",
+      "sha256": "5106983de63bfecfeaf93ca6b61902987105c293cbf23003d0b2b504febb6283"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c10_idle.json",
+      "id": "c10_idle",
+      "metadata": "analysis/assets/scenes/animations/c10_idle.json",
+      "sha256": "492b9e9f1709d074426bd719e0b10e8f69f7d0f16f3ae8f05e2e69e1153b4a70"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c10_run.json",
+      "id": "c10_run",
+      "metadata": "analysis/assets/scenes/animations/c10_run.json",
+      "sha256": "3293f1be64a23fccadb6b6e20d540d65ade9f00abf1696ab11fb10fa30a7fd13"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c11_idle.json",
+      "id": "c11_idle",
+      "metadata": "analysis/assets/scenes/animations/c11_idle.json",
+      "sha256": "3464201ecbf3583a1fc3e10cd74d39be47f471ffe42f878f757d231fd7a5aa31"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c11_run.json",
+      "id": "c11_run",
+      "metadata": "analysis/assets/scenes/animations/c11_run.json",
+      "sha256": "bb116930af271158807dce43d5143cd10b5eab30568b22610ff6e9f62b3ea460"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c12_idle.json",
+      "id": "c12_idle",
+      "metadata": "analysis/assets/scenes/animations/c12_idle.json",
+      "sha256": "ad0b6b5764038719177d38fba8dfd73fe40c353ea95675eef5d93c0b8eb97236"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c12_run.json",
+      "id": "c12_run",
+      "metadata": "analysis/assets/scenes/animations/c12_run.json",
+      "sha256": "55cfa4661def6ffddb3b2c3519a989b0e510e2207160f03158b25585067da40f"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c13_idle.json",
+      "id": "c13_idle",
+      "metadata": "analysis/assets/scenes/animations/c13_idle.json",
+      "sha256": "675636eb1b13b0a98fc170f6bdf00fe3c2a7087eef686e4445297b56787c43e8"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c13_run.json",
+      "id": "c13_run",
+      "metadata": "analysis/assets/scenes/animations/c13_run.json",
+      "sha256": "608323dbd4a6be91018820e4aad0504fa36524fc1170946891ad907086b6b6f7"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c14_idle.json",
+      "id": "c14_idle",
+      "metadata": "analysis/assets/scenes/animations/c14_idle.json",
+      "sha256": "bb24a7f08f9af0c15dfaf14f9b01bec07b083d4a28c98452b675b10a36a3a940"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c14_run.json",
+      "id": "c14_run",
+      "metadata": "analysis/assets/scenes/animations/c14_run.json",
+      "sha256": "85510047ca219cdb562e58e5f6328b2e47836f29cc6c0100031e9938328565cd"
     }
   ],
   "camera": {
@@ -26,6 +194,7 @@
       1080.0
     ]
   },
+  "character_count": 15,
   "collision": {
     "bounds": [
       0.0,
@@ -718,303 +887,6 @@
       13.0,
       15.0,
       15.0
-    ],
-    "obstacle_solid_count": 49,
-    "obstacle_solids": [
-      [
-        19.5,
-        20.0,
-        20.5,
-        21.0
-      ],
-      [
-        18.5,
-        20.0,
-        19.5,
-        21.0
-      ],
-      [
-        17.5,
-        20.0,
-        18.5,
-        21.0
-      ],
-      [
-        16.5,
-        20.0,
-        17.5,
-        21.0
-      ],
-      [
-        20.5,
-        20.0,
-        21.5,
-        21.0
-      ],
-      [
-        21.5,
-        20.0,
-        22.5,
-        21.0
-      ],
-      [
-        22.5,
-        20.0,
-        23.5,
-        21.0
-      ],
-      [
-        22.5,
-        21.0,
-        23.5,
-        22.0
-      ],
-      [
-        21.5,
-        21.0,
-        22.5,
-        22.0
-      ],
-      [
-        20.5,
-        21.0,
-        21.5,
-        22.0
-      ],
-      [
-        16.5,
-        21.0,
-        17.5,
-        22.0
-      ],
-      [
-        17.5,
-        21.0,
-        18.5,
-        22.0
-      ],
-      [
-        18.5,
-        21.0,
-        19.5,
-        22.0
-      ],
-      [
-        19.5,
-        21.0,
-        20.5,
-        22.0
-      ],
-      [
-        19.5,
-        23.0,
-        20.5,
-        24.0
-      ],
-      [
-        18.5,
-        23.0,
-        19.5,
-        24.0
-      ],
-      [
-        17.5,
-        23.0,
-        18.5,
-        24.0
-      ],
-      [
-        16.5,
-        23.0,
-        17.5,
-        24.0
-      ],
-      [
-        20.5,
-        23.0,
-        21.5,
-        24.0
-      ],
-      [
-        21.5,
-        23.0,
-        22.5,
-        24.0
-      ],
-      [
-        22.5,
-        23.0,
-        23.5,
-        24.0
-      ],
-      [
-        22.5,
-        22.0,
-        23.5,
-        23.0
-      ],
-      [
-        21.5,
-        22.0,
-        22.5,
-        23.0
-      ],
-      [
-        20.5,
-        22.0,
-        21.5,
-        23.0
-      ],
-      [
-        16.5,
-        22.0,
-        17.5,
-        23.0
-      ],
-      [
-        17.5,
-        22.0,
-        18.5,
-        23.0
-      ],
-      [
-        18.5,
-        22.0,
-        19.5,
-        23.0
-      ],
-      [
-        19.5,
-        22.0,
-        20.5,
-        23.0
-      ],
-      [
-        19.5,
-        18.0,
-        20.5,
-        19.0
-      ],
-      [
-        18.5,
-        18.0,
-        19.5,
-        19.0
-      ],
-      [
-        17.5,
-        18.0,
-        18.5,
-        19.0
-      ],
-      [
-        16.5,
-        18.0,
-        17.5,
-        19.0
-      ],
-      [
-        20.5,
-        18.0,
-        21.5,
-        19.0
-      ],
-      [
-        21.5,
-        18.0,
-        22.5,
-        19.0
-      ],
-      [
-        22.5,
-        18.0,
-        23.5,
-        19.0
-      ],
-      [
-        22.5,
-        19.0,
-        23.5,
-        20.0
-      ],
-      [
-        21.5,
-        19.0,
-        22.5,
-        20.0
-      ],
-      [
-        20.5,
-        19.0,
-        21.5,
-        20.0
-      ],
-      [
-        16.5,
-        19.0,
-        17.5,
-        20.0
-      ],
-      [
-        17.5,
-        19.0,
-        18.5,
-        20.0
-      ],
-      [
-        18.5,
-        19.0,
-        19.5,
-        20.0
-      ],
-      [
-        19.5,
-        19.0,
-        20.5,
-        20.0
-      ],
-      [
-        19.5,
-        17.0,
-        20.5,
-        18.0
-      ],
-      [
-        18.5,
-        17.0,
-        19.5,
-        18.0
-      ],
-      [
-        17.5,
-        17.0,
-        18.5,
-        18.0
-      ],
-      [
-        16.5,
-        17.0,
-        17.5,
-        18.0
-      ],
-      [
-        20.5,
-        17.0,
-        21.5,
-        18.0
-      ],
-      [
-        21.5,
-        17.0,
-        22.5,
-        18.0
-      ],
-      [
-        22.5,
-        17.0,
-        23.5,
-        18.0
-      ]
     ],
     "solid_count": 140,
     "solids": [
@@ -1872,10 +1744,12 @@
   },
   "converter_version": "1.0.0",
   "door_animation_keyframe_count": 82,
-  "instance_count": 629,
+  "instance_count": 482,
   "manifest_version": 1,
-  "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, RGObjectSkin -> wall603 obstacle replacement, and c00 idle/run clips; no proprietary pixels committed.",
-  "scene_json_sha256": "a56c2bac853aeb245c03bd721156f195e0546e06d9ee469672c06a51a3d4bc03",
+  "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, 15 recovered character prefabs with ide/run clips, 12 obstacle_list variants, and no proprietary pixels committed.",
+  "obstacle_marker_count": 49,
+  "obstacle_variant_count": 12,
+  "scene_json_sha256": "ed39c652589b66cca93ba15389fb500abaa727e34ab84b2391532d9d1af25ef9",
   "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -1889,7 +1763,7 @@
     20.0,
     15.0
   ],
-  "sprite_count": 17,
+  "sprite_count": 156,
   "textures": [
     {
       "filter": "point",
@@ -1906,17 +1780,35 @@
       "wrap": "clamp"
     },
     {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
-      "format": "RGBA32",
-      "height": 1024,
-      "id": "character_atlas",
-      "png": "textures/character_atlas.png",
-      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
-      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
+      "format": "RGBA4444",
+      "height": 512,
+      "id": "object_level_atlas",
+      "png": "textures/object_level_atlas.png",
+      "png_sha256": "02893b6617d36a37d51e6bbe930e73c0bdf604877f87b9d76d4989d8fa2ea22f",
+      "rgba8_sha256": "6b5498e376b470348d1e2f550e2091172911ac07a2aeb86d4dc4b7f2e7896ff2",
+      "source_bundle": "level-common",
+      "source_cab": "CAB-99deb5b3a04b77a7d3b9552fcee7ef71",
+      "source_name": "SpriteAtlasTexture-object_level (Group 1)-512x512-fmt13",
+      "source_path_id": "8607965889740011037",
+      "width": 512,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
+      "height": 256,
+      "id": "object_common_group0_atlas",
+      "png": "textures/object_common_group0_atlas.png",
+      "png_sha256": "f85bd2c5cec7d6db35a8ec1cf8ef40001f6ca3e56daa2492ddaf80190ff2a81c",
+      "rgba8_sha256": "21f39769e6968dd2fcbccc632bd02630e0104ec20e7061d1667686f0ee7c299f",
       "source_bundle": "common",
-      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
-      "source_path_id": "6092784074628815488",
-      "width": 2048,
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-object_common (Group 0)-256x256-fmt13",
+      "source_path_id": "-1240183975920528313",
+      "width": 256,
       "wrap": "clamp"
     },
     {
@@ -1938,15 +1830,125 @@
       "filter": "point",
       "format": "RGBA4444",
       "height": 512,
-      "id": "object_level_atlas",
-      "png": "textures/object_level_atlas.png",
-      "png_sha256": "02893b6617d36a37d51e6bbe930e73c0bdf604877f87b9d76d4989d8fa2ea22f",
-      "rgba8_sha256": "6b5498e376b470348d1e2f550e2091172911ac07a2aeb86d4dc4b7f2e7896ff2",
-      "source_bundle": "level-common",
-      "source_cab": "CAB-99deb5b3a04b77a7d3b9552fcee7ef71",
-      "source_name": "SpriteAtlasTexture-object_level (Group 1)-512x512-fmt13",
-      "source_path_id": "8607965889740011037",
+      "id": "auto_atlas_m304717225150204165",
+      "png": "textures/auto_atlas_m304717225150204165.png",
+      "png_sha256": "5329abb5b68dad0de1ff0e081c831847d9e55ad5001b88fb43a850d9dc2f80db",
+      "rgba8_sha256": "d460da8008b86a574ada0ddd13ca194d501c862e1f936b7258aaa49722f1b849",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
+      "source_path_id": "-304717225150204165",
+      "width": 1024,
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 1024,
+      "id": "character_atlas",
+      "png": "textures/character_atlas.png",
+      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
+      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
+      "source_path_id": "6092784074628815488",
+      "width": 2048,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 102,
+      "id": "auto_atlas_8145931484269276276",
+      "png": "textures/auto_atlas_8145931484269276276.png",
+      "png_sha256": "b76d639dd8203b58cab417baf705bb541a90406e0894615234f7daf0d7fd4ffb",
+      "rgba8_sha256": "6315534a36f5e66ad9fea06c4d833b80963c9d4e32051a743a73d237384020c8",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "c03_s9",
+      "source_path_id": "8145931484269276276",
+      "width": 168,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 128,
+      "id": "auto_atlas_1719784523446444581",
+      "png": "textures/auto_atlas_1719784523446444581.png",
+      "png_sha256": "468c285666670f8a19d363baa7ade0710ef61efcdfc77754201a34e6eb5c9802",
+      "rgba8_sha256": "d3eec7e6765e302c3f194e6c77fcde56d65c853f65c8f0197a7ca4a411e56207",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "c05_s7",
+      "source_path_id": "1719784523446444581",
+      "width": 128,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 96,
+      "id": "auto_atlas_m5982969649399678507",
+      "png": "textures/auto_atlas_m5982969649399678507.png",
+      "png_sha256": "e3eb39c9e545c3060cd8a28781ad3d6de3874dbd116e37291c5c33ec60b5a03a",
+      "rgba8_sha256": "24b792b4d0f5962bdc106e1ee9c5f9d483e30c6626fdc57e6068fd5d19d50caa",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "c07_s8",
+      "source_path_id": "-5982969649399678507",
+      "width": 272,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
+      "height": 512,
+      "id": "auto_atlas_m7138671102567859681",
+      "png": "textures/auto_atlas_m7138671102567859681.png",
+      "png_sha256": "87e67fa9279bf292edc63d715806a2004f68e956a823c242f0469e1f29f7f587",
+      "rgba8_sha256": "2c8e4b29bf4eb33c9a316c4de53f470df809547cb58b9ddb8865d6e7f3775650",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-weapon (Group 0)-512x512-fmt13",
+      "source_path_id": "-7138671102567859681",
       "width": 512,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 128,
+      "id": "auto_atlas_m2523084235641821235",
+      "png": "textures/auto_atlas_m2523084235641821235.png",
+      "png_sha256": "4af6dd0f5dd01b2870fd5742227b9fd46f6ed07c08b93a3b0607ceb179bab51c",
+      "rgba8_sha256": "07e3d19fbdb587463ee2f51474d34dc67a58a49957a7bd10d95163e59da4bf40",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "c09_s7",
+      "source_path_id": "-2523084235641821235",
+      "width": 128,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 128,
+      "id": "auto_atlas_m1477371714499098320",
+      "png": "textures/auto_atlas_m1477371714499098320.png",
+      "png_sha256": "fdbf195d0d6abe9fd9c25e66cfb95c433b567e6ba9841f244534edfca733f1d3",
+      "rgba8_sha256": "c899a5dc5cdab9a7e4b23b6b6505830708c24d58d117a471c4ed30a5adc5aa30",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "c14_s7",
+      "source_path_id": "-1477371714499098320",
+      "width": 128,
       "wrap": "clamp"
     }
   ],
