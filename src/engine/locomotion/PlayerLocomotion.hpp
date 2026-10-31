@@ -20,8 +20,12 @@ struct LocomotionConfig {
     Vec2 collider_half_extents{0.4f, 0.4f};
     Vec2 collider_offset{0.0f, 0.5f};
 
+    // RGWeapon.AttackStart adds atk_move_speed to RoleAttributePlayer.speed_rate
+    // while the weapon attack state is active. Zero outside attack.
+    float speed_rate_bonus = 0.0f;
+
     float EffectiveSpeed() const {
-        return speed * (speed_rate + 1.0f) + speed_bonus;
+        return speed * (speed_rate + speed_rate_bonus + 1.0f) + speed_bonus;
     }
 };
 
@@ -44,6 +48,7 @@ public:
     const LocomotionConfig& Config() const { return config_; }
 
     void SetPosition(const Vec2& position) { position_ = position; }
+    void SetSpeedRateBonus(float bonus) { config_.speed_rate_bonus = bonus; }
 
 private:
     LocomotionConfig config_{};

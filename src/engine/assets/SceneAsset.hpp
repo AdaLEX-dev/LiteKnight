@@ -99,8 +99,89 @@ struct SceneCharacter {
     std::string source_path_id;
     std::string body_sprite_id;
     int32_t body_sprite_index = -1;
+    std::string dead_sprite_id;
+    int32_t dead_sprite_index = -1;
     std::string idle_animation_id;
     std::string run_animation_id;
+};
+
+// Recovered RoleAttributePlayer values for the playable dev-room character.
+// Character switching is a dev-only asset swap and keeps this combat state.
+struct PlayerStats {
+    std::string character_id;
+    int32_t max_hp = 0;
+    int32_t hp = 0;
+    int32_t max_armor = 0;
+    int32_t armor = 0;
+    int32_t camp = 1;
+    int32_t atk = 0;
+    int32_t critical = 0;
+    float speed = 0.0f;
+    float speed_rate = 0.0f;
+    int32_t deviation = 0;
+};
+
+struct ProjectileDefinition {
+    std::string id;
+    int32_t sprite_index = -1;
+    float prefab_speed = 0.0f;
+    float lifetime = 5.0f;
+    int32_t camp = 1;
+    bool can_rebound = false;
+    Vec2 collider_half_extents{0.25f, 0.20f};
+    Vec2 collider_offset{0.25f, 0.0f};
+    int32_t sorting_layer = 6;
+    int32_t sorting_order = 0;
+};
+
+struct WeaponDefinition {
+    std::string id;
+    ProjectileDefinition projectile;
+    float bullet_speed = 0.0f;
+    float size = 1.0f;
+    int32_t damage = 0;
+    int32_t deviation = 0;
+    // RoleAttribute.deviation for the owning character. c00 does not serialize
+    // this field and RoleAttribute's constructor leaves it at 0.
+    int32_t owner_deviation = 0;
+    int32_t consume = 0;
+    float weapon_speed = 1.0f;
+    // RGWeapon.atk_move_speed; AttackStart adds this to speed_rate and
+    // AttackStop subtracts it. weapon_000 serializes -0.1.
+    float atk_move_speed = 0.0f;
+    int32_t repel = 0;
+    int32_t through = 0;
+    // Recovered from weapon_000's Animator: the `w_pistol` state loops for
+    // 0.333333 s and carries an `Attack` animation event at 0.033333 s.
+    // `RGWeapon.Start` scales Animator.speed by weapon_speed; weapon_000 uses
+    // 1.0, so the effective period is 1/3 s with a 1/30 s first-shot delay.
+    float attack_cycle_seconds = 1.0f / 3.0f;
+    float first_shot_delay_seconds = 1.0f / 30.0f;
+};
+
+struct EnemyDefinition {
+    std::string id;
+    int32_t body_sprite_index = -1;
+    int32_t dead_sprite_index = -1;
+    int32_t shadow_sprite_index = -1;
+    int32_t hp = 0;
+    int32_t speed = 0;
+    int32_t camp = 0;
+    int32_t contact_damage = 0;
+    float contact_cooldown = 0.0f;
+    CollisionBox collider{};
+    // RGEController ctor default dead_destory_delay_time = 4.0 s. The 0.95
+    // float written on hurt is `friction`, not a death delay.
+    float death_despawn_delay = 4.0f;
+    int32_t body_sorting_layer = 5;
+    int32_t body_sorting_order = 1;
+    int32_t shadow_sorting_layer = 3;
+    int32_t shadow_sorting_order = 0;
+};
+
+struct EnemyFixture {
+    std::string definition;
+    Vec2 position{0.0f, 0.0f};
 };
 
 struct SceneDoor {
@@ -149,6 +230,10 @@ struct SceneAsset {
     std::vector<ObstacleVariant> obstacle_variants;
     std::vector<ObstacleMarker> obstacle_markers;
     std::vector<SceneCharacter> characters;
+    PlayerStats player_stats;
+    std::vector<WeaponDefinition> weapons;
+    std::vector<EnemyDefinition> enemy_definitions;
+    std::vector<EnemyFixture> enemy_fixtures;
     std::vector<SceneDoor> doors;
     bool has_room_topology = false;
 
@@ -169,6 +254,15 @@ struct SceneAsset {
     int32_t FindAnimationIndex(const std::string& animation_id) const {
         for (std::size_t i = 0; i < animations.size(); ++i) {
             if (animations[i].id == animation_id) {
+                return static_cast<int32_t>(i);
+            }
+        }
+        return -1;
+    }
+
+    int32_t FindEnemyDefinitionIndex(const std::string& definition_id) const {
+        for (std::size_t i = 0; i < enemy_definitions.size(); ++i) {
+            if (enemy_definitions[i].id == definition_id) {
                 return static_cast<int32_t>(i);
             }
         }

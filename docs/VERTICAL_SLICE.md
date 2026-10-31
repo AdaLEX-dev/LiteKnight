@@ -46,11 +46,11 @@ evidence, and a responsible subsystem.
 | Room hierarchy | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | `r1_1` hierarchy confirmed; player spawn is `MapManager.centerPoint`; full door/aisle state transitions PARTIAL | Rooms / `RGRoomX` |
 | Room collision | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | Runtime wall source confirmed (`CreateWall`→`wall_list`, layer Edge, 1×1 colliders); exact per-cell gaps PARTIAL | Rooms / `RGRoomX`, `MapManagerLevel` |
 | Enemy AI | ⚠️ PARTIAL | `analysis/re/enemy_ai04.md` | `EnemyAI04` contact `HitUnit(3,1.5)` and base Scout/target path known; full state machine/animations PARTIAL | AI / `RGEController` |
-| Weapon behaviour | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `Gun001.Attack`→`CreateBullet`→`BulletFactory.TakeBullet`; speed 36, deviation 5, consume 0; cooldown PARTIAL | Weapons / `RGWeapon` |
-| Projectile behaviour | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `Bullet01` fields/trigger chain; BulletInfo speed 36 overrides prefab 10; rebound/through PARTIAL | Projectiles / `RGBullet` |
+| Weapon behaviour | ✅ FIRST SLICE | `analysis/re/weapons_projectiles.md` | `Gun001.Attack`→`CreateBullet`→`BulletFactory.TakeBullet`; speed 36, damage 3, consume 0; `w_pistol` 1/3 s loop with Attack event at 1/30 s; c00 spread 0° | `Weapon` |
+| Projectile behaviour | ✅ FIRST SLICE | `analysis/re/weapons_projectiles.md` | `Bullet01` fields/trigger chain; BulletInfo speed 36 overrides prefab 10; 5 s lifetime; native swept linear collision; Rigidbody/rebound/through PARTIAL | `ProjectileSystem` |
 | Damage bridge | ✅ MET | `analysis/re/damage.md` | Player `+0x228`, enemy `+0x2C8`, box `+0x168` resolved | Combat / `DamageCarrier` |
 | Damage formulas | ⚠️ PARTIAL | `analysis/re/damage.md` | Armor/HP/CanDie confirmed; crit roll location confirmed; effect/element details PARTIAL | Combat / `GetHurt` |
-| Death/restart | ⚠️ PARTIAL | `analysis/re/damage.md` | Death/Reborn/DoReborn/GameFail/TryAgain entry flows confirmed; exact slots/UI sequencing PARTIAL | Combat/state |
+| Death/restart | ⚠️ PARTIAL | `analysis/re/damage.md`, `analysis/re/combat_prototype.md` | Native player/enemy minimum death and R reset; Death/Reborn/DoReborn/GameFail/TryAgain entry flows confirmed; exact slots/UI sequencing PARTIAL | Combat/state |
 | Tick rate | ✅ MET | `analysis/re/timing.md` | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) confirmed | Engine loop / `FrameTimer` |
 | Renderer | ⚠️ PARTIAL | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/RENDERING.md` | Vulkan 1.3 + multi-texture sprite batch + Camera2D; native r1_1 reconstruction test scene, real idle/run animation, WASD movement/collision/camera verified; exact room gaps/Animator breadth not implemented | Rendering / platform |
 | RNG core | ⚠️ PARTIAL | `analysis/re/rgrandom.md` | Core/map/LongMap confirmed; `seed_state` 1/2, DateTime seed, reference vectors unavailable | RNG / `RGRandom` |

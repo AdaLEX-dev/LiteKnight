@@ -51,6 +51,7 @@ TEXTURE_SPECS = (
     ("floor_atlas", "res/floor", "5467841708608453938"),
     ("character_atlas", "common", "6092784074628815488"),
     ("object_common_atlas", "common", "3188784419113904678"),
+    ("charactor_common_atlas", "res/charactor_common", "2755411589560438748"),
     ("object_common_group0_atlas", "common", "-1240183975920528313"),
     ("object_level_atlas", "level-common", "8607965889740011037"),
 )
@@ -151,6 +152,7 @@ class SceneBuilder:
             str(bundle_path("level-objects", args.bundle_root)),
             str(bundle_path("level-common", args.bundle_root)),
             str(bundle_path("res/floor", args.bundle_root)),
+            str(bundle_path("res/charactor_common", args.bundle_root)),
             str(bundle_path("common", args.bundle_root)),
         )
         self.sprites: dict[tuple[str, str], dict] = {}
@@ -159,6 +161,10 @@ class SceneBuilder:
         self.object_markers: list[dict] = []
         self.characters: list[dict] = []
         self.obstacles: dict = {}
+        self.player_stats: dict = {}
+        self.weapons: list[dict] = []
+        self.enemy_definitions: list[dict] = []
+        self.enemy_fixtures: list[dict] = []
         self.textures: dict[str, dict] = {}
         self.animations: dict[str, dict] = {}
         self.animation_json: dict[str, str] = {}
@@ -567,6 +573,300 @@ class SceneBuilder:
             component.component.read() for component in player_root.read().m_Component
             if component.component.type.name == "Transform")
         return find(transform)
+
+    def _clip_sprite_keys(self, clip, binding_path: str):
+        bindings = list(clip.m_ClipBindingConstant.genericBindings)
+        target_hash = zlib.crc32(binding_path.encode("utf-8")) & 0xFFFFFFFF
+        target_index = None
+        for index, binding in enumerate(bindings):
+            if (int(binding.path) == target_hash and
+                    int(binding.customType) == 23 and
+                    int(getattr(binding, "isPPtrCurve", 0)) == 1 and
+                    int(getattr(binding, "typeID", 0) or 0) == 212):
+                target_index = index
+                break
+        if target_index is None:
+            return []
+        curve_index = sum(
+            self._binding_curve_count(b) for b in bindings[:target_index])
+        frames = self._streamed_frames(clip)
+        if not frames:
+            return []
+        mapping = list(clip.m_ClipBindingConstant.pptrCurveMapping)
+        if not mapping:
+            return []
+        mapping_ids = []
+        for mapping_ptr in mapping:
+            if mapping_ptr is None or mapping_ptr.path_id == 0:
+                mapping_ids.append(None)
+            else:
+                mapping_ids.append(self.ensure_sprite_asset(mapping_ptr)[0])
+        initial = dict(frames[0][1])
+        index_keys = [(0.0, float(initial.get(curve_index, 0.0)))]
+        for time, entries in frames[1:]:
+            if not math.isfinite(time) or time < 0.0:
+                continue
+            for index, value in entries:
+                if index != curve_index:
+                    continue
+                value = float(value)
+                if time <= index_keys[-1][0] + 1e-7:
+                    index_keys[-1] = (index_keys[-1][0], value)
+                else:
+                    index_keys.append((float(time), value))
+        keys = []
+        for time, value in index_keys:
+            mapped = int(round(value))
+            if not (0 <= mapped < len(mapping_ids)) or mapping_ids[mapped] is None:
+                raise SystemExit(
+                    f"clip {getattr(clip, 'm_Name', '')} sprite value {value} "
+                    f"does not index a valid pptrCurveMapping sprite")
+            keys.append({"time": time, "sprite": mapping_ids[mapped]})
+        return keys
+
+    def _character_dead_sprite(self, controller, state_machine):
+        for state_offset in state_machine.m_StateConstantArray:
+            state = state_offset.data
+            if int(state.m_NameID) != 3978643748:
+                continue
+            clip_index = int(
+                state.m_BlendTreeConstantArray[0].data.m_NodeArray[0].data.m_ClipID)
+            clip = controller.m_AnimationClips[clip_index].read()
+            keys = self._clip_sprite_keys(clip, PLAYER_BODY_PATH)
+            if keys:
+                return keys[-1]["sprite"]
+        return None
+
+    def _combat_metadata(self):
+        # weapon_000 / Gun001 / bullet_0: one confirmed weapon projectile pair.
+        weapon_go = None
+        for obj in self.env.objects:
+            if obj.type.name == "GameObject" and getattr(obj.read(), "m_Name", "") == "weapon_000":
+                weapon_go = obj
+                break
+        if weapon_go is None:
+            raise SystemExit("weapon_000 prefab not found")
+        gun = None
+        for component in weapon_go.read().m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            candidate = component.component.read()
+            if hasattr(candidate, "bulletsInfo") and candidate.bulletsInfo:
+                gun = candidate
+                break
+        if gun is None:
+            raise SystemExit("weapon_000 has no Gun001 bullet info")
+        # c00 RoleAttributePlayer: the playable dev-room combat state.
+        for obj in self.env.objects:
+            if obj.type.name != "GameObject":
+                continue
+            game_object = obj.read()
+            if getattr(game_object, "m_Name", "") != "c00":
+                continue
+            for component in game_object.m_Component:
+                if component.component.type.name != "MonoBehaviour":
+                    continue
+                candidate = component.component.read()
+                if hasattr(candidate, "max_hp") and hasattr(candidate, "max_armor"):
+                    self.player_stats = {
+                        "character_id": "c00",
+                        "max_hp": int(candidate.max_hp),
+                        "hp": int(candidate.hp),
+                        "max_armor": int(candidate.max_armor),
+                        "armor": int(candidate.armor),
+                        "camp": int(candidate.camp),
+                        "atk": int(candidate.atk),
+                        "critical": int(candidate.critical),
+                        "speed": float(candidate.speed),
+                        "speed_rate": float(candidate.speed_rate),
+                        "deviation": int(getattr(candidate, "deviation", 0) or 0),
+                        "classification": (
+                            "CONFIRMED serialized c00 RoleAttributePlayer; "
+                            "deviation is not serialized and defaults to 0"),
+                    }
+                    break
+            if self.player_stats:
+                break
+        if not self.player_stats:
+            raise SystemExit("c00 RoleAttributePlayer stats not found")
+        bullet_info = gun.bulletsInfo[0]
+        bullet_go = bullet_info.bulletProto.read()
+        bullet_b = None
+        for child in next(c.component.read() for c in bullet_go.m_Component
+                          if c.component.type.name == "Transform").m_Children:
+            transform = child.read()
+            if transform.m_GameObject.read().m_Name == "b":
+                bullet_b = transform
+                break
+        if bullet_b is None:
+            raise SystemExit("bullet_0 prefab has no b renderer")
+        weapon_animator = next(
+            (c.component.read() for c in weapon_go.read().m_Component
+             if c.component.type.name == "Animator"), None)
+        attack_cycle = 0.0
+        first_shot_delay = 0.0
+        if weapon_animator is not None and weapon_animator.m_Controller:
+            attack_controller = weapon_animator.m_Controller.read()
+            attack_states = (
+                attack_controller.m_Controller.m_StateMachineArray[0].data
+                .m_StateConstantArray)
+            w_pistol_clip = None
+            for state_offset in attack_states:
+                state = state_offset.data
+                clip = attack_controller.m_AnimationClips[
+                    state.m_BlendTreeConstantArray[0].data.m_NodeArray[0]
+                    .data.m_ClipID].read()
+                if getattr(clip, "m_Name", "") != "w_pistol":
+                    continue
+                events = [e for e in clip.m_Events
+                          if getattr(e, "functionName", "") == "Attack"]
+                if not events:
+                    continue
+                w_pistol_clip = clip
+                attack_cycle = float(clip.m_MuscleClip.m_StopTime)
+                first_shot_delay = float(events[0].time)
+                break
+            if w_pistol_clip is None:
+                raise SystemExit("weapon_000 has no w_pistol Attack event")
+        if attack_cycle <= 0.0:
+            raise SystemExit("weapon_000 attack cycle is missing")
+        bullet_sr = next(c.component.read() for c in bullet_b.m_GameObject.read().m_Component
+                         if c.component.type.name == "SpriteRenderer")
+        bullet_sprite, _ = self.ensure_sprite_asset(bullet_sr.m_Sprite)
+        bullet_collider = next(c.component.read() for c in bullet_b.m_GameObject.read().m_Component
+                               if c.component.type.name == "BoxCollider2D")
+        projectile = {
+            "id": getattr(bullet_go, "m_Name", "bullet_0"),
+            "sprite": bullet_sprite,
+            "prefab_speed": 10.0,
+            "lifetime": 5.0,
+            "camp": 1,
+            "can_rebound": True,
+            "collider_size": [float(bullet_collider.m_Size.x),
+                              float(bullet_collider.m_Size.y)],
+            "collider_offset": [float(bullet_collider.m_Offset.x),
+                                float(bullet_collider.m_Offset.y)],
+            "sorting_layer": int(bullet_sr.m_SortingLayer),
+            "sorting_order": int(bullet_sr.m_SortingOrder),
+            "classification": (
+                "CONFIRMED bullet_0/Bullet01 prefab; serialized speed 10 is "
+                "overridden to 36 by weapon_000 BulletInfo"),
+        }
+        self.weapons.append({
+            "id": "weapon_000",
+            "projectile": projectile,
+            "bullet_speed": float(bullet_info.speed),
+            "size": float(bullet_info.size),
+            "damage": int(bullet_info.damage),
+            "deviation": int(gun.deviation),
+            "owner_deviation": 0,
+            "consume": int(gun.consume),
+            "weapon_speed": float(gun.weapon_speed),
+            "atk_move_speed": float(gun.atk_move_speed),
+            "repel": int(bullet_info.repel),
+            "through": int(bullet_info.throughCount),
+            "attack_cycle_seconds": attack_cycle,
+            "first_shot_delay_seconds": first_shot_delay,
+            "classification": (
+                "CONFIRMED weapon_000/Gun001 serialized fields; w_pistol "
+                "Animator state loops for 0.333333 s with Attack event at "
+                "0.033333 s; weapon_speed 1.0"),
+        })
+
+        # e_slime01: simplest recovered enemy fixture.
+        enemy_go = None
+        for obj in self.env.objects:
+            if obj.type.name == "GameObject" and getattr(obj.read(), "m_Name", "") == "e_slime01":
+                enemy_go = obj
+                break
+        if enemy_go is None:
+            raise SystemExit("e_slime01 prefab not found")
+        enemy_data = enemy_go.read()
+        role = None
+        animator = None
+        for component in enemy_data.m_Component:
+            if component.component.type.name == "MonoBehaviour":
+                candidate = component.component.read()
+                if hasattr(candidate, "max_hp") and hasattr(candidate, "speed"):
+                    role = candidate
+            elif component.component.type.name == "Animator":
+                animator = component.component.read()
+        if role is None or animator is None or not animator.m_Controller:
+            raise SystemExit("e_slime01 missing RoleAttribute/Animator")
+        controller = animator.m_Controller.read()
+        state_machine = controller.m_Controller.m_StateMachineArray[0].data
+        idle_clip = None
+        dead_clip = None
+        for state_offset in state_machine.m_StateConstantArray:
+            state = state_offset.data
+            clip = controller.m_AnimationClips[
+                state.m_BlendTreeConstantArray[0].data.m_NodeArray[0].data.m_ClipID].read()
+            if int(state.m_NameID) == 3576087171:
+                idle_clip = clip
+            elif int(state.m_NameID) == 2071841146:
+                dead_clip = clip
+        if idle_clip is None or dead_clip is None:
+            raise SystemExit("e_slime01 idle/dead clip missing")
+        idle_keys = self._clip_sprite_keys(idle_clip, "img/body")
+        dead_keys = self._clip_sprite_keys(dead_clip, "img/body")
+        if not idle_keys or not dead_keys:
+            raise SystemExit("e_slime01 body sprite mapping missing")
+        body_sprite = idle_keys[0]["sprite"]
+        dead_sprite = dead_keys[-1]["sprite"]
+        shadow_sprite = None
+        enemy_transform = next(c.component.read() for c in enemy_data.m_Component
+                               if c.component.type.name == "Transform")
+        for child in enemy_transform.m_Children:
+            transform = child.read()
+            game_object = transform.m_GameObject.read()
+            if game_object.m_Name == "shadow":
+                for component in game_object.m_Component:
+                    if component.component.type.name == "SpriteRenderer":
+                        shadow_sprite, _ = self.ensure_sprite_asset(
+                            component.component.read().m_Sprite)
+        enemy_ai = None
+        for component in enemy_data.m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            candidate = component.component.read()
+            if hasattr(candidate, "enemy_id") and hasattr(candidate, "damage"):
+                enemy_ai = candidate
+                break
+        if enemy_ai is None:
+            raise SystemExit("e_slime01 EnemyAI04 fields not found")
+        root_collider = next(c.component.read() for c in enemy_data.m_Component
+                             if c.component.type.name == "BoxCollider2D")
+        self.enemy_definitions.append({
+            "id": "e_slime01",
+            "path_id": str(enemy_go.path_id),
+            "body_sprite": body_sprite,
+            "dead_sprite": dead_sprite,
+            "shadow_sprite": shadow_sprite,
+            "hp": int(role.max_hp),
+            "speed": int(role.speed),
+            "camp": int(role.camp),
+            "contact_damage": int(enemy_ai.damage),
+            "contact_cooldown": float(enemy_ai.later_time),
+            "collider_size": [float(root_collider.m_Size.x),
+                              float(root_collider.m_Size.y)],
+            "collider_offset": [float(root_collider.m_Offset.x),
+                                float(root_collider.m_Offset.y)],
+            "death_despawn_delay": 4.0,
+            "body_sorting_layer": 5,
+            "body_sorting_order": 1,
+            "shadow_sorting_layer": 3,
+            "shadow_sorting_order": 0,
+            "idle_sprites": idle_keys,
+            "classification": (
+                "CONFIRMED e_slime01/EnemyAI04/RoleAttribute (hp 12, speed 3, "
+                "camp 0, contact 3 every 1.5 s); collider disabled in "
+                "RGEController.Dead; dead_destory_delay_time defaults to 4.0 s "
+                "(the 0.95 write is friction, not a death delay)"),
+        })
+        self.enemy_fixtures = [
+            {"definition": "e_slime01", "position": [18.0, 15.5]},
+            {"definition": "e_slime01", "position": [22.0, 15.5]},
+        ]
 
     def extract_player_animations(self, player_root, character_id="c00") -> None:
         animator_component = None
@@ -1618,6 +1918,7 @@ class SceneBuilder:
         self.walk_room(room_transform, (0.0, 0.0), 0.0, (1.0, 1.0), "r1_1")
         collision = self._extract_topology(room_root, room_transform)
 
+        self._combat_metadata()
         player_transform = next(
             c.component for c in player_root.read().m_Component
             if c.component.type.name == "Transform").read()
@@ -1635,12 +1936,15 @@ class SceneBuilder:
                 if c.component.type.name == "Animator")
             controller = animator.m_Controller.read()
             self.extract_player_animations(root, character_id)
+            state_machine = controller.m_Controller.m_StateMachineArray[0].data
+            dead_sprite = self._character_dead_sprite(controller, state_machine)
             self.characters.append({
                 "id": character_id,
                 "controller_name": getattr(controller, "m_Name", ""),
                 "controller_path_id": str(animator.m_Controller.path_id),
                 "source_path_id": str(root.path_id),
                 "body_sprite": body_sprite_id,
+                "dead_sprite": dead_sprite,
                 "idle_animation": f"{character_id}_idle",
                 "run_animation": f"{character_id}_run",
                 "classification": (
@@ -1654,6 +1958,10 @@ class SceneBuilder:
             "source_player": "common/c00",
             "spawn": [spawn[0], spawn[1]],
             "characters": self.characters,
+            "player_stats": self.player_stats,
+            "weapons": self.weapons,
+            "enemy_definitions": self.enemy_definitions,
+            "enemy_fixtures": self.enemy_fixtures,
             "spawn_classification": (
                 "NATIVE TEST CONFIGURATION: player starts just inside the "
                 "south door on free floor; the recovered c00 prefab transform "
@@ -1752,6 +2060,10 @@ def main(argv=None) -> int:
         "spawn": scene["spawn"],
         "animation_count": len(scene["animations"]),
         "character_count": len(scene["characters"]),
+        "player_stats": scene["player_stats"],
+        "weapon_count": len(scene["weapons"]),
+        "enemy_definition_count": len(scene["enemy_definitions"]),
+        "enemy_fixture_count": len(scene["enemy_fixtures"]),
         "obstacle_variant_count": len(scene["obstacles"]["variants"]),
         "obstacle_marker_count": len(scene["obstacles"]["markers"]),
         "animation_keyframe_count": sum(
@@ -1778,7 +2090,7 @@ def main(argv=None) -> int:
             "wall_map_sha256": wall_map_sha,
         },
         "collision": scene["collision"],
-        "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, 15 recovered character prefabs with ide/run clips, 12 obstacle_list variants, and no proprietary pixels committed.",
+        "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, 15 recovered character prefabs with ide/run clips, 12 obstacle_list variants, weapon_000/bullet_0 combat metadata, two e_slime01 test fixtures, and no proprietary pixels committed.",
     }
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
     args.manifest.write_text(

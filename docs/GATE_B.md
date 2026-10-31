@@ -29,6 +29,8 @@ Canonical evidence documents:
 - `analysis/re/input_movement.md`
 - `analysis/re/rooms_scene.md`
 - `analysis/re/weapons_projectiles.md`
+- `analysis/re/enemy_ai04.md`
+- `analysis/re/combat_prototype.md`
 - `analysis/assets/extraction_manifest.json`
 - `docs/EVIDENCE_STANDARD.md`
 

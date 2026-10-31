@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### First playable combat prototype — 2026-10-31
+
+- Added a native combat loop in the recovered `r1_1` dev room:
+  `player -> weapon_000 -> bullet_0 -> wall/obstacle/enemy -> damage ->
+  enemy death -> player damage/death -> R reset`.
+- Recovered the held-attack timing from `weapon_000`'s serialized
+  `weapon_pistol` Animator: `w_pistol` loops for 1/3 s and its `Attack`
+  animation event fires at 1/30 s. Attack input is a native test binding
+  (`J`/`Space`/LMB), not reference keyboard parity. Aim is a separate native
+  test vector (mouse/right stick); facing remains movement-driven.
+- Corrected the spread formula to
+  `RoleAttribute.deviation * (weapon.deviation + 1)`. c00's attribute deviation
+  is 0, so weapon_000's effective spread is 0°, not ±5°.
+- Added `ProjectileSystem`, `Weapon`, `HealthState`, and `EnemySystem`. Effective
+  projectile speed is 36 (prefab 10 retained), damage 3, camp 1, lifetime 5 s;
+  deterministic swept collision blocks walls/obstacles/doors and rejects targets
+  behind a wall hit.
+- Added two deterministic `e_slime01` fixtures: hp 12, contact damage 3 every
+  1.5 s, dead sprite, immediate collision/target disable, and 4.0 s despawn.
+  Corrected the earlier 0.95 s “death delay”: 0.95 is written to `friction`;
+  `dead_destory_delay_time` defaults to 4.0 s.
+- Added player HP/armor/contact/death and `R` reset. The dead player stops
+  movement/attack and renders the recovered final dead sprite; production
+  game-over/reborn UI is out of scope.
+- Fixed the facing visual regression: sprite flips now mirror quad geometry
+  around the pivot as well as swapping UVs, so the asymmetric c00 pivot no
+  longer shifts the body relative to its shadow when facing changes.
+- Added combat tests for attack cadence, projectile speed/lifetime/collision,
+  armour/HP/defence, enemy death/despawn, wall-order target rejection, and pivot
+  mirroring. Suite: 84 cases / 4759 assertions in RelWithDebInfo and Debug
+  ASan/UBSan; CTest, Vulkan validation, real keyboard/aim combat, death/reset,
+  character/obstacle switching, doors, and window exercise verified.
+
 ### Clean dev room, eight-way facing, character/obstacle test switching — 2026-10-31
 
 - Removed the mysterious upper-right wall geometry. Root cause: the native scene

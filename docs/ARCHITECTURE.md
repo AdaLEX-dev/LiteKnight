@@ -478,7 +478,10 @@ RGMusicManager (singleton)
 - RNG: `RGRandom`/`RGRandomInterface` — core wrapper and Xorshift128 engine reconstructed in `analysis/re/rgrandom.md`; exact native implementation exists. **PARTIAL/CONFIRMED** for the core.
 - Room Generation: `MapManager*` — "same seed = same dungeon" is **HYPOTHESIS**; the generation algorithm has not been reconstructed.
 - Enemy Spawn: `EnemyCreateInfo` — deterministic placement is **HYPOTHESIS**; not yet traced.
-- Combat: the player/enemy/box damage bridge is **CONFIRMED**; critical/element/effect-trigger rules and full death/reborn remain **PARTIAL/UNKNOWN**.
+- Combat: the player/enemy/box damage bridge is **CONFIRMED**. A first-slice
+  native weapon_000 -> bullet_0 -> damage -> enemy/player death loop exists;
+  full AI, critical/element/effect-trigger rules, room clear and full
+  death/reborn remain **PARTIAL/UNKNOWN**. See `analysis/re/combat_prototype.md`.
 
 **RNG Streams (candidate isolation domains, not yet proven):**
 1. World Generation (dungeon layout)
@@ -487,7 +490,9 @@ RGMusicManager (singleton)
 4. Loot (drop tables)
 5. Visual Effects (particle variance)
 
-Only the RNG wrapper/engine layer has been reconstructed. Do not claim deterministic generation or combat until their call order is traced.
+Combat call order is reconstructed for the weapon_000/bullet_0/e_slime01 first
+slice. Do not claim deterministic room generation or broad combat parity until
+the remaining call order is traced.
 
 ---
 

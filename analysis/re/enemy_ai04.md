@@ -81,8 +81,10 @@ Observed high-level behavior:
   the base references.
 - `RunReflection` (`0x10E4C04`): animation/visual reflection hook.
 - `FixedRotation` (`0x10E4F78`): faces the movement direction.
-- `ChildDead` (`0x10E5270`): death visual/child cleanup.
-- `DeadEvent` (`0x10E530C`): death event/effect.
+- `ChildDead` (`0x10E5270`): if `dead_obj` is set, invokes `DeadEvent` after
+  serialized `later_time = 1.5 s`.
+- `DeadEvent` (`0x10E530C`): spawns the serialized `dead_obj` (`slime_dead`)
+  prefab at the enemy position and calls its hit path.
 - `OnTriggerEnter2D` (`0x10E54D0`): **direct tail-call**:
 
 ```text
@@ -106,11 +108,30 @@ For the first slice, a native `EnemyAI04` can implement:
 4. Contact trigger → `HitUnit(target, 3, 1.5)` semantics: apply 3 damage on a
    1.5-second cooldown to a valid player/pet target, with tag/buff/invulnerability
    checks.
-5. On `GetHurt` HP <= 0, run `Dead`/`DeadEvent` and remove the collider/delegates.
+5. On `GetHurt` HP <= 0, run `RGEController.Dead`, disable the collider
+   immediately, play the recovered `slime01_dead` animator state, spawn
+   `DeadEvent`/`slime_dead` after the serialized 1.5 s `later_time`, and
+   eventually destroy the enemy. `dead_destory_delay_time` is initialized to
+   4.0 s in `RGEController..ctor` (`0x110A960`); the 0.95 write in `GetHurt` is
+   `friction`, not a death delay.
 
 Do **not** claim the full slime AI, attack animation, pathfinding, or boss/network
 behavior. The minimal contract is evidence-backed, but the exact `Scout` branch
-ordering and cooldown field binding remain HIGH CONFIDENCE/PARTIAL.
+ordering and destruction-flag predicate remain HIGH CONFIDENCE/PARTIAL.
+
+### Recovered death facts
+
+- `GetHurt` returns immediately when `dead`; a dying/dead enemy cannot be damaged
+  again.
+- `RGEController.Dead` sets `dead`, disables the collider, and removes delegates
+  before the visual/death-event path.
+- `EnemyAI04.ChildDead` schedules `DeadEvent` after `later_time = 1.5 s`.
+- `DeadEvent` spawns `slime_dead`; this is a separate reference object. The
+  native slice keeps the enemy's own recovered `enemy01_6` dead sprite instead
+  and does not instantiate `slime_dead`.
+- `RGEController..ctor` initializes `dead_destory_delay_time` (offset `+0x9C`)
+  to 4.0 s. Native uses 4.0 s for the dev fixture and documents the exact
+  destruction predicate as PARTIAL.
 
 ## 5. Confidence
 
@@ -119,6 +140,10 @@ ordering and cooldown field binding remain HIGH CONFIDENCE/PARTIAL.
 | `e_slime01` uses `EnemyAI04` | CONFIRMED | prefab component |
 | hp 12 / speed 3 / damage 3 / later_time 1.5 | CONFIRMED | serialized fields |
 | Contact damage calls `HitUnit(other, 3, 1.5)` | CONFIRMED | `0x10E54D0` |
+| Collider disabled immediately on death | CONFIRMED | `0x110DE18` |
+| Dead animation state `slime01_dead` 2.0 s | CONFIRMED | serialized Animator/clip |
+| `DeadEvent` spawned after `later_time` 1.5 s | HIGH CONFIDENCE | `0x10E5270` |
+| Destruction delay 4.0 s; 0.95 is friction | HIGH CONFIDENCE | `0x110A960`, `0x1108E60` |
 | Base AI uses `Scout`/`FindNearestTarget`/`FollowDefault` | HIGH CONFIDENCE | `0x110C610`, `0x110C950`, `0x110CD68` |
 | Exact scout branch ordering/cooldown formula | PARTIAL | disassembly requires full control-flow reconstruction |
 | Display name "slime" | CANDIDATE | prefab name only |

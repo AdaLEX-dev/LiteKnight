@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **71 doctest cases / 4638 assertions**, all passing.
+**Status:** current baseline is **84 doctest cases / 4759 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -125,6 +125,29 @@ ctest --test-dir build --output-on-failure
   cell. This catches the prefab-root-offset bug by source/path identity, not by
   screen coordinates.
 
+### Combat prototype (implemented units)
+
+- `Weapon_000` attack cycle: first projectile after the recovered 1/30 s
+  `Attack` event, one shot every 1/3 s while held, release resets the state, and
+  a zero/invalid cycle is rejected.
+- Projectile definition: 36 effective speed from BulletInfo, prefab speed 10
+  retained as metadata, damage 3, camp 1, through 0, repel 2, lifetime 5 s.
+- Projectile simulation: deterministic 0.72-unit first step at 50 Hz, five-second
+  expiry, wall and obstacle blocking, and a wall-hit fraction that rejects
+  enemies behind the wall while still allowing an enemy in front.
+- Damage: armour absorption, armour overflow into HP, defence subtraction,
+  lethal/non-lethal HP, same-camp rejection, and dead-state rejection.
+- Enemy: hp 12, projectile damage, death, immediate collision/target skip,
+  dead-enemy no-retarget, 4.0 s despawn timer, and recovered 3 damage / 1.5 s
+  contact cadence.
+- Movement: `atk_move_speed = -0.1` reduces effective speed from 9.75 to 9.1
+  while attack is held.
+- Real scene metadata: player stats 6 hp / 5 armor, weapon, two deterministic
+  e_slime01 fixtures, and recovered body/dead/shadow sprites.
+- Rendering regression: flipping a sprite mirrors quad geometry around its
+  pivot, so an asymmetric player pivot no longer shifts the body relative to the
+  shadow when facing changes.
+
 ### Integration / manual smoke
 
 ```bash
@@ -154,13 +177,17 @@ cd /tmp
 The committed metadata lives in `analysis/assets/scenes/r1_1_visual.json` and
 `analysis/assets/scenes/animations/`; generated PNG/scene bytes remain
 gitignored. The scene now has 482 static instances (420 walls + 60 doors +
-2 player), 156 sprite assets, 12 textures, 30 recovered character clips and
-49 obstacle markers with 12 recovered variants (8 solid selectable). This scene is a
-reverse-engineering test reconstruction, not a proven canonical gameplay level.
+2 player), 176 sprite assets, 13 textures, 30 recovered character clips,
+49 obstacle markers with 12 recovered variants (8 solid selectable), one
+weapon/projectile pair, and two e_slime01 fixtures. Its current render batch is
+593 sprites (static room + obstacles + two enemies + active projectiles). This
+scene is a reverse-engineering test reconstruction, not a proven canonical
+gameplay level.
 Run with `--locomotion-debug` to log `sim`/`render`/`body`/`shadow`/camera
 positions, input, velocity, animation state/frame, facing, active character,
-active obstacle variant, collision blocking, animated door state, and
-door-trigger enter/exit events.
+active obstacle variant, HP/armor/dead state, enemy HP/active state, active
+projectiles, collision blocking, animated door state, and door-trigger
+enter/exit events.
 
 Controls:
 
@@ -168,6 +195,9 @@ Controls:
 1..9, 0   select recovered character c00..c09
 [ / ]     cycle all 15 recovered character prefabs
 P         cycle recovered obstacle variants
+J / Space / LMB   attack (native test binding)
+Mouse / right stick / keypad 8,2,4,6   aim vector (facing remains movement-driven)
+R         reset combat state (position, HP, armor, enemies, doors)
 O         toggle OpenDoor()/CloseDoor()
 C         CloseDoor() on all four doors
 ```
@@ -181,8 +211,47 @@ one-way inward barrier, and opening collision becomes passable at the recovered
 inside the recovered obstacle block. Deterministic tests are in
 `tests/unit/door_test.cpp`, `tests/unit/player_render_sync_test.cpp`,
 `tests/unit/direction_test.cpp`, `tests/unit/character_switch_test.cpp`,
-`tests/unit/obstacle_field_test.cpp`, `tests/unit/room_visual_test.cpp`, and
-`tests/unit/scene_test.cpp`.
+`tests/unit/obstacle_field_test.cpp`, `tests/unit/room_visual_test.cpp`,
+`tests/unit/combat_test.cpp`, and `tests/unit/scene_test.cpp`. The suite is
+84 cases / 4759 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
+
+### Combat manual verification (2026-10-31)
+
+Run from `/tmp` against the generated scene:
+
+```bash
+build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug     --smoke-seconds 12
+```
+
+Observed with real SDL input through `/dev/uinput` (`ydotool`) against the focused
+Wayland window:
+
+- Hold attack: five `Attack:` rows at roughly 1/3 s spacing, each spawning one
+  `bullet_0` at speed 36 / damage 3; the right-hand `e_slime01` reached 6/12,
+  3/12, then 0/12 and `dead=true`.
+- An upward shot into the recovered central obstacle logged
+  `Projectiles: world_hits=1 lifetime_expired=0 active=0`, confirming the
+  projectile stopped on recovered room geometry rather than passing through.
+- The dead enemy's own sprite remained for 4.0 s, then `active=false`; collision
+  and retargeting stopped immediately at death.
+- Contact with the left slime produced `Player damaged` rows at 1.5 s spacing:
+  armor 5 -> 2, HP 6 -> 5, HP 2, then HP 0 / dead.
+- The dead player did not produce any `Attack:` rows; `R` logged
+  `Combat reset`, restored HP 6 / armor 5 / spawn `(20,15)` / both enemies, and
+  attack worked again.
+- After moving left (facing left), keypad-right aim plus attack logged
+  `aim=(1.000,0.000)` while the same tick reported `facing=left`; the right
+  enemy took damage. This confirms movement, facing and aim are independent.
+- Character switching (c00 -> c01 -> c00), obstacle switching (`wall603` ->
+  `box04`), door close/open, and camera/window exercise all remained functional.
+- Every sampled `locomotion:` row had
+  `sim == render == body` and shadow offset `(0,-0.05)`; projectiles and enemies
+  are drawn from their simulation positions.
+- No upper-right stray wall geometry returned.
+
+The recovered room is smaller than the 5 s projectile lifetime in every
+direction, so wall/obstacle collision and the 5 s expiry are additionally covered
+by deterministic unit tests rather than waiting for an in-room expiry.
 
 ### Unity Texture2D conversion / native round-trip (manual)
 

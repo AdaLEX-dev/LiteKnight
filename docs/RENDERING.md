@@ -70,12 +70,13 @@ Unity Texture2D + Sprite metadata + shared atlas
   not recovered; this is a **PROJECT DECISION**.
 - The `Mat4` column-major multiplication bug that dropped camera translation was
   fixed; the projection maps world +Y up.
-- The `r1_1` scene has 482 static instances across 12 textures and 156 sprite assets:
+- The `r1_1` scene has 482 static instances across 13 textures and 176 sprite assets:
   420 recovered wall-cell sprites (140 wall cells × root/shadow/WallFont), 60
   animated door-leaf sprites (four doors × five leaf/shadow/ornament clusters),
   1 player body (recovered character frame sprites selected over time), and
   1 player shadow. The active obstacle field adds 147 wall603 sprites for the
-  49 marker cells. The initial all-open state draws 589 instances because the
+  49 marker cells. Two e_slime01 fixtures add four body/shadow sprites. The
+  all-open combat scene draws 593 instances because the
   recovered open clip hides 40 door shadow/ornament renderers.
 - The player uses recovered `c00..c14` `ide`/`run` clips (30 clips total). For
   c00 the real `char_1_skin_0_ide`/`run` clips use four discrete keys at `0`,
@@ -120,6 +121,18 @@ The native animation model is deliberately separate from sprite and texture data
 - This implements only the evidence-backed idle/run paths, not a general Unity
   Animator clone. `analysis/assets/animation.md` records the exact IDs, binding,
   mapping, streamed curve values, hashes, and remaining UNKNOWNs.
+- Sprite `flip_x`/`flip_y` mirrors the quad geometry around the pivot and swaps
+  UVs. UV-only flipping is incorrect for asymmetric pivots: the recovered c00
+  character pivot is `x=0.6`, and UV-only mirroring shifted the body about 0.4
+  world units away from the shadow when facing changed. The regression test
+  `Sprite flips mirror geometry around the pivot` covers this.
+- Projectiles use the recovered `bullet_5` sprite and the existing SpriteBatch.
+  Their draw position is exactly `Projectile.position`; there is no second
+  transform system. Enemy body/shadow draws use `EnemyInstance.position`
+  directly. Player body/shadow continue to use `PlayerRenderSync` with only the
+  recovered `(0,-0.05)` shadow offset.
+- The player body animation is evaluated after the fixed step, then the body
+  sprite is flipped according to `FacingDirection`; the shadow is never flipped.
 
 Player movement is fixed-step keyboard input only:
 

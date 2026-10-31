@@ -239,12 +239,12 @@ for tests.
 
 The native executable was driven with real SDL keyboard events through
 `/dev/uinput` (`ydotool`) against the focused Wayland window. The current
-topology run renders 482 static instances (plus 147 active obstacle sprites) / 156 sprite assets / 12 textures and logs:
+topology/combat run renders 482 static instances (plus 147 active obstacle sprites and two e_slime01 fixtures) / 176 sprite assets / 13 textures and logs:
 
 ```text
 Collision: bounds [0.00,0.00]..[41.00,41.00], recovered solids=140, obstacle cells=49, doors=4, topology=true
 Room interior: [12.50,13.00]..[27.50,28.00]
-Render batch: 589 sprite instances   (open clip hides 40 door shadows/ornaments)
+Render batch: 593 sprite instances   (open clip hides 40 door shadows/ornaments; includes two enemies)
 
 locomotion: sim=(20.000,15.000) render=(20.000,15.000)
             body=(20.000,15.000) shadow=(20.000,14.950) camera=(20.000,15.000)
@@ -318,13 +318,19 @@ additional directional animation states outside the inspected controllers.
 [ / ]          cycle all 15 recovered character prefabs c00..c14
 P              cycle the central obstacle among the 8 recoverable solid
                MapManagerLevel.obstacle_list variants (12 entries in metadata)
+J / Space / LMB attack (native test binding)
+Mouse / right stick / keypad 8,2,4,6  aim vector (native test binding; facing stays movement)
+R              reset combat state (position, HP, armor, enemies, doors)
 O              toggle OpenDoor()/CloseDoor()
 C              CloseDoor() on all four doors
 ```
 
 Character switching changes only the active body sprite/animation clips; the
 player world position, collision footprint, and camera follow state are
-untouched. Obstacle switching regenerates the same 49 marker cells from the
+untouched. Attack movement uses the recovered `RGWeapon.atk_move_speed = -0.1`
+modifier: while attack is held, `RoleAttributePlayer.speed_rate` is reduced by
+0.1, so effective speed drops from 9.75 to 9.1. Facing remains movement-driven,
+while the native aim vector is independent (mouse/right stick). Obstacle switching regenerates the same 49 marker cells from the
 selected recovered prefab and rebuilds collision from that variant. Display
 names remain CANDIDATE; the mechanism uses recovered asset IDs.
 

@@ -1744,12 +1744,28 @@
   },
   "converter_version": "1.0.0",
   "door_animation_keyframe_count": 82,
+  "enemy_definition_count": 1,
+  "enemy_fixture_count": 2,
   "instance_count": 482,
   "manifest_version": 1,
-  "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, 15 recovered character prefabs with ide/run clips, 12 obstacle_list variants, and no proprietary pixels committed.",
+  "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, 15 recovered character prefabs with ide/run clips, 12 obstacle_list variants, weapon_000/bullet_0 combat metadata, two e_slime01 test fixtures, and no proprietary pixels committed.",
   "obstacle_marker_count": 49,
   "obstacle_variant_count": 12,
-  "scene_json_sha256": "ed39c652589b66cca93ba15389fb500abaa727e34ab84b2391532d9d1af25ef9",
+  "player_stats": {
+    "armor": 5,
+    "atk": 4,
+    "camp": 1,
+    "character_id": "c00",
+    "classification": "CONFIRMED serialized c00 RoleAttributePlayer; deviation is not serialized and defaults to 0",
+    "critical": 5,
+    "deviation": 0,
+    "hp": 6,
+    "max_armor": 5,
+    "max_hp": 6,
+    "speed": 6.5,
+    "speed_rate": 0.5
+  },
+  "scene_json_sha256": "36dfc1222bbe0022e10c1fe0d3d14dcb2627a4c1156b6c9155e2fc4d6638a774",
   "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -1763,7 +1779,7 @@
     20.0,
     15.0
   ],
-  "sprite_count": 156,
+  "sprite_count": 176,
   "textures": [
     {
       "filter": "point",
@@ -1839,6 +1855,22 @@
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
       "source_path_id": "-304717225150204165",
       "width": 1024,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
+      "height": 256,
+      "id": "charactor_common_atlas",
+      "png": "textures/charactor_common_atlas.png",
+      "png_sha256": "7bf47c0b2777ad3e76246a61664c31ddb4b865bc2849f57d1640d64d4e217020",
+      "rgba8_sha256": "49b3134f0efecb751e81b65b20a74785b44a107a8889206eec938dec2dace86b",
+      "source_bundle": "res/charactor_common",
+      "source_cab": "CAB-37e7335dd38fb4b2f8ffa45ac9fc3f4e",
+      "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
+      "source_path_id": "2755411589560438748",
+      "width": 256,
       "wrap": "clamp"
     },
     {
@@ -1964,5 +1996,6 @@
     "wall_map_sha256": "1d7d10c84bfdad1855910513703176b91f895a47dd189c932387d30c8cf1e8da",
     "wall_map_txt": "analysis/re/r1_1_wall_map.txt"
   },
-  "unitypy_version": "1.25.4"
+  "unitypy_version": "1.25.4",
+  "weapon_count": 1
 }

@@ -28,6 +28,11 @@ void PrintUsage(const char* executable) {
         << "  1..9,0 (in scene mode)   switch recovered test character\n"
         << "  [ / ] (in scene mode)    cycle recovered test characters\n"
         << "  P (in scene mode)        cycle recovered obstacle variant\n"
+        << "  J / Space / LMB (in scene mode)\n"
+        << "                           native test binding for the recovered attack\n"
+        << "  Mouse / right stick / keypad 8,2,4,6\n"
+        << "                           native test aim vector (facing stays movement)\n"
+        << "  R (in scene mode)        reset combat test state\n"
         << "  --texture <asset-path>   PNG relative to the native asset root\n"
         << "  --scene <asset-path>     native scene JSON relative to the asset root\n"
         << "  --help, -h               show this help\n";

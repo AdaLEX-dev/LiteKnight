@@ -37,6 +37,12 @@ current build/test baseline is verified in `analysis/REPOSITORY_INTEGRITY_AUDIT.
 
 ## Resolved Bugs
 
+### BUG-REND-0002: Player body shifted when facing changed
+- **Severity:** P3
+- **Actual:** Flipping the player body swapped UVs only. The recovered character pivot is asymmetric (`x=0.6`), so the mirrored art shifted by roughly 0.4 world units relative to the shadow when the Knight turned left/right. This appeared as the animation/body changing while facing another way.
+- **Fix:** `BuildSpriteQuad` now mirrors local quad geometry around the pivot for `flip_x`/`flip_y` and still swaps UVs. The body stays anchored at the simulation position in both facing directions; the shadow is untouched.
+- **Regression:** `Sprite flips mirror geometry around the pivot` in `tests/unit/render_test.cpp`.
+
 ### BUG-CORE-0001: Test suite was falsely green
 - **Severity:** P0
 - **Actual:** `DOCTEST_CONFIG_DISABLE=0` compiled every test out; CTest passed with zero cases.
@@ -186,5 +192,5 @@ Hypothesis based on code inspection.
 
 ---
 
-**Last Updated:** 2026-10-30
+**Last Updated:** 2026-10-31
 **Next Triage:** After Phase 4 (Gate C)

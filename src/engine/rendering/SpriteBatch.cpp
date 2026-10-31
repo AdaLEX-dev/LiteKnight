@@ -19,10 +19,23 @@ SpriteQuad BuildSpriteQuad(const SpriteDraw& draw) {
 
     const float width = draw.size.x;
     const float height = draw.size.y;
-    const float left = -draw.pivot.x * width;
-    const float right = (1.0f - draw.pivot.x) * width;
-    const float bottom = -draw.pivot.y * height;
-    const float top = (1.0f - draw.pivot.y) * height;
+    // A flipped sprite is mirrored around its pivot, matching Unity's
+    // SpriteRenderer.flipX/flipY and the recovered 180-degree Y rotation of the
+    // player's `img` transform. Mirroring only the UVs would shift asymmetric
+    // pivots (for example the recovered player pivot x=0.6) away from the
+    // simulation position when facing changes.
+    const float left = draw.flip_x
+        ? (draw.pivot.x - 1.0f) * width
+        : -draw.pivot.x * width;
+    const float right = draw.flip_x
+        ? draw.pivot.x * width
+        : (1.0f - draw.pivot.x) * width;
+    const float bottom = draw.flip_y
+        ? (draw.pivot.y - 1.0f) * height
+        : -draw.pivot.y * height;
+    const float top = draw.flip_y
+        ? draw.pivot.y * height
+        : (1.0f - draw.pivot.y) * height;
 
     const Vec2 local[4] = {
         {left, bottom},

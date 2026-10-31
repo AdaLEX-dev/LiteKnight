@@ -377,8 +377,8 @@ role_attribute.hp = hp - dmg;
 if (role_attribute.hp <= 0) {
     role_attribute.hp = 0;
     // metadata names +0x90 "friction"; code writes 0.95f (0x3F733333)
-    // before the virtual Dead call. Do not label it "death delay" without
-    // further evidence.
+    // before the virtual Dead call. This is friction, not the death delay;
+    // dead_destory_delay_time (+0x9C) is the 4.0 s destruction timer.
     Dead(source, false);
 }
 
@@ -392,7 +392,12 @@ Evidence:
 - `Mathf.Max` at `0x1B9C314`.
 - `OnEnemyDamageProcess` virtual/callback `0x110D778`; it invokes `Func<int,bool,int>` at `+0x168`.
 - `role_attribute` at `+0xD0`; `hp` at `+0x28`; subtraction and clamp confirmed.
-- a float at `+0x90` (metadata: `friction`) is written with `0x3F733333` (≈0.95) on death; the semantic and whether another delay field is involved are unresolved.
+- a float at `+0x90` (`friction`) is written with `0x3F733333` (≈0.95) on death.
+  This is **not** the death delay. `RGEController.dead_destory_delay_time`
+  (`+0x9C`) is initialized to 4.0f in `RGEController..ctor` (`0x110A960`), and
+  `Dead` uses it for `Object.Destroy(gameObject, delay)`. `EnemyAI04.ChildDead`
+  separately invokes `DeadEvent` after serialized `later_time = 1.5` s to spawn
+  the `slime_dead` object.
 - virtual `Dead` through `+0x318/+0x320`.
 - `RGGameInfo.SendHurtEnemyMessage` tail call at `0x11092BC`.
 
@@ -525,7 +530,15 @@ which effect subclasses use `isCritic` for their own damage/status effects, and 
 - sets dead, disables the collider, calls `RemoveDelegate`,
 - invokes virtual slots at `+0x328` and `+0x3A8` (exact slot owners not yet
   identified),
-- handles network dead-message sending when multiplayer is active.
+- handles network dead-message sending when multiplayer is active,
+- disables the enemy collider immediately,
+- destroys the GameObject after `dead_destory_delay_time` (constructor default
+  4.0 s) when the destruction flag path applies. For e_slime01
+  (`destory_on_dead = 0`, `enemyTag = 66`) the runtime tag path is consistent
+  with the 4.0 s delay; the exact flag predicate remains PARTIAL.
+
+**Correction (2026-10-31):** the 0.95 value written in `GetHurt` is to
+`friction`, not a death timer. Do not describe it as a 0.95 s death delay.
 
 `RGController.Reborn` (`0x117E27C`) calls the virtual at `+0x3E8` with `true`;
 `ForceReborn` (`0x117E2B0`) calls it with `false` and removes the current weapon.
@@ -566,6 +579,8 @@ The complete chain from bullet collision to target HP is **PARTIAL**.
 | `RoleAttribute.RestoreHealth` clamps HP | CONFIRMED | `0xD3DD2C` |
 | `RoleAttributePlayer.RestoreHealth` can survive at 1 HP via `CanDie` | CONFIRMED | `0xD40418`, `0xD40718` |
 | Enemy `GetHurt` subtracts HP and calls `Dead` | HIGH CONFIDENCE | `0x1108E60` |
+| Enemy collider is disabled in `Dead` | CONFIRMED | `0x110DE18` |
+| Enemy destruction delay defaults to 4.0 s | HIGH CONFIDENCE | `0x110A960` `+0x9C`; 0.95 is `friction` |
 | `RGBulletTrigger.GetFinalDamage` multiplies effect `damageFactor` | CONFIRMED | `0x116A680` |
 | Projectile → `RGBox.Hit` box bridge | HIGH CONFIDENCE | `0x1160ADC`/`0x1160B70`; `GetComponent<RGBox>` method slot `0x3254270`; `RGBox.Hit` `0x11675F8` |
 | Projectile → `RGController.GetHurt` player bridge | CONFIRMED | `GetComponent<RGController>` `0x30E8F80`; vtable `+0x228` = slot 16; `0x11608A0` |

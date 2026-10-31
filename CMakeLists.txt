@@ -333,6 +333,14 @@ add_library(game STATIC
     src/game/room/ObstacleField.hpp
     src/game/room/RoomDoorController.cpp
     src/game/room/RoomDoorController.hpp
+    # Combat
+    src/game/combat/Damage.hpp
+    src/game/combat/ProjectileSystem.cpp
+    src/game/combat/ProjectileSystem.hpp
+    src/game/combat/Weapon.cpp
+    src/game/combat/Weapon.hpp
+    src/game/enemy/EnemySystem.cpp
+    src/game/enemy/EnemySystem.hpp
     # Characters
     # src/game/characters/CharacterData.cpp
     # src/game/characters/CharacterData.hpp
@@ -503,6 +511,7 @@ add_executable(soul-knight-test
     tests/unit/direction_test.cpp
     tests/unit/character_switch_test.cpp
     tests/unit/obstacle_field_test.cpp
+    tests/unit/combat_test.cpp
     tests/unit/animation_test.cpp
     tests/unit/locomotion_test.cpp
     # Integration tests

@@ -1,21 +1,24 @@
 # Phase 4 — Native Runtime Implementation Plan
 
 **Status:** **PARTIAL — native foundation, Unity-derived visual scene, real
-idle/run animation, keyboard locomotion, recovered wall/door/aisle geometry, and
-door traversal implemented and manually verified.** The application bootstrap,
+idle/run animation, keyboard locomotion, recovered wall/door/aisle geometry,
+door traversal, and a first-slice combat prototype implemented and manually
+verified.** The application bootstrap,
 Wayland-only SDL3 window, Vulkan 1.3 context/swapchain, 50 Hz fixed loop,
 multi-texture sprite renderer, PNG → RGBA8 texture path, Unity Texture2D/Sprite
 metadata conversion, `Camera2D`, a native `r1_1` reconstruction test scene, native
 `AnimationClip`/`AnimationPlayer` playback of `char_1_skin_0_ide`/`c00_run`,
 fixed-step keyboard movement, swept AABB collision, recovered wall/corridor/door
 solids, closed-door one-way barriers, door trigger events, idle/run switching,
-and camera follow are implemented. Combat, AI, audio, full gameplay, full
-AnimatorController semantics, the higher-level room transition listener,
-general KTX2/atlas packing, and the full asset registry are not.
+camera follow, and a weapon -> projectile -> damage -> enemy/player death combat
+loop are implemented. Full enemy AI, production game-over/reborn, audio, full
+gameplay, full AnimatorController semantics, the higher-level room transition
+listener, general KTX2/atlas packing, and the full asset registry are not.
 **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 / metadata v24.
 **Target:** CachyOS x86-64, Wayland only, Vulkan 1.3, 1920×1080, 60 FPS.
-**Gate:** Gate B remains **PARTIAL**. Gate C is **PARTIAL** — launch, present, and
-resize are manually verified; input/gameplay are not. The evidence record is
+**Gate:** Gate B remains **PARTIAL**. Gate C is **PARTIAL** — launch, present,
+input, locomotion, doors and the first-slice combat loop are manually verified;
+full gameplay is not. The evidence record is
 `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` and `docs/ASSET_PIPELINE.md`.
 
 ---
@@ -34,15 +37,17 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | Controlled Unity Texture2D | FUNCTIONAL | `extract_unity.py convert-texture`, manifest, deterministic PNG/native round-trip |
 | Unity Sprite metadata / PPU | FUNCTIONAL | `SpriteData`, `analysis/assets/sprites.md`, tests |
 | Camera / world coordinates | FUNCTIONAL | `Camera2D`, `analysis/assets/coordinate_system.md`, tests |
-| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 482 static instances + 147 active obstacle sprites (589 drawn open-door batch) |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 482 static instances + 147 active obstacle sprites + 2 enemies (593 draw batch), 176 sprites, 13 textures |
 | Player simulation/render sync | FUNCTIONAL / TESTED | `PlayerRenderSync`, `--locomotion-debug` sim/render/body/shadow/camera logs |
 | Door animation / obstacle replacement | FUNCTIONAL / MANUAL PASS | `Door`, `RoomDoorController`, recovered clips, 49 wall603 obstacles |
 | Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`; 4-key 0.5 s loops |
 | Movement / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, recovered wall/door AABBs, one-way closed doors, `Camera2D` follow |
 | Room topology / door traversal | FUNCTIONAL / MANUAL PASS | `analysis/re/room_topology.md`, `analysis/re/r1_1_wall_map.json`, `SceneLoader`, `AabbCollision` |
+| Combat prototype | FUNCTIONAL / MANUAL PASS | `Weapon`, `ProjectileSystem`, `Damage`, `EnemySystem`; `analysis/re/combat_prototype.md` |
 | Higher-level room transition listener / adjacent room | NOT STARTED | next bounded investigation |
 | Full Animator / registry / KTX2 | NOT STARTED | next dependencies |
-| Audio/UI/gameplay | NOT STARTED | deliberate boundary |
+| Full enemy AI / room clear / game-over UI | NOT STARTED | deliberate boundary |
+| Audio/UI/full gameplay | NOT STARTED | deliberate boundary |
 
 Do not read this table as parity. The reference layer order and native rendering
 mechanism are **PROJECT DECISION** unless explicitly marked otherwise.

@@ -153,7 +153,7 @@ texture bytes are written. The committed native metadata is
 Deterministic scene generation:
 
 - Scene metadata SHA-256 (current topology pass):
-  `ed39c652589b66cca93ba15389fb500abaa727e34ab84b2391532d9d1af25ef9`
+  `36dfc1222bbe0022e10c1fe0d3d14dcb2627a4c1156b6c9155e2fc4d6638a774`
 - Idle animation metadata SHA-256:
   `ed7a2eea3800ee41186fb73f93936936b7e427843598f18271116434b1e0ffbb`
 - Run animation metadata SHA-256:
@@ -253,8 +253,10 @@ the `img` transform rather than the SpriteRenderer flag.
 Native implementation: a horizontal `FacingDirection::{Right,Left}` model is
 resolved from the movement vector's X sign; pure vertical input retains the last
 horizontal facing. Rendering applies `flip_x` to the player body only, which is
-the equivalent 2D projection of the recovered Y rotation. The shadow is not
-flipped. Some recovered character frames have a tight-crop adjusted pivot
+the equivalent 2D projection of the recovered Y rotation. The flip mirrors the
+quad geometry around the sprite pivot **and** swaps UVs; UV-only flipping shifted
+the asymmetric c00 pivot (`x=0.6`) relative to the shadow when facing changed.
+The shadow is not flipped. Some recovered character frames have a tight-crop adjusted pivot
 slightly outside the texture rect (for example c04_4 y=-0.037); the native
 builder clamps it to `[0,1]` for the renderable quad. The serialized
 `source_pivot` is retained in the metadata, so this is a documented rendering

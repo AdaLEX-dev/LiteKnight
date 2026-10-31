@@ -7,6 +7,32 @@ Session: Initial reconnaissance
 
 ---
 
+## 2026-10-31 — First Playable Combat Prototype
+
+- Recovered the held attack path `RGJoyControl.UpdateBtnAtkClick ->
+  RGController.BtnAtkClick -> RGWeapon.SetAttack -> AttackStart/Stop ->
+  set_atk_b -> Gun001.Attack`.
+- Recovered weapon_000's cadence directly from its AnimatorController:
+  `w_pistol` loops for 1/3 s and its `Attack` AnimationEvent fires at 1/30 s.
+  `RGWeapon.Start` speed factors are 1.0 for this prefab/player.
+- Corrected the spread field: `RoleAttribute.deviation * (weapon.deviation+1)`;
+  c00's attribute deviation is 0, so weapon_000 has 0° spread.
+- Implemented native `Weapon`, `ProjectileSystem`, `HealthState`, and
+  `EnemySystem`; effective bullet speed 36 (prefab 10 retained), damage 3,
+  lifetime 5 s; deterministic swept collision and wall-order target rejection.
+- Added two explicit `e_slime01` fixtures (hp 12, contact 3/1.5 s) with dead
+  sprite, immediate collision disable, and 4.0 s despawn. Corrected the earlier
+  0.95 death-delay claim: 0.95 is `friction`; `dead_destory_delay_time` defaults
+  to 4.0 s.
+- Added player contact damage/death/reset (`R`) and a native aim vector
+  (mouse/right stick) separate from movement/facing.
+- Fixed the body-shift regression on facing changes by mirroring sprite quad
+  geometry around the pivot, not only UVs.
+- Evidence: `analysis/re/combat_prototype.md`; tests: 84 cases / 4759
+  assertions in RelWithDebInfo and Debug ASan/UBSan.
+
+---
+
 ## Session Summary
 
 **Date:** 2026-10-30

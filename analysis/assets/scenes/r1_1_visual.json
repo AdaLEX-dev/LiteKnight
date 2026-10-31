@@ -48,6 +48,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_0_skin_0",
       "controller_path_id": "7636633949607769228",
+      "dead_sprite": "c01_8_-3060927491772971668",
       "id": "c00",
       "idle_animation": "c00_idle",
       "run_animation": "c00_run",
@@ -58,6 +59,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_1_skin_0",
       "controller_path_id": "4544909861760622252",
+      "dead_sprite": "c02_12_-4566108353330725342",
       "id": "c01",
       "idle_animation": "c01_idle",
       "run_animation": "c01_run",
@@ -68,6 +70,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_2_skin_9",
       "controller_path_id": "642608917832470274",
+      "dead_sprite": "c03_s9_8_487300314718891922",
       "id": "c02",
       "idle_animation": "c02_idle",
       "run_animation": "c02_run",
@@ -78,6 +81,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_3_skin_0",
       "controller_path_id": "5825952770403818906",
+      "dead_sprite": "c04_8_2941712870547867169",
       "id": "c03",
       "idle_animation": "c03_idle",
       "run_animation": "c03_run",
@@ -88,6 +92,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_4_skin_6",
       "controller_path_id": "2335676690781087344",
+      "dead_sprite": "c05_s7_8_4246808436877579121",
       "id": "c04",
       "idle_animation": "c04_idle",
       "run_animation": "c04_run",
@@ -98,6 +103,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_5_skin_0",
       "controller_path_id": "5041898125028767678",
+      "dead_sprite": "c06_8_-1544188320726130366",
       "id": "c05",
       "idle_animation": "c05_idle",
       "run_animation": "c05_run",
@@ -108,6 +114,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_6_skin_8",
       "controller_path_id": "6442956300685693679",
+      "dead_sprite": "c07_s8_8_8832478288807169244",
       "id": "c06",
       "idle_animation": "c06_idle",
       "run_animation": "c06_run",
@@ -118,6 +125,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_7_skin_0",
       "controller_path_id": "3758672382458874556",
+      "dead_sprite": "c08_8_-6409065126302074367",
       "id": "c07",
       "idle_animation": "c07_idle",
       "run_animation": "c07_run",
@@ -128,6 +136,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_8_skin_7",
       "controller_path_id": "6928425595976413047",
+      "dead_sprite": "c09_s7_8_-4663798734321013105",
       "id": "c08",
       "idle_animation": "c08_idle",
       "run_animation": "c08_run",
@@ -138,6 +147,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_9_skin_0",
       "controller_path_id": "-6150109766992458398",
+      "dead_sprite": "c10_8_7440815215802235236",
       "id": "c09",
       "idle_animation": "c09_idle",
       "run_animation": "c09_run",
@@ -148,6 +158,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_10_skin_0",
       "controller_path_id": "6298006729416303932",
+      "dead_sprite": "c11_8_-2929463278745239023",
       "id": "c10",
       "idle_animation": "c10_idle",
       "run_animation": "c10_run",
@@ -158,6 +169,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_11_skin_6",
       "controller_path_id": "1872923863050452248",
+      "dead_sprite": "c12_s6_8_-117899815933696297",
       "id": "c11",
       "idle_animation": "c11_idle",
       "run_animation": "c11_run",
@@ -168,6 +180,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_12_skin_0",
       "controller_path_id": "4891092779523587718",
+      "dead_sprite": "c13_8_-5748865747657373273",
       "id": "c12",
       "idle_animation": "c12_idle",
       "run_animation": "c12_run",
@@ -178,6 +191,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_13_skin_7",
       "controller_path_id": "6024769279351972702",
+      "dead_sprite": "c14_s7_8_-42999903250018685",
       "id": "c13",
       "idle_animation": "c13_idle",
       "run_animation": "c13_run",
@@ -188,6 +202,7 @@
       "classification": "CONFIRMED serialized c00..c14 character prefabs from the common bundle; display names are not proven",
       "controller_name": "char_14_skin_0",
       "controller_path_id": "-2501557774459474140",
+      "dead_sprite": "c15_s0_8_-6836897207488494262",
       "id": "c14",
       "idle_animation": "c14_idle",
       "run_animation": "c14_run",
@@ -1741,6 +1756,60 @@
       }
     }
   },
+  "enemy_definitions": [
+    {
+      "body_sorting_layer": 5,
+      "body_sorting_order": 1,
+      "body_sprite": "enemy01_4_6916287646018367429",
+      "camp": 0,
+      "classification": "CONFIRMED e_slime01/EnemyAI04/RoleAttribute (hp 12, speed 3, camp 0, contact 3 every 1.5 s); collider disabled in RGEController.Dead; dead_destory_delay_time defaults to 4.0 s (the 0.95 write is friction, not a death delay)",
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "dead_sprite": "enemy01_6_3055012132422103371",
+      "death_despawn_delay": 4.0,
+      "hp": 12,
+      "id": "e_slime01",
+      "idle_sprites": [
+        {
+          "sprite": "enemy01_4_6916287646018367429",
+          "time": 0.0
+        },
+        {
+          "sprite": "enemy01_5_6021534728871174347",
+          "time": 0.25
+        }
+      ],
+      "path_id": "-7421755869818940729",
+      "shadow_sorting_layer": 3,
+      "shadow_sorting_order": 0,
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "speed": 3
+    }
+  ],
+  "enemy_fixtures": [
+    {
+      "definition": "e_slime01",
+      "position": [
+        18.0,
+        15.5
+      ]
+    },
+    {
+      "definition": "e_slime01",
+      "position": [
+        22.0,
+        15.5
+      ]
+    }
+  ],
   "id": "r1_1_visual",
   "instances": [
     {
@@ -14777,6 +14846,20 @@
       }
     ]
   },
+  "player_stats": {
+    "armor": 5,
+    "atk": 4,
+    "camp": 1,
+    "character_id": "c00",
+    "classification": "CONFIRMED serialized c00 RoleAttributePlayer; deviation is not serialized and defaults to 0",
+    "critical": 5,
+    "deviation": 0,
+    "hp": 6,
+    "max_armor": 5,
+    "max_hp": 6,
+    "speed": 6.5,
+    "speed_rate": 0.5
+  },
   "source_player": "common/c00",
   "source_room": "room/r1_1",
   "spawn": [
@@ -16098,6 +16181,186 @@
         0.0
       ],
       "filter": "point",
+      "id": "bullet_5_-4268214305387315619",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        906.0,
+        47.0,
+        18.0,
+        9.0
+      ],
+      "source_name": "bullet_5",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        54.0,
+        115.0,
+        18.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        906.0,
+        456.0,
+        18.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-4268214305387315619",
+      "texture": "auto_atlas_m304717225150204165",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "enemy01_4_6916287646018367429",
+      "pivot": [
+        0.5503835212612179,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        126.07611846923828,
+        45.02676010131836,
+        19.847759246826172,
+        15.89712905883789
+      ],
+      "source_name": "enemy01_4",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        126.07611846923828,
+        195.07611083984375,
+        19.847759246826172,
+        15.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        5.076120376586914,
+        0.07611846923828125
+      ],
+      "sprite_path_id": "6916287646018367429",
+      "texture": "charactor_common_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "enemy01_5_6021534728871174347",
+      "pivot": [
+        0.5560295493411287,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.07611846923828125,
+        141.02675247192383,
+        17.847759246826172,
+        17.89712905883789
+      ],
+      "source_name": "enemy01_5",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        32.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        0.07611846923828125,
+        97.07611846923828,
+        17.847759246826172,
+        17.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        6.076118469238281,
+        0.07611846923828125
+      ],
+      "sprite_path_id": "6021534728871174347",
+      "texture": "charactor_common_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "enemy01_6_3055012132422103371",
+      "pivot": [
+        0.5000000598895709,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        173.07611083984375,
+        99.0267505645752,
+        31.847759246826172,
+        10.973249435424805
+      ],
+      "source_name": "enemy01_6",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        64.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        173.07611083984375,
+        146.0,
+        31.847759246826172,
+        10.973249435424805
+      ],
+      "source_texture_rect_offset": [
+        0.07611846923828125,
+        0.0
+      ],
+      "sprite_path_id": "3055012132422103371",
+      "texture": "charactor_common_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c01_5_6827566613129973144",
       "pivot": [
         0.5053794491730609,
@@ -16458,6 +16721,96 @@
         0.0
       ],
       "filter": "point",
+      "id": "biaoqing_11_6962225712603698694",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        982.0,
+        210.0,
+        16.0,
+        15.0
+      ],
+      "source_name": "biaoqing_11",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        107.0,
+        41.0,
+        16.0,
+        15.0
+      ],
+      "source_texture_rect": [
+        982.0,
+        287.0,
+        16.0,
+        15.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "6962225712603698694",
+      "texture": "auto_atlas_m304717225150204165",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c01_8_-3060927491772971668",
+      "pivot": [
+        0.44818024509528076,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1794.0267333984375,
+        907.0267524719238,
+        28.94649887084961,
+        23.94649887084961
+      ],
+      "source_name": "c01_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1794.0267333984375,
+        93.02674865722656,
+        28.94649887084961,
+        23.94649887084961
+      ],
+      "source_texture_rect_offset": [
+        3.0267510414123535,
+        1.0267524719238281
+      ],
+      "sprite_path_id": "-3060927491772971668",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c02_4_2533696368722729423",
       "pivot": [
         0.5179827452211397,
@@ -16807,6 +17160,51 @@
         0.07611846923828125
       ],
       "sprite_path_id": "5749798887316269348",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c02_12_-4566108353330725342",
+      "pivot": [
+        0.5156534435298971,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1022.0761108398438,
+        359.02676010131836,
+        30.880971908569336,
+        25.89712905883789
+      ],
+      "source_name": "c02_12",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        0.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1022.0761108398438,
+        639.0761108398438,
+        30.880971908569336,
+        25.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        0.07612049579620361,
+        0.07612049579620361
+      ],
+      "sprite_path_id": "-4566108353330725342",
       "texture": "character_atlas",
       "wrap": "clamp"
     },
@@ -17223,6 +17621,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "c03_s9_8_487300314718891922",
+      "pivot": [
+        0.5005937815773421,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        3.0335004329681396,
+        79.04290747642517,
+        35.890377044677734,
+        22.9141845703125
+      ],
+      "source_name": "c03_s9_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        0.0,
+        42.0,
+        34.0
+      ],
+      "source_texture_rect": [
+        3.0335004329681396,
+        0.0429079532623291,
+        35.890377044677734,
+        22.9141845703125
+      ],
+      "source_texture_rect_offset": [
+        3.0335004329681396,
+        0.0429079532623291
+      ],
+      "sprite_path_id": "487300314718891922",
+      "texture": "auto_atlas_8145931484269276276",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c04_4_-7867999071091526313",
       "pivot": [
         0.5422236311445211,
@@ -17572,6 +18015,51 @@
         0.07611846923828125
       ],
       "sprite_path_id": "-5597364587392989112",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c04_8_2941712870547867169",
+      "pivot": [
+        0.48260049146306433,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1856.076171875,
+        944.036283493042,
+        30.923879623413086,
+        22.88759422302246
+      ],
+      "source_name": "c04_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1856.076171875,
+        57.07612228393555,
+        30.923879623413086,
+        22.88759422302246
+      ],
+      "source_texture_rect_offset": [
+        1.0761204957962036,
+        0.07612228393554688
+      ],
+      "sprite_path_id": "2941712870547867169",
       "texture": "character_atlas",
       "wrap": "clamp"
     },
@@ -17988,6 +18476,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "c05_s7_8_4246808436877579121",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        71.07612037658691,
+        32.0,
+        24.923879623413086
+      ],
+      "source_name": "c05_s7_8",
+      "source_pivot": [
+        0.5,
+        -0.07500000298023224
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        32.0,
+        32.0,
+        24.923879623413086
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "4246808436877579121",
+      "texture": "auto_atlas_1719784523446444581",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c06_4_-3777194365302842433",
       "pivot": [
         0.6143936071022089,
@@ -18337,6 +18870,51 @@
         0.07611846923828125
       ],
       "sprite_path_id": "-782173388071584013",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c06_8_-1544188320726130366",
+      "pivot": [
+        0.48280209303830884,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1355.076171875,
+        522.0761203765869,
+        30.910966873168945,
+        22.923879623413086
+      ],
+      "source_name": "c06_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1355.076171875,
+        479.0,
+        30.910966873168945,
+        22.923879623413086
+      ],
+      "source_texture_rect_offset": [
+        1.0761204957962036,
+        0.0
+      ],
+      "sprite_path_id": "-1544188320726130366",
       "texture": "character_atlas",
       "wrap": "clamp"
     },
@@ -18753,6 +19331,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "c07_s8_8_8832478288807169244",
+      "pivot": [
+        0.4569556755076282,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        18.076120376586914,
+        71.07612037658691,
+        34.847755432128906,
+        24.923879623413086
+      ],
+      "source_name": "c07_s8_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        0.0,
+        68.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        18.076120376586914,
+        0.0,
+        34.847755432128906,
+        24.923879623413086
+      ],
+      "source_texture_rect_offset": [
+        18.076120376586914,
+        0.0
+      ],
+      "sprite_path_id": "8832478288807169244",
+      "texture": "auto_atlas_m5982969649399678507",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c08_4_3710336989381504109",
       "pivot": [
         0.5008256454698417,
@@ -19147,6 +19770,51 @@
         0.07611846923828125
       ],
       "sprite_path_id": "-1509495560773008250",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c08_8_-6409065126302074367",
+      "pivot": [
+        0.4837913634112425,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1211.076171875,
+        439.0267505645752,
+        30.847759246826172,
+        22.930341720581055
+      ],
+      "source_name": "c08_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1211.076171875,
+        562.0429077148438,
+        30.847759246826172,
+        22.930341720581055
+      ],
+      "source_texture_rect_offset": [
+        1.0761204957962036,
+        1.04290771484375
+      ],
+      "sprite_path_id": "-6409065126302074367",
       "texture": "character_atlas",
       "wrap": "clamp"
     },
@@ -19563,6 +20231,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "c09_s7_8_-4663798734321013105",
+      "pivot": [
+        0.5478899424986559,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.1493491530418396,
+        72.01291275024414,
+        31.850650787353516,
+        23.98708724975586
+      ],
+      "source_name": "c09_s7_8",
+      "source_pivot": [
+        0.550000011920929,
+        -0.05999999865889549
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        0.1493491530418396,
+        32.0,
+        31.850650787353516,
+        23.98708724975586
+      ],
+      "source_texture_rect_offset": [
+        0.1493491530418396,
+        0.0
+      ],
+      "sprite_path_id": "-4663798734321013105",
+      "texture": "auto_atlas_m2523084235641821235",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c10_4_2246788773732299709",
       "pivot": [
         0.5566589889660383,
@@ -19923,6 +20636,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "c10_8_7440815215802235236",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1284.0,
+        656.0761299133301,
+        32.0,
+        24.847759246826172
+      ],
+      "source_name": "c10_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1284.0,
+        343.07611083984375,
+        32.0,
+        24.847759246826172
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.07612228393554688
+      ],
+      "sprite_path_id": "7440815215802235236",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c11_4_1481129277041277472",
       "pivot": [
         0.46503885511751913,
@@ -20272,6 +21030,51 @@
         0.07611846923828125
       ],
       "sprite_path_id": "8974636207079876836",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c11_8_-2929463278745239023",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1423.0,
+        800.0267601013184,
+        32.0,
+        24.89712905883789
+      ],
+      "source_name": "c11_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1423.0,
+        199.07611083984375,
+        32.0,
+        24.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        2.0761184692382812
+      ],
+      "sprite_path_id": "-2929463278745239023",
       "texture": "character_atlas",
       "wrap": "clamp"
     },
@@ -20688,6 +21491,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "c12_s6_8_-117899815933696297",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1046.0,
+        743.0267562866211,
+        34.0,
+        24.92554473876953
+      ],
+      "source_name": "c12_s6_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        1.0,
+        30.0,
+        34.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1046.0,
+        256.0476989746094,
+        34.0,
+        24.92554473876953
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.04770469665527344
+      ],
+      "sprite_path_id": "-117899815933696297",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c13_0_-5666529826470317902",
       "pivot": [
         0.5367308201144116,
@@ -21037,6 +21885,51 @@
         0.0
       ],
       "sprite_path_id": "-4232664596238525539",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c13_8_-5748865747657373273",
+      "pivot": [
+        0.4813723668170133,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1578.1492919921875,
+        734.0761203765869,
+        30.850650787353516,
+        20.923879623413086
+      ],
+      "source_name": "c13_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1578.1492919921875,
+        269.0,
+        30.850650787353516,
+        20.923879623413086
+      ],
+      "source_texture_rect_offset": [
+        1.1493492126464844,
+        0.0
+      ],
+      "sprite_path_id": "-5748865747657373273",
       "texture": "character_atlas",
       "wrap": "clamp"
     },
@@ -21453,6 +22346,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "c14_s7_8_-42999903250018685",
+      "pivot": [
+        0.4995816596762514,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.02675098180770874,
+        71.00597190856934,
+        31.973249435424805,
+        24.994028091430664
+      ],
+      "source_name": "c14_s7_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        0.02675098180770874,
+        32.0,
+        31.973249435424805,
+        24.994028091430664
+      ],
+      "source_texture_rect_offset": [
+        0.02675098180770874,
+        0.0
+      ],
+      "sprite_path_id": "-42999903250018685",
+      "texture": "auto_atlas_m1477371714499098320",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "c15_s0_5_-7812027089734984391",
       "pivot": [
         0.5000000684919966,
@@ -21804,6 +22742,51 @@
       "sprite_path_id": "8189770355392506394",
       "texture": "character_atlas",
       "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c15_s0_8_-6836897207488494262",
+      "pivot": [
+        0.5173995046820089,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1298.0,
+        472.0267505645752,
+        30.923879623413086,
+        20.973249435424805
+      ],
+      "source_name": "c15_s0_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        32.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        1298.0,
+        531.0,
+        30.923879623413086,
+        20.973249435424805
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-6836897207488494262",
+      "texture": "character_atlas",
+      "wrap": "clamp"
     }
   ],
   "textures": [
@@ -21881,6 +22864,22 @@
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
       "source_path_id": "-304717225150204165",
       "width": 1024,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
+      "height": 256,
+      "id": "charactor_common_atlas",
+      "png": "textures/charactor_common_atlas.png",
+      "png_sha256": "7bf47c0b2777ad3e76246a61664c31ddb4b865bc2849f57d1640d64d4e217020",
+      "rgba8_sha256": "49b3134f0efecb751e81b65b20a74785b44a107a8889206eec938dec2dace86b",
+      "source_bundle": "res/charactor_common",
+      "source_cab": "CAB-37e7335dd38fb4b2f8ffa45ac9fc3f4e",
+      "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
+      "source_path_id": "2755411589560438748",
+      "width": 256,
       "wrap": "clamp"
     },
     {
@@ -25953,5 +26952,42 @@
         }
       ]
     }
-  }
+  },
+  "weapons": [
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.3333333432674408,
+      "bullet_speed": 36.0,
+      "classification": "CONFIRMED weapon_000/Gun001 serialized fields; w_pistol Animator state loops for 0.333333 s with Attack event at 0.033333 s; weapon_speed 1.0",
+      "consume": 0,
+      "damage": 3,
+      "deviation": 5,
+      "first_shot_delay_seconds": 0.03333333507180214,
+      "id": "weapon_000",
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_0/Bullet01 prefab; serialized speed 10 is overridden to 36 by weapon_000 BulletInfo",
+        "collider_offset": [
+          0.25,
+          0.0
+        ],
+        "collider_size": [
+          0.5,
+          0.4000000059604645
+        ],
+        "id": "bullet_0",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_5_-4268214305387315619"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "through": 0,
+      "weapon_speed": 1.0
+    }
+  ]
 }

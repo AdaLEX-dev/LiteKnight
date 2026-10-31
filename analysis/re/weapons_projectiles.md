@@ -215,10 +215,14 @@ For `weapon_000`, `RGWeapon.get_bullet_speed` returns **36.0** (the serialized
 Observed:
 
 - `deviation = RGWeapon.deviation` (`+0x48`), value 5 for `weapon_000`.
-- Reads a controller/hand value at `+0x2c`; computes
-  `spread = deviation * (value + 1)`.
+- Reads `RoleAttribute.deviation` at `+0x2c` (obtained through the controller
+  virtual at `+0x1a8`); computes
+  `spread = RoleAttribute.deviation * weapon.deviation + RoleAttribute.deviation`,
+  i.e. `attribute.deviation * (weapon.deviation + 1)`.
 - Calls `RGRandom.Range(-spread, +spread)` (`0xDE93DC`) for the actual angle
-  offset.
+  offset. c00 does not serialize `deviation`; `RoleAttribute..ctor` leaves it at
+  0, so weapon_000's effective spread is 0° for c00. The serialized
+  `deviation = 5` is a multiplier on the player deviation, not a standalone ±5°.
 - Calls a weapon virtual at `+0x558` (likely `GetBulletInfo`/decorated info) and
   `BulletInfoInspector.GetBulletInfo` (`0x14BFF30`), which copies
   `BulletInfoInspector.speed` into `BulletInfo.speed` (`+0x28`).
@@ -227,10 +231,10 @@ Observed:
 - Calls `RGWeapon.BulletCreateEvent` (`0xF9058C`) and, if `has_trail`, clears the
   trail renderer.
 
-The exact field at controller `+0x2c` is not proven to be `fixed_angle`; treat the
-spread formula as HIGH CONFIDENCE structure, with field identity PARTIAL. For
-`weapon_000`, the serialized deviation is 5 degrees and the base angle is the
-controller's current/fixed aim angle.
+The `+0x2c` read is `RoleAttribute.deviation` (via `get_attribute`), not
+`fixed_angle`. The base angle is `RGBaseController.fixed_angle` (`+0x38`), set by
+`RGController.AutoLock`. For weapon_000/c00 the serialized deviation is 5 but the
+effective spread is 0° because the player deviation is 0.
 
 ### 6.4 Speed resolution
 
@@ -251,15 +255,37 @@ Other weapons may consume energy/ammo; that is not needed for the first slice.
 `RGWeapon.SetAttack` checks the hand/controller state and consume count, but the
 exact energy-warning branch is PARTIAL.
 
-### 6.6 Cadence/cooldown
+### 6.6 Cadence/cooldown — RECOVERED
 
-`RGWeapon` exposes `weapon_speed` (`+0x50`) and `atk_move_speed` (`+0x54`);
-`RoleAttributePlayer` has `atk_speed` (`+0x74`). `SetAttack`/`AttackKeyDown`/
-`AttackStart` manage the attack pressed state and a speed modifier, but the exact
-cooldown interval formula was **not recovered** from the static path. Do not claim
-a fire rate. For the first slice, use an explicit native interval labelled
-`HYPOTHESIS`/approximation, or drive attacks from the player input edge and record
-the deviation from reference.
+`weapon_000` uses AnimatorController `weapon_pistol`:
+
+```text
+default state: w_ide (duration 0)
+attack state:  w_pistol, loop, duration 0.333333343 s
+AnimationEvent: Attack at 0.033333335 s
+```
+
+`RGWeapon.Start` (`0xF88BC0`) sets:
+
+```text
+Animator.speed = weapon_speed
+               * controllerAtkSpeed
+               * _speedFactor
+               * _buffAtkSpeedFactor
+```
+
+`weapon_000.weapon_speed = 1.0`; `RGWeapon..ctor` (`0xF919CC`) initializes both
+speed factors to 1.0; `RoleAttributePlayer..ctor` (`0xD41564`) initializes
+`atk_speed` to 1.0. Therefore the recovered firing cadence is:
+
+```text
+first shot:  1/30 s after entering w_pistol
+repeat:      one shot every 1/3 s while attack is held
+```
+
+`atk_move_speed = -0.1` is a movement modifier: `AttackStart` adds it to
+`RoleAttributePlayer.speed_rate` (`+0x20`) and `AttackStop` subtracts it. It is
+not recoil or projectile spread.
 
 ### 6.7 Rebound/through/lifetime
 
@@ -274,13 +300,15 @@ the deviation from reference.
 
 ### 6.8 Remaining weapon/projectile blockers
 
-- exact `RGWeapon`/`RGHand` attack cooldown formula,
-- exact `value` field used in the spread formula,
-- exact `RGBullet` initial velocity composition and rebound/through integration,
-- full `Gun001` ammo/consume and special-weapon branches.
+- exact `RGBullet` initial velocity composition and Rigidbody2D integration,
+- rebound/through/reflection effect-trigger bodies,
+- full `Gun001` ammo/consume and special-weapon branches,
+- exact Unity input button name and right-stick/aim routing in `RGJoyControl`,
+- exact runtime RGRandom seed for weapon spread.
 
-These are named; `weapon_000`/`bullet_0` is still the best confirmed first-slice
-pair.
+`weapon_000`/`bullet_0` is still the best confirmed first-slice pair. The native
+combat prototype uses the recovered 1/3 s cycle and 1/30 s first-shot event with
+a deterministic swept-collision approximation.
 
 ## 7. Confidence
 
@@ -293,5 +321,8 @@ pair.
 | `RGBullet.UpdateInfo` field copies | HIGH CONFIDENCE | `0x1168000` disassembly |
 | Effective projectile speed | HIGH CONFIDENCE | `RGBullet.UpdateInfo` copies BulletInfo speed 36 into `+0x7C`; prefab 10 is default |
 | Attack → fire path | HIGH CONFIDENCE | `Gun001.Attack` → `CreateBullet` → `BulletFactory.TakeBullet` |
-| Fire cooldown/ammo | PARTIAL | `consume=0`; cooldown formula not recovered |
+| Fire cooldown | CONFIRMED | `weapon_pistol` Animator `w_pistol` 1/3 s loop + `Attack` event at 1/30 s; factors 1.0 |
+| Ammo/consume | CONFIRMED for weapon_000 | serialized `consume=0` |
+| Spread formula | CONFIRMED | `attribute.deviation * (weapon.deviation+1)`; c00 attribute deviation 0 |
+| Rigidbody2D/rebound parity | UNKNOWN | native swept linear movement + static-solid blocking |
 | Display name / Knight starting weapon | CANDIDATE/UNRESOLVED | no serialized item-name mapping |

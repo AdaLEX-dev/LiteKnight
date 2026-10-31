@@ -17,6 +17,10 @@
 #include "engine/rendering/PlayerRenderSync.hpp"
 #include "engine/rendering/SpriteBatch.hpp"
 #include "engine/rendering/SpriteRenderer.hpp"
+#include "game/combat/Damage.hpp"
+#include "game/combat/ProjectileSystem.hpp"
+#include "game/combat/Weapon.hpp"
+#include "game/enemy/EnemySystem.hpp"
 #include "game/player/PlayerCharacterSet.hpp"
 #include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
@@ -64,6 +68,8 @@ private:
     void SwitchCharacter(std::size_t index);
     void CycleCharacter(int delta);
     void CycleObstacleVariant();
+    void ResetCombat();
+    void UpdateAimInput();
     bool SmokeTestExpired() const;
 
     AppConfig config_;
@@ -81,8 +87,16 @@ private:
     soulknight::game::room::RoomDoorController room_doors_;
     soulknight::game::room::ObstacleField obstacles_;
     soulknight::game::player::PlayerCharacterSet player_characters_;
+    soulknight::game::combat::Weapon weapon_;
+    soulknight::game::combat::ProjectileSystem projectiles_;
+    soulknight::game::enemy::EnemySystem enemies_;
+    soulknight::game::combat::HealthState player_health_;
+    engine::Vec2 aim_direction_{1.0f, 0.0f};
+    bool mouse_aim_valid_ = false;
     engine::locomotion::FacingDirection facing_ =
         engine::locomotion::FacingDirection::Right;
+    bool player_dead_ = false;
+    bool attack_held_ = false;
     std::vector<bool> door_trigger_inside_;
     platform::InputManager input_manager_;
     platform::MovementInput movement_input_;

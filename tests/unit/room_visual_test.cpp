@@ -249,3 +249,40 @@ TEST_CASE("r1_1 carries recovered character assets and animation pairs" *
     const Json& animations = scene["animations"];
     CHECK(animations.size() == 30);
 }
+
+TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *
+          doctest::test_suite("unit")) {
+    const Json scene = LoadScene();
+    const Json& player = scene["player_stats"];
+    CHECK(player.value("character_id", "") == "c00");
+    CHECK(player.value("max_hp", 0) == 6);
+    CHECK(player.value("max_armor", 0) == 5);
+    CHECK(player.value("camp", 0) == 1);
+    CHECK(player.value("deviation", -1) == 0);
+
+    CHECK(scene["weapons"].size() == 1);
+    const Json& weapon = scene["weapons"].at(0);
+    CHECK(weapon.value("id", "") == "weapon_000");
+    CHECK(weapon.value("damage", 0) == 3);
+    CHECK(weapon.value("deviation", 0) == 5);
+    CHECK(weapon.value("owner_deviation", -1) == 0);
+    CHECK(weapon.value("consume", -1) == 0);
+    CHECK(weapon.value("attack_cycle_seconds", 0.0) ==
+          doctest::Approx(1.0 / 3.0).epsilon(1e-5));
+    CHECK(weapon.value("first_shot_delay_seconds", 0.0) ==
+          doctest::Approx(1.0 / 30.0).epsilon(1e-5));
+    const Json& projectile = weapon["projectile"];
+    CHECK(projectile.value("id", "") == "bullet_0");
+    CHECK(projectile.value("prefab_speed", 0.0) == doctest::Approx(10.0));
+    CHECK(projectile.value("lifetime", 0.0) == doctest::Approx(5.0));
+
+    CHECK(scene["enemy_definitions"].size() == 1);
+    const Json& enemy = scene["enemy_definitions"].at(0);
+    CHECK(enemy.value("id", "") == "e_slime01");
+    CHECK(enemy.value("hp", 0) == 12);
+    CHECK(enemy.value("camp", 0) == 0);
+    CHECK(enemy.value("contact_damage", 0) == 3);
+    CHECK(enemy.value("contact_cooldown", 0.0) == doctest::Approx(1.5));
+    CHECK(enemy.value("death_despawn_delay", 0.0) == doctest::Approx(4.0));
+    CHECK(scene["enemy_fixtures"].size() == 2);
+}

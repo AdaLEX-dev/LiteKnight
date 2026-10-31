@@ -1,9 +1,9 @@
 # Performance Plan
 
 **Target:** 60 FPS / 16.6667 ms frame at 1920×1080; simulation fixed at 50 Hz.
-**Status:** the native Phase 4 renderer and fixed-step locomotion test scene have been measured on one machine
-(Intel UHD 620, KWin/Wayland, 1.25 scale). No combat/game loop exists; no
-cross-machine 60 FPS guarantee is claimed.
+**Status:** the native Phase 4 renderer, fixed-step locomotion test scene, and
+first-slice combat scene have been measured on one machine (Intel UHD 620,
+KWin/Wayland, 1.25 scale). No cross-machine 60 FPS guarantee is claimed.
 
 ---
 
@@ -24,17 +24,19 @@ machine.
 
 Command: `build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug --smoke-seconds 10`
 from `/tmp`, with the recovered wall/door/corridor geometry and wall603
-obstacles. RelWithDebInfo, 482 static sprite instances plus 147 active obstacle
-sprites (589 drawn while all doors are open), 12 textures, 156 sprite assets,
-30 recovered character clips:
+obstacles and two e_slime01 fixtures. RelWithDebInfo, 482 static sprite instances
+plus 147 active obstacle sprites and four enemy sprites (593 drawn while all
+doors are open), 13 textures, 176 sprite assets, 30 recovered character clips:
 
-- `FrameTimer` average: **16.663 ms** over 573 samples.
-- **603 frames** over ~10.10 s (~59.7 presents/s).
-- **505 fixed simulation ticks** (~0.832 steps/render frame).
-- Debug scene validation: 0 errors.
+- `FrameTimer` average: **17.595 ms** over 533 samples on the current loaded
+  desktop run (earlier clean run: 16.663 ms / 573 samples).
+- **563 frames** over ~10.12 s (~55.6 presents/s).
+- **506 fixed simulation ticks** (0.880 sim steps/frame in the perf samples).
+- Scene validation: 0 errors.
 - A 30-second run with active movement measured ~**16.66 ms** and ~59.8
-  presents/s; the recovered wall/door geometry did not change CPU pacing
-  materially versus the earlier 111-instance composition (16.693 ms).
+  presents/s in an earlier unloaded run; the recovered wall/door geometry and
+  first-slice combat sprites did not change CPU pacing materially versus the
+  earlier 111-instance composition (16.693 ms).
 - Animation/geometry overhead is not separately GPU-timestamped; the measurement
   is CPU frame pacing on the test machine, not a GPU/60 FPS parity claim.
 

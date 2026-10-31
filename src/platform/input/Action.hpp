@@ -20,6 +20,12 @@ enum class Action : uint8_t {
     AimAxisX,   // -1.0 to 1.0
     AimAxisY,   // -1.0 to 1.0
 
+    // Digital aim (native test binding; keypad 8/2/4/6)
+    AimUp,
+    AimDown,
+    AimLeft,
+    AimRight,
+
     // Primary actions
     Attack,
     Skill,

@@ -123,7 +123,15 @@ bool Application::Initialize() {
     room_doors_ = {};
     obstacles_ = {};
     player_characters_ = {};
+    weapon_ = {};
+    projectiles_.Clear();
+    enemies_ = {};
+    player_health_ = {};
+    aim_direction_ = {1.0f, 0.0f};
+    mouse_aim_valid_ = false;
     facing_ = engine::locomotion::FacingDirection::Right;
+    player_dead_ = false;
+    attack_held_ = false;
     movement_input_ = {};
     scene_ = {};
     last_animation_sprite_.clear();
@@ -202,6 +210,50 @@ bool Application::Initialize() {
                      obstacles_.Variants().empty()
                          ? "none" : obstacles_.ActiveVariant().name,
                      obstacles_.ColliderCellCount());
+        const int player_max_hp =
+            scene_.player_stats.max_hp > 0 ? scene_.player_stats.max_hp : 6;
+        const int player_max_armor =
+            scene_.player_stats.max_armor > 0 ? scene_.player_stats.max_armor : 5;
+        player_health_.Reset(player_max_hp, player_max_armor, 0);
+        player_health_.camp =
+            scene_.player_stats.max_hp > 0 ? scene_.player_stats.camp : 1;
+        player_dead_ = false;
+        aim_direction_ = {1.0f, 0.0f};
+        projectiles_.Clear();
+        std::string enemy_error;
+        if (!enemies_.Configure(scene_, &enemy_error)) {
+            LOG_FATAL_APP("Enemy configuration failed: {}", enemy_error);
+            return false;
+        }
+        if (scene_.weapons.empty()) {
+            LOG_ERROR_APP("No recovered weapon definition; attack disabled");
+        } else {
+            engine::assets::WeaponDefinition weapon_definition =
+                scene_.weapons.front();
+            if (scene_.player_stats.max_hp > 0) {
+                weapon_definition.owner_deviation =
+                    scene_.player_stats.deviation;
+            }
+            if (!weapon_.Configure(weapon_definition)) {
+                LOG_ERROR_APP("Weapon configuration failed: {}",
+                              weapon_definition.id);
+            } else {
+                LOG_INFO_APP("Weapon: {} projectile={} speed={:.1f} damage={} "
+                             "deviation={} consume={} weapon_speed={:.2f}",
+                             weapon_.Definition().id,
+                             weapon_.Definition().projectile.id,
+                             weapon_.Definition().bullet_speed,
+                             weapon_.Definition().damage,
+                             weapon_.Definition().deviation,
+                             weapon_.Definition().consume,
+                             weapon_.Definition().weapon_speed);
+            }
+        }
+        LOG_INFO_APP("Combat: player hp={} armor={} camp={}; enemies={} "
+                     "(definitions={}), projectiles=0",
+                     player_health_.hp, player_health_.armor,
+                     player_health_.camp, enemies_.Enemies().size(),
+                     enemies_.Definitions().size());
         std::string door_error;
         if (!room_doors_.Configure(scene_, &door_error)) {
             LOG_FATAL_APP("Room door configuration failed: {}", door_error);
@@ -386,11 +438,14 @@ void Application::BuildRenderBatch() {
         if (is_player_body && player_characters_.Count() > 0) {
             const engine::assets::SceneCharacter& character =
                 player_characters_.Active();
-            if (character.body_sprite_index >= 0 &&
-                static_cast<std::size_t>(character.body_sprite_index) <
+            const int32_t character_sprite =
+                player_dead_ ? character.dead_sprite_index
+                             : character.body_sprite_index;
+            if (character_sprite >= 0 &&
+                static_cast<std::size_t>(character_sprite) <
                     scene_.sprites.size()) {
                 sprite = &scene_.sprites[
-                    static_cast<std::size_t>(character.body_sprite_index)];
+                    static_cast<std::size_t>(character_sprite)];
             }
         }
         if (door_visual_override && instance.door_role == "leaf" &&
@@ -402,7 +457,8 @@ void Application::BuildRenderBatch() {
                 sprite = &scene_.sprites[static_cast<std::size_t>(animated_index)];
             }
         }
-        if (locomotion_animator_.IsPlaying()) {
+        if (locomotion_animator_.IsPlaying() &&
+            !(is_player_body && player_dead_)) {
             const engine::animation::SpriteKeyframe* key =
                 locomotion_animator_.Evaluate(instance.path);
             if (key != nullptr) {
@@ -451,36 +507,104 @@ void Application::BuildRenderBatch() {
         (void)sprite_batch_.DrawSprite(draw);
     }
 
-    if (obstacles_.Variants().empty()) return;
-    const engine::assets::ObstacleVariant& obstacle_variant =
-        obstacles_.ActiveVariant();
-    for (const engine::assets::ObstacleMarker& marker : obstacles_.Markers()) {
-        for (const engine::assets::ObstacleVisual& visual :
-             obstacle_variant.visuals) {
-            if (visual.sprite_index < 0 ||
-                static_cast<std::size_t>(visual.sprite_index) >=
-                    scene_.sprites.size()) {
-                continue;
+    if (!obstacles_.Variants().empty()) {
+        const engine::assets::ObstacleVariant& obstacle_variant =
+            obstacles_.ActiveVariant();
+        for (const engine::assets::ObstacleMarker& marker :
+             obstacles_.Markers()) {
+            for (const engine::assets::ObstacleVisual& visual :
+                 obstacle_variant.visuals) {
+                if (visual.sprite_index < 0 ||
+                    static_cast<std::size_t>(visual.sprite_index) >=
+                        scene_.sprites.size()) {
+                    continue;
+                }
+                const engine::assets::SpriteData& sprite =
+                    scene_.sprites[static_cast<std::size_t>(visual.sprite_index)];
+                engine::rendering::SpriteDraw draw;
+                draw.position = marker.position + visual.offset;
+                draw.size = engine::Vec2{
+                    sprite.WorldSize().x * visual.scale.x,
+                    sprite.WorldSize().y * visual.scale.y
+                };
+                draw.uv = sprite.UvRect();
+                draw.color = visual.color;
+                draw.layer = MapSortingLayer(visual.sorting_layer);
+                draw.sorting_order = visual.sorting_order;
+                draw.texture_id = sprite.texture_id;
+                draw.pivot = sprite.pivot;
+                draw.rotation = visual.rotation;
+                draw.flip_x = visual.flip_x;
+                draw.flip_y = visual.flip_y;
+                (void)sprite_batch_.DrawSprite(draw);
             }
+        }
+    }
+
+    for (const soulknight::game::enemy::EnemyInstance& enemy :
+         enemies_.Enemies()) {
+        if (!enemy.active) continue;
+        const engine::assets::EnemyDefinition& definition =
+            enemies_.Definitions()[enemy.definition];
+        const int32_t sprite_index =
+            enemy.health.dead ? definition.dead_sprite_index
+                              : definition.body_sprite_index;
+        if (sprite_index >= 0 &&
+            static_cast<std::size_t>(sprite_index) < scene_.sprites.size()) {
             const engine::assets::SpriteData& sprite =
-                scene_.sprites[static_cast<std::size_t>(visual.sprite_index)];
+                scene_.sprites[static_cast<std::size_t>(sprite_index)];
             engine::rendering::SpriteDraw draw;
-            draw.position = marker.position + visual.offset;
-            draw.size = engine::Vec2{
-                sprite.WorldSize().x * visual.scale.x,
-                sprite.WorldSize().y * visual.scale.y
-            };
+            draw.position = enemy.position;
+            draw.size = sprite.WorldSize();
             draw.uv = sprite.UvRect();
-            draw.color = visual.color;
-            draw.layer = MapSortingLayer(visual.sorting_layer);
-            draw.sorting_order = visual.sorting_order;
+            draw.color = engine::Color::White();
+            draw.layer = MapSortingLayer(definition.body_sorting_layer);
+            draw.sorting_order = definition.body_sorting_order;
             draw.texture_id = sprite.texture_id;
             draw.pivot = sprite.pivot;
-            draw.rotation = visual.rotation;
-            draw.flip_x = visual.flip_x;
-            draw.flip_y = visual.flip_y;
             (void)sprite_batch_.DrawSprite(draw);
         }
+        if (definition.shadow_sprite_index >= 0 &&
+            static_cast<std::size_t>(definition.shadow_sprite_index) <
+                scene_.sprites.size()) {
+            const engine::assets::SpriteData& sprite =
+                scene_.sprites[static_cast<std::size_t>(
+                    definition.shadow_sprite_index)];
+            engine::rendering::SpriteDraw draw;
+            draw.position = enemy.position;
+            draw.size = sprite.WorldSize();
+            draw.uv = sprite.UvRect();
+            draw.color = engine::Color::White();
+            draw.layer = MapSortingLayer(definition.shadow_sorting_layer);
+            draw.sorting_order = definition.shadow_sorting_order;
+            draw.texture_id = sprite.texture_id;
+            draw.pivot = sprite.pivot;
+            (void)sprite_batch_.DrawSprite(draw);
+        }
+    }
+
+    for (const soulknight::game::combat::Projectile& projectile :
+         projectiles_.Projectiles()) {
+        if (!projectile.active || projectile.sprite_index < 0 ||
+            static_cast<std::size_t>(projectile.sprite_index) >=
+                scene_.sprites.size()) {
+            continue;
+        }
+        const engine::assets::SpriteData& sprite =
+            scene_.sprites[static_cast<std::size_t>(projectile.sprite_index)];
+        engine::rendering::SpriteDraw draw;
+        draw.position = projectile.position;
+        draw.size = sprite.WorldSize() * weapon_.Definition().size;
+        draw.uv = sprite.UvRect();
+        draw.color = engine::Color::White();
+        draw.layer = MapSortingLayer(
+            weapon_.Definition().projectile.sorting_layer);
+        draw.sorting_order = weapon_.Definition().projectile.sorting_order;
+        draw.texture_id = sprite.texture_id;
+        draw.pivot = sprite.pivot;
+        draw.rotation = std::atan2(projectile.velocity.y,
+                                   projectile.velocity.x);
+        (void)sprite_batch_.DrawSprite(draw);
     }
 }
 
@@ -544,6 +668,8 @@ void Application::PollEvents() {
                 CycleCharacter(1);
             } else if (event.key.scancode == SDL_SCANCODE_P) {
                 CycleObstacleVariant();
+            } else if (event.key.scancode == SDL_SCANCODE_R) {
+                ResetCombat();
             } else if (event.key.scancode >= SDL_SCANCODE_1 &&
                        event.key.scancode <= SDL_SCANCODE_9) {
                 SwitchCharacter(static_cast<std::size_t>(
@@ -679,6 +805,92 @@ void Application::CycleObstacleVariant() {
                  variant.visuals.size(), obstacles_.ColliderCellCount());
 }
 
+void Application::UpdateAimInput() {
+    const platform::InputSnapshot& snapshot = input_manager_.GetSnapshot();
+    // Reference path: RGController.AutoLock consumes the right-stick / locked
+    // target direction into fixed_angle; Gun001.Attack uses that angle.
+    // NATIVE TEST BINDINGS: right stick or mouse cursor (after it has moved)
+    // provide the aim vector. Facing remains movement-driven and is a separate
+    // concept, so strafing and aiming in different directions is supported.
+    engine::Vec2 aim = aim_direction_;
+    const float stick_magnitude =
+        std::sqrt(snapshot.aim_x * snapshot.aim_x +
+                  snapshot.aim_y * snapshot.aim_y);
+    bool have_aim = false;
+    engine::Vec2 digital_aim{0.0f, 0.0f};
+    if (snapshot.IsHeld(platform::Action::AimUp)) digital_aim.y += 1.0f;
+    if (snapshot.IsHeld(platform::Action::AimDown)) digital_aim.y -= 1.0f;
+    if (snapshot.IsHeld(platform::Action::AimLeft)) digital_aim.x -= 1.0f;
+    if (snapshot.IsHeld(platform::Action::AimRight)) digital_aim.x += 1.0f;
+    if (digital_aim.LengthSquared() > 0.0f) {
+        aim = digital_aim;
+        have_aim = true;
+    } else if (stick_magnitude > 0.15f) {
+        aim = {snapshot.aim_x, snapshot.aim_y};
+        have_aim = true;
+    } else {
+        if (snapshot.mouse_delta.x != 0.0f || snapshot.mouse_delta.y != 0.0f) {
+            mouse_aim_valid_ = true;
+        }
+        if (mouse_aim_valid_) {
+            const int window_width = window_.GetWidth();
+            const int window_height = window_.GetHeight();
+            engine::Vec2 mouse = snapshot.mouse_position;
+            if (window_width > 0 && window_height > 0) {
+                mouse.x *= camera_.viewport_width /
+                           static_cast<float>(window_width);
+                mouse.y *= camera_.viewport_height /
+                           static_cast<float>(window_height);
+            }
+            const engine::Vec2 world = camera_.ScreenToWorld(mouse);
+            const engine::Vec2 delta = world - player_.Position();
+            if (delta.LengthSquared() > 0.01f) {
+                aim = delta;
+                have_aim = true;
+            }
+        }
+    }
+    if (!have_aim && movement_input_.IsActive()) {
+        aim = movement_input_.direction;
+        have_aim = true;
+    }
+    if (have_aim && aim.LengthSquared() > 1e-8f) {
+        aim_direction_ = aim.Normalized();
+    }
+}
+
+void Application::ResetCombat() {
+    player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
+    player_.SetSpeedRateBonus(0.0f);
+    const int player_max_hp =
+        scene_.player_stats.max_hp > 0 ? scene_.player_stats.max_hp : 6;
+    const int player_max_armor =
+        scene_.player_stats.max_armor > 0 ? scene_.player_stats.max_armor : 5;
+    player_health_.Reset(player_max_hp, player_max_armor, 0);
+    player_health_.camp =
+        scene_.player_stats.max_hp > 0 ? scene_.player_stats.camp : 1;
+    player_dead_ = false;
+    attack_held_ = false;
+    weapon_.Release();
+    aim_direction_ = {1.0f, 0.0f};
+    mouse_aim_valid_ = false;
+    facing_ = engine::locomotion::FacingDirection::Right;
+    projectiles_.Clear();
+    enemies_.Reset();
+    room_doors_.OpenAll();
+    RebuildCollisionWorld();
+    camera_.position = scene_.spawn;
+    locomotion_animator_.Configure(player_characters_.IdleClip(),
+                                   player_characters_.RunClip());
+    last_animation_sprite_.clear();
+    last_animation_state_ = engine::animation::LocomotionState::Idle;
+    animation_logs_remaining_ = 8;
+    LOG_INFO_APP("Combat reset: spawn=({:.2f},{:.2f}) hp={} armor={} "
+                 "enemies={} doors=open",
+                 scene_.spawn.x, scene_.spawn.y, player_health_.hp,
+                 player_health_.armor, enemies_.Enemies().size());
+}
+
 void Application::UpdateDoorTriggers() {
     if (!scene_.has_room_topology || scene_.doors.empty()) return;
     // The reference door trigger reacts to c00's root trigger box, offset
@@ -734,12 +946,62 @@ void Application::FixedUpdate(double dt) {
         }
     }
 
-    player_.FixedUpdate(movement_input_.direction, movement_input_.weight,
-                        static_cast<float>(dt), collision_world_);
-    facing_ = engine::locomotion::ResolveFacing(
-        facing_, movement_input_.direction);
-    locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
+    if (!player_dead_) {
+        player_.SetSpeedRateBonus(
+            attack_held_ ? weapon_.Definition().atk_move_speed : 0.0f);
+        player_.FixedUpdate(movement_input_.direction, movement_input_.weight,
+                            static_cast<float>(dt), collision_world_);
+        facing_ = engine::locomotion::ResolveFacing(
+            facing_, movement_input_.direction);
+        locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
+        const int shots = weapon_.Update(static_cast<float>(dt), attack_held_,
+                                         player_.Position(), aim_direction_,
+                                         projectiles_);
+        if (shots > 0 && config_.locomotion_debug) {
+            LOG_INFO_APP("Attack: fired={} projectile={} speed={:.1f} "
+                         "damage={} cycle={:.6f}s first={:.6f}s "
+                         "aim=({:.3f},{:.3f})",
+                         shots, weapon_.Definition().projectile.id,
+                         weapon_.Definition().bullet_speed,
+                         weapon_.Definition().damage,
+                         weapon_.Definition().attack_cycle_seconds,
+                         weapon_.Definition().first_shot_delay_seconds,
+                         aim_direction_.x, aim_direction_.y);
+        }
+    } else {
+        attack_held_ = false;
+        weapon_.Release();
+        player_.SetSpeedRateBonus(0.0f);
+        player_.FixedUpdate({0.0f, 0.0f}, 0.0f,
+                            static_cast<float>(dt), collision_world_);
+        locomotion_animator_.Update(false, static_cast<float>(dt));
+    }
+
     camera_.Follow(player_.Position(), static_cast<float>(dt));
+
+    projectiles_.FixedUpdate(static_cast<float>(dt), collision_world_);
+    if (config_.locomotion_debug &&
+        (projectiles_.WorldHitsThisStep() > 0 ||
+         projectiles_.LifetimeExpirationsThisStep() > 0)) {
+        LOG_INFO_APP("Projectiles: world_hits={} lifetime_expired={} active={}",
+                     projectiles_.WorldHitsThisStep(),
+                     projectiles_.LifetimeExpirationsThisStep(),
+                     projectiles_.ActiveCount());
+    }
+    enemies_.ResolveProjectileHits(projectiles_);
+    const bool player_damaged = enemies_.FixedUpdate(
+        static_cast<float>(dt), player_.Position(), player_health_);
+    if (player_damaged) {
+        LOG_INFO_APP("Player damaged: hp={} armor={} dead={}",
+                     player_health_.hp, player_health_.armor,
+                     BooleanText(player_health_.dead));
+    }
+    if (player_health_.dead && !player_dead_) {
+        player_dead_ = true;
+        LOG_INFO_APP("Player died: hp=0 armor={} position=({:.2f},{:.2f})",
+                     player_health_.armor, player_.Position().x,
+                     player_.Position().y);
+    }
     UpdateDoorTriggers();
 
     if (config_.locomotion_debug && simulation_ticks_ % 25 == 0) {
@@ -756,7 +1018,8 @@ void Application::FixedUpdate(double dt) {
             "locomotion: sim=({:.3f},{:.3f}) render=({:.3f},{:.3f}) "
             "body=({:.3f},{:.3f}) shadow=({:.3f},{:.3f}) camera=({:.3f},{:.3f}) "
             "input=({:.2f},{:.2f}) vel=({:.3f},{:.3f}) state={} frame={} "
-            "facing={} character={} obstacle={} blocked=({},{})",
+            "facing={} character={} obstacle={} hp={}/{} armor={} dead={} "
+            "enemies={} projectiles={} blocked=({},{})",
             player_.Position().x, player_.Position().y,
             body.x, body.y,
             body.x, body.y,
@@ -771,7 +1034,18 @@ void Application::FixedUpdate(double dt) {
                 ? player_characters_.Active().id.c_str() : "none",
             obstacles_.Variants().empty()
                 ? "none" : obstacles_.ActiveVariant().name.c_str(),
+            player_health_.hp, player_health_.max_hp,
+            player_health_.armor, BooleanText(player_dead_),
+            enemies_.AliveCount(), projectiles_.ActiveCount(),
             BooleanText(collision.blocked_x), BooleanText(collision.blocked_y));
+        for (std::size_t i = 0; i < enemies_.Enemies().size(); ++i) {
+            const auto& enemy = enemies_.Enemies()[i];
+            LOG_INFO_APP("enemy[{}]: pos=({:.3f},{:.3f}) hp={}/{} dead={} active={}",
+                         i, enemy.position.x, enemy.position.y,
+                         enemy.health.hp, enemy.health.max_hp,
+                         BooleanText(enemy.health.dead),
+                         BooleanText(enemy.active));
+        }
     }
 }
 
@@ -821,6 +1095,16 @@ int Application::Run() {
         movement_input_ = scene_mode_
             ? platform::ReadDigitalMovement(input_manager_.GetSnapshot())
             : platform::MovementInput{};
+        if (scene_mode_) {
+            const platform::InputSnapshot& snapshot =
+                input_manager_.GetSnapshot();
+            // NATIVE TEST BINDING: the reference uses a mobile attack button
+            // (RGJoyControl.UpdateBtnAtkClick -> RGController.BtnAtkClick).
+            // Keyboard Space/J and left mouse are the native dev equivalents.
+            attack_held_ = snapshot.IsHeld(platform::Action::Attack) ||
+                           snapshot.mouse_pressed[0];
+            UpdateAimInput();
+        }
         if (!running_) break;
         if (SmokeTestExpired()) {
             LOG_INFO_APP("Smoke test duration reached");

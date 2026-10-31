@@ -22,6 +22,12 @@ InputManager::InputManager() {
 
         {SDL_SCANCODE_SPACE, Action::Attack},
         {SDL_SCANCODE_J, Action::Attack},
+        // Native test aim vector, independent from WASD movement. The reference
+        // uses a mobile right joystick; keypad is a keyboard test binding.
+        {SDL_SCANCODE_KP_8, Action::AimUp},
+        {SDL_SCANCODE_KP_2, Action::AimDown},
+        {SDL_SCANCODE_KP_4, Action::AimLeft},
+        {SDL_SCANCODE_KP_6, Action::AimRight},
         {SDL_SCANCODE_LSHIFT, Action::Skill},
         {SDL_SCANCODE_K, Action::Skill},
         {SDL_SCANCODE_LCTRL, Action::Dodge},

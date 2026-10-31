@@ -56,10 +56,10 @@
 | Unknown systems tracking | `analysis/UNKNOWN_SYSTEMS.md` | 🔄 ACTIVE |
 | Source map (reference → native) | `analysis/SOURCE_MAP.md` | 🔄 ACTIVE (planning only; no implementation) |
 | Player movement & physics | `analysis/re/input_movement.md` | ⚠️ PARTIAL — movement formula/stats reconstructed; no native implementation |
-| Player combat (attack, dodge, skill) | `docs/COMBAT.md` (planned) | ⬜ NOT STARTED |
+| Player combat (attack, dodge, skill) | `analysis/re/combat_prototype.md` | ⚠️ PARTIAL — first-slice attack/projectile/damage/death implemented; dodge/skill/UI not started |
 | Enemy AI (20+ types) | `analysis/re/enemy_ai04.md` (first slice) | ⚠️ PARTIAL — AI04 contact/base path; full AI not started |
-| Weapon mechanics (25+ types) | `docs/WEAPONS.md` (planned) | ⬜ NOT STARTED |
-| Projectile physics & triggers | `analysis/re/weapons_projectiles.md` | ⚠️ PARTIAL — Bullet01/trigger chain; velocity/rebound open |
+| Weapon mechanics (25+ types) | `analysis/re/weapons_projectiles.md` | ⚠️ PARTIAL — weapon_000/Gun001 cadence/spread/speed verified; 24+ weapon types not reconstructed |
+| Projectile physics & triggers | `analysis/re/weapons_projectiles.md` | ⚠️ PARTIAL — Bullet01/trigger chain; native swept linear simulation; Rigidbody/rebound open |
 | Room generation algorithm | `analysis/re/room_topology.md`, `docs/PROCEDURAL_GENERATION.md` | ⚠️ PARTIAL — `CreateWall`/`CreateAisle`/door geometry recovered; map-level generation and runtime entrance assignment for `r1_1` UNKNOWN |
 | Item/buff/chest systems | `docs/ITEMS.md` (planned) | ⬜ NOT STARTED |
 | Progression & unlocks | `docs/PROGRESSION.md` (planned) | ⬜ NOT STARTED |
@@ -67,7 +67,7 @@
 | Audio triggers & music | `docs/AUDIO.md` (design only) | ⬜ NOT STARTED |
 | UI/HUD/Menu flow | `docs/UI.md` (planned) | ⬜ NOT STARTED |
 
-**Gate B:** Reusable engine/runtime primitives documented with evidence. **Current status: PARTIAL** — see `docs/GATE_B.md`; wall/door gap placement and closed-door collision are now recovered, while runtime entrance assignment for a generated `r1_1`, the event-to-map-manager traversal listener, door animation timing, weapon fire/projectile velocity, and full death/reborn remain open.
+**Gate B:** Reusable engine/runtime primitives documented with evidence. **Current status: PARTIAL** — see `docs/GATE_B.md`; wall/door gap placement and closed-door collision are now recovered, while runtime entrance assignment for a generated `r1_1`, the event-to-map-manager traversal listener, door animation timing, exact projectile Rigidbody/rebound behavior, and full death/reborn remain open.
 
 ---
 
@@ -77,7 +77,9 @@
 > The full implementation plan is `docs/PHASE_4_NATIVE_RUNTIME.md`; the evidence
 > record is `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`. The bootstrap, window,
 > Vulkan context/swapchain, sprite renderer, and 50 Hz/60 FPS loop are functional.
-> Asset decoding, input-to-simulation, audio, UI, and gameplay remain unimplemented.
+> Asset decoding, input-to-simulation, sprite animation, doors, and a first-slice
+> combat prototype are implemented; audio, UI, and the full game remain
+> unimplemented.
 
 | Task | Deliverable | Status |
 |------|-------------|--------|
@@ -91,18 +93,19 @@
 | Controlled Unity Texture2D | `tools/asset/extract_unity.py`, `analysis/assets/texture_conversion_manifest.json` | ✅ One real asset converted, deterministic, native round-trip/render verified |
 | Unity Sprite metadata / PPU | `SpriteData`, `analysis/assets/sprites.md` | ✅ Rect/pivot/PPU/border/filter/wrap; rectangular tight-crop approximation |
 | 2D camera / coordinate system | `Camera2D`, `analysis/assets/coordinate_system.md` | ✅ Y-up world, PPU 16, aspect-fit; exact reference camera size unresolved |
-| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 482 static instances + obstacle field (589 open-door draw batch), 156 sprite assets, 12 textures, rendered Wayland/Vulkan |
+| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 482 static instances + obstacle field (593 draw batch), 176 sprite assets, 13 textures, rendered Wayland/Vulkan |
 | Player simulation/render sync | `PlayerLocomotion`, `PlayerRenderSync`, `Application` | ✅ body follows sim exactly; shadow offset preserved; animation/camera cannot move player |
 | Eight-way movement / facing | `MovementInput`, `PlayerLocomotion`, `FacingDirection` | ✅ normalized 8-way, 9.75 speed, horizontal mirror facing, 50 Hz |
 | Character test switching | `PlayerCharacterSet`, recovered c00..c14 | ✅ 15 recovered prefabs, 30 ide/run clips, keys 1..0 and [ ] |
 | Obstacle variant switching | `ObstacleField`, `obstacle_list` | ✅ 8 solid recovered variants selectable (12 entries in metadata), 49 marker cells, per-variant collision |
+| Combat prototype | `Weapon`, `ProjectileSystem`, `Damage`, `EnemySystem`, `Application` | ✅ weapon_000/bullet_0 -> e_slime01 damage/death; player contact/death/reset; native aim/attack bindings |
 | Door animation / collision lifecycle | `Door`, `RoomDoorController`, recovered Animator clips | ✅ open/close clips, four states, animation-synchronized blocking, all four orientations |
 | Obstacle replacement / wall visuals | `RGObjectSkin`, `obstacle_list`, `wall603` | ✅ 49 markers replaced; 140 wall + 49 obstacle collision cells match visible instances |
 | Sprite animation / Animator frames | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`, `analysis/assets/animation.md` | ✅ real `char_1_skin_0_ide` and `c00_run`; 4 frames each, 0.5 s loop; fixed-step native sampling |
 | Input-driven locomotion / idle-run transitions | `MovementInput`, `PlayerLocomotion`, `AabbCollision`, `Camera2D` | ✅ WASD, fixed 50 Hz, swept AABB, idle/run switching, camera follow |
 | Real room geometry / door traversal | `build_visual_scene.py`, `SceneLoader`, `AabbCollision`, `analysis/re/room_topology.md` | ✅ Recovered 44 wall cells + 96 corridor cells, four doors/triggers, one-way closed-door collision; open-door traversal verified |
 | Higher-level room transition listener / adjacent room | planned | ⬜ Next bounded investigation; no procedural generation yet |
-| Input abstraction (keyboard, mouse, gamepad) | `src/platform/input/InputManager.cpp` | ⚠️ scaffold, not wired |
+| Input abstraction (keyboard, mouse, gamepad) | `src/platform/input/InputManager.cpp` | ✅ keyboard/mouse movement, attack, mouse/right-stick aim; debug controls |
 | miniaudio engine + bus system | `src/platform/audio/AudioEngine.cpp` | ⚠️ scaffold, not wired |
 | FileSystem (XDG paths) | `src/platform/filesystem/FileSystem.cpp` | ⚠️ scaffold |
 | Logger + startup diagnostics | `src/engine/core/Log.cpp` | ✅ |
@@ -110,9 +113,9 @@
 | Debug overlay (FPS/frame graph) | planned | ⬜ |
 
 **Gate C:** Native app launches, shows window, presents frames, handles resize/
-minimize/focus, and exits cleanly. **Current status: PARTIAL** — launch/present are
-verified; input/gameplay are not. The 60 FPS target is measured only on the test
-machine, not guaranteed.
+minimize/focus, and exits cleanly. **Current status: PARTIAL** — launch/present,
+input, locomotion, doors and the first-slice combat loop are verified; full gameplay
+is not. The 60 FPS target is measured only on the test machine, not guaranteed.
 
 ---
 
@@ -128,10 +131,10 @@ machine, not guaranteed.
 | Player entity + movement + collision | `src/game/player/PlayerSystem.cpp` | ⬜ |
 | Input → Player action mapping | `src/game/player/PlayerInput.cpp` | ⬜ |
 | Basic collision (AABB / circle) | `src/engine/collision/Collision.cpp` | ⬜ |
-| One confirmed weapon + projectile | `src/game/weapons/`, `src/game/projectiles/` | ⬜ |
-| One enemy (EnemyAI01) + AI | `src/game/enemies/EnemySystem.cpp` | ⬜ |
-| Damage application + death | `src/game/combat/CombatSystem.cpp` | ⬜ |
-| Player death + restart | `src/game/player/PlayerDeath.cpp` | ⬜ |
+| One confirmed weapon + projectile | `src/game/combat/Weapon.cpp`, `ProjectileSystem.cpp` | ✅ weapon_000/bullet_0 first slice |
+| One enemy (EnemyAI01) + AI | `src/game/enemy/EnemySystem.cpp` | ⚠️ e_slime01 static fixture + contact/death; AI not started |
+| Damage application + death | `src/game/combat/Damage.hpp`, `EnemySystem.cpp` | ✅ first-slice damage/death; crit/elements open |
+| Player death + restart | `src/app/Application.cpp` (`R` reset) | ✅ minimum dev reset; production game-over/reborn not started |
 | One room load + transition | `src/game/rooms/RoomSystem.cpp` | ⬜ |
 | Basic HUD (health, weapon) | `src/game/ui/HUD.cpp` | ⬜ |
 | Audio: player hit, enemy hit, shoot | `src/game/audio/` | ⬜ |

@@ -764,6 +764,18 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 return false;
             }
             character.body_sprite_index = static_cast<int32_t>(sprite_it->second);
+            if (item.contains("dead_sprite") && item["dead_sprite"].is_string()) {
+                character.dead_sprite_id =
+                    item["dead_sprite"].get<std::string>();
+                const auto dead_it = sprite_ids.find(character.dead_sprite_id);
+                if (dead_it == sprite_ids.end()) {
+                    SetError(error, "character references unknown dead sprite: " +
+                                    character.dead_sprite_id);
+                    return false;
+                }
+                character.dead_sprite_index =
+                    static_cast<int32_t>(dead_it->second);
+            }
             character.idle_animation_id =
                 item["idle_animation"].get<std::string>();
             character.run_animation_id =
@@ -775,6 +787,211 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 return false;
             }
             loaded.characters.push_back(std::move(character));
+        }
+    }
+
+    if (document.contains("player_stats")) {
+        if (!document["player_stats"].is_object()) {
+            SetError(error, "scene player_stats is not an object");
+            return false;
+        }
+        const Json& item = document["player_stats"];
+        loaded.player_stats.character_id =
+            item.value("character_id", std::string{});
+        loaded.player_stats.max_hp = item.value("max_hp", 0);
+        loaded.player_stats.hp = item.value("hp", loaded.player_stats.max_hp);
+        loaded.player_stats.max_armor = item.value("max_armor", 0);
+        loaded.player_stats.armor =
+            item.value("armor", loaded.player_stats.max_armor);
+        loaded.player_stats.camp = item.value("camp", 1);
+        loaded.player_stats.atk = item.value("atk", 0);
+        loaded.player_stats.critical = item.value("critical", 0);
+        loaded.player_stats.speed = item.value("speed", 0.0f);
+        loaded.player_stats.speed_rate = item.value("speed_rate", 0.0f);
+        loaded.player_stats.deviation = item.value("deviation", 0);
+        if (loaded.player_stats.max_hp <= 0) {
+            SetError(error, "player_stats max_hp must be positive");
+            return false;
+        }
+    }
+
+    if (document.contains("weapons")) {
+        if (!document["weapons"].is_array()) {
+            SetError(error, "scene weapons is not an array");
+            return false;
+        }
+        for (const Json& item : document["weapons"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string() || !item.contains("projectile") ||
+                !item["projectile"].is_object()) {
+                SetError(error, "scene weapon entry is invalid");
+                return false;
+            }
+            WeaponDefinition weapon;
+            weapon.id = item["id"].get<std::string>();
+            const Json& projectile = item["projectile"];
+            if (!projectile.contains("id") || !projectile["id"].is_string() ||
+                !projectile.contains("sprite") || !projectile["sprite"].is_string()) {
+                SetError(error, "scene projectile entry is invalid");
+                return false;
+            }
+            weapon.projectile.id = projectile["id"].get<std::string>();
+            const auto sprite_it =
+                sprite_ids.find(projectile["sprite"].get<std::string>());
+            if (sprite_it == sprite_ids.end()) {
+                SetError(error, "projectile references unknown sprite: " +
+                                projectile["sprite"].get<std::string>());
+                return false;
+            }
+            weapon.projectile.sprite_index =
+                static_cast<int32_t>(sprite_it->second);
+            weapon.projectile.prefab_speed =
+                projectile.value("prefab_speed", 0.0f);
+            weapon.projectile.lifetime =
+                projectile.value("lifetime", 5.0f);
+            weapon.projectile.camp = projectile.value("camp", 1);
+            weapon.projectile.can_rebound =
+                projectile.value("can_rebound", false);
+            if (projectile.contains("collider_size") &&
+                projectile.contains("collider_offset")) {
+                Vec2 size;
+                Vec2 offset;
+                if (!ReadVec2(projectile["collider_size"], size) ||
+                    !ReadVec2(projectile["collider_offset"], offset) ||
+                    size.x <= 0.0f || size.y <= 0.0f) {
+                    SetError(error, "projectile collider is invalid");
+                    return false;
+                }
+                weapon.projectile.collider_half_extents =
+                    {size.x * 0.5f, size.y * 0.5f};
+                weapon.projectile.collider_offset = offset;
+            }
+            weapon.projectile.sorting_layer =
+                projectile.value("sorting_layer", 6);
+            weapon.projectile.sorting_order =
+                projectile.value("sorting_order", 0);
+            weapon.bullet_speed = item.value("bullet_speed", 0.0f);
+            weapon.size = item.value("size", 1.0f);
+            weapon.damage = item.value("damage", 0);
+            weapon.deviation = item.value("deviation", 0);
+            weapon.owner_deviation = item.value("owner_deviation", 0);
+            weapon.consume = item.value("consume", 0);
+            weapon.weapon_speed = item.value("weapon_speed", 1.0f);
+            weapon.atk_move_speed = item.value("atk_move_speed", 0.0f);
+            weapon.repel = item.value("repel", 0);
+            weapon.through = item.value("through", 0);
+            weapon.attack_cycle_seconds =
+                item.value("attack_cycle_seconds", 1.0f / 3.0f);
+            weapon.first_shot_delay_seconds =
+                item.value("first_shot_delay_seconds", 1.0f / 30.0f);
+            if (weapon.attack_cycle_seconds <= 0.0f ||
+                weapon.first_shot_delay_seconds < 0.0f) {
+                SetError(error, "weapon attack timing is invalid: " + weapon.id);
+                return false;
+            }
+            loaded.weapons.push_back(std::move(weapon));
+        }
+    }
+
+    if (document.contains("enemy_definitions")) {
+        if (!document["enemy_definitions"].is_array()) {
+            SetError(error, "scene enemy_definitions is not an array");
+            return false;
+        }
+        for (const Json& item : document["enemy_definitions"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string() || !item.contains("body_sprite") ||
+                !item["body_sprite"].is_string()) {
+                SetError(error, "scene enemy definition is invalid");
+                return false;
+            }
+            EnemyDefinition enemy;
+            enemy.id = item["id"].get<std::string>();
+            const auto body_it =
+                sprite_ids.find(item["body_sprite"].get<std::string>());
+            if (body_it == sprite_ids.end()) {
+                SetError(error, "enemy references unknown body sprite: " +
+                                item["body_sprite"].get<std::string>());
+                return false;
+            }
+            enemy.body_sprite_index = static_cast<int32_t>(body_it->second);
+            if (item.contains("dead_sprite") && item["dead_sprite"].is_string()) {
+                const auto dead_it =
+                    sprite_ids.find(item["dead_sprite"].get<std::string>());
+                if (dead_it == sprite_ids.end()) {
+                    SetError(error, "enemy references unknown dead sprite: " +
+                                    item["dead_sprite"].get<std::string>());
+                    return false;
+                }
+                enemy.dead_sprite_index = static_cast<int32_t>(dead_it->second);
+            }
+            if (item.contains("shadow_sprite") &&
+                item["shadow_sprite"].is_string()) {
+                const auto shadow_it =
+                    sprite_ids.find(item["shadow_sprite"].get<std::string>());
+                if (shadow_it == sprite_ids.end()) {
+                    SetError(error, "enemy references unknown shadow sprite: " +
+                                    item["shadow_sprite"].get<std::string>());
+                    return false;
+                }
+                enemy.shadow_sprite_index =
+                    static_cast<int32_t>(shadow_it->second);
+            }
+            enemy.hp = item.value("hp", 0);
+            enemy.speed = item.value("speed", 0);
+            enemy.camp = item.value("camp", 0);
+            enemy.contact_damage = item.value("contact_damage", 0);
+            enemy.contact_cooldown = item.value("contact_cooldown", 1.5f);
+            enemy.death_despawn_delay =
+                item.value("death_despawn_delay", 4.0f);
+            enemy.body_sorting_layer = item.value("body_sorting_layer", 5);
+            enemy.body_sorting_order = item.value("body_sorting_order", 1);
+            enemy.shadow_sorting_layer = item.value("shadow_sorting_layer", 3);
+            enemy.shadow_sorting_order = item.value("shadow_sorting_order", 0);
+            if (!item.contains("collider_size") ||
+                !item.contains("collider_offset")) {
+                SetError(error, "enemy collider is missing: " + enemy.id);
+                return false;
+            }
+            Vec2 size;
+            Vec2 offset;
+            if (!ReadVec2(item["collider_size"], size) ||
+                !ReadVec2(item["collider_offset"], offset) ||
+                size.x <= 0.0f || size.y <= 0.0f) {
+                SetError(error, "enemy collider is invalid: " + enemy.id);
+                return false;
+            }
+            enemy.collider.min = {offset.x - size.x * 0.5f,
+                                  offset.y - size.y * 0.5f};
+            enemy.collider.max = {offset.x + size.x * 0.5f,
+                                  offset.y + size.y * 0.5f};
+            loaded.enemy_definitions.push_back(std::move(enemy));
+        }
+    }
+
+    if (document.contains("enemy_fixtures")) {
+        if (!document["enemy_fixtures"].is_array()) {
+            SetError(error, "scene enemy_fixtures is not an array");
+            return false;
+        }
+        for (const Json& item : document["enemy_fixtures"]) {
+            if (!item.is_object() || !item.contains("definition") ||
+                !item["definition"].is_string() || !item.contains("position")) {
+                SetError(error, "scene enemy fixture is invalid");
+                return false;
+            }
+            EnemyFixture fixture;
+            fixture.definition = item["definition"].get<std::string>();
+            if (loaded.FindEnemyDefinitionIndex(fixture.definition) < 0) {
+                SetError(error, "enemy fixture references unknown definition: " +
+                                fixture.definition);
+                return false;
+            }
+            if (!ReadVec2(item["position"], fixture.position)) {
+                SetError(error, "enemy fixture position is invalid");
+                return false;
+            }
+            loaded.enemy_fixtures.push_back(std::move(fixture));
         }
     }
 

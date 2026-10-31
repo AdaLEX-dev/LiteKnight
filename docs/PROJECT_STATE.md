@@ -246,6 +246,28 @@ Implemented and manually verified on 2026-10-31:
   camera. `P` cycles the 8 recovered solid `obstacle_list` variants (4 decorative
   no-collider entries remain in metadata but are not selectable); render and
   collision cells are derived from the same active variant.
+- **First playable combat prototype PASSED (native reconstruction):** the
+  dev room now runs `player -> weapon_000 -> bullet_0 -> wall/obstacle/enemy ->
+  damage -> enemy death -> player damage/death -> R reset`. Attack is a native
+  test binding (`J`/`Space`/LMB) because the recovered mobile path is
+  `RGJoyControl.UpdateBtnAtkClick -> RGController.BtnAtkClick -> SetAttack ->
+  AttackStart -> set_atk_b`; aim is a separate native test vector (mouse/right
+  stick) and facing remains movement-driven. `weapon_000`'s `w_pistol` Animator
+  state loops for 1/3 s with its `Attack` event at 1/30 s; weapon speed factors
+  are 1.0. The effective projectile is speed 36, damage 3, camp 1, lifetime 5 s;
+  `bullet_0` prefab speed 10 is retained as metadata. `e_slime01` is the test
+  target: hp 12, contact damage 3 every 1.5 s. Player stats are the recovered
+  c00 RoleAttributePlayer (6 hp, 5 armor, camp 1). Enemy colliders are disabled
+  immediately on death and the dead sprite remains for the recovered 4.0 s
+  `dead_destory_delay_time`; the 0.95 write is friction, not a death delay.
+  Player death stops movement/attack and shows the recovered final dead sprite;
+  full game-over/reborn UI is out of scope. Evidence:
+  `analysis/re/combat_prototype.md`, `analysis/re/weapons_projectiles.md`,
+  `analysis/re/damage.md`, `analysis/re/enemy_ai04.md`.
+- **Facing visual regression fixed:** sprite flipping now mirrors quad geometry
+  around the pivot (not UVs only), keeping the asymmetric c00 pivot body anchored
+  over its shadow when facing changes. Regression test:
+  `tests/unit/render_test.cpp`.
 - Sprite metadata/camera/animation evidence: `analysis/assets/sprites.md`,
   `analysis/assets/coordinate_system.md`, `analysis/assets/animation.md`.
 - Manual smoke from `/tmp` (path-independent): PNG decoded, real scene rendered,
@@ -254,10 +276,11 @@ Implemented and manually verified on 2026-10-31:
   fallback.
 
 Not implemented: full AnimatorController transitions/layers/blend trees, other
-clips/states, the exact event-to-map-manager traversal listener, room
-combat/enemy lifecycle, adjacent-room generation/coordinate updates, combat, AI,
-general KTX2/atlas packing, the full asset registry/manifest loader, audio, UI,
-content, or parity comparison. Native sorting numbers are mapped to recovered
+clips/states, the exact event-to-map-manager traversal listener, room-clear
+lifecycle, full enemy AI/spawning, production player death/game-over/reborn UI,
+critical/element/effect triggers, mounts/one-shot shields/badass modifiers,
+adjacent-room generation/coordinate updates, general KTX2/atlas packing, the full
+asset registry/manifest loader, audio, UI, content, or parity comparison. Native sorting numbers are mapped to recovered
 TagManager layers; camera size, camera follow smoothing, the AABB-vs-circle
 player collision approximation, linear replay of the recovered streamed keys,
 transient door-collider size animation, and fixed-step rather than Normal-update
@@ -275,12 +298,15 @@ Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
    replacement are now CONFIRMED and implemented. Remaining PARTIAL items:
    the exact entrance bits of any generated `r1_1` instance and the event-to-
    `MapManagerLevel` traversal listener.
-2. Exact `Gun001` fire cooldown and the controller/hand field used in the spread
-   formula remain PARTIAL. First-slice approximation: fixed documented attack
-   interval; do not claim reference fire rate.
+2. `Gun001` fire cadence is now recovered from the serialized `w_pistol` state
+   and Attack AnimationEvent (1/3 s loop, 1/30 s first shot), and the spread
+   field is `RoleAttribute.deviation * (weapon.deviation + 1)` (0° for c00).
+   Rigidbody2D projectile integration, rebound/through effect triggers, and the
+   exact Unity input button/aim routing remain PARTIAL.
 3. Full death/reborn UI sequencing and virtual slot owners (`+0x328`, `+0x3A8`,
-   `+0x3E8`) remain PARTIAL. First slice can implement death + restart; reborn-card
-   flow is deferred.
+   `+0x3E8`) remain PARTIAL. The native slice implements minimum player/enemy
+   death + developer reset; reborn-card and production game-over flow are
+   deferred. Enemy destruction delay is 4.0 s; 0.95 is friction, not death delay.
 4. Full `EnemyAI04`/other AI, all weapons, procedural generation, and content
    identities remain Phase 3 breadth. Minimal AI04 contact behavior is known.
 5. Save payload/versioning remains UNKNOWN; not required for the slice.
@@ -294,20 +320,23 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 71 cases / 4638 assertions, PASS
+- Debug tests: 84 cases / 4759 assertions, PASS (ASan/UBSan)
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 71 / 4638, PASS
+- RelWithDebInfo tests: 84 / 4759, PASS
+- Debug Vulkan validation: enabled, 0 messages; Debug and RelWithDebInfo smoke PASS
+- Real keyboard/mouse combat, death/reset, character/obstacle switching, doors,
+  and window resize/minimize/restore: PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 63/3913 to 71/4638 in this dev-room pass because new
-deterministic tests cover eight-way movement and facing, player render sync for
-every direction, character switching, all recoverable obstacle variants,
-visual/collision cell correspondence, and the upper-right wall-root offset
-regression. No existing test was removed or weakened. The real scene
-conversion/smoke remains manual because it requires the local reference bundles
-and a Wayland/Vulkan GPU.
+The count changed from 71/4638 to 84/4759 in this combat pass because new
+deterministic tests cover the weapon Animator cycle, projectile speed/lifetime
+and wall/obstacle/enemy collision ordering, armor/HP/defence damage, enemy
+death/despawn, the attack movement modifier, combat scene metadata, and pivot-
+correct sprite mirroring. No existing test was removed or weakened. The real
+scene conversion/smoke remains manual because it requires the local reference
+bundles and a Wayland/Vulkan GPU.
 
 ---
 
@@ -315,10 +344,13 @@ and a Wayland/Vulkan GPU.
 
 Phase 4 foundation, PNG, controlled Unity Texture2D, SpriteData, camera, the
 `r1_1` native reconstruction test scene, real idle/run animation, keyboard
-locomotion, recovered room perimeter/aisle/door geometry, and native door
-traversal are **FUNCTIONAL**. The next bounded investigation is the higher-level
-room transition path: resolve the listener(s) for `EnterDungeonRoomEvent`/
-`ExitDungeonRoomEvent`, prove how `MapManagerLevel.IntoAisle` and room-coordinate
-updates are invoked, and decide whether one adjacent room can be reconstructed
-without starting procedural generation. Do not start combat, AI, menus, or the
-full catalogue.
+locomotion, recovered room perimeter/aisle/door geometry, native door traversal,
+and the first-slice combat loop are **FUNCTIONAL**. No further combat breadth
+(full AI, room clear, production death/reborn, critical/element effects) is
+authorized by this milestone. The next bounded investigation remains the
+higher-level room transition path: resolve the listener(s) for
+`EnterDungeonRoomEvent`/`ExitDungeonRoomEvent`, prove how
+`MapManagerLevel.IntoAisle` and room-coordinate updates are invoked, and decide
+whether one adjacent room can be reconstructed without starting procedural
+generation. Do not start full AI, menus, or the full catalogue without explicit
+authorization.
