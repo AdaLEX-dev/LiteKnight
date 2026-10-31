@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **35 doctest cases / 1369 assertions**, all passing.
+**Status:** current baseline is **39 doctest cases / 1439 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -57,6 +57,17 @@ ctest --test-dir build --output-on-failure
 - Missing-file failure.
 - Executable-relative test asset resolution (`FileSystem`).
 
+### Sprite / scene / camera (implemented units)
+
+- SpriteData rect validation, top-left UV conversion, pivot/PPU/border.
+- Sprite geometry: center/corner pivot, cropped UVs, rotation, flips, determinism.
+- Camera2D world/screen round-trip, aspect ratio, movement, zoom, and Vulkan
+  projection center.
+- Native SceneLoader: texture decode, sprite metadata, instance fields, camera,
+  and missing-scene error using a committed synthetic scene fixture.
+- The real `r1_1` + `c00` scene is an integration/manual test because it requires
+  the local reference bundles and generated proprietary pixels.
+
 ### Integration / manual smoke
 
 ```bash
@@ -68,6 +79,23 @@ Requirements: real Wayland session, SDL3, Vulkan 1.3, working GPU. The script
 checks driver, Wayland enforcement, validation status, swapchain/renderer markers,
 clean smoke completion, and rejects validation/renderer errors. It is intentionally
 not registered with CTest.
+
+### Unity scene / sprite composition (manual)
+
+Requires the local reference bundle tree and generated texture assets (never
+committed):
+
+```bash
+tools/asset/.venv/bin/python tools/asset/build_visual_scene.py
+cp -a assets/generated/visual/r1_1_visual build/assets/scenes/r1_1_visual
+PROJECT_ROOT="$(git rev-parse --show-toplevel)"
+cd /tmp
+"$PROJECT_ROOT/build/soul-knight" \
+    --scene scenes/r1_1_visual/scene.json --smoke-seconds 7
+```
+
+The committed metadata lives in `analysis/assets/scenes/r1_1_visual.json`;
+generated PNG/scene bytes remain gitignored.
 
 ### Unity Texture2D conversion / native round-trip (manual)
 

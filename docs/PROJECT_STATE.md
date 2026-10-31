@@ -1,6 +1,6 @@
 # Soul Knight 2.6.8 — Project State
 
-**Last Updated:** 2026-10-31 (Phase 4 PNG asset runtime)
+**Last Updated:** 2026-10-31 (Unity sprite/scene composition)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
 **Current status:** Phase 4A-4E foundation is implemented and manually verified:
@@ -150,15 +150,23 @@ Implemented and manually verified on 2026-10-31:
   provenance recorded in `analysis/assets/texture_conversion_manifest.json`.
   Conversion was deterministic across two runs, native `PngDecoder` round-trip
   matched all 1536 bytes, and the real PNG rendered through the runtime.
-- Manual smoke from `/tmp` (path-independent): PNG decoded, 0 validation
-  messages, clean exit.
+- **Unity-derived sprite/scene gate PASSED:** `r1_1` room sprites (109) plus
+  `c00` body/shadow (2) render from the real floor, character, and object-common
+  atlases with serialized Sprite rect/pivot/PPU=16, Unity sorting layer/order,
+  `Camera2D`, and the fixed multi-texture sprite batch. Scene metadata:
+  `analysis/assets/scenes/r1_1_visual.json`.
+- Sprite metadata/camera evidence: `analysis/assets/sprites.md`,
+  `analysis/assets/coordinate_system.md`.
+- Manual smoke from `/tmp` (path-independent): PNG decoded, real scene rendered,
+  0 validation messages, clean exit.
 - Non-Wayland startup fails with exit 1 (`wayland not available`), no X11
   fallback.
 
-Not implemented: KTX2/atlas packing, sprite metadata/pivot/PPU, the full asset
-registry/manifest loader, input-to-simulation bridge, audio, UI, rooms, gameplay,
-content, parity comparison. Native sorting numbers are a **PROJECT DECISION**,
-not recovered Unity values.
+Not implemented: animation/Animator frame selection, general KTX2/atlas packing,
+the full asset registry/manifest loader, input-to-simulation bridge, audio, UI,
+gameplay, content, parity comparison. Native sorting numbers are now mapped to
+recovered TagManager layers; camera size remains a **PROJECT DECISION** because
+the reference value is not recovered.
 
 Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -188,26 +196,27 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 35 cases / 1369 assertions, PASS
+- Debug tests: 39 cases / 1439 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 35 / 1369, PASS
+- RelWithDebInfo tests: 39 / 1439, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 31/1335 to 35/1369 because the PNG asset-runtime stage
-added exact RGBA normalization, palette/gray, malformed-input, and missing-file
-tests. No existing test was removed or weakened. The Phase 4 integration smoke
-test is manual because it requires a real Wayland compositor and GPU.
+The count changed from 35/1369 to 39/1439 because the sprite/scene stage added
+SpriteData, Sprite geometry, Camera2D, and native SceneLoader tests. No existing
+test was removed or weakened. The real scene conversion/smoke remains manual
+because it requires the local reference bundles and a Wayland/Vulkan GPU.
 
 ---
 
 ## Next Action
 
-Phase 4 foundation, the PNG path, and the controlled Unity Texture2D gate are
-**FUNCTIONAL**. Evidence now points to **Unity Sprite metadata** as the next
-dependency: `TextureData` intentionally contains no rect/pivot/PPU semantics.
-The next task is to extract one manifest-backed `Sprite` referencing a known
-texture and add a separate `SpriteData` model (rect, pivot, pixels-per-unit,
-filter/wrap, texture reference) with deterministic tests. Do not start gameplay
-or the full catalogue.
+Phase 4 foundation, PNG, controlled Unity Texture2D, SpriteData, camera, and the
+`r1_1` + `c00` static composition are **FUNCTIONAL**. Evidence now points to
+**Unity animation frame selection** as the next visual dependency: the pipeline
+can render one static Sprite per instance but does not consume Animator states or
+AnimationClips. The next task is to extract one manifest-backed `c00` animation
+clip, implement deterministic frame-time/state selection, and render the animated
+player in the existing room scene. Do not start gameplay, combat, or the full
+catalogue.

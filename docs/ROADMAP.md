@@ -1,6 +1,6 @@
 # Soul Knight 2.6.8 — Roadmap
 
-**Version:** 1.3 (Gate B / Phase 3 evidence pass, 2026-10-31)
+**Version:** 1.4 (Unity sprite/scene composition, 2026-10-31)
 **Target:** CachyOS, x86-64, Wayland, 1920×1080, 60 FPS
 **Baseline:** Soul Knight 2.6.8 (APK SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)
 **Reference engine:** Unity **2018.4.12f1**, IL2CPP metadata **v24**
@@ -11,7 +11,7 @@
 > - Phase 1 — COMPLETE (artifact inventory)
 > - Phase 2 — PARTIAL; Gate B **PARTIAL** (see `docs/GATE_B.md`)
 > - Phase 3 — PARTIAL/CURRENT (vertical-slice contract largely reconstructed; full content/AI/save unknown; see `docs/PHASE_3_BEHAVIOURAL_RE.md`)
-> - Phase 4 — **PARTIAL**; foundation + PNG/controlled Unity Texture2D path FUNCTIONAL, Gate C **PARTIAL** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
+> - Phase 4 — **PARTIAL**; foundation + PNG/Unity Texture2D + Sprite/camera/room composition FUNCTIONAL, Gate C **PARTIAL** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
 > - Phase 5+ — BLOCKED by Gate B/C
 >
 > The build/test/evidence pipeline is clean and reproducible. This is not a Phase 4
@@ -89,7 +89,10 @@
 | Sprite renderer (textured batched quad) | `SpriteRenderer`, `SpriteBatch`, `shaders/` | ✅ bring-up |
 | Asset runtime / PNG decode | `src/engine/assets/PngDecoder.*`, `TextureData.hpp`, `Texture2D.cpp` | ✅ PNG → RGBA8 → GPU path; KTX2/registry pending |
 | Controlled Unity Texture2D | `tools/asset/extract_unity.py`, `analysis/assets/texture_conversion_manifest.json` | ✅ One real asset converted, deterministic, native round-trip/render verified |
-| Unity Sprite metadata / PPU | planned | ⬜ Next dependency |
+| Unity Sprite metadata / PPU | `SpriteData`, `analysis/assets/sprites.md` | ✅ Rect/pivot/PPU/border/filter/wrap; rectangular tight-crop approximation |
+| 2D camera / coordinate system | `Camera2D`, `analysis/assets/coordinate_system.md` | ✅ Y-up world, PPU 16, aspect-fit; exact reference camera size unresolved |
+| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 111 instances, 3 textures, rendered Wayland/Vulkan |
+| Sprite animation / Animator frames | planned | ⬜ Next visual dependency |
 | Input abstraction (keyboard, mouse, gamepad) | `src/platform/input/InputManager.cpp` | ⚠️ scaffold, not wired |
 | miniaudio engine + bus system | `src/platform/audio/AudioEngine.cpp` | ⚠️ scaffold, not wired |
 | FileSystem (XDG paths) | `src/platform/filesystem/FileSystem.cpp` | ⚠️ scaffold |
@@ -326,4 +329,4 @@ Phase 11 (Release) ────────────┘
 ---
 
 **Next Review:** After Gate B blockers are closed or explicitly accepted.
-**Roadmap Version:** 1.2 — Update at each gate.
+**Roadmap Version:** 1.4 — Update at each gate.

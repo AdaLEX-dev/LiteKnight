@@ -20,6 +20,17 @@ machine.
 - Measurement type: CPU frame pacing (`steady_clock` via `FrameTimer`), not GPU
   timestamp queries. FIFO present mode. Do not generalize to other GPUs/displays.
 
+### Native r1_1 + c00 scene
+
+RelWithDebInfo, 111 sprite instances, 3 textures, 6 sprite assets, 5 contiguous
+texture draw groups:
+
+- `FrameTimer` average: **16.659 ms** over 573 samples.
+- **603 frames** over ~10.22 s (~59.0 presents/s).
+- **511 fixed simulation ticks** (~0.832 steps/render frame).
+- Debug scene validation: 0 errors.
+- This is CPU pacing on the test machine; no GPU timestamps or FPS parity claim.
+
 ## 1. Budgets (provisional, main thread)
 
 | Area | Budget |

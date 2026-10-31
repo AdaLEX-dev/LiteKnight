@@ -27,7 +27,9 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 | PNG asset runtime | FUNCTIONAL | libpng → RGBA8 `TextureData` → existing staging/upload path |
 | Asset-runtime PNG | FUNCTIONAL | libpng, exact-byte tests, synthetic PNGs |
 | Controlled Unity Texture2D | FUNCTIONAL / MANUAL PASS | `level-objects`/`f903`; deterministic conversion + native round-trip + render |
-| Asset registry/KTX2/atlas/Sprite metadata | NOT STARTED | one texture only; sprite semantics not implemented |
+| Unity Sprite metadata / camera | FUNCTIONAL | `SpriteData`, `Camera2D`, `analysis/assets/sprites.md`, `coordinate_system.md` |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 111 instances, 3 textures, native SceneLoader, Wayland/Vulkan render |
+| Animation / asset registry / KTX2 | NOT STARTED | static one-frame composition only |
 | Input → fixed tick | NOT STARTED | `InputManager` not wired into the loop |
 | Audio/UI/gameplay | NOT STARTED | deliberate scope boundary |
 
@@ -112,7 +114,7 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 
 ### 4.1 Unit/CTest
 
-- Debug tests: **35 cases / 1369 assertions, all passing**.
+- Debug tests: **39 cases / 1439 assertions, all passing**.
 - CTest: `soul-knight-unit-tests` 1/1 passing.
 - New tests:
   - config defaults + Wayland-only rejection,
@@ -122,7 +124,11 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
   - sprite-batch layer sorting/stability and quad budget,
   - `FrameTimer` consumed-step statistics,
   - PNG exact RGBA bytes/alpha, RGB/gray/gray-alpha/palette normalization,
-    repeated-decode determinism, malformed and missing-file failure.
+    repeated-decode determinism, malformed and missing-file failure,
+  - SpriteData rect/UV/pivot/PPU/border validation,
+  - sprite geometry pivot/crop/rotation/flips/determinism,
+  - Camera2D world/screen/aspect/zoom/projection,
+  - native SceneLoader synthetic scene + missing-scene failure.
 
 ### 4.2 Wayland/Vulkan manual smoke
 
@@ -207,11 +213,45 @@ normal `--texture` path. A temporary local screenshot (not committed) confirmed 
 
 ---
 
+### 4.5 Reconstructed r1_1 + c00 visual composition
+
+The controlled scene builder (`tools/asset/build_visual_scene.py`) uses the
+serialized `r1_1` hierarchy and `common/c00` prefab:
+
+- 109 room SpriteRenderers from `r1_1`, all sharing the 256×256 floor atlas
+  (`5467841708608453938`).
+- `c00/img/body` Sprite `c01_5` from the 2048×1024 character atlas
+  (`6092784074628815488`).
+- `c00/shadow` Sprite `shadow3` from the 32×32 object-common atlas
+  (`3188784419113904678`).
+- 111 instances, 6 sprite assets, 3 textures.
+- 5 contiguous texture draw groups; 111 quads in one batched frame.
+- Camera center `(20,20)`, orthographic half-height `10.5` (camera size is a
+  project decision; reference value not recovered).
+- Scene metadata SHA-256:
+  `1258245b7dd05b7bc1ad6ee7c7bbbad07304827831b3e95158770fb6ccd60ad4`.
+
+The run from `/tmp` with `--scene scenes/r1_1_visual/scene.json` rendered the
+7×7 floor block, four door clusters, and the `c00` player/shadows successfully.
+Debug validation: 0 errors. The final RelWithDebInfo scene run measured
+**16.659 ms** average `FrameTimer` frame, **603 frames / 511 fixed ticks over
+10.22 s**, with 111 instances, 3 textures, and 5 draw groups (CPU pacing, not a
+parity/FPS guarantee).
+
+Two real defects found during this milestone were fixed rather than worked
+around:
+
+1. `Mat4::operator*` treated column-major matrices as row-major, dropping camera
+   translation. Fixed and covered by a projection-center test.
+2. Indexed multi-texture groups applied both global index bases and a vertex
+   offset, double-offsetting all groups after the first. Fixed by using
+   `vertexOffset=0` with the global index buffer.
+
 ## 5. Remaining blockers / gaps
 
-1. **KTX2/atlas, asset registry, and Sprite metadata** — not implemented. One
-   Texture2D is converted; KTX2 packing, Unity Sprite rect/pivot/PPU/atlas
-   semantics, and the full registry remain.
+1. **Animation, general KTX2/atlas, and asset registry** — the controlled static
+   Sprite scene is implemented; Animator/AnimationClip frame selection, general
+   atlas packing, animation, and the full registry remain.
 2. **Shader/install path** — run-time shader and test-asset lookup now goes through
    `FileSystem`'s executable-relative/user/system search paths and CMake copies
    assets into `build/assets`; a signed/installed package still needs to install
@@ -223,18 +263,21 @@ normal `--texture` path. A temporary local screenshot (not committed) confirmed 
    handles the actual surface extent correctly.
 5. **Restore event observation** — handler is implemented and unit-tested; the
    programmatic xdg-shell restore path was not delivered by this compositor.
-6. **Rendering parity** — no reference comparison; native layer numbers and
-   rendering mechanism are project decisions.
-7. **Audio/UI/gameplay** — deliberately out of scope for this session.
-8. **Performance guarantee** — FIFO pacing measured on this machine only; no GPU
+6. **Rendering parity** — no reference comparison; native layer mapping is now
+   recovered from TagManager, but camera size and rendering details remain
+   project decisions.
+7. **Tight polygon meshes/borders** — rectangular tight-crop quads are used; full
+   Sprite `m_VertexData` meshes and nine-slice borders are not implemented.
+8. **Audio/UI/gameplay** — deliberately out of scope for this session.
+9. **Performance guarantee** — FIFO pacing measured on this machine only; no GPU
    timestamps, no multi-GPU/display matrix, no 60 FPS guarantee.
 
 ---
 
 ## 6. Exact next task
 
-**Unity Sprite metadata / pivot / pixels-per-unit:** extract one manifest-backed
-Sprite referencing a known texture and add a separate `SpriteData` model with
-deterministic rect/pivot/PPU tests. Keep `TextureData` free of sprite semantics.
-Do not import the full atlas/catalogue, commit proprietary bytes, or begin
-gameplay.
+**Unity animation frame selection / Animator state:** extract one manifest-backed
+`c00` AnimationClip and render deterministic fixed-time frame changes in the
+existing `r1_1` composition. Keep animation metadata separate from `SpriteData`
+and `TextureData`. Do not import the full atlas/catalogue, commit proprietary
+bytes, or begin gameplay.

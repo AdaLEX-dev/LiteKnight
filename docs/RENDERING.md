@@ -2,16 +2,16 @@
 
 > **Current implementation (2026-10-31):** the Vulkan 1.3 context, Wayland
 > surface, swapchain, render pass, frame resources, GLSL sprite shaders, dynamic
-> sprite batch, RGBA8 staging upload, alpha blending, and aspect-fit resize path
-> are implemented and manually verified. A generated 64x64 checkerboard texture
-> is presented as a textured quad. `docs/PARITY.md` Gate C is **PARTIAL**.
+> multi-texture sprite batch, RGBA8 staging upload, alpha blending, 2D camera, and
+> aspect-fit resize path are implemented and manually verified. A reconstructed
+> `r1_1` room + `c00` player composition using real Unity Sprite metadata renders
+> successfully. `docs/PARITY.md` Gate C is **PARTIAL**.
 >
-> **Not implemented:** KTX2/atlas packing, real game assets, camera follow, room
-> sprite pivots/PPU validation, VMA, GPU timestamp profiling, or rendering parity.
-> PNG decoding is now implemented through libpng into canonical RGBA8
-> `TextureData` and uploaded via the existing staging path. The sections below
-> remain design guidance beyond the implemented smoke path. Evidence:
-> `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/ASSET_PIPELINE.md`.
+> **Not implemented:** general KTX2/atlas packing, animation, all game content,
+> camera follow, VMA, GPU timestamp profiling, or rendering parity. PNG decoding
+> and controlled Unity texture/sprite conversion are implemented. Evidence:
+> `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/ASSET_PIPELINE.md`,
+> `analysis/assets/sprites.md`, `analysis/assets/coordinate_system.md`.
 
 **Target:** Vulkan 1.3, 1920×1080, 60 FPS, 2D sprite batching
 
@@ -42,6 +42,34 @@ A controlled real Unity Texture2D (`level-objects`/`f903`, 16x24 RGBA32) was
 also converted to a deterministic PNG, native-round-tripped byte-for-byte, and
 rendered through the same `--texture` path. This proves the asset boundary, not
 reference rendering parity. See `docs/ASSET_PIPELINE.md`.
+
+## 0. Implemented native sprite/scene path (2026-10-31)
+
+```text
+Unity Texture2D + Sprite metadata + shared atlas
+  -> deterministic PNG / native scene JSON
+  -> TextureData RGBA8 + SpriteData
+  -> multi-texture SpriteBatch
+  -> Camera2D world transform (Y-up, PPU=16)
+  -> Vulkan sprite pipeline
+  -> Wayland presentation
+```
+
+- `SpriteData` stores top-left pixel rect, adjusted pivot, source pivot,
+  pixels-per-unit, border, filter, and wrap.
+- `SpriteInstance` stores world position, rotation, scale, color, flips, and
+  Unity sorting layer/order.
+- `Camera2D` is orthographic, centered at (20,20) with half-height 10.5 for the
+  recovered room. The reference camera size is not recovered; this is a
+  **PROJECT DECISION**.
+- The `Mat4` column-major multiplication bug that dropped camera translation was
+  fixed; the projection maps world +Y up.
+- The `r1_1` scene has 111 instances across 3 textures and 6 sprite assets:
+  109 room sprites, 1 player body, 1 player shadow.
+- The renderer groups contiguous texture runs (5 draw groups for this scene) and
+  uses global index-buffer quad offsets with `vertexOffset=0`.
+- Screenshot evidence is temporary and not committed; the actual native scene is
+  generated from the local reference bundles.
 
 ## 1. Rendering Architecture
 
@@ -266,6 +294,12 @@ void main() {
 ## 5. Camera System
 
 ### Orthographic Camera
+
+> **Historical design snippet.** The implemented camera is `Camera2D`
+> (section 0 and `analysis/assets/coordinate_system.md`): Y-up world units,
+> `orthographic_size` as half-height, aspect-fit viewport, and column-major
+> `Mat4` multiplication. The snippet below is not current code.
+
 ```cpp
 // src/engine/rendering/Camera.cpp
 struct Camera {

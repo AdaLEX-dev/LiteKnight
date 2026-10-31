@@ -4,9 +4,10 @@
 > ownership model in `docs/PHASE_4_NATIVE_RUNTIME.md`. Implemented layers:
 > `Application` lifecycle, SDL3/Wayland window, Vulkan context/swapchain, batched
 > sprite renderer, 50 Hz fixed clock, render-world `SpriteBatch`, and PNG → RGBA8
-> `TextureData` asset boundary, plus one controlled Unity Texture2D conversion.
-> KTX2/atlas/Sprite metadata/registry, input-to-simulation, audio, UI, and gameplay
-> are not implemented. Gate B
+> `TextureData` asset boundary, controlled Unity Texture2D/Sprite conversion,
+> native `SceneLoader`/`SpriteData`/`Camera2D`, and an `r1_1`+`c00` composition.
+> Animation, general KTX2/atlas breadth/registry, input-to-simulation, audio, UI,
+> and gameplay are not implemented. Gate B
 > remains **PARTIAL**; Gate C is **PARTIAL**. Evidence:
 > `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 >

@@ -1,10 +1,12 @@
 # Phase 4 — Native Runtime Implementation Plan
 
-**Status:** **PARTIAL — native foundation implemented and manually verified.**
-The application bootstrap, Wayland-only SDL3 window, Vulkan 1.3 context/swapchain,
-50 Hz fixed loop, batched textured-quad renderer, and PNG → RGBA8 → GPU texture
-path are implemented. Input-to-simulation wiring, audio, gameplay, KTX2/atlas
-packing, and the full asset registry are not.
+**Status:** **PARTIAL — native foundation and static Unity-derived visual scene
+implemented and manually verified.** The application bootstrap, Wayland-only
+SDL3 window, Vulkan 1.3 context/swapchain, 50 Hz fixed loop, multi-texture sprite
+renderer, PNG → RGBA8 texture path, Unity Texture2D/Sprite metadata conversion,
+`Camera2D`, and an `r1_1` + `c00` composition are implemented. Animation,
+input-to-simulation wiring, audio, gameplay, general KTX2/atlas packing, and the
+full asset registry are not.
 **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 / metadata v24.
 **Target:** CachyOS x86-64, Wayland only, Vulkan 1.3, 1920×1080, 60 FPS.
 **Gate:** Gate B remains **PARTIAL**. Gate C is **PARTIAL** — launch, present, and
@@ -25,7 +27,10 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | 50 Hz fixed loop with 60 FPS render | FUNCTIONAL | `FrameTimer`, smoke log |
 | PNG → RGBA8 → GPU texture | FUNCTIONAL | `PngDecoder`, `TextureData`, libpng, `tests/unit/png_test.cpp` |
 | Controlled Unity Texture2D | FUNCTIONAL | `extract_unity.py convert-texture`, manifest, deterministic PNG/native round-trip |
-| Asset registry/KTX2/atlas/Sprite metadata | NOT STARTED | conversion breadth and sprite semantics not implemented |
+| Unity Sprite metadata / PPU | FUNCTIONAL | `SpriteData`, `analysis/assets/sprites.md`, tests |
+| Camera / world coordinates | FUNCTIONAL | `Camera2D`, `analysis/assets/coordinate_system.md`, tests |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 111 instances rendered |
+| Animation / asset registry / KTX2 | NOT STARTED | next dependency |
 | Input → fixed simulation | NOT STARTED | `InputManager` not wired |
 | Audio/UI/gameplay | NOT STARTED | deliberate boundary |
 
@@ -629,14 +634,14 @@ Rules:
 
 ## 11. Next implementation task
 
-The PNG and one real Unity Texture2D path are verified. Evidence now points to
-**Unity Sprite metadata / pivot / pixels-per-unit** as the next dependency:
-`TextureData` intentionally carries no sprite semantics. The next task is to
-extract one manifest-backed Unity `Sprite` referencing a known texture and add a
-separate `SpriteData` model (texture reference, rect, pivot, pixels-per-unit,
-filter/wrap) with deterministic tests. Do not implement the full atlas/catalogue
-or begin gameplay/content work.
+The static Unity-derived sprite/scene gate is verified. Evidence now points to
+**Unity animation frame selection** as the next dependency: the runtime can render
+one static Sprite per instance but does not consume Animator states or
+AnimationClips. The next task is to extract one manifest-backed `c00` animation
+clip, implement deterministic frame-time/state selection, and animate the player
+inside the existing room scene. Do not implement combat/gameplay or the full
+catalogue.
 
-Acceptance: exact expected rect/pivot/PPU values for one approved source, a clean
-separation from `TextureData`, native tests green, and no proprietary bytes
+Acceptance: exact expected frame keys/rects for one approved clip, deterministic
+fixed-time frame selection, native tests green, and no proprietary bytes
 committed.

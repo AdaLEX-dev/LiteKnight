@@ -3,11 +3,12 @@
 > **Current implementation (2026-10-31):** the Phase 4A-4E foundation is
 > implemented. `Application` owns SDL3/wayland enforcement, window state, Vulkan
 > renderer lifecycle, the 50 Hz/60 FPS loop, and shutdown. The window is
-> Wayland-only; a Vulkan 1.3 device/swapchain, a texture-batched sprite renderer,
-> a libpng → RGBA8 asset path, and a controlled Unity Texture2D conversion path
-> are present. Gate C is **PARTIAL** —
-> launch/present/resize are manually verified; input/gameplay are not. Evidence:
-> `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/ASSET_PIPELINE.md`.
+> Wayland-only; a Vulkan 1.3 device/swapchain, a multi-texture sprite renderer,
+> a libpng → RGBA8 asset path, controlled Unity Texture2D/Sprite conversion,
+> Camera2D, and an actual `r1_1`+`c00` visual composition are present. Gate C is
+> **PARTIAL** — launch/present/resize are manually verified; input/gameplay are
+> not. Evidence: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`,
+> `docs/ASSET_PIPELINE.md`, `analysis/assets/sprites.md`.
 >
 > **Status:** mixed. Sections 1-3 describe the implemented platform contract;
 > later snippets remain design guidance. Confirmed reference facts: fixed timestep

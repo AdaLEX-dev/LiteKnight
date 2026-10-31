@@ -176,7 +176,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Resolved death/reborn/game-over/restart entry flow; exact virtual slots/UI remain PARTIAL.
 - Resolved the save boundary as Unity `PlayerPrefs`; payload remains UNKNOWN.
 - Corrected native `FrameTimer` to the confirmed 50 Hz step and added a regression
-  test: **23 cases / 1276 assertions at that time** (now 35/1369 after the PNG asset stage).
+  test: **23 cases / 1276 assertions at that time** (now 39/1439 after the PNG asset stage).
 - Gate B and Phase 3 remain **PARTIAL**; first-slice approximations are explicitly
   scoped in `docs/GATE_B.md` and `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`.
 
@@ -190,7 +190,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
   alpha blending, stable layer sorting, and aspect-fit resize.
 - Manual 10 s smoke: exit 0, 0 validation messages, 603 presented frames,
   506 fixed ticks, 16.665 ms average `FrameTimer` frame.
-- Tests at that stage: **31 cases / 1335 assertions** (now 35/1369 after PNG).
+- Tests at that stage: **31 cases / 1335 assertions** (now 39/1439 after PNG).
 - Gate C is **PARTIAL**; asset decoding, input-to-simulation, audio, UI, and
   gameplay remain unimplemented. See `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -208,5 +208,21 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
   PNG SHA-256 `a71dae026afe598a451723a466ccd1eec684405355a157fe9a306e91004f5505`.
 - Native `soul-knight-png-roundtrip` matched all 1536 bytes; the real PNG rendered
   through the existing Wayland/Vulkan sprite path.
-- Tests: **35 cases / 1369 assertions**.
+- Tests: **39 cases / 1439 assertions**.
 - Next dependency: Unity Sprite metadata/rect/pivot/PPU; no gameplay started.
+
+## 2026-10-31 — Native Unity Sprite/Scene Composition
+
+- Confirmed Unity Sprite rect/pivot/PPU/border/filter fields and the bottom-left
+  texture-rect origin; documented in `analysis/assets/sprites.md`.
+- Added native `SpriteData`, `Camera2D`, `SpriteGeometry`, `SceneAsset`, and
+  `SceneLoader`; fixed a column-major `Mat4` multiplication bug and an indexed
+  multi-texture vertex-offset bug.
+- Built the actual `r1_1` visual composition: 109 room sprites from the shared
+  256×256 floor atlas plus `c00` body/shadow from the character/object atlases;
+  111 instances, 3 textures, 6 sprite assets.
+- Scene metadata SHA-256:
+  `1258245b7dd05b7bc1ad6ee7c7bbbad07304827831b3e95158770fb6ccd60ad4`.
+  Rendered through Wayland/Vulkan with 0 validation errors.
+- Tests: **39 cases / 1439 assertions**.
+- Next dependency: Unity animation frame selection; no gameplay started.

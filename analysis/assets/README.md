@@ -75,3 +75,16 @@ tools/asset/extract.sh convert-texture \
 The converter uses UnityPy 1.25.4 and Pillow 13.0.0 (both pinned), rejects
 non-RGBA32/RGB24 formats and multi-mip textures, and verifies its PNG round-trip
 before writing the manifest.
+
+## Visual scene metadata (2026-10-31)
+
+`tools/asset/build_visual_scene.py` uses the existing texture-conversion manifest
+and the real `r1_1` + `c00` Unity objects to produce:
+
+- `analysis/assets/scenes/r1_1_visual.json` — native scene metadata (textures,
+  sprite rects/pivots/PPU, 111 instances, camera), no pixels.
+- `analysis/assets/scenes/r1_1_visual_manifest.json` — provenance and hashes.
+- gitignored `assets/generated/visual/r1_1_visual/` — runtime scene JSON and PNGs.
+
+The scene was rendered through Wayland/Vulkan; see
+`analysis/assets/sprites.md` and `analysis/assets/coordinate_system.md`.
