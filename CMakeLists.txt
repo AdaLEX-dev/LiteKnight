@@ -28,50 +28,12 @@ cmake_policy(SET CMP0122 NEW)  # C++20 modules
 # ============================================================
 # Compiler Options
 # ============================================================
-set(COMMON_WARNING_FLAGS
-    -Wall -Wextra -Wpedantic
-    -Wconversion -Wsign-conversion
-    -Wshadow -Wnon-virtual-dtor
-    -Wold-style-cast -Wcast-align
-    -Wunused -Woverloaded-virtual
-    -Wzero-as-null-pointer-constant
-    -Wduplicated-cond -Wduplicated-branches
-    -Wlogical-op -Wnull-dereference
-    -Wformat=2 -Wformat-security
-)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic -Wconversion -Wsign-conversion -Wshadow -Wnon-virtual-dtor -Wold-style-cast -Wcast-align -Wunused -Woverloaded-virtual -Wzero-as-null-pointer-constant -Wduplicated-cond -Wduplicated-branches -Wlogical-op -Wnull-dereference -Wformat=2 -Wformat-security -fdiagnostics-color=always -fno-rtti -fno-exceptions -ffp-contract=off -fno-strict-aliasing -std=c++20")
 
-set(COMMON_COMPILE_OPTIONS
-    ${COMMON_WARNING_FLAGS}
-    -fdiagnostics-color=always
-    -fno-rtti
-    -fno-exceptions
-    -ffp-contract=off          # Deterministic floating point
-    -fno-strict-aliasing
-)
-
-# Debug
-set(CMAKE_CXX_FLAGS_DEBUG
-    "${COMMON_COMPILE_OPTIONS}
-    -O0 -g3
-    -fsanitize=address,undefined
-    -fno-omit-frame-pointer
-    -DDEBUG=1"
-)
-
-# RelWithDebInfo
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO
-    "${COMMON_COMPILE_OPTIONS}
-    -O2 -g
-    -DNDEBUG=1"
-)
-
-# Release
-set(CMAKE_CXX_FLAGS_RELEASE
-    "${COMMON_COMPILE_OPTIONS}
-    -O3 -march=native -flto
-    -DNDEBUG=1
-    -DNDEBUG"
-)
+# Build type specific flags
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -O0 -g3 -fsanitize=address,undefined -fno-omit-frame-pointer -DDEBUG=1")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "${CMAKE_CXX_FLAGS_RELWITHDEBINFO} -O2 -g -DNDEBUG=1")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -O3 -march=native -flto -DNDEBUG=1")
 
 # Linker flags
 set(CMAKE_EXE_LINKER_FLAGS_DEBUG "-fsanitize=address,undefined")
@@ -88,6 +50,7 @@ FetchContent_Declare(
     GIT_REPOSITORY https://github.com/doctest/doctest.git
     GIT_TAG        v2.4.11
 )
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 FetchContent_MakeAvailable(doctest)
 
 # nlohmann/json — JSON serialization
@@ -115,13 +78,16 @@ FetchContent_MakeAvailable(tomlplusplus)
 # )
 # FetchContent_MakeAvailable(miniaudio)
 
-# VMA — Vulkan Memory Allocator
-FetchContent_Declare(
-    vma
-    GIT_REPOSITORY https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
-    GIT_TAG        v3.0.1
-)
-FetchContent_MakeAvailable(vma)
+# VMA — Vulkan Memory Allocator (optional, use system or single-header)
+# FetchContent_Declare(
+#     vma
+#     GIT_REPOSITORY https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator.git
+#     GIT_TAG        v3.0.1
+# )
+# FetchContent_MakeAvailable(vma)
+
+# For now, use VMA single header (download to src/engine/rendering/vk_mem_alloc.h)
+# Or implement simple allocator
 
 # ============================================================
 # System Dependencies
@@ -132,9 +98,22 @@ pkg_check_modules(VULKAN REQUIRED vulkan>=1.3)
 pkg_check_modules(PIPEWIRE pipewire-0.3)
 pkg_check_modules(PULSEAUDIO libpulse)
 pkg_check_modules(ALSA alsa)
+find_package(fmt REQUIRED)
 
 # Threads
 find_package(Threads REQUIRED)
+
+# Commit hash for startup diagnostics. Never fail configuration if Git is absent.
+execute_process(
+    COMMAND git rev-parse --short HEAD
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    OUTPUT_VARIABLE SOUL_KNIGHT_COMMIT_HASH
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    ERROR_QUIET
+)
+if(NOT SOUL_KNIGHT_COMMIT_HASH)
+    set(SOUL_KNIGHT_COMMIT_HASH "unknown")
+endif()
 
 # ============================================================
 # Platform-Specific Definitions
@@ -142,10 +121,28 @@ find_package(Threads REQUIRED)
 add_compile_definitions(
     SOUL_KNIGHT_VERSION="${PROJECT_VERSION}"
     SOUL_KNIGHT_BUILD_TYPE="${CMAKE_BUILD_TYPE}"
+    SOUL_KNIGHT_COMMIT_HASH="${SOUL_KNIGHT_COMMIT_HASH}"
     SDL_MAIN_HANDLED
     MINIAUDIO_IMPLEMENTATION
     VMA_IMPLEMENTATION
     NLOHMANN_JSON_NAMESPACE=nlohmann
+)
+
+# ============================================================
+# Library: core (logging and foundational types)
+# ============================================================
+add_library(core STATIC
+    src/engine/core/Log.cpp
+    src/engine/core/Log.hpp
+    src/engine/core/Types.hpp
+)
+
+target_include_directories(core PUBLIC
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+)
+
+target_link_libraries(core PUBLIC
+    fmt::fmt
 )
 
 # ============================================================
@@ -168,15 +165,13 @@ add_library(platform STATIC
 )
 
 target_include_directories(platform PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/wayland>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/input>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/timing>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/filesystem>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/platform/audio>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
+    ${SDL3_INCLUDE_DIRS}
+    ${VULKAN_INCLUDE_DIRS}
 )
 
 target_link_libraries(platform PUBLIC
+    core
     ${SDL3_LIBRARIES}
     ${VULKAN_LIBRARIES}
     Threads::Threads
@@ -188,10 +183,6 @@ target_compile_options(platform PUBLIC ${COMMON_WARNING_FLAGS})
 # Library: engine (core, math, ecs, rendering, resources, audio, collision)
 # ============================================================
 add_library(engine STATIC
-    # Core
-    src/engine/core/Log.cpp
-    src/engine/core/Log.hpp
-    src/engine/core/Types.hpp
     # Math
     src/engine/math/Vec2.cpp
     src/engine/math/Vec2.hpp
@@ -199,62 +190,47 @@ add_library(engine STATIC
     src/engine/math/Mat4.hpp
     src/engine/math/Random.cpp
     src/engine/math/Random.hpp
+    src/engine/math/UnityRandom.cpp
+    src/engine/math/UnityRandom.hpp
     src/engine/math/Rect.hpp
     src/engine/math/Color.hpp
-    src/engine/math/Easing.hpp
     # ECS
     src/engine/ecs/Entity.hpp
     src/engine/ecs/ComponentPool.hpp
-    src/engine/ecs/World.cpp
     src/engine/ecs/World.hpp
     src/engine/ecs/System.hpp
     # Rendering
-    src/engine/rendering/VulkanContext.cpp
     src/engine/rendering/VulkanContext.hpp
-    src/engine/rendering/SpriteBatcher.cpp
     src/engine/rendering/SpriteBatcher.hpp
-    src/engine/rendering/TextureAtlas.cpp
-    src/engine/rendering/TextureAtlas.hpp
-    src/engine/rendering/Camera.cpp
     src/engine/rendering/Camera.hpp
-    src/engine/rendering/Shader.cpp
-    src/engine/rendering/Shader.hpp
-    src/engine/rendering/DebugRenderer.cpp
-    src/engine/rendering/DebugRenderer.hpp
+    # src/engine/rendering/Shader.hpp
+    # src/engine/rendering/DebugRenderer.hpp
     # Resources
-    src/engine/resources/AssetManager.cpp
-    src/engine/resources/AssetManager.hpp
-    src/engine/resources/TextureLoader.cpp
-    src/engine/resources/TextureLoader.hpp
-    src/engine/resources/AudioLoader.cpp
-    src/engine/resources/AudioLoader.hpp
-    src/engine/resources/DataLoader.cpp
-    src/engine/resources/DataLoader.hpp
+    # src/engine/resources/AssetManager.cpp
+    # src/engine/resources/AssetManager.hpp
+    # src/engine/resources/TextureLoader.cpp
+    # src/engine/resources/TextureLoader.hpp
+    # src/engine/resources/AudioLoader.cpp
+    # src/engine/resources/AudioLoader.hpp
+    # src/engine/resources/DataLoader.cpp
+    # src/engine/resources/DataLoader.hpp
     # Audio
-    src/engine/audio/AudioManager.cpp
-    src/engine/audio/AudioManager.hpp
+    # src/engine/audio/AudioManager.cpp
+    # src/engine/audio/AudioManager.hpp
     # Collision
-    src/engine/collision/Collision.cpp
-    src/engine/collision/Collision.hpp
-    src/engine/collision/Broadphase.cpp
-    src/engine/collision/Broadphase.hpp
+    # src/engine/collision/Collision.cpp
+    # src/engine/collision/Collision.hpp
+    # src/engine/collision/Broadphase.cpp
+    # src/engine/collision/Broadphase.hpp
 )
 
 target_include_directories(engine PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/core>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/math>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/ecs>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/rendering>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/resources>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/audio>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/engine/collision>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 
 target_link_libraries(engine PUBLIC
     platform
     ${VULKAN_LIBRARIES}
-    vma
     nlohmann_json::nlohmann_json
 )
 
@@ -271,119 +247,100 @@ add_library(game STATIC
     src/game/player/PlayerInput.hpp
     src/game/player/Character.cpp
     src/game/player/Character.hpp
-    src/game/player/Movement.cpp
-    src/game/player/Movement.hpp
-    src/game/player/Stats.cpp
-    src/game/player/Stats.hpp
     # Characters
-    src/game/characters/CharacterData.cpp
-    src/game/characters/CharacterData.hpp
+    # src/game/characters/CharacterData.cpp
+    # src/game/characters/CharacterData.hpp
     # Enemies
-    src/game/enemies/EnemyController.cpp
-    src/game/enemies/EnemyController.hpp
-    src/game/enemies/EnemyAI.cpp
-    src/game/enemies/EnemyAI.hpp
-    src/game/enemies/EnemyData.cpp
-    src/game/enemies/EnemyData.hpp
-    src/game/enemies/BossController.cpp
-    src/game/enemies/BossController.hpp
+    # src/game/enemies/EnemyController.cpp
+    # src/game/enemies/EnemyController.hpp
+    # src/game/enemies/EnemyAI.cpp
+    # src/game/enemies/EnemyAI.hpp
+    # src/game/enemies/EnemyData.cpp
+    # src/game/enemies/EnemyData.hpp
+    # src/game/enemies/BossController.cpp
+    # src/game/enemies/BossController.hpp
     # Weapons
-    src/game/weapons/WeaponBase.cpp
-    src/game/weapons/WeaponBase.hpp
-    src/game/weapons/WeaponData.cpp
-    src/game/weapons/WeaponData.hpp
-    src/game/weapons/MeleeWeapon.cpp
-    src/game/weapons/MeleeWeapon.hpp
-    src/game/weapons/RangedWeapon.cpp
-    src/game/weapons/RangedWeapon.hpp
-    src/game/weapons/SpecialWeapon.cpp
-    src/game/weapons/SpecialWeapon.hpp
+    # src/game/weapons/WeaponBase.cpp
+    # src/game/weapons/WeaponBase.hpp
+    # src/game/weapons/WeaponData.cpp
+    # src/game/weapons/WeaponData.hpp
+    # src/game/weapons/MeleeWeapon.cpp
+    # src/game/weapons/MeleeWeapon.hpp
+    # src/game/weapons/RangedWeapon.cpp
+    # src/game/weapons/RangedWeapon.hpp
+    # src/game/weapons/SpecialWeapon.cpp
+    # src/game/weapons/SpecialWeapon.hpp
     # Projectiles
-    src/game/projectiles/ProjectileBase.cpp
-    src/game/projectiles/ProjectileBase.hpp
-    src/game/projectiles/ProjectileData.cpp
-    src/game/projectiles/ProjectileData.hpp
-    src/game/projectiles/TriggerSystem.cpp
-    src/game/projectiles/TriggerSystem.hpp
+    # src/game/projectiles/ProjectileBase.cpp
+    # src/game/projectiles/ProjectileBase.hpp
+    # src/game/projectiles/ProjectileData.cpp
+    # src/game/projectiles/ProjectileData.hpp
+    # src/game/projectiles/TriggerSystem.cpp
+    # src/game/projectiles/TriggerSystem.hpp
     # Items
-    src/game/items/ItemBase.cpp
-    src/game/items/ItemBase.hpp
-    src/game/items/ItemData.cpp
-    src/game/items/ItemData.hpp
-    src/game/items/Chest.cpp
-    src/game/items/Chest.hpp
-    src/game/items/Buff.cpp
-    src/game/items/Buff.hpp
+    # src/game/items/ItemBase.cpp
+    # src/game/items/ItemBase.hpp
+    # src/game/items/ItemData.cpp
+    # src/game/items/ItemData.hpp
+    # src/game/items/Chest.cpp
+    # src/game/items/Chest.hpp
+    # src/game/items/Buff.cpp
+    # src/game/items/Buff.hpp
     # Rooms
-    src/game/rooms/RoomTemplate.cpp
-    src/game/rooms/RoomTemplate.hpp
-    src/game/rooms/RoomManager.cpp
-    src/game/rooms/RoomManager.hpp
-    src/game/rooms/Door.cpp
-    src/game/rooms/Door.hpp
+    # src/game/rooms/RoomTemplate.cpp
+    # src/game/rooms/RoomTemplate.hpp
+    # src/game/rooms/RoomManager.cpp
+    # src/game/rooms/RoomManager.hpp
+    # src/game/rooms/Door.cpp
+    # src/game/rooms/Door.hpp
     # Generation
-    src/game/generation/MapManager.cpp
-    src/game/generation/MapManager.hpp
-    src/game/generation/DungeonGenerator.cpp
-    src/game/generation/DungeonGenerator.hpp
-    src/game/generation/SerializeLinker.cpp
-    src/game/generation/SerializeLinker.hpp
-    src/game/generation/RandomTile.cpp
-    src/game/generation/RandomTile.hpp
+    # src/game/generation/MapManager.cpp
+    # src/game/generation/MapManager.hpp
+    # src/game/generation/DungeonGenerator.cpp
+    # src/game/generation/DungeonGenerator.hpp
+    # src/game/generation/SerializeLinker.cpp
+    # src/game/generation/SerializeLinker.hpp
+    # src/game/generation/RandomTile.cpp
+    # src/game/generation/RandomTile.hpp
     # Combat
-    src/game/combat/CombatSystem.cpp
-    src/game/combat/CombatSystem.hpp
-    src/game/combat/DamageSystem.cpp
-    src/game/combat/DamageSystem.hpp
-    src/game/combat/StatusEffect.cpp
-    src/game/combat/StatusEffect.hpp
+    # src/game/combat/CombatSystem.cpp
+    # src/game/combat/CombatSystem.hpp
+    # src/game/combat/DamageSystem.cpp
+    # src/game/combat/DamageSystem.hpp
+    # src/game/combat/StatusEffect.cpp
+    # src/game/combat/StatusEffect.hpp
     # Status
-    src/game/status/StatusEffectSystem.cpp
-    src/game/status/StatusEffectSystem.hpp
+    # src/game/status/StatusEffectSystem.cpp
+    # src/game/status/StatusEffectSystem.hpp
     # Progression
-    src/game/progression/ProgressionSystem.cpp
-    src/game/progression/ProgressionSystem.hpp
-    src/game/progression/UnlockManager.cpp
-    src/game/progression/UnlockManager.hpp
+    # src/game/progression/ProgressionSystem.cpp
+    # src/game/progression/ProgressionSystem.hpp
+    # src/game/progression/UnlockManager.cpp
+    # src/game/progression/UnlockManager.hpp
     # NPCs
-    src/game/npc/NPCController.cpp
-    src/game/npc/NPCController.hpp
+    # src/game/npc/NPCController.cpp
+    # src/game/npc/NPCController.hpp
     # Bosses
-    src/game/bosses/BossData.cpp
-    src/game/bosses/BossData.hpp
+    # src/game/bosses/BossData.cpp
+    # src/game/bosses/BossData.hpp
     # UI
-    src/game/ui/HUD.cpp
-    src/game/ui/HUD.hpp
-    src/game/ui/MenuSystem.cpp
-    src/game/ui/MenuSystem.hpp
-    src/game/ui/InventoryUI.cpp
-    src/game/ui/InventoryUI.hpp
+    # src/game/ui/HUD.cpp
+    # src/game/ui/HUD.hpp
+    # src/game/ui/MenuSystem.cpp
+    # src/game/ui/MenuSystem.hpp
+    # src/game/ui/InventoryUI.cpp
+    # src/game/ui/InventoryUI.hpp
     # Save
-    src/game/save/SaveManager.cpp
-    src/game/save/SaveManager.hpp
-    src/game/save/GameStateSerializer.cpp
-    src/game/save/GameStateSerializer.hpp
-    src/game/save/SaveMigrations.cpp
-    src/game/save/SaveMigrations.hpp
+    # src/game/save/SaveManager.cpp
+    # src/game/save/SaveManager.hpp
+    # src/game/save/GameStateSerializer.cpp
+    # src/game/save/GameStateSerializer.hpp
+    # src/game/save/SaveMigrations.cpp
+    # src/game/save/SaveMigrations.hpp
 )
 
 target_include_directories(game PUBLIC
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/player>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/characters>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/enemies>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/weapons>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/projectiles>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/items>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/rooms>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/generation>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/combat>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/status>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/progression>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/npc>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/bosses>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/ui>
-    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src/game/save>
+    $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/src>
 )
 
 target_link_libraries(game PUBLIC
@@ -416,24 +373,23 @@ add_executable(soul-knight-test
     tests/unit/math_test.cpp
     tests/unit/ecs_test.cpp
     tests/unit/rng_test.cpp
+    tests/unit/unity_random_test.cpp
     tests/unit/input_test.cpp
-    tests/unit/serialization_test.cpp
-    tests/unit/collision_test.cpp
     # Integration tests
-    tests/integration/asset_loading_test.cpp
-    tests/integration/save_load_test.cpp
+    # tests/integration/asset_loading_test.cpp
+    # tests/integration/save_load_test.cpp
     # Gameplay tests
-    tests/gameplay/player_movement_test.cpp
-    tests/gameplay/combat_test.cpp
-    tests/gameplay/generation_test.cpp
+    # tests/gameplay/player_movement_test.cpp
+    # tests/gameplay/combat_test.cpp
+    # tests/gameplay/generation_test.cpp
     # Regression tests
-    tests/regression/bug_fixes_test.cpp
+    # tests/regression/bug_fixes_test.cpp
     # Serialization tests
-    tests/serialization/save_roundtrip_test.cpp
+    # tests/serialization/save_roundtrip_test.cpp
     # Procedural tests
-    tests/procedural/determinism_test.cpp
+    # tests/procedural/determinism_test.cpp
     # Performance tests
-    tests/performance/benchmark_test.cpp
+    # tests/performance/benchmark_test.cpp
 )
 
 target_link_libraries(soul-knight-test PRIVATE
@@ -443,9 +399,10 @@ target_link_libraries(soul-knight-test PRIVATE
     doctest::doctest
 )
 
-# Doctest configuration
+# Doctest configuration. Do NOT define DOCTEST_CONFIG_DISABLE: doctest checks
+# only whether it is defined, so even DOCTEST_CONFIG_DISABLE=0 compiles all
+# tests out.
 target_compile_definitions(soul-knight-test PRIVATE
-    DOCTEST_CONFIG_DISABLE=0
     DOCTEST_CONFIG_NO_POSIX_SIGNALS=1
 )
 
@@ -469,23 +426,17 @@ install(FILES config/default.toml
 # CTest Integration
 # ============================================================
 enable_testing()
+
+# Only run categories that actually contain tests. Do not add empty CTest
+# entries: a test entry that selects zero doctest cases reports green.
 add_test(NAME soul-knight-unit-tests
-    COMMAND soul-knight-test --test-case=*unit* --reporter=console
+    COMMAND soul-knight-test --test-suite=unit --reporter=console
 )
-add_test(NAME soul-knight-integration-tests
-    COMMAND soul-knight-test --test-case=*integration* --reporter=console
-)
-add_test(NAME soul-knight-gameplay-tests
-    COMMAND soul-knight-test --test-case=*gameplay* --reporter=console
-)
-add_test(NAME soul-knight-regression-tests
-    COMMAND soul-knight-test --test-case=*regression* --reporter=console
-)
-add_test(NAME soul-knight-serialization-tests
-    COMMAND soul-knight-test --test-case=*serialization* --reporter=console
-)
-add_test(NAME soul-knight-procedural-tests
-    COMMAND soul-knight-test --test-case=*procedural* --reporter=console
+# FAIL_REGULAR_EXPRESSION (not PASS) so a real test failure still turns CTest
+# red. This only rejects the old false-green case where the filter selected zero
+# test cases.
+set_tests_properties(soul-knight-unit-tests PROPERTIES
+    FAIL_REGULAR_EXPRESSION "test cases:[ ]+0[ ]"
 )
 
 # ============================================================

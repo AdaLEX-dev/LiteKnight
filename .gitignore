@@ -183,3 +183,11 @@ vgcore.*
 # Local overrides
 *.local
 local/
+# Generated reverse-engineering artifacts (large / machine-specific)
+analysis/re/generated/
+analysis/re/ghidra_project/
+analysis/re/*.log
+
+# Tool-local virtual environments
+tools/asset/.venv/
+tools/re/.venv/

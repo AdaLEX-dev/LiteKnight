@@ -30,25 +30,12 @@ case "${CATEGORY}" in
         FILTER=""
         ;;
     unit)
-        FILTER="--test-case=*unit*"
+        FILTER="--test-suite=unit"
         ;;
-    integration)
-        FILTER="--test-case=*integration*"
-        ;;
-    gameplay)
-        FILTER="--test-case=*gameplay*"
-        ;;
-    regression)
-        FILTER="--test-case=*regression*"
-        ;;
-    serialization)
-        FILTER="--test-case=*serialization*"
-        ;;
-    procedural)
-        FILTER="--test-case=*procedural*"
-        ;;
-    performance)
-        FILTER="--test-case=*performance*"
+    integration|gameplay|regression|serialization|procedural|performance)
+        echo "No ${CATEGORY} tests exist yet."
+        echo "Add the tests before adding a CTest category; do not run an empty filter."
+        exit 1
         ;;
     *)
         echo "Unknown category: ${CATEGORY}"

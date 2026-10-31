@@ -1,0 +1,21 @@
+# Soul Knight Linux — default configuration
+# This file is installed as a template. User overrides live under
+# $XDG_CONFIG_HOME/soul-knight/config.toml.
+
+[window]
+title = "Soul Knight"
+width = 1920
+height = 1080
+fullscreen = false
+vsync = true
+
+[audio]
+master_volume = 1.0
+music_volume = 1.0
+sfx_volume = 1.0
+ui_volume = 1.0
+ambience_volume = 1.0
+
+[simulation]
+# Reference timing is still under investigation. Do not treat this as parity.
+target_fps = 60
