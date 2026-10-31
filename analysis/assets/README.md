@@ -6,18 +6,29 @@
 tools/asset/extract.sh extract --profile first-pass
 ```
 
-It records:
+Manifest v2 records:
 
-- source bundle path,
-- source bundle SHA-256,
-- Unity object path ID,
+- reference APK SHA-256 and bundle root,
+- pinned UnityPy version used for the extraction,
+- profiles applied,
+- source bundle path and SHA-256,
+- Unity object path ID (also embedded in the deterministic output filename),
 - Unity type,
 - object name,
 - exported path under `assets/generated/first-pass/`,
 - status and notes.
 
+Output filenames always include the object path ID, so rerunning the same
+manifest produces the same paths instead of path-ID suffixes that depend on
+previously extracted files.
+
 The extracted bytes are **not** committed. `assets/generated/` is gitignored. Only
 this manifest and the extraction tooling are committed.
+
+Clean-environment check: deleting `tools/asset/.venv` and
+`assets/generated/first-pass/`, then running the extraction command above,
+recreates UnityPy 1.25.4 from `requirements.txt` and reproduces 284 entries with
+0 warnings.
 
 ## First-pass coverage
 

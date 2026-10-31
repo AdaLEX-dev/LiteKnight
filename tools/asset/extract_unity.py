@@ -24,6 +24,7 @@ import os
 import re
 import sys
 from dataclasses import dataclass, field
+from importlib.metadata import PackageNotFoundError, version as package_version
 from pathlib import Path
 from typing import Iterable
 
@@ -38,6 +39,12 @@ ROOT = Path(__file__).resolve().parents[2]
 DEFAULT_BUNDLE_ROOT = ROOT / "analysis/apktool_out/assets/AssetBundles"
 DEFAULT_OUT = ROOT / "assets/generated/first-pass"
 DEFAULT_MANIFEST = ROOT / "analysis/assets/extraction_manifest.json"
+REFERENCE_APK_SHA256 = "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea"
+
+try:
+    UNITYPY_VERSION = package_version("UnityPy")
+except PackageNotFoundError:  # pragma: no cover - only when run outside the venv
+    UNITYPY_VERSION = "unknown"
 
 
 @dataclass
@@ -57,6 +64,7 @@ class Manifest:
     unity_support: str = "Unity 2018.4.12f1 (reference bundle build string)"
     entries: list[dict] = field(default_factory=list)
     warnings: list[str] = field(default_factory=list)
+    profiles: list[str] = field(default_factory=list)
 
     def add(self, entry: dict) -> None:
         self.entries.append(entry)
@@ -97,9 +105,9 @@ def object_name(obj) -> str:
 
 
 def unique_path(path: Path, path_id: int) -> Path:
-    if not path.exists():
-        return path
-    return path.with_name(f"{path.stem}_{path_id & 0xFFFFFFFF:x}{path.suffix}")
+    # Always include the object path ID. Relying on file existence makes reruns
+    # produce different output paths depending on what was extracted previously.
+    return path.with_name(f"{path.stem}_{path_id & 0xFFFFFFFFFFFFFFFF:x}{path.suffix}")
 
 
 def write_bytes(path: Path, data: bytes) -> None:
@@ -446,16 +454,28 @@ def main(argv: list[str] | None = None) -> int:
             ))
 
     for spec in specs:
+        if spec.profile not in manifest.profiles:
+            manifest.profiles.append(spec.profile)
         run_spec(spec, args.bundle_root, args.out, manifest, args.dry_run)
 
     if not args.dry_run:
         args.manifest.parent.mkdir(parents=True, exist_ok=True)
-        args.manifest.write_text(json.dumps({
+        try:
+            bundle_root = str(args.bundle_root.resolve().relative_to(ROOT))
+        except ValueError:
+            bundle_root = str(args.bundle_root.resolve())
+        payload = {
+            "manifest_version": 2,
             "tool": manifest.tool,
+            "unitypy_version": UNITYPY_VERSION,
             "unity_support": manifest.unity_support,
+            "reference_apk_sha256": REFERENCE_APK_SHA256,
+            "bundle_root": bundle_root,
+            "profiles": manifest.profiles,
             "entries": manifest.entries,
             "warnings": manifest.warnings,
-        }, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        }
+        args.manifest.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         print(f"manifest: {args.manifest} ({len(manifest.entries)} entries, {len(manifest.warnings)} warnings)")
     return 0
 
