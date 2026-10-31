@@ -6,11 +6,11 @@ BUILD_DIR="${LITEKNIGHT_BUILD_DIR:-${ROOT}/build}"
 BUILD_TYPE="${LITEKNIGHT_BUILD_TYPE:-RelWithDebInfo}"
 JOBS="${LITEKNIGHT_JOBS:-$(nproc)}"
 
-if [[ ! -f "${BUILD_DIR}/build.ninja" && ! -f "${BUILD_DIR}/Makefile" ]]; then
-    cmake -S "${ROOT}" -B "${BUILD_DIR}" -G Ninja \
-        -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
-        -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-fi
+# Reconfigure every time so the embedded version/commit hash and generated
+# launcher always match the current checkout.
+cmake -S "${ROOT}" -B "${BUILD_DIR}" -G Ninja \
+    -DCMAKE_BUILD_TYPE="${BUILD_TYPE}" \
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
 cmake --build "${BUILD_DIR}" -j "${JOBS}" --target soul-knight soul-knight-test liteknight-devroom
 "${ROOT}/scripts/prepare-assets.sh"
 echo "Build complete: ${BUILD_DIR}/soul-knight"
