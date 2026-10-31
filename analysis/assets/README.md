@@ -87,4 +87,13 @@ and the real `r1_1` + `c00` Unity objects to produce:
 - gitignored `assets/generated/visual/r1_1_visual/` — runtime scene JSON and PNGs.
 
 The scene was rendered through Wayland/Vulkan; see
-`analysis/assets/sprites.md` and `analysis/assets/coordinate_system.md`.
+`analysis/assets/sprites.md`, `analysis/assets/coordinate_system.md`, and
+`analysis/assets/animation.md`.
+
+## Animation metadata (2026-10-31)
+
+`analysis/assets/scenes/animations/c00_idle.json` records the selected real
+`char_1_skin_0_ide` clip: four discrete SpriteRenderer keys, duration 0.5 s,
+sample rate 8 Hz, loop true, plus controller/state/clip path IDs and hashes. The
+four sprites reuse the existing character-atlas PNG. See
+`analysis/assets/animation.md` for the binding/mapping/streamed-curve evidence.

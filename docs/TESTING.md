@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **39 doctest cases / 1439 assertions**, all passing.
+**Status:** current baseline is **45 doctest cases / 1558 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -64,9 +64,24 @@ ctest --test-dir build --output-on-failure
 - Camera2D world/screen round-trip, aspect ratio, movement, zoom, and Vulkan
   projection center.
 - Native SceneLoader: texture decode, sprite metadata, instance fields, camera,
-  and missing-scene error using a committed synthetic scene fixture.
+  animation references, missing sprite references, and missing-scene/unknown-animation-target
+  errors using committed synthetic scene fixtures.
 - The real `r1_1` + `c00` scene is an integration/manual test because it requires
   the local reference bundles and generated proprietary pixels.
+
+### Animation (implemented units)
+
+- AnimationClipLoader: duration, sample rate, loop, update mode, source metadata,
+  tracks, malformed input, and missing key fields.
+- SpriteTrack: empty/one/multiple keys, exact key boundary, between-key hold,
+  end-of-clip hold, duplicate-time determinism.
+- AnimationPlayer: Play, Update, current/normalized time, loop count, negative
+  delta rejection, non-loop clamp/finish, reset, and sprite evaluation.
+- Synthetic SceneLoader animation fixture resolves sprite IDs and target paths.
+- Real `c00` idle metadata integration: committed scene/animation metadata loads,
+  every key resolves to a real SpriteData ID and texture, and atlas rectangles are
+  within texture bounds. Proprietary PNG bytes are not required for this metadata
+  test; runtime rendering uses the local generated assets.
 
 ### Integration / manual smoke
 
@@ -123,10 +138,10 @@ the reference bundle is not part of the repository.
 ### Assets (partially implemented)
 
 - PNG decode dimensions/format/bytes: implemented and tested.
+- Unity Sprite rect/pivot/PPU/UV and real animation keys: implemented and tested.
 - Manifest path-ID/hash stability: extraction tooling exists; native registry not.
-- Sprite rect/pivot/UV: not implemented.
 - Room JSON node/collider/spawn parse: not implemented.
-- Missing asset → clear error: tested for PNG.
+- Missing asset → clear error: tested for PNG and animation metadata.
 - No proprietary bytes tracked: checked in the repository hygiene pass.
 
 ### Simulation

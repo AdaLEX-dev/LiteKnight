@@ -183,7 +183,23 @@ PNG bytes only.
 | Full tight polygon mesh support | NOT IMPLEMENTED | rectangular crop only |
 | Full SpriteAtlas/pivot/PPU/atlas packing system | PARTIAL | one shared atlas relationship implemented |
 
-## 7. Remaining sprite work
+## 7. Idle-frame sprite set
+
+The selected `char_1_skin_0_ide` clip references four sprites from the same
+character atlas:
+
+| Sprite | Path ID | Texture rect (native top-left) | Adjusted pivot |
+|---|---:|---|---:|
+| `c01_4` | `-5734303052896741615` | `(1429.076, 594.027, 24.924, 28.922)` | `(0.486436, 0.0)` |
+| `c01_5` | `6827566613129973144` | `(1572.122, 868.027, 25.878, 29.922)` | `(0.505379, 0.0)` |
+| `c01_6` | `8630870737493093490` | `(1365.051, 819.027, 26.949, 29.922)` | `(0.525023, 0.0)` |
+| `c01_7` | `9175778662407141084` | `(1562.036, 783.027, 25.964, 28.922)` | `(0.507004, 0.0)` |
+
+All use PPU 16 and point sampling. Their slightly different widths/pivots are
+recomputed on every frame, keeping the feet anchored. The animation sequencing
+evidence is in `analysis/assets/animation.md`.
+
+## 8. Remaining sprite work
 
 - Export/consume exact `m_VertexData` and triangle/index buffers for tight meshes.
 - SpriteAtlas object semantics and runtime atlas packing.

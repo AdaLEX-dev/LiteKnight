@@ -41,7 +41,7 @@ current build/test baseline is verified in `analysis/REPOSITORY_INTEGRITY_AUDIT.
 - **Severity:** P0
 - **Actual:** `DOCTEST_CONFIG_DISABLE=0` compiled every test out; CTest passed with zero cases.
 - **Fix:** Removed the define, fixed ECS/input tests, added a real CTest entry and zero-test guard.
-- **Regression:** `./tools/test.sh` now executes 39 cases; intentional break turns CTest red.
+- **Regression:** `./tools/test.sh` now executes 45 cases; intentional break turns CTest red.
 
 ### BUG-PLAT-0001: Window event watch removal used a different callback
 - **Severity:** P2
@@ -62,7 +62,7 @@ current build/test baseline is verified in `analysis/REPOSITORY_INTEGRITY_AUDIT.
 - **Severity:** P2 (contradictory API)
 - **Actual:** `World<T>::Iterator` walked the dense component array but looked up `entities_[dense_index]` and returned null/invalid pairs for sparse sets. Nothing used it.
 - **Fix:** Removed the broken iterator and its unused type-erased `Size()` accessor rather than leaving a false API.
-- **Regression:** ECS unit tests still pass (39 cases / 1439 assertions overall).
+- **Regression:** ECS unit tests still pass (45 cases / 1558 assertions overall).
 
 ---
 

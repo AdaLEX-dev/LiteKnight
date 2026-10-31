@@ -22,7 +22,7 @@
 | Feature | Reference Evidence | Native Status | Confidence | Validation |
 |---|---|---|---|---|
 | Reference identity | Unity 2018.4.12f1, metadata v24, APK hash | N/A | **CONFIRMED** | `analysis/ARTIFACT.md`, `analysis/EVIDENCE_AUDIT.md` |
-| Build/test baseline | N/A (tooling) | Debug + RelWithDebInfo, 39/1439 | **VERIFIED (tooling)** | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
+| Build/test baseline | N/A (tooling) | Debug + RelWithDebInfo, 45/1558 | **VERIFIED (tooling)** | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
 | RNG core | Unity 2018.4 Xorshift128, LCG seed, 23-bit floats | `UnityRandom`/`RGRandomStream` implemented | **CONFIRMED (static)** | `analysis/re/rgrandom.md`, `tests/unit/unity_random_test.cpp` |
 | RNG wrapper / streams | `seed_state`, map seed, `RandomBehaviour`, `RGController` seed | Native wrapper implemented | **PARTIAL** — seed_state 1/2 and DateTime seed exactness open | `analysis/re/rgrandom.md` |
 | Fixed timestep | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) | `FrameTimer` + application loop consume 50 Hz fixed steps | **CONFIRMED reference** | `analysis/re/timing.md`, `tests/unit/timing_test.cpp`, smoke log |
@@ -33,7 +33,8 @@
 | Sprite rendering | Reference sprites use Unity layer sorting; TagManager layers recovered | GLSL sprite pipeline, RGBA8 textures, alpha, stable layer/order batch, pivot/rotation | **FUNCTIONAL (native), NOT parity** | `docs/RENDERING.md`, `analysis/assets/sprites.md` |
 | Unity Sprite metadata | Sprite rect/pivot/PPU/border/filter/wrap serialized; texture rect bottom-origin | `SpriteData` conversion and tests | **HIGH CONFIDENCE / FUNCTIONAL** | `analysis/assets/sprites.md` |
 | 2D camera/world | Unity 2D Y-up, PPU=16; exact camera size not recovered | `Camera2D` orthographic center/half-height, aspect-fit, world/screen tests | **FUNCTIONAL; camera size PROJECT DECISION** | `analysis/assets/coordinate_system.md` |
-| Room/player visual composition | `r1_1` + `c00` serialized transforms/sprites | 111 instances, 3 textures, 6 sprite assets, 5 draw groups; rendered via Wayland/Vulkan | **FUNCTIONAL (visual), NOT gameplay/parity** | `analysis/assets/scenes/r1_1_visual_manifest.json` |
+| Room/player visual composition | `r1_1` + `c00` serialized transforms/sprites | 111 instances, 3 textures, 9 sprite assets, 5 draw groups; rendered via Wayland/Vulkan | **FUNCTIONAL (visual), NOT gameplay/parity** | `analysis/assets/scenes/r1_1_visual_manifest.json` |
+| Unity sprite animation | `c00` Animator `char_0_skin_0`, state `ide`, clip `char_1_skin_0_ide`; four real frames | `AnimationClip`/`AnimationPlayer`; discrete keys 0/.125/.25/.375 s, 0.5 s loop; fixed-step evaluation | **HIGH CONFIDENCE binding**, function FUNCTIONAL; Normal-update parity UNKNOWN | `analysis/assets/animation.md`, `analysis/assets/scenes/animations/c00_idle.json` |
 | PNG asset runtime | No reference PNG decoder requirement; native asset boundary | libpng → canonical RGBA8 `TextureData` → existing staging upload; deterministic exact-byte tests | **FUNCTIONAL (native), NOT parity** | `docs/ASSET_PIPELINE.md`, `tests/unit/png_test.cpp` |
 | Unity Texture2D conversion | Reference bundle `level-objects`/`f903`, Texture2D path ID `-8989119030688471403`, RGBA32 16x24 | UnityPy 1.25.4 → deterministic PNG → native PNG round-trip/render | **FUNCTIONAL (one controlled asset), NOT parity** | `docs/ASSET_PIPELINE.md`, `analysis/assets/texture_conversion_manifest.json` |
 | Math/vector conventions | Unity Vector2/3, quaternion, Y-up, 2D physics | Vec2/Vec3/Mat4 helpers exist | **CONFIRMED API**, no parity test | `analysis/re/timing.md`, `analysis/re/input_movement.md` |
@@ -67,7 +68,7 @@
 | Gate | Requirement | Status |
 |---|---|---|
 | Gate B (Understanding) | Reusable engine/runtime primitives documented with evidence | ⚠️ **PARTIAL** — four blockers in `docs/GATE_B.md` |
-| Gate C (Runtime) | Native app launches, renders, inputs | ⚠️ **PARTIAL** — Wayland launch, Vulkan present, real Unity-derived room/player composition, resize/focus/minimize verified; input/gameplay not implemented |
+| Gate C (Runtime) | Native app launches, renders, inputs | ⚠️ **PARTIAL** — Wayland launch, Vulkan present, real Unity-derived room/player composition with real idle animation, resize/focus/minimize verified; input/gameplay not implemented |
 | Gate D (First Playable) | Core loop playable and FUNCTIONAL | ⛔ **BLOCKED** by Gate B/C and `docs/VERTICAL_SLICE.md` |
 | Gate E (Content) | All discovered content PARTIAL+ | ⛔ **BLOCKED** |
 | Gate F (Release) | All VERIFIED, tests pass | ⛔ **BLOCKED** |
@@ -82,4 +83,4 @@
 - Candidate display names stay `CANDIDATE` until a serialized mapping proves them.
 - No gate is marked complete to make the roadmap green.
 
-**Last Updated:** 2026-10-31 (Unity sprite/scene composition)
+**Last Updated:** 2026-10-31 (Unity idle animation)

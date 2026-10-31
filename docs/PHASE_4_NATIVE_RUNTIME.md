@@ -1,12 +1,13 @@
 # Phase 4 — Native Runtime Implementation Plan
 
-**Status:** **PARTIAL — native foundation and static Unity-derived visual scene
-implemented and manually verified.** The application bootstrap, Wayland-only
-SDL3 window, Vulkan 1.3 context/swapchain, 50 Hz fixed loop, multi-texture sprite
-renderer, PNG → RGBA8 texture path, Unity Texture2D/Sprite metadata conversion,
-`Camera2D`, and an `r1_1` + `c00` composition are implemented. Animation,
-input-to-simulation wiring, audio, gameplay, general KTX2/atlas packing, and the
-full asset registry are not.
+**Status:** **PARTIAL — native foundation, Unity-derived visual scene, and real
+idle animation implemented and manually verified.** The application bootstrap,
+Wayland-only SDL3 window, Vulkan 1.3 context/swapchain, 50 Hz fixed loop,
+multi-texture sprite renderer, PNG → RGBA8 texture path, Unity Texture2D/Sprite
+metadata conversion, `Camera2D`, an `r1_1` + `c00` composition, and native
+`AnimationClip`/`AnimationPlayer` playback of `char_1_skin_0_ide` are implemented.
+Input-to-simulation wiring, audio, gameplay, full AnimatorController semantics,
+general KTX2/atlas packing, and the full asset registry are not.
 **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 / metadata v24.
 **Target:** CachyOS x86-64, Wayland only, Vulkan 1.3, 1920×1080, 60 FPS.
 **Gate:** Gate B remains **PARTIAL**. Gate C is **PARTIAL** — launch, present, and
@@ -30,7 +31,8 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | Unity Sprite metadata / PPU | FUNCTIONAL | `SpriteData`, `analysis/assets/sprites.md`, tests |
 | Camera / world coordinates | FUNCTIONAL | `Camera2D`, `analysis/assets/coordinate_system.md`, tests |
 | r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 111 instances rendered |
-| Animation / asset registry / KTX2 | NOT STARTED | next dependency |
+| Unity idle animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`, `AnimationPlayer`, `analysis/assets/animation.md`; 4-key 0.5 s loop |
+| Full Animator / asset registry / KTX2 | NOT STARTED | next dependency |
 | Input → fixed simulation | NOT STARTED | `InputManager` not wired |
 | Audio/UI/gameplay | NOT STARTED | deliberate boundary |
 
@@ -406,9 +408,10 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 ### Stage 5 — Sprite renderer — **PARTIAL (2026-10-31)**
 
 - **Goal:** textured quads, atlas UVs, camera, sorting layers.
-- **Implemented:** GLSL sprite pipeline, generated RGBA8 texture, alpha blending,
-  dynamic batched quads, stable layer sort, aspect-fit resize.
-- **Not yet:** PNG/atlas assets, camera follow, real room sprite scale/pivots.
+- **Implemented:** GLSL sprite pipeline, RGBA8 atlas textures, alpha blending,
+  dynamic batched quads, stable layer sort, aspect-fit resize, `Camera2D`, real
+  room sprite scale/pivots, real SpriteRenderer idle animation.
+- **Not yet:** camera follow, full Animator state transitions.
 - **Modules:** `src/renderer/vulkan/SpriteRenderer.*`, `src/engine/rendering/Camera.*`.
 - **Tests:** one sprite; atlas sprite; camera transform; resize.
 - **Acceptance:** room floor/wall sprites render at correct scale.
@@ -634,14 +637,14 @@ Rules:
 
 ## 11. Next implementation task
 
-The static Unity-derived sprite/scene gate is verified. Evidence now points to
-**Unity animation frame selection** as the next dependency: the runtime can render
-one static Sprite per instance but does not consume Animator states or
-AnimationClips. The next task is to extract one manifest-backed `c00` animation
-clip, implement deterministic frame-time/state selection, and animate the player
-inside the existing room scene. Do not implement combat/gameplay or the full
-catalogue.
+The real `char_1_skin_0_ide` animation is verified. Evidence now points to
+**input-driven native locomotion in the real room** as the next large vertical
+slice: read the recovered movement input, integrate it with the 50 Hz fixed tick
+and recovered room collision, switch the native player between the recovered
+`ide` and `run` clips, and follow the player with `Camera2D`. Do not implement
+combat, AI, or the full catalogue.
 
-Acceptance: exact expected frame keys/rects for one approved clip, deterministic
-fixed-time frame selection, native tests green, and no proprietary bytes
+Acceptance: a real `r1_1` player can be moved with native input, collision is
+respected, the idle/run state switch uses real Unity clips, camera follow is
+deterministic, sanitizer/validation runs are clean, and no proprietary bytes are
 committed.

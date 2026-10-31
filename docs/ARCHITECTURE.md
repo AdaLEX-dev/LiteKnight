@@ -5,11 +5,12 @@
 > `Application` lifecycle, SDL3/Wayland window, Vulkan context/swapchain, batched
 > sprite renderer, 50 Hz fixed clock, render-world `SpriteBatch`, and PNG → RGBA8
 > `TextureData` asset boundary, controlled Unity Texture2D/Sprite conversion,
-> native `SceneLoader`/`SpriteData`/`Camera2D`, and an `r1_1`+`c00` composition.
-> Animation, general KTX2/atlas breadth/registry, input-to-simulation, audio, UI,
-> and gameplay are not implemented. Gate B
+> native `SceneLoader`/`SpriteData`/`Camera2D`, an `r1_1`+`c00` composition, and
+> native `AnimationClip`/`AnimationPlayer` playback of the real `c00` idle clip.
+> Full AnimatorController transitions/layers, general KTX2/atlas breadth/registry,
+> input-to-simulation, audio, UI, and gameplay are not implemented. Gate B
 > remains **PARTIAL**; Gate C is **PARTIAL**. Evidence:
-> `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
+> `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `analysis/assets/animation.md`.
 >
 > The text below is a historical class inventory, not the implementation
 > architecture.
@@ -460,7 +461,7 @@ RGMusicManager (singleton)
 | AssetBundles | Custom asset pipeline (KTX2, glTF, JSON) | HIGH |
 | ScriptableObjects | JSON/flatbuffers data files | HIGH |
 | MonoBehaviour Coroutines | Custom coroutine scheduler | HIGH |
-| Animator/Animation | Custom animation system | MEDIUM |
+| Animator/Animation | Native discrete SpriteTrack playback (`AnimationClip`/`AnimationPlayer`); full controller system not reconstructed | MEDIUM |
 | ParticleSystem | Custom particle system | MEDIUM |
 | UI (uGUI/TextMeshPro) | Dear ImGui / custom UI | MEDIUM |
 | Save (BinaryFormatter) | JSON + schema versioning | HIGH |

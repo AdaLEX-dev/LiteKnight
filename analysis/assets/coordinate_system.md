@@ -75,7 +75,20 @@ The native composition is derived from `analysis/assets/scenes/r1_1_visual.json`
 The camera is centered at the spawn with half-height 10.5, showing the full room
 and player without using monitor resolution.
 
-## 5. Remaining coordinate questions
+## 5. Animated player anchoring
+
+The native player body instance stays at the recovered spawn point `(20,20)`;
+only the referenced SpriteData changes. The four idle frames use the same
+`pixels_per_unit = 16` and adjusted bottom pivots (`~0.486..0.525` horizontally,
+`0.0` vertically) because their tight atlas rectangles have slightly different
+widths. The renderer recomputes each frame's world size and pivot from the
+active SpriteData, so the player's feet remain at the same world position instead
+of jumping when frame dimensions change.
+
+The shadow instance remains at `(20,19.95)` and is not animated by the selected
+clip.
+
+## 6. Remaining coordinate questions
 
 - Exact reference camera orthographic size and camera follow behavior.
 - Whether the reference room root applies additional offsets/scaling at runtime.

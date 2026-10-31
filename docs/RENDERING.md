@@ -5,13 +5,16 @@
 > multi-texture sprite batch, RGBA8 staging upload, alpha blending, 2D camera, and
 > aspect-fit resize path are implemented and manually verified. A reconstructed
 > `r1_1` room + `c00` player composition using real Unity Sprite metadata renders
-> successfully. `docs/PARITY.md` Gate C is **PARTIAL**.
+> successfully, and the player plays the real `char_1_skin_0_ide` sprite sequence.
+> `docs/PARITY.md` Gate C is **PARTIAL**.
 >
-> **Not implemented:** general KTX2/atlas packing, animation, all game content,
-> camera follow, VMA, GPU timestamp profiling, or rendering parity. PNG decoding
-> and controlled Unity texture/sprite conversion are implemented. Evidence:
+> **Not implemented:** general KTX2/atlas packing, full AnimatorController
+> transitions/layers, all game content, camera follow, VMA, GPU timestamp
+> profiling, or rendering parity. PNG decoding and controlled Unity
+> texture/sprite/animation conversion are implemented. Evidence:
 > `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/ASSET_PIPELINE.md`,
-> `analysis/assets/sprites.md`, `analysis/assets/coordinate_system.md`.
+> `analysis/assets/sprites.md`, `analysis/assets/coordinate_system.md`,
+> `analysis/assets/animation.md`.
 
 **Target:** Vulkan 1.3, 1920×1080, 60 FPS, 2D sprite batching
 
@@ -33,10 +36,12 @@ Wayland window / SDL3 surface
   -> present
 ```
 
-The native sorting layers are a **PROJECT DECISION**; no reference numeric
-sorting-layer values are claimed. The default textured quad is a synthetic
-renderer bring-up asset, not APK content. The decoded PNG is asymmetric so vertical
-flips and channel swaps are visible.
+The Unity `TagManager.m_SortingLayers` mapping to native `SortLayer` values is
+recovered (`Default`=0, `BackGround`=1, `Floor`=2, `Shadow`=3, `Wall`=4,
+`Character`=5, `WallFont`=6, `Effect`=7, `UI`=8); the mapping is evidence-backed,
+not a guessed index. The default textured quad remains a synthetic renderer
+bring-up asset, not APK content. The decoded PNG is asymmetric so vertical flips
+and channel swaps are visible.
 
 A controlled real Unity Texture2D (`level-objects`/`f903`, 16x24 RGBA32) was
 also converted to a deterministic PNG, native-round-tripped byte-for-byte, and
@@ -64,12 +69,49 @@ Unity Texture2D + Sprite metadata + shared atlas
   **PROJECT DECISION**.
 - The `Mat4` column-major multiplication bug that dropped camera translation was
   fixed; the projection maps world +Y up.
-- The `r1_1` scene has 111 instances across 3 textures and 6 sprite assets:
-  109 room sprites, 1 player body, 1 player shadow.
+- The `r1_1` scene has 111 instances across 3 textures and 9 sprite assets:
+  109 room sprites, 1 player body (four idle-frame sprites selected over time),
+  and 1 player shadow.
+- The player uses the real `char_1_skin_0_ide` clip: four discrete sprite keys at
+  `0`, `0.125`, `0.25`, `0.375 s`, looping at `0.5 s`.
 - The renderer groups contiguous texture runs (5 draw groups for this scene) and
   uses global index-buffer quad offsets with `vertexOffset=0`.
 - Screenshot evidence is temporary and not committed; the actual native scene is
   generated from the local reference bundles.
+
+## 0.1 Native sprite animation (2026-10-31)
+
+```text
+Unity AnimatorController/state
+  -> AnimationClip (real SpriteRenderer.m_Sprite keys)
+  -> native AnimationClip/AnimationPlayer
+  -> active SpriteData
+  -> pivot-adjusted quad
+  -> existing SpriteBatch/SpriteRenderer
+```
+
+The native animation model is deliberately separate from sprite and texture data:
+
+- `AnimationClip` owns duration, sample rate, loop flag, update-mode metadata, and
+  `SpriteTrack` key lists.
+- `SpriteTrack` contains only target path, property (`m_Sprite`), and discrete
+  time/sprite-ID keys.
+- `AnimationPlayer` owns playback time and loop count; it does not own pixels or
+  sprite interpretation.
+- `Application` advances the player at the 50 Hz fixed step and evaluates the
+  active sprite after simulation, then rebuilds the existing batched render list.
+  The original Animator `m_UpdateMode` is Normal (`0`); fixed-step evaluation is a
+  deterministic native decision, not proven Unity parity.
+- The selected clip is `char_1_skin_0_ide` (0.5 s, 8 Hz, loop) from controller
+  `char_0_skin_0`, default state `Base Layer.ide`. The clip is evaluated
+  discretely: exact key time selects the key, between keys holds the preceding
+  key, and loop duration wraps to zero.
+- The four frame sprites have slightly different tight-crop widths and adjusted
+  pivots. The renderer recomputes size and pivot from the active `SpriteData`, so
+  the player's feet stay anchored while the image changes.
+- This implements only the evidence-backed idle path, not a general Unity
+  Animator clone. `analysis/assets/animation.md` records the exact IDs, binding,
+  mapping, streamed curve values, hashes, and remaining UNKNOWNs.
 
 ## 1. Rendering Architecture
 

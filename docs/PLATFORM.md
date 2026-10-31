@@ -5,7 +5,8 @@
 > renderer lifecycle, the 50 Hz/60 FPS loop, and shutdown. The window is
 > Wayland-only; a Vulkan 1.3 device/swapchain, a multi-texture sprite renderer,
 > a libpng → RGBA8 asset path, controlled Unity Texture2D/Sprite conversion,
-> Camera2D, and an actual `r1_1`+`c00` visual composition are present. Gate C is
+> Camera2D, an actual `r1_1`+`c00` visual composition, and real idle animation are
+> present. Gate C is
 > **PARTIAL** — launch/present/resize are manually verified; input/gameplay are
 > not. Evidence: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`,
 > `docs/ASSET_PIPELINE.md`, `analysis/assets/sprites.md`.

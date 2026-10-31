@@ -176,7 +176,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Resolved death/reborn/game-over/restart entry flow; exact virtual slots/UI remain PARTIAL.
 - Resolved the save boundary as Unity `PlayerPrefs`; payload remains UNKNOWN.
 - Corrected native `FrameTimer` to the confirmed 50 Hz step and added a regression
-  test: **23 cases / 1276 assertions at that time** (now 39/1439 after the PNG asset stage).
+  test: **23 cases / 1276 assertions at that time** (now 45/1558 after the animation stage).
 - Gate B and Phase 3 remain **PARTIAL**; first-slice approximations are explicitly
   scoped in `docs/GATE_B.md` and `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`.
 
@@ -190,7 +190,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
   alpha blending, stable layer sorting, and aspect-fit resize.
 - Manual 10 s smoke: exit 0, 0 validation messages, 603 presented frames,
   506 fixed ticks, 16.665 ms average `FrameTimer` frame.
-- Tests at that stage: **31 cases / 1335 assertions** (now 39/1439 after PNG).
+- Tests at that stage: **31 cases / 1335 assertions** (now 45/1558 after PNG/animation).
 - Gate C is **PARTIAL**; asset decoding, input-to-simulation, audio, UI, and
   gameplay remain unimplemented. See `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -224,5 +224,24 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Scene metadata SHA-256:
   `ba9f3bdca080ddc67045ea64060f3b8353e1027d7b56356cc6d92995de708194`.
   Rendered through Wayland/Vulkan with 0 validation errors.
-- Tests: **39 cases / 1439 assertions**.
+- Tests: **39 cases / 1439 assertions** at that stage.
 - Next dependency: Unity animation frame selection; no gameplay started.
+
+## 2026-10-31 — Native Unity Idle Animation
+
+- Recovered `common/c00` Animator path `-2747643251060265406`, controller
+  `char_0_skin_0` path `7636633949607769228`, default state `Base Layer.ide`
+  path `580769968`, and clip `char_1_skin_0_ide` path `-6496688600943111911`.
+- Clip: 0.5 s, 8 Hz, loop true. `m_ClipBindingConstant` binds
+  `SpriteRenderer.m_Sprite` at `img/body`; `pptrCurveMapping` contains
+  `c01_4..c01_7`; the streamed curve supplies mapping indices at
+  0/.125/.25/.375 s. The high-level `m_PPtrCurves` list is empty and that fact is
+  documented rather than hidden.
+- Added native `AnimationClip`/`SpriteTrack`/`AnimationPlayer`; kept animation
+  separate from `SpriteData`/`TextureData`; integrated fixed-step playback into
+  the existing `r1_1` scene.
+- Animation metadata SHA-256:
+  `23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44`.
+- Tests: **45 cases / 1558 assertions**.
+- Next dependency: input-driven locomotion and real `ide`/`run` state switching;
+  no combat or AI started.

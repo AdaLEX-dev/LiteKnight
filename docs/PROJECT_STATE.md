@@ -1,12 +1,13 @@
 # Soul Knight 2.6.8 — Project State
 
-**Last Updated:** 2026-10-31 (Unity sprite/scene composition)
+**Last Updated:** 2026-10-31 (Unity idle animation)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
 **Current status:** Phase 4A-4E foundation is implemented and manually verified:
-Wayland-only SDL3 window, Vulkan 1.3 device/swapchain, 50 Hz/60 FPS loop, and a
-batched textured-quad renderer. Input/gameplay, asset decoding, audio, and UI are
-not implemented. The vertical slice is **not** cleared.
+Wayland-only SDL3 window, Vulkan 1.3 device/swapchain, 50 Hz/60 FPS loop, a
+batched textured sprite renderer, real `r1_1` room composition, and real `c00`
+idle animation. Input/gameplay, combat, audio, and UI are not implemented. The
+vertical slice is **not** cleared.
 
 ---
 
@@ -155,18 +156,25 @@ Implemented and manually verified on 2026-10-31:
   atlases with serialized Sprite rect/pivot/PPU=16, Unity sorting layer/order,
   `Camera2D`, and the fixed multi-texture sprite batch. Scene metadata:
   `analysis/assets/scenes/r1_1_visual.json`.
-- Sprite metadata/camera evidence: `analysis/assets/sprites.md`,
-  `analysis/assets/coordinate_system.md`.
+- **Unity idle-animation gate PASSED:** `c00` Animator controller
+  `char_0_skin_0`, default state `Base Layer.ide`, clip `char_1_skin_0_ide`
+  (0.5 s, 8 Hz, loop) drives four real frame sprites `c01_4`..`c01_7` from the
+  character atlas. Native `AnimationClip`/`AnimationPlayer` samples the clip at
+  fixed 50 Hz and the room remains static. Metadata:
+  `analysis/assets/scenes/animations/c00_idle.json`.
+- Sprite metadata/camera/animation evidence: `analysis/assets/sprites.md`,
+  `analysis/assets/coordinate_system.md`, `analysis/assets/animation.md`.
 - Manual smoke from `/tmp` (path-independent): PNG decoded, real scene rendered,
   0 validation messages, clean exit.
 - Non-Wayland startup fails with exit 1 (`wayland not available`), no X11
   fallback.
 
-Not implemented: animation/Animator frame selection, general KTX2/atlas packing,
-the full asset registry/manifest loader, input-to-simulation bridge, audio, UI,
-gameplay, content, parity comparison. Native sorting numbers are now mapped to
-recovered TagManager layers; camera size remains a **PROJECT DECISION** because
-the reference value is not recovered.
+Not implemented: full AnimatorController transitions/layers/blend trees, other
+clips/states, general KTX2/atlas packing, the full asset registry/manifest loader,
+input-to-simulation bridge, audio, UI, gameplay, content, parity comparison.
+Native sorting numbers are mapped to recovered TagManager layers; camera size and
+fixed-step rather than Normal-update sampling remain **PROJECT DECISIONS** because
+the exact reference values/behavior are not recovered.
 
 Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -196,27 +204,28 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 39 cases / 1439 assertions, PASS
+- Debug tests: 45 cases / 1558 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 39 / 1439, PASS
+- RelWithDebInfo tests: 45 / 1558, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 35/1369 to 39/1439 because the sprite/scene stage added
-SpriteData, Sprite geometry, Camera2D, and native SceneLoader tests. No existing
-test was removed or weakened. The real scene conversion/smoke remains manual
-because it requires the local reference bundles and a Wayland/Vulkan GPU.
+The count changed from 35/1369 to 45/1558 because the sprite/scene stage added
+SpriteData, Sprite geometry, Camera2D, and SceneLoader tests, and the animation
+stage added clip parsing, discrete sampling, loop/Animator, synthetic scene
+animation, and real-metadata integration tests. No existing test was removed or
+weakened. The real scene conversion/smoke remains manual because it requires the
+local reference bundles and a Wayland/Vulkan GPU.
 
 ---
 
 ## Next Action
 
-Phase 4 foundation, PNG, controlled Unity Texture2D, SpriteData, camera, and the
-`r1_1` + `c00` static composition are **FUNCTIONAL**. Evidence now points to
-**Unity animation frame selection** as the next visual dependency: the pipeline
-can render one static Sprite per instance but does not consume Animator states or
-AnimationClips. The next task is to extract one manifest-backed `c00` animation
-clip, implement deterministic frame-time/state selection, and render the animated
-player in the existing room scene. Do not start gameplay, combat, or the full
-catalogue.
+Phase 4 foundation, PNG, controlled Unity Texture2D, SpriteData, camera, the
+`r1_1` + `c00` composition, and the real idle animation are **FUNCTIONAL**. The
+next large vertical slice is **input-driven native locomotion in the real room**:
+read the recovered movement input, integrate it with the 50 Hz fixed tick and
+current `r1_1` collision evidence, switch the native player between the recovered
+`ide` and `run` clips, and follow the player with `Camera2D`. This is the next
+meaningful visual/runtime step; do not start combat, AI, or the full catalogue.

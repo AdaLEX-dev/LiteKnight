@@ -1,11 +1,12 @@
 # Asset Pipeline
 
-**Status:** **PARTIAL / Unity-derived sprite-scene gate PASSED.**
+**Status:** **PARTIAL / Unity-derived sprite-scene and idle-animation gate PASSED.**
 The native PNG → RGBA8 → Vulkan texture path, one controlled Unity Texture2D
-conversion, Unity Sprite metadata, camera/world transforms, and a real `r1_1`
-room + `c00` player composition are implemented and verified. The full asset
-catalogue, general KTX2/atlas packing, animation, audio conversion, and the full
-asset registry are not implemented.
+conversion, Unity Sprite metadata, camera/world transforms, a real `r1_1` room +
+`c00` player composition, and the real `c00` idle AnimationClip are implemented
+and verified. The full asset catalogue, general KTX2/atlas packing, full
+AnimatorController semantics, audio conversion, and the full asset registry are
+not implemented.
 
 **Canonical representation:** `engine::assets::TextureData`
 (`src/engine/assets/TextureData.hpp`).
@@ -200,10 +201,10 @@ All three textures are `RGBA32`, 1 mip, import filter **Point**, wrap **Clamp**.
 
 Scene metadata:
 
-- `analysis/assets/scenes/r1_1_visual.json` — 6 sprite assets, 111 instances,
-  textures/sprites/positions/camera, no pixels.
+- `analysis/assets/scenes/r1_1_visual.json` — 9 sprite assets, 111 instances,
+  one animation entry, textures/sprites/positions/camera, no pixels.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — source bundle hashes,
-  scene JSON SHA-256 `ba9f3bdca080ddc67045ea64060f3b8353e1027d7b56356cc6d92995de708194`.
+  scene JSON SHA-256 `2cccf9dae93822c0ce84f216eb95e956442580bcbc82666b8bcdc6d2d1558888`.
 - Generated pixels remain under gitignored
   `assets/generated/visual/r1_1_visual/`.
 
@@ -211,7 +212,7 @@ Scene contents:
 
 - 49 × `skin` floor/wall tiles in a 7×7 block centered at (20,20),
 - 20 × `door02`, 20 × `shadow0`, 20 × `door01` at the four room edges,
-- `c00` body (`c01_5`) at spawn (20,20),
+- `c00` body (initial `c01_5`) at spawn (20,20), animated through the real idle clip,
 - `c00` shadow (`shadow3`) at (20,19.95).
 
 The runtime command is:
@@ -226,14 +227,45 @@ The scene was rendered successfully through Wayland/Vulkan with 111 instances,
 temporary screenshot shows the 7×7 room floor, four door clusters, and the player
 sprite at the center. This is the visual milestone, not gameplay or parity.
 
-## 8. Current limitations
+## 8. Unity idle animation
+
+The selected real animation is `common/c00` Animator → controller
+`char_0_skin_0` → default `Base Layer.ide` state → clip
+`char_1_skin_0_ide` (path ID `-6496688600943111911`).
+
+- Sample rate `8.0`, duration `0.5 s`, loop `true`.
+- `SpriteRenderer.m_Sprite` binding path `img/body`
+  (`m_ClipBindingConstant` path hash `3966442053`).
+- Four real sprites from the character atlas: `c01_4`, `c01_5`, `c01_6`,
+  `c01_7`, at times `0`, `0.125`, `0.25`, `0.375`; the clip wraps at `0.5`.
+- The source clip's high-level `m_PPtrCurves` list is empty; the converter reads
+  the pptr binding, `pptrCurveMapping` (which contains exactly those four sprites),
+  and the serialized streamed curve values. See `analysis/assets/animation.md`
+  for the evidence and confidence labels.
+- The runtime consumes native `AnimationClip` JSON only; UnityPy is not linked or
+  called by the native executable.
+
+Animation metadata:
+
+- `analysis/assets/scenes/animations/c00_idle.json`, SHA-256
+  `23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44`.
+- Four keyframes, one track, no duplicated texture bytes.
+- The clip is evaluated deterministically at the 50 Hz fixed step; the serialized
+  Animator update mode is Normal, so render-frame evaluation remains a future
+  parity question, not a claim.
+
+## 9. Current limitations
 
 - No KTX2/atlas packing or mipmaps.
 - No full asset registry/manifest loader.
-- Only the controlled `r1_1`/`c00` visual subset is converted. The full catalogue,
-  animation clips, and all sprite metadata are not imported.
+- Only the controlled `r1_1`/`c00` visual subset is converted. The selected
+  idle clip is imported; other clips, states, transitions, and the full catalogue
+  are not.
 - Tight polygon `m_VertexData` meshes are approximated by adjusted rectangular
   crops; border/nine-slice rendering is not applied.
+- The native animation model implements one SpriteRenderer track and discrete
+  sprite samples; generic curves, blend trees, layers, events, and IK are out of
+  scope.
 - No Unity-derived bytes are committed; generated PNG/RGBA outputs are ignored.
 - The synthetic smoke image remains the default renderer fixture.
 - Installed-asset shader/test discovery has not yet been exercised by a package.

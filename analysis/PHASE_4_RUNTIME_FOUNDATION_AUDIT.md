@@ -1,10 +1,11 @@
 # Phase 4 — Native Runtime Foundation Audit
 
 **Date:** 2026-10-31
-**Baseline commit:** `9c506dc4288b6170f2e699743f4b591eea7e7ea0`
-**Scope:** Phase 4A-4E foundation only. No gameplay, rooms, enemies, weapons,
-projectiles, damage, HUD, save, procedural generation, or content catalogue was
-implemented.
+**Baseline commit:** `94df258ac0807090cb94922a189b18a61093383e`
+**Scope:** Phase 4A-4E foundation plus the controlled Unity-derived visual
+slice (real `r1_1` room sprites, `c00` body/shadow, and one real idle
+AnimationClip). No gameplay, combat, AI, weapons, projectiles, damage, HUD, save,
+procedural generation, or full content catalogue was implemented.
 
 ---
 
@@ -29,7 +30,8 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 | Controlled Unity Texture2D | FUNCTIONAL / MANUAL PASS | `level-objects`/`f903`; deterministic conversion + native round-trip + render |
 | Unity Sprite metadata / camera | FUNCTIONAL | `SpriteData`, `Camera2D`, `analysis/assets/sprites.md`, `coordinate_system.md` |
 | r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 111 instances, 3 textures, native SceneLoader, Wayland/Vulkan render |
-| Animation / asset registry / KTX2 | NOT STARTED | static one-frame composition only |
+| Unity idle animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`/`AnimationPlayer`, real 4-frame `char_1_skin_0_ide`, fixed-step loop |
+| Full Animator / asset registry / KTX2 | NOT STARTED | one state only; transitions and full registry remain |
 | Input → fixed tick | NOT STARTED | `InputManager` not wired into the loop |
 | Audio/UI/gameplay | NOT STARTED | deliberate scope boundary |
 
@@ -114,7 +116,7 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 
 ### 4.1 Unit/CTest
 
-- Debug tests: **39 cases / 1439 assertions, all passing**.
+- Debug tests: **45 cases / 1558 assertions, all passing**.
 - CTest: `soul-knight-unit-tests` 1/1 passing.
 - New tests:
   - config defaults + Wayland-only rejection,
@@ -128,7 +130,12 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
   - SpriteData rect/UV/pivot/PPU/border validation,
   - sprite geometry pivot/crop/rotation/flips/determinism,
   - Camera2D world/screen/aspect/zoom/projection,
-  - native SceneLoader synthetic scene + missing-scene failure.
+  - native SceneLoader synthetic scene + missing-scene failure,
+  - native AnimationClip parsing, discrete track sampling, duplicate keys,
+  - scene animation references and clear unknown-sprite failure,
+  - AnimationPlayer loop/non-loop/reset behavior,
+  - synthetic animated SceneLoader fixture,
+  - real `c00` idle metadata integration against the committed scene metadata.
 
 ### 4.2 Wayland/Vulkan manual smoke
 
@@ -224,19 +231,19 @@ serialized `r1_1` hierarchy and `common/c00` prefab:
   (`6092784074628815488`).
 - `c00/shadow` Sprite `shadow3` from the 32×32 object-common atlas
   (`3188784419113904678`).
-- 111 instances, 6 sprite assets, 3 textures.
+- 111 instances, 9 sprite assets, 3 textures.
 - 5 contiguous texture draw groups; 111 quads in one batched frame.
 - Camera center `(20,20)`, orthographic half-height `10.5` (camera size is a
   project decision; reference value not recovered).
 - Scene metadata SHA-256:
-  `ba9f3bdca080ddc67045ea64060f3b8353e1027d7b56356cc6d92995de708194`.
+  `2cccf9dae93822c0ce84f216eb95e956442580bcbc82666b8bcdc6d2d1558888`.
 
 The run from `/tmp` with `--scene scenes/r1_1_visual/scene.json` rendered the
 7×7 floor block, four door clusters, and the `c00` player/shadows successfully.
-Debug validation: 0 errors. The final RelWithDebInfo scene run measured
-**16.659 ms** average `FrameTimer` frame, **603 frames / 511 fixed ticks over
-10.22 s**, with 111 instances, 3 textures, and 5 draw groups (CPU pacing, not a
-parity/FPS guarantee).
+The final RelWithDebInfo animated-scene run measured **16.740 ms** average
+`FrameTimer` frame, **601 frames / 513 fixed ticks over 10.26 s**, with 111
+instances, 3 textures, 9 sprite assets, 1 animation clip, 4 keyframes, and 5 draw
+groups (CPU pacing, not a parity/FPS guarantee). Debug validation: 0 errors.
 
 Two real defects found during this milestone were fixed rather than worked
 around:
@@ -247,11 +254,41 @@ around:
    offset, double-offsetting all groups after the first. Fixed by using
    `vertexOffset=0` with the global index buffer.
 
+### 4.6 Real c00 idle animation
+
+The selected animation path is `common/c00` Animator → controller
+`char_0_skin_0` → default state `Base Layer.ide` → clip
+`char_1_skin_0_ide` (path ID `-6496688600943111911`). The serialized clip is
+0.5 s at 8 Hz, loops, and binds `SpriteRenderer.m_Sprite` at path `img/body`.
+The source clip's high-level `m_PPtrCurves` list is empty, but its
+`pptrCurveMapping` contains four real sprites and the streamed curve supplies the
+mapping indices 0..3 at 0/.125/.25/.375 s. Details and classification:
+`analysis/assets/animation.md`.
+
+The native animation model keeps clip data separate from `SpriteData` and
+`TextureData`:
+
+- `AnimationClip` / `SpriteTrack` / `SpriteKeyframe` metadata,
+- `AnimationPlayer` playback time/loop count,
+- fixed-step `AnimationPlayer::Update` in `Application`,
+- current key resolves to a `SpriteData` each rendered frame; size and pivot are
+  recomputed from that sprite so the feet stay anchored,
+- the room and shadow remain static.
+
+Animation metadata SHA-256:
+`23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44`.
+The actual runtime frame sequence (`c01_4`, `c01_5`, `c01_6`, `c01_7`, loop) was
+observed in the native window; temporary screenshots show the changed scarf/eye
+pixels and the room composition. The serialized Animator update mode is Normal;
+fixed-step evaluation is a deterministic native decision, not proven parity.
+
 ## 5. Remaining blockers / gaps
 
-1. **Animation, general KTX2/atlas, and asset registry** — the controlled static
-   Sprite scene is implemented; Animator/AnimationClip frame selection, general
-   atlas packing, animation, and the full registry remain.
+1. **Full Animator / general KTX2/atlas / asset registry** — one idle clip is
+   implemented; state transitions, other clips, general atlas packing, and the
+   full registry remain. The source `m_PPtrCurves` encoding is documented as a
+   HIGH CONFIDENCE mapping + streamed-curve reconstruction, not full Unity
+   Animator compatibility.
 2. **Shader/install path** — run-time shader and test-asset lookup now goes through
    `FileSystem`'s executable-relative/user/system search paths and CMake copies
    assets into `build/assets`; a signed/installed package still needs to install
@@ -276,8 +313,7 @@ around:
 
 ## 6. Exact next task
 
-**Unity animation frame selection / Animator state:** extract one manifest-backed
-`c00` AnimationClip and render deterministic fixed-time frame changes in the
-existing `r1_1` composition. Keep animation metadata separate from `SpriteData`
-and `TextureData`. Do not import the full atlas/catalogue, commit proprietary
-bytes, or begin gameplay.
+**Input-driven native locomotion in the real room:** wire recovered movement
+input into the 50 Hz tick, integrate room collision, switch between the real
+`ide` and `run` clips, and follow the player with `Camera2D`. Do not import the
+full atlas/catalogue, commit proprietary bytes, or begin combat/AI.
