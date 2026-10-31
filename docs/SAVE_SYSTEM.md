@@ -9,8 +9,10 @@
 > `$XDG_DATA_HOME/liteknight/saves/slot_0.json` atomically, keeps
 > `slot_0.json.bak`, falls back to the backup on corruption, and rejects future
 > versions. v1 saves migrate additively with progression/settings defaults.
-> v2 now also stores the Manual/Auto Aim setting and the native map seed so a
-> loaded room can rebuild the same deterministic native room graph. Unit tests
+> v2 now also stores the Manual/Auto Aim setting, the native map seed and the
+> coin wallet so a loaded room can rebuild the same deterministic native room
+> graph and HUD value. Chest/remaining-coin room state remains session-scoped
+> unless save v3 is introduced. Unit tests
 > cover round-trip, missing/corrupt files, migration, invalid ranges, atomic
 > replacement, backup recovery and deletion. This remains a **native design**,
 > not decoded RGSaveManager parity. The larger schema below is a design proposal;

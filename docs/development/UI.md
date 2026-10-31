@@ -39,16 +39,24 @@ coordinates.
 
 ## Screens
 
-- HUD: top-left HP/armor/energy panel using recovered heart/shield/crystal
-  icons; upper-right recovered pause/coin strip; bottom-left weapon slot strip;
-  larger recovered `ui_skill01` Knight power button with `Q` label and cooldown
-  mask; compact bottom-centre pickup card with damage/energy/cycle values.
+- HUD: top-left HP/armor/energy rows using recovered heart/shield/crystal
+  icons; upper-right recovered pause/coin strip; bottom-left weapon strip and
+  larger recovered `ui_skill01` Knight power button with `Q` label, real
+  cooldown mask and recovered `ui_67` energy charge fill; compact bottom-centre
+  pickup/chest card.
+- Minimap: room cells/connections/current/visited state and white-D devroom
+  marker; `M` opens the full map overlay.
+- UI Design Mode: mouse-draggable logical HUD layout, saved to
+  `$XDG_CONFIG_HOME/liteknight/ui_layout.json` (see `UI_LAYOUT.md`).
 - Pause: dark navy modal, red ribbon, character portrait, recovered power slots,
   Home / Resume / Settings.
-- Settings: Aim Mode (Manual / Auto Aim), fullscreen, debug overlay, reset save,
-  back. Only working settings are exposed. No social tab.
-- Main menu: recovered `title_en0` logo, NATIVE LINUX DEVROOM subtitle, New Game,
-  Continue, Settings, Quit. No social tab.
+- Settings: Aim Mode (Manual / Auto Aim; Auto Aim is the fresh default),
+  fullscreen, debug overlay, UI Design Mode, reset save, back. Only working
+  settings are exposed. No social tab.
+- Main menu: LIGHT KNIGHT pixel wordmark, NATIVE LINUX DEVROOM subtitle, blue
+  opaque D-ROOM developer button, New Game, Continue, Settings, Quit. The
+  recovered `title_en0` logo is no longer used because the project title is
+  LIGHT KNIGHT. No social tab.
 - Character station: 15 recovered body sprites and serialized HP/armor/energy
   stats; arrows browse, Enter confirms.
 - Weapon station: four recovered weapons with real icons, damage, cost, cycle

@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.5.1-dev] - 2026-11-01
+
+### Added
+- Persistent logical HUD layout with Settings -> UI Design Mode, mouse drag,
+  save, reset and startup load.
+- Minimap and `M` map overlay with room cells, physical links, current/visited
+  markers and a white-D devroom marker.
+- Main-menu LIGHT KNIGHT wordmark, upper-left D-ROOM developer entry and main
+  menu as the default test-executable entry.
+- Actual chest00/RGCoin chest and coin systems with world pickup, HUD wallet,
+  one-shot loot and session room state.
+- Y-depth foreground resolution and regression tests.
+- Auto Aim as the fresh/default aiming mode.
+
+### Changed
+- HUD status/coin/pause/ability/weapon/pickup anchors are data-driven logical
+  rectangles instead of scattered literals.
+- Weapon presentation scale increased without touching muzzle/projectile math.
+- Settings typography uses fitted/wrapped text; UI Design Mode is exposed.
+- Save v2 adds the coin wallet.
+
+### Testing
+- 148 doctest cases / 5,236 assertions.
+- HUD layout persistence/reset, viewport/letterbox/mouse mapping, Y-depth,
+  map open/close, D-ROOM pointer, item chest/coin state, and save wallet tests.
+- RelWithDebInfo and Debug ASan/UBSan builds; Vulkan validation and devroom
+  smoke remain in the gate.
+
+### Known gaps
+- Chest/remaining-coin state is session-scoped; save v3 is not implemented.
+- Chest lid and single-coin loot are native extensions; exact RGChest tables are
+  UNKNOWN. Full reference map generation and room-icon atlas remain UNKNOWN.
+
 ## [0.5.0-dev] - 2026-10-31
 
 ### Added

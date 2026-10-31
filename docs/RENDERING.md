@@ -567,3 +567,15 @@ show_frame_times = true
 ---
 
 **Status:** DESIGN PROPOSAL ONLY — not reference evidence. Implementation is blocked by the evidence gates; this design is not a completion claim.
+
+## Y-depth foreground resolution (0.5.1)
+
+`WallFont` remains Unity sorting layer 6 and `Character` remains layer 5, as
+recovered. Static layer order alone draws every wall/furniture front over the
+player even when the player is south (in front) of it, producing the visible
+head/body clipping. `engine/rendering/WorldDepth.hpp` resolves character and
+WallFont sprites into one deterministic depth band using their world base Y:
+lower Y (south) draws later/in front, higher Y (north) draws earlier/behind.
+This is a native render rule (HYPOTHESIS for exact reference parity), not a
+player-sprite position offset. Projectiles stay on their recovered WallFont
+layer above characters; backdrop, shadow and UI layers are unchanged.

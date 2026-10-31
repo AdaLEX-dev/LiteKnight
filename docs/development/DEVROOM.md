@@ -44,6 +44,7 @@ Generated pixels are gitignored. See `docs/legal/reference-assets.md`.
 |---|---|
 | `F2` / `F3` | save / load native slot 0 |
 | `Esc` | pause / resume (settings backs out to pause first) |
+| `M` | open/close the map overlay |
 | `Q` | Knight c00 Dual Wield power |
 | `F4` | collision/visual/sort/aim debug bounds |
 | `T` | cycle through a connected room |
@@ -58,12 +59,13 @@ Generated pixels are gitignored. See `docs/legal/reference-assets.md`.
 | `F12` | clear enemies |
 | `F10` | developer overlay |
 | `Tab`, `1`, `2` | next / primary / secondary weapon slot |
-| `E` / `G` | interact/pick up / spawn a weapon pickup |
+| `E` / `G` | interact/open chest/pick up / spawn a weapon pickup |
 | `R` | reset player/combat/enemies/doors/obstacles to deterministic initial state |
 
-Aim with the mouse in Manual mode; movement and aim are independent. Enable
-Auto Aim in Settings. Walk through an open room door to change rooms
-automatically. `--map-seed <int>` reproduces the same deterministic native room
+Auto Aim is the fresh default; Manual remains selectable in Settings. Movement
+and aim are independent. Walk through an open room door to change rooms
+automatically. Chests open with `E`; coins magnetize and update the HUD wallet.
+The test executable starts at the main menu; D-ROOM is the developer entry. `--map-seed <int>` reproduces the same deterministic native room
 assignment. Selectors use `A/D` or left/right/up/down, `Enter` to confirm, `Esc`
 to return. Legacy controls remain available when a selector is closed.
 

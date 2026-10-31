@@ -32,7 +32,9 @@ first:east            <-> third:west
 `--map-seed <int>` deterministically assigns the actual room templates to the
 first/second/third slots using the reconstructed Unity 2018.4 `RGRandomStream`.
 The same seed produces the same graph; changing the seed can reorder which
-actual recovered room occupies each slot.
+actual recovered room occupies each slot. The HUD minimap and `M` overlay draw
+these cells and physical links; the current room is marked with a gold frame
+and the current devroom cell carries a white `D` marker.
 
 ## Physical transition
 

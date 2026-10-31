@@ -14,7 +14,7 @@ auto-aim, weapon energy consumption, Knight Dual Wield and native save/load are
 part of the same executable. The asset laboratory and serialized interactive
 test harness remain available.
 
-- **Version:** `0.5.0-dev`
+- **Version:** `0.5.1-dev`
 - **Platform:** Linux, Wayland only, Vulkan 1.3+
 - **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 (local reference only)
 - **Simulation:** 50 Hz fixed step; 60 FPS render target
@@ -85,6 +85,7 @@ recovered visuals, provide a local reference tree and generate the native scene:
 ```bash
 # With the local reference bundle tree available:
 tools/asset/.venv/bin/python tools/asset/build_visual_scene.py
+tools/asset/.venv/bin/python tools/asset/build_item_assets.py
 rsync -a --delete assets/generated/visual/r1_1_visual/ \
     build/assets/scenes/r1_1_visual/
 
@@ -125,6 +126,14 @@ source-controlled. Generated pixels remain gitignored. See
 - Live `e_slime01` pursuit and contact combat with multi-enemy spawn/reset
 - Player HP/armor/energy HUD driven by gameplay state
 - Two independent weapon slots (`1`/`2`/`Tab`), per-slot projectiles/cooldowns
+- Recovered chest00 and RGCoin world items; E opens a chest, coin_0/1/2 use
+  serialized values 5/3/1, coins magnet/collect into the HUD wallet
+- Persistent logical HUD layout (`$XDG_CONFIG_HOME/liteknight/ui_layout.json`)
+  with Settings -> UI Design Mode, mouse drag, save and reset
+- Map/minimap with actual room cells, connections, visited/current state and a
+  white `D` devroom marker; `M` opens the full map overlay
+- Main menu defaults for the test executable, LIGHT KNIGHT wordmark and D-ROOM
+  developer entry
 - Recovered per-attack energy costs: `weapon_000=0`, `weapon_002=1`,
   `weapon_048=1`, `weapon_287=1`; insufficient energy rejects the attack
 - 360° mouse aim independent of WASD movement, aim-driven body flip with
@@ -165,7 +174,8 @@ reconstruction of reference procedural generation; 3 of 108 discovered
 PatternRooms are integrated. Auto-aim target priority and the body-flip
 threshold are documented HYPOTHESES. UI panel frames remain native
 approximations where exact sprite mapping is UNKNOWN. See
-[project state](docs/PROJECT_STATE.md) and [known gaps](docs/ROADMAP.md).
+[project state](docs/PROJECT_STATE.md) and [known gaps](docs/ROADMAP.md). Chest/coin state is session-scoped; the wallet is
+saved, but opened-chest and remaining-world-coin state requires save v3.
 
 ---
 
@@ -180,6 +190,7 @@ approximations where exact sprite mapping is UNKNOWN. See
 | `Tab`, `1`, `2` | switch weapon slot / select primary / select secondary |
 | `F2` / `F3` | save / load native slot 0 |
 | `Esc` | pause/resume; settings closes back to pause first |
+| `M` | open/close the full map overlay |
 | `F4` | collision/visual/sort debug bounds |
 | `T` | developer cycle through a connected room |
 | `N` | teleport to current room entrance |
@@ -192,16 +203,18 @@ approximations where exact sprite mapping is UNKNOWN. See
 | `F9` / `Shift+F9` / `F12` | spawn one / spawn five / clear enemies |
 | `F10` | developer overlay (logical/framebuffer/scale) |
 | `F11` | toggle bordered fullscreen |
-| `1` / `2` | primary / secondary weapon slot |
-| `E` / `G` | interact/pick up / spawn weapon pickup |
+| `E` / `G` | interact/open chest/pick up / spawn weapon pickup |
 | `Ctrl+1..9`, `Ctrl+0`, `[` / `]` | legacy character shortcuts |
 | `Y` | cycle solid recovered obstacle variant |
 | `O` / `C` | toggle / close animated doors |
 | `R` | deterministic dev reset |
-| `Esc` | close selector/asset lab, back, or pause |
 
-Selectors use `A/D` or arrows to navigate and `Enter` to confirm. Character
-selection preserves the player position, collision, camera, and combat state.
+Settings -> `UI DESIGN MODE` opens the mouse layout editor: drag HUD elements,
+`S` saves, `R` resets defaults, `ESC` saves and returns. Layout coordinates are
+logical 1920x1080 and persist in `$XDG_CONFIG_HOME/liteknight/ui_layout.json`.
+`--map-seed <int>` reproduces the native room assignment. Selectors use `A/D` or
+arrows to navigate and `Enter` to confirm. Character selection preserves the
+player position, collision, camera, and combat state.
 
 ---
 
