@@ -1,7 +1,7 @@
 # Soul Knight 2.6.8 — Project State
 
 **Last Updated:** 2026-10-31 (diagnostic review)
-**Commit:** `dce7d09` (session commits `4a2af27`..`dce7d09`; build baseline, analysis pipelines, evidence docs/ADRs)
+**Commit:** session head; run `git log -1 --format='%h %s'` (session commits `4a2af27`..head: build baseline, analysis pipelines, evidence docs/ADRs)
 **Phase:** Phase 2 is **not** complete; Phase 3 (behaviour reconstruction) has not started
 **Current Status:** Evidence and build pipeline need repair before further porting.
 
