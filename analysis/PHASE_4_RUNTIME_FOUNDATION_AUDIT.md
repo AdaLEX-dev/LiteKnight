@@ -3,7 +3,7 @@
 **Date:** 2026-10-31
 **Baseline commit:** `94df258ac0807090cb94922a189b18a61093383e`
 **Scope:** Phase 4A-4E foundation plus the controlled Unity-derived visual
-slice (real `r1_1` room sprites, `c00` body/shadow, and one real idle
+slice (real `r1_1` room sprites, `c00` body/shadow, and real idle/run
 AnimationClip). No gameplay, combat, AI, weapons, projectiles, damage, HUD, save,
 procedural generation, or full content catalogue was implemented.
 
@@ -30,9 +30,10 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 | Controlled Unity Texture2D | FUNCTIONAL / MANUAL PASS | `level-objects`/`f903`; deterministic conversion + native round-trip + render |
 | Unity Sprite metadata / camera | FUNCTIONAL | `SpriteData`, `Camera2D`, `analysis/assets/sprites.md`, `coordinate_system.md` |
 | r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 111 instances, 3 textures, native SceneLoader, Wayland/Vulkan render |
-| Unity idle animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`/`AnimationPlayer`, real 4-frame `char_1_skin_0_ide`, fixed-step loop |
-| Full Animator / asset registry / KTX2 | NOT STARTED | one state only; transitions and full registry remain |
-| Input → fixed tick | NOT STARTED | `InputManager` not wired into the loop |
+| Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`/`AnimationPlayer`/`LocomotionAnimator`, real 4-frame clips, fixed-step loops |
+| Keyboard locomotion / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, swept AABB, `Camera2D` follow; manually exercised |
+| Full Animator / exact room gaps / registry / KTX2 | NOT STARTED | transitions, wall/door gaps, and full registry remain |
+| Input → fixed tick | FUNCTIONAL / MANUAL PASS | keyboard `InputManager` → normalized `MovementInput` → 50 Hz `PlayerLocomotion`; `--locomotion-debug` evidence |
 | Audio/UI/gameplay | NOT STARTED | deliberate scope boundary |
 
 ---
@@ -116,7 +117,7 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 
 ### 4.1 Unit/CTest
 
-- Debug tests: **45 cases / 1558 assertions, all passing**.
+- Debug tests: **52 cases / 1676 assertions, all passing**.
 - CTest: `soul-knight-unit-tests` 1/1 passing.
 - New tests:
   - config defaults + Wayland-only rejection,
@@ -135,7 +136,10 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
   - scene animation references and clear unknown-sprite failure,
   - AnimationPlayer loop/non-loop/reset behavior,
   - synthetic animated SceneLoader fixture,
-  - real `c00` idle metadata integration against the committed scene metadata.
+  - real `c00` idle and run metadata integration against the committed scene metadata,
+  - keyboard cardinal/diagonal/zero input and frame/event API,
+  - fixed-step player movement, AABB boundary/wall/sliding/no-penetration,
+  - idle/run state switching and deterministic camera follow.
 
 ### 4.2 Wayland/Vulkan manual smoke
 
@@ -220,7 +224,7 @@ normal `--texture` path. A temporary local screenshot (not committed) confirmed 
 
 ---
 
-### 4.5 Reconstructed r1_1 + c00 visual composition
+### 4.5 Native r1_1 reconstruction test scene + c00 composition
 
 The controlled scene builder (`tools/asset/build_visual_scene.py`) uses the
 serialized `r1_1` hierarchy and `common/c00` prefab:
@@ -231,18 +235,18 @@ serialized `r1_1` hierarchy and `common/c00` prefab:
   (`6092784074628815488`).
 - `c00/shadow` Sprite `shadow3` from the 32×32 object-common atlas
   (`3188784419113904678`).
-- 111 instances, 9 sprite assets, 3 textures.
+- 111 instances, 13 sprite assets, 3 textures.
 - 5 contiguous texture draw groups; 111 quads in one batched frame.
 - Camera center `(20,20)`, orthographic half-height `10.5` (camera size is a
   project decision; reference value not recovered).
 - Scene metadata SHA-256:
-  `2cccf9dae93822c0ce84f216eb95e956442580bcbc82666b8bcdc6d2d1558888`.
+  `b2ad4f9ae68f676d7058c1c9d7318ace038ea52860bed8b322e4701f44a3ecc9`.
 
 The run from `/tmp` with `--scene scenes/r1_1_visual/scene.json` rendered the
 7×7 floor block, four door clusters, and the `c00` player/shadows successfully.
-The final RelWithDebInfo animated-scene run measured **16.662 ms** average
-`FrameTimer` frame, **604 frames / 508 fixed ticks over 10.16 s**, with 111
-instances, 3 textures, 9 sprite assets, 1 animation clip, 4 keyframes, and 5 draw
+The final RelWithDebInfo animated-scene run measured **16.693 ms** average
+`FrameTimer` frame, **603 frames / 508 fixed ticks over 10.16 s**, with 111
+instances, 3 textures, 13 sprite assets, 2 animation clips, 8 keyframes, and 5 draw
 groups (CPU pacing, not a parity/FPS guarantee). Debug validation: 0 errors.
 
 Two real defects found during this milestone were fixed rather than worked
@@ -254,12 +258,13 @@ around:
    offset, double-offsetting all groups after the first. Fixed by using
    `vertexOffset=0` with the global index buffer.
 
-### 4.6 Real c00 idle animation
+### 4.6 Real c00 idle/run animation
 
 The selected animation path is `common/c00` Animator → controller
 `char_0_skin_0` → default state `Base Layer.ide` → clip
-`char_1_skin_0_ide` (path ID `-6496688600943111911`). The serialized clip is
-0.5 s at 8 Hz, loops, and binds `SpriteRenderer.m_Sprite` at path `img/body`.
+`char_1_skin_0_ide` (path ID `-6496688600943111911`) and `run`
+`char_1_skin_0_run` (path ID `3681644519574295089`). Both serialized clips are
+0.5 s at 8 Hz, loop, and bind `SpriteRenderer.m_Sprite` at path `img/body`.
 The source clip's high-level `m_PPtrCurves` list is empty, but its
 `pptrCurveMapping` contains four real sprites and the streamed curve supplies the
 mapping indices 0..3 at 0/.125/.25/.375 s. Details and classification:
@@ -275,34 +280,63 @@ The native animation model keeps clip data separate from `SpriteData` and
   recomputed from that sprite so the feet stay anchored,
 - the room and shadow remain static.
 
-Animation metadata SHA-256:
-`23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44`.
-The actual runtime frame sequence (`c01_4`, `c01_5`, `c01_6`, `c01_7`, loop) was
-observed in the native window; temporary screenshots show the changed scarf/eye
-pixels and the room composition. The serialized Animator update mode is Normal;
-fixed-step evaluation is a deterministic native decision, not proven parity.
+Animation metadata SHA-256 (idle):
+`23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44`;
+run: `5a464af90c3e61c4b5e3ac6340583234bf6cae114d0a0f281980f2c80e5a3693`.
+The actual runtime idle frame sequence (`c01_4`, `c01_5`, `c01_6`, `c01_7`, loop)
+was observed in the native window; temporary screenshots show the changed
+scarf/eye pixels and the room composition. The run clip uses `c01_0`..`c01_3` and
+is selected when movement input is nonzero. The serialized Animator update mode is
+Normal; fixed-step evaluation is a deterministic native decision, not proven
+parity.
+
+### 4.7 Native locomotion slice
+
+The first playable movement slice uses the real `r1_1` reconstruction scene and
+the recovered c00 movement values:
+
+- keyboard WASD/arrows -> normalized `MovementInput`;
+- `PlayerLocomotion` runs only in the 50 Hz fixed tick;
+- reference formula `speed * (speed_rate + 1)` gives effective `9.75` units/s
+  from c00 `speed=6.5`, `speed_rate=0.5`;
+- swept AABB collision uses a native 13x13 interior approximation
+  (`[13.5,13.5]..[26.5,26.5]`) derived from the recovered 15x15 room dimensions
+  and a 1-unit wall ring;
+- idle/run selection is based on movement presence;
+- `Camera2D` follows the player with native smoothing `8.0`.
+
+The exact `RGRoomX.CreateWall` gap placement, door/aisle traversal, and reference
+camera-follow constants remain open. The native collision footprint is a 0.5x0.5
+feet AABB; the serialized c00 collider is a trigger/hurtbox. The `r1_1_visual`
+scene remains a reverse-engineering test reconstruction, not a proven canonical
+gameplay level. Details: `analysis/assets/locomotion.md`.
+
+Manual verification used real SDL keyboard events via `/dev/uinput` against the
+focused Wayland window. Logs showed idle -> run on key press, movement to the
+native boundary, blocked collision, wall sliding, release -> idle, and camera
+follow. `--locomotion-debug` exposes position/input/velocity/state/frame/collision.
 
 ## 5. Remaining blockers / gaps
 
-1. **Full Animator / general KTX2/atlas / asset registry** — one idle clip is
-   implemented; state transitions, other clips, general atlas packing, and the
-   full registry remain. The source `m_PPtrCurves` encoding is documented as a
-   HIGH CONFIDENCE mapping + streamed-curve reconstruction, not full Unity
-   Animator compatibility.
+1. **Full Animator / exact room geometry / KTX2 / asset registry** — idle and run
+   are implemented; transitions, other clips, exact `CreateWall` gaps, door/aisle
+   traversal, general atlas packing, and the full registry remain. The source
+   `m_PPtrCurves` encoding is documented as a HIGH CONFIDENCE mapping +
+   streamed-curve reconstruction, not full Unity Animator compatibility.
 2. **Shader/install path** — run-time shader and test-asset lookup now goes through
    `FileSystem`'s executable-relative/user/system search paths and CMake copies
    assets into `build/assets`; a signed/installed package still needs to install
    `share/soul-knight/assets/{test,shaders}`.
-3. **Input → fixed tick** — `InputManager` exists but is not wired into the
-   application loop; no gameplay input is consumed.
+3. **Input scope** — keyboard locomotion is wired through the fixed tick;
+   gamepad/joystick axes, attack/skill/dodge, and UI input are not consumed yet.
 4. **Real 1920x1080 surface on this display** — the compositor's 1.25 scale and
    1536x864 logical desktop constrain the window. The code requests 1920x1080 and
    handles the actual surface extent correctly.
 5. **Restore event observation** — handler is implemented and unit-tested; the
    programmatic xdg-shell restore path was not delivered by this compositor.
-6. **Rendering parity** — no reference comparison; native layer mapping is now
-   recovered from TagManager, but camera size and rendering details remain
-   project decisions.
+6. **Rendering/camera parity** — no reference comparison; native layer mapping is
+   recovered from TagManager, but camera size, follow smoothing, and collision
+   approximations remain native decisions.
 7. **Tight polygon meshes/borders** — rectangular tight-crop quads are used; full
    Sprite `m_VertexData` meshes and nine-slice borders are not implemented.
 8. **Audio/UI/gameplay** — deliberately out of scope for this session.
@@ -313,7 +347,7 @@ fixed-step evaluation is a deterministic native decision, not proven parity.
 
 ## 6. Exact next task
 
-**Input-driven native locomotion in the real room:** wire recovered movement
-input into the 50 Hz tick, integrate room collision, switch between the real
-`ide` and `run` clips, and follow the player with `Camera2D`. Do not import the
-full atlas/catalogue, commit proprietary bytes, or begin combat/AI.
+**Complete room geometry and traversal:** reconstruct the actual
+`RGRoomX.CreateWall`/door/aisle collision geometry and make the player traverse it
+with the existing fixed-step movement, idle/run animation, and camera follow. Do
+not import the full atlas/catalogue, commit proprietary bytes, or begin combat/AI.

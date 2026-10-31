@@ -1,9 +1,12 @@
 # Soul Knight 2.6.8 — Input Design
 
-> **Current plan (2026-10-31):** `analysis/re/input_movement.md` and
-> `docs/PHASE_4_NATIVE_RUNTIME.md` are canonical. Confirmed: legacy Unity input,
-> WASD/joystick axes, `MovementInput`, `RGController.SetVelocity` in FixedUpdate.
-> Exact attack/skill/dodge button semantics remain PARTIAL.
+> **Current implementation (2026-10-31):** keyboard WASD/arrows are wired through
+> the existing SDL3 `InputManager` into normalized `MovementInput`, consumed only
+> by the fixed 50 Hz simulation. `analysis/re/input_movement.md` confirms the
+> reference WASD mapping and `RGController.SetVelocity`; `analysis/assets/locomotion.md`
+> records the native movement/collision/camera implementation. Gamepad axes are
+> still scaffolded and are not consumed by locomotion. Attack/skill/dodge
+> semantics remain PARTIAL.
 
 > **Status:** **PARTIAL.** Movement axes/mapping are reconstructed in
 > `analysis/re/input_movement.md`; exact attack/skill/dodge semantics are still
@@ -459,4 +462,5 @@ vibration_strength = 1.0     # 0.0 to 1.0
 
 ---
 
-**Status:** DESIGN PROPOSAL ONLY — not reference evidence. Implementation is blocked by the evidence gates; this design is not a completion claim.
+**Status:** the keyboard locomotion subset is implemented; the rest of this file
+remains a design proposal and is not parity evidence.

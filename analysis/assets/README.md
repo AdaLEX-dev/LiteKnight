@@ -92,8 +92,17 @@ The scene was rendered through Wayland/Vulkan; see
 
 ## Animation metadata (2026-10-31)
 
-`analysis/assets/scenes/animations/c00_idle.json` records the selected real
-`char_1_skin_0_ide` clip: four discrete SpriteRenderer keys, duration 0.5 s,
-sample rate 8 Hz, loop true, plus controller/state/clip path IDs and hashes. The
-four sprites reuse the existing character-atlas PNG. See
+`analysis/assets/scenes/animations/c00_idle.json` and `c00_run.json` record the
+selected real `char_1_skin_0_ide` and `char_1_skin_0_run` clips: four discrete
+SpriteRenderer keys each, duration 0.5 s, sample rate 8 Hz, loop true, plus
+controller/state/clip path IDs and hashes. The sprites reuse the existing
+character-atlas PNG. See
 `analysis/assets/animation.md` for the binding/mapping/streamed-curve evidence.
+The idle and run clips are combined by the native locomotion state switch.
+
+## Locomotion evidence (2026-10-31)
+
+`analysis/assets/locomotion.md` records the recovered WASD/movement evidence,
+the native fixed-step input path, the `r1_1` 15x15 room reconstruction with its
+native 13x13 collision approximation, idle/run switching, and native camera
+follow. `r1_1_visual` remains a reverse-engineering test scene.

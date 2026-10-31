@@ -1,13 +1,14 @@
 # Soul Knight 2.6.8 — Project State
 
-**Last Updated:** 2026-10-31 (Unity idle animation)
+**Last Updated:** 2026-10-31 (native locomotion slice)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
 **Current status:** Phase 4A-4E foundation is implemented and manually verified:
 Wayland-only SDL3 window, Vulkan 1.3 device/swapchain, 50 Hz/60 FPS loop, a
-batched textured sprite renderer, real `r1_1` room composition, and real `c00`
-idle animation. Input/gameplay, combat, audio, and UI are not implemented. The
-vertical slice is **not** cleared.
+batched textured sprite renderer, a native `r1_1` reconstruction test scene,
+real `c00` idle/run animation, keyboard movement, fixed-step collision, and
+camera follow. Combat, AI, audio, and UI are not implemented. The vertical slice
+is **not** cleared.
 
 ---
 
@@ -151,17 +152,26 @@ Implemented and manually verified on 2026-10-31:
   provenance recorded in `analysis/assets/texture_conversion_manifest.json`.
   Conversion was deterministic across two runs, native `PngDecoder` round-trip
   matched all 1536 bytes, and the real PNG rendered through the runtime.
-- **Unity-derived sprite/scene gate PASSED:** `r1_1` room sprites (109) plus
-  `c00` body/shadow (2) render from the real floor, character, and object-common
-  atlases with serialized Sprite rect/pivot/PPU=16, Unity sorting layer/order,
-  `Camera2D`, and the fixed multi-texture sprite batch. Scene metadata:
-  `analysis/assets/scenes/r1_1_visual.json`.
-- **Unity idle-animation gate PASSED:** `c00` Animator controller
-  `char_0_skin_0`, default state `Base Layer.ide`, clip `char_1_skin_0_ide`
-  (0.5 s, 8 Hz, loop) drives four real frame sprites `c01_4`..`c01_7` from the
-  character atlas. Native `AnimationClip`/`AnimationPlayer` samples the clip at
-  fixed 50 Hz and the room remains static. Metadata:
-  `analysis/assets/scenes/animations/c00_idle.json`.
+- **Unity-derived sprite/scene gate PASSED:** the native `r1_1` reconstruction
+  test scene renders 109 room sprites plus `c00` body/shadow from the real floor,
+  character, and object-common atlases with serialized Sprite rect/pivot/PPU=16,
+  Unity sorting layer/order, `Camera2D`, and the fixed multi-texture sprite batch.
+  Scene metadata: `analysis/assets/scenes/r1_1_visual.json`. This scene is a
+  controlled reverse-engineering reconstruction, **not** a proven canonical
+  gameplay level.
+- **Unity idle/run-animation gate PASSED:** `c00` Animator controller
+  `char_0_skin_0` provides `Base Layer.ide` (`char_1_skin_0_ide`) and `run`
+  (`char_1_skin_0_run`), both 0.5 s at 8 Hz, looping, with four real frame
+  sprites each from the character atlas. Native `AnimationClip`/
+  `AnimationPlayer`/`LocomotionAnimator` select idle/run at fixed 50 Hz.
+  Metadata: `analysis/assets/scenes/animations/c00_idle.json` and
+  `analysis/assets/scenes/animations/c00_run.json`.
+- **Keyboard locomotion gate PASSED:** SDL3 keyboard actions feed normalized
+  `MovementInput`; `PlayerLocomotion` applies the recovered
+  `speed=6.5`/`speed_rate=0.5` equation (`9.75` effective units/s) only in the
+  fixed 0.02 s tick; swept AABB collision keeps the player inside the native
+  13x13 interior approximation and slides along walls; `Camera2D` follows the
+  player. Evidence/design: `analysis/assets/locomotion.md`.
 - Sprite metadata/camera/animation evidence: `analysis/assets/sprites.md`,
   `analysis/assets/coordinate_system.md`, `analysis/assets/animation.md`.
 - Manual smoke from `/tmp` (path-independent): PNG decoded, real scene rendered,
@@ -170,11 +180,12 @@ Implemented and manually verified on 2026-10-31:
   fallback.
 
 Not implemented: full AnimatorController transitions/layers/blend trees, other
-clips/states, general KTX2/atlas packing, the full asset registry/manifest loader,
-input-to-simulation bridge, audio, UI, gameplay, content, parity comparison.
-Native sorting numbers are mapped to recovered TagManager layers; camera size and
-fixed-step rather than Normal-update sampling remain **PROJECT DECISIONS** because
-the exact reference values/behavior are not recovered.
+clips/states, exact `CreateWall` wall/door gaps, door/aisle traversal, combat,
+AI, general KTX2/atlas packing, the full asset registry/manifest loader, audio,
+UI, content, or parity comparison. Native sorting numbers are mapped to recovered
+TagManager layers; camera size, camera follow smoothing, the 13x13 interior
+collision approximation, and fixed-step rather than Normal-update sampling remain
+**PROJECT DECISIONS** because the exact reference behavior is not recovered.
 
 Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -204,28 +215,27 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 45 cases / 1558 assertions, PASS
+- Debug tests: 52 cases / 1676 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 45 / 1558, PASS
+- RelWithDebInfo tests: 52 / 1676, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 35/1369 to 45/1558 because the sprite/scene stage added
-SpriteData, Sprite geometry, Camera2D, and SceneLoader tests, and the animation
-stage added clip parsing, discrete sampling, loop/Animator, synthetic scene
-animation, and real-metadata integration tests. No existing test was removed or
-weakened. The real scene conversion/smoke remains manual because it requires the
-local reference bundles and a Wayland/Vulkan GPU.
+The count changed from 35/1369 to 52/1676 because the sprite/scene, animation,
+and locomotion stages added SpriteData/Camera2D/SceneLoader tests, clip sampling
+and real idle/run metadata tests, normalized input tests, fixed-step movement,
+swept AABB collision, idle/run state switching, and camera-follow tests. No
+existing test was removed or weakened. The real scene conversion/smoke remains
+manual because it requires the local reference bundles and a Wayland/Vulkan GPU.
 
 ---
 
 ## Next Action
 
 Phase 4 foundation, PNG, controlled Unity Texture2D, SpriteData, camera, the
-`r1_1` + `c00` composition, and the real idle animation are **FUNCTIONAL**. The
-next large vertical slice is **input-driven native locomotion in the real room**:
-read the recovered movement input, integrate it with the 50 Hz fixed tick and
-current `r1_1` collision evidence, switch the native player between the recovered
-`ide` and `run` clips, and follow the player with `Camera2D`. This is the next
-meaningful visual/runtime step; do not start combat, AI, or the full catalogue.
+`r1_1` native reconstruction test scene, real idle/run animation, and keyboard
+locomotion are **FUNCTIONAL**. The next large vertical slice is **complete real
+room geometry and traversal**: reconstruct the `RGRoomX.CreateWall` perimeter,
+door/aisle gaps, and door/aisle transitions, then make the player traverse the
+real room geometry. Do not start combat, AI, menus, or the full catalogue.

@@ -156,3 +156,31 @@ runtime trace before calling it parity.
 | c00/C01Controller stats | CONFIRMED | serialized prefab components |
 | Display-name identity (Knight/Rogue) | CANDIDATE | prefab names/indices only |
 | Exact attack/skill/dodge button semantics | PARTIAL | method names + axis table; no full call trace |
+
+## 9. Native locomotion slice (2026-10-31)
+
+The first native implementation is in:
+
+- `src/platform/input/MovementInput.hpp` — keyboard-only normalized intent.
+- `src/engine/locomotion/PlayerLocomotion.cpp` — fixed-step movement and
+  collision resolution.
+- `src/engine/collision/AabbCollision.cpp` — swept axis-separated AABB walls.
+- `src/engine/animation/LocomotionAnimator.cpp` — idle/run selection.
+- `src/engine/rendering/Camera2D.cpp` — native follow smoothing.
+
+What is recovered and what is native:
+
+| Item | Status |
+|---|---|
+| WASD key mapping, normalized `MovementInput` | CONFIRMED reference path; native keyboard implementation |
+| c00 `speed = 6.5`, `speed_rate = 0.5` | CONFIRMED serialized values |
+| `SetVelocity` low-inertial formula | HIGH CONFIDENCE; native effective speed `9.75` |
+| Fixed 0.02 s simulation consumption | CONFIRMED reference timing; native loop |
+| Native 13×13 interior collision AABB | NATIVE DESIGN / approximation from 15×15 room + 1-unit wall ring |
+| Player 0.5×0.5 feet AABB | NATIVE DESIGN; serialized c00 collider is a trigger hurtbox |
+| 50 Hz idle/run state switching | NATIVE DESIGN |
+| Camera follow smoothing `8.0` | NATIVE DESIGN; reference values UNKNOWN |
+
+The input snapshot is sampled once per render frame and reused for all fixed
+steps in that frame. Gamepad axis input remains scaffolded but is not consumed by
+the locomotion slice.

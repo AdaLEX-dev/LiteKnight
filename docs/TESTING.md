@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **45 doctest cases / 1558 assertions**, all passing.
+**Status:** current baseline is **52 doctest cases / 1676 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -77,11 +77,22 @@ ctest --test-dir build --output-on-failure
   end-of-clip hold, duplicate-time determinism.
 - AnimationPlayer: Play, Update, current/normalized time, loop count, negative
   delta rejection, non-loop clamp/finish, reset, and sprite evaluation.
+- LocomotionAnimator: idle/run transition, reset, current clip/sprite evaluation.
 - Synthetic SceneLoader animation fixture resolves sprite IDs and target paths.
-- Real `c00` idle metadata integration: committed scene/animation metadata loads,
-  every key resolves to a real SpriteData ID and texture, and atlas rectangles are
-  within texture bounds. Proprietary PNG bytes are not required for this metadata
-  test; runtime rendering uses the local generated assets.
+- Real `c00` idle and run metadata integration: committed scene/animation metadata
+  loads, every key resolves to a real SpriteData ID and texture, and atlas
+  rectangles are within texture bounds. Proprietary PNG bytes are not required
+  for this metadata test; runtime rendering uses local generated assets.
+
+### Locomotion / collision / camera (implemented units)
+
+- Keyboard movement: cardinal directions, diagonal normalization, zero input,
+  opposing keys.
+- PlayerLocomotion: recovered speed/speed_rate equation, fixed dt, repeated
+  ticks, stationary player.
+- AABB collision: room bounds, solid wall, wall sliding, no penetration.
+- SceneLoader spawn/collision-bounds parsing.
+- Camera2D follow: smoothing, deterministic repeat, snap mode, aspect center.
 
 ### Integration / manual smoke
 
@@ -95,7 +106,7 @@ checks driver, Wayland enforcement, validation status, swapchain/renderer marker
 clean smoke completion, and rejects validation/renderer errors. It is intentionally
 not registered with CTest.
 
-### Unity scene / sprite composition (manual)
+### Native `r1_1` reconstruction test scene (manual)
 
 Requires the local reference bundle tree and generated texture assets (never
 committed):
@@ -109,8 +120,11 @@ cd /tmp
     --scene scenes/r1_1_visual/scene.json --smoke-seconds 7
 ```
 
-The committed metadata lives in `analysis/assets/scenes/r1_1_visual.json`;
-generated PNG/scene bytes remain gitignored.
+The committed metadata lives in `analysis/assets/scenes/r1_1_visual.json` and
+`analysis/assets/scenes/animations/`; generated PNG/scene bytes remain
+gitignored. This scene is a reverse-engineering test reconstruction, not a proven
+canonical gameplay level. Run with `--locomotion-debug` to log player position,
+input, velocity, animation state/frame, camera, and collision blocking.
 
 ### Unity Texture2D conversion / native round-trip (manual)
 
@@ -146,8 +160,9 @@ the reference bundle is not part of the repository.
 
 ### Simulation
 
-- Movement: keyboard/joystick vector, diagonal normalization, collision stop.
-- Collision: wall/door trigger/bullet trigger/layer mask.
+- Movement: keyboard vector, diagonal normalization, fixed-step collision stop.
+- Collision: swept room/wall AABB, sliding, no penetration; door triggers and
+  exact generated wall gaps remain future work.
 - Projectile: spawn, lifetime, hit, despawn.
 - Damage: armor overflow, shield, enemy HP, box hit, death.
 - Death/restart: flags, duplicate-callback prevention, world reset.

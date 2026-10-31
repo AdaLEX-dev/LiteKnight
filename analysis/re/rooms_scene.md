@@ -1,7 +1,10 @@
 # Room, Scene, and Asset Lifecycle Reconstruction
 
-**Scope:** `r1_1` vertical-slice room and the engine-level room lifecycle. This is
-not a full procedural-generation reconstruction.
+**Scope:** `r1_1` reconstruction test room and the engine-level room lifecycle.
+This is not a full procedural-generation reconstruction. The native
+`r1_1_visual` scene is a controlled reverse-engineering test chamber assembled
+from real `r1_1` data; it is not proven to be the game's canonical starting level
+or character-select scene.
 
 ---
 

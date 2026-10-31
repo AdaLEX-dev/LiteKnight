@@ -41,7 +41,10 @@ Evidence:
 | Native visual scene | `SceneLoader`, `SceneAsset`, `build_visual_scene.py` | `analysis/assets/scenes/r1_1_visual_manifest.json` |
 | 2D camera / coordinates | `src/engine/rendering/Camera2D.*` | `analysis/assets/coordinate_system.md` |
 | Unity animation | `src/engine/animation/AnimationClip.*`, `AnimationClipLoader.*`, `AnimationPlayer.*` | `analysis/assets/animation.md` |
-| Animation scene generation | `tools/asset/build_visual_scene.py` | `analysis/assets/scenes/animations/c00_idle.json` |
+| Animation scene generation | `tools/asset/build_visual_scene.py` | `analysis/assets/scenes/animations/c00_idle.json`, `c00_run.json` |
+| Native keyboard input | `src/platform/input/MovementInput.hpp`, `InputManager.*` | `analysis/assets/locomotion.md` |
+| Locomotion / collision | `src/engine/locomotion/PlayerLocomotion.*`, `src/engine/collision/AabbCollision.*` | `analysis/assets/locomotion.md` |
+| Camera follow | `src/engine/rendering/Camera2D.*` | `analysis/assets/locomotion.md` |
 | `EnemyAI04` / `e_slime01` | `src/game/enemies/*` | `analysis/re/enemy_ai04.md` |
 | `RGSaveManager` / `PlayerSaveData` | `src/game/save/*` | `analysis/re/save.md` |
 

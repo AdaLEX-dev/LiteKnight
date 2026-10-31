@@ -88,7 +88,25 @@ of jumping when frame dimensions change.
 The shadow instance remains at `(20,19.95)` and is not animated by the selected
 clip.
 
-## 6. Remaining coordinate questions
+## 6. Native locomotion coordinates (2026-10-31)
+
+- Recovered `RGRoomX.room_width/room_height` = `15/15`.
+- Recovered `b_point` floor markers occupy `x = 14..26`, `y = 14..26` (step 2).
+- The native test chamber uses a **NATIVE APPROXIMATION** interior AABB
+  `[13.5,13.5]..[26.5,26.5]`: 15×15 room dimensions with a 1-unit perimeter wall
+  ring. The exact runtime `CreateWall` door/gap placement remains PARTIAL.
+- Player collision footprint is a native 0.5×0.5 AABB at the feet. The serialized
+  c00 0.5×0.5 `BoxCollider2D` has offset `(0,0.7)` and is a trigger/hurtbox, not
+  the solid wall collider.
+- The camera target is the player's world feet position. Follow smoothing is
+  `8.0` (**NATIVE DESIGN**); no room-edge limits are applied. The reference
+  camera-follow values are UNKNOWN.
+- Camera and collision advance in the same fixed `0.02 s` tick as movement.
+
+The test scene remains a reconstruction assembled from real `r1_1` data, not a
+confirmed canonical gameplay level.
+
+## 7. Remaining coordinate questions
 
 - Exact reference camera orthographic size and camera follow behavior.
 - Whether the reference room root applies additional offsets/scaling at runtime.

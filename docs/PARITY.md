@@ -22,7 +22,7 @@
 | Feature | Reference Evidence | Native Status | Confidence | Validation |
 |---|---|---|---|---|
 | Reference identity | Unity 2018.4.12f1, metadata v24, APK hash | N/A | **CONFIRMED** | `analysis/ARTIFACT.md`, `analysis/EVIDENCE_AUDIT.md` |
-| Build/test baseline | N/A (tooling) | Debug + RelWithDebInfo, 45/1558 | **VERIFIED (tooling)** | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
+| Build/test baseline | N/A (tooling) | Debug + RelWithDebInfo, 52/1676 | **VERIFIED (tooling)** | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
 | RNG core | Unity 2018.4 Xorshift128, LCG seed, 23-bit floats | `UnityRandom`/`RGRandomStream` implemented | **CONFIRMED (static)** | `analysis/re/rgrandom.md`, `tests/unit/unity_random_test.cpp` |
 | RNG wrapper / streams | `seed_state`, map seed, `RandomBehaviour`, `RGController` seed | Native wrapper implemented | **PARTIAL** — seed_state 1/2 and DateTime seed exactness open | `analysis/re/rgrandom.md` |
 | Fixed timestep | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) | `FrameTimer` + application loop consume 50 Hz fixed steps | **CONFIRMED reference** | `analysis/re/timing.md`, `tests/unit/timing_test.cpp`, smoke log |
@@ -33,18 +33,21 @@
 | Sprite rendering | Reference sprites use Unity layer sorting; TagManager layers recovered | GLSL sprite pipeline, RGBA8 textures, alpha, stable layer/order batch, pivot/rotation | **FUNCTIONAL (native), NOT parity** | `docs/RENDERING.md`, `analysis/assets/sprites.md` |
 | Unity Sprite metadata | Sprite rect/pivot/PPU/border/filter/wrap serialized; texture rect bottom-origin | `SpriteData` conversion and tests | **HIGH CONFIDENCE / FUNCTIONAL** | `analysis/assets/sprites.md` |
 | 2D camera/world | Unity 2D Y-up, PPU=16; exact camera size not recovered | `Camera2D` orthographic center/half-height, aspect-fit, world/screen tests | **FUNCTIONAL; camera size PROJECT DECISION** | `analysis/assets/coordinate_system.md` |
-| Room/player visual composition | `r1_1` + `c00` serialized transforms/sprites | 111 instances, 3 textures, 9 sprite assets, 5 draw groups; rendered via Wayland/Vulkan | **FUNCTIONAL (visual), NOT gameplay/parity** | `analysis/assets/scenes/r1_1_visual_manifest.json` |
-| Unity sprite animation | `c00` Animator `char_0_skin_0`, state `ide`, clip `char_1_skin_0_ide`; four real frames | `AnimationClip`/`AnimationPlayer`; discrete keys 0/.125/.25/.375 s, 0.5 s loop; fixed-step evaluation | **HIGH CONFIDENCE binding**, function FUNCTIONAL; Normal-update parity UNKNOWN | `analysis/assets/animation.md`, `analysis/assets/scenes/animations/c00_idle.json` |
+| Room/player visual composition | `r1_1` + `c00` serialized transforms/sprites | 111 instances, 3 textures, 13 sprite assets, 5 draw groups; rendered via Wayland/Vulkan | **FUNCTIONAL (visual), NOT gameplay/parity** | `analysis/assets/scenes/r1_1_visual_manifest.json` |
+| Unity sprite animation | `c00` Animator `char_0_skin_0`, states `ide` and `run`; four real frames each | `AnimationClip`/`AnimationPlayer`/`LocomotionAnimator`; discrete keys 0/.125/.25/.375 s, 0.5 s loops; fixed-step evaluation | **HIGH CONFIDENCE binding**, function FUNCTIONAL; Normal-update/transition parity UNKNOWN | `analysis/assets/animation.md`, `analysis/assets/scenes/animations/c00_*.json` |
+| Keyboard movement | Legacy Unity WASD axes; normalized `MovementInput`; c00 speed 6.5/speed_rate 0.5 | `MovementInput` + `PlayerLocomotion`; effective 9.75 units/s at fixed 0.02 s | **CONFIRMED reference path; NATIVE implementation** | `analysis/assets/locomotion.md`, `tests/unit/locomotion_test.cpp` |
+| Room collision | 15x15 room; runtime wall prefabs; exact gaps PARTIAL | Swept AABB, 13x13 interior native approximation; sliding/no tunneling at normal speed | **NATIVE DESIGN; not collision parity** | `analysis/assets/locomotion.md`, `analysis/re/rooms_scene.md` |
+| Camera follow | Exact reference follow constants UNKNOWN | `Camera2D::Follow`, target player, smoothing 8.0, no limits | **NATIVE DESIGN** | `analysis/assets/locomotion.md` |
 | PNG asset runtime | No reference PNG decoder requirement; native asset boundary | libpng → canonical RGBA8 `TextureData` → existing staging upload; deterministic exact-byte tests | **FUNCTIONAL (native), NOT parity** | `docs/ASSET_PIPELINE.md`, `tests/unit/png_test.cpp` |
 | Unity Texture2D conversion | Reference bundle `level-objects`/`f903`, Texture2D path ID `-8989119030688471403`, RGBA32 16x24 | UnityPy 1.25.4 → deterministic PNG → native PNG round-trip/render | **FUNCTIONAL (one controlled asset), NOT parity** | `docs/ASSET_PIPELINE.md`, `analysis/assets/texture_conversion_manifest.json` |
 | Math/vector conventions | Unity Vector2/3, quaternion, Y-up, 2D physics | Vec2/Vec3/Mat4 helpers exist | **CONFIRMED API**, no parity test | `analysis/re/timing.md`, `analysis/re/input_movement.md` |
 | Scene/object lifecycle | MonoBehaviour messages, coroutines, pooling | Planned | **PARTIAL** — destruction/pool details open | `analysis/re/rooms_scene.md` |
-| Room `r1_1` | Prefab hierarchy, `room_width=15`, runtime wall prefabs on layer Edge, doors/aisles/triggers | Not loaded natively | **CONFIRMED asset/source**, exact gaps PARTIAL | `analysis/re/rooms_scene.md` |
+| Room `r1_1` | Prefab hierarchy, `room_width=15`, runtime wall prefabs on layer Edge, doors/aisles/triggers | Native reconstruction test scene renders extracted composition; native 13x13 AABB collision approximation | **CONFIRMED asset/source**, exact gaps PARTIAL | `analysis/re/rooms_scene.md`, `analysis/assets/locomotion.md` |
 | Procedural room generation | `MapManagerLevel.CreateMap`, `SerializeLinkerRoom` | Not started | **UNKNOWN** | `docs/PROCEDURAL_GENERATION.md` |
-| Collision settings | Physics2D gravity (0,-9.81), layers/tags; `RGRoomX.CreateWall` instantiates 1×1 wall colliders | Not implemented | **HIGH CONFIDENCE** — exact gaps open | `analysis/re/rooms_scene.md` |
-| Input mapping | Legacy axes, WASD, joystick deadzone 0.19 | Scaffold only | **CONFIRMED reference** | `analysis/re/input_movement.md` |
-| Player movement | `C01Controller.FixedUpdate` → `SetVelocity`; speed 6.5/speed_rate 0.5 | Not implemented | **HIGH CONFIDENCE** | `analysis/re/input_movement.md` |
-| Player identity | `c00` prefab uses `C01Controller` + `RoleAttributePlayer` | Not loaded natively | **CONFIRMED technical**; display name CANDIDATE | `analysis/re/rooms_scene.md` |
+| Collision settings | Physics2D gravity (0,-9.81), layers/tags; `RGRoomX.CreateWall` instantiates 1×1 wall colliders | Native swept AABB test-chamber bounds; exact generated gaps/door collision not implemented | **HIGH CONFIDENCE source**, exact gaps open | `analysis/re/rooms_scene.md`, `analysis/assets/locomotion.md` |
+| Input mapping | Legacy axes, WASD, joystick deadzone 0.19 | Keyboard WASD/arrows wired into `MovementInput`; gamepad axes not consumed | **CONFIRMED reference + native subset** | `analysis/re/input_movement.md`, `tests/unit/locomotion_test.cpp` |
+| Player movement | `C01Controller.FixedUpdate` → `SetVelocity`; speed 6.5/speed_rate 0.5 | Fixed 50 Hz `PlayerLocomotion`; effective 9.75 units/s | **HIGH CONFIDENCE reference formula; NATIVE implementation** | `analysis/re/input_movement.md`, `analysis/assets/locomotion.md` |
+| Player identity | `c00` prefab uses `C01Controller` + `RoleAttributePlayer` | Native `c00` body/shadow loaded and animated | **CONFIRMED technical**; display name CANDIDATE | `analysis/re/rooms_scene.md` |
 | Enemy identity | `e_slime01` uses `EnemyAI04` + `RoleAttribute`; contact `HitUnit(3,1.5)` | Not loaded natively | **CONFIRMED technical**; display name/full AI PARTIAL | `analysis/re/rooms_scene.md`, `analysis/re/enemy_ai04.md` |
 | Enemy AI | `EnemyAI01..20`, coroutines; `EnemyAI04` minimal path | Not started | **PARTIAL (AI04)** / UNKNOWN (others) | `analysis/re/enemy_ai04.md` |
 | Weapon identity | `weapon_000` = `Gun001`, bullet `bullet_0` | Not loaded natively | **CONFIRMED technical**; display name CANDIDATE | `analysis/re/weapons_projectiles.md` |
@@ -57,7 +60,7 @@
 | Enemy death | HP <= 0 → `Dead`, collider/delegates | Not implemented | **PARTIAL** — post-death slots open | `analysis/re/damage.md` |
 | Player death | flags, collider/weapon disable, Animator; `Reborn`→`DoReborn`; `GameFail`/`TryAgain` | Not implemented | **HIGH CONFIDENCE entry flow**, slots/UI PARTIAL | `analysis/re/damage.md` |
 | Save/runtime boundary | `RGSaveManager`, `PlayerSaveData` on Unity `PlayerPrefs` string/int keys; payload unknown | Not implemented | **CONFIRMED PlayerPrefs**, payload UNKNOWN; not required for slice | `analysis/re/save.md` |
-| Renderer | No reference renderer reconstruction; built-in RP indicated | Vulkan 1.3 instance/device/swapchain + batched textured quad, validation-clean | **FUNCTIONAL (bring-up), NOT parity-verified** | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/RENDERING.md` |
+| Renderer | No reference renderer reconstruction; built-in RP indicated | Vulkan 1.3 instance/device/swapchain + multi-texture batched sprite renderer, real room/player composition, validation-clean | **FUNCTIONAL (native), NOT parity-verified** | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/RENDERING.md` |
 | Audio | miniaudio wrapper only; reference triggers unknown | Not implemented | **PLANNED** | `docs/AUDIO.md` |
 | UI/HUD | No reconstruction; UI assets extracted | Not implemented | **PLANNED** | `docs/PHASE_4_NATIVE_RUNTIME.md` |
 
@@ -68,7 +71,7 @@
 | Gate | Requirement | Status |
 |---|---|---|
 | Gate B (Understanding) | Reusable engine/runtime primitives documented with evidence | ⚠️ **PARTIAL** — four blockers in `docs/GATE_B.md` |
-| Gate C (Runtime) | Native app launches, renders, inputs | ⚠️ **PARTIAL** — Wayland launch, Vulkan present, real Unity-derived room/player composition with real idle animation, resize/focus/minimize verified; input/gameplay not implemented |
+| Gate C (Runtime) | Native app launches, renders, inputs | ⚠️ **PARTIAL** — Wayland launch, Vulkan present, native `r1_1` reconstruction test scene with real idle/run animation, WASD movement/collision/camera verified; combat/gameplay not implemented |
 | Gate D (First Playable) | Core loop playable and FUNCTIONAL | ⛔ **BLOCKED** by Gate B/C and `docs/VERTICAL_SLICE.md` |
 | Gate E (Content) | All discovered content PARTIAL+ | ⛔ **BLOCKED** |
 | Gate F (Release) | All VERIFIED, tests pass | ⛔ **BLOCKED** |
@@ -83,4 +86,4 @@
 - Candidate display names stay `CANDIDATE` until a serialized mapping proves them.
 - No gate is marked complete to make the roadmap green.
 
-**Last Updated:** 2026-10-31 (Unity idle animation)
+**Last Updated:** 2026-10-31 (native locomotion slice)

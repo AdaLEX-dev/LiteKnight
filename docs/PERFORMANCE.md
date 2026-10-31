@@ -1,8 +1,8 @@
 # Performance Plan
 
 **Target:** 60 FPS / 16.6667 ms frame at 1920×1080; simulation fixed at 50 Hz.
-**Status:** the Phase 4 smoke renderer exists and has been measured on one machine
-(Intel UHD 620, KWin/Wayland, 1.25 scale). No playable content exists and no
+**Status:** the native Phase 4 renderer and fixed-step locomotion test scene have been measured on one machine
+(Intel UHD 620, KWin/Wayland, 1.25 scale). No combat/game loop exists; no
 cross-machine 60 FPS guarantee is claimed.
 
 ---
@@ -20,14 +20,15 @@ machine.
 - Measurement type: CPU frame pacing (`steady_clock` via `FrameTimer`), not GPU
   timestamp queries. FIFO present mode. Do not generalize to other GPUs/displays.
 
-### Native r1_1 + c00 animated scene
+### Native r1_1 + c00 animated/locomotion scene
 
-RelWithDebInfo, 111 sprite instances, 3 textures, 9 sprite assets, 1 animation
-clip (4 keyframes), 5 contiguous texture draw groups:
+Command: `build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug --smoke-seconds 10`
+from `/tmp`, with WASD input exercised during the run. RelWithDebInfo, 111 sprite instances, 3 textures, 13 sprite assets, 2 animation
+clips (4 keyframes each), 5 contiguous texture draw groups:
 
-- `FrameTimer` average: **16.662 ms** over 574 samples.
-- **604 frames** over ~10.16 s (~59.4 presents/s).
-- **508 fixed simulation ticks** (~0.833 steps/render frame).
+- `FrameTimer` average: **16.693 ms** over 573 samples.
+- **603 frames** over ~10.16 s (~59.3 presents/s).
+- **508 fixed simulation ticks** (~0.834 steps/render frame).
 - Debug scene validation: 0 errors.
 - Animation overhead is not separately GPU-timestamped; the measurement is CPU
   frame pacing on the test machine, not a GPU/60 FPS parity claim.

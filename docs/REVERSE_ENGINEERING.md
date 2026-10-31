@@ -176,7 +176,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Resolved death/reborn/game-over/restart entry flow; exact virtual slots/UI remain PARTIAL.
 - Resolved the save boundary as Unity `PlayerPrefs`; payload remains UNKNOWN.
 - Corrected native `FrameTimer` to the confirmed 50 Hz step and added a regression
-  test: **23 cases / 1276 assertions at that time** (now 45/1558 after the animation stage).
+  test: **23 cases / 1276 assertions at that time** (now 52/1676 after the animation stage).
 - Gate B and Phase 3 remain **PARTIAL**; first-slice approximations are explicitly
   scoped in `docs/GATE_B.md` and `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`.
 
@@ -190,7 +190,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
   alpha blending, stable layer sorting, and aspect-fit resize.
 - Manual 10 s smoke: exit 0, 0 validation messages, 603 presented frames,
   506 fixed ticks, 16.665 ms average `FrameTimer` frame.
-- Tests at that stage: **31 cases / 1335 assertions** (now 45/1558 after PNG/animation).
+- Tests at that stage: **31 cases / 1335 assertions** (now 52/1676 after PNG/animation).
 - Gate C is **PARTIAL**; asset decoding, input-to-simulation, audio, UI, and
   gameplay remain unimplemented. See `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -242,6 +242,24 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
   the existing `r1_1` scene.
 - Animation metadata SHA-256:
   `23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44`.
-- Tests: **45 cases / 1558 assertions**.
+- Tests: **52 cases / 1676 assertions**.
 - Next dependency: input-driven locomotion and real `ide`/`run` state switching;
+  no combat or AI started.
+
+## 2026-10-31 — Native Keyboard Locomotion Slice
+
+- Recovered and imported the real `run` state/clip (`Base Layer.run`, path
+  `4142231225`, `char_1_skin_0_run`, path `3681644519574295089`) alongside idle.
+  Both bind `SpriteRenderer.m_Sprite` at `img/body`; run maps `c01_0..c01_3`.
+- Added keyboard-only `MovementInput`, fixed-step `PlayerLocomotion`, swept 2D
+  AABB collision, `LocomotionAnimator` idle/run selection, and native
+  `Camera2D::Follow`.
+- c00 movement uses recovered `speed=6.5`, `speed_rate=0.5` with the reconstructed
+  `speed*(speed_rate+1)` low-inertial formula; native effective speed is `9.75`
+  units/s. Collision bounds are an explicit native 13x13 interior approximation
+  from the recovered 15x15 room, not exact `CreateWall` parity.
+- `r1_1_visual` is documented as a reverse-engineering test reconstruction, not a
+  confirmed canonical starting level.
+- Tests: **52 cases / 1676 assertions**.
+- Next dependency: complete recovered room wall/door/aisle geometry and traversal;
   no combat or AI started.

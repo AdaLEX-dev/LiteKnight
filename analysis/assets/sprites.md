@@ -199,6 +199,11 @@ All use PPU 16 and point sampling. Their slightly different widths/pivots are
 recomputed on every frame, keeping the feet anchored. The animation sequencing
 evidence is in `analysis/assets/animation.md`.
 
+The run clip's frame set is `c01_0`..`c01_3`, also from the same character
+atlas, with path IDs `-4648659440509418814`, `-4226452341420905142`,
+`645446436195162188`, and `-3975174193321666585`. Their native top-left rects and
+pivots are in `analysis/assets/scenes/animations/c00_run.json`.
+
 ## 8. Remaining sprite work
 
 - Export/consume exact `m_VertexData` and triangle/index buffers for tight meshes.

@@ -1,13 +1,15 @@
 # Phase 4 — Native Runtime Implementation Plan
 
-**Status:** **PARTIAL — native foundation, Unity-derived visual scene, and real
-idle animation implemented and manually verified.** The application bootstrap,
+**Status:** **PARTIAL — native foundation, Unity-derived visual scene, real
+idle/run animation, and keyboard locomotion implemented and manually verified.** The application bootstrap,
 Wayland-only SDL3 window, Vulkan 1.3 context/swapchain, 50 Hz fixed loop,
 multi-texture sprite renderer, PNG → RGBA8 texture path, Unity Texture2D/Sprite
-metadata conversion, `Camera2D`, an `r1_1` + `c00` composition, and native
-`AnimationClip`/`AnimationPlayer` playback of `char_1_skin_0_ide` are implemented.
-Input-to-simulation wiring, audio, gameplay, full AnimatorController semantics,
-general KTX2/atlas packing, and the full asset registry are not.
+metadata conversion, `Camera2D`, a native `r1_1` reconstruction test scene, native
+`AnimationClip`/`AnimationPlayer` playback of `char_1_skin_0_ide`/`c00_run`, and
+fixed-step keyboard movement, swept AABB collision, idle/run switching, and camera
+follow are implemented. Combat, AI, audio, gameplay, full AnimatorController
+semantics, exact wall/door geometry, general KTX2/atlas packing, and the full
+asset registry are not.
 **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 / metadata v24.
 **Target:** CachyOS x86-64, Wayland only, Vulkan 1.3, 1920×1080, 60 FPS.
 **Gate:** Gate B remains **PARTIAL**. Gate C is **PARTIAL** — launch, present, and
@@ -31,9 +33,9 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | Unity Sprite metadata / PPU | FUNCTIONAL | `SpriteData`, `analysis/assets/sprites.md`, tests |
 | Camera / world coordinates | FUNCTIONAL | `Camera2D`, `analysis/assets/coordinate_system.md`, tests |
 | r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 111 instances rendered |
-| Unity idle animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`, `AnimationPlayer`, `analysis/assets/animation.md`; 4-key 0.5 s loop |
-| Full Animator / asset registry / KTX2 | NOT STARTED | next dependency |
-| Input → fixed simulation | NOT STARTED | `InputManager` not wired |
+| Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`; 4-key 0.5 s loops |
+| Movement / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, swept AABB, `Camera2D` follow |
+| Full Animator / exact room gaps / registry / KTX2 | NOT STARTED | next dependencies |
 | Audio/UI/gameplay | NOT STARTED | deliberate boundary |
 
 Do not read this table as parity. The reference layer order and native rendering
@@ -410,7 +412,7 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 - **Goal:** textured quads, atlas UVs, camera, sorting layers.
 - **Implemented:** GLSL sprite pipeline, RGBA8 atlas textures, alpha blending,
   dynamic batched quads, stable layer sort, aspect-fit resize, `Camera2D`, real
-  room sprite scale/pivots, real SpriteRenderer idle animation.
+  room sprite scale/pivots, real SpriteRenderer idle/run animation, fixed-step keyboard locomotion, AABB collision, and camera follow.
 - **Not yet:** camera follow, full Animator state transitions.
 - **Modules:** `src/renderer/vulkan/SpriteRenderer.*`, `src/engine/rendering/Camera.*`.
 - **Tests:** one sprite; atlas sprite; camera transform; resize.
@@ -422,7 +424,8 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 - **Goal:** 50 Hz fixed step, accumulator, input snapshots, interpolation.
 - **Implemented:** confirmed 50 Hz accumulator, consumed-step statistics, render
   decoupling in `Application`.
-- **Not yet:** gameplay systems, input snapshot bridge.
+- **Not yet:** gameplay systems beyond the locomotion slice; gamepad/analog
+  input and broader action consumption.
 - **Modules:** `src/sim/Clock.*`, `src/platform/timing/FrameTimer.*`.
 - **Tests:** tick count over simulated time; render-rate independence; catch-up cap.
 - **Acceptance:** 50 ticks per simulated second; no spiral of death.
@@ -637,14 +640,13 @@ Rules:
 
 ## 11. Next implementation task
 
-The real `char_1_skin_0_ide` animation is verified. Evidence now points to
-**input-driven native locomotion in the real room** as the next large vertical
-slice: read the recovered movement input, integrate it with the 50 Hz fixed tick
-and recovered room collision, switch the native player between the recovered
-`ide` and `run` clips, and follow the player with `Camera2D`. Do not implement
-combat, AI, or the full catalogue.
+Keyboard locomotion in the `r1_1` reconstruction test scene is verified. The
+next large vertical slice is **complete room geometry and traversal**: recover the
+actual `RGRoomX.CreateWall` gap placement and door/aisle collision geometry, then
+make the player traverse the real room structure without combat. Do not implement
+combat, AI, menus, or the full catalogue.
 
-Acceptance: a real `r1_1` player can be moved with native input, collision is
-respected, the idle/run state switch uses real Unity clips, camera follow is
-deterministic, sanitizer/validation runs are clean, and no proprietary bytes are
-committed.
+Acceptance: wall/door colliders match recovered geometry as far as serialized
+evidence allows; movement and camera remain fixed-step deterministic; door and
+aisle traversal is visible; sanitizer/validation runs are clean; and no
+proprietary bytes are committed.

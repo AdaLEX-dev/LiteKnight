@@ -639,4 +639,4 @@ llvm-objdump -d --no-show-raw-insn --start-address=0x37B9EC --stop-address=0x37B
 
 ---
 
-**Bottom line:** `RGRandom` is a local-state wrapper around Unity 2018.4's Xorshift128 RNG. It is not PCG32, and the global Unity RNG is only a shared scratch state. `UnityRandomState` + `RGRandomStream` are implemented in `src/engine/math/UnityRandom.*` and covered by `tests/unit/unity_random_test.cpp` (45 cases / 1558 assertions pass overall). They must not be used by gameplay until the remaining `seed_state` 1/2 / DateTime seed questions are resolved or explicitly accepted as gaps.
+**Bottom line:** `RGRandom` is a local-state wrapper around Unity 2018.4's Xorshift128 RNG. It is not PCG32, and the global Unity RNG is only a shared scratch state. `UnityRandomState` + `RGRandomStream` are implemented in `src/engine/math/UnityRandom.*` and covered by `tests/unit/unity_random_test.cpp` (52 cases / 1676 assertions pass overall). They must not be used by gameplay until the remaining `seed_state` 1/2 / DateTime seed questions are resolved or explicitly accepted as gaps.

@@ -4,8 +4,9 @@
 > surface, swapchain, render pass, frame resources, GLSL sprite shaders, dynamic
 > multi-texture sprite batch, RGBA8 staging upload, alpha blending, 2D camera, and
 > aspect-fit resize path are implemented and manually verified. A reconstructed
-> `r1_1` room + `c00` player composition using real Unity Sprite metadata renders
-> successfully, and the player plays the real `char_1_skin_0_ide` sprite sequence.
+> `r1_1` native test reconstruction + `c00` player composition using real Unity
+> Sprite metadata renders successfully; the player plays real idle/run clips and
+> moves under fixed-step keyboard input with collision and camera follow.
 > `docs/PARITY.md` Gate C is **PARTIAL**.
 >
 > **Not implemented:** general KTX2/atlas packing, full AnimatorController
@@ -69,11 +70,12 @@ Unity Texture2D + Sprite metadata + shared atlas
   **PROJECT DECISION**.
 - The `Mat4` column-major multiplication bug that dropped camera translation was
   fixed; the projection maps world +Y up.
-- The `r1_1` scene has 111 instances across 3 textures and 9 sprite assets:
+- The `r1_1` scene has 111 instances across 3 textures and 13 sprite assets:
   109 room sprites, 1 player body (four idle-frame sprites selected over time),
   and 1 player shadow.
-- The player uses the real `char_1_skin_0_ide` clip: four discrete sprite keys at
-  `0`, `0.125`, `0.25`, `0.375 s`, looping at `0.5 s`.
+- The player uses the real `char_1_skin_0_ide` and `char_1_skin_0_run` clips:
+  four discrete sprite keys each at `0`, `0.125`, `0.25`, `0.375 s`, looping at
+  `0.5 s`. Movement presence selects run; zero movement selects idle.
 - The renderer groups contiguous texture runs (5 draw groups for this scene) and
   uses global index-buffer quad offsets with `vertexOffset=0`.
 - Screenshot evidence is temporary and not committed; the actual native scene is
@@ -109,9 +111,28 @@ The native animation model is deliberately separate from sprite and texture data
 - The four frame sprites have slightly different tight-crop widths and adjusted
   pivots. The renderer recomputes size and pivot from the active `SpriteData`, so
   the player's feet stay anchored while the image changes.
-- This implements only the evidence-backed idle path, not a general Unity
+- This implements only the evidence-backed idle/run paths, not a general Unity
   Animator clone. `analysis/assets/animation.md` records the exact IDs, binding,
   mapping, streamed curve values, hashes, and remaining UNKNOWNs.
+
+Player movement is fixed-step keyboard input only:
+
+```text
+PollEvents -> MovementInput snapshot
+FixedUpdate(0.02)
+  -> PlayerLocomotion (9.75 units/s from recovered speed/speed_rate formula)
+  -> swept AABB collision
+  -> LocomotionAnimator idle/run
+  -> Camera2D follow
+  -> SpriteBatch / Vulkan
+```
+
+Collision is a native test-chamber approximation: a 13×13 interior AABB derived
+from the recovered 15×15 room dimensions and a 1-unit wall ring. The current
+`r1_1_visual` scene is a reverse-engineering test reconstruction, not a proven
+canonical gameplay level. The reference camera-follow values are not recovered;
+`Camera2D::follow_smoothing = 8.0` is native design. See
+`analysis/assets/locomotion.md`.
 
 ## 1. Rendering Architecture
 
