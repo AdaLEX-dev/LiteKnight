@@ -34,8 +34,14 @@ Wayland window / SDL3 surface
 ```
 
 The native sorting layers are a **PROJECT DECISION**; no reference numeric
-sorting-layer values are claimed. The textured quad is a synthetic renderer bring-up asset, not APK content. The
-decoded PNG is asymmetric so vertical flips and channel swaps are visible.
+sorting-layer values are claimed. The default textured quad is a synthetic
+renderer bring-up asset, not APK content. The decoded PNG is asymmetric so vertical
+flips and channel swaps are visible.
+
+A controlled real Unity Texture2D (`level-objects`/`f903`, 16x24 RGBA32) was
+also converted to a deterministic PNG, native-round-tripped byte-for-byte, and
+rendered through the same `--texture` path. This proves the asset boundary, not
+reference rendering parity. See `docs/ASSET_PIPELINE.md`.
 
 ## 1. Rendering Architecture
 

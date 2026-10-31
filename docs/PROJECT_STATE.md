@@ -137,22 +137,28 @@ Implemented and manually verified on 2026-10-31:
   `B8G8R8A8_SRGB` FIFO 3-image swapchain, render pass, 2 frames in flight.
 - GLSL 450 sprite shaders compiled to SPIR-V by a CMake `glslc` target.
 - Batched textured quads with UVs, tint, alpha blending, stable layer sorting,
-  generated 64x64 RGBA8 test texture, staging upload, aspect-fit resize.
+  synthetic PNG fixtures, staging upload, aspect-fit resize.
 - 50 Hz fixed simulation consumed from the existing `FrameTimer`; rendering is
   decoupled and targets 60 FPS.
 - PNG asset runtime: libpng 1.6 system dependency, canonical RGBA8
   `TextureData`, exact-byte/palette/gray/RGB tests, malformed-input rejection,
   executable-relative synthetic fixtures, decoded PNG rendered through the
   existing staging/`Texture2D`/`SpriteBatch` path.
+- **Controlled Unity Texture2D gate PASSED:** one real `level-objects`/`f903`
+  Texture2D (`RGBA32`, 16x24, path ID `-8989119030688471403`) converted through
+  UnityPy 1.25.4 + Pillow 13.0.0 to canonical RGBA8 and a deterministic PNG;
+  provenance recorded in `analysis/assets/texture_conversion_manifest.json`.
+  Conversion was deterministic across two runs, native `PngDecoder` round-trip
+  matched all 1536 bytes, and the real PNG rendered through the runtime.
 - Manual smoke from `/tmp` (path-independent): PNG decoded, 0 validation
   messages, clean exit.
 - Non-Wayland startup fails with exit 1 (`wayland not available`), no X11
   fallback.
 
-Not implemented: KTX2/atlas packing, the full asset registry/manifest loader,
-input-to-simulation bridge, audio, UI, rooms, gameplay, content, parity
-comparison. Native sorting numbers are a **PROJECT DECISION**, not recovered
-Unity values.
+Not implemented: KTX2/atlas packing, sprite metadata/pivot/PPU, the full asset
+registry/manifest loader, input-to-simulation bridge, audio, UI, rooms, gameplay,
+content, parity comparison. Native sorting numbers are a **PROJECT DECISION**,
+not recovered Unity values.
 
 Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -182,14 +188,14 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 35 cases / 1367 assertions, PASS
+- Debug tests: 35 cases / 1369 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 35 / 1367, PASS
+- RelWithDebInfo tests: 35 / 1369, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 31/1335 to 35/1367 because the PNG asset-runtime stage
+The count changed from 31/1335 to 35/1369 because the PNG asset-runtime stage
 added exact RGBA normalization, palette/gray, malformed-input, and missing-file
 tests. No existing test was removed or weakened. The Phase 4 integration smoke
 test is manual because it requires a real Wayland compositor and GPU.
@@ -198,9 +204,10 @@ test is manual because it requires a real Wayland compositor and GPU.
 
 ## Next Action
 
-Phase 4 foundation and the PNG asset path are **FUNCTIONAL**. The next
-implementation task is controlled Unity-extracted asset conversion into the
-canonical native representation, starting with one small approved source and a
-reproducible conversion manifest. Do not import the full catalogue and do not
-start gameplay/vertical-slice code until the asset/input gates and slice
-prerequisites are accepted.
+Phase 4 foundation, the PNG path, and the controlled Unity Texture2D gate are
+**FUNCTIONAL**. Evidence now points to **Unity Sprite metadata** as the next
+dependency: `TextureData` intentionally contains no rect/pivot/PPU semantics.
+The next task is to extract one manifest-backed `Sprite` referencing a known
+texture and add a separate `SpriteData` model (rect, pivot, pixels-per-unit,
+filter/wrap, texture reference) with deterministic tests. Do not start gameplay
+or the full catalogue.

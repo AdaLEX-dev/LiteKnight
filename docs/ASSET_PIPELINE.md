@@ -1,14 +1,17 @@
 # Asset Pipeline
 
-**Status:** **PARTIAL** — the native PNG → RGBA8 → Vulkan texture path is
-implemented and tested. Unity bundle conversion, KTX2/atlas handling, audio
-conversion, and the full asset registry are not implemented.
+**Status:** **PARTIAL / controlled Unity Texture2D gate PASSED.**
+The native PNG → RGBA8 → Vulkan texture path and one real Unity Texture2D
+conversion are implemented and tested. The full asset catalogue, KTX2/atlas
+handling, sprite metadata, audio conversion, and the full asset registry are not
+implemented.
 
 **Canonical representation:** `engine::assets::TextureData`
 (`src/engine/assets/TextureData.hpp`).
 
 ```text
-PNG / future KTX2 / future converted Unity texture
+UnityPy Texture2D → deterministic PNG → libpng
+future KTX2 / future converted Unity texture
                 │
                 ▼
         TextureData (RGBA8, top row first)
@@ -93,8 +96,8 @@ The application uses the existing `platform::FileSystem` search order:
 
 CMake copies the synthetic test assets and compiled shaders into
 `build/assets/{test,shaders}`. Running the executable from a different working
-directory therefore still finds the same files. No `/home/jules` path is
-hardcoded.
+directory therefore still finds the same files. No developer home-directory
+path is hardcoded.
 
 For installation, the same files must be installed under
 `share/soul-knight/assets/{test,shaders}` (the test assets are development-only).
@@ -117,11 +120,67 @@ The RGBA fixture has explicit expected bytes in `tests/unit/png_test.cpp`. It is
 decoded twice to prove determinism. A truncated in-memory PNG proves explicit
 failure with no fake texture.
 
-## 6. Current limitations
+## 6. Controlled Unity Texture2D conversion
+
+`tools/asset/extract_unity.py convert-texture` extends the existing UnityPy
+extraction pipeline. It does not add a second asset architecture.
+
+- UnityPy: **1.25.4**, pinned in `tools/asset/requirements.txt`.
+- Pillow: **13.0.0**, pinned for deterministic PNG writing/decoding.
+- Converter version: **1.0.0**.
+- Accepted formats: `RGBA32`, `RGB24` only.
+- Mip count must be 1; ambiguous/mipmapped textures are rejected.
+- Source `Texture2D.image` → Pillow `RGBA` → top-row-first canonical bytes.
+- Output PNG uses `optimize=False, compress_level=9` and no timestamp metadata.
+- The converter re-opens the PNG and verifies exact RGBA8 equality before
+  recording the conversion.
+- No proprietary bytes are committed; the PNG and raw RGBA dump live under
+  gitignored `assets/generated/texture-conversion/`.
+
+### Selected reference asset (CONFIRMED)
+
+| Field | Value |
+|---|---|
+| APK SHA-256 | `8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea` |
+| Bundle | `level-objects` |
+| Bundle SHA-256 | `0ceed5578212398f4019943c759c3e67fb4338351732d09a2effa45dc5bf8829` |
+| Unity path ID | `-8989119030688471403` |
+| Type | `Texture2D` |
+| Name | `f903` |
+| Container | `assets/rgprefab/mapmanager/level1/map_c3.prefab` |
+| CAB | `CAB-a30724b9177a42016247cd793468ac48` |
+| Format | `RGBA32` (Unity format 4) |
+| Size | 16×24, 1 mip |
+| Canonical RGBA8 SHA-256 | `3b566df519684d6b4d7c9ca5daa6608ab72f9faf073fd2bb713fbae648662acd` |
+| Deterministic PNG SHA-256 | `a71dae026afe598a451723a466ccd1eec684405355a157fe9a306e91004f5505` |
+| PNG decoded RGBA8 SHA-256 | `3b566df519684d6b4d7c9ca5daa6608ab72f9faf073fd2bb713fbae648662acd` |
+
+The machine-readable record is
+`analysis/assets/texture_conversion_manifest.json`.
+
+### Determinism and native round-trip
+
+Run twice; PNG, raw RGBA8, and manifest hashes were identical. The native
+`soul-knight-png-roundtrip` tool decodes the generated PNG through the production
+`PngDecoder` and compares it byte-for-byte with the converter's raw RGBA8:
+
+```text
+PASS: native PNG decode == canonical RGBA8 (16x24, 1536 bytes)
+```
+
+The real PNG was then copied only into the gitignored build asset root and
+rendered through the existing `--texture` runtime path. The source has eight
+transparent top rows and sixteen opaque brown rows; the rendered tall quad shows
+the transparent upper region and brown lower region, making orientation and alpha
+visible. The temporary screenshot evidence is not committed.
+
+## 7. Current limitations
 
 - No KTX2/atlas packing or mipmaps.
 - No full asset registry/manifest loader.
-- No UnityPy output is imported or committed in this stage.
-- The synthetic smoke image is a renderer fixture, not Soul Knight parity.
+- Only one controlled Unity Texture2D has been converted. The full catalogue and
+  Unity Sprite metadata/pivot/PPU are not imported.
+- No Unity-derived bytes are committed; generated PNG/RGBA outputs are ignored.
+- The synthetic smoke image remains the default renderer fixture.
 - Installed-asset shader/test discovery has not yet been exercised by a package.
 - Audio conversion remains separate.

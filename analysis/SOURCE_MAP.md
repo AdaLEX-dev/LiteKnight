@@ -36,6 +36,7 @@ Evidence:
 | Native Vulkan renderer | `src/engine/rendering/VulkanContext.*`, `VulkanRenderer.*` | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
 | Native sprite batch/renderer | `src/engine/rendering/SpriteBatch.*`, `SpriteRenderer.*`, `Texture2D.*`, `shaders/*` | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` |
 | PNG asset decoding | `src/engine/assets/PngDecoder.*`, `TextureData.hpp` | `docs/ASSET_PIPELINE.md` |
+| Unity Texture2D conversion | `tools/asset/extract_unity.py convert-texture` | `analysis/assets/texture_conversion_manifest.json` |
 | `EnemyAI04` / `e_slime01` | `src/game/enemies/*` | `analysis/re/enemy_ai04.md` |
 | `RGSaveManager` / `PlayerSaveData` | `src/game/save/*` | `analysis/re/save.md` |
 

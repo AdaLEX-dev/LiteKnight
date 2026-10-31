@@ -54,7 +54,7 @@ evidence, and a responsible subsystem.
 | Tick rate | ✅ MET | `analysis/re/timing.md` | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) confirmed | Engine loop / `FrameTimer` |
 | Renderer | ⚠️ PARTIAL | `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/RENDERING.md` | Vulkan 1.3 device/swapchain + decoded-PNG batched quad verified; atlas/room sprite/camera path not implemented | Rendering / platform |
 | RNG core | ⚠️ PARTIAL | `analysis/re/rgrandom.md` | Core/map/LongMap confirmed; `seed_state` 1/2, DateTime seed, reference vectors unavailable | RNG / `RGRandom` |
-| Asset extraction | ⚠️ PARTIAL | `analysis/assets/extraction_manifest.json`, `docs/ASSET_PIPELINE.md` | Extraction reproducible; PNG decode implemented; native Unity conversion/atlas/audio not started | Assets / extraction tool |
+| Asset extraction | ⚠️ PARTIAL | `analysis/assets/extraction_manifest.json`, `analysis/assets/texture_conversion_manifest.json`, `docs/ASSET_PIPELINE.md` | Extraction reproducible; one real Unity Texture2D converted deterministically and native-round-tripped; atlas/sprite metadata/audio not started | Assets / extraction tool |
 | Save/runtime boundary | ⚠️ PARTIAL | `analysis/re/save.md` | Unity PlayerPrefs string/int keys confirmed; payload/versioning UNKNOWN; not required for slice | Save / `RGSaveManager` |
 | Build/test baseline | ✅ MET (tooling) | `analysis/REPOSITORY_INTEGRITY_AUDIT.md` | Not a gameplay gate | Build / tests |
 
@@ -89,8 +89,8 @@ Display names remain candidate until a serialized name mapping is found.
 
 1. **Renderer smoke test** — ✅ DONE (Wayland window, Vulkan, present, resize,
    clean exit).
-2. **Sprite path** — ⚠️ PARTIAL (decoded PNG → RGBA8 → one batched quad,
-   alpha/UV/resize; atlas/camera/room sprites pending).
+2. **Sprite path** — ⚠️ PARTIAL (decoded PNG and one real Unity Texture2D →
+   RGBA8 → one batched quad; sprite metadata/atlas/camera/room sprites pending).
 3. **Simulation clock** — ⚠️ PARTIAL (50 Hz fixed loop + measured 60 FPS render
    pacing; gameplay systems and input snapshots pending).
 4. **Input** — WASD/joystick movement; verify attack mapping.

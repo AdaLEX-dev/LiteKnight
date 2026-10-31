@@ -62,7 +62,7 @@ current build/test baseline is verified in `analysis/REPOSITORY_INTEGRITY_AUDIT.
 - **Severity:** P2 (contradictory API)
 - **Actual:** `World<T>::Iterator` walked the dense component array but looked up `entities_[dense_index]` and returned null/invalid pairs for sparse sets. Nothing used it.
 - **Fix:** Removed the broken iterator and its unused type-erased `Size()` accessor rather than leaving a false API.
-- **Regression:** ECS unit tests still pass (35 cases / 1367 assertions overall).
+- **Regression:** ECS unit tests still pass (35 cases / 1369 assertions overall).
 
 ---
 

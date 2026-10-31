@@ -24,7 +24,8 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | Clear + textured quad | FUNCTIONAL / visual PASS | `SpriteRenderer`, `shaders/` |
 | 50 Hz fixed loop with 60 FPS render | FUNCTIONAL | `FrameTimer`, smoke log |
 | PNG → RGBA8 → GPU texture | FUNCTIONAL | `PngDecoder`, `TextureData`, libpng, `tests/unit/png_test.cpp` |
-| Asset registry/KTX2/atlas | NOT STARTED | manifest conversion not implemented |
+| Controlled Unity Texture2D | FUNCTIONAL | `extract_unity.py convert-texture`, manifest, deterministic PNG/native round-trip |
+| Asset registry/KTX2/atlas/Sprite metadata | NOT STARTED | conversion breadth and sprite semantics not implemented |
 | Input → fixed simulation | NOT STARTED | `InputManager` not wired |
 | Audio/UI/gameplay | NOT STARTED | deliberate boundary |
 
@@ -388,8 +389,9 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
   synthetic fixtures, deterministic/exact-byte tests, malformed-input rejection,
   executable-relative asset lookup, PNG decoded into the existing `Texture2D`
   staging path and rendered as the smoke quad.
-- **Not yet:** KTX2/atlas, manifest/registry, room/audio conversion, UnityPy
-  output import.
+- **Not yet:** KTX2/atlas, manifest/registry, room/audio conversion, general
+  UnityPy import. One controlled Texture2D (`level-objects`/`f903`) is converted,
+  deterministic, native-round-tripped and rendered.
 - **Modules:** `src/assets/*`, `tools/asset/convert_*`.
 - **Tests:** texture decode, sprite rect, room JSON parse, missing-asset error.
 - **Acceptance:** load `r1_1`, `c00`, `e_slime01`, `weapon_000`, `bullet_0`
@@ -627,18 +629,14 @@ Rules:
 
 ## 11. Next implementation task
 
-The PNG asset path is verified. The next task is **controlled Unity-extracted
-asset conversion → canonical native asset representation**:
+The PNG and one real Unity Texture2D path are verified. Evidence now points to
+**Unity Sprite metadata / pivot / pixels-per-unit** as the next dependency:
+`TextureData` intentionally carries no sprite semantics. The next task is to
+extract one manifest-backed Unity `Sprite` referencing a known texture and add a
+separate `SpriteData` model (texture reference, rect, pivot, pixels-per-unit,
+filter/wrap) with deterministic tests. Do not implement the full atlas/catalogue
+or begin gameplay/content work.
 
-- select a small, already-manifested non-proprietary test subset only after
-  establishing a deterministic conversion manifest;
-- convert one sprite/metadata pair into the canonical RGBA8/`TextureData` or an
-  atlas descriptor with documented source hashes;
-- add conversion-output tests and a visible smoke asset;
-- keep extracted proprietary bytes out of Git and keep the APK/bundles out of the
-  repository.
-
-Do not import the full asset catalogue and do not begin gameplay/content work.
-Acceptance: reproducible conversion report, exact decoded bytes for the chosen
-synthetic/approved source, Debug/RelWithDebInfo tests green, and no proprietary
-asset bytes tracked.
+Acceptance: exact expected rect/pivot/PPU values for one approved source, a clean
+separation from `TextureData`, native tests green, and no proprietary bytes
+committed.

@@ -26,7 +26,8 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 | 4E sprite renderer | PARTIAL / VISUAL PASS | decoded synthetic PNG, batched textured quad |
 | PNG asset runtime | FUNCTIONAL | libpng → RGBA8 `TextureData` → existing staging/upload path |
 | Asset-runtime PNG | FUNCTIONAL | libpng, exact-byte tests, synthetic PNGs |
-| Asset registry/KTX2/atlas | NOT STARTED | manifest conversion not implemented |
+| Controlled Unity Texture2D | FUNCTIONAL / MANUAL PASS | `level-objects`/`f903`; deterministic conversion + native round-trip + render |
+| Asset registry/KTX2/atlas/Sprite metadata | NOT STARTED | one texture only; sprite semantics not implemented |
 | Input → fixed tick | NOT STARTED | `InputManager` not wired into the loop |
 | Audio/UI/gameplay | NOT STARTED | deliberate scope boundary |
 
@@ -111,7 +112,7 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 
 ### 4.1 Unit/CTest
 
-- Debug tests: **35 cases / 1367 assertions, all passing**.
+- Debug tests: **35 cases / 1369 assertions, all passing**.
 - CTest: `soul-knight-unit-tests` 1/1 passing.
 - New tests:
   - config defaults + Wayland-only rejection,
@@ -175,18 +176,42 @@ DISPLAY=:0 WAYLAND_DISPLAY=invalid_wayland ./build/soul-knight --smoke-seconds 1
 ### 4.3 Screenshot
 
 A desktop screenshot captured while the runtime was presenting is at
-`/tmp/opencode/phase4_png_quad.png` (temporary, not committed). It shows the
+a temporary local screenshot (not committed). It shows the
 1920x1080-target window, dark clear color, and the decoded synthetic asymmetric
 PNG with distinct quadrants, white/black orientation markers, and alpha border.
 The app was launched from `/tmp` using the executable-relative asset search path.
 Generated images/logs are intentionally not tracked.
 
+### 4.4 Real Unity Texture2D conversion
+
+Selected source (CONFIRMED from UnityPy 1.25.4):
+
+| Field | Value |
+|---|---|
+| APK SHA-256 | `8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea` |
+| Bundle | `level-objects` |
+| Bundle SHA-256 | `0ceed5578212398f4019943c759c3e67fb4338351732d09a2effa45dc5bf8829` |
+| Texture2D name | `f903` |
+| Path ID | `-8989119030688471403` |
+| Container | `assets/rgprefab/mapmanager/level1/map_c3.prefab` |
+| CAB | `CAB-a30724b9177a42016247cd793468ac48` |
+| Format | `RGBA32`, 16x24, 1 mip |
+| RGBA8 SHA-256 | `3b566df519684d6b4d7c9ca5daa6608ab72f9faf073fd2bb713fbae648662acd` |
+| PNG SHA-256 | `a71dae026afe598a451723a466ccd1eec684405355a157fe9a306e91004f5505` |
+
+Conversion ran twice with identical PNG, raw RGBA8, and manifest hashes.
+`soul-knight-png-roundtrip` decoded the generated PNG through the production
+`PngDecoder` and matched the converter's 1536 RGBA8 bytes exactly. The PNG was
+then copied only into the gitignored build asset root and rendered through the
+normal `--texture` path. A temporary local screenshot (not committed) confirmed the render. `analysis/assets/texture_conversion_manifest.json` is the machine-readable provenance record.
+
 ---
 
 ## 5. Remaining blockers / gaps
 
-1. **KTX2/atlas and asset registry** — not implemented. PNG is now decoded via
-   libpng; KTX2 packing, sprite metadata/atlas, and the full registry remain.
+1. **KTX2/atlas, asset registry, and Sprite metadata** — not implemented. One
+   Texture2D is converted; KTX2 packing, Unity Sprite rect/pivot/PPU/atlas
+   semantics, and the full registry remain.
 2. **Shader/install path** — run-time shader and test-asset lookup now goes through
    `FileSystem`'s executable-relative/user/system search paths and CMake copies
    assets into `build/assets`; a signed/installed package still needs to install
@@ -208,7 +233,8 @@ Generated images/logs are intentionally not tracked.
 
 ## 6. Exact next task
 
-**Controlled Unity-extracted asset conversion:** choose one small, manifest-backed
-source asset, produce a canonical native representation with source hashes, and add
-deterministic conversion tests. Do not import the full catalogue, commit proprietary
-bytes, or begin gameplay.
+**Unity Sprite metadata / pivot / pixels-per-unit:** extract one manifest-backed
+Sprite referencing a known texture and add a separate `SpriteData` model with
+deterministic rect/pivot/PPU tests. Keep `TextureData` free of sprite semantics.
+Do not import the full atlas/catalogue, commit proprietary bytes, or begin
+gameplay.

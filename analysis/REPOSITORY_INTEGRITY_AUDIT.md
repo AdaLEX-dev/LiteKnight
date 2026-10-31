@@ -10,7 +10,7 @@ renderer implementation was started.
 Run `git log -1 --format='%h %s'` for the commit that contains this report.
 
 > **Note:** build/test counts and Phase 4 status in this report describe the
-> P0/P1 pass at baseline `4f61c3d`. The current baseline is 35 cases / 1367
+> P0/P1 pass at baseline `4f61c3d`. The current baseline is 35 cases / 1369
 > assertions, and the Phase 4 native foundation is implemented (Gate C PARTIAL).
 > See `docs/TESTING.md` and `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 

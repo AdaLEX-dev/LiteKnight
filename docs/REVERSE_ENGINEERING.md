@@ -176,7 +176,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Resolved death/reborn/game-over/restart entry flow; exact virtual slots/UI remain PARTIAL.
 - Resolved the save boundary as Unity `PlayerPrefs`; payload remains UNKNOWN.
 - Corrected native `FrameTimer` to the confirmed 50 Hz step and added a regression
-  test: **23 cases / 1276 assertions at that time** (now 35/1367 after the PNG asset stage).
+  test: **23 cases / 1276 assertions at that time** (now 35/1369 after the PNG asset stage).
 - Gate B and Phase 3 remain **PARTIAL**; first-slice approximations are explicitly
   scoped in `docs/GATE_B.md` and `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`.
 
@@ -188,8 +188,25 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
   Debug validation, and compositor-aware resize/recreation.
 - Added GLSL sprite shaders, dynamic batched quads, RGBA8 staging texture upload,
   alpha blending, stable layer sorting, and aspect-fit resize.
-- Manual 10 s smoke: exit 0, 0 validation messages, 602 presented frames,
+- Manual 10 s smoke: exit 0, 0 validation messages, 603 presented frames,
   506 fixed ticks, 16.665 ms average `FrameTimer` frame.
-- Tests at that stage: **31 cases / 1335 assertions** (now 35/1367 after PNG).
+- Tests at that stage: **31 cases / 1335 assertions** (now 35/1369 after PNG).
 - Gate C is **PARTIAL**; asset decoding, input-to-simulation, audio, UI, and
   gameplay remain unimplemented. See `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
+
+## 2026-10-31 — PNG and Controlled Unity Texture2D Gate
+
+- Added libpng-backed PNG decode to canonical RGBA8 `TextureData`, exact-byte
+  tests, synthetic fixtures, and native `PngDecoder` round-trip.
+- Extended the existing UnityPy extractor with `convert-texture`; pinned
+  UnityPy 1.25.4 + Pillow 13.0.0.
+- Converted one real reference Texture2D: `level-objects`/`f903`, path ID
+  `-8989119030688471403`, RGBA32 16x24, bundle SHA-256
+  `0ceed5578212398f4019943c759c3e67fb4338351732d09a2effa45dc5bf8829`.
+- Deterministic conversion: RGBA8 SHA-256
+  `3b566df519684d6b4d7c9ca5daa6608ab72f9faf073fd2bb713fbae648662acd`,
+  PNG SHA-256 `a71dae026afe598a451723a466ccd1eec684405355a157fe9a306e91004f5505`.
+- Native `soul-knight-png-roundtrip` matched all 1536 bytes; the real PNG rendered
+  through the existing Wayland/Vulkan sprite path.
+- Tests: **35 cases / 1369 assertions**.
+- Next dependency: Unity Sprite metadata/rect/pivot/PPU; no gameplay started.
