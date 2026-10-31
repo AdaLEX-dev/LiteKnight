@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is 22 doctest cases / 1273 assertions, all passing.
+**Status:** current baseline is 23 doctest cases / 1276 assertions, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---

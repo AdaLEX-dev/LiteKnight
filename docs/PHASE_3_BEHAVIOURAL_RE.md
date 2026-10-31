@@ -17,18 +17,23 @@ for the slice:
 - fixed timestep and frame split,
 - player/enemy damage state mutation and projectile target dispatch,
 - input → movement contract,
-- `r1_1` room asset/component inventory and collider representation,
-- one confirmed weapon/projectile pair (`weapon_000`/`bullet_0`),
-- player/enemy death entry effects.
+- `r1_1` room asset/component inventory, runtime wall-collision source, door
+  open/close/clear entry points,
+- player/enemy/box damage bridge and player/enemy death entry effects,
+- one confirmed weapon/projectile pair (`weapon_000`/`bullet_0`), including
+  `Gun001.Attack → CreateBullet → BulletFactory.TakeBullet` and the effective
+  speed-36 path,
+- `EnemyAI04` contact behavior and the minimum `e_slime01` contract,
+- save boundary: Unity `PlayerPrefs` string/int keys (payload UNKNOWN).
 
 The following are **not** complete:
 
-- wall-collision placement and room/door state machines,
-- exact weapon fire cadence/velocity/spread/ammo,
-- enemy AI state machines,
+- exact per-cell wall/door gap placement and the full room/door state machine,
+- exact weapon fire cooldown and spread-field identity,
+- full enemy AI state machines,
 - all content identities and all weapons/enemies/rooms,
-- save serialization/versioning,
-- full reborn/game-over flow,
+- save payload serialization/versioning,
+- full reborn/game-over UI sequencing,
 - runtime-observed vectors and behaviours.
 
 ## 2. What is known (CONFIRMED)
@@ -79,6 +84,34 @@ The following are **not** complete:
   `RoleAttributePlayer.speed`/`speed_rate` plus controller bonus.
 - c00: speed 6.5, speed_rate 0.5, hp 6, armor 5, atk 4, critical 5.
 - c01: speed 6.5, speed_rate 0.5, hp 5, armor 3, atk 5, critical 10.
+
+### 2.5 Late evidence pass (2026-10-31)
+
+- `RGRoomX.CreateWall` (`0xDEBE3C`) instantiates wall prefabs from
+  `MapManagerLevel.wall_list` (`+0x100`), parents them to `wall_group`, and sets
+  layer `RGRoomX.EdgeLayer` (17). Wall prefabs (`wall101`/`wall201`) have 1×1
+  non-trigger `BoxCollider2D`. The 12 serialized colliders are not the complete
+  playable geometry.
+- Serialized `r1_1`: `room_width=15`, `room_height=15`, `room_type=1`,
+  `door_open=1`, offsets 0.
+- `RGGameSceneManager.CreatePlayer` uses `MapManager.centerPoint` for the player
+  spawn. `RGRoomX.LoadRoom` finds `b_point`, adds its child positions to
+  `RGRoomX.floor_list`; `b_point` is a valid floor/spawn marker group.
+- `StartRoom` sets the current room/index/process/boss state; `CloseDoor`/`OpenDoor`
+  call `RGDoor.Close/Open` on all four doors; `ClearRoom` sets process 2, plays SFX,
+  and sends the room-clear message; `IsClear` checks `EnemyMaker`.
+- `Gun001.Attack` → `CreateBullet` → `BulletFactory.TakeBullet`; `weapon_000`
+  `deviation=5`, `consume=0`, bullet speed 36; `bullet_0` prefab speed 10 is
+  overwritten by `BulletInfo.speed` in `RGBullet.UpdateInfo`.
+- `Gun001.CreateBullet` computes `spread = deviation * (field+1)` and calls
+  `RGRandom.Range(-spread,+spread)`.
+- `RGController.Reborn/ForceReborn/DoReborn` and
+  `UIWindowReborn.BtnYesClick → Reborn` are confirmed; `RGGameProcess.GameFail` /
+  `TryAgain` / `ReSetInfo` handle game-over/restart/reset.
+- `EnemyAI04.OnTriggerEnter2D` calls `HitUnit(other, 3, 1.5)`; `e_slime01` stats
+  are hp 12, speed 3.0, damage 3.
+- `RGSaveManager`/`PlayerSaveData` use Unity `PlayerPrefs` string/int keys; the
+  `AboGameData` payload is not decoded.
 
 ## 3. What is HIGH CONFIDENCE
 
@@ -151,16 +184,16 @@ forbidden.
 
 | Slice item | Current evidence | Status |
 |---|---|---|
-| Room `r1_1` prefab/hierarchy | `analysis/re/rooms_scene.md` | CONFIRMED asset; collision placement PARTIAL |
+| Room `r1_1` prefab/hierarchy | `analysis/re/rooms_scene.md` | CONFIRMED asset; runtime wall source confirmed; exact gaps PARTIAL |
 | Player `c00`/`C01Controller` | serialized prefab + stats | CONFIRMED technical; display name CANDIDATE |
-| Enemy `e_slime01`/`EnemyAI04` | serialized prefab + stats | CONFIRMED technical; AI UNKNOWN |
-| Weapon `weapon_000`/`Gun001` | serialized fields + Attack/CreateBullet chain | CONFIRMED asset; fire cadence/velocity PARTIAL |
-| Projectile `bullet_0`/`Bullet01` | serialized fields + trigger chain | CONFIRMED asset; exact velocity PARTIAL |
+| Enemy `e_slime01`/`EnemyAI04` | serialized prefab + stats + contact path | CONFIRMED technical; full AI PARTIAL |
+| Weapon `weapon_000`/`Gun001` | serialized fields + Attack/CreateBullet chain | CONFIRMED asset/path; cooldown PARTIAL |
+| Projectile `bullet_0`/`Bullet01` | serialized fields + trigger chain + speed 36 override | CONFIRMED asset/speed; rebound/through PARTIAL |
 | Input/movement | axes + `RGJoyControl` + `SetVelocity` | HIGH CONFIDENCE |
 | Tick rate | `TimeManager` 0.02 s | CONFIRMED |
 | Damage bridge | `RGController`/`RGEController`/`RGBox` | CONFIRMED |
 | Damage formulas | player/enemy GetHurt/armor/HP | HIGH CONFIDENCE; crit/element PARTIAL |
-| Death | player/enemy entry effects | PARTIAL |
+| Death | player/enemy entry effects + reborn/restart entry points | PARTIAL |
 | Renderer | none implemented | NOT STARTED (Phase 4) |
 
 ## 8. What is deliberately deferred
@@ -175,7 +208,7 @@ forbidden.
 ## 9. Phase 3 conclusion
 
 **PARTIAL.** The engine and vertical-slice behavioural contract is now concrete
-enough to write a Phase 4 plan, but not enough to claim a complete playable
-vertical slice. The remaining blockers are listed in `docs/GATE_B.md` and
-`docs/VERTICAL_SLICE.md`; they must be closed or explicitly scoped before
-implementation.
+enough to design Phase 4 and begin the non-gameplay bootstrap. The first slice may
+use explicitly labelled approximations for exact wall gaps, attack cooldown, full
+reborn UI, and minimal `EnemyAI04` AI. Full Phase 3 parity remains incomplete; see
+`docs/GATE_B.md`, `docs/VERTICAL_SLICE.md`, and `analysis/re/*.md`.

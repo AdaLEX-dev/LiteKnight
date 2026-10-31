@@ -9,6 +9,10 @@ renderer implementation was started.
 
 Run `git log -1 --format='%h %s'` for the commit that contains this report.
 
+> **Note:** build/test counts in this report describe the P0/P1 pass at baseline
+> `4f61c3d`. The current baseline is 23 cases / 1276 assertions after the later
+> 50 Hz `FrameTimer` regression test; see `docs/TESTING.md`.
+
 ---
 
 ## 1. Problems found
@@ -230,8 +234,10 @@ also unverified because no runtime reference trace exists.
 ### 3.6 Renderer, tick rate, and gameplay gates — NOT MET
 
 - No Vulkan instance/device/swapchain/pipeline/sprite batcher exists. Gate C is NOT MET.
-- No reference `Time.fixedDeltaTime` value or runtime measurement exists. 60 Hz is the
-  render target, not a proven simulation tick.
+- **Superseded (2026-10-31 late pass):** the serialized Unity `TimeManager` value is
+  now decoded as `Fixed_Timestep = 0.019999999552965164` (50 Hz), and the native
+  `FrameTimer` has been corrected to match; 60 Hz remains the render target. See
+  `analysis/re/timing.md`.
 - Movement, collision, enemy AI, weapons, projectiles, rooms, items, UI, audio triggers,
   save/load, and progression are not reconstructed. The vertical slice remains blocked.
 

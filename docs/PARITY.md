@@ -22,31 +22,31 @@
 | Feature | Reference Evidence | Native Status | Confidence | Validation |
 |---|---|---|---|---|
 | Reference identity | Unity 2018.4.12f1, metadata v24, APK hash | N/A | **CONFIRMED** | `analysis/ARTIFACT.md`, `analysis/EVIDENCE_AUDIT.md` |
-| Build/test baseline | N/A (tooling) | Debug + RelWithDebInfo, 22/1273 | **VERIFIED (tooling)** | `analysis/REPOSITORY_INTEGRITY_AUDIT.md` |
+| Build/test baseline | N/A (tooling) | Debug + RelWithDebInfo, 23/1276 | **VERIFIED (tooling)** | `analysis/REPOSITORY_INTEGRITY_AUDIT.md` |
 | RNG core | Unity 2018.4 Xorshift128, LCG seed, 23-bit floats | `UnityRandom`/`RGRandomStream` implemented | **CONFIRMED (static)** | `analysis/re/rgrandom.md`, `tests/unit/unity_random_test.cpp` |
 | RNG wrapper / streams | `seed_state`, map seed, `RandomBehaviour`, `RGController` seed | Native wrapper implemented | **PARTIAL** — seed_state 1/2 and DateTime seed exactness open | `analysis/re/rgrandom.md` |
-| Fixed timestep | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) | `FrameTimer` scaffold exists | **CONFIRMED reference** | `analysis/re/timing.md` |
+| Fixed timestep | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) | `FrameTimer` scaffold corrected to 50 Hz | **CONFIRMED reference** | `analysis/re/timing.md`, `tests/unit/timing_test.cpp` |
 | Frame-loop model | Update vs FixedUpdate; render target 60 FPS | Planned | **PLANNED** | `docs/PHASE_4_NATIVE_RUNTIME.md` |
 | Math/vector conventions | Unity Vector2/3, quaternion, Y-up, 2D physics | Vec2/Vec3/Mat4 helpers exist | **CONFIRMED API**, no parity test | `analysis/re/timing.md`, `analysis/re/input_movement.md` |
 | Scene/object lifecycle | MonoBehaviour messages, coroutines, pooling | Planned | **PARTIAL** — destruction/pool details open | `analysis/re/rooms_scene.md` |
-| Room `r1_1` | Prefab hierarchy, 12 colliders, doors/aisles/triggers | Not loaded natively | **CONFIRMED asset**, collision placement PARTIAL | `analysis/re/rooms_scene.md` |
+| Room `r1_1` | Prefab hierarchy, `room_width=15`, runtime wall prefabs on layer Edge, doors/aisles/triggers | Not loaded natively | **CONFIRMED asset/source**, exact gaps PARTIAL | `analysis/re/rooms_scene.md` |
 | Procedural room generation | `MapManagerLevel.CreateMap`, `SerializeLinkerRoom` | Not started | **UNKNOWN** | `docs/PROCEDURAL_GENERATION.md` |
-| Collision settings | Physics2D gravity (0,-9.81), layers/tags, wall prefab colliders | Not implemented | **HIGH CONFIDENCE** — wall placement open | `analysis/re/rooms_scene.md` |
+| Collision settings | Physics2D gravity (0,-9.81), layers/tags; `RGRoomX.CreateWall` instantiates 1×1 wall colliders | Not implemented | **HIGH CONFIDENCE** — exact gaps open | `analysis/re/rooms_scene.md` |
 | Input mapping | Legacy axes, WASD, joystick deadzone 0.19 | Scaffold only | **CONFIRMED reference** | `analysis/re/input_movement.md` |
 | Player movement | `C01Controller.FixedUpdate` → `SetVelocity`; speed 6.5/speed_rate 0.5 | Not implemented | **HIGH CONFIDENCE** | `analysis/re/input_movement.md` |
 | Player identity | `c00` prefab uses `C01Controller` + `RoleAttributePlayer` | Not loaded natively | **CONFIRMED technical**; display name CANDIDATE | `analysis/re/rooms_scene.md` |
-| Enemy identity | `e_slime01` uses `EnemyAI04` + `RoleAttribute` | Not loaded natively | **CONFIRMED technical**; display name/AI UNKNOWN | `analysis/re/rooms_scene.md` |
-| Enemy AI | `EnemyAI01..20`, coroutines | Not started | **UNKNOWN** | `analysis/UNKNOWN_SYSTEMS.md` |
+| Enemy identity | `e_slime01` uses `EnemyAI04` + `RoleAttribute`; contact `HitUnit(3,1.5)` | Not loaded natively | **CONFIRMED technical**; display name/full AI PARTIAL | `analysis/re/rooms_scene.md`, `analysis/re/enemy_ai04.md` |
+| Enemy AI | `EnemyAI01..20`, coroutines; `EnemyAI04` minimal path | Not started | **PARTIAL (AI04)** / UNKNOWN (others) | `analysis/re/enemy_ai04.md` |
 | Weapon identity | `weapon_000` = `Gun001`, bullet `bullet_0` | Not loaded natively | **CONFIRMED technical**; display name CANDIDATE | `analysis/re/weapons_projectiles.md` |
-| Weapon fire | `Gun001.Attack` → `CreateBullet` → `BulletFactory.TakeBullet` | Not implemented | **PARTIAL** — cadence/ammo/velocity open | `analysis/re/weapons_projectiles.md` |
-| Projectile | `Bullet01`/`RGBullet` fields, `destroy_time=5` | Not implemented | **PARTIAL** — exact velocity/rebound open | `analysis/re/weapons_projectiles.md` |
+| Weapon fire | `Gun001.Attack` → `CreateBullet` → `BulletFactory.TakeBullet`; speed 36, deviation 5, consume 0 | Not implemented | **HIGH CONFIDENCE path**, cadence PARTIAL | `analysis/re/weapons_projectiles.md` |
+| Projectile | `Bullet01`/`RGBullet` fields, `destroy_time=5`; BulletInfo speed 36 overrides prefab 10 | Not implemented | **HIGH CONFIDENCE speed**, rebound/through PARTIAL | `analysis/re/weapons_projectiles.md` |
 | Damage bridge | Player `+0x228`, enemy `+0x2C8`, box `+0x168` | Not implemented | **CONFIRMED** | `analysis/re/damage.md` |
 | Damage formula | `GetHurt`, armor overflow, `CanDie`, enemy HP | Not implemented | **HIGH CONFIDENCE** — crit/element open | `analysis/re/damage.md` |
-| Critical hits | `Random.Range(0,100)` vs `DamageTrigger.critical` | Not implemented | **PARTIAL** — base damage vs effect/knockback semantics | `analysis/re/damage.md` |
+| Critical hits | `Random.Range(0,100)` vs `DamageTrigger.critical`; observed HP damage not multiplied | Not implemented | **HIGH CONFIDENCE roll**, effect consumers PARTIAL | `analysis/re/damage.md` |
 | Elements/status | `emDamageType`, `ShieldIce` factor 0.5 | Not implemented | **PARTIAL** — full status rules unknown | `analysis/re/damage.md` |
 | Enemy death | HP <= 0 → `Dead`, collider/delegates | Not implemented | **PARTIAL** — post-death slots open | `analysis/re/damage.md` |
-| Player death | flags, collider/weapon disable, Animator, game-over | Not implemented | **PARTIAL** — reborn/game-over open | `analysis/re/damage.md` |
-| Save/runtime boundary | `RGSaveManager`, `PlayerSaveData`, `BattleData` | Not implemented | **PARTIAL/UNKNOWN format** | `docs/PHASE_4_NATIVE_RUNTIME.md` |
+| Player death | flags, collider/weapon disable, Animator; `Reborn`→`DoReborn`; `GameFail`/`TryAgain` | Not implemented | **HIGH CONFIDENCE entry flow**, slots/UI PARTIAL | `analysis/re/damage.md` |
+| Save/runtime boundary | `RGSaveManager`, `PlayerSaveData` on Unity `PlayerPrefs` string/int keys; payload unknown | Not implemented | **CONFIRMED PlayerPrefs**, payload UNKNOWN; not required for slice | `analysis/re/save.md` |
 | Renderer | No reference renderer reconstruction; built-in RP indicated | No Vulkan implementation | **NOT IMPLEMENTED** | `docs/RENDERING.md` |
 | Audio | miniaudio wrapper only; reference triggers unknown | Not implemented | **PLANNED** | `docs/AUDIO.md` |
 | UI/HUD | No reconstruction; UI assets extracted | Not implemented | **PLANNED** | `docs/PHASE_4_NATIVE_RUNTIME.md` |

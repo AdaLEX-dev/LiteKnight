@@ -1,9 +1,9 @@
 # Gate B / Phase 3 Final Audit
 
 **Date:** 2026-10-31
-**Previous baseline:** `48758ca` (clean tree)
-**Scope:** finish Gate B evidence, Phase 3 behavioural RE, and Phase 4 planning.
-No native runtime, gameplay, renderer, audio, or input implementation was added.
+**Previous baseline:** `8ba02d5` (clean tree)
+**Scope:** final evidence sprint for Gate B and Phase 3. No native runtime,
+Vulkan renderer, gameplay, or vertical-slice implementation was added.
 
 Run `git log -1 --format='%h %s'` for the commit containing this report.
 
@@ -13,140 +13,179 @@ Run `git log -1 --format='%h %s'` for the commit containing this report.
 
 **PARTIAL.**
 
-The reusable engine/runtime primitives needed by the vertical slice are largely
-reconstructed, but four blockers prevent a PASS:
+Resolved in this sprint:
 
-1. wall/floor collision placement from the room grid,
-2. player spawn selection and door/aisle/room state transitions,
-3. exact `Gun001` fire cadence/spread/ammo and `RGBullet` velocity/rebound/through,
-4. full death/reborn/game-over virtual branches.
+- runtime wall-collision source,
+- player spawn source,
+- door open/close/clear entry points,
+- `Gun001.Attack → CreateBullet → BulletFactory.TakeBullet`,
+- effective projectile speed 36 vs prefab default 10,
+- `EnemyAI04` contact behavior,
+- death/reborn/game-over/restart entry flow,
+- save boundary (Unity PlayerPrefs).
 
-Full evidence matrix: `docs/GATE_B.md`.
+Remaining exact-detail blockers:
+
+1. exact per-cell wall/door-gap placement and the full door/aisle state machine,
+2. exact `RGWeapon` attack cooldown and the controller/hand field used in the
+   spread formula,
+3. exact post-death virtual slot owners (`+0x328`, `+0x3A8`, `+0x3E8`) and full
+   reborn UI sequencing,
+4. full `EnemyAI04`/other AI state machines, procedural generation, save payload,
+   and content identities,
+5. no approved runtime observation oracle.
+
+These are explicitly scoped for the first slice: rectangular 15×15 room with
+serialized door openings, fixed documented attack interval, death + restart
+(no reborn-card flow), and minimal `EnemyAI04` contact behavior. They are not
+reference parity.
+
+Full matrix: `docs/GATE_B.md`.
 
 ## 2. Phase 3 result
 
 **PARTIAL.**
 
-The vertical-slice behavioural contract is reconstructed:
-
-- fixed 50 Hz timing,
-- damage bridge and state mutation,
-- input/movement,
-- room prefab/component inventory,
-- player/enemy/weapon/projectile technical identities,
-- one weapon/projectile pair.
-
-Full-game behaviour remains unknown: AI state machines, procedural generation,
-all content, save format, full reborn flow, status stacking, multiplayer.
+The vertical-slice behavioural contract is now concrete, including the room
+collision source, spawn, weapon/projectile path, damage pipeline, death/restart
+entry, and minimal enemy. Full-game behaviour remains incomplete.
 Report: `docs/PHASE_3_BEHAVIOURAL_RE.md`.
 
 ## 3. Systems reconstructed
 
-### Engine/runtime
+### Room / scene / collision
 
-- Unity 2018.4 Xorshift128 RNG, LCG seeding, 23-bit floats, int/float range,
-  inside-unit-circle; native implementation and tests exist.
-- `RGRandom` layout/wrapper, lazy seeding, map seed, `MapManagerLevel` LongMap
-  branch; `seed_state` 1/2 unused in observed single-player paths.
-- Fixed timestep 0.02 s (50 Hz) from serialized `TimeManager`; render target 60 FPS.
-- Legacy input axes, WASD/joystick mapping, `MovementInput`, `SetVelocity`.
-- Physics2D gravity/layers/tags/collision settings.
-- Asset/room/weapon/projectile metadata and manifest identity.
+- `r1_1` root: `RGRoomX` + `EnemyMaker`; 178 transforms, 109 sprites, 12 serialized
+  box colliders, 4 doors, 4 door triggers, 8 platform effectors, 4 animators.
+- UnityPy `parse_as_dict` values: `room_width=15`, `room_height=15`, `room_type=1`,
+  `door_open=1`, offsets 0.
+- `RGRoomX.CreateWall` (`0xDEBE3C`) instantiates `MapManagerLevel.wall_list`
+  (`+0x100`) wall prefabs, parents them to `wall_group`, and assigns
+  `RGRoomX.EdgeLayer` (17). `wall101`/`wall201` have 1×1 non-trigger
+  `BoxCollider2D`.
+- `CloseDoor`/`OpenDoor` (`0xDEA4AC`/`0xDEA53C`) call `RGDoor.Close/Open` on all
+  four doors and set `door_open`.
+- `ClearRoom` (`0xDEA5D0`) sets process 2 and sends the room-clear message;
+  `IsClear` (`0xDEBDD8`) checks `EnemyMaker`.
+- `RGGameSceneManager.CreatePlayer` (`0xDCD3C0`) uses `MapManager.centerPoint`
+  (`+0x80`) for the player spawn.
+- `RGRoomX.LoadRoom` (`0xDEA7CC`) finds `b_point`, iterates its children, and adds
+  their room-relative positions to `floor_list`.
 
-### Damage/death
+### Weapon / projectile
 
-- `RGBulletTrigger.OnTriggerEnter2D` → box `RGBox.Hit` (`+0x168`), player
-  `RGController.GetHurt` (`+0x228`), enemy `RGEController.GetHurt` (`+0x2C8`).
-- Armor overflow, HP clamp, one-shot shield, `CanDie` via
-  `RGGameProcess.this_index` `-1`/`-3`, enemy HP/death callback.
-- Player/enemy death entry effects (collider/weapon disable, flags, Animator).
+- `Gun001.Attack` (`0x1241260`) → `RGWeapon.get_bullet_speed` (returns 36) →
+  `Gun001.CreateBullet` → `BulletFactory.TakeBullet`.
+- `Gun001.CreateBullet` (`0x124131C`) uses `deviation=5`, computes
+  `spread = deviation * (field+1)`, calls `RGRandom.Range(-spread,+spread)`, builds
+  `BulletInfo`/`DamageInfo`, and invokes `BulletFactory.TakeBullet`.
+- `weapon_000` has `consume=0`; no ammo cost for this weapon.
+- `bullet_0` prefab speed 10 is overwritten by `BulletInfo.speed=36` in
+  `RGBullet.UpdateInfo`; effective initial speed is 36.
+- `bullet_0` has `destroy_time=5`, `can_rebound=1`, `rotate_angle=0`, camp 1.
+- Fire cooldown and the exact controller/hand field in the spread formula remain
+  PARTIAL.
 
-### Room/assets
+### Damage / death
 
-- `r1_1` 178 transforms, 12 box colliders, 4 doors, 4 door triggers, 8 platform
-  effectors, 4 animators; bounds approx. `x[-2.5,28.5]`, `y[-2,29]`.
-- `c00`/`C01Controller`, `c01`/`C02Controller`, `e_slime01`/`EnemyAI04`,
-  `weapon_000`/`Gun001`, `bullet_0`/`Bullet01`.
+- Player target `RGController.GetHurt` vtable `+0x228`; enemy
+  `RGEController.GetHurt` `+0x2C8`; box `RGBox.Hit` `+0x168`.
+- `CanDie` resolves `Singleton<RGGameProcess>` and checks `this_index` (`+0x1C`)
+  against `-1`/`-3`.
+- Critical roll uses `Random.Range(0,100)` vs `DamageTrigger.critical`; observed
+  player HP damage is not multiplied by the crit bool.
+- `RGController.Dead`, `RGEController.Dead`, `RGController.Reborn`,
+  `ForceReborn`, `DoReborn`, `UIWindowReborn.BtnYesClick`, `RGGameProcess.GameFail`,
+  `TryAgain`, `NextScene`, and `ReSetInfo` entry flows are reconstructed.
+- Exact virtual slot owners and full UI/reborn sequencing remain PARTIAL.
+
+### Enemy
+
+- `e_slime01`: `EnemyAI04` + `RoleAttribute` (hp 12, speed 3.0, damage 3,
+  enemyTag 66, levelScene 20).
+- `EnemyAI04.OnTriggerEnter2D` (`0x10E54D0`) tail-calls
+  `HitUnit(other, damage=3, 1.5f)`.
+- Base `RGEController.Scout`/`FindNearestTarget`/`FollowDefault`/`HitUnit` provide
+  the minimum movement/target/contact path.
+- Full AI state machine/animations remain PARTIAL.
+
+### Save / RNG
+
+- `PlayerSaveData.SetString/SetInt` tail-call Unity `PlayerPrefs`; `RGSaveManager`
+  uses these. `AboGameData` payload/keys remain UNKNOWN; save compatibility is not
+  required for the first slice.
+- RGRandom core/map/LongMap paths are reconstructed; `seed_state` 1/2 and exact
+  DateTime seed expression remain UNRESOLVED; reference vectors unavailable.
 
 ## 4. Evidence quality
 
 | Class | Examples |
 |---|---|
-| CONFIRMED | TimeManager 0.02 s; prefab stats; damage bridges/vtable slots; `CanDie` singleton; map seed path; LongMap condition |
-| HIGH CONFIDENCE | movement formula; room component counts/bounds; `Gun001.Attack`→`CreateBullet`→`BulletFactory.TakeBullet`; crit roll |
-| HYPOTHESIS | display names Knight/Rogue/slime/pistol; sentinel meaning; wall-collider placement; projectile effective velocity |
-| UNKNOWN | Enemy AI, procedural generation, save format, full reborn, status stacking, multiplayer |
-| CONTRADICTED | Unity 2021.x, metadata v24.1, PCG32 parity, `RGGameInfo.map_random_seed` as `CanDie` field |
+| CONFIRMED | TimeManager 0.02 s; runtime wall source; spawn centerPoint; Gun001 attack path; speed 36 override; AI04 contact; death/reborn entry calls; PlayerPrefs boundary |
+| HIGH CONFIDENCE | exact room component counts/bounds; `CreateWall` perimeter logic; spread formula structure; `RGWeapon`/hand attack flow; base AI target/follow path |
+| HYPOTHESIS | display names Knight/Rogue/slime/pistol; sentinel meaning; per-cell gap behaviour; fixed native attack interval |
+| UNKNOWN | procedural generation, `AboGameData` payload, full AI, full reborn UI, status stacking, multiplayer |
+| CONTRADICTED | Unity 2021.x, metadata v24.1, PCG32 parity, `RGGameInfo.map_random_seed` as `CanDie` field, `bullet_0` speed 10 as effective speed |
 
-All claims are linked to `analysis/re/*.md` or the phase reports. No candidate name
-is promoted to a confirmed display identity.
+No candidate display name is promoted to confirmed.
 
 ## 5. Unresolved questions
 
-1. How does `RGRoomX`/`MapManagerLevel` place wall/floor colliders from the room
-   grid or `wall_list`/`floor_list`?
-2. Which transform is the player spawn (`b_point` vs `RGRoomX.entrance`)?
-3. What are the door/aisle `StartRoom`/`ClearRoom` transitions?
-4. What is the exact `RGBullet` velocity/rebound/through math?
-5. What are the exact `Gun001` fire cadence, spread, ammo, and consume rules?
-6. What are the post-death virtual slots (`RGEController +0x328`, `+0x3A8`) and
-   reborn/game-over/restart branches?
-7. What is the full `EnemyAI04` state machine?
-8. What is the save serialization format (`RGSaveManager.Save/Load`, `AboGameData`)?
-9. Which serialized mapping proves display names for c00/c01/e_slime01/weapon_000?
-10. What is the exact DateTime-derived seed expression in `SetUpRGRandom`?
-11. Do `seed_state` 1/2 have any runtime use outside the observed single-player
-    paths?
-12. Which effect-trigger subclasses consume `isCritic`/`damageType`, and do any
-    multiply HP damage?
+1. Exact `RGRoomX.CreateWall` per-cell skip/door-gap conditions.
+2. Full `RGDoor`/`RGDoorTrigger`/`RGAisle`/`StartRoom`/`ClearRoom` state machine.
+3. `RGWeapon` attack cooldown formula and the `+0x2c` spread field identity.
+4. Exact `RGBullet` initial velocity composition, rebound, and through-count
+   integration.
+5. Exact `RGEController.Dead` virtual slot owners `+0x328`/`+0x3A8`, player
+   `+0x3E8` reborn slot, and UI sequencing.
+6. Full `EnemyAI04` Scout branch/target selection/animations.
+7. `MapManagerLevel.CreateMap`/room graph/template generation.
+8. `AboGameData` save payload/key names/versioning.
+9. Serialized display-name mapping for c00/c01/e_slime01/weapon_000.
+10. `RGRandom.seed_state` 1/2 and exact DateTime-derived seed expression.
+11. Per-subclass `RGBulletEffectTrigger` `isCritic`/`damageType` consumers.
+12. Reference vectors/runtime observations.
 
 ## 6. Known static-analysis limitations
 
 - No approved runtime oracle: no Android runtime, Waydroid, emulator, Wine, X11,
   or XWayland.
-- Static analysis cannot observe actual serialized runtime values not exposed by
-  the typetree, Animator transitions/events, Physics2D contact ordering, coroutine
-  scheduling, or live RNG sequences.
-- The in-repo `analysis/il2cpp_dump/` is partial; full Il2CppDumper output is
+- Static analysis cannot observe live Animator transitions, Physics2D contact
+  ordering, coroutine scheduling, actual PlayerPrefs values, or live RNG sequences.
+- The in-repo `analysis/il2cpp_dump/` is partial; full Il2CppDumper output remains
   outside Git at `/home/jules/bin`.
-- `script.json`/metadata identify method slots and names, but not all runtime
-  generic instantiations; `ScriptMetadataMethod` was required to resolve several.
-- No reference vectors are available; RNG tests are implementation regression
-  tests, not reference-proof.
+- UnityPy can read serialized MonoBehaviour fields when typetree generation is
+  available, but not every prefab field is exposed.
+- Direct-call xrefs do not capture virtual/interface dispatch.
 
 ## 7. Vertical-slice prerequisites
 
-**Not cleared.** Required before gameplay implementation:
+**Not cleared for gameplay.** First-slice approximations are explicitly accepted:
 
-- resolve wall-collider placement and spawn/door state,
-- resolve weapon fire/projectile velocity or explicitly accept approximations,
-- complete death/restart and at least a documented `EnemyAI04` minimal behavior,
-- keep display identities candidate,
-- implement Phase 4 renderer/platform stages first.
+- rectangular 15×15 room perimeter with serialized door openings,
+- fixed documented attack interval for `weapon_000`,
+- death + restart, no full reborn-card flow,
+- minimal `EnemyAI04` contact behavior.
 
-See `docs/VERTICAL_SLICE.md` and `docs/GATE_B.md`.
+Still required before calling the slice playable: Phase 4 renderer/platform stages,
+actual converted assets, and implementation tests. See `docs/GATE_B.md`,
+`docs/VERTICAL_SLICE.md`, and `docs/PHASE_4_NATIVE_RUNTIME.md`.
 
 ## 8. Phase 4 runtime architecture
-
-Canonical plan: `docs/PHASE_4_NATIVE_RUNTIME.md`.
 
 ```text
 Application
   ├── Platform (SDL3/Wayland, filesystem, timing)
   ├── Asset Runtime (decoded registry, conversion output)
-  ├── Renderer (Vulkan instance/device/swapchain/sprite pipeline)
+  ├── Renderer (Vulkan device/swapchain/sprite pipeline)
   ├── Input / Audio
   └── Simulation (50 Hz fixed clock, RNG, ECS world)
         └── Gameplay (controllers, projectiles, damage, rooms)
 ```
 
-Key decisions:
-
-- renderer owns Vulkan; simulation never calls it,
-- platform owns SDL/Wayland; game code never touches X11,
-- assets are keyed by stable bundle/path-ID, never filename alone,
-- 50 Hz fixed simulation, 60 FPS render/interpolation,
-- first implementation is single-threaded; miniaudio owns its thread.
+Plan: `docs/PHASE_4_NATIVE_RUNTIME.md`. Ownership, init/shutdown, frame model,
+Vulkan smoke test, asset conversion, gameplay architecture, stages, tests, and
+performance budgets are specified there.
 
 ## 9. Phase 4 implementation sequence
 
@@ -171,43 +210,41 @@ Key decisions:
 19. Vertical-slice integration
 20. Reference comparison/performance
 
-Each stage has goal/modules/tests/acceptance/dependencies/risks in
-`docs/PHASE_4_NATIVE_RUNTIME.md`.
+## 10. Tests
 
-## 10. Test strategy
+Added `tests/unit/timing_test.cpp`:
 
-- Current suite: 22 doctest cases / 1273 assertions.
-- Engine: RNG/math/timing.
-- Platform: Wayland-only startup, Vulkan device/swapchain/present, headless path.
-- Assets: manifest/PNG/sprite/room JSON/missing asset.
-- Simulation: movement/collision/projectile/damage/death/restart.
-- Integration: complete `r1_1` loop.
-- Regression: reference values where known; no invented values.
-- Negative control: CTest must fail on an intentional break.
-- Full plan: `docs/TESTING.md`.
+- checks `FrameTimer::TARGET_DT == 0.02` (50 Hz),
+- rejects the old 60 Hz value,
+- checks the accumulator clamp is at least one fixed step.
 
-## 11. Performance strategy
+The test count changed from **22/1273** to **23/1276**. No existing test was
+removed or weakened. The change is the confirmed 50 Hz reference timing contract.
 
-- Target 60 FPS / 16.6667 ms, simulation 50 Hz.
-- Budgets: sim 2 ms, render CPU 8 ms, assets 1 ms, audio 1 ms, UI 1 ms, other
-  3.6 ms.
-- Profile on target hardware; measure CPU/GPU/draw calls/allocations.
-- Do not claim 60 FPS before the renderer and slice exist.
-- Full plan: `docs/PERFORMANCE.md`.
+## 11. Verification
 
-## 12. Verification
-
-Clean builds after the documentation/evidence pass:
+Clean builds after the source change:
 
 - Debug configure/build: PASS, **0 warnings**
-- Debug tests: **22 cases / 1273 assertions, PASS**
+- Debug tests: **23 cases / 1276 assertions, PASS**
 - Debug CTest: 1/1 passed
+- intentional timing assertion break: CTest **FAIL**, exit 8
+- restored file byte-identical; CTest passed again
 - RelWithDebInfo configure/build: PASS, **0 warnings**
-- RelWithDebInfo tests: **22 / 1273, PASS**
+- RelWithDebInfo tests: **23 / 1276, PASS**
 - RelWithDebInfo CTest: 1/1 passed
 - `git diff --check`: clean
 - `git status`: clean after commit
-- No APK/proprietary assets/build output/secrets tracked
+- no APK/proprietary assets/build output/secrets tracked
+
+## 12. Final state
+
+- Gate B: **PARTIAL** (engine/runtime primitives and vertical-slice source known;
+  exact wall gaps, fire cadence, and reborn slots remain).
+- Phase 3: **PARTIAL** (vertical-slice contract concrete; full-game breadth not).
+- Phase 4: **PLANNED only / Gate C NOT MET**.
+- Phase 5+: **BLOCKED**.
+- No Phase 4 code was started.
 
 ## NEXT SESSION
 
@@ -215,5 +252,4 @@ Begin Phase 4 implementation with:
 
 **Create the application bootstrap and a Wayland-only SDL3 window at 1920×1080; force `SDL_HINT_VIDEO_DRIVER=wayland`, fail startup on any other driver, pump resize/minimize/focus events, and shut down cleanly.**
 
-No gameplay feature implementation beyond that task. Do not add Vulkan, gameplay,
-renderer, or vertical-slice code in the same session.
+No gameplay, Vulkan, renderer, or vertical-slice feature implementation beyond that task. The remaining Gate B exact details are documented approximations and must not be silently promoted to parity.

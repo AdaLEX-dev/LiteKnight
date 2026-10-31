@@ -473,7 +473,77 @@ The same `GetComponent<RGEController>` → vtable `+0x2C8` sequence appears in
 The projectile → controller bridge is therefore closed. The effect-trigger
 `TriggerWith` override chain and critical/element details remain separate items.
 
-### 6.4 `DamageCarrier` / `DamageTrigger` / `DamageTriggerHitChecker`
+### 6.4 Critical and effect-trigger findings (new evidence)
+
+The player branch of `RGBulletTrigger.OnTriggerEnter2D` calls
+`UnityEngine.Random.Range(0,100)` (`0x1AF8058`) and compares the result with
+`DamageTrigger.critical` (`RGBulletTrigger +0x1C`) using `w0 <= critical`.
+The resulting bool is passed to the trigger's virtual `OnHit(other, isCritic)` and
+to effect triggers' `TriggerWith(other, isCritic, canThrough)`.
+
+Observed split:
+
+- `GetFinalDamage` (`0x116A680`) uses `RGBulletTrigger.damage` and the product of
+  `RGBulletEffectTrigger.damageFactor`; it does **not** take `isCritic`.
+- In the player path, `RGController.GetHurt` is called with `w21` =
+  `GetFinalDamage()`; the critical bool is evaluated separately and is not
+  multiplied into that HP-damage argument.
+- `RGBulletEffectTrigger.TriggerWith` (`0x1169D84`) is a virtual no-op in the base
+  class. Concrete overrides include `BuffEffectTrigger`, `ExplodeEffectTrigger`,
+  `HpRestoreEffectTrigger`, `ReboundEffectTrigger`, `LaserEffector`,
+  `LightningEffector`, `RoundaboutEffector`, `ThunderEffector`,
+  `ChangeShapeEffectTrigger`, `CreateEffectTrigger`, `EnemyOnlyTrigger`, and
+  `BuffRandomEffectTrigger`.
+- `BuffEffectTrigger` preserves `isCritic` in `w21` and forwards the flags to
+  `TriggerWith`; `ExplodeEffectTrigger` forwards `isCritic`/`canThrough` to the
+  base and then consumes a subclass field at `+0x40` with `Random.Range(0,100)`
+  (an effect trigger chance, not proven to be HP critical damage).
+- `GetDamageFactor` (`0x116A7D0`) returns 0.5 if `has_ice_buff` and
+  `BattleData.HasBuff(23)` (`emBuff.ShieldIce`), else 1.0.
+
+**Confidence:** HIGH CONFIDENCE for the critical roll location, the bool forwarding,
+and the fact that the observed player HP argument is not crit-multiplied. PARTIAL for
+which effect subclasses use `isCritic` for their own damage/status effects, and for
+`damageType`/element behavior. Exact missing evidence: complete per-subclass
+`TriggerWith` bodies and runtime effect observations.
+
+### 6.5 Death, reborn, game-over, restart (new evidence)
+
+`RGController.Dead` (`0x1179ECC`):
+
+- returns if already dead (`+0x19`),
+- for the local player sets `BattleData` game-fail flag (`+0x141`),
+- cancels invokes, sets alive/dead flags, makes the rigidbody kinematic,
+- calls `RGHand.DeadWeapon`, disables the collider, triggers the Animator death
+  trigger, and vibrates the input,
+- updates statistics and clears `PlayerSaveData.has_save_date`,
+- handles the local-game-over/reborn UI path and later virtual hooks.
+
+`RGEController.Dead` (`0x110DE18`):
+
+- returns if already dead (`+0x78`),
+- sets dead, disables the collider, calls `RemoveDelegate`,
+- invokes virtual slots at `+0x328` and `+0x3A8` (exact slot owners not yet
+  identified),
+- handles network dead-message sending when multiplayer is active.
+
+`RGController.Reborn` (`0x117E27C`) calls the virtual at `+0x3E8` with `true`;
+`ForceReborn` (`0x117E2B0`) calls it with `false` and removes the current weapon.
+`DoReborn` (`0x117E470`) requires the dead flag, resets rigidbody/position/flags,
+loads/instantiates the reborn effect, restores local player state, and handles the
+network path. `UIWindowReborn.BtnYesClick` (`0xF327C8`) clears `need_ad`, calls
+`RGController.Reborn`, and updates the UI.
+
+`RGGameProcess.GameFail` (`0x111B750`) updates difficulty/fail counters and save
+state. `TryAgain` (`0x111F0CC`) decrements the run index, resets `BattleData`
+HP/energy, saves, and calls `NextScene` (`0x111C980`). `ReSetInfo` (`0x111F4EC`)
+resets `BattleData`, `PrefabPool`, and path dictionaries.
+
+**Confidence:** HIGH CONFIDENCE for the entry points and high-level flow; PARTIAL
+for the exact virtual slot owners, UI sequencing, and every reborn/network branch.
+Do not claim save-compatible reborn behavior.
+
+### 6.6 `DamageCarrier` / `DamageTrigger` / `DamageTriggerHitChecker`
 
 - `DamageTrigger` (`0xDC89DC`..) owns `damage`, `critical`, `hit_object`, `repel`, `camp`, `_carrier`, and `CastModTrigger`.
 - `DamageTriggerHitChecker` (`0xDC91CC`) resolves the hit object and its damage carrier; it is a collision/router component, not the final HP mutator.
@@ -501,6 +571,9 @@ The complete chain from bullet collision to target HP is **PARTIAL**.
 | Projectile → `RGController.GetHurt` player bridge | CONFIRMED | `GetComponent<RGController>` `0x30E8F80`; vtable `+0x228` = slot 16; `0x11608A0` |
 | Projectile → `RGEController.GetHurt` enemy bridge | CONFIRMED | `GetComponent<RGEController>` `0x309A4E8`; vtable `+0x2C8` = slot 26; `0x1160F78` |
 | Complete collision → target HP chain | HIGH CONFIDENCE | target dispatch resolved; effect-trigger override chain/crit/element still partial |
+| Crit roll location/HP argument | HIGH CONFIDENCE | `Random.Range(0,100)` vs `critical`; observed HP damage not crit-multiplied |
+| Effect-trigger `isCritic` consumers | PARTIAL | base virtual; subclass bodies partly inspected |
+| Death/reborn/restart high-level flow | HIGH CONFIDENCE | `RGController.Dead/Reborn/DoReborn`, `RGGameProcess.GameFail/TryAgain` |
 | Critical-hit application | UNRESOLVED | `DamageInfo.critic` exists; no formula yet |
 | Element/status application | UNRESOLVED | `emDamageType` exists; no application path yet |
 | `CanDie` singleton/field `+0x1C` identity | CONFIRMED | `Singleton<RGGameProcess>.get_Inst()`; field `RGGameProcess.this_index` |

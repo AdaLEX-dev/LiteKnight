@@ -10,16 +10,16 @@
 |----|-------------|----------|----------------------|-----------------|----------|--------|
 | UNK-001 | Exact `RGRandom` semantics over `UnityEngine.Random` | `RGRandom` fields `seed_state`, `seed`, `this_state`; wrapper/Xorshift128/map-seed path reconstructed | Wrapper around Unity 2018.4 `Random`, not PCG32 | Resolve `seed_state` 1/2 and DateTime seed exactness; obtain reference vectors | HIGH | ⚠️ PARTIAL (`analysis/re/rgrandom.md`) |
 | UNK-002 | Damage formula and application path | Player `+0x228`, enemy `+0x2C8`, box `+0x168` bridges confirmed; armor/HP/CanDie reconstructed | Crit/element/effect-trigger details remain | Decode effect-trigger `TriggerWith`/crit consumers | HIGH | ⚠️ PARTIAL (`analysis/re/damage.md`) |
-| UNK-003 | Room generation algorithm | `MapManagerLevel` + `SerializeLinkerRoom` + `RGRoomX` | BSP + graph + template placement is a hypothesis | Dump room graph for fixed seeds; compare structure | HIGH | ⏳ Pending |
-| UNK-004 | Enemy AI state machine details | 20 `EnemyAI##` classes + special variants; coroutines like `CheckPositionValid`, `DizzyScout` | Hierarchical state machine via coroutines; behavior trees are hypotheses | Log AI state transitions at runtime for each type | HIGH | ⏳ Pending |
+| UNK-003 | Room generation algorithm | `MapManagerLevel` + `SerializeLinkerRoom` + `RGRoomX`; `r1_1` prefab/seed path known | BSP + graph + template placement is a hypothesis | Dump room graph for fixed seeds; compare structure | HIGH | ⏳ Pending (fixed r1_1 path known) |
+| UNK-004 | Enemy AI state machine details | 20 `EnemyAI##` classes + special variants; `EnemyAI04` contact/base path reconstructed | Hierarchical state machine via coroutines; behavior trees are hypotheses | Log AI state transitions at runtime for each type | HIGH | ⚠️ PARTIAL (`analysis/re/enemy_ai04.md`) |
 | UNK-005 | Projectile physics (gravity, bounce, pierce) | `Bullet01` fields + `RGBullet.UpdateInfo`; `bullet_0` destroy_time 5, can_rebound 1 | Exact velocity/rebound/through math unresolved | Trace `RGBullet.SetBulletVelocity`/rebound; compare bullet_0 | MEDIUM | ⚠️ PARTIAL (`analysis/re/weapons_projectiles.md`) |
 | UNK-006 | Status effect stacking rules | `RGBuff` + many `RGBulletBuffTrigger` variants | Stack additive, multiplicative, or refresh duration? | Apply same buff multiple times; measure effect | MEDIUM | ⏳ Pending |
-| UNK-007 | Save file format/versioning | `RGSaveManager` fields/`AboGameData`; serialization not decoded | Format UNKNOWN | Disassemble `RGSaveManager.Save/Load` | MEDIUM | ⏳ Pending |
+| UNK-007 | Save file format/versioning | `RGSaveManager` uses `PlayerSaveData` → Unity `PlayerPrefs`; `AboGameData` payload not decoded | PlayerPrefs keys; payload unknown | Disassemble `AboGameData` serialization/version migration | MEDIUM | ⚠️ PARTIAL (`analysis/re/save.md`) |
 | UNK-008 | Animation event-driven mechanics | `Animator` parameters referenced in coroutines (e.g., `Attack`, `Hit`) | Animation events trigger code callbacks | Hook `AnimationEvent` receiver; log all events | LOW | ⏳ Pending |
 | UNK-009 | Shader/effect system | `GraphicsSettings` has no custom render pipeline asset; built-in shaders present | Built-in RP indicated; exact shader/material behavior unknown | Decode graphics settings + material shaders | LOW | ⚠️ PARTIAL |
 | UNK-010 | Multiplayer synchronization | `RGNetWorkManager`, `PendingPlayer`, `EnemySoccer`, `RaceController` | Photon? Unity Netcode? Custom? | Out of scope for v1 — document only | OUT OF SCOPE | 📝 Documented |
 | UNK-011 | Boss phase transition logic | `RGEBossController` + `DetectingBossInfo` coroutine | HP thresholds/time/room-state are hypotheses | Fight each boss; log phase transitions with HP % | HIGH | ⏳ Pending |
-| UNK-012 | Weapon upgrade/mod system | `WeaponItemInfo`, `WeaponInBattle`, `SupportWeapon` | Level-based stats? Mod slots? | Check weapon data in `RGGameConst`/`RGGameInfo` | MEDIUM | ⏳ Pending |
+| UNK-012 | Weapon upgrade/mod system | `WeaponItemInfo`, `WeaponInBattle`, `SupportWeapon`; `weapon_000` has `consume=0` | Level-based stats/mod slots | Check weapon data in `RGGameConst`/`RGGameInfo` | MEDIUM | ⏳ Pending |
 | UNK-013 | Pet/companion system | `RGPetController`, `RGPetInfo`, `PetBugHandler` coroutine | Passive followers? Active attackers? | Spawn pet; observe behavior | LOW | ⏳ Pending |
 | UNK-014 | Mount/vehicle system | `RGMountController`, `RGRaceCar`, `ConsumingHp` coroutine | Temporary powerups? Persistent? | Enter race mode; test mount mechanics | LOW | ⏳ Pending |
 | UNK-015 | Sandbox/creative mode | `MapManagerSandbox`, `SandboxObjectData`, `ItemObjectProvider` | Level editor? Debug mode? | Enter sandbox; test object placement | OUT OF SCOPE | 📝 Documented |
@@ -92,6 +92,11 @@ Based on evidence Y, we expect Z.
 - **UNK-016 Timing:** RESOLVED — `TimeManager.Fixed_Timestep = 0.02` (50 Hz); see `analysis/re/timing.md`.
 - **UNK-017 Damage bridge:** RESOLVED — player/enemy/box dispatch confirmed; see `analysis/re/damage.md`.
 - **UNK-018 CanDie singleton:** RESOLVED — `RGGameProcess.this_index`; see `analysis/re/damage.md`.
+- **UNK-019 Room collision source:** RESOLVED — `RGRoomX.CreateWall` instantiates `MapManagerLevel.wall_list` 1×1 colliders on layer Edge; exact per-cell gaps remain PARTIAL.
+- **UNK-020 Player spawn:** RESOLVED — `RGGameSceneManager.CreatePlayer` uses `MapManager.centerPoint`; `b_point` children populate `floor_list`.
+- **UNK-021 Gun001/projectile speed:** RESOLVED — weapon BulletInfo speed 36 overrides `bullet_0` prefab speed 10; fire cadence remains PARTIAL.
+- **UNK-022 Death/reborn entry flow:** RESOLVED — `UIWindowReborn.BtnYesClick`→`RGController.Reborn`→`DoReborn`; `GameFail`/`TryAgain`/`ReSetInfo`; exact virtual slots/UI sequencing PARTIAL.
+- **UNK-023 EnemyAI04 contact:** RESOLVED — `OnTriggerEnter2D`→`HitUnit(3,1.5)`; full AI state machine PARTIAL.
 
 ---
 

@@ -84,16 +84,29 @@ reference. Render target remains 60 FPS. See `analysis/re/timing.md`.
 ### Assets / room / entities
 
 - `r1_1`: 178 transforms, 109 sprites, 12 box colliders, 4 doors, 4 door triggers,
-  8 platform effectors, 4 animators; serialized collider bounds approx.
-  `x[-2.5,28.5]`, `y[-2,29]`.
+  8 platform effectors, 4 animators; `room_width=15`, `room_height=15`.
+  Runtime wall collision comes from `RGRoomX.CreateWall` instantiating
+  `MapManagerLevel.wall_list` 1×1 collider prefabs on layer `Edge` (17), not from
+  the 12 serialized colliders.
+- Player spawn is `MapManager.centerPoint`; `b_point` children populate
+  `RGRoomX.floor_list`. `CloseDoor`/`OpenDoor` iterate all four doors;
+  `ClearRoom`/`IsClear` use `EnemyMaker`.
 - `c00` → `C01Controller` + `RoleAttributePlayer` (speed 6.5, hp 6, armor 5, atk 4,
   critical 5, c_index 0).
 - `c01` → `C02Controller` (speed 6.5, hp 5, armor 3, atk 5, critical 10, c_index 1).
 - `e_slime01` → `EnemyAI04` + `RoleAttribute` (hp 12, speed 3.0, damage 3,
   enemyTag 66, levelScene 20).
 - `weapon_000` → `Gun001` (bullet `bullet_0`, speed 36, damage 3, critic 0,
-  deviation 5, weapon_type 14).
-- `bullet_0` → `Bullet01` (speed 10, destroy_time 5, can_rebound 1, camp 1).
+  deviation 5, consume 0, weapon_type 14). Attack path:
+  `Gun001.Attack` → `CreateBullet` → `BulletFactory.TakeBullet`.
+- `bullet_0` → `Bullet01` (prefab speed 10, destroy_time 5, can_rebound 1,
+  camp 1). `RGBullet.UpdateInfo` overwrites speed with the weapon's BulletInfo
+  speed 36, so 36 is the effective initial speed; 10 is a prefab default.
+- `e_slime01` contact damage: `EnemyAI04.OnTriggerEnter2D` →
+  `HitUnit(other, 3, 1.5)`; see `analysis/re/enemy_ai04.md`.
+- Save boundary: `PlayerSaveData` uses Unity `PlayerPrefs` string/int keys; exact
+  `AboGameData` payload is UNKNOWN and not required for the slice. See
+  `analysis/re/save.md`.
 
 Display names (Knight/Rogue/slime/pistol) remain **CANDIDATE**, not proven. See
 `analysis/re/rooms_scene.md` and `analysis/re/weapons_projectiles.md`.
@@ -109,15 +122,18 @@ Legacy `Input` axes (WASD + joystick, deadzone 0.19), `MovementInput {dir, weigh
 
 ## Gate B blockers (must close or explicitly accept)
 
-1. Wall/floor collision placement from the room grid; the room prefab's 12
-   colliders are only doors/triggers/bullet colliders.
-2. Player spawn point (`b_point`/`RGRoomX.entrance`) and door/aisle/room state
-   transitions.
-3. Exact `Gun001` fire cadence/spread/ammo and `RGBullet` velocity/rebound/through
-   math.
-4. Full death/reborn/game-over virtual branches.
-5. Full AI, all weapons, procedural generation, save format, and content identities
-   (Phase 3 breadth, not first-slice engine primitives).
+1. Exact per-cell wall/door gap placement and the full door/aisle state machine
+   remain PARTIAL. First-slice approximation: rectangular 15×15 perimeter with
+   serialized door openings, explicitly labelled.
+2. Exact `Gun001` fire cooldown and the controller/hand field used in the spread
+   formula remain PARTIAL. First-slice approximation: fixed documented attack
+   interval; do not claim reference fire rate.
+3. Full death/reborn UI sequencing and virtual slot owners (`+0x328`, `+0x3A8`,
+   `+0x3E8`) remain PARTIAL. First slice can implement death + restart; reborn-card
+   flow is deferred.
+4. Full `EnemyAI04`/other AI, all weapons, procedural generation, and content
+   identities remain Phase 3 breadth. Minimal AI04 contact behavior is known.
+5. Save payload/versioning remains UNKNOWN; not required for the slice.
 6. No approved runtime oracle; static analysis only.
 
 ---
@@ -128,21 +144,21 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 22 cases / 1273 assertions, PASS
+- Debug tests: 23 cases / 1276 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 22 / 1273, PASS
+- RelWithDebInfo tests: 23 / 1276, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The test count did not change. Any future change must be explained.
+The count changed from 22/1273 to 23/1276 because a `FrameTimer` regression test was added for the newly confirmed 50 Hz reference step. No existing test was removed or weakened.
 
 ---
 
 ## Next Action
 
-Do **not** implement Phase 4 until the Gate B blockers are resolved or explicitly
-accepted for the slice. The next evidence task is to resolve wall-collider
-placement and the `Gun001`/`RGBullet` fire/velocity contract. The Phase 4 plan
-(`docs/PHASE_4_NATIVE_RUNTIME.md`) starts with the application bootstrap and
-Wayland-only window when that gate is cleared.
+Gate B remains **PARTIAL**, but the remaining approximations are explicitly scoped
+for the first slice. The next implementation task is the Phase 4 application
+bootstrap + Wayland-only SDL3 window; it does not depend on the unresolved exact
+fire cadence, wall gaps, or reborn UI. Do not start gameplay/vertical-slice code
+until the slice gates are accepted.

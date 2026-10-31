@@ -350,6 +350,7 @@ add_executable(soul-knight-test
     tests/unit/rng_test.cpp
     tests/unit/unity_random_test.cpp
     tests/unit/input_test.cpp
+    tests/unit/timing_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp

@@ -144,8 +144,8 @@ class InputManager {
 ```cpp
 // src/platform/timing/FrameTimer.cpp
 class FrameTimer {
-    static constexpr double TARGET_DT = 1.0 / 60.0;  // 16.666... ms
-    static constexpr double MAX_ACCUMULATOR = 0.2;    // 200 ms spiral of death protection
+    static constexpr double TARGET_DT = 1.0 / 50.0;  // 20 ms / 50 Hz confirmed
+    static constexpr double MAX_ACCUMULATOR = 0.3333333333;  // reference max allowed timestep
 
     double accumulator_ = 0.0;
     double current_time_ = 0.0;

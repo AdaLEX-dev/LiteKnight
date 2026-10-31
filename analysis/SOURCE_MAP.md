@@ -31,6 +31,8 @@ Evidence:
 | `MapManager` / `MapManagerLevel` / `RGRoomX` / `EnemyMaker` | `src/game/generation/*`, `src/game/rooms/*` | `analysis/re/rooms_scene.md` |
 | `RGWeapon` / `Gun001` / `RGBullet` / `Bullet01` | `src/game/weapons/*`, `src/game/projectiles/*` | `analysis/re/weapons_projectiles.md` |
 | `TimeManager` / `Time` | `src/platform/timing/*`, `src/sim/*` | `analysis/re/timing.md` |
+| `EnemyAI04` / `e_slime01` | `src/game/enemies/*` | `analysis/re/enemy_ai04.md` |
+| `RGSaveManager` / `PlayerSaveData` | `src/game/save/*` | `analysis/re/save.md` |
 
 ## Core Game Flow
 

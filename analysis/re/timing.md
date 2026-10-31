@@ -102,7 +102,15 @@ simulation step.
 | Coroutine/Invoke timing relative to FixedUpdate | HYPOTHESIS | engine behavior, no runtime trace |
 | Render target 60 FPS | PROJECT TARGET | not a reference-engine measurement |
 
-## 6. Native implementation contract
+## 6. Native scaffold alignment
+
+`src/platform/timing/FrameTimer.hpp` now uses `TARGET_DT = 1.0 / 50.0`
+(0.02 s) and `MAX_ACCUMULATOR = 0.3333333333`, matching the serialized reference
+`TimeManager`. A regression test (`tests/unit/timing_test.cpp`) checks the
+confirmed constant and rejects the old 60 Hz value. The native scaffold still must
+not be treated as a gameplay runtime.
+
+## 7. Native implementation contract
 
 - Simulate at 50 Hz.
 - Render at up to 60 FPS with interpolation.

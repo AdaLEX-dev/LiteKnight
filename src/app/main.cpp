@@ -91,7 +91,7 @@ int main(int argc, char* argv[]) {
 
     // Initialize frame timer
     platform::FrameTimer frame_timer;
-    LOG_INFO("[APP]", "Frame timer initialized (target: 60 Hz)");
+    LOG_INFO("[APP]", "Frame timer initialized (simulation: 50 Hz, render target: 60 FPS)");
 
     // Main loop
     LOG_INFO("[APP]", "Entering main loop...");

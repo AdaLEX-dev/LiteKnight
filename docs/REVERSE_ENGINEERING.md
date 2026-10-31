@@ -142,7 +142,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 ## 2026-10-31 — Evidence-First Session
 
 - Corrected Unity version/metadata and Gate B/C status.
-- Restored build/test feedback loop; 22 tests execute and an intentional failure turns CTest red.
+- Restored build/test feedback loop; 22 tests executed at that stage and an intentional failure turns CTest red (now 23).
 - Added `tools/re/il2cpp_re.py` for metadata → RVA → disassembly → xrefs.
 - Reconstructed `RGRandom` in `analysis/re/rgrandom.md`; native `UnityRandom`/`RGRandomStream` implemented and tested.
 - Added UnityPy extraction under `tools/asset/`; first-pass manifest has 284 entries and no proprietary bytes committed.
@@ -165,3 +165,17 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Gate B remains **PARTIAL** due to wall-collision placement, spawn/door state,
   weapon fire/projectile velocity, and full death/reborn. Phase 4 planning is
   complete but no runtime code was started.
+
+## 2026-10-31 — Final Gate B / Phase 3 Evidence Sprint
+
+- Resolved the runtime wall source (`RGRoomX.CreateWall` → `MapManagerLevel.wall_list`,
+  layer `Edge`), player spawn (`MapManager.centerPoint`), and door/clear entry points.
+- Resolved `Gun001.Attack → CreateBullet → BulletFactory.TakeBullet`, effective
+  speed 36, deviation 5, and `consume=0`; cooldown remains PARTIAL.
+- Resolved `EnemyAI04` contact `HitUnit(3,1.5)` and the minimal `e_slime01` contract.
+- Resolved death/reborn/game-over/restart entry flow; exact virtual slots/UI remain PARTIAL.
+- Resolved the save boundary as Unity `PlayerPrefs`; payload remains UNKNOWN.
+- Corrected native `FrameTimer` to the confirmed 50 Hz step and added a regression
+  test: **23 cases / 1276 assertions**.
+- Gate B and Phase 3 remain **PARTIAL**; first-slice approximations are explicitly
+  scoped in `docs/GATE_B.md` and `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`.

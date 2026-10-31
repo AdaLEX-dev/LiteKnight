@@ -43,23 +43,25 @@ evidence, and a responsible subsystem.
 | Enemy identity | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | `e_slime01`/`EnemyAI04`/stats confirmed; display name and AI state machine unknown | Enemy data / `RGEController` |
 | Weapon identity | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `weapon_000`/`Gun001`/`bullet_0` confirmed; display name/starting assignment not proven | Weapon data / `RGWeapon` |
 | Input semantics | ⚠️ PARTIAL | `analysis/re/input_movement.md` | WASD/joystick + movement confirmed; exact attack/skill/dodge button semantics partial | Input / `RGJoyControl` |
-| Room hierarchy | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | `r1_1` prefab hierarchy confirmed; spawn point and door/aisle state transitions unknown | Rooms / `RGRoomX` |
-| Room collision | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | Door/trigger/bullet colliders confirmed; wall-collider placement from room grid unknown | Rooms / `RGRoomX`, `MapManagerLevel` |
-| Enemy AI | ❌ NOT MET | `analysis/UNKNOWN_SYSTEMS.md` | No `EnemyAI04` state machine/attack/death transitions reconstructed | AI / `RGEController` |
-| Weapon behaviour | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `Gun001.Attack`→`CreateBullet`→`BulletFactory.TakeBullet` identified; cadence/ammo/spread exact values open | Weapons / `RGWeapon` |
-| Projectile behaviour | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `Bullet01` fields/trigger chain confirmed; exact velocity/rebound/through math open | Projectiles / `RGBullet` |
+| Room hierarchy | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | `r1_1` hierarchy confirmed; player spawn is `MapManager.centerPoint`; full door/aisle state transitions PARTIAL | Rooms / `RGRoomX` |
+| Room collision | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | Runtime wall source confirmed (`CreateWall`→`wall_list`, layer Edge, 1×1 colliders); exact per-cell gaps PARTIAL | Rooms / `RGRoomX`, `MapManagerLevel` |
+| Enemy AI | ⚠️ PARTIAL | `analysis/re/enemy_ai04.md` | `EnemyAI04` contact `HitUnit(3,1.5)` and base Scout/target path known; full state machine/animations PARTIAL | AI / `RGEController` |
+| Weapon behaviour | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `Gun001.Attack`→`CreateBullet`→`BulletFactory.TakeBullet`; speed 36, deviation 5, consume 0; cooldown PARTIAL | Weapons / `RGWeapon` |
+| Projectile behaviour | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `Bullet01` fields/trigger chain; BulletInfo speed 36 overrides prefab 10; rebound/through PARTIAL | Projectiles / `RGBullet` |
 | Damage bridge | ✅ MET | `analysis/re/damage.md` | Player `+0x228`, enemy `+0x2C8`, box `+0x168` resolved | Combat / `DamageCarrier` |
-| Damage formulas | ⚠️ PARTIAL | `analysis/re/damage.md` | Armor/HP/CanDie confirmed; effect-trigger/crit/element details open | Combat / `GetHurt` |
-| Death/restart | ⚠️ PARTIAL | `analysis/re/damage.md` | Entry effects confirmed; post-death virtual slots, reborn/game-over/restart open | Combat/state |
+| Damage formulas | ⚠️ PARTIAL | `analysis/re/damage.md` | Armor/HP/CanDie confirmed; crit roll location confirmed; effect/element details PARTIAL | Combat / `GetHurt` |
+| Death/restart | ⚠️ PARTIAL | `analysis/re/damage.md` | Death/Reborn/DoReborn/GameFail/TryAgain entry flows confirmed; exact slots/UI sequencing PARTIAL | Combat/state |
 | Tick rate | ✅ MET | `analysis/re/timing.md` | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) confirmed | Engine loop / `FrameTimer` |
 | Renderer | ❌ NOT MET | `docs/RENDERING.md` / `docs/PHASE_4_NATIVE_RUNTIME.md` | No Vulkan instance/device/swapchain/pipeline/sprite path exists | Rendering / platform |
 | RNG core | ⚠️ PARTIAL | `analysis/re/rgrandom.md` | Core/map/LongMap confirmed; `seed_state` 1/2, DateTime seed, reference vectors unavailable | RNG / `RGRandom` |
 | Asset extraction | ⚠️ PARTIAL | `analysis/assets/extraction_manifest.json` | Extraction reproducible; native conversion/atlas/audio pipeline not started | Assets / extraction tool |
-| Save/runtime boundary | ⚠️ PARTIAL | `docs/PHASE_4_NATIVE_RUNTIME.md` | Runtime state classes identified; save format/versioning unknown | Save / `RGSaveManager` |
+| Save/runtime boundary | ⚠️ PARTIAL | `analysis/re/save.md` | Unity PlayerPrefs string/int keys confirmed; payload/versioning UNKNOWN; not required for slice | Save / `RGSaveManager` |
 | Build/test baseline | ✅ MET (tooling) | `analysis/REPOSITORY_INTEGRITY_AUDIT.md` | Not a gameplay gate | Build / tests |
 
-**Slice gate:** **NOT CLEARED.** The minimum blockers are room collision placement,
-room spawn/door state, weapon/projectile fire contract, and death/restart. Renderer
+**Slice gate:** **NOT CLEARED.** Exact wall/door gaps, weapon cooldown, full
+reborn UI, and full AI remain PARTIAL. The first slice may use explicitly labelled
+approximations for a rectangular 15×15 room with serialized door openings, a fixed
+attack interval, death+restart, and minimal `EnemyAI04` contact behavior. Renderer
 is a Phase 4 implementation gate, not an evidence gate.
 
 ---

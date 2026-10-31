@@ -88,9 +88,34 @@ y ∈ [-2.0, 29.0]
 ```
 
 Door/aisle geometry is symmetrical around the 20×20 room center. The wall group
-has 49 sprite variants but no BoxCollider2D components in the serialized room; wall
-collision likely comes from the room pattern/edge or `Physics2D` layer mask, and is
-**NOT YET RECONSTRUCTED**. Do not assume the sprite bounds are collision bounds.
+has 49 sprite variants and no BoxCollider2D components in the serialized room.
+Wall collision is **runtime-generated**, not part of the serialized 12 colliders:
+`RGRoomX.CreateWall` (`0xDEBE3C`) instantiates prefabs from
+`MapManagerLevel.wall_list` (`+0x100`) around the room perimeter, parents them to
+`RGRoomX.wall_group` (`+0x68`), and assigns `RGRoomX.EdgeLayer` (layer 17, `Edge`).
+The wall prefabs (`wall101`, `wall201`) carry a 1×1 non-trigger `BoxCollider2D`
+with offset `(0,0.5)`.
+
+Serialized `RGRoomX` values from UnityPy `parse_as_dict`:
+
+```text
+room_width = 15
+room_height = 15
+room_type = 1
+process = 0
+entrance = [0,0,0,0]
+floor_list = []
+door_open = 1
+room_x_offset = 0
+room_y_offset = 0
+```
+
+`CreateWall` loops the room perimeter using `room_x_offset`, `room_y_offset`,
+`room_width`, and `room_height`. The outer pass places top/bottom walls; the inner
+pass places left/right walls. It draws `RGRandom.Range(0,100)` twice for wall
+variant selection and writes the room edge layer. Exact per-cell door-gap skip
+conditions are not fully decoded; the 4 serialized `door`/`door_trigger` objects
+and their collider sizes are the evidence for door openings.
 
 ## 4. Room scripts
 
@@ -210,14 +235,63 @@ implicit destruction semantics.
 | `bullet_0` | **CONFIRMED projectile prefab** | manifest path + `Bullet01` |
 | Knight/Rogue/slime/pistol display names | **CANDIDATE/UNRESOLVED** | names/indexes only; no serialized display-name mapping |
 
-## 8. Remaining room blockers
+## 8. Runtime wall generation, doors, and spawn (new evidence)
 
-1. Wall/floor collision is not represented by the room's serialized BoxCollider2D
-   list; the actual collision source (room edge mask, tilemap, pattern) is unknown.
-2. `RGRoomX.StartRoom`/`ClearRoom`/door/aisle state machines are not decoded.
-3. `MapManagerLevel.CreateMap`/procedural generation is unknown.
-4. Player spawn point selection (`b_point` vs `RGRoomX.entrance`) is unresolved.
-5. Enemy spawn tables/AI selection are unresolved.
-6. Scene loading, additive scene flow, and `DontDestroyOnLoad` usage are unresolved.
+### 8.1 Runtime wall generation
 
-These are documented blockers; they must not be replaced by guesses.
+- `RGRoomX.CreateWall` (`0xDEBE3C`) is the collision source. It is not called by a
+  direct `bl` from `RGRoomX.Start`; it is reached through the room setup/virtual
+  path. Its behavior is CONFIRMED from disassembly.
+- It reads `MapManagerLevel.wall_list` (`+0x100`; 1×1 wall prefabs with
+  non-trigger `BoxCollider2D`), instantiates them, parents to `wall_group`, and
+  sets layer `RGRoomX.EdgeLayer` (17).
+- It loops the room perimeter from `room_x_offset - 1` to
+  `room_x_offset + room_width` and from `room_y_offset` to
+  `room_y_offset + room_height`; the separate left/right pass covers the
+  vertical edges.
+- Wall prefabs are selected with `RGRandom.Range(0,100)` (<30 selects a variant);
+  the exact per-cell skip/gap condition is **PARTIAL**.
+- The 12 serialized colliders (doors/door triggers/bullet colliders) are **not**
+  the complete playable collision geometry.
+
+### 8.2 Doors and room state
+
+- `CloseDoor` (`0xDEA4AC`) calls `RGDoor.CloseDoor` on all four door fields
+  (`+0x98`, `+0xA0`, `+0xA8`, `+0xB0`) and sets `door_open = false`.
+- `OpenDoor` (`0xDEA53C`) calls `RGDoor.OpenDoor` on all four doors and sets
+  `door_open = true`.
+- `ClearRoom` (`0xDEA5D0`) sets `process = 2`, calls a virtual method at
+  `+0x228`, plays the room-clear SFX, and sends `SendRoomClearMessage` in
+  multiplayer. It does not itself reload the scene.
+- `IsClear` (`0xDEBDD8`) returns false if `EnemyMaker.this_count` is nonzero,
+  otherwise true if the maker's virtual count is zero.
+- `StartRoom` (`0xDEA1A0`) sets `MapManagerLevel.the_room`, `this_room_x/y`,
+  `process`, boss info, and game-state delegates; the full door/aisle state
+  machine remains PARTIAL.
+- `RGDoor`/`RGDoorTrigger`/`RGAisle` are serialized components on `r1_1`; their
+  transition animation/timing is not fully decoded.
+
+### 8.3 Player spawn and `b_point`
+
+- `RGGameSceneManager.CreatePlayer` (`0xDCD3C0`) reads
+  `MapManager.centerPoint` (`+0x80`) and builds the initial player position from
+  it. Player spawn is therefore **MapManager.centerPoint**, not `b_point`.
+- `RGRoomX.LoadRoom` (`0xDEA7CC`) calls `CreateFloor`, then `Transform.Find("b_point")`,
+  iterates `b_point`'s children, converts each child to a world position, subtracts
+  `room_x_offset`/`room_y_offset`, and appends the result to `RGRoomX.floor_list`
+  (`+0x60`). `b_point` is a **valid floor/spawn marker group**, not the player
+  root spawn by itself.
+- `GetRandomEmptyPos` (`0xDEC9B4`) scans room cells and returns a free position;
+  its exact callers for enemy/object spawning remain PARTIAL.
+
+### 8.4 Remaining room blockers
+
+1. Exact per-cell wall-gap/door-opening placement algorithm is PARTIAL.
+2. Full `StartRoom`/`ClearRoom`/door/aisle transition state machine is PARTIAL.
+3. Procedural `MapManagerLevel.CreateMap` is UNKNOWN.
+4. Enemy spawn table/AI selection is UNKNOWN.
+5. Scene loading/additive flow is UNKNOWN.
+6. `b_point`/`floor_list` consumer selection is only partly traced.
+
+These are named blockers; a first slice may use the serialized door openings and a
+rectangular perimeter wall set, explicitly labelled as an approximation.

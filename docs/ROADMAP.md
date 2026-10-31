@@ -57,13 +57,13 @@
 | Source map (reference → native) | `analysis/SOURCE_MAP.md` | 🔄 ACTIVE (planning only; no implementation) |
 | Player movement & physics | `analysis/re/input_movement.md` | ⚠️ PARTIAL — movement formula/stats reconstructed; no native implementation |
 | Player combat (attack, dodge, skill) | `docs/COMBAT.md` (planned) | ⬜ NOT STARTED |
-| Enemy AI (20+ types) | `docs/AI.md` (planned) | ⬜ NOT STARTED |
+| Enemy AI (20+ types) | `analysis/re/enemy_ai04.md` (first slice) | ⚠️ PARTIAL — AI04 contact/base path; full AI not started |
 | Weapon mechanics (25+ types) | `docs/WEAPONS.md` (planned) | ⬜ NOT STARTED |
 | Projectile physics & triggers | `analysis/re/weapons_projectiles.md` | ⚠️ PARTIAL — Bullet01/trigger chain; velocity/rebound open |
 | Room generation algorithm | `docs/PROCEDURAL_GENERATION.md` | ⚠️ PARTIAL — `r1_1` prefab known; generation algorithm UNKNOWN |
 | Item/buff/chest systems | `docs/ITEMS.md` (planned) | ⬜ NOT STARTED |
 | Progression & unlocks | `docs/PROGRESSION.md` (planned) | ⬜ NOT STARTED |
-| Save/load system | `docs/SAVE_SYSTEM.md` (design only) | ⬜ NOT STARTED |
+| Save/load system | `analysis/re/save.md` | ⚠️ PARTIAL — PlayerPrefs boundary; payload UNKNOWN |
 | Audio triggers & music | `docs/AUDIO.md` (design only) | ⬜ NOT STARTED |
 | UI/HUD/Menu flow | `docs/UI.md` (planned) | ⬜ NOT STARTED |
 

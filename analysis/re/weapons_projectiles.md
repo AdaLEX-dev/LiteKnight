@@ -179,22 +179,108 @@ The vtable offsets are confirmed by the actual `Il2CppClass` layout:
 vtable base `0x128`, 16-byte `VirtualInvokeData`; slot 16 → `0x228` (player
 `GetHurt`), slot 26 → `0x2C8` (enemy `GetHurt`).
 
-## 6. Fire/attack behavior status
+## 6. Fire path reconstruction (new evidence)
 
-`Gun001` is a concrete weapon script (`0x?` not yet disassembled in this pass), and
-`RGWeapon`/`RGHand`/`RGBaseHand` own firing, ammo, and hand state. The following are
-**not yet reconstructed**:
+### 6.1 Input → weapon
 
-- attack input → `RGController.BtnAtkClick` → hand/weapon fire call chain,
-- fire cooldown from `weapon_speed`/`atk_speed`,
-- spread application from `deviation` and bullet count,
-- ammo/consume behavior,
-- exact `BulletInfo` → `Rigidbody2D.velocity` math,
-- rebound/through implementation (`can_rebound`, `throughCount`),
-- weapon pickup/switch state machine.
+`RGController.RoleAtk` (`0x117C588`) calls `RoleAttackEvent`, finds the current
+`RGHand` (`+0x68`), and invokes the hand/weapon attack path. `RGController.BtnAtkClick`
+(`0x117C3DC`) selects the hand/default attack and calls the hand path. The exact
+branch for every special weapon is not needed for `weapon_000`; the minimal path is:
 
-These are Phase 3 blockers; the vertical slice must use a minimal, explicitly
-labelled implementation of this confirmed pair and cannot claim full weapon parity.
+```text
+BtnAtkClick / RoleAtk
+  → RGHand/current weapon attack
+  → Gun001.Attack
+```
+
+### 6.2 `Gun001.Attack` (`0x1241260`)
+
+Observed sequence:
+
+1. Calls the weapon virtual at vtable `+0x308`/`+0x310` (pre-attack/state hook).
+2. Calls `RGWeapon.get_bullet_speed` (`0xF879FC`), which returns
+   `bulletInfo.speed` (`BulletInfoInspector +0x18`).
+3. Reads controller `+0x38` as the base angle.
+4. Calls `Gun001.CreateBullet(speed, angle)` (`0x124131C`).
+5. Calls `RGWeapon.AfterBulletCreateEvent`, a virtual at `+0x3C8`, and
+   `RGWeapon.AfterAttackEvent`.
+6. Plays the weapon SFX via `RGMusicManager.PlayEffect`.
+
+For `weapon_000`, `RGWeapon.get_bullet_speed` returns **36.0** (the serialized
+`Gun001.bulletsInfo[0].speed`), not the `Bullet01.speed` default 10.0.
+
+### 6.3 `Gun001.CreateBullet` (`0x124131C`)
+
+Observed:
+
+- `deviation = RGWeapon.deviation` (`+0x48`), value 5 for `weapon_000`.
+- Reads a controller/hand value at `+0x2c`; computes
+  `spread = deviation * (value + 1)`.
+- Calls `RGRandom.Range(-spread, +spread)` (`0xDE93DC`) for the actual angle
+  offset.
+- Calls a weapon virtual at `+0x558` (likely `GetBulletInfo`/decorated info) and
+  `BulletInfoInspector.GetBulletInfo` (`0x14BFF30`), which copies
+  `BulletInfoInspector.speed` into `BulletInfo.speed` (`+0x28`).
+- Calls `BulletFactory.TakeBullet(BulletInfo, DamageInfo, invokeOnTake=true, ...)`
+  (`0x14BEB40`) to obtain the projectile instance.
+- Calls `RGWeapon.BulletCreateEvent` (`0xF9058C`) and, if `has_trail`, clears the
+  trail renderer.
+
+The exact field at controller `+0x2c` is not proven to be `fixed_angle`; treat the
+spread formula as HIGH CONFIDENCE structure, with field identity PARTIAL. For
+`weapon_000`, the serialized deviation is 5 degrees and the base angle is the
+controller's current/fixed aim angle.
+
+### 6.4 Speed resolution
+
+`RGBullet.UpdateInfo` (`0x1168000`) copies `BulletInfo.speed` (`+0x28`, i.e.
+`RGBullet +0x48` because `BulletInfo` starts at `RGBullet +0x20`) into
+`RGBullet.speed` (`+0x7C`). Therefore:
+
+- `bullet_0` serialized `Bullet01.speed = 10.0` is a prefab/default value,
+- `weapon_000` `BulletInfo.speed = 36.0` is the effective initial speed used by
+  the weapon fire path.
+- `BulletInfo.initVelocity` and `directionAngle` are copied into the bullet's
+  initial velocity/angle; exact vector composition remains PARTIAL.
+
+### 6.5 Ammo/consume
+
+`weapon_000` has `Gun001.consume = 0`; there is no ammo cost for this weapon.
+Other weapons may consume energy/ammo; that is not needed for the first slice.
+`RGWeapon.SetAttack` checks the hand/controller state and consume count, but the
+exact energy-warning branch is PARTIAL.
+
+### 6.6 Cadence/cooldown
+
+`RGWeapon` exposes `weapon_speed` (`+0x50`) and `atk_move_speed` (`+0x54`);
+`RoleAttributePlayer` has `atk_speed` (`+0x74`). `SetAttack`/`AttackKeyDown`/
+`AttackStart` manage the attack pressed state and a speed modifier, but the exact
+cooldown interval formula was **not recovered** from the static path. Do not claim
+a fire rate. For the first slice, use an explicit native interval labelled
+`HYPOTHESIS`/approximation, or drive attacks from the player input edge and record
+the deviation from reference.
+
+### 6.7 Rebound/through/lifetime
+
+- `bullet_0` has `can_rebound = 1`, `destroy_time = 5.0`, `rotate_angle = 0`,
+  `Camp = 1`.
+- `RGBullet.DestroySelf` starts the `Destroying` coroutine; `DestroySelf()`
+  (`0x1169308`) uses `destroy_time`.
+- `throughCount`/`reflectCount` are copied from `DamageInfo`/`BulletInfo`; their
+  exact collision decrement behavior is PARTIAL.
+- `ReboundEffectTrigger.TriggerWith` exists and can alter the bullet, but its exact
+  reflection math is not decoded.
+
+### 6.8 Remaining weapon/projectile blockers
+
+- exact `RGWeapon`/`RGHand` attack cooldown formula,
+- exact `value` field used in the spread formula,
+- exact `RGBullet` initial velocity composition and rebound/through integration,
+- full `Gun001` ammo/consume and special-weapon branches.
+
+These are named; `weapon_000`/`bullet_0` is still the best confirmed first-slice
+pair.
 
 ## 7. Confidence
 
@@ -205,6 +291,7 @@ labelled implementation of this confirmed pair and cannot claim full weapon pari
 | Weapon damage/speed/deviation/bullet proto | CONFIRMED | serialized `Gun001` fields |
 | `Bullet01` destroy_time 5 / rotate_angle behavior | CONFIRMED | serialized field + FixedUpdate disassembly |
 | `RGBullet.UpdateInfo` field copies | HIGH CONFIDENCE | `0x1168000` disassembly |
-| Effective projectile velocity formula | UNRESOLVED | `SetBulletVelocity`/motion path not fully decoded |
-| Attack → fire path/cooldown/ammo | UNRESOLVED | needs `Gun001`/`RGHand` trace |
+| Effective projectile speed | HIGH CONFIDENCE | `RGBullet.UpdateInfo` copies BulletInfo speed 36 into `+0x7C`; prefab 10 is default |
+| Attack → fire path | HIGH CONFIDENCE | `Gun001.Attack` → `CreateBullet` → `BulletFactory.TakeBullet` |
+| Fire cooldown/ammo | PARTIAL | `consume=0`; cooldown formula not recovered |
 | Display name / Knight starting weapon | CANDIDATE/UNRESOLVED | no serialized item-name mapping |
