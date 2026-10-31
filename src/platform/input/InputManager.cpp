@@ -124,14 +124,27 @@ void InputManager::Shutdown() {
     }
 }
 
-void InputManager::ProcessEvents() {
-    // Swap snapshots
+void InputManager::BeginFrame() {
+    // Swap snapshots; held state persists until an up event arrives.
     previous_ = current_;
     current_.pressed.reset();
     current_.released.reset();
     current_.mouse_wheel = 0.0f;
     current_.window_resized = false;
     current_.mouse_delta = {0, 0};
+}
+
+void InputManager::ProcessEvent(const SDL_Event& event) {
+    HandleSDLEvent(event);
+}
+
+void InputManager::EndFrame() {
+    UpdateAnalogState();
+    UpdateDigitalState();
+}
+
+void InputManager::ProcessEvents() {
+    BeginFrame();
 
     // Process synthetic events queued by the test/debug injection helpers
     // before real SDL events. This keeps injection deterministic and
@@ -147,11 +160,7 @@ void InputManager::ProcessEvents() {
         HandleSDLEvent(event);
     }
 
-    // Update analog state from gamepad
-    UpdateAnalogState();
-
-    // Update digital state (held buttons persist)
-    UpdateDigitalState();
+    EndFrame();
 }
 
 void InputManager::UpdateDigitalState() {

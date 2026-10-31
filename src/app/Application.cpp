@@ -42,6 +42,16 @@ engine::rendering::SortLayer MapSortingLayer(int32_t unity_sorting_layer) {
     }
 }
 
+engine::collision::Aabb MakeFallbackCollisionBounds(const engine::Vec2& center) {
+    // NATIVE DESIGN: r1_1 is 15x15 with a 1-unit wall ring. If a scene omits
+    // explicit native collision data, use the resulting 13x13 interior.
+    constexpr float kInteriorHalfExtent = 6.5f;
+    return engine::collision::Aabb{
+        {center.x - kInteriorHalfExtent, center.y - kInteriorHalfExtent},
+        {center.x + kInteriorHalfExtent, center.y + kInteriorHalfExtent}
+    };
+}
+
 } // namespace
 
 Application::Application(AppConfig config) : config_(std::move(config)) {}
@@ -100,9 +110,13 @@ bool Application::Initialize() {
 
     texture_uploads_.clear();
     camera_ = engine::Camera2D{};
-    animation_player_.Stop();
+    locomotion_animator_ = {};
+    player_ = {};
+    collision_world_ = {};
+    movement_input_ = {};
     scene_ = {};
     last_animation_sprite_.clear();
+    last_animation_state_ = engine::animation::LocomotionState::Idle;
     animation_logs_remaining_ = 8;
     scene_mode_ = !config_.scene_path.empty();
 
@@ -130,9 +144,11 @@ bool Application::Initialize() {
         LOG_INFO_APP("Scene loaded: {} ({} textures, {} sprites, {} instances, {} animations)",
                      scene_.id, scene_.textures.size(), scene_.sprites.size(),
                      scene_.instances.size(), scene_.animations.size());
-        if (!scene_.animations.empty()) {
-            animation_player_.Play(scene_.animations.front());
-            const engine::animation::AnimationClip& clip = scene_.animations.front();
+        const engine::animation::AnimationClip* idle_clip = nullptr;
+        const engine::animation::AnimationClip* run_clip = nullptr;
+        for (const engine::animation::AnimationClip& clip : scene_.animations) {
+            if (clip.id == "c00_idle") idle_clip = &clip;
+            if (clip.id == "c00_run") run_clip = &clip;
             LOG_INFO_APP("Animation: {} ({} s, {} Hz, loop={}, tracks={})",
                          clip.id, clip.duration, clip.sample_rate,
                          BooleanText(clip.loop), clip.tracks.size());
@@ -141,6 +157,24 @@ bool Application::Initialize() {
                              track.keys.size());
             }
         }
+        locomotion_animator_.Configure(idle_clip, run_clip);
+        player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
+        if (scene_.collision_bounds.w > 0.0f && scene_.collision_bounds.h > 0.0f) {
+            collision_world_.SetBounds(engine::collision::Aabb{
+                {scene_.collision_bounds.x, scene_.collision_bounds.y},
+                {scene_.collision_bounds.x + scene_.collision_bounds.w,
+                 scene_.collision_bounds.y + scene_.collision_bounds.h}
+            });
+        } else {
+            collision_world_.SetBounds(MakeFallbackCollisionBounds(camera_.position));
+        }
+        LOG_INFO_APP("Locomotion: spawn ({:.2f},{:.2f}), effective speed {:.2f}, idle={}, run={}",
+                     scene_.spawn.x, scene_.spawn.y, player_.Config().EffectiveSpeed(),
+                     idle_clip != nullptr ? "yes" : "no",
+                     run_clip != nullptr ? "yes" : "no");
+        LOG_INFO_APP("Collision: native room AABB [{:.2f},{:.2f}]..[{:.2f},{:.2f}]",
+                     collision_world_.Bounds().min.x, collision_world_.Bounds().min.y,
+                     collision_world_.Bounds().max.x, collision_world_.Bounds().max.y);
         LOG_INFO_APP("Camera: center ({:.2f},{:.2f}), ortho size {:.2f}",
                      camera_.position.x, camera_.position.y,
                      camera_.orthographic_size);
@@ -193,6 +227,11 @@ bool Application::Initialize() {
                  window_.GetWidth(), window_.GetHeight(),
                  window_.GetPixelWidth(), window_.GetPixelHeight());
 
+    if (!input_manager_.Initialize(window_.GetSDLWindow())) {
+        LOG_FATAL_APP("Input manager initialization failed");
+        return false;
+    }
+
     renderer_ = std::make_unique<engine::rendering::VulkanRenderer>();
     engine::rendering::VulkanInitOptions render_options;
     render_options.enable_validation = config_.enable_validation;
@@ -240,13 +279,18 @@ void Application::BuildRenderBatch() {
         return;
     }
 
+    if (locomotion_animator_.State() != last_animation_state_) {
+        last_animation_state_ = locomotion_animator_.State();
+        animation_logs_remaining_ = 8;
+    }
+
     for (const engine::assets::SpriteInstance& instance : scene_.instances) {
         if (instance.sprite_index >= scene_.sprites.size()) continue;
         const engine::assets::SpriteData* sprite =
             &scene_.sprites[instance.sprite_index];
-        if (animation_player_.IsPlaying()) {
+        if (locomotion_animator_.IsPlaying()) {
             const engine::animation::SpriteKeyframe* key =
-                animation_player_.Evaluate(instance.path);
+                locomotion_animator_.Evaluate(instance.path);
             if (key != nullptr) {
                 const int32_t animated_index = scene_.FindSpriteIndex(key->sprite_id);
                 if (animated_index >= 0 &&
@@ -255,8 +299,10 @@ void Application::BuildRenderBatch() {
                 }
                 if (key->sprite_id != last_animation_sprite_) {
                     if (animation_logs_remaining_ > 0) {
-                        LOG_INFO_APP("Animation frame: {} at t={:.3f}s",
-                                     key->sprite_id, animation_player_.Time());
+                        LOG_INFO_APP("Animation frame: {} at t={:.3f}s state={}",
+                                     key->sprite_id, locomotion_animator_.Time(),
+                                     engine::animation::LocomotionStateName(
+                                         locomotion_animator_.State()));
                         --animation_logs_remaining_;
                     }
                     last_animation_sprite_ = key->sprite_id;
@@ -307,6 +353,7 @@ void Application::BuildSyntheticBatch() {
 }
 
 void Application::PollEvents() {
+    input_manager_.BeginFrame();
     SDL_Event event;
     while (SDL_PollEvent(&event)) {
         const bool was_minimized = window_.IsMinimized();
@@ -324,6 +371,7 @@ void Application::PollEvents() {
         }
 
         window_.HandleEvent(event);
+        input_manager_.ProcessEvent(event);
 
         if (event.type == SDL_EVENT_WINDOW_RESIZED ||
             event.type == SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED) {
@@ -346,6 +394,8 @@ void Application::PollEvents() {
         }
     }
 
+    input_manager_.EndFrame();
+
     // Event delivery is normally sufficient, but SDL/compositor combinations
     // vary in focus/restore notification. Reconcile against SDL's flags once per
     // frame; this remains platform state, not gameplay input.
@@ -353,11 +403,31 @@ void Application::PollEvents() {
 }
 
 void Application::FixedUpdate(double dt) {
-    // No gameplay systems exist in this stage. The fixed clock is advanced and
-    // counted so the frame loop contract is exercised independently of render.
     simulation_time_ += dt;
     ++simulation_ticks_;
-    animation_player_.Update(static_cast<float>(dt));
+
+    if (!scene_mode_) return;
+
+    player_.FixedUpdate(movement_input_.direction, movement_input_.weight,
+                        static_cast<float>(dt), collision_world_);
+    locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
+    camera_.Follow(player_.Position(), static_cast<float>(dt));
+
+    if (config_.locomotion_debug && simulation_ticks_ % 25 == 0) {
+        const engine::animation::SpriteKeyframe* frame =
+            locomotion_animator_.Evaluate("c00/img/body");
+        const auto& collision = player_.LastCollision();
+        LOG_INFO_APP(
+            "locomotion: pos=({:.3f},{:.3f}) input=({:.2f},{:.2f}) "
+            "vel=({:.3f},{:.3f}) state={} frame={} blocked=({},{}) camera=({:.3f},{:.3f})",
+            player_.Position().x, player_.Position().y,
+            movement_input_.direction.x, movement_input_.direction.y,
+            player_.Velocity().x, player_.Velocity().y,
+            engine::animation::LocomotionStateName(locomotion_animator_.State()),
+            frame != nullptr ? frame->sprite_id : "none",
+            BooleanText(collision.blocked_x), BooleanText(collision.blocked_y),
+            camera_.position.x, camera_.position.y);
+    }
 }
 
 void Application::ExerciseWindowIfRequested() {
@@ -403,6 +473,9 @@ int Application::Run() {
 
     while (running_) {
         PollEvents();
+        movement_input_ = scene_mode_
+            ? platform::ReadDigitalMovement(input_manager_.GetSnapshot())
+            : platform::MovementInput{};
         if (!running_) break;
         if (SmokeTestExpired()) {
             LOG_INFO_APP("Smoke test duration reached");
@@ -486,6 +559,7 @@ void Application::Shutdown() {
         renderer_.reset();
     }
 
+    input_manager_.Shutdown();
     window_.Shutdown();
 
     if (vulkan_library_loaded_) {

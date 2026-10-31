@@ -1,6 +1,7 @@
 {
   "animations": [
-    "animations/c00_idle.json"
+    "animations/c00_idle.json",
+    "animations/c00_run.json"
   ],
   "camera": {
     "orthographic_size": 10.5,
@@ -12,6 +13,18 @@
       1920.0,
       1080.0
     ]
+  },
+  "collision": {
+    "bounds": [
+      13.5,
+      13.5,
+      13.0,
+      13.0
+    ],
+    "classification": "NATIVE DESIGN from recovered room dimensions",
+    "room_height": 15.0,
+    "room_width": 15.0,
+    "wall_thickness": 1.0
   },
   "id": "r1_1_visual",
   "instances": [
@@ -3089,6 +3102,186 @@
         0.0513153076171875
       ],
       "sprite_path_id": "9175778662407141084",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c01_0_-4648659440509418814",
+      "pivot": [
+        0.599046246657243,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        559.0761108398438,
+        372.02676010131836,
+        31.923879623413086,
+        28.89712905883789
+      ],
+      "source_name": "c01_0",
+      "source_pivot": [
+        0.6000000238418579,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        96.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        559.0761108398438,
+        623.0761108398438,
+        31.923879623413086,
+        28.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        0.07612049579620361,
+        0.07611846923828125
+      ],
+      "sprite_path_id": "-4648659440509418814",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c01_1_-4226452341420905142",
+      "pivot": [
+        0.6000000238418579,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        32.0,
+        407.02676010131836,
+        32.0,
+        29.89712905883789
+      ],
+      "source_name": "c01_1",
+      "source_pivot": [
+        0.6000000238418579,
+        0.0
+      ],
+      "source_rect": [
+        32.0,
+        96.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        32.0,
+        587.0761108398438,
+        32.0,
+        29.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.07611846923828125
+      ],
+      "sprite_path_id": "-4226452341420905142",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c01_2_645446436195162188",
+      "pivot": [
+        0.6000000238418579,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        170.0,
+        497.02673721313477,
+        32.0,
+        29.921932220458984
+      ],
+      "source_name": "c01_2",
+      "source_pivot": [
+        0.6000000238418579,
+        0.0
+      ],
+      "source_rect": [
+        64.0,
+        96.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        170.0,
+        497.05133056640625,
+        32.0,
+        29.921932220458984
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0513153076171875
+      ],
+      "sprite_path_id": "645446436195162188",
+      "texture": "character_atlas",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "c01_3_-3975174193321666585",
+      "pivot": [
+        0.5993575880471712,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        953.0513305664062,
+        697.0267601013184,
+        31.94868278503418,
+        28.89712905883789
+      ],
+      "source_name": "c01_3",
+      "source_pivot": [
+        0.6000000238418579,
+        0.0
+      ],
+      "source_rect": [
+        96.0,
+        96.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        953.0513305664062,
+        298.07611083984375,
+        31.94868278503418,
+        28.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        0.0513153076171875,
+        0.07611846923828125
+      ],
+      "sprite_path_id": "-3975174193321666585",
       "texture": "character_atlas",
       "wrap": "clamp"
     }

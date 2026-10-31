@@ -49,6 +49,8 @@ struct SceneAsset {
     std::vector<SpriteInstance> instances;
     std::vector<engine::animation::AnimationClip> animations;
     SceneCamera camera;
+    Vec2 spawn{0.0f, 0.0f};
+    Rect collision_bounds{0.0f, 0.0f, 0.0f, 0.0f};
 
     int32_t FindSpriteIndex(const std::string& sprite_id) const {
         for (std::size_t i = 0; i < sprites.size(); ++i) {

@@ -22,6 +22,7 @@ void PrintUsage(const char* executable) {
         << "  --smoke-test             run the Wayland/Vulkan smoke test for 5 seconds\n"
         << "  --smoke-seconds <secs>   run for a bounded duration\n"
         << "  --exercise-window        resize/minimize/restore during the smoke test\n"
+        << "  --locomotion-debug       log fixed-step movement/input/collision state\n"
         << "  --texture <asset-path>   PNG relative to the native asset root\n"
         << "  --scene <asset-path>     native scene JSON relative to the asset root\n"
         << "  --help, -h               show this help\n";

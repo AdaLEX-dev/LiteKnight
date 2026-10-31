@@ -1,12 +1,18 @@
 {
-  "animation_count": 1,
-  "animation_keyframe_count": 4,
+  "animation_count": 2,
+  "animation_keyframe_count": 8,
   "animations": [
     {
       "generated": "assets/generated/visual/r1_1_visual/animations/c00_idle.json",
       "id": "c00_idle",
       "metadata": "analysis/assets/scenes/animations/c00_idle.json",
       "sha256": "23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44"
+    },
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c00_run.json",
+      "id": "c00_run",
+      "metadata": "analysis/assets/scenes/animations/c00_run.json",
+      "sha256": "5a464af90c3e61c4b5e3ac6340583234bf6cae114d0a0f281980f2c80e5a3693"
     }
   ],
   "camera": {
@@ -20,11 +26,23 @@
       1080.0
     ]
   },
+  "collision": {
+    "bounds": [
+      13.5,
+      13.5,
+      13.0,
+      13.0
+    ],
+    "classification": "NATIVE DESIGN from recovered room dimensions",
+    "room_height": 15.0,
+    "room_width": 15.0,
+    "wall_thickness": 1.0
+  },
   "converter_version": "1.0.0",
   "instance_count": 111,
   "manifest_version": 1,
-  "notes": "r1_1 room sprites plus c00 body/shadow and real idle clip; no proprietary pixels committed.",
-  "scene_json_sha256": "2cccf9dae93822c0ce84f216eb95e956442580bcbc82666b8bcdc6d2d1558888",
+  "notes": "r1_1 native test reconstruction with c00 idle/run clips; no proprietary pixels committed.",
+  "scene_json_sha256": "b2ad4f9ae68f676d7058c1c9d7318ace038ea52860bed8b322e4701f44a3ecc9",
   "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -36,7 +54,7 @@
     20.0,
     20.0
   ],
-  "sprite_count": 9,
+  "sprite_count": 13,
   "textures": [
     {
       "filter": "point",

@@ -25,7 +25,15 @@ public:
     bool Initialize(SDL_Window* window);
     void Shutdown();
 
+    // Poll every pending SDL event. Kept for standalone input users/tests.
     void ProcessEvents();
+
+    // Frame/event API used by Application so one SDL event loop can feed both
+    // the window and input. BeginFrame resets edge state, ProcessEvent consumes
+    // one SDL event, and EndFrame finalizes analog/digital state.
+    void BeginFrame();
+    void ProcessEvent(const SDL_Event& event);
+    void EndFrame();
 
     const InputSnapshot& GetSnapshot() const { return current_; }
 

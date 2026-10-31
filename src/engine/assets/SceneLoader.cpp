@@ -132,6 +132,21 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         loaded.camera.viewport_width = viewport.x;
         loaded.camera.viewport_height = viewport.y;
     }
+    loaded.spawn = loaded.camera.position;
+    if (document.contains("spawn") && !ReadVec2(document["spawn"], loaded.spawn)) {
+        SetError(error, "scene spawn is invalid");
+        return false;
+    }
+    if (document.contains("collision")) {
+        if (!document["collision"].is_object() ||
+            !document["collision"].contains("bounds") ||
+            !ReadRect(document["collision"]["bounds"], loaded.collision_bounds) ||
+            loaded.collision_bounds.w <= 0.0f ||
+            loaded.collision_bounds.h <= 0.0f) {
+            SetError(error, "scene collision bounds are invalid");
+            return false;
+        }
+    }
 
     if (!document.contains("textures") || !document["textures"].is_array()) {
         SetError(error, "scene JSON has no textures array");

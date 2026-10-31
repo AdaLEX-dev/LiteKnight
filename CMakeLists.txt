@@ -244,6 +244,11 @@ add_library(engine STATIC
     src/engine/rendering/SpriteRenderer.hpp
     src/engine/rendering/VulkanRenderer.cpp
     src/engine/rendering/VulkanRenderer.hpp
+    # Locomotion / collision
+    src/engine/collision/AabbCollision.cpp
+    src/engine/collision/AabbCollision.hpp
+    src/engine/locomotion/PlayerLocomotion.cpp
+    src/engine/locomotion/PlayerLocomotion.hpp
     # Animation
     src/engine/animation/AnimationClip.cpp
     src/engine/animation/AnimationClip.hpp
@@ -251,6 +256,8 @@ add_library(engine STATIC
     src/engine/animation/AnimationClipLoader.hpp
     src/engine/animation/AnimationPlayer.cpp
     src/engine/animation/AnimationPlayer.hpp
+    src/engine/animation/LocomotionAnimator.cpp
+    src/engine/animation/LocomotionAnimator.hpp
     # Asset decoding / native scene
     src/engine/assets/TextureData.hpp
     src/engine/assets/TextureSampling.hpp
@@ -476,6 +483,7 @@ add_executable(soul-knight-test
     tests/unit/png_test.cpp
     tests/unit/scene_test.cpp
     tests/unit/animation_test.cpp
+    tests/unit/locomotion_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp

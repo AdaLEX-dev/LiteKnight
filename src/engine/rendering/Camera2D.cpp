@@ -1,6 +1,8 @@
 // Soul Knight Linux — 2D orthographic camera implementation
 #include "Camera2D.hpp"
 
+#include <cmath>
+
 namespace soulknight::engine {
 
 Mat4 Camera2D::ViewProjection() const {
@@ -11,6 +13,16 @@ Mat4 Camera2D::ViewProjection() const {
         -half_w, half_w, half_h, -half_h, -1.0f, 1.0f);
     const Mat4 view = Mat4::Translate({-position.x, -position.y, 0.0f});
     return projection * view;
+}
+
+void Camera2D::Follow(const Vec2& target, float delta_seconds) {
+    if (delta_seconds <= 0.0f) return;
+    if (follow_smoothing <= 0.0f) {
+        position = target;
+        return;
+    }
+    const float t = 1.0f - std::exp(-follow_smoothing * delta_seconds);
+    position += (target - position) * t;
 }
 
 Vec2 Camera2D::WorldToScreen(const Vec2& world) const {

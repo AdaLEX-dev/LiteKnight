@@ -203,6 +203,9 @@ TEST_CASE("SceneLoader loads animation references and rejects unknown targets" *
     CHECK(clip.tracks.size() == 1);
     CHECK(clip.tracks[0].target_path == "c00/img/body");
     CHECK(clip.tracks[0].keys.size() == 2);
+    CHECK(scene.spawn.x == doctest::Approx(1.0f));
+    CHECK(scene.spawn.y == doctest::Approx(2.0f));
+    CHECK(scene.collision_bounds.w == doctest::Approx(10.0f));
     CHECK(scene.FindSpriteIndex("frame0") == 0);
     CHECK(scene.FindSpriteIndex("frame1") == 1);
     CHECK(scene.FindSpriteIndex("missing") == -1);
@@ -280,6 +283,67 @@ TEST_CASE("Real c00 idle metadata resolves against the r1_1 scene" *
     CHECK(player.Evaluate("c00/img/body") != nullptr);
     CHECK(player.Evaluate("c00/img/body")->sprite_id ==
           clip.tracks[0].keys[1].sprite_id);
+}
+
+TEST_CASE("Real c00 run metadata resolves against the r1_1 scene" *
+          doctest::test_suite("unit")) {
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+
+    const auto scene_text = filesystem.ReadTextFile("test/scenes/r1_1_visual.json");
+    const auto animation_text =
+        filesystem.ReadTextFile("test/scenes/animations/c00_run.json");
+    CHECK(scene_text.has_value());
+    CHECK(animation_text.has_value());
+
+    const nlohmann::json scene = nlohmann::json::parse(*scene_text, nullptr, false);
+    CHECK_FALSE(scene.is_discarded());
+
+    AnimationClip clip;
+    std::string error;
+    CHECK(AnimationClipLoader::Parse(*animation_text, clip, &error));
+    CHECK(clip.id == "c00_run");
+    CHECK(clip.duration == doctest::Approx(0.5f));
+    CHECK(clip.sample_rate == doctest::Approx(8.0f));
+    CHECK(clip.loop);
+    CHECK(clip.tracks.size() == 1);
+    CHECK(clip.tracks[0].keys.size() == 4);
+    CHECK(clip.tracks[0].keys[0].sprite_id ==
+          "c01_0_-4648659440509418814");
+    CHECK(clip.tracks[0].keys[1].sprite_id ==
+          "c01_1_-4226452341420905142");
+    CHECK(clip.tracks[0].keys[2].sprite_id ==
+          "c01_2_645446436195162188");
+    CHECK(clip.tracks[0].keys[3].sprite_id ==
+          "c01_3_-3975174193321666585");
+
+    for (const SpriteKeyframe& key : clip.tracks[0].keys) {
+        bool found = false;
+        for (const auto& sprite : scene["sprites"]) {
+            if (sprite.value("id", "") != key.sprite_id) continue;
+            found = true;
+            bool texture_found = false;
+            for (const auto& texture : scene["textures"]) {
+                if (texture.value("id", "") != sprite.value("texture", "")) {
+                    continue;
+                }
+                const auto width = texture.value("width", 0);
+                const auto height = texture.value("height", 0);
+                const auto& rect = sprite["rect"];
+                CHECK(rect.at(0).get<float>() >= 0.0f);
+                CHECK(rect.at(1).get<float>() >= 0.0f);
+                CHECK(rect.at(0).get<float>() + rect.at(2).get<float>() <=
+                      static_cast<float>(width));
+                CHECK(rect.at(1).get<float>() + rect.at(3).get<float>() <=
+                      static_cast<float>(height));
+                texture_found = true;
+                break;
+            }
+            CHECK(texture_found);
+            break;
+        }
+        CHECK(found);
+    }
 }
 
 TEST_CASE("AnimationSource preserves conversion provenance fields" *

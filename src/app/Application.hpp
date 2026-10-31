@@ -5,8 +5,12 @@
 #include "platform/wayland/Window.hpp"
 #include "platform/timing/FrameTimer.hpp"
 #include "platform/filesystem/FileSystem.hpp"
-#include "engine/animation/AnimationPlayer.hpp"
+#include "platform/input/InputManager.hpp"
+#include "platform/input/MovementInput.hpp"
+#include "engine/animation/LocomotionAnimator.hpp"
 #include "engine/assets/SceneAsset.hpp"
+#include "engine/collision/AabbCollision.hpp"
+#include "engine/locomotion/PlayerLocomotion.hpp"
 #include "engine/assets/TextureData.hpp"
 #include "engine/rendering/Camera2D.hpp"
 #include "engine/rendering/SpriteBatch.hpp"
@@ -58,9 +62,15 @@ private:
     platform::FileSystem filesystem_;
     soulknight::engine::assets::TextureData smoke_texture_;
     soulknight::engine::assets::SceneAsset scene_;
-    engine::animation::AnimationPlayer animation_player_;
+    engine::animation::LocomotionAnimator locomotion_animator_;
+    engine::locomotion::PlayerLocomotion player_;
+    engine::collision::AabbCollisionWorld collision_world_;
+    platform::InputManager input_manager_;
+    platform::MovementInput movement_input_;
     engine::Camera2D camera_;
     std::string last_animation_sprite_;
+    engine::animation::LocomotionState last_animation_state_ =
+        engine::animation::LocomotionState::Idle;
     int animation_logs_remaining_ = 0;
     std::vector<engine::rendering::TextureUpload> texture_uploads_;
     bool scene_mode_ = false;

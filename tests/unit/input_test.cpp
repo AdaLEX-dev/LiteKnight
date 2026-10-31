@@ -50,3 +50,30 @@ TEST_CASE("Input action mapping" * doctest::test_suite("unit")) {
     mgr.ProcessEvents();
     CHECK(mgr.GetSnapshot().IsPressed(Action::Attack));
 }
+TEST_CASE("InputManager frame/event API matches the application event loop" *
+          doctest::test_suite("unit")) {
+    InputManager mgr;
+    SDL_Event event{};
+    event.type = SDL_EVENT_KEY_DOWN;
+    event.key.scancode = SDL_SCANCODE_D;
+    event.key.down = true;
+
+    mgr.BeginFrame();
+    mgr.ProcessEvent(event);
+    mgr.EndFrame();
+    CHECK(mgr.GetSnapshot().IsPressed(Action::MoveRight));
+    CHECK(mgr.GetSnapshot().IsHeld(Action::MoveRight));
+
+    mgr.BeginFrame();
+    mgr.EndFrame();
+    CHECK_FALSE(mgr.GetSnapshot().IsPressed(Action::MoveRight));
+    CHECK(mgr.GetSnapshot().IsHeld(Action::MoveRight));
+
+    event.type = SDL_EVENT_KEY_UP;
+    event.key.down = false;
+    mgr.BeginFrame();
+    mgr.ProcessEvent(event);
+    mgr.EndFrame();
+    CHECK(mgr.GetSnapshot().IsReleased(Action::MoveRight));
+    CHECK_FALSE(mgr.GetSnapshot().IsHeld(Action::MoveRight));
+}

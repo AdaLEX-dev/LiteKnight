@@ -1,0 +1,64 @@
+{
+  "duration": 0.5,
+  "id": "c00_run",
+  "loop": true,
+  "sample_rate": 8.0,
+  "source": {
+    "animator_component_path_id": "-2747643251060265406",
+    "animator_enabled": false,
+    "animator_game_object_path_id": "-2381127569301570839",
+    "animator_update_mode": 0,
+    "apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
+    "binding_path": "img/body",
+    "binding_path_hash": "3966442053",
+    "binding_property": "m_Sprite",
+    "bundle": "common",
+    "bundle_sha256": "4f49c9d3aa24f5f6b9771125245f9a1dd5ea5e3718d2864b50f3b60e8df511cb",
+    "clip_name": "char_1_skin_0_run",
+    "clip_path_id": "3681644519574295089",
+    "clip_start_time": 0.0,
+    "clip_stop_time": 0.5,
+    "controller_name": "char_0_skin_0",
+    "controller_path_id": "7636633949607769228",
+    "pptr_curve_index": "6",
+    "pptr_curve_mapping_count": 4,
+    "serialized_pptr_curve_count": 0,
+    "sprite_mapping_path_ids": [
+      "-4648659440509418814",
+      "-4226452341420905142",
+      "645446436195162188",
+      "-3975174193321666585"
+    ],
+    "state_loop": true,
+    "state_machine_index": "0",
+    "state_machine_layer": "Base Layer",
+    "state_name": "run",
+    "state_path_id": "4142231225",
+    "state_speed": 1.0
+  },
+  "tracks": [
+    {
+      "keys": [
+        {
+          "sprite": "c01_0_-4648659440509418814",
+          "time": 0.0
+        },
+        {
+          "sprite": "c01_1_-4226452341420905142",
+          "time": 0.125
+        },
+        {
+          "sprite": "c01_2_645446436195162188",
+          "time": 0.25
+        },
+        {
+          "sprite": "c01_3_-3975174193321666585",
+          "time": 0.375
+        }
+      ],
+      "property": "m_Sprite",
+      "target_path": "c00/img/body"
+    }
+  ],
+  "update_mode": "normal"
+}
