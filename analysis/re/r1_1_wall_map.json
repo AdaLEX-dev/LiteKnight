@@ -961,8 +961,8 @@
       22
     ]
   ],
-  "ascii": "                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n            ######DDDDD######\n            #...............#\n            #...............#\n            #...............#\n            #...............#\n++++++++++++#...............#++++++++++++\n::::::::::::D...............D::::::::::::\n::::::::::::D...............D::::::::::::\n::::::::::::D...............D::::::::::::\n::::::::::::D...............D::::::::::::\n::::::::::::D...............D::::::::::::\n++++++++++++#...............#++++++++++++\n            #...............#\n            #...............#\n            #...............#\n            #...............#\n            ######DDDDD######\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n",
-  "classification": "CONFIRMED CreateWall wall cells, wall-prefab collider, generated-wall runtime layer 17 (Edge), door/trigger colliders; NATIVE TEST entrance/door state and map-cell boundary",
+  "ascii": "                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n            ######DDDDD######\n            #...............#\n            #...............#\n            #...............#\n            #...............#\n++++++++++++#....OOOOOOO....#++++++++++++\n::::::::::::D....OOOOOOO....D::::::::::::\n::::::::::::D....OOOOOOO....D::::::::::::\n::::::::::::D....OOOOOOO....D::::::::::::\n::::::::::::D....OOOOOOO....D::::::::::::\n::::::::::::D....OOOOOOO....D::::::::::::\n++++++++++++#....OOOOOOO....#++++++++++++\n            #...............#\n            #...............#\n            #...............#\n            #...............#\n            ######DDDDD######\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n                 +:::::+\n",
+  "classification": "CONFIRMED CreateWall wall cells, wall-prefab collider, generated-wall runtime layer 17 (Edge), door/trigger colliders, RGObjectSkin -> obstacle_list replacement and obstacle prefab colliders; NATIVE TEST entrance/door state and map-cell boundary",
   "corridor_wall_cells": [
     [
       0,
@@ -2251,6 +2251,350 @@
       27
     ]
   ],
+  "obstacle_cells": [
+    [
+      20,
+      20
+    ],
+    [
+      19,
+      20
+    ],
+    [
+      18,
+      20
+    ],
+    [
+      17,
+      20
+    ],
+    [
+      21,
+      20
+    ],
+    [
+      22,
+      20
+    ],
+    [
+      23,
+      20
+    ],
+    [
+      23,
+      21
+    ],
+    [
+      22,
+      21
+    ],
+    [
+      21,
+      21
+    ],
+    [
+      17,
+      21
+    ],
+    [
+      18,
+      21
+    ],
+    [
+      19,
+      21
+    ],
+    [
+      20,
+      21
+    ],
+    [
+      20,
+      23
+    ],
+    [
+      19,
+      23
+    ],
+    [
+      18,
+      23
+    ],
+    [
+      17,
+      23
+    ],
+    [
+      21,
+      23
+    ],
+    [
+      22,
+      23
+    ],
+    [
+      23,
+      23
+    ],
+    [
+      23,
+      22
+    ],
+    [
+      22,
+      22
+    ],
+    [
+      21,
+      22
+    ],
+    [
+      17,
+      22
+    ],
+    [
+      18,
+      22
+    ],
+    [
+      19,
+      22
+    ],
+    [
+      20,
+      22
+    ],
+    [
+      20,
+      18
+    ],
+    [
+      19,
+      18
+    ],
+    [
+      18,
+      18
+    ],
+    [
+      17,
+      18
+    ],
+    [
+      21,
+      18
+    ],
+    [
+      22,
+      18
+    ],
+    [
+      23,
+      18
+    ],
+    [
+      23,
+      19
+    ],
+    [
+      22,
+      19
+    ],
+    [
+      21,
+      19
+    ],
+    [
+      17,
+      19
+    ],
+    [
+      18,
+      19
+    ],
+    [
+      19,
+      19
+    ],
+    [
+      20,
+      19
+    ],
+    [
+      20,
+      17
+    ],
+    [
+      19,
+      17
+    ],
+    [
+      18,
+      17
+    ],
+    [
+      17,
+      17
+    ],
+    [
+      21,
+      17
+    ],
+    [
+      22,
+      17
+    ],
+    [
+      23,
+      17
+    ]
+  ],
+  "obstacle_prefabs": [
+    {
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "collider_trigger": false,
+      "index": 0,
+      "name": "wall603",
+      "path_id": "-688255716106787967"
+    },
+    {
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "collider_trigger": false,
+      "index": 1,
+      "name": "box04",
+      "path_id": "366699481188231285"
+    },
+    {
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "collider_trigger": false,
+      "index": 2,
+      "name": "cask_red_3",
+      "path_id": "2829347675141698998"
+    },
+    {
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "collider_trigger": false,
+      "index": 3,
+      "name": "cask_blue_3",
+      "path_id": "2538284968180304371"
+    },
+    {
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "collider_trigger": false,
+      "index": 4,
+      "name": "cask_blue_2",
+      "path_id": "-7183190695590190345"
+    },
+    {
+      "collider_offset": null,
+      "collider_size": null,
+      "collider_trigger": null,
+      "index": 5,
+      "name": "sting01",
+      "path_id": "-6492997362957214916"
+    },
+    {
+      "collider_offset": null,
+      "collider_size": null,
+      "collider_trigger": null,
+      "index": 6,
+      "name": "speed_up",
+      "path_id": "-866634464326394401"
+    },
+    {
+      "collider_offset": null,
+      "collider_size": null,
+      "collider_trigger": null,
+      "index": 7,
+      "name": "speed_down",
+      "path_id": "3526319712157411631"
+    },
+    {
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "collider_trigger": false,
+      "index": 8,
+      "name": "obj11_06",
+      "path_id": "-8403475379419847974"
+    },
+    {
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "collider_trigger": false,
+      "index": 9,
+      "name": "obj22_06",
+      "path_id": "-622633790456718474"
+    },
+    {
+      "collider_offset": null,
+      "collider_size": null,
+      "collider_trigger": null,
+      "index": 10,
+      "name": "signs01",
+      "path_id": "4023697638528844197"
+    },
+    {
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "collider_trigger": false,
+      "index": 11,
+      "name": "brazier01",
+      "path_id": "7802491816618416398"
+    }
+  ],
   "openings": [
     {
       "aisle": "aisle_n",
@@ -2269,6 +2613,75 @@
         22.5,
         29.0
       ],
+      "close_animation": {
+        "collider_size_x": [],
+        "collider_size_y": [
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "collider_trigger": [
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "duration": 0.1666666716337204,
+        "id": "door_close2",
+        "leaf_extent": [
+          [
+            0.0,
+            0.10000000149011612
+          ],
+          [
+            0.1666666716337204,
+            1.0
+          ]
+        ],
+        "leaf_sprites": [
+          [
+            0.0,
+            "door03_3155575047523445495"
+          ],
+          [
+            0.03333333507180214,
+            "door02_-6196740020252790978"
+          ]
+        ],
+        "loop": false,
+        "ornament_visible": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.03333333507180214,
+            1.0
+          ]
+        ],
+        "sample_rate": 30.0,
+        "shadow_visible": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.03333333507180214,
+            1.0
+          ]
+        ],
+        "source": {
+          "binding_count": 22,
+          "clip_name": "door_close2",
+          "clip_path_id": "-7639774055282102575",
+          "clip_start_time": 0.0,
+          "clip_stop_time": 0.1666666716337204,
+          "loop_time": false,
+          "sample_rate": 30.0,
+          "streamed_frame_count": 5
+        }
+      },
       "collider_offset": [
         0.0,
         0.5
@@ -2287,6 +2700,74 @@
       "enter_exit_direction": 1,
       "entrance": true,
       "one_way_block": "positive_y",
+      "open_animation": {
+        "collider_size_x": [],
+        "collider_size_y": [],
+        "collider_trigger": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.13333334028720856,
+            1.0
+          ]
+        ],
+        "duration": 0.20000000298023224,
+        "id": "door_open",
+        "leaf_extent": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13333334028720856,
+            0.10000000149011612
+          ]
+        ],
+        "leaf_sprites": [
+          [
+            0.0,
+            "door02_-6196740020252790978"
+          ],
+          [
+            0.1666666716337204,
+            "door03_3155575047523445495"
+          ]
+        ],
+        "loop": false,
+        "ornament_visible": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.1666666716337204,
+            0.0
+          ]
+        ],
+        "sample_rate": 30.0,
+        "shadow_visible": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13333334028720856,
+            0.0
+          ]
+        ],
+        "source": {
+          "binding_count": 21,
+          "clip_name": "door_open",
+          "clip_path_id": "-9037741993399402651",
+          "clip_start_time": 0.0,
+          "clip_stop_time": 0.20000000298023224,
+          "loop_time": false,
+          "sample_rate": 30.0,
+          "streamed_frame_count": 5
+        }
+      },
       "position": [
         20.0,
         28.0
@@ -2338,6 +2819,75 @@
         22.5,
         13.0
       ],
+      "close_animation": {
+        "collider_size_x": [],
+        "collider_size_y": [
+          [
+            0.0,
+            1.0
+          ]
+        ],
+        "collider_trigger": [
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "duration": 0.1666666716337204,
+        "id": "door_close2",
+        "leaf_extent": [
+          [
+            0.0,
+            0.10000000149011612
+          ],
+          [
+            0.1666666716337204,
+            1.0
+          ]
+        ],
+        "leaf_sprites": [
+          [
+            0.0,
+            "door03_3155575047523445495"
+          ],
+          [
+            0.03333333507180214,
+            "door02_-6196740020252790978"
+          ]
+        ],
+        "loop": false,
+        "ornament_visible": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.03333333507180214,
+            1.0
+          ]
+        ],
+        "sample_rate": 30.0,
+        "shadow_visible": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.03333333507180214,
+            1.0
+          ]
+        ],
+        "source": {
+          "binding_count": 22,
+          "clip_name": "door_close2",
+          "clip_path_id": "-7639774055282102575",
+          "clip_start_time": 0.0,
+          "clip_stop_time": 0.1666666716337204,
+          "loop_time": false,
+          "sample_rate": 30.0,
+          "streamed_frame_count": 5
+        }
+      },
       "collider_offset": [
         0.0,
         0.5
@@ -2356,6 +2906,74 @@
       "enter_exit_direction": 2,
       "entrance": true,
       "one_way_block": "negative_y",
+      "open_animation": {
+        "collider_size_x": [],
+        "collider_size_y": [],
+        "collider_trigger": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.13333334028720856,
+            1.0
+          ]
+        ],
+        "duration": 0.20000000298023224,
+        "id": "door_open",
+        "leaf_extent": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13333334028720856,
+            0.10000000149011612
+          ]
+        ],
+        "leaf_sprites": [
+          [
+            0.0,
+            "door02_-6196740020252790978"
+          ],
+          [
+            0.1666666716337204,
+            "door03_3155575047523445495"
+          ]
+        ],
+        "loop": false,
+        "ornament_visible": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.1666666716337204,
+            0.0
+          ]
+        ],
+        "sample_rate": 30.0,
+        "shadow_visible": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13333334028720856,
+            0.0
+          ]
+        ],
+        "source": {
+          "binding_count": 21,
+          "clip_name": "door_open",
+          "clip_path_id": "-9037741993399402651",
+          "clip_start_time": 0.0,
+          "clip_stop_time": 0.20000000298023224,
+          "loop_time": false,
+          "sample_rate": 30.0,
+          "streamed_frame_count": 5
+        }
+      },
       "position": [
         20.0,
         12.0
@@ -2407,6 +3025,79 @@
         28.5,
         23.0
       ],
+      "close_animation": {
+        "collider_size_x": [
+          [
+            0.0,
+            0.20000000298023224
+          ],
+          [
+            0.1666666716337204,
+            1.0
+          ]
+        ],
+        "collider_size_y": [],
+        "collider_trigger": [
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "duration": 0.1666666716337204,
+        "id": "door_close",
+        "leaf_extent": [
+          [
+            0.0,
+            0.10000000149011612
+          ],
+          [
+            0.1666666716337204,
+            1.0
+          ]
+        ],
+        "leaf_sprites": [
+          [
+            0.0,
+            "door03_3155575047523445495"
+          ],
+          [
+            0.03333333507180214,
+            "door02_-6196740020252790978"
+          ]
+        ],
+        "loop": false,
+        "ornament_visible": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.03333333507180214,
+            1.0
+          ]
+        ],
+        "sample_rate": 30.0,
+        "shadow_visible": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.03333333507180214,
+            1.0
+          ]
+        ],
+        "source": {
+          "binding_count": 22,
+          "clip_name": "door_close",
+          "clip_path_id": "7184353644584242624",
+          "clip_start_time": 0.0,
+          "clip_stop_time": 0.1666666716337204,
+          "loop_time": false,
+          "sample_rate": 30.0,
+          "streamed_frame_count": 5
+        }
+      },
       "collider_offset": [
         0.0,
         0.5
@@ -2425,6 +3116,74 @@
       "enter_exit_direction": 4,
       "entrance": true,
       "one_way_block": "positive_x",
+      "open_animation": {
+        "collider_size_x": [],
+        "collider_size_y": [],
+        "collider_trigger": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.13333334028720856,
+            1.0
+          ]
+        ],
+        "duration": 0.20000000298023224,
+        "id": "door_open",
+        "leaf_extent": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13333334028720856,
+            0.10000000149011612
+          ]
+        ],
+        "leaf_sprites": [
+          [
+            0.0,
+            "door02_-6196740020252790978"
+          ],
+          [
+            0.1666666716337204,
+            "door03_3155575047523445495"
+          ]
+        ],
+        "loop": false,
+        "ornament_visible": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.1666666716337204,
+            0.0
+          ]
+        ],
+        "sample_rate": 30.0,
+        "shadow_visible": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13333334028720856,
+            0.0
+          ]
+        ],
+        "source": {
+          "binding_count": 21,
+          "clip_name": "door_open",
+          "clip_path_id": "-9037741993399402651",
+          "clip_start_time": 0.0,
+          "clip_stop_time": 0.20000000298023224,
+          "loop_time": false,
+          "sample_rate": 30.0,
+          "streamed_frame_count": 5
+        }
+      },
       "position": [
         28.0,
         20.0
@@ -2476,6 +3235,79 @@
         12.5,
         23.0
       ],
+      "close_animation": {
+        "collider_size_x": [
+          [
+            0.0,
+            0.20000000298023224
+          ],
+          [
+            0.1666666716337204,
+            1.0
+          ]
+        ],
+        "collider_size_y": [],
+        "collider_trigger": [
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "duration": 0.1666666716337204,
+        "id": "door_close",
+        "leaf_extent": [
+          [
+            0.0,
+            0.10000000149011612
+          ],
+          [
+            0.1666666716337204,
+            1.0
+          ]
+        ],
+        "leaf_sprites": [
+          [
+            0.0,
+            "door03_3155575047523445495"
+          ],
+          [
+            0.03333333507180214,
+            "door02_-6196740020252790978"
+          ]
+        ],
+        "loop": false,
+        "ornament_visible": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.03333333507180214,
+            1.0
+          ]
+        ],
+        "sample_rate": 30.0,
+        "shadow_visible": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.03333333507180214,
+            1.0
+          ]
+        ],
+        "source": {
+          "binding_count": 22,
+          "clip_name": "door_close",
+          "clip_path_id": "7184353644584242624",
+          "clip_start_time": 0.0,
+          "clip_stop_time": 0.1666666716337204,
+          "loop_time": false,
+          "sample_rate": 30.0,
+          "streamed_frame_count": 5
+        }
+      },
       "collider_offset": [
         0.0,
         0.5
@@ -2494,6 +3326,74 @@
       "enter_exit_direction": 3,
       "entrance": true,
       "one_way_block": "negative_x",
+      "open_animation": {
+        "collider_size_x": [],
+        "collider_size_y": [],
+        "collider_trigger": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            0.13333334028720856,
+            1.0
+          ]
+        ],
+        "duration": 0.20000000298023224,
+        "id": "door_open",
+        "leaf_extent": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13333334028720856,
+            0.10000000149011612
+          ]
+        ],
+        "leaf_sprites": [
+          [
+            0.0,
+            "door02_-6196740020252790978"
+          ],
+          [
+            0.1666666716337204,
+            "door03_3155575047523445495"
+          ]
+        ],
+        "loop": false,
+        "ornament_visible": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.1666666716337204,
+            0.0
+          ]
+        ],
+        "sample_rate": 30.0,
+        "shadow_visible": [
+          [
+            0.0,
+            1.0
+          ],
+          [
+            0.13333334028720856,
+            0.0
+          ]
+        ],
+        "source": {
+          "binding_count": 21,
+          "clip_name": "door_open",
+          "clip_path_id": "-9037741993399402651",
+          "clip_start_time": 0.0,
+          "clip_stop_time": 0.20000000298023224,
+          "loop_time": false,
+          "sample_rate": 30.0,
+          "streamed_frame_count": 5
+        }
+      },
       "position": [
         12.0,
         20.0
@@ -2556,6 +3456,10 @@
     20.5
   ],
   "schema": "soulknight.r1_1_wall_map/v1",
+  "spawn": [
+    20.0,
+    15.0
+  ],
   "test_configuration": {
     "classification": "NATIVE TEST CONFIGURATION: r1_1 serializes entrance [0,0,0,0]; MapManagerLevel overwrites entrance from room_relation. All four sides are opened here only to exercise the recovered door/aisle geometry.",
     "door_open": true,

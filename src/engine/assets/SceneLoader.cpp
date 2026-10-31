@@ -104,6 +104,81 @@ bool ReadDoorOneWayBlock(const Json& value, DoorOneWayBlock& output) {
     return false;
 }
 
+bool ReadDoorCurve(const Json& value, DoorCurve& output) {
+    if (!value.is_array()) return false;
+    output.keys.clear();
+    float previous_time = 0.0f;
+    bool first = true;
+    for (const Json& item : value) {
+        if (!item.is_array() || item.size() != 2 ||
+            !item[0].is_number() || !item[1].is_number()) {
+            return false;
+        }
+        const float time = item[0].get<float>();
+        const float key_value = item[1].get<float>();
+        if (time < 0.0f || (!first && time < previous_time)) return false;
+        output.keys.push_back(DoorCurveKey{time, key_value});
+        previous_time = time;
+        first = false;
+    }
+    return true;
+}
+
+bool ReadDoorSpriteKeys(const Json& value, std::vector<DoorSpriteKey>& output) {
+    if (!value.is_array()) return false;
+    output.clear();
+    float previous_time = 0.0f;
+    bool first = true;
+    for (const Json& item : value) {
+        if (!item.is_array() || item.size() != 2 ||
+            !item[0].is_number() || !item[1].is_string()) {
+            return false;
+        }
+        const float time = item[0].get<float>();
+        if (time < 0.0f || (!first && time < previous_time)) return false;
+        output.push_back(DoorSpriteKey{time, item[1].get<std::string>()});
+        previous_time = time;
+        first = false;
+    }
+    return true;
+}
+
+bool ReadDoorAnimationClip(const Json& value, DoorAnimationClip& output) {
+    if (!value.is_object()) return false;
+    output = {};
+    output.id = value.value("id", std::string{});
+    if (!value.contains("duration") ||
+        !ReadFloat(value["duration"], output.duration) ||
+        output.duration <= 0.0f) {
+        return false;
+    }
+    if (value.contains("sample_rate")) {
+        if (!ReadFloat(value["sample_rate"], output.sample_rate)) return false;
+    }
+    output.loop = value.value("loop", false);
+
+    const struct {
+        const char* name;
+        DoorCurve* curve;
+    } curves[] = {
+        {"leaf_extent", &output.leaf_extent},
+        {"shadow_visible", &output.shadow_visible},
+        {"ornament_visible", &output.ornament_visible},
+        {"collider_trigger", &output.collider_trigger},
+        {"collider_size_x", &output.collider_size_x},
+        {"collider_size_y", &output.collider_size_y},
+    };
+    for (const auto& entry : curves) {
+        if (!value.contains(entry.name)) continue;
+        if (!ReadDoorCurve(value[entry.name], *entry.curve)) return false;
+    }
+    if (value.contains("leaf_sprites") &&
+        !ReadDoorSpriteKeys(value["leaf_sprites"], output.leaf_sprites)) {
+        return false;
+    }
+    return true;
+}
+
 } // namespace
 
 bool SceneLoader::Load(const platform::FileSystem& filesystem,
@@ -189,6 +264,20 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 loaded.collision_solids.push_back(solid);
             }
         }
+        if (collision.contains("obstacle_solids")) {
+            if (!collision["obstacle_solids"].is_array()) {
+                SetError(error, "scene obstacle_solids is not an array");
+                return false;
+            }
+            for (const Json& item : collision["obstacle_solids"]) {
+                CollisionBox solid;
+                if (!ReadCollisionBox(item, solid)) {
+                    SetError(error, "scene obstacle solid is invalid");
+                    return false;
+                }
+                loaded.obstacle_solids.push_back(solid);
+            }
+        }
         if (collision.contains("doors")) {
             if (!collision["doors"].is_array()) {
                 SetError(error, "scene collision doors is not an array");
@@ -243,6 +332,22 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 }
                 if (item.contains("open") && item["open"].is_boolean()) {
                     door.open = item["open"].get<bool>();
+                }
+                if (item.contains("open_animation")) {
+                    if (!ReadDoorAnimationClip(item["open_animation"],
+                                               door.open_animation)) {
+                        SetError(error, "scene door open_animation is invalid: " +
+                                        door.id);
+                        return false;
+                    }
+                }
+                if (item.contains("close_animation")) {
+                    if (!ReadDoorAnimationClip(item["close_animation"],
+                                               door.close_animation)) {
+                        SetError(error, "scene door close_animation is invalid: " +
+                                        door.id);
+                        return false;
+                    }
                 }
                 loaded.doors.push_back(std::move(door));
             }
@@ -466,6 +571,31 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 return false;
             }
         }
+        if (item.contains("door_role") && item["door_role"].is_string()) {
+            instance.door_role = item["door_role"].get<std::string>();
+            if (instance.door_role != "leaf" &&
+                instance.door_role != "shadow" &&
+                instance.door_role != "ornament") {
+                SetError(error, "instance has invalid door_role: " +
+                                instance.door_role);
+                return false;
+            }
+            if (instance.door.empty()) {
+                SetError(error, "instance has door_role without door");
+                return false;
+            }
+        }
+        if (item.contains("door_leaf") && item["door_leaf"].is_string()) {
+            instance.door_leaf = item["door_leaf"].get<std::string>();
+            if (instance.door_leaf.empty()) {
+                SetError(error, "instance has empty door_leaf");
+                return false;
+            }
+            if (instance.door_role.empty()) {
+                SetError(error, "instance has door_leaf without door_role");
+                return false;
+            }
+        }
         loaded.instances.push_back(std::move(instance));
     }
 
@@ -482,6 +612,54 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 SetError(error, "animation target instance not found: " +
                                 track.target_path);
                 return false;
+            }
+        }
+    }
+
+    // Build door leaf bindings from the explicit door_role/door_leaf fields.
+    // A scene without role metadata (for example the synthetic loader fixture)
+    // remains valid; an animated r1_1 scene supplies all three roles per leaf.
+    for (std::size_t i = 0; i < loaded.instances.size(); ++i) {
+        const SpriteInstance& instance = loaded.instances[i];
+        if (instance.door_role.empty()) continue;
+        const int32_t door_index = loaded.FindDoorIndex(instance.door);
+        if (door_index < 0) continue;
+        SceneDoor& door = loaded.doors[static_cast<std::size_t>(door_index)];
+        const std::string& leaf_name = instance.door_leaf;
+        if (leaf_name.empty()) {
+            SetError(error, "door instance has no leaf name: " + instance.path);
+            return false;
+        }
+        DoorLeafBinding* leaf = nullptr;
+        for (DoorLeafBinding& candidate : door.leaves) {
+            if (candidate.name == leaf_name) {
+                leaf = &candidate;
+                break;
+            }
+        }
+        if (leaf == nullptr) {
+            door.leaves.push_back(DoorLeafBinding{leaf_name, -1, -1, -1});
+            leaf = &door.leaves.back();
+        }
+        const int32_t index = static_cast<int32_t>(i);
+        if (instance.door_role == "leaf") {
+            leaf->leaf_instance = index;
+        } else if (instance.door_role == "shadow") {
+            leaf->shadow_instance = index;
+        } else {
+            leaf->ornament_instance = index;
+        }
+    }
+
+    for (const SceneDoor& door : loaded.doors) {
+        for (const DoorAnimationClip* clip : {&door.open_animation,
+                                              &door.close_animation}) {
+            for (const DoorSpriteKey& key : clip->leaf_sprites) {
+                if (sprite_ids.find(key.sprite_id) == sprite_ids.end()) {
+                    SetError(error, "door animation references unknown sprite: " +
+                                    key.sprite_id);
+                    return false;
+                }
             }
         }
     }

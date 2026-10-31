@@ -1,6 +1,7 @@
 // Soul Knight Linux — native scene data
 #pragma once
 
+#include "DoorAnimation.hpp"
 #include "SpriteData.hpp"
 #include "TextureData.hpp"
 #include "engine/animation/AnimationClip.hpp"
@@ -34,6 +35,8 @@ struct SpriteInstance {
     int32_t sorting_order = 0;
     std::string path; // source hierarchy path, evidence only
     std::string door; // optional recovered door side this leaf belongs to
+    std::string door_role; // leaf / shadow / ornament
+    std::string door_leaf; // d1..d5 for door-only instances
 };
 
 struct CollisionBox {
@@ -53,6 +56,13 @@ enum class DoorOneWayBlock {
     NegativeY,
 };
 
+struct DoorLeafBinding {
+    std::string name; // d1..d5
+    int32_t leaf_instance = -1;
+    int32_t shadow_instance = -1;
+    int32_t ornament_instance = -1;
+};
+
 struct SceneDoor {
     std::string id;      // north/south/east/west
     std::string aisle;   // aisle_n/aisle_s/aisle_e/aisle_w
@@ -65,6 +75,17 @@ struct SceneDoor {
     DoorOneWayBlock one_way_block = DoorOneWayBlock::None;
     bool enabled = false;
     bool open = false;
+
+    // Recovered Animator clips and scene instance bindings. The door root and
+    // leaf roots stay static; animation only changes the leaf sprite, ornament
+    // local y, renderer visibility and collision timing.
+    DoorAnimationClip open_animation;
+    DoorAnimationClip close_animation;
+    std::vector<DoorLeafBinding> leaves;
+
+    bool HasAnimation() const {
+        return open_animation.IsValid() || close_animation.IsValid();
+    }
 };
 
 struct SceneCamera {
@@ -85,6 +106,7 @@ struct SceneAsset {
     Rect collision_bounds{0.0f, 0.0f, 0.0f, 0.0f};
     Rect interior_bounds{0.0f, 0.0f, 0.0f, 0.0f};
     std::vector<CollisionBox> collision_solids;
+    std::vector<CollisionBox> obstacle_solids;
     std::vector<SceneDoor> doors;
     bool has_room_topology = false;
 

@@ -13,8 +13,10 @@
 #include "engine/locomotion/PlayerLocomotion.hpp"
 #include "engine/assets/TextureData.hpp"
 #include "engine/rendering/Camera2D.hpp"
+#include "engine/rendering/PlayerRenderSync.hpp"
 #include "engine/rendering/SpriteBatch.hpp"
 #include "engine/rendering/SpriteRenderer.hpp"
+#include "game/room/RoomDoorController.hpp"
 
 #include <memory>
 #include <string>
@@ -54,6 +56,7 @@ private:
     void BuildSyntheticBatch();
     void RebuildCollisionWorld();
     void ToggleAllDoors();
+    void CloseAllDoors();
     void UpdateDoorTriggers();
     bool SmokeTestExpired() const;
 
@@ -68,7 +71,8 @@ private:
     engine::animation::LocomotionAnimator locomotion_animator_;
     engine::locomotion::PlayerLocomotion player_;
     engine::collision::AabbCollisionWorld collision_world_;
-    std::vector<bool> door_open_;
+    engine::rendering::PlayerRenderBinding player_render_;
+    soulknight::game::room::RoomDoorController room_doors_;
     std::vector<bool> door_trigger_inside_;
     platform::InputManager input_manager_;
     platform::MovementInput movement_input_;

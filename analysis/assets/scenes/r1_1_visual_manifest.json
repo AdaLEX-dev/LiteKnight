@@ -19,7 +19,7 @@
     "orthographic_size": 10.5,
     "position": [
       20.0,
-      20.0
+      15.0
     ],
     "viewport": [
       1920.0,
@@ -34,7 +34,7 @@
       41.0
     ],
     "bounds_classification": "NATIVE TEST BOUNDARY: outer edge of the confirmed 41-unit MapManagerLevel room cell; the surrounding procedural map is outside this reconstruction",
-    "classification": "CONFIRMED CreateWall wall cells, wall-prefab collider, generated-wall runtime layer 17 (Edge), door/trigger colliders; NATIVE TEST entrance/door state and map-cell boundary",
+    "classification": "CONFIRMED CreateWall wall cells, wall-prefab collider, generated-wall runtime layer 17 (Edge), door/trigger colliders, RGObjectSkin -> obstacle_list replacement and obstacle prefab colliders; NATIVE TEST entrance/door state and map-cell boundary",
     "doors": [
       {
         "aisle": "aisle_n",
@@ -45,6 +45,75 @@
           29.0
         ],
         "classification": "CONFIRMED serialized collider/trigger geometry; NATIVE TEST CONFIGURATION open state",
+        "close_animation": {
+          "collider_size_x": [],
+          "collider_size_y": [
+            [
+              0.0,
+              1.0
+            ]
+          ],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "duration": 0.1666666716337204,
+          "id": "door_close2",
+          "leaf_extent": [
+            [
+              0.0,
+              0.10000000149011612
+            ],
+            [
+              0.1666666716337204,
+              1.0
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "door03_3155575047523445495"
+            ],
+            [
+              0.03333333507180214,
+              "door02_-6196740020252790978"
+            ]
+          ],
+          "loop": false,
+          "ornament_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333333507180214,
+              1.0
+            ]
+          ],
+          "sample_rate": 30.0,
+          "shadow_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333333507180214,
+              1.0
+            ]
+          ],
+          "source": {
+            "binding_count": 22,
+            "clip_name": "door_close2",
+            "clip_path_id": "-7639774055282102575",
+            "clip_start_time": 0.0,
+            "clip_stop_time": 0.1666666716337204,
+            "loop_time": false,
+            "sample_rate": 30.0,
+            "streamed_frame_count": 5
+          }
+        },
         "direction": 3,
         "door_behaviour": "-2419543365132411998",
         "door_path": "-7004038979866159705",
@@ -53,6 +122,74 @@
         "id": "north",
         "one_way_block": "positive_y",
         "open": true,
+        "open_animation": {
+          "collider_size_x": [],
+          "collider_size_y": [],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.13333334028720856,
+              1.0
+            ]
+          ],
+          "duration": 0.20000000298023224,
+          "id": "door_open",
+          "leaf_extent": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334028720856,
+              0.10000000149011612
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "door02_-6196740020252790978"
+            ],
+            [
+              0.1666666716337204,
+              "door03_3155575047523445495"
+            ]
+          ],
+          "loop": false,
+          "ornament_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.1666666716337204,
+              0.0
+            ]
+          ],
+          "sample_rate": 30.0,
+          "shadow_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334028720856,
+              0.0
+            ]
+          ],
+          "source": {
+            "binding_count": 21,
+            "clip_name": "door_open",
+            "clip_path_id": "-9037741993399402651",
+            "clip_start_time": 0.0,
+            "clip_stop_time": 0.20000000298023224,
+            "loop_time": false,
+            "sample_rate": 30.0,
+            "streamed_frame_count": 5
+          }
+        },
         "position": [
           20.0,
           28.0
@@ -75,6 +212,75 @@
           13.0
         ],
         "classification": "CONFIRMED serialized collider/trigger geometry; NATIVE TEST CONFIGURATION open state",
+        "close_animation": {
+          "collider_size_x": [],
+          "collider_size_y": [
+            [
+              0.0,
+              1.0
+            ]
+          ],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "duration": 0.1666666716337204,
+          "id": "door_close2",
+          "leaf_extent": [
+            [
+              0.0,
+              0.10000000149011612
+            ],
+            [
+              0.1666666716337204,
+              1.0
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "door03_3155575047523445495"
+            ],
+            [
+              0.03333333507180214,
+              "door02_-6196740020252790978"
+            ]
+          ],
+          "loop": false,
+          "ornament_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333333507180214,
+              1.0
+            ]
+          ],
+          "sample_rate": 30.0,
+          "shadow_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333333507180214,
+              1.0
+            ]
+          ],
+          "source": {
+            "binding_count": 22,
+            "clip_name": "door_close2",
+            "clip_path_id": "-7639774055282102575",
+            "clip_start_time": 0.0,
+            "clip_stop_time": 0.1666666716337204,
+            "loop_time": false,
+            "sample_rate": 30.0,
+            "streamed_frame_count": 5
+          }
+        },
         "direction": 1,
         "door_behaviour": "-1641236803404413679",
         "door_path": "6745575534016544133",
@@ -83,6 +289,74 @@
         "id": "south",
         "one_way_block": "negative_y",
         "open": true,
+        "open_animation": {
+          "collider_size_x": [],
+          "collider_size_y": [],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.13333334028720856,
+              1.0
+            ]
+          ],
+          "duration": 0.20000000298023224,
+          "id": "door_open",
+          "leaf_extent": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334028720856,
+              0.10000000149011612
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "door02_-6196740020252790978"
+            ],
+            [
+              0.1666666716337204,
+              "door03_3155575047523445495"
+            ]
+          ],
+          "loop": false,
+          "ornament_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.1666666716337204,
+              0.0
+            ]
+          ],
+          "sample_rate": 30.0,
+          "shadow_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334028720856,
+              0.0
+            ]
+          ],
+          "source": {
+            "binding_count": 21,
+            "clip_name": "door_open",
+            "clip_path_id": "-9037741993399402651",
+            "clip_start_time": 0.0,
+            "clip_stop_time": 0.20000000298023224,
+            "loop_time": false,
+            "sample_rate": 30.0,
+            "streamed_frame_count": 5
+          }
+        },
         "position": [
           20.0,
           12.0
@@ -105,6 +379,79 @@
           23.0
         ],
         "classification": "CONFIRMED serialized collider/trigger geometry; NATIVE TEST CONFIGURATION open state",
+        "close_animation": {
+          "collider_size_x": [
+            [
+              0.0,
+              0.20000000298023224
+            ],
+            [
+              0.1666666716337204,
+              1.0
+            ]
+          ],
+          "collider_size_y": [],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "duration": 0.1666666716337204,
+          "id": "door_close",
+          "leaf_extent": [
+            [
+              0.0,
+              0.10000000149011612
+            ],
+            [
+              0.1666666716337204,
+              1.0
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "door03_3155575047523445495"
+            ],
+            [
+              0.03333333507180214,
+              "door02_-6196740020252790978"
+            ]
+          ],
+          "loop": false,
+          "ornament_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333333507180214,
+              1.0
+            ]
+          ],
+          "sample_rate": 30.0,
+          "shadow_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333333507180214,
+              1.0
+            ]
+          ],
+          "source": {
+            "binding_count": 22,
+            "clip_name": "door_close",
+            "clip_path_id": "7184353644584242624",
+            "clip_start_time": 0.0,
+            "clip_stop_time": 0.1666666716337204,
+            "loop_time": false,
+            "sample_rate": 30.0,
+            "streamed_frame_count": 5
+          }
+        },
         "direction": 0,
         "door_behaviour": "8114088698945216285",
         "door_path": "-2170177141768453367",
@@ -113,6 +460,74 @@
         "id": "east",
         "one_way_block": "positive_x",
         "open": true,
+        "open_animation": {
+          "collider_size_x": [],
+          "collider_size_y": [],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.13333334028720856,
+              1.0
+            ]
+          ],
+          "duration": 0.20000000298023224,
+          "id": "door_open",
+          "leaf_extent": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334028720856,
+              0.10000000149011612
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "door02_-6196740020252790978"
+            ],
+            [
+              0.1666666716337204,
+              "door03_3155575047523445495"
+            ]
+          ],
+          "loop": false,
+          "ornament_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.1666666716337204,
+              0.0
+            ]
+          ],
+          "sample_rate": 30.0,
+          "shadow_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334028720856,
+              0.0
+            ]
+          ],
+          "source": {
+            "binding_count": 21,
+            "clip_name": "door_open",
+            "clip_path_id": "-9037741993399402651",
+            "clip_start_time": 0.0,
+            "clip_stop_time": 0.20000000298023224,
+            "loop_time": false,
+            "sample_rate": 30.0,
+            "streamed_frame_count": 5
+          }
+        },
         "position": [
           28.0,
           20.0
@@ -135,6 +550,79 @@
           23.0
         ],
         "classification": "CONFIRMED serialized collider/trigger geometry; NATIVE TEST CONFIGURATION open state",
+        "close_animation": {
+          "collider_size_x": [
+            [
+              0.0,
+              0.20000000298023224
+            ],
+            [
+              0.1666666716337204,
+              1.0
+            ]
+          ],
+          "collider_size_y": [],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ]
+          ],
+          "duration": 0.1666666716337204,
+          "id": "door_close",
+          "leaf_extent": [
+            [
+              0.0,
+              0.10000000149011612
+            ],
+            [
+              0.1666666716337204,
+              1.0
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "door03_3155575047523445495"
+            ],
+            [
+              0.03333333507180214,
+              "door02_-6196740020252790978"
+            ]
+          ],
+          "loop": false,
+          "ornament_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333333507180214,
+              1.0
+            ]
+          ],
+          "sample_rate": 30.0,
+          "shadow_visible": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.03333333507180214,
+              1.0
+            ]
+          ],
+          "source": {
+            "binding_count": 22,
+            "clip_name": "door_close",
+            "clip_path_id": "7184353644584242624",
+            "clip_start_time": 0.0,
+            "clip_stop_time": 0.1666666716337204,
+            "loop_time": false,
+            "sample_rate": 30.0,
+            "streamed_frame_count": 5
+          }
+        },
         "direction": 2,
         "door_behaviour": "7656297055103991887",
         "door_path": "-3118800413403885553",
@@ -143,6 +631,74 @@
         "id": "west",
         "one_way_block": "negative_x",
         "open": true,
+        "open_animation": {
+          "collider_size_x": [],
+          "collider_size_y": [],
+          "collider_trigger": [
+            [
+              0.0,
+              0.0
+            ],
+            [
+              0.13333334028720856,
+              1.0
+            ]
+          ],
+          "duration": 0.20000000298023224,
+          "id": "door_open",
+          "leaf_extent": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334028720856,
+              0.10000000149011612
+            ]
+          ],
+          "leaf_sprites": [
+            [
+              0.0,
+              "door02_-6196740020252790978"
+            ],
+            [
+              0.1666666716337204,
+              "door03_3155575047523445495"
+            ]
+          ],
+          "loop": false,
+          "ornament_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.1666666716337204,
+              0.0
+            ]
+          ],
+          "sample_rate": 30.0,
+          "shadow_visible": [
+            [
+              0.0,
+              1.0
+            ],
+            [
+              0.13333334028720856,
+              0.0
+            ]
+          ],
+          "source": {
+            "binding_count": 21,
+            "clip_name": "door_open",
+            "clip_path_id": "-9037741993399402651",
+            "clip_start_time": 0.0,
+            "clip_stop_time": 0.20000000298023224,
+            "loop_time": false,
+            "sample_rate": 30.0,
+            "streamed_frame_count": 5
+          }
+        },
         "position": [
           12.0,
           20.0
@@ -162,6 +718,303 @@
       13.0,
       15.0,
       15.0
+    ],
+    "obstacle_solid_count": 49,
+    "obstacle_solids": [
+      [
+        19.5,
+        20.0,
+        20.5,
+        21.0
+      ],
+      [
+        18.5,
+        20.0,
+        19.5,
+        21.0
+      ],
+      [
+        17.5,
+        20.0,
+        18.5,
+        21.0
+      ],
+      [
+        16.5,
+        20.0,
+        17.5,
+        21.0
+      ],
+      [
+        20.5,
+        20.0,
+        21.5,
+        21.0
+      ],
+      [
+        21.5,
+        20.0,
+        22.5,
+        21.0
+      ],
+      [
+        22.5,
+        20.0,
+        23.5,
+        21.0
+      ],
+      [
+        22.5,
+        21.0,
+        23.5,
+        22.0
+      ],
+      [
+        21.5,
+        21.0,
+        22.5,
+        22.0
+      ],
+      [
+        20.5,
+        21.0,
+        21.5,
+        22.0
+      ],
+      [
+        16.5,
+        21.0,
+        17.5,
+        22.0
+      ],
+      [
+        17.5,
+        21.0,
+        18.5,
+        22.0
+      ],
+      [
+        18.5,
+        21.0,
+        19.5,
+        22.0
+      ],
+      [
+        19.5,
+        21.0,
+        20.5,
+        22.0
+      ],
+      [
+        19.5,
+        23.0,
+        20.5,
+        24.0
+      ],
+      [
+        18.5,
+        23.0,
+        19.5,
+        24.0
+      ],
+      [
+        17.5,
+        23.0,
+        18.5,
+        24.0
+      ],
+      [
+        16.5,
+        23.0,
+        17.5,
+        24.0
+      ],
+      [
+        20.5,
+        23.0,
+        21.5,
+        24.0
+      ],
+      [
+        21.5,
+        23.0,
+        22.5,
+        24.0
+      ],
+      [
+        22.5,
+        23.0,
+        23.5,
+        24.0
+      ],
+      [
+        22.5,
+        22.0,
+        23.5,
+        23.0
+      ],
+      [
+        21.5,
+        22.0,
+        22.5,
+        23.0
+      ],
+      [
+        20.5,
+        22.0,
+        21.5,
+        23.0
+      ],
+      [
+        16.5,
+        22.0,
+        17.5,
+        23.0
+      ],
+      [
+        17.5,
+        22.0,
+        18.5,
+        23.0
+      ],
+      [
+        18.5,
+        22.0,
+        19.5,
+        23.0
+      ],
+      [
+        19.5,
+        22.0,
+        20.5,
+        23.0
+      ],
+      [
+        19.5,
+        18.0,
+        20.5,
+        19.0
+      ],
+      [
+        18.5,
+        18.0,
+        19.5,
+        19.0
+      ],
+      [
+        17.5,
+        18.0,
+        18.5,
+        19.0
+      ],
+      [
+        16.5,
+        18.0,
+        17.5,
+        19.0
+      ],
+      [
+        20.5,
+        18.0,
+        21.5,
+        19.0
+      ],
+      [
+        21.5,
+        18.0,
+        22.5,
+        19.0
+      ],
+      [
+        22.5,
+        18.0,
+        23.5,
+        19.0
+      ],
+      [
+        22.5,
+        19.0,
+        23.5,
+        20.0
+      ],
+      [
+        21.5,
+        19.0,
+        22.5,
+        20.0
+      ],
+      [
+        20.5,
+        19.0,
+        21.5,
+        20.0
+      ],
+      [
+        16.5,
+        19.0,
+        17.5,
+        20.0
+      ],
+      [
+        17.5,
+        19.0,
+        18.5,
+        20.0
+      ],
+      [
+        18.5,
+        19.0,
+        19.5,
+        20.0
+      ],
+      [
+        19.5,
+        19.0,
+        20.5,
+        20.0
+      ],
+      [
+        19.5,
+        17.0,
+        20.5,
+        18.0
+      ],
+      [
+        18.5,
+        17.0,
+        19.5,
+        18.0
+      ],
+      [
+        17.5,
+        17.0,
+        18.5,
+        18.0
+      ],
+      [
+        16.5,
+        17.0,
+        17.5,
+        18.0
+      ],
+      [
+        20.5,
+        17.0,
+        21.5,
+        18.0
+      ],
+      [
+        21.5,
+        17.0,
+        22.5,
+        18.0
+      ],
+      [
+        22.5,
+        17.0,
+        23.5,
+        18.0
+      ]
     ],
     "solid_count": 140,
     "solids": [
@@ -1018,10 +1871,11 @@
     }
   },
   "converter_version": "1.0.0",
-  "instance_count": 531,
+  "door_animation_keyframe_count": 82,
+  "instance_count": 629,
   "manifest_version": 1,
-  "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry and c00 idle/run clips; no proprietary pixels committed.",
-  "scene_json_sha256": "e7721abf2d90121cb0165c6f0cd1363b8f723c7574d3b09ca9a5780033b1e1d0",
+  "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, RGObjectSkin -> wall603 obstacle replacement, and c00 idle/run clips; no proprietary pixels committed.",
+  "scene_json_sha256": "a56c2bac853aeb245c03bd721156f195e0546e06d9ee469672c06a51a3d4bc03",
   "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -1033,9 +1887,9 @@
   },
   "spawn": [
     20.0,
-    20.0
+    15.0
   ],
-  "sprite_count": 15,
+  "sprite_count": 17,
   "textures": [
     {
       "filter": "point",
@@ -1078,6 +1932,22 @@
       "source_path_id": "3188784419113904678",
       "width": 32,
       "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
+      "height": 512,
+      "id": "object_level_atlas",
+      "png": "textures/object_level_atlas.png",
+      "png_sha256": "02893b6617d36a37d51e6bbe930e73c0bdf604877f87b9d76d4989d8fa2ea22f",
+      "rgba8_sha256": "6b5498e376b470348d1e2f550e2091172911ac07a2aeb86d4dc4b7f2e7896ff2",
+      "source_bundle": "level-common",
+      "source_cab": "CAB-99deb5b3a04b77a7d3b9552fcee7ef71",
+      "source_name": "SpriteAtlasTexture-object_level (Group 1)-512x512-fmt13",
+      "source_path_id": "8607965889740011037",
+      "width": 512,
+      "wrap": "clamp"
     }
   ],
   "tool": "tools/asset/build_visual_scene.py",
@@ -1085,10 +1955,11 @@
     "aisle_cell_count": 240,
     "corridor_wall_cell_count": 96,
     "floor_cell_count": 225,
+    "obstacle_solid_count": 49,
     "opening_count": 4,
     "wall_cell_count": 44,
     "wall_map_json": "analysis/re/r1_1_wall_map.json",
-    "wall_map_sha256": "10d5b9e5710f532c1006fdb06cdb5f91655db78b39503c878a0c3ac48ad252f9",
+    "wall_map_sha256": "1d7d10c84bfdad1855910513703176b91f895a47dd189c932387d30c8cf1e8da",
     "wall_map_txt": "analysis/re/r1_1_wall_map.txt"
   },
   "unitypy_version": "1.25.4"

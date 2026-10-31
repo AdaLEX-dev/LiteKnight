@@ -119,6 +119,8 @@ bool Application::Initialize() {
     locomotion_animator_ = {};
     player_ = {};
     collision_world_ = {};
+    player_render_ = {};
+    room_doors_ = {};
     movement_input_ = {};
     scene_ = {};
     last_animation_sprite_.clear();
@@ -165,23 +167,47 @@ bool Application::Initialize() {
         }
         locomotion_animator_.Configure(idle_clip, run_clip);
         player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
-        door_open_.clear();
-        door_trigger_inside_.clear();
-        for (const engine::assets::SceneDoor& door : scene_.doors) {
-            door_open_.push_back(door.open);
-            door_trigger_inside_.push_back(false);
+        player_render_ = engine::rendering::BindPlayerRenderInstances(scene_);
+        if (!player_render_.IsValid()) {
+            LOG_FATAL_APP("Recovered player body/shadow render instances are missing");
+            return false;
         }
+        LOG_INFO_APP("Player render binding: body instance {}, shadow instance {}, "
+                     "shadow offset ({:.3f},{:.3f})",
+                     player_render_.body_instance, player_render_.shadow_instance,
+                     player_render_.shadow_offset.x,
+                     player_render_.shadow_offset.y);
+        std::string door_error;
+        if (!room_doors_.Configure(scene_, &door_error)) {
+            LOG_FATAL_APP("Room door configuration failed: {}", door_error);
+            return false;
+        }
+        door_trigger_inside_.assign(room_doors_.Count(), false);
         RebuildCollisionWorld();
+        LOG_INFO_APP("Doors: {} recovered (open/close clips), initial target {}",
+                     room_doors_.Count(),
+                     room_doors_.TargetOpen() ? "open" : "closed");
+        for (std::size_t i = 0; i < room_doors_.Count(); ++i) {
+            const soulknight::game::room::Door& door = room_doors_.At(i);
+            LOG_INFO_APP("  door {}: aisle={} barrier=[{:.2f},{:.2f}]..[{:.2f},{:.2f}] "
+                         "open={}s close={}s state={}",
+                         door.Data().id, door.Data().aisle,
+                         door.Data().barrier.min.x, door.Data().barrier.min.y,
+                         door.Data().barrier.max.x, door.Data().barrier.max.y,
+                         door.Data().open_animation.duration,
+                         door.Data().close_animation.duration,
+                         soulknight::game::room::DoorStateName(door.State()));
+        }
         LOG_INFO_APP("Locomotion: spawn ({:.2f},{:.2f}), effective speed {:.2f}, idle={}, run={}",
                      scene_.spawn.x, scene_.spawn.y, player_.Config().EffectiveSpeed(),
                      idle_clip != nullptr ? "yes" : "no",
                      run_clip != nullptr ? "yes" : "no");
         LOG_INFO_APP("Collision: bounds [{:.2f},{:.2f}]..[{:.2f},{:.2f}], "
-                     "recovered solids={}, doors={}, topology={}",
+                     "recovered solids={}, obstacles={}, doors={}, topology={}",
                      collision_world_.Bounds().min.x, collision_world_.Bounds().min.y,
                      collision_world_.Bounds().max.x, collision_world_.Bounds().max.y,
-                     scene_.collision_solids.size(), scene_.doors.size(),
-                     BooleanText(scene_.has_room_topology));
+                     scene_.collision_solids.size(), scene_.obstacle_solids.size(),
+                     scene_.doors.size(), BooleanText(scene_.has_room_topology));
         if (scene_.interior_bounds.w > 0.0f && scene_.interior_bounds.h > 0.0f) {
             LOG_INFO_APP("Room interior: [{:.2f},{:.2f}]..[{:.2f},{:.2f}]",
                          scene_.interior_bounds.x, scene_.interior_bounds.y,
@@ -297,21 +323,46 @@ void Application::BuildRenderBatch() {
         animation_logs_remaining_ = 8;
     }
 
-    for (const engine::assets::SpriteInstance& instance : scene_.instances) {
+    for (std::size_t scene_index = 0; scene_index < scene_.instances.size();
+         ++scene_index) {
+        const engine::assets::SpriteInstance& instance =
+            scene_.instances[scene_index];
         if (instance.sprite_index >= scene_.sprites.size()) continue;
+        const int32_t instance_index = static_cast<int32_t>(scene_index);
+        soulknight::game::room::DoorVisualState door_visuals;
+        bool door_visual_override = false;
         if (!instance.door.empty()) {
             const int32_t door_index = scene_.FindDoorIndex(instance.door);
-            if (door_index >= 0) {
-                const engine::assets::SceneDoor& door =
-                    scene_.doors[static_cast<std::size_t>(door_index)];
-                const bool is_open =
-                    static_cast<std::size_t>(door_index) < door_open_.size() &&
-                    door_open_[static_cast<std::size_t>(door_index)];
-                if (!door.enabled || is_open) continue;
+            if (door_index >= 0 &&
+                static_cast<std::size_t>(door_index) < room_doors_.Count()) {
+                const soulknight::game::room::Door& door =
+                    room_doors_.At(static_cast<std::size_t>(door_index));
+                if (!door.IsEnabled()) continue;
+                door_visuals = door.Visuals();
+                door_visual_override = true;
+                if (instance.door_role == "shadow" &&
+                    !door_visuals.shadow_visible) {
+                    continue;
+                }
+                if (instance.door_role == "ornament" &&
+                    !door_visuals.ornament_visible) {
+                    continue;
+                }
+            } else {
+                continue;
             }
         }
         const engine::assets::SpriteData* sprite =
             &scene_.sprites[instance.sprite_index];
+        if (door_visual_override && instance.door_role == "leaf" &&
+            !door_visuals.leaf_sprite_id.empty()) {
+            const int32_t animated_index =
+                scene_.FindSpriteIndex(door_visuals.leaf_sprite_id);
+            if (animated_index >= 0 &&
+                static_cast<std::size_t>(animated_index) < scene_.sprites.size()) {
+                sprite = &scene_.sprites[static_cast<std::size_t>(animated_index)];
+            }
+        }
         if (locomotion_animator_.IsPlaying()) {
             const engine::animation::SpriteKeyframe* key =
                 locomotion_animator_.Evaluate(instance.path);
@@ -334,7 +385,13 @@ void Application::BuildRenderBatch() {
             }
         }
         engine::rendering::SpriteDraw draw;
-        draw.position = instance.position;
+        draw.position = engine::rendering::ResolvePlayerRenderPosition(
+            scene_, player_render_, instance_index, player_.Position());
+        if (door_visual_override && instance.door_role == "ornament") {
+            // The ornament instance is authored at leaf + (0,1). The clip
+            // animates the child's local y between 0.1 and 1.
+            draw.position.y += door_visuals.ornament_extent - 1.0f;
+        }
         draw.size = engine::Vec2{
             sprite->WorldSize().x * instance.scale.x,
             sprite->WorldSize().y * instance.scale.y
@@ -400,6 +457,12 @@ void Application::PollEvents() {
             ToggleAllDoors();
         }
 
+        if (event.type == SDL_EVENT_KEY_DOWN &&
+            event.key.scancode == SDL_SCANCODE_C && !event.key.repeat &&
+            scene_mode_ && !scene_.doors.empty()) {
+            CloseAllDoors();
+        }
+
         window_.HandleEvent(event);
         input_manager_.ProcessEvent(event);
 
@@ -447,30 +510,10 @@ void Application::RebuildCollisionWorld() {
         for (const engine::assets::CollisionBox& solid : scene_.collision_solids) {
             collision_world_.AddSolid(ToAabb(solid));
         }
-        for (std::size_t i = 0; i < scene_.doors.size(); ++i) {
-            const engine::assets::SceneDoor& door = scene_.doors[i];
-            if (!door.enabled || i >= door_open_.size() || door_open_[i]) continue;
-            const auto direction = [&door]() {
-                switch (door.one_way_block) {
-                    case engine::assets::DoorOneWayBlock::PositiveX:
-                        return engine::collision::OneWayDirection::PositiveX;
-                    case engine::assets::DoorOneWayBlock::NegativeX:
-                        return engine::collision::OneWayDirection::NegativeX;
-                    case engine::assets::DoorOneWayBlock::PositiveY:
-                        return engine::collision::OneWayDirection::PositiveY;
-                    case engine::assets::DoorOneWayBlock::NegativeY:
-                        return engine::collision::OneWayDirection::NegativeY;
-                    case engine::assets::DoorOneWayBlock::None:
-                        break;
-                }
-                return engine::collision::OneWayDirection::PositiveX;
-            }();
-            if (door.one_way_block == engine::assets::DoorOneWayBlock::None) {
-                collision_world_.AddSolid(ToAabb(door.barrier));
-            } else {
-                collision_world_.AddOneWaySolid(ToAabb(door.barrier), direction);
-            }
+        for (const engine::assets::CollisionBox& solid : scene_.obstacle_solids) {
+            collision_world_.AddSolid(ToAabb(solid));
         }
+        room_doors_.AddColliders(collision_world_);
         return;
     }
 
@@ -486,18 +529,35 @@ void Application::RebuildCollisionWorld() {
 }
 
 void Application::ToggleAllDoors() {
-    if (door_open_.empty()) return;
-    const bool target = !door_open_.front();
-    for (auto&& open : door_open_) open = target;
+    if (room_doors_.Count() == 0) return;
+    room_doors_.ToggleAll();
     RebuildCollisionWorld();
-    int closed_barriers = 0;
-    for (std::size_t i = 0; i < scene_.doors.size() && i < door_open_.size(); ++i) {
-        if (scene_.doors[i].enabled && !door_open_[i]) ++closed_barriers;
+    const bool target = room_doors_.TargetOpen();
+    LOG_INFO_APP("Door lifecycle: {} (animation started, {} doors)",
+                 target ? "OpenDoor()" : "CloseDoor()", room_doors_.Count());
+    for (std::size_t i = 0; i < room_doors_.Count(); ++i) {
+        const soulknight::game::room::Door& door = room_doors_.At(i);
+        LOG_INFO_APP("  door {}: state={} blocking={} t={:.3f}/{:.3f}",
+                     door.Data().id,
+                     soulknight::game::room::DoorStateName(door.State()),
+                     BooleanText(door.IsBlocking()), door.AnimationTime(),
+                     door.Data().close_animation.duration);
     }
-    LOG_INFO_APP("Door state: all recovered doors {}; closed barriers={}",
-                 target ? "open (passable, leaves hidden)" :
-                          "closed (solid, leaves visible)",
-                 closed_barriers);
+}
+
+void Application::CloseAllDoors() {
+    if (room_doors_.Count() == 0) return;
+    room_doors_.CloseAll();
+    RebuildCollisionWorld();
+    LOG_INFO_APP("Door lifecycle: CloseDoor() for {} doors", room_doors_.Count());
+    for (std::size_t i = 0; i < room_doors_.Count(); ++i) {
+        const soulknight::game::room::Door& door = room_doors_.At(i);
+        LOG_INFO_APP("  door {}: state={} blocking={} t={:.3f}/{:.3f}",
+                     door.Data().id,
+                     soulknight::game::room::DoorStateName(door.State()),
+                     BooleanText(door.IsBlocking()), door.AnimationTime(),
+                     door.Data().close_animation.duration);
+    }
 }
 
 void Application::UpdateDoorTriggers() {
@@ -518,14 +578,16 @@ void Application::UpdateDoorTriggers() {
         if (inside != was_inside) {
             door_trigger_inside_[i] = inside;
             if (config_.locomotion_debug) {
-                LOG_INFO_APP("Door trigger {}: {} aisle={} open={} "
-                             "active={} probe=({:.3f},{:.3f})",
+                const soulknight::game::room::Door& state =
+                    room_doors_.At(i);
+                LOG_INFO_APP("Door trigger {}: {} aisle={} state={} "
+                             "blocking={} probe=({:.3f},{:.3f})",
                              door.id,
                              inside ? "enter" : "exit",
                              door.aisle,
-                             BooleanText(i < door_open_.size() && door_open_[i]),
-                             BooleanText(door.enabled && i < door_open_.size() &&
-                                         door_open_[i]),
+                             soulknight::game::room::DoorStateName(
+                                 state.State()),
+                             BooleanText(state.IsBlocking()),
                              probe.x, probe.y);
             }
         }
@@ -538,6 +600,21 @@ void Application::FixedUpdate(double dt) {
 
     if (!scene_mode_) return;
 
+    if (room_doors_.Update(static_cast<float>(dt))) {
+        RebuildCollisionWorld();
+        if (config_.locomotion_debug) {
+            for (std::size_t i = 0; i < room_doors_.Count(); ++i) {
+                const soulknight::game::room::Door& door = room_doors_.At(i);
+                LOG_INFO_APP("Door {}: state={} blocking={} t={:.3f}",
+                             door.Data().id,
+                             soulknight::game::room::DoorStateName(
+                                 door.State()),
+                             BooleanText(door.IsBlocking()),
+                             door.AnimationTime());
+            }
+        }
+    }
+
     player_.FixedUpdate(movement_input_.direction, movement_input_.weight,
                         static_cast<float>(dt), collision_world_);
     locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
@@ -548,16 +625,27 @@ void Application::FixedUpdate(double dt) {
         const engine::animation::SpriteKeyframe* frame =
             locomotion_animator_.Evaluate("c00/img/body");
         const auto& collision = player_.LastCollision();
+        const engine::Vec2 body = engine::rendering::ResolvePlayerRenderPosition(
+            scene_, player_render_, player_render_.body_instance,
+            player_.Position());
+        const engine::Vec2 shadow = engine::rendering::ResolvePlayerRenderPosition(
+            scene_, player_render_, player_render_.shadow_instance,
+            player_.Position());
         LOG_INFO_APP(
-            "locomotion: pos=({:.3f},{:.3f}) input=({:.2f},{:.2f}) "
-            "vel=({:.3f},{:.3f}) state={} frame={} blocked=({},{}) camera=({:.3f},{:.3f})",
+            "locomotion: sim=({:.3f},{:.3f}) render=({:.3f},{:.3f}) "
+            "body=({:.3f},{:.3f}) shadow=({:.3f},{:.3f}) camera=({:.3f},{:.3f}) "
+            "input=({:.2f},{:.2f}) vel=({:.3f},{:.3f}) state={} frame={} "
+            "blocked=({},{})",
             player_.Position().x, player_.Position().y,
+            body.x, body.y,
+            body.x, body.y,
+            shadow.x, shadow.y,
+            camera_.position.x, camera_.position.y,
             movement_input_.direction.x, movement_input_.direction.y,
             player_.Velocity().x, player_.Velocity().y,
             engine::animation::LocomotionStateName(locomotion_animator_.State()),
             frame != nullptr ? frame->sprite_id : "none",
-            BooleanText(collision.blocked_x), BooleanText(collision.blocked_y),
-            camera_.position.x, camera_.position.y);
+            BooleanText(collision.blocked_x), BooleanText(collision.blocked_y));
     }
 }
 

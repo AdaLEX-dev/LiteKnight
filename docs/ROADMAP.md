@@ -91,7 +91,10 @@
 | Controlled Unity Texture2D | `tools/asset/extract_unity.py`, `analysis/assets/texture_conversion_manifest.json` | ✅ One real asset converted, deterministic, native round-trip/render verified |
 | Unity Sprite metadata / PPU | `SpriteData`, `analysis/assets/sprites.md` | ✅ Rect/pivot/PPU/border/filter/wrap; rectangular tight-crop approximation |
 | 2D camera / coordinate system | `Camera2D`, `analysis/assets/coordinate_system.md` | ✅ Y-up world, PPU 16, aspect-fit; exact reference camera size unresolved |
-| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 531 instances (471 open-door draw batch), 15 sprite assets, 3 textures, rendered Wayland/Vulkan |
+| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 629 instances (589 open-door draw batch), 17 sprite assets, 4 textures, rendered Wayland/Vulkan |
+| Player simulation/render sync | `PlayerLocomotion`, `PlayerRenderSync`, `Application` | ✅ body follows sim exactly; shadow offset preserved; animation/camera cannot move player |
+| Door animation / collision lifecycle | `Door`, `RoomDoorController`, recovered Animator clips | ✅ open/close clips, four states, animation-synchronized blocking, all four orientations |
+| Obstacle replacement / wall visuals | `RGObjectSkin`, `obstacle_list`, `wall603` | ✅ 49 markers replaced; 140 wall + 49 obstacle collision cells match visible instances |
 | Sprite animation / Animator frames | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`, `analysis/assets/animation.md` | ✅ real `char_1_skin_0_ide` and `c00_run`; 4 frames each, 0.5 s loop; fixed-step native sampling |
 | Input-driven locomotion / idle-run transitions | `MovementInput`, `PlayerLocomotion`, `AabbCollision`, `Camera2D` | ✅ WASD, fixed 50 Hz, swept AABB, idle/run switching, camera follow |
 | Real room geometry / door traversal | `build_visual_scene.py`, `SceneLoader`, `AabbCollision`, `analysis/re/room_topology.md` | ✅ Recovered 44 wall cells + 96 corridor cells, four doors/triggers, one-way closed-door collision; open-door traversal verified |

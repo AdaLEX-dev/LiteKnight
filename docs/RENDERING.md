@@ -65,17 +65,18 @@ Unity Texture2D + Sprite metadata + shared atlas
   pixels-per-unit, border, filter, and wrap.
 - `SpriteInstance` stores world position, rotation, scale, color, flips, and
   Unity sorting layer/order.
-- `Camera2D` is orthographic, centered at (20,20) with half-height 10.5 for the
-  recovered room. The reference camera size is not recovered; this is a
-  **PROJECT DECISION**.
+- `Camera2D` is orthographic, starting at the native test spawn (20,15) with
+  half-height 10.5 for the recovered room. The reference camera size/spawn are
+  not recovered; this is a **PROJECT DECISION**.
 - The `Mat4` column-major multiplication bug that dropped camera translation was
   fixed; the projection maps world +Y up.
-- The `r1_1` scene has 531 instances across 3 textures and 15 sprite assets:
-  109 serialized room sprites, 420 recovered wall-cell sprites (140 wall cells ×
-  root/shadow/WallFont), 1 player body (four idle-frame sprites selected over
-  time), and 1 player shadow. The 60 serialized door-leaf sprites are tagged by
-  door side and hidden while their door is open; the initial all-open test state
-  draws 471 instances.
+- The `r1_1` scene has 629 instances across 4 textures and 17 sprite assets:
+  420 recovered wall-cell sprites (140 wall cells × root/shadow/WallFont), 147
+  `wall603` obstacle sprites (49 recovered `RGObjectSkin` replacements × 3), 60
+  animated door-leaf sprites (four doors × five leaf/shadow/ornament clusters),
+  1 player body (four idle-frame sprites selected over time), and 1 player shadow.
+  The initial all-open state draws 589 instances because the recovered open clip
+  hides 40 door shadow/ornament renderers.
 - The player uses the real `char_1_skin_0_ide` and `char_1_skin_0_run` clips:
   four discrete sprite keys each at `0`, `0.125`, `0.25`, `0.375 s`, looping at
   `0.5 s`. Movement presence selects run; zero movement selects idle.

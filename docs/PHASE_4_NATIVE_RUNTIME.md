@@ -34,7 +34,9 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | Controlled Unity Texture2D | FUNCTIONAL | `extract_unity.py convert-texture`, manifest, deterministic PNG/native round-trip |
 | Unity Sprite metadata / PPU | FUNCTIONAL | `SpriteData`, `analysis/assets/sprites.md`, tests |
 | Camera / world coordinates | FUNCTIONAL | `Camera2D`, `analysis/assets/coordinate_system.md`, tests |
-| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 531 instances (471 drawn open-door batch) |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 629 instances (589 drawn open-door batch) |
+| Player simulation/render sync | FUNCTIONAL / TESTED | `PlayerRenderSync`, `--locomotion-debug` sim/render/body/shadow/camera logs |
+| Door animation / obstacle replacement | FUNCTIONAL / MANUAL PASS | `Door`, `RoomDoorController`, recovered clips, 49 wall603 obstacles |
 | Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`; 4-key 0.5 s loops |
 | Movement / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, recovered wall/door AABBs, one-way closed doors, `Camera2D` follow |
 | Room topology / door traversal | FUNCTIONAL / MANUAL PASS | `analysis/re/room_topology.md`, `analysis/re/r1_1_wall_map.json`, `SceneLoader`, `AabbCollision` |
@@ -365,11 +367,12 @@ where evidence exists (damage → death → collider/weapon disable).
 - Instantiate visual sprites and collider descriptors from
   `analysis/re/r1_1_wall_map.json`; the current native scene does this.
 - Use the door/aisle descriptors as data-driven objects. The native test scene
-  opens all four sides as a clearly labelled configuration and supports a debug
-  `O` toggle for closed/open state.
+  opens all four sides as a clearly labelled configuration and supports debug
+  `O` toggle (`OpenDoor()`/`CloseDoor()`) and `C` close-all controls. Doors
+  replay the recovered 0.2 s opening / 0.1667 s closing clips.
 - Player spawn: `b_point` children populate `RGRoomX.floor_list`; the test scene
-  keeps an explicit native spawn marker until the generated-map spawn selection is
-  recovered.
+  uses explicit native spawn `(20,15)` on free floor because `(20,20)` lies
+  inside the recovered wall603 obstacle block.
 
 ---
 

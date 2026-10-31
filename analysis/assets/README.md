@@ -82,8 +82,8 @@ before writing the manifest.
 and the real `r1_1` + `c00` Unity objects to produce:
 
 - `analysis/assets/scenes/r1_1_visual.json` — native scene metadata (textures,
-  sprite rects/pivots/PPU, 531 instances, camera, recovered wall/door/aisle
-  collision topology), no pixels.
+  sprite rects/pivots/PPU, 629 instances, camera, recovered wall/door/aisle/
+  obstacle collision topology and door animation keyframes), no pixels.
 - `analysis/re/r1_1_wall_map.json` / `.txt` — machine-readable and ASCII recovered
   room topology.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — provenance and hashes.
@@ -107,7 +107,8 @@ The idle and run clips are combined by the native locomotion state switch.
 
 `analysis/assets/locomotion.md` records the recovered WASD/movement evidence,
 the native fixed-step input path, the `r1_1` 15x15 room reconstruction, the
-recovered 44 room wall cells + 96 corridor wall cells + four door barriers,
-closed-door one-way collision, idle/run switching, and native camera follow.
+recovered 44 room wall cells + 96 corridor wall cells + 49 wall603 obstacle
+cells + four animated door barriers, closed-door one-way collision, idle/run
+switching, player render synchronization, and native camera follow.
 `r1_1_visual` remains a reverse-engineering test scene; the all-open entrance
-state is a labeled test configuration.
+state is a labeled test configuration and the test spawn is `(20,15)`.

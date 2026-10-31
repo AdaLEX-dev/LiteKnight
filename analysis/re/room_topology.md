@@ -1,8 +1,9 @@
 # `room/r1_1` room topology, doors and traversal
 
-**Status:** recovered geometry CONFIRMED; native wall/door/aisle collision and
-door traversal are FUNCTIONAL; runtime entrance assignment and the higher-level
-traversal listener remain PARTIAL/UNKNOWN. This document describes the serialized
+**Status:** recovered geometry CONFIRMED; native wall/door/aisle collision,
+animated door lifecycle, obstacle replacement and door traversal are FUNCTIONAL;
+runtime entrance assignment and the higher-level traversal listener remain
+PARTIAL/UNKNOWN. This document describes the serialized
 `room/r1_1` prefab and the `RGRoomX`/`RGAisle`/`RGDoor` code paths. `r1_1` is a
 reverse-engineering test reconstruction, **not** a proven first level, starting
 room, character selector, or canonical gameplay map.
@@ -340,10 +341,16 @@ flag.
 
 `RGDoor` animation semantics (**CONFIRMED** by decoding the streamed clips):
 
-| state | leaf local y | leaves/shadows visible | root BoxCollider2D |
-|---|---:|---|---|
-| open (`door_open` clip) | 1 → 0.1 | enabled → disabled | `m_IsTrigger`: false → true; no player collision |
-| closed (`door_close`/`door_close2`) | 0.1 → 1 | disabled → enabled | `m_Size.x` (E/W) or `m_Size.y` (N/S): 0.2 → 1; `m_IsTrigger` false; solid |
+| clip | duration / rate | recovered keys |
+|---|---|---|
+| `door_open` | 0.2 s, 30 Hz, non-loop | t=0: leaf `door02`, `d` local y=1, leaf/shadows/`d` enabled, `m_IsTrigger=false`; t=0.133333: `d` y=0.1, shadows disabled, `m_IsTrigger=true`; t=0.166667: `d` renderers disabled, leaf sprite `door03`; end 0.2 |
+| `door_close` (E/W) | 0.166667 s, 30 Hz, non-loop | t=0: leaf `door03`, `d` y=0.1, shadows/`d` disabled, `m_Size.x=0.2`, `m_IsTrigger=false`; t=0.033333: shadows/`d` enabled, leaf `door02`; t=0.166667: `d` y=1, `m_Size.x=1` |
+| `door_close2` (N/S) | 0.166667 s, 30 Hz, non-loop | same visibility/sprite/leaf keys; t=0 sets `m_Size.y=1`; t=0.166667 sets `d` y=1 |
+
+All five `d1..d5` clusters share the same transform/visibility/sprite curves.
+`m_IsTrigger` stays false for the entire close clip, so a closing door is solid
+from the first frame. The ornament child `dN/d` is the only moving transform;
+the door root, leaf roots, shadow position and collider centre stay fixed.
 
 The closed door root also has a `PlatformEffector2D`:
 
@@ -359,10 +366,30 @@ the player from leaving the room but permits entry from the aisle. This is
 `PlatformEffector2D` one-way semantics. When the room is cleared, `OpenDoor`
 makes the collider a trigger, so both directions are passable.
 
-Native collision uses the recovered final states and the one-way normal. Door
-open/close animation transition timing (0.1667 s, 30 Hz key data) is not
-simulated by the native debug toggle; toggling is instantaneous and this is
-classified as **APPROXIMATION**.
+Native implementation: `game/room/Door` exposes distinct `OPEN`, `CLOSING`,
+`CLOSED`, `OPENING` states; `RoomDoorController` feeds collision from the
+`m_IsTrigger` curve. Continuous ornament motion is linearly interpolated between
+the serialized keys; `m_Enabled`, sprite PPtr and trigger values use step/hold
+sampling. The native collision uses the full serialized barrier for every
+non-trigger interval instead of the transient E/W `m_Size.x=0.2` thinning; this
+is an explicit **APPROXIMATION** because the thin collider still spans the
+doorway line. The recovered timing itself is reproduced at the 50 Hz fixed tick.
+
+### 7.1 `RGObjectSkin` obstacle replacement
+
+`RGRoomX.OnSetRGRandomSeed` calls `RGRoomX.CreateRoomObstacle` after `LoadRoom`.
+That method collects every active child `RGObjectSkin`, instantiates
+`MapManagerLevel.obstacle_list[obj_index]` at the marker's world position with
+identity rotation, parents it under the marker's parent, and destroys the
+marker. For `r1_1` all 49 central `wall_group/skin_wall` markers serialize
+`obj_index=0`; level 1-1 `obstacle_list[0]` is `wall603`, a 1×1 solid
+`BoxCollider2D` at offset `(0,0.5)` with root/shadow/wall-font sprites. The
+native scene therefore removes the placeholder `skin` sprites and emits 49
+`wall603` visual instances plus 49 separate obstacle AABBs. The c00 prefab
+origin `(20,20)` lies inside that recovered obstacle block, so the native test
+spawn is explicitly moved to `(20,15)`, just inside the south door on free
+floor. This spawn is a **NATIVE TEST CONFIGURATION**, not recovered gameplay
+state.
 
 ---
 
@@ -456,15 +483,21 @@ claimed.
 collision.bounds          = [0, 0, 41, 41]       (native map-cell test boundary)
 collision.interior_bounds = [12.5, 13, 15, 15]   (recovered room interior)
 collision.solids          = 140 wall-cell AABBs  (44 room + 96 corridor)
+collision.obstacle_solids = 49 wall603 obstacle AABBs
 collision.doors[4]        = recovered barrier/trigger AABBs,
-                            directions, path IDs, one-way normals, open state
+                            directions, path IDs, one-way normals, open state,
+                            open/close animation keyframes
 topology.wall_cells       = 44
 topology.corridor_wall_cells = 96
 topology.floor_cells      = 225  (15x15 interior cell centers)
 topology.aisle_cells      = 240  (four 5x12 open corridor runs)
 topology.room_center      = [20.0, 20.5]
 topology.wall_prefabs     = wall601/wall602, 1x1 collider offset (0,0.5)
+topology.obstacle_prefabs = level-1-1 obstacle_list[0..11]
+topology.obstacle_markers = 49 RGObjectSkin replacements (all -> wall603)
 topology.openings         = four serialized doors/aisles
+instances                 = 629: 420 wall sprites + 147 wall603 sprites +
+                            60 door sprites + 2 player sprites
 ```
 
 The native test configuration is:
@@ -472,12 +505,22 @@ The native test configuration is:
 ```text
 entrance  = all four sides open
 door_open = true
+spawn     = (20, 15)  // just inside the south door; (20,20) is inside wall603
 ```
 
 This is a **NATIVE TEST CONFIGURATION**, not a recovered runtime instance state.
 The serialized template has `entrance=[0,0,0,0]`. Press **O** in scene mode to
-toggle all four doors closed/open for manual verification; closed doors use the
-recovered one-way inward barrier, visible leaves, and solid collision.
+toggle all four doors closed/open for manual verification; press **C** to issue
+`CloseDoor()` for all four. Closed doors use the recovered one-way inward
+barrier, animated leaves, and solid collision. The doors animate over their
+recovered clip durations rather than switching state instantly.
+
+The dark strips below/around wall rows are the serialized `wall601/602`
+`shadow0` children (sorting layer `Shadow`, color alpha 0.392), not missing wall
+collision. Generated wall visuals are one deterministic variant (`wall601`) per
+collision cell; the reference randomizes `wall601`/`wall602`, which share the
+same 1×1 collider. The 49 central `wall603` obstacles are the recovered runtime
+replacement for the `RGObjectSkin` markers, not additional room-wall cells.
 
 ---
 
@@ -489,9 +532,12 @@ recovered one-way inward barrier, visible leaves, and solid collision.
 3. Target class and behavior of the `CreateWall` subclass branch (`-3/3` gap
    constants).
 4. Exact `CreateFloor` tile pattern and floor-prefab random choices.
-5. Door animation transition timing in native collision/render (currently
-   instant final-state switching).
-6. Full Unity Physics2D solver parity: circle-vs-box contacts, continuous
+5. Full Unity Physics2D solver parity: circle-vs-box contacts, continuous
    detection details, platform-effector contact filtering, trigger ordering.
-7. Whether `r1_1` is instantiated in a normal generated map or used only as a
+6. Whether `r1_1` is instantiated in a normal generated map or used only as a
    test/asset template. No external instance was found.
+7. Native door collision uses the full serialized barrier during the non-trigger
+   interval instead of replaying the transient E/W `m_Size.x` thinning.
+8. Native animation replays the recovered keyframes linearly; Unity's streamed
+   cubic coefficients are not evaluated, and sprite/m_Enabled/trigger keys use
+   discrete hold sampling.

@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **55 doctest cases / 1838 assertions**, all passing.
+**Status:** current baseline is **63 doctest cases / 3913 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -93,6 +93,23 @@ ctest --test-dir build --output-on-failure
 - AABB collision: room bounds, solid wall, wall sliding, no penetration.
 - SceneLoader spawn/collision-bounds parsing.
 - Camera2D follow: smoothing, deterministic repeat, snap mode, aspect center.
+- PlayerRenderSync: c00 body follows the simulated position exactly, shadow
+  keeps the recovered `(0,-0.05)` offset, non-player instances stay authored,
+  and animation frames plus camera/viewport changes cannot move either render
+  transform.
+
+### Door animation / room visual correspondence (implemented units)
+
+- Recovered r1_1 `door_open`/`door_close`/`door_close2` clips: duration, sample
+  rate, key times/values, sprite switches, visibility, trigger timing, and E/W
+  vs N/S close differences.
+- `Door` state machine: `OPEN`, `CLOSING`, `CLOSED`, `OPENING`; solid/closable
+  transition timing; ornament extent; leaf sprite; shadow/ornament visibility.
+- `RoomDoorController`: collision feed across all four orientations, one-way
+  normals, trigger-time rebuild, and animated south-door blocking/passage.
+- r1_1 visual/collision correspondence: 140 wall cells ↔ 420 wall instances,
+  49 obstacle cells ↔ 147 obstacle instances and 49 AABBs, no placeholder
+  `skin` markers, door role bindings, spawn free of recovered solids.
 
 ### Integration / manual smoke
 
@@ -123,12 +140,19 @@ cd /tmp
 The committed metadata lives in `analysis/assets/scenes/r1_1_visual.json` and
 `analysis/assets/scenes/animations/`; generated PNG/scene bytes remain
 gitignored. This scene is a reverse-engineering test reconstruction, not a proven
-canonical gameplay level. Run with `--locomotion-debug` to log player position,
-input, velocity, animation state/frame, camera, collision blocking, door state,
-and door-trigger enter/exit events. Press **O** to toggle all four recovered doors
-closed/open. Closed doors use the recovered one-way inward barrier; opening them
-makes both directions passable. Deterministic tests for all four doors, wall
-sliding, and the recovered coordinates are in `tests/unit/scene_test.cpp`.
+canonical gameplay level. Run with `--locomotion-debug` to log
+`sim`/`render`/`body`/`shadow`/camera positions, input, velocity, animation
+state/frame, collision blocking, animated door state, and door-trigger
+enter/exit events. Press **O** to toggle all four recovered doors
+(`OpenDoor()`/`CloseDoor()`) and **C** to close them. Doors replay the recovered
+`door_open`/`door_close`/`door_close2` timing; closed doors use the recovered
+one-way inward barrier, and opening collision becomes passable at the recovered
+`m_IsTrigger` key (0.133333 s). The scene replaces the 49 `RGObjectSkin`
+placeholders with `wall603` instances and corresponding obstacle AABBs; the test
+spawn is `(20,15)` because `(20,20)` is inside that recovered obstacle block.
+Deterministic tests are in `tests/unit/door_test.cpp`,
+`tests/unit/player_render_sync_test.cpp`, `tests/unit/room_visual_test.cpp`, and
+`tests/unit/scene_test.cpp`.
 
 ### Unity Texture2D conversion / native round-trip (manual)
 
@@ -157,8 +181,8 @@ the reference bundle is not part of the repository.
 
 - PNG decode dimensions/format/bytes: implemented and tested.
 - Unity Sprite rect/pivot/PPU/UV and real animation keys: implemented and tested.
+- Room JSON node/collider/spawn/door-animation parse: implemented and tested.
 - Manifest path-ID/hash stability: extraction tooling exists; native registry not.
-- Room JSON node/collider/spawn parse: not implemented.
 - Missing asset → clear error: tested for PNG and animation metadata.
 - No proprietary bytes tracked: checked in the repository hygiene pass.
 

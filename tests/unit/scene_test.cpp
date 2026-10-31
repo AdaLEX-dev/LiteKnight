@@ -184,6 +184,9 @@ TEST_CASE("SceneLoader reads native sprite and instance metadata" * doctest::tes
     CHECK(scene.collision_solids.size() == 1);
     CHECK(scene.collision_solids[0].min.x == doctest::Approx(4.0f));
     CHECK(scene.collision_solids[0].max.y == doctest::Approx(10.0f));
+    CHECK(scene.obstacle_solids.size() == 1);
+    CHECK(scene.obstacle_solids[0].min.x == doctest::Approx(2.0f));
+    CHECK(scene.obstacle_solids[0].max.y == doctest::Approx(3.0f));
     CHECK(scene.doors.size() == 1);
     CHECK(scene.doors[0].id == "south");
     CHECK(scene.doors[0].aisle == "aisle_s");
@@ -195,6 +198,24 @@ TEST_CASE("SceneLoader reads native sprite and instance metadata" * doctest::tes
     CHECK(scene.doors[0].trigger.max.y == doctest::Approx(6.0f));
     CHECK(scene.doors[0].one_way_block ==
           soulknight::engine::assets::DoorOneWayBlock::PositiveY);
+    CHECK(scene.doors[0].open_animation.id == "synthetic_door_open");
+    CHECK(scene.doors[0].open_animation.duration == doctest::Approx(0.2f));
+    CHECK(scene.doors[0].open_animation.leaf_extent.Evaluate(0.0f) ==
+          doctest::Approx(1.0f));
+    CHECK(scene.doors[0].open_animation.leaf_extent.Evaluate(0.13333334f) ==
+          doctest::Approx(0.1f));
+    CHECK(scene.doors[0].open_animation.collider_trigger.EvaluateStep(0.13f) ==
+          doctest::Approx(0.0f));
+    CHECK(scene.doors[0].open_animation.collider_trigger.EvaluateStep(0.13333334f) ==
+          doctest::Approx(1.0f));
+    CHECK(scene.doors[0].close_animation.id == "synthetic_door_close");
+    CHECK(scene.doors[0].close_animation.SpriteAt(0.02f) == "quad");
+    CHECK(scene.doors[0].leaves.size() == 1);
+    CHECK(scene.doors[0].leaves[0].name == "d1");
+    CHECK(scene.doors[0].leaves[0].leaf_instance == 0);
+    CHECK(scene.doors[0].leaves[0].shadow_instance == -1);
+    CHECK(scene.instances[0].door_role == "leaf");
+    CHECK(scene.instances[0].door_leaf == "d1");
 
     SceneAsset missing;
     std::string missing_error;

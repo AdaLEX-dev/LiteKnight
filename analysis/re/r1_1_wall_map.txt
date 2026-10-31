@@ -1,5 +1,5 @@
 r1_1 recovered room topology (ASCII verification map)
-Legend: # room wall  + corridor wall  D five-cell door opening  ':' corridor floor  '.' room floor
+Legend: # room wall  + corridor wall  D five-cell door opening  O recovered wall603 obstacle  ':' corridor floor  '.' room floor
 Each cell is one world unit; coordinates are integer cell centers.
 
                  +:::::+
@@ -19,13 +19,13 @@ Each cell is one world unit; coordinates are integer cell centers.
             #...............#
             #...............#
             #...............#
-++++++++++++#...............#++++++++++++
-::::::::::::D...............D::::::::::::
-::::::::::::D...............D::::::::::::
-::::::::::::D...............D::::::::::::
-::::::::::::D...............D::::::::::::
-::::::::::::D...............D::::::::::::
-++++++++++++#...............#++++++++++++
+++++++++++++#....OOOOOOO....#++++++++++++
+::::::::::::D....OOOOOOO....D::::::::::::
+::::::::::::D....OOOOOOO....D::::::::::::
+::::::::::::D....OOOOOOO....D::::::::::::
+::::::::::::D....OOOOOOO....D::::::::::::
+::::::::::::D....OOOOOOO....D::::::::::::
+++++++++++++#....OOOOOOO....#++++++++++++
             #...............#
             #...............#
             #...............#

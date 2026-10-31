@@ -249,6 +249,9 @@ add_library(engine STATIC
     src/engine/collision/AabbCollision.hpp
     src/engine/locomotion/PlayerLocomotion.cpp
     src/engine/locomotion/PlayerLocomotion.hpp
+    # Rendering: explicit player scene binding
+    src/engine/rendering/PlayerRenderSync.cpp
+    src/engine/rendering/PlayerRenderSync.hpp
     # Animation
     src/engine/animation/AnimationClip.cpp
     src/engine/animation/AnimationClip.hpp
@@ -265,6 +268,8 @@ add_library(engine STATIC
     src/engine/assets/PngDecoder.hpp
     src/engine/assets/SpriteData.hpp
     src/engine/assets/SceneAsset.hpp
+    src/engine/assets/DoorAnimation.cpp
+    src/engine/assets/DoorAnimation.hpp
     src/engine/assets/SceneLoader.cpp
     src/engine/assets/SceneLoader.hpp
     src/engine/rendering/Camera2D.cpp
@@ -318,6 +323,11 @@ add_library(game STATIC
     src/game/player/PlayerInput.hpp
     src/game/player/Character.cpp
     src/game/player/Character.hpp
+    # Rooms
+    src/game/room/Door.cpp
+    src/game/room/Door.hpp
+    src/game/room/RoomDoorController.cpp
+    src/game/room/RoomDoorController.hpp
     # Characters
     # src/game/characters/CharacterData.cpp
     # src/game/characters/CharacterData.hpp
@@ -482,6 +492,9 @@ add_executable(soul-knight-test
     tests/unit/render_test.cpp
     tests/unit/png_test.cpp
     tests/unit/scene_test.cpp
+    tests/unit/room_visual_test.cpp
+    tests/unit/door_test.cpp
+    tests/unit/player_render_sync_test.cpp
     tests/unit/animation_test.cpp
     tests/unit/locomotion_test.cpp
     # Integration tests

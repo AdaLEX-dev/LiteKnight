@@ -1,15 +1,16 @@
 # Soul Knight 2.6.8 — Project State
 
-**Last Updated:** 2026-10-31 (native room topology and door traversal slice)
+**Last Updated:** 2026-10-31 (player render sync, animated door lifecycle, obstacle replacement)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
 **Current status:** Phase 4A-4F foundation is implemented and manually verified:
 Wayland-only SDL3 window, Vulkan 1.3 device/swapchain, 50 Hz/60 FPS loop, a
 batched textured sprite renderer, a native `r1_1` reconstruction test scene,
 real `c00` idle/run animation, keyboard movement, recovered `CreateWall`
-perimeter/aisle/door geometry, fixed-step collision, one-way closed doors, door
-triggers, and camera follow. Combat, AI, audio, and UI are not implemented. The
-vertical slice is **not** cleared.
+perimeter/aisle/door geometry, fixed-step collision, animated one-way doors with
+their recovered clips, `RGObjectSkin` obstacle replacement, and camera follow.
+Combat, AI, audio, and UI are not implemented. The vertical slice is **not**
+cleared.
 
 ---
 
@@ -206,6 +207,27 @@ Implemented and manually verified on 2026-10-31:
   direction/room payloads only while `door_open`. The 41×41 map-cell edge is an
   explicit native test boundary. Evidence: `analysis/re/room_topology.md`,
   `analysis/re/r1_1_wall_map.json`.
+- **Player simulation/render synchronization gate PASSED:** the rendered c00
+  body now follows `PlayerLocomotion` exactly through an explicit
+  `PlayerRenderSync` binding; the shadow keeps its recovered `(0,-0.05)` offset.
+  Animation and camera follow cannot change player world position. Runtime
+  `--locomotion-debug` logs `sim`, `render`, `body`, `shadow` and `camera`; unit
+  tests cover animation and camera/viewport changes.
+- **Door animation gate PASSED (native reconstruction):** both recovered
+  Animator controllers/clips (`door_open`, `door_close`, `door_close2`) are
+  exported from the serialized StreamedClip/PPtr curves. `Door` exposes
+  `OPEN`/`CLOSING`/`CLOSED`/`OPENING`; `RoomDoorController` drives rendering
+  (leaf sprite `door02`/`door03`, moving `d` ornament, shadow visibility) and
+  collision from the `m_IsTrigger` curve. **O** toggles OpenDoor/CloseDoor and
+  **C** issues CloseDoor. Native collision uses the full barrier during the
+  non-trigger interval; transient `m_Size` thinning is a documented
+  approximation.
+- **Obstacle replacement / wall visual correspondence PASSED:** r1_1's 49
+  `RGObjectSkin` markers (all `obj_index=0`) are replaced by `wall603`, matching
+  `RGRoomX.CreateRoomObstacle`; the placeholder gray `skin` grid is gone. The
+  scene carries 140 wall AABBs with 420 wall sprites, and 49 obstacle AABBs with
+  147 obstacle sprites. The test spawn moved to `(20,15)` because the c00
+  prefab origin `(20,20)` is inside the recovered obstacle block.
 - Sprite metadata/camera/animation evidence: `analysis/assets/sprites.md`,
   `analysis/assets/coordinate_system.md`, `analysis/assets/animation.md`.
 - Manual smoke from `/tmp` (path-independent): PNG decoded, real scene rendered,
@@ -214,14 +236,15 @@ Implemented and manually verified on 2026-10-31:
   fallback.
 
 Not implemented: full AnimatorController transitions/layers/blend trees, other
-clips/states, door animation transition timing, the exact event-to-map-manager
-traversal listener, adjacent-room generation/coordinate updates, combat, AI,
+clips/states, the exact event-to-map-manager traversal listener, room
+combat/enemy lifecycle, adjacent-room generation/coordinate updates, combat, AI,
 general KTX2/atlas packing, the full asset registry/manifest loader, audio, UI,
 content, or parity comparison. Native sorting numbers are mapped to recovered
 TagManager layers; camera size, camera follow smoothing, the AABB-vs-circle
-player collision approximation, and fixed-step rather than Normal-update sampling
-remain **PROJECT DECISIONS/APPROXIMATIONS** because exact reference behavior is
-not recovered.
+player collision approximation, linear replay of the recovered streamed keys,
+transient door-collider size animation, and fixed-step rather than Normal-update
+sampling remain **PROJECT DECISIONS/APPROXIMATIONS** because exact reference
+behavior is not recovered.
 
 Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -229,10 +252,11 @@ Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
 ## Gate B blockers (must close or explicitly accept)
 
-1. Wall/door gap placement, door collider geometry, and door open/closed
-   collision states are now CONFIRMED and implemented. Remaining PARTIAL items:
-   the exact entrance bits of any generated `r1_1` instance, the event-to-
-   `MapManagerLevel` traversal listener, and door animation transition timing.
+1. Wall/door gap placement, door collider geometry, door open/closed collision
+   states, the recovered door animation clips, and `RGObjectSkin` obstacle
+   replacement are now CONFIRMED and implemented. Remaining PARTIAL items:
+   the exact entrance bits of any generated `r1_1` instance and the event-to-
+   `MapManagerLevel` traversal listener.
 2. Exact `Gun001` fire cooldown and the controller/hand field used in the spread
    formula remain PARTIAL. First-slice approximation: fixed documented attack
    interval; do not claim reference fire rate.

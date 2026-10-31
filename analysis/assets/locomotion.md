@@ -129,9 +129,13 @@ The native runtime consumes `analysis/re/r1_1_wall_map.json` through
 
 - 44 room wall cells and 96 aisle corridor wall cells become static AABBs;
 - four recovered door barrier AABBs are added as **one-way** solids while a
-  door is closed (south negative Y, north positive Y, west negative X, east
+  door is blocking (south negative Y, north positive Y, west negative X, east
   positive X);
-- open doors contribute no barrier and their leaf sprites are hidden;
+- open doors contribute no barrier; their animated leaf sprites remain in the
+  recovered open pose (`door03`), while the open clip hides leaf shadows and the
+  `d` ornaments;
+- the 49 `RGObjectSkin` markers are replaced by `wall603` obstacle visuals and
+  49 static AABBs, matching `RGRoomX.CreateRoomObstacle`;
 - the 41x41 map-cell edge is a clearly labeled native test boundary.
 
 The player collision footprint is the enclosing square of the reference
@@ -150,8 +154,12 @@ behavior preserves:
 - deterministic 50 Hz movement;
 - idle/run animation and camera follow.
 
-Door animation transition timing is not simulated natively; the debug toggle
-switches final open/closed states instantaneously. That timing remains an
+Door animation is now simulated natively: `Door`/`RoomDoorController` replay
+the recovered `door_open` (0.2 s) and `door_close`/`door_close2` (0.1667 s)
+clips. The leaf sprite switches, ornament local y, shadow/ornament visibility,
+and `m_IsTrigger` collision timing come from the serialized streams. Native
+collision keeps the full barrier during the non-trigger interval instead of
+replaying the transient `m_Size` thinning; that is the remaining explicit
 approximation. Full Physics2D parity is not claimed.
 
 Recovered evidence and the machine-readable map:
@@ -219,7 +227,8 @@ for tests.
 | Closed-door one-way inward traversal | HIGH CONFIDENCE effector geometry + matrix |
 | Native room/corridor collision solids | CONFIRMED geometry consumed by native code |
 | Native player AABB vs circle collider | APPROXIMATION |
-| Door transition timing in native code | APPROXIMATION (instant final-state switch) |
+| Door transition timing in native code | RECOVERED CLIPS; linear/step replay |
+| Transient door `m_Size` animation | APPROXIMATION (full barrier) |
 | Exact entrance bits of runtime `r1_1` | UNKNOWN; test scene uses all-open |
 | Event-to-map-manager traversal listener | UNKNOWN |
 | Idle/run clip IDs and four-frame mappings | CONFIRMED/HIGH CONFIDENCE |
@@ -229,36 +238,32 @@ for tests.
 ## 7. Verification
 
 The native executable was driven with real SDL keyboard events through
-`/dev/uinput` (`ydotool`) against the focused Wayland window. The recovered
-topology run rendered 531 instances / 15 sprite assets / 3 textures and logged:
+`/dev/uinput` (`ydotool`) against the focused Wayland window. The current
+topology run renders 629 instances / 17 sprite assets / 4 textures and logs:
 
 ```text
-Collision: bounds [0.00,0.00]..[41.00,41.00], recovered solids=140, doors=4, topology=true
+Collision: bounds [0.00,0.00]..[41.00,41.00], recovered solids=140, obstacles=49, doors=4, topology=true
 Room interior: [12.50,13.00]..[27.50,28.00]
-Render batch: 471 sprite instances   (all four doors initially open -> leaves hidden)
+Render batch: 589 sprite instances   (open clip hides 40 door shadows/ornaments)
 
-// Open east door: physical corridor traversal and trigger events
-pos=(28.580,20.000) input=(1.00,0.00)
-Door trigger east: exit aisle=aisle_e open=true active=true
-pos=(33.455,20.000) input=(1.00,0.00)
+locomotion: sim=(20.000,15.000) render=(20.000,15.000)
+            body=(20.000,15.000) shadow=(20.000,14.950) camera=(20.000,15.000)
 
-// O: close all four doors
-Door state: all recovered doors closed (solid, leaves visible); closed barriers=4
+// C: CloseDoor() on all four doors
+Door lifecycle: CloseDoor() for 4 doors
+  door north: state=CLOSING blocking=true t=0.000/0.167
 
-// From the east aisle, walk left through the closed one-way door into the room
-pos=(32.480,20.000) input=(-1.00,0.00)
-pos=(27.605,20.000) input=(-1.00,0.00)
-Door trigger east: enter aisle=aisle_e open=false active=false
-pos=(22.730,20.000) input=(-1.00,0.00)
-
-// Continue to the closed west door; outward movement is blocked
-pos=(12.900,20.000) input=(-1.00,0.00) blocked=(true,false)
+// O: OpenDoor() on all four doors
+Door lifecycle: OpenDoor() (animation started, 4 doors)
+Door north: state=OPENING blocking=false t=0.140   // recovered 0.1333 s key
 ```
 
-This verifies the recovered one-way semantics in the native runtime: open doors
-are passable in both directions; once closed, the player can enter from the aisle
-but cannot leave the room through another closed door. Reference door events are
-suppressed while `door_open` is false (debug logs show `active=false`), matching
-the `RGDoorTrigger` gate. Unit tests cover all four doors in both directions
-deterministically; the real-input run confirms the chosen key path and the
-observable collision/trigger behavior.
+The current verification uses the closed-door one-way semantics: open doors are
+passable in both directions; once closed, the player can enter from the aisle but
+cannot leave the room through another closed door. The native test spawn is
+`(20,15)` because `(20,20)` is inside the recovered wall603 obstacle block.
+Reference door events are suppressed while `door_open` is false (debug logs show
+`active=false`), matching the `RGDoorTrigger` gate. Unit tests cover all four
+doors in both directions deterministically, the animation/collision timing, and
+the player render-sync invariant; the real-input runs confirm the key path and
+the observable collision/trigger behavior.

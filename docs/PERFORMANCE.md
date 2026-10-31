@@ -23,9 +23,9 @@ machine.
 ### Native r1_1 + c00 animated/locomotion scene
 
 Command: `build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug --smoke-seconds 10`
-from `/tmp`, with the recovered wall/door/corridor geometry. RelWithDebInfo, 531
-sprite instances (471 drawn while all doors are open), 3 textures, 15 sprite
-assets, 2 animation clips (4 keyframes each):
+from `/tmp`, with the recovered wall/door/corridor geometry and wall603
+obstacles. RelWithDebInfo, 629 sprite instances (589 drawn while all doors are
+open), 4 textures, 17 sprite assets, 2 c00 animation clips (4 keyframes each):
 
 - `FrameTimer` average: **16.663 ms** over 573 samples.
 - **603 frames** over ~10.10 s (~59.7 presents/s).

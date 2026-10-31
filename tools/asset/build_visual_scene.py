@@ -50,6 +50,7 @@ TEXTURE_SPECS = (
     ("floor_atlas", "res/floor", "5467841708608453938"),
     ("character_atlas", "common", "6092784074628815488"),
     ("object_common_atlas", "common", "3188784419113904678"),
+    ("object_level_atlas", "level-common", "8607965889740011037"),
 )
 
 TEXTURE_BY_PATH_ID = {path_id: (name, bundle) for name, bundle, path_id in TEXTURE_SPECS}
@@ -153,6 +154,7 @@ class SceneBuilder:
         self.sprites: dict[tuple[str, str], dict] = {}
         self.sprite_order: list[str] = []
         self.instances: list[dict] = []
+        self.object_markers: list[dict] = []
         self.textures: dict[str, dict] = {}
         self.animations: dict[str, dict] = {}
         self.animation_json: dict[str, str] = {}
@@ -163,26 +165,77 @@ class SceneBuilder:
             entry["source_path_id"]: entry
             for entry in self.texture_manifest.get("conversions", [])
         }
+        self.bundle_cab_names: dict[str, set[str]] = {}
+        for bundle in self.env.files.values():
+            bundle_name = str(getattr(bundle, "name", ""))
+            files = getattr(bundle, "files", {})
+            if isinstance(files, dict):
+                self.bundle_cab_names[bundle_name] = {
+                    cab for cab in files
+                    if not cab.endswith((".resS", ".resource"))
+                }
+
+    def _find_texture(self, path_id: str, source_bundle: str):
+        expected_cabs = self.bundle_cab_names.get(source_bundle, set())
+        for obj in self.env.objects:
+            if obj.type.name != "Texture2D" or str(obj.path_id) != path_id:
+                continue
+            if expected_cabs and obj.assets_file.name not in expected_cabs:
+                continue
+            return obj
+        # Fall back to any matching object for older bundles without a known
+        # bundle name mapping.
+        for obj in self.env.objects:
+            if obj.type.name == "Texture2D" and str(obj.path_id) == path_id:
+                return obj
+        return None
 
     def texture_info(self, texture_name: str, source_bundle: str, path_id: str) -> dict:
         if texture_name in self.textures:
             return self.textures[texture_name]
         entry = self.texture_manifest_by_id.get(path_id)
-        if entry is None:
+        texture_object_reader = self._find_texture(path_id, source_bundle)
+        if texture_object_reader is None:
             raise SystemExit(
-                f"texture {texture_name} ({path_id}) is missing from "
-                f"{self.args.texture_manifest}; run convert-texture first"
-            )
+                f"Texture2D path_id {path_id} not found in bundle {source_bundle}")
+
+        if entry is None:
+            # Scene-specific sprite-atlas textures are not part of the general
+            # texture conversion profile. Convert them with UnityPy's decoder
+            # into the gitignored generated output so the runtime has pixels;
+            # the committed manifest stores only provenance, never image bytes.
+            texture_object = texture_object_reader.read()
+            image = texture_object.image.convert("RGBA")
+            target = self.args.out / "textures" / f"{texture_name}.png"
+            target.parent.mkdir(parents=True, exist_ok=True)
+            image.save(target)
+            rgba = image.tobytes()
+            settings = getattr(texture_object, "m_TextureSettings", None)
+            filter_mode = int(getattr(settings, "m_FilterMode", 0) or 0)
+            wrap_u = int(getattr(settings, "m_WrapU", 1) or 1)
+            texture = {
+                "id": texture_name,
+                "png": f"textures/{texture_name}.png",
+                "source_bundle": source_bundle,
+                "source_cab": texture_object_reader.assets_file.name,
+                "source_path_id": path_id,
+                "source_name": getattr(texture_object, "m_Name", texture_name),
+                "width": int(texture_object.m_Width),
+                "height": int(texture_object.m_Height),
+                "format": TextureFormat(int(texture_object.m_TextureFormat)).name,
+                "filter": filter_name(filter_mode),
+                "wrap": wrap_name(wrap_u),
+                "rgba8_sha256": hashlib.sha256(rgba).hexdigest(),
+                "png_sha256": hashlib.sha256(target.read_bytes()).hexdigest(),
+                "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+            }
+            self.textures[texture_name] = texture
+            return texture
+
         png_source = ROOT / entry["output_png"]
         if not png_source.exists():
             raise SystemExit(f"converted texture PNG missing: {png_source}")
-        texture_object = None
-        for obj in self.env.objects:
-            if obj.type.name == "Texture2D" and str(obj.path_id) == path_id:
-                texture_object = obj.read()
-                break
-        if texture_object is None:
-            raise SystemExit(f"Texture2D path_id {path_id} not found in loaded bundles")
+        texture_object = texture_object_reader.read()
 
         settings = getattr(texture_object, "m_TextureSettings", None)
         filter_mode = int(getattr(settings, "m_FilterMode", 0) or 0)
@@ -316,6 +369,167 @@ class SceneBuilder:
             if int(binding.attribute) == 2:
                 return 4
         return 1
+
+    @staticmethod
+    def _curve_index(bindings, predicate, component=0):
+        index = 0
+        for binding in bindings:
+            if predicate(binding):
+                return index + component
+            index += SceneBuilder._binding_curve_count(binding)
+        return None
+
+    @staticmethod
+    def _streamed_curve(frames, curve_index, fallback):
+        if not frames:
+            return []
+        initial = dict(frames[0][1])
+        value = float(initial.get(curve_index, fallback))
+        keys = [(0.0, value)]
+        for time, entries in frames[1:]:
+            if not math.isfinite(time) or time < 0.0:
+                continue
+            for index, entry_value in entries:
+                if index != curve_index:
+                    continue
+                entry = float(entry_value)
+                if time <= keys[-1][0] + 1e-7:
+                    keys[-1] = (keys[-1][0], entry)
+                else:
+                    keys.append((float(time), entry))
+        return [[time, value] for time, value in keys]
+
+    def _door_animation_clip(self, clip, state_loop):
+        bindings = list(clip.m_ClipBindingConstant.genericBindings)
+        path_names = {
+            zlib.crc32(name.encode("utf-8")) & 0xFFFFFFFF: name
+            for name in
+            [""] + [f"d{i}" for i in range(1, 6)] +
+            [f"d{i}/d" for i in range(1, 6)] +
+            [f"d{i}/shadow" for i in range(1, 6)]
+        }
+
+        def path_of(binding):
+            return path_names.get(int(binding.path), str(binding.path))
+
+        def is_type_attr(type_id, attribute, suffix=None, exact=None):
+            def predicate(binding):
+                if int(getattr(binding, "typeID", 0) or 0) != type_id:
+                    return False
+                if int(binding.attribute) != attribute:
+                    return False
+                path = path_of(binding)
+                if suffix is not None and not path.endswith(suffix):
+                    return False
+                if exact is not None and path != exact:
+                    return False
+                return True
+            return predicate
+
+        frames = self._streamed_frames(clip)
+        if not frames:
+            raise SystemExit("door animation clip has no streamed frames")
+
+        def curve(type_id, attribute, suffix=None, exact=None, component=0):
+            index = self._curve_index(
+                bindings, is_type_attr(type_id, attribute, suffix, exact),
+                component)
+            if index is None:
+                return []
+            return self._streamed_curve(frames, index, 0.0)
+
+        leaf_extent = curve(4, 1, suffix="/d", component=1)
+        shadow_visible = curve(212, 3305885265, suffix="/shadow")
+        ornament_visible = curve(212, 3305885265, suffix="/d")
+        collider_trigger = curve(61, 2693561734)
+        collider_size_x = curve(61, 4197328169)
+        collider_size_y = curve(61, 2368279999)
+
+        sprite_curve_index = self._curve_index(
+            bindings,
+            lambda binding: (
+                int(getattr(binding, "typeID", 0) or 0) == 212 and
+                int(getattr(binding, "customType", 0)) == 23 and
+                int(getattr(binding, "isPPtrCurve", 0)) == 1 and
+                path_of(binding).startswith("d") and
+                "/" not in path_of(binding)))
+        leaf_sprites = []
+        if sprite_curve_index is not None:
+            mapping = list(clip.m_ClipBindingConstant.pptrCurveMapping)
+            if not mapping:
+                raise SystemExit("door animation clip has no sprite mapping")
+            mapping_ids = [
+                self.ensure_sprite_asset(mapping_ptr)[0]
+                for mapping_ptr in mapping
+            ]
+            index_keys = self._streamed_curve(frames, sprite_curve_index, 0.0)
+            for time, value in index_keys:
+                sprite_index = int(round(value))
+                if not (0 <= sprite_index < len(mapping_ids)):
+                    raise SystemExit(
+                        f"door sprite curve value {value} does not index "
+                        f"pptrCurveMapping")
+                leaf_sprites.append([time, mapping_ids[sprite_index]])
+
+        duration = float(
+            clip.m_MuscleClip.m_StopTime - clip.m_MuscleClip.m_StartTime)
+        return {
+            "id": getattr(clip, "m_Name", ""),
+            "duration": duration,
+            "sample_rate": float(clip.m_SampleRate),
+            "loop": bool(state_loop) and bool(clip.m_MuscleClip.m_LoopTime),
+            "leaf_extent": leaf_extent,
+            "shadow_visible": shadow_visible,
+            "ornament_visible": ornament_visible,
+            "collider_trigger": collider_trigger,
+            "collider_size_x": collider_size_x,
+            "collider_size_y": collider_size_y,
+            "leaf_sprites": leaf_sprites,
+            "source": {
+                "clip_path_id": str(clip.path_id if hasattr(clip, "path_id")
+                                    else ""),
+                "clip_name": getattr(clip, "m_Name", ""),
+                "clip_start_time": float(clip.m_MuscleClip.m_StartTime),
+                "clip_stop_time": float(clip.m_MuscleClip.m_StopTime),
+                "sample_rate": float(clip.m_SampleRate),
+                "loop_time": bool(clip.m_MuscleClip.m_LoopTime),
+                "binding_count": len(bindings),
+                "streamed_frame_count": len(frames),
+            },
+        }
+
+    def _extract_door_animation(self, controller, controller_ptr):
+        clips = {}
+        for clip_ptr in controller.m_AnimationClips:
+            clip = clip_ptr.read()
+            clips[getattr(clip, "m_Name", "")] = (clip_ptr, clip)
+        open_entry = clips.get("door_open")
+        close_entry = clips.get("door_close") or clips.get("door_close2")
+        if open_entry is None or close_entry is None:
+            raise SystemExit(
+                f"door controller {getattr(controller, 'm_Name', '')} is missing "
+                f"door_open/door_close clips")
+        state_machine = controller.m_Controller.m_StateMachineArray[0].data
+        states = {}
+        for state_offset in state_machine.m_StateConstantArray:
+            state = state_offset.data
+            states[int(state.m_NameID)] = state
+        # Recovered state name hashes: door_open=3928941173,
+        # door_close/door_close2=3801824743.
+        open_state = states.get(3928941173)
+        close_state = states.get(3801824743)
+        return {
+            "open": self._door_animation_clip(
+                open_entry[1], bool(open_state.m_Loop) if open_state else False),
+            "close": self._door_animation_clip(
+                close_entry[1], bool(close_state.m_Loop) if close_state else False),
+            "source": {
+                "controller_path_id": str(controller_ptr.path_id),
+                "controller_name": getattr(controller, "m_Name", ""),
+                "open_clip_path_id": str(open_entry[0].path_id),
+                "close_clip_path_id": str(close_entry[0].path_id),
+            },
+        }
 
     def extract_player_animations(self, player_root) -> None:
         animator_component = None
@@ -487,13 +701,18 @@ class SceneBuilder:
         return None, None
 
     @staticmethod
-    def _rect_from_collider(position, collider):
-        center_x = float(position.x) + float(collider.m_Offset.x)
-        center_y = float(position.y) + float(collider.m_Offset.y)
+    def _rect_from_collider_xy(position_x, position_y, collider):
+        center_x = float(position_x) + float(collider.m_Offset.x)
+        center_y = float(position_y) + float(collider.m_Offset.y)
         half_x = float(collider.m_Size.x) * 0.5
         half_y = float(collider.m_Size.y) * 0.5
         return [center_x - half_x, center_y - half_y,
                 center_x + half_x, center_y + half_y]
+
+    @staticmethod
+    def _rect_from_collider(position, collider):
+        return SceneBuilder._rect_from_collider_xy(
+            float(position.x), float(position.y), collider)
 
     def _wall_prefab(self):
         manager = None
@@ -587,6 +806,163 @@ class SceneBuilder:
                 "wall instances to layer 17 (Edge). Deterministic single-variant "
                 "rendering in this reconstruction."),
         }
+
+    def _obstacle_prefabs(self):
+        manager = None
+        for obj in self.env.objects:
+            if obj.type.name != "MonoBehaviour":
+                continue
+            if str(obj.path_id) != WALL_PREFAB_MANAGER_PATH_ID:
+                continue
+            manager = obj.read()
+            break
+        if manager is None:
+            raise SystemExit(
+                f"MapManagerLevel {WALL_PREFAB_MANAGER_PATH_ID} not found")
+
+        def collect(transform, parent_pos, parent_angle, parent_scale, path,
+                    is_root=False):
+            go = transform.m_GameObject.read()
+            local = transform.m_LocalPosition
+            local_angle = qangle(transform.m_LocalRotation)
+            local_scale = transform.m_LocalScale
+            offset_x = 0.0 if is_root else float(local.x)
+            offset_y = 0.0 if is_root else float(local.y)
+            cos_a = math.cos(math.radians(parent_angle))
+            sin_a = math.sin(math.radians(parent_angle))
+            world_x = parent_pos[0] + (
+                cos_a * offset_x * parent_scale[0] -
+                sin_a * offset_y * parent_scale[1])
+            world_y = parent_pos[1] + (
+                sin_a * offset_x * parent_scale[0] +
+                cos_a * offset_y * parent_scale[1])
+            world_angle = parent_angle + local_angle
+            world_scale = (
+                parent_scale[0] * float(local_scale.x),
+                parent_scale[1] * float(local_scale.y),
+            )
+            current_path = f"{path}/{go.m_Name}"
+            records = []
+            for component in go.m_Component:
+                if component.component.type.name != "SpriteRenderer":
+                    continue
+                renderer = component.component.read()
+                if not getattr(renderer, "m_Enabled", True):
+                    continue
+                records.append({
+                    "path": current_path,
+                    "sprite_ptr": renderer.m_Sprite,
+                    "sorting_layer": int(renderer.m_SortingLayer),
+                    "sorting_order": int(renderer.m_SortingOrder),
+                    "color": color_bytes(renderer.m_Color),
+                    "flip_x": bool(renderer.m_FlipX),
+                    "flip_y": bool(renderer.m_FlipY),
+                    "local_x": world_x,
+                    "local_y": world_y,
+                    "angle": world_angle,
+                    "scale": [world_scale[0], world_scale[1]],
+                })
+            for child in transform.m_Children:
+                records.extend(collect(child.read(), (world_x, world_y),
+                                       world_angle, world_scale, current_path))
+            return records
+
+        prefabs = []
+        for index, prefab_ptr in enumerate(manager.obstacle_list):
+            game_object = prefab_ptr.read()
+            transform = next(
+                component.component.read() for component in game_object.m_Component
+                if component.component.type.name == "Transform")
+            collider, _ = self._component(game_object, "BoxCollider2D")
+            prefabs.append({
+                "index": index,
+                "name": getattr(game_object, "m_Name", ""),
+                "path_id": str(prefab_ptr.path_id),
+                "serialized_layer": int(game_object.m_Layer),
+                "collider_size": (
+                    [float(collider.m_Size.x), float(collider.m_Size.y)]
+                    if collider is not None else None),
+                "collider_offset": (
+                    [float(collider.m_Offset.x), float(collider.m_Offset.y)]
+                    if collider is not None else None),
+                "collider_trigger": (
+                    bool(collider.m_IsTrigger) if collider is not None else None),
+                "visuals": collect(transform, (0.0, 0.0), 0.0, (1.0, 1.0),
+                                   getattr(game_object, "m_Name", ""),
+                                   is_root=True),
+            })
+        return prefabs
+
+    def _add_obstacle_instances(self):
+        if not self.object_markers:
+            return [], []
+        prefabs = self._obstacle_prefabs()
+        obstacle_solids = []
+        markers = []
+        for marker in self.object_markers:
+            index = int(marker["obj_index"])
+            if not (0 <= index < len(prefabs)):
+                raise SystemExit(
+                    f"RGObjectSkin obj_index {index} is outside "
+                    f"MapManagerLevel.obstacle_list")
+            prefab = prefabs[index]
+            marker_x, marker_y = marker["position"]
+            marker_angle = float(marker["rotation"])
+            for visual in prefab["visuals"]:
+                sprite_id, _ = self.ensure_sprite_asset(visual["sprite_ptr"])
+                self.instances.append({
+                    "sprite": sprite_id,
+                    "position": [marker_x + float(visual["local_x"]),
+                                 marker_y + float(visual["local_y"])],
+                    "rotation": math.radians(
+                        marker_angle + float(visual["angle"])),
+                    "scale": [float(visual["scale"][0]),
+                              float(visual["scale"][1])],
+                    "color": visual["color"],
+                    "sorting_layer": visual["sorting_layer"],
+                    "sorting_layer_name": SORTING_LAYER_NAMES.get(
+                        visual["sorting_layer"], "Unknown"),
+                    "sorting_order": visual["sorting_order"],
+                    "flip_x": visual["flip_x"],
+                    "flip_y": visual["flip_y"],
+                    "path": (f"native_obstacle/{prefab['name']}/"
+                             f"{visual['path'].lstrip('/')}@{marker_x:g},{marker_y:g}"),
+                })
+            collider_rect = None
+            if (prefab["collider_size"] is not None and
+                    prefab["collider_offset"] is not None):
+                size_x, size_y = prefab["collider_size"]
+                offset_x, offset_y = prefab["collider_offset"]
+                center_x = marker_x + float(offset_x)
+                center_y = marker_y + float(offset_y)
+                collider_rect = [
+                    center_x - float(size_x) * 0.5,
+                    center_y - float(size_y) * 0.5,
+                    center_x + float(size_x) * 0.5,
+                    center_y + float(size_y) * 0.5,
+                ]
+                if not prefab["collider_trigger"]:
+                    obstacle_solids.append(collider_rect)
+            markers.append({
+                "name": marker["name"],
+                "path": marker["path"],
+                "obj_index": index,
+                "prefab_name": prefab["name"],
+                "prefab_path_id": prefab["path_id"],
+                "position": [marker_x, marker_y],
+                "rotation_degrees": marker_angle,
+                "collider": collider_rect,
+            })
+        serializable_prefabs = []
+        for prefab in prefabs:
+            record = dict(prefab)
+            record["visuals"] = [
+                {key: value for key, value in visual.items()
+                 if key != "sprite_ptr"}
+                for visual in prefab["visuals"]
+            ]
+            serializable_prefabs.append(record)
+        return serializable_prefabs, markers, obstacle_solids
 
     def _add_wall_instances(self, wall_cells, corridor_cells):
         records = self._wall_prefab()
@@ -699,11 +1075,23 @@ class SceneBuilder:
 
             controller_name = None
             clip_names = []
+            door_animation = None
             if animator is not None and animator.m_Controller:
                 controller = animator.m_Controller.read()
                 controller_name = getattr(controller, "m_Name", None)
                 for clip_ptr in controller.m_AnimationClips:
                     clip_names.append(getattr(clip_ptr.read(), "m_Name", ""))
+                door_animation = self._extract_door_animation(
+                    controller, animator.m_Controller)
+                door_animation["open"]["source"]["clip_path_id"] = str(
+                    next(p.path_id for p in controller.m_AnimationClips
+                         if getattr(p.read(), "m_Name", "") == "door_open"))
+                close_name = next(
+                    name for name in ("door_close", "door_close2")
+                    if name in clip_names)
+                door_animation["close"]["source"]["clip_path_id"] = str(
+                    next(p.path_id for p in controller.m_AnimationClips
+                         if getattr(p.read(), "m_Name", "") == close_name))
 
             door_position = door_tf.m_LocalPosition
             barrier = self._rect_from_collider(door_position, door_collider)
@@ -726,6 +1114,9 @@ class SceneBuilder:
                     if animator is not None and animator.m_Controller else None),
                 "animator_controller_name": controller_name,
                 "animation_clip_names": clip_names,
+                **({"open_animation": door_animation["open"],
+                    "close_animation": door_animation["close"]}
+                   if door_animation else {}),
                 "position": [float(door_position.x), float(door_position.y)],
                 "rotation": [float(door_tf.m_LocalRotation.x),
                              float(door_tf.m_LocalRotation.y),
@@ -806,12 +1197,33 @@ class SceneBuilder:
         wall_prefabs = self._wall_prefab_info()
 
         self._add_wall_instances(sorted(room_walls), sorted(corridor_walls))
+        obstacle_prefabs, obstacle_markers, obstacle_solids = \
+            self._add_obstacle_instances()
         for instance in self.instances:
             path = instance.get("path", "")
             for aisle_name, (side, _, _) in AISLE_DIRECTIONS.items():
                 if f"/{aisle_name}/door/" in path:
                     instance["door"] = side
                     break
+            if not instance.get("door"):
+                continue
+            parts = path.split("/")
+            if "door" not in parts:
+                raise SystemExit(f"door instance path is malformed: {path}")
+            remainder = parts[parts.index("door") + 1:]
+            if not remainder:
+                raise SystemExit(f"door instance path has no leaf: {path}")
+            leaf = remainder[0]
+            instance["door_leaf"] = leaf
+            if len(remainder) == 1:
+                instance["door_role"] = "leaf"
+            elif remainder[1] == "shadow":
+                instance["door_role"] = "shadow"
+            elif remainder[1] == "d":
+                instance["door_role"] = "ornament"
+            else:
+                raise SystemExit(
+                    f"unexpected door instance hierarchy: {path}")
 
         solids = [self._wall_cell_rect(cell)
                   for cell in sorted(room_walls | corridor_walls)]
@@ -827,6 +1239,8 @@ class SceneBuilder:
                                 float(width), float(height)],
             "solids": solids,
             "solid_count": len(solids),
+            "obstacle_solids": obstacle_solids,
+            "obstacle_solid_count": len(obstacle_solids),
             "doors": [
                 {
                     "id": opening["side"],
@@ -843,6 +1257,9 @@ class SceneBuilder:
                     "one_way_block": opening["one_way_block"],
                     "enabled": opening["entrance"],
                     "open": opening["door_open"],
+                    **({"open_animation": opening["open_animation"],
+                        "close_animation": opening["close_animation"]}
+                       if "open_animation" in opening else {}),
                     "classification": (
                         "CONFIRMED serialized collider/trigger geometry; "
                         "NATIVE TEST CONFIGURATION open state"),
@@ -861,8 +1278,9 @@ class SceneBuilder:
             "classification": (
                 "CONFIRMED CreateWall wall cells, wall-prefab collider, "
                 "generated-wall runtime layer 17 (Edge), door/trigger "
-                "colliders; NATIVE TEST entrance/door state and map-cell "
-                "boundary"),
+                "colliders, RGObjectSkin -> obstacle_list replacement and "
+                "obstacle prefab colliders; NATIVE TEST entrance/door state "
+                "and map-cell boundary"),
         }
 
         topology = {
@@ -898,6 +1316,9 @@ class SceneBuilder:
             "aisle_cells": [list(cell) for cell in sorted(aisle_cells)],
             "room_center": room_center,
             "wall_prefabs": wall_prefabs,
+            "obstacle_prefabs": obstacle_prefabs,
+            "obstacle_markers": obstacle_markers,
+            "obstacle_solid_count": len(obstacle_solids),
             "wall_cell_count": len(room_walls),
             "corridor_wall_cell_count": len(corridor_walls),
             "floor_cell_count": len(floor_cells),
@@ -923,6 +1344,23 @@ class SceneBuilder:
             },
             "wall_cells": [list(cell) for cell in sorted(room_walls)],
             "corridor_wall_cells": [list(cell) for cell in sorted(corridor_walls)],
+            "obstacle_cells": [
+                [int(round(marker["position"][0])),
+                 int(round(marker["position"][1]))]
+                for marker in obstacle_markers
+            ],
+            "obstacle_prefabs": [
+                {
+                    "index": prefab["index"],
+                    "name": prefab["name"],
+                    "path_id": prefab["path_id"],
+                    "collider_size": prefab["collider_size"],
+                    "collider_offset": prefab["collider_offset"],
+                    "collider_trigger": prefab["collider_trigger"],
+                }
+                for prefab in obstacle_prefabs
+            ],
+            "spawn": [float(self.args.spawn[0]), float(self.args.spawn[1])],
             "floor_cells": [list(cell) for cell in floor_cells],
             "aisle_cells": [list(cell) for cell in sorted(aisle_cells)],
             "room_center": room_center,
@@ -933,14 +1371,17 @@ class SceneBuilder:
         }
         wall_map["ascii"] = self._wall_map_ascii(
             width, height, offset_x, offset_y,
-            room_walls, corridor_walls)
+            room_walls, corridor_walls,
+            [(int(round(marker["position"][0])),
+              int(round(marker["position"][1])))
+             for marker in obstacle_markers])
         self.topology = topology
         self.wall_map = wall_map
         return collision
 
     @staticmethod
     def _wall_map_ascii(width, height, offset_x, offset_y,
-                        room_walls, corridor_walls):
+                        room_walls, corridor_walls, obstacle_cells=()):
         grid = [[" " for _ in range(ROOM_MAP_CELL_SIZE)]
                 for _ in range(ROOM_MAP_CELL_SIZE)]
         for y in range(offset_y, offset_y + height):
@@ -952,6 +1393,9 @@ class SceneBuilder:
         for (x, y) in corridor_walls:
             if 0 <= x < ROOM_MAP_CELL_SIZE and 0 <= y < ROOM_MAP_CELL_SIZE:
                 grid[y][x] = "+"
+        for (x, y) in obstacle_cells:
+            if 0 <= x < ROOM_MAP_CELL_SIZE and 0 <= y < ROOM_MAP_CELL_SIZE:
+                grid[y][x] = "O"
         for side, cells in (
             ("south", [(x, offset_y - 1) for x in DOOR_GAP_CELLS]),
             ("north", [(x, offset_y + height) for x in DOOR_GAP_CELLS]),
@@ -983,6 +1427,7 @@ class SceneBuilder:
         transform = tf_ptr.read()
         game_object = transform.m_GameObject.read()
         name = getattr(game_object, "m_Name", "")
+        marker_index = self._object_skin_index(game_object)
         local_position = transform.m_LocalPosition
         local_rotation = transform.m_LocalRotation
         local_scale = transform.m_LocalScale
@@ -1003,6 +1448,18 @@ class SceneBuilder:
             parent_scale[1] * float(local_scale.y),
         )
         current_path = f"{path}/{name}"
+        if marker_index is not None:
+            # RGRoomX.CreateRoomObstacle destroys these RGObjectSkin markers
+            # after instantiating obstacle_list[obj_index]. Do not render the
+            # placeholder skin; the runtime replacement is added below.
+            self.object_markers.append({
+                "name": name,
+                "path": current_path,
+                "obj_index": marker_index,
+                "position": [world_x, world_y],
+                "rotation": world_angle,
+            })
+            return
         for component in game_object.m_Component:
             if component.component.type.name == "SpriteRenderer":
                 sr = component.component.read()
@@ -1011,6 +1468,19 @@ class SceneBuilder:
                         sr, (world_x, world_y), world_angle, world_scale, current_path)
         for child in transform.m_Children:
             self.walk_room(child, (world_x, world_y), world_angle, world_scale, current_path)
+
+    @staticmethod
+    def _object_skin_index(game_object):
+        for component in game_object.m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            try:
+                data = component.component.read()
+            except Exception:
+                continue
+            if hasattr(data, "obj_index"):
+                return int(data.obj_index)
+        return None
 
     def walk_player(self, tf_ptr, parent_pos, parent_angle, parent_scale, path):
         transform = tf_ptr.read()
@@ -1085,13 +1555,19 @@ class SceneBuilder:
             "source_room": "room/r1_1",
             "source_player": "common/c00",
             "spawn": [spawn[0], spawn[1]],
+            "spawn_classification": (
+                "NATIVE TEST CONFIGURATION: player starts just inside the "
+                "south door on free floor; the recovered c00 prefab transform "
+                "(20,20) overlaps the central RGObjectSkin -> wall603 obstacle "
+                "block in r1_1"),
             "camera": {
                 "position": [spawn[0], spawn[1]],
                 "orthographic_size": 10.5,
                 "viewport": [1920.0, 1080.0],
             },
             "textures": [self.textures[key] for key in
-                         ("floor_atlas", "character_atlas", "object_common_atlas")
+                         ("floor_atlas", "character_atlas", "object_common_atlas",
+                          "object_level_atlas")
                          if key in self.textures],
             "sprites": [self.sprites[key] for key in self.sprites],
             "instances": self.instances,
@@ -1115,7 +1591,7 @@ def main(argv=None) -> int:
     parser.add_argument(
         "--wall-map", type=Path,
         default=ROOT / "analysis/re/r1_1_wall_map.json")
-    parser.add_argument("--spawn", type=float, nargs=2, default=(20.0, 20.0))
+    parser.add_argument("--spawn", type=float, nargs=2, default=(20.0, 15.0))
     args = parser.parse_args(argv)
 
     builder = SceneBuilder(args)
@@ -1133,7 +1609,7 @@ def main(argv=None) -> int:
     wall_map_txt.write_text(
         "r1_1 recovered room topology (ASCII verification map)\n"
         "Legend: # room wall  + corridor wall  D five-cell door opening  "
-        "':' corridor floor  '.' room floor\n"
+        "O recovered wall603 obstacle  ':' corridor floor  '.' room floor\n"
         "Each cell is one world unit; coordinates are integer cell centers.\n\n" +
         builder.wall_map["ascii"],
         encoding="utf-8")
@@ -1183,10 +1659,18 @@ def main(argv=None) -> int:
             len(track["keys"])
             for animation in builder.animations.values()
             for track in animation.get("tracks", [])),
+        "door_animation_keyframe_count": sum(
+            sum(len(clip[name]) for name in (
+                "leaf_extent", "shadow_visible", "ornament_visible",
+                "collider_trigger", "collider_size_x", "collider_size_y",
+                "leaf_sprites"))
+            for door in scene["collision"]["doors"]
+            for clip in (door["open_animation"], door["close_animation"])),
         "animations": animation_records,
         "topology": {
             "wall_cell_count": scene["topology"]["wall_cell_count"],
             "corridor_wall_cell_count": scene["topology"]["corridor_wall_cell_count"],
+            "obstacle_solid_count": scene["topology"]["obstacle_solid_count"],
             "floor_cell_count": scene["topology"]["floor_cell_count"],
             "aisle_cell_count": scene["topology"]["aisle_cell_count"],
             "opening_count": len(scene["topology"]["openings"]),
@@ -1195,7 +1679,7 @@ def main(argv=None) -> int:
             "wall_map_sha256": wall_map_sha,
         },
         "collision": scene["collision"],
-        "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry and c00 idle/run clips; no proprietary pixels committed.",
+        "notes": "r1_1 native test reconstruction with recovered CreateWall/door geometry, door_open/door_close Animator keyframes, RGObjectSkin -> wall603 obstacle replacement, and c00 idle/run clips; no proprietary pixels committed.",
     }
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
     args.manifest.write_text(

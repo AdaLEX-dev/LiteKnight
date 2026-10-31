@@ -29,8 +29,10 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 | Asset-runtime PNG | FUNCTIONAL | libpng, exact-byte tests, synthetic PNGs |
 | Controlled Unity Texture2D | FUNCTIONAL / MANUAL PASS | `level-objects`/`f903`; deterministic conversion + native round-trip + render |
 | Unity Sprite metadata / camera | FUNCTIONAL | `SpriteData`, `Camera2D`, `analysis/assets/sprites.md`, `coordinate_system.md` |
-| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 531 instances, 15 sprite assets, 3 textures, native SceneLoader, Wayland/Vulkan render |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 629 instances, 17 sprite assets, 4 textures, native SceneLoader, Wayland/Vulkan render |
+| Player simulation/render sync | FUNCTIONAL / TESTED | `PlayerRenderSync`, `--locomotion-debug` sim/render/body/shadow/camera logs |
 | Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`/`AnimationPlayer`/`LocomotionAnimator`, real 4-frame clips, fixed-step loops |
+| Door animation / obstacle replacement | FUNCTIONAL / MANUAL PASS | `Door`/`RoomDoorController`, recovered clips, 49 wall603 obstacles |
 | Keyboard locomotion / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, recovered wall/door AABBs, one-way closed doors, `Camera2D` follow |
 | Room topology / door traversal | FUNCTIONAL / MANUAL PASS | `analysis/re/room_topology.md`, `r1_1_wall_map.json`, SceneLoader, AabbCollision |
 | Full Animator / registry / KTX2 | NOT STARTED | transitions and full registry remain |
@@ -340,25 +342,35 @@ allows:
   `door_open`; exact higher-level listener remains UNKNOWN.
 - Native `AabbCollisionWorld` gained one-way solids; tests cover all four doors in
   both directions and wall sliding.
-- `r1_1_visual.json` now has 531 instances / 15 sprite assets; the initial
-  all-open state draws 471. Scene SHA-256:
-  `e7721abf2d90121cb0165c6f0cd1363b8f723c7574d3b09ca9a5780033b1e1d0`;
+- Player body/shadow rendering now follows the simulated player through
+  `PlayerRenderSync`; shadow offset is `(0,-0.05)`. Animation/camera cannot move
+  the player world transform.
+- Recovered `door_open`/`door_close`/`door_close2` clips drive `Door` states and
+  collision; `O` toggles OpenDoor/CloseDoor and `C` closes all. Native collision
+  uses the full barrier during the non-trigger interval (m_Size thinning is a
+  documented approximation).
+- All 49 `RGObjectSkin` markers are replaced by `wall603` visuals and 49 obstacle
+  AABBs; the test spawn moved to `(20,15)` because `(20,20)` is inside the block.
+- `r1_1_visual.json` now has 629 instances / 17 sprite assets / 4 textures; the
+  initial all-open state draws 589. Scene SHA-256:
+  `a56c2bac853aeb245c03bd721156f195e0546e06d9ee469672c06a51a3d4bc03`;
   wall-map SHA-256:
-  `10d5b9e5710f532c1006fdb06cdb5f91655db78b39503c878a0c3ac48ad252f9`.
-- Tests: **55 cases / 1838 assertions**.
-- Runtime smoke: `recovered solids=140 doors=4 topology=true`, room interior
-  `[12.5,13]..[27.5,28]`, door state toggle via **O**, closed-door blocking and
-  open-door/east/south trigger traversal observed manually.
+  `1d7d10c84bfdad1855910513703176b91f895a47dd189c932387d30c8cf1e8da`.
+- Tests: **63 cases / 3913 assertions**.
+- Runtime smoke: `recovered solids=140 obstacles=49 doors=4 topology=true`, room
+  interior `[12.5,13]..[27.5,28]`, animated door lifecycle and trigger traversal
+  observed manually; Debug Vulkan validation clean and ASan/UBSan clean.
 
 Evidence: `analysis/re/room_topology.md`,
 `analysis/re/r1_1_wall_map.json`, `analysis/assets/locomotion.md`.
 
 ## 5. Remaining blockers / gaps
 
-1. **Full Animator / room transition / KTX2 / asset registry** — idle/run and
-   recovered `CreateWall`/door/aisle collision are implemented; transitions,
-   other clips, door animation timing, the event-to-map-manager traversal
-   listener, general atlas packing, and the full registry remain. The source
+1. **Full Animator / room transition / KTX2 / asset registry** — idle/run,
+   the recovered door clips, `CreateWall`/door/aisle collision, and
+   `RGObjectSkin` obstacle replacement are implemented; full Animator
+   transitions, other clips, the event-to-map-manager traversal listener,
+   general atlas packing, and the full registry remain. The source
    `m_PPtrCurves` encoding is documented as a HIGH CONFIDENCE mapping +
    streamed-curve reconstruction, not full Unity Animator compatibility.
 2. **Shader/install path** — run-time shader and test-asset lookup now goes through

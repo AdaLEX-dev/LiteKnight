@@ -39,3 +39,11 @@ writes a deterministic PNG and raw RGBA8 dump under gitignored
 `assets/generated/texture-conversion/`, and records provenance/hashes in
 `analysis/assets/texture_conversion_manifest.json`. The scene builder puts
 runtime PNG/scene bytes under gitignored `assets/generated/visual/r1_1_visual/`.
+
+The scene builder additionally decodes the level-common `object_level_atlas`
+through UnityPy's Texture2D decoder (that sprite-atlas texture is outside the
+general conversion profile) so `RGObjectSkin` markers can be replaced with the
+real `wall603` obstacle sprites. It also exports the serialized `door_open`,
+`door_close`, and `door_close2` Animator clips (transform, renderer visibility,
+sprite PPtr, and collider curves) into the committed scene metadata; no image
+bytes are committed.

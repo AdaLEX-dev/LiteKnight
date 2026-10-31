@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Player render sync / animated doors / obstacle replacement — 2026-10-31
+
+- Fixed the stationary-Knight bug: `Application::BuildRenderBatch` now resolves
+  c00 body/shadow positions from `PlayerLocomotion` through an explicit
+  `PlayerRenderSync` binding. The shadow keeps its recovered `(0,-0.05)` offset;
+  animation and camera follow cannot move the player world transform.
+- Added `sim`/`render`/`body`/`shadow`/`camera` output to
+  `--locomotion-debug`.
+- Recovered the serialized `door_open`, `door_close` and `door_close2` Animator
+  clips, including transform, renderer visibility, sprite PPtr, and collider
+  curves.
+- Added `game/room/Door` with `OPEN`/`CLOSING`/`CLOSED`/`OPENING` states and
+  `RoomDoorController`; door rendering and collision now follow clip timing.
+  **O** toggles OpenDoor/CloseDoor and **C** closes all doors.
+- Replaced r1_1's 49 `RGObjectSkin` placeholder markers with the recovered
+  `wall603` obstacle representation and 49 obstacle AABBs. The wall visual and
+  collision cell sets are now tested for exact correspondence.
+- Moved the native test spawn from `(20,20)` to `(20,15)` because the recovered
+  central obstacle block occupies the c00 prefab origin.
+- Added player-render, door-state/collision, and wall/obstacle visual
+  correspondence tests. Suite: 63 cases / 3913 assertions.
+
 ### Gate B / Phase 3 Evidence Pass — 2026-10-31
 
 - Confirmed the reference fixed timestep is **0.02 s (50 Hz)** from the serialized
