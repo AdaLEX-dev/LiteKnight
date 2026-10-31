@@ -72,38 +72,90 @@ correction is handled by the existing `SpriteData` / `SpriteRenderer` path.
 
 ## 3. Collision
 
-### Recovered evidence
+### Recovered reference path
 
-- `r1_1` serializes `room_width = 15`, `room_height = 15`.
-- `RGRoomX.CreateWall` generates 1×1 wall prefabs on the Edge layer (17). Exact
-  per-cell gaps and door-open conditions remain PARTIAL/UNKNOWN.
-- `b_point` floor markers occupy `x = 14..26`, `y = 14..26` (step 2).
-- Serialized door/bullet colliders are at the room door areas; they are not the
-  complete wall geometry.
+`c00` uses Unity Physics2D:
+
+```text
+root:
+  Rigidbody2D mass=1, gravityScale=0, constraints=4 (freeze rotation),
+              collisionDetection=1 (continuous)
+  BoxCollider2D size=(0.5,0.5), offset=(0,0.7), isTrigger=true
+child "collider":
+  CircleCollider2D radius=0.4, offset=(0,0.5), isTrigger=false,
+                    layer=8 (Body)
+```
+
+`RGController.SetVelocity` writes `Rigidbody2D.velocity`; the reference player is
+moved by Unity's physics solver, not by a custom transform/raycast mover. The
+root box is the interaction trigger; the child circle is the physical collider.
+
+`TagManager`/`Physics2DSettings` confirm:
+
+```text
+Body=8, Obstacle=12, Wall=13, Door=14, Edge=17
+Body collides with Obstacle, Wall, Door and Edge.
+```
+
+The recovered `r1_1` room uses:
+
+```text
+room_x_offset = room_y_offset = (41 - 15) / 2 = 13
+wall rows:    y = 12 and y = 28
+wall columns: x = 12 and x = 28
+door gaps:    five cells 18..22 on every side
+wall prefab:  1x1 BoxCollider2D, offset (0,0.5), i.e. [x-0.5,x+0.5] x [y,y+1]
+wall layer:   prefab serialized 13 (Wall); generated instances 17 (Edge)
+interior:     [12.5,13.0] .. [27.5,28.0]
+```
+
+`RGRoomX.CreateWall` always creates four five-cell gaps. `RGRoomX.CreateAisle`
+either builds an open door/corridor (`entrance=1`) or disables the door and fills
+the gap with five wall prefabs (`entrance=0`). The serialized `r1_1` entrance is
+`[0,0,0,0]`; `MapManagerLevel` overwrites it from `room_relation` for actual map
+instances. The native test scene opens all four sides as an explicit test
+configuration.
+
+Serialized doors have 5x1 or 1x5 non-trigger barriers and 5x1.5 or 1.5x5 trigger
+volumes. The Animator open clip sets the barrier `isTrigger=true`; the closed
+clip restores the full solid barrier. Closed doors also have a
+`PlatformEffector2D` one-way normal facing into the room, so they block exiting
+but allow entry from the aisle.
 
 ### Native design
 
-For this test chamber, collision uses a deterministic swept AABB with:
+The native runtime consumes `analysis/re/r1_1_wall_map.json` through
+`r1_1_visual.json`:
+
+- 44 room wall cells and 96 aisle corridor wall cells become static AABBs;
+- four recovered door barrier AABBs are added as **one-way** solids while a
+  door is closed (south negative Y, north positive Y, west negative X, east
+  positive X);
+- open doors contribute no barrier and their leaf sprites are hidden;
+- the 41x41 map-cell edge is a clearly labeled native test boundary.
+
+The player collision footprint is the enclosing square of the reference
+`CircleCollider2D`:
 
 ```text
-playable room interior: [13.5, 13.5] .. [26.5, 26.5]
+half extents = (0.4, 0.4), offset = (0, 0.5) from the feet anchor
 ```
 
-This is a **NATIVE APPROXIMATION**: 15×15 room dimensions with a 1-unit perimeter
-wall ring. The player collision footprint is a 0.5×0.5 AABB at the feet, also a
-native approximation; the serialized c00 `BoxCollider2D` (0.5×0.5, offset 0,0.7)
-is a trigger/hurtbox and is not used as the solid wall collider.
+This is an explicit **APPROXIMATION** of the circle/Unity solver. Collision
+behavior preserves:
 
-Collision behavior:
+- X/Y axis separation and wall sliding;
+- swept checks against thin wall cells;
+- feet-anchored player position;
+- deterministic 50 Hz movement;
+- idle/run animation and camera follow.
 
-- X and Y axes resolve separately, producing wall sliding;
-- swept checks prevent crossing thin walls even for a large test delta;
-- normal movement is 0.195 units per 50 Hz tick, well below wall thickness;
-- no complex physics engine, gravity, or rigidbody simulation is introduced.
+Door animation transition timing is not simulated natively; the debug toggle
+switches final open/closed states instantaneously. That timing remains an
+approximation. Full Physics2D parity is not claimed.
 
-Doors, door gaps, and the full `CreateWall` gap algorithm are not reconstructed in
-this milestone. The current boundary is closed and explicit as a test-chamber
-approximation.
+Recovered evidence and the machine-readable map:
+`analysis/re/room_topology.md`, `analysis/re/r1_1_wall_map.json`.
 
 ## 4. Idle/run state
 
@@ -160,8 +212,16 @@ for tests.
 | Fixed 50 Hz movement/collision | CONFIRMED timing reference + NATIVE DESIGN |
 | Room width/height 15 | CONFIRMED serialized `RGRoomX` |
 | `b_point` floor extent 14..26 | CONFIRMED serialized prefab |
-| Native 13×13 interior AABB | NATIVE DESIGN / approximation |
-| Exact wall gaps and door collision | UNKNOWN / PARTIAL |
+| `CreateWall` wall rows/columns and 18..22 gaps | CONFIRMED disassembly + serialized offsets |
+| Wall prefab 1×1 collider offset (0,0.5) | CONFIRMED serialized prefab |
+| Door barrier/trigger rectangles and path IDs | CONFIRMED serialized data |
+| Door open/closed collider states | CONFIRMED streamed animation clips |
+| Closed-door one-way inward traversal | HIGH CONFIDENCE effector geometry + matrix |
+| Native room/corridor collision solids | CONFIRMED geometry consumed by native code |
+| Native player AABB vs circle collider | APPROXIMATION |
+| Door transition timing in native code | APPROXIMATION (instant final-state switch) |
+| Exact entrance bits of runtime `r1_1` | UNKNOWN; test scene uses all-open |
+| Event-to-map-manager traversal listener | UNKNOWN |
 | Idle/run clip IDs and four-frame mappings | CONFIRMED/HIGH CONFIDENCE |
 | Idle/run selection rule | NATIVE DESIGN |
 | Camera follow smoothing 8.0 | NATIVE DESIGN / reference UNKNOWN |
@@ -169,15 +229,27 @@ for tests.
 ## 7. Verification
 
 The native executable was driven with real SDL keyboard events through
-`/dev/uinput` (`ydotool`) against the focused Wayland window. Debug logs showed:
+`/dev/uinput` (`ydotool`) against the focused Wayland window. The recovered
+topology run rendered 531 instances / 15 sprite assets / 3 textures and logged:
 
 ```text
-pos=(20.000,20.000) input=(0.00,0.00) state=ide
-pos=(21.560,20.000) input=(1.00,0.00) state=run
-pos=(26.250,20.000) input=(1.00,0.00) state=run blocked=(true,false)
-pos=(26.250,26.250) input=(0.71,0.71) state=run blocked=(true,true)
-pos=(26.250,26.250) input=(0.00,0.00) state=ide
+Collision: bounds [0.00,0.00]..[41.00,41.00], recovered solids=140, doors=4, topology=true
+Room interior: [12.50,13.00]..[27.50,28.00]
+Render batch: 471 sprite instances   (all four doors initially open -> leaves hidden)
+Door state: all recovered doors closed (solid, leaves visible); closed barriers=4
+pos=(15.919,12.900) input=(0.00,-1.00) blocked=(false,true)   // solid perimeter/door barrier
+Door trigger south: enter aisle=aisle_s open=false active=false
+Door state: all recovered doors open (passable, leaves hidden); closed barriers=0
+Door trigger south: exit aisle=aisle_s open=true active=true
+pos=(18.844,8.415) input=(0.00,-1.00)                          // passed through open south opening
+Door trigger east: enter aisle=aisle_e open=true active=true
+Door trigger east: exit aisle=aisle_e open=true active=true
+pos=(31.895,20.000) input=(1.00,0.00)                          // east corridor traversal
 ```
 
-The player remained at the boundary, changed from run to idle on key release, and
-the camera followed to the boundary. Temporary screenshots are not committed.
+The player remained blocked at the closed barrier, passed through the same
+opening after the door opened, generated door enter/exit events only while
+`door_open` was true, and camera follow remained active. The injected key stream
+was noisy (some keys remained held between runs), so these excerpts are evidence
+of the state transitions rather than a clean speed measurement. Unit tests cover
+all four doors in both directions deterministically.

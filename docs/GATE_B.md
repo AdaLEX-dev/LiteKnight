@@ -5,11 +5,13 @@
 **Status:** **PARTIAL**
 
 > Gate B is **not** claimed complete. The reusable engine/runtime primitives needed
-> by the first Phase 4 stages are understood, but exact wall/door placement, weapon
-> cadence/spread-field identity, and full death/reborn slots remain PARTIAL. These
-> are now scoped: the first slice can use explicitly labelled approximations, while
-> full parity remains Phase 3 work. No unlabelled speculative implementation may
-> start.
+> by the first Phase 4 stages are understood. Wall/door placement, wall-prefab
+> collision and closed-door traversal are now recovered; runtime entrance
+> assignment for a generated `r1_1`, the event-to-map-manager listener, door
+> transition timing, weapon cadence/spread-field identity, and full death/reborn
+> slots remain PARTIAL. The first slice continues to use explicitly labelled
+> approximations; full parity remains Phase 3 work. No unlabelled speculative
+> implementation may start.
 
 ---
 
@@ -41,8 +43,8 @@ Canonical evidence documents:
 | Time | Fixed 50 Hz step, max timestep, time scale | serialized `TimeManager` in `globalgamemanagers` | CONFIRMED | CONFIRMED | coroutine order vs FixedUpdate unobserved |
 | Math | Unity 2D vectors, quaternion composition, Y-up world, metres/units | Unity API metadata; room collider coordinates | CONFIRMED | HIGH CONFIDENCE | exact float math parity not runtime-verified |
 | Lifecycle | Awake/Start/Update/FixedUpdate/OnDestroy; coroutine destruction; pooling | `RGBullet.DestroySelf`; `PrefabPool`; metadata | PARTIAL | HIGH CONFIDENCE | exact pool ownership and destruction order |
-| Scene/room | `r1_1` prefab, root `RGRoomX`/`EnemyMaker`, groups/doors/aisles; `room_width=15`, `room_height=15` | `room/r1_1` bundle; `analysis/re/rooms_scene.md` | PARTIAL | HIGH CONFIDENCE | exact per-cell wall/door gap placement; full door/aisle state machine |
-| Collision | Physics2D gravity (0,-9.81), trigger queries, layers/tags | `Physics2DSettings`, `TagManager` | CONFIRMED | HIGH CONFIDENCE | wall collision is runtime-generated, not the 12 serialized colliders |
+| Scene/room | `r1_1` prefab, root `RGRoomX`/`EnemyMaker`, groups/doors/aisles; `room_width=15`, `room_height=15`; 41-unit map cell; offsets 13/13 | `room/r1_1` bundle; `analysis/re/room_topology.md` | PARTIAL | HIGH CONFIDENCE | runtime entrance bits for a generated instance; event-to-map-manager listener; door transition timing |
+| Collision | Physics2D gravity (0,-9.81), trigger queries, layers/tags; c00 physical CircleCollider2D r=0.4 offset (0,0.5) | `Physics2DSettings`, `TagManager`, serialized c00 | CONFIRMED | HIGH CONFIDENCE | native swept AABB approximates the circle and Unity solver; wall collision is runtime-generated from `CreateWall`/`CreateAisle` |
 | Projectile | `Bullet01`/`RGBullet` fields, trigger chain, destroy_time, rotation; BulletInfo speed 36 overrides prefab 10 | `weapon_000`, `bullet_0`, `RGBullet.UpdateInfo` `0x1168000` | PARTIAL | HIGH CONFIDENCE | exact velocity/rebound/through and fire cadence |
 | Damage | Projectile → player/enemy/box dispatch; armor/HP mutation | `analysis/re/damage.md`; `0x116078C`, `0x1160F78`, `0x1160ADC` | CONFIRMED (core) | CONFIRMED | effect-trigger overrides/crit/element details |
 | Death | Player/enemy death flags, collider/weapon disable, Animator, game-over; Reborn/ForceReborn/DoReborn; TryAgain/NextScene | `0x1179ECC`, `0x110DE18`, `0x117E27C`, `0x111F0CC` | PARTIAL | HIGH CONFIDENCE | exact +0x328/+0x3A8/+0x3E8 slot owners and UI sequencing |
@@ -70,8 +72,19 @@ Canonical evidence documents:
   `-1`/`-3`; it is not `RGGameInfo.map_random_seed`.
 - `r1_1` prefab contains 178 transforms, 12 box colliders, 4 door triggers,
   4 doors, 4 aisles, 8 platform effectors, and 4 animators; serialized
-  `room_width=15`, `room_height=15`; wall collision is generated at runtime from
-  `MapManagerLevel.wall_list` 1×1 collider prefabs on layer `Edge` (17).
+  `room_width=15`, `room_height=15`. Wall collision is generated at runtime from
+  `MapManagerLevel.wall_list` prefab `wall601`/`wall602`: 1×1 non-trigger
+  `BoxCollider2D`, offset `(0,0.5)`, tag `Wall`. The prefab is serialized on
+  layer 13 `Wall`; `RGRoomX.cctor` sets `EdgeLayer=17` and generated instances are
+  assigned to layer 17 `Edge`.
+- `RGRoomX.CreateWall` skips the five cells `18..22` on every side; runtime
+  offsets are `(41-15)/2 = 13`; the interior is `[12.5,13]..[27.5,28]`.
+- `RGRoomX.CreateAisle` opens or wall-fills each side from the
+  `[east,south,west,north]` entrance array. Serialized `r1_1` entrance is
+  `[0,0,0,0]`; actual instances receive bits from `room_relation`.
+- Door barriers are `5×1`/`1×5`; triggers are `5×1.5`/`1.5×5`; open clips set
+  `isTrigger=true`; closed clips restore full solid colliders with a one-way
+  inward `PlatformEffector2D`.
 - Player spawn comes from `MapManager.centerPoint`; `b_point` children are added
   to `RGRoomX.floor_list` as valid floor/spawn positions.
 - `Gun001.Attack` → `CreateBullet` → `BulletFactory.TakeBullet`; weapon bullet
@@ -92,11 +105,12 @@ Canonical evidence documents:
 
 ## 4. Remaining blockers
 
-1. **Exact wall/door placement.** The collision source is now confirmed
-   (`RGRoomX.CreateWall` instantiates `MapManagerLevel.wall_list` prefabs on layer
-   `Edge`), but the exact per-cell gap conditions and complete door/aisle state
-   machine are PARTIAL. First-slice approximation: use a rectangular 15×15 room
-   perimeter with serialized door openings; label it.
+1. **Room traversal beyond the prefab.** Wall/door placement, wall-prefab
+   colliders, four five-cell openings, door barrier/trigger geometry, and
+   closed-door one-way collision are now CONFIRMED and implemented. Remaining
+   PARTIAL: the exact entrance bits of any generated `r1_1`, the
+   event-to-`MapManagerLevel` listener (`IntoAisle`), door animation transition
+   timing, and adjacent-room generation.
 2. **Weapon cadence/spread field.** `Gun001.Attack → CreateBullet →
    BulletFactory.TakeBullet` is confirmed; speed 36, deviation 5, and a
    `Random.Range(-spread,+spread)` angle are reconstructed. Exact cooldown and the
@@ -120,7 +134,9 @@ Canonical evidence documents:
 the Phase 4 runtime and to implement the first bootstrap/renderer/asset/simulation
 layers. The first slice may use the following **explicitly accepted approximations**:
 
-- rectangular 15×15 room perimeter with serialized door openings,
+- all-open entrance state for the single-room `r1_1` test reconstruction,
+- enclosing-AABB approximation of the c00 circle collider and door transition
+  timing,
 - fixed documented attack interval for `weapon_000`,
 - death + restart without a full reborn-card flow,
 - minimal `EnemyAI04` contact behavior.

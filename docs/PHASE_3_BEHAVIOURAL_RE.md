@@ -89,11 +89,17 @@ The following are **not** complete:
 
 - `RGRoomX.CreateWall` (`0xDEBE3C`) instantiates wall prefabs from
   `MapManagerLevel.wall_list` (`+0x100`), parents them to `wall_group`, and sets
-  layer `RGRoomX.EdgeLayer` (17). Wall prefabs (`wall101`/`wall201`) have 1×1
-  non-trigger `BoxCollider2D`. The 12 serialized colliders are not the complete
-  playable geometry.
+  `RGRoomX.EdgeLayer` = 17 (`Edge`). Wall prefabs `wall601`/`wall602` are
+  serialized on layer 13 (`Wall`) and have a 1×1 non-trigger `BoxCollider2D` at
+  offset `(0,0.5)`. The 12 serialized
+  colliders are not the complete playable geometry.
+- `CreateWall` skips the five cells `18..22` on every side; runtime offsets are
+  `(41-15)/2 = 13`; wall rows are `y=12/28`, columns `x=12/28`; interior is
+  `[12.5,13]..[27.5,28]`. `CreateAisle` opens each side or fills the five-cell gap
+  with wall prefabs from the `[east,south,west,north]` entrance array.
 - Serialized `r1_1`: `room_width=15`, `room_height=15`, `room_type=1`,
-  `door_open=1`, offsets 0.
+  `door_open=1`, template offsets 0. Four serialized door barriers/triggers and
+  Animator open/close clips are recovered; closed doors are one-way inward.
 - `RGGameSceneManager.CreatePlayer` uses `MapManager.centerPoint` for the player
   spawn. `RGRoomX.LoadRoom` finds `b_point`, adds its child positions to
   `RGRoomX.floor_list`; `b_point` is a valid floor/spawn marker group.
@@ -132,8 +138,9 @@ The following are **not** complete:
 - `Gun001.Attack` calls `RGWeapon.bullet_speed`, then `Gun001.CreateBullet`; that
   method uses `RGRandom.Range` for deviation and calls
   `BulletFactory.TakeBullet(BulletInfo, DamageInfo, …)`.
-- `RGRoomX`/`MapManagerLevel` likely instantiate wall prefabs from
-  `wall_list`/`floor_list`; `wall101`/`wall201` have 1×1 non-trigger colliders.
+- `RGRoomX` instantiates wall prefabs from `MapManagerLevel.wall_list`;
+  `wall601`/`wall602` have 1×1 non-trigger colliders. Floor/obstacle prefab
+  selection remains only partly traced.
 
 ## 4. What remains HYPOTHESIS
 
@@ -142,8 +149,9 @@ The following are **not** complete:
   identities are confirmed; the display-name mapping is not.
 - The meaning of `RGGameProcess.this_index` sentinel values `-1`/`-3` (likely
   non-gameplay scenes/modes).
-- Wall collision placement from the room grid; wall prefab selection by level.
-- Room door/aisle state transitions and player spawn point selection.
+- Entrance bits of a specific generated `r1_1`; wall variant selection by seed.
+- Higher-level door/aisle transition listener and player spawn selection in a
+  generated map.
 - Exact projectile velocity formula and whether the prefab speed 10 or weapon
   bullet speed 36 is the initial velocity.
 - Whether critical hits ever multiply HP damage in any weapon/effect subclass
@@ -155,7 +163,8 @@ The following are **not** complete:
 - Full `EnemyAI01..20` state machines, attack patterns, and coroutine timing.
 - Full weapon catalogue and `RGWeapon`/`RGHand`/`RGBaseHand` state machines.
 - Procedural map generation (`MapManagerLevel.CreateMap`, room graph, templates).
-- Door/aisle/room clear/transition state machines.
+- Event-to-`MapManagerLevel` traversal listener and adjacent-room transition
+  orchestration; door/aisle geometry and closed-door collision are recovered.
 - Save file format/versioning (`RGSaveManager.Save/Load`, `AboGameData`).
 - Full reborn/revive/game-over/restart branches.
 - Animation event semantics and Animator controller state machines.
@@ -184,7 +193,7 @@ forbidden.
 
 | Slice item | Current evidence | Status |
 |---|---|---|
-| Room `r1_1` prefab/hierarchy | `analysis/re/rooms_scene.md` | CONFIRMED asset; runtime wall source confirmed; exact gaps PARTIAL |
+| Room `r1_1` prefab/hierarchy | `analysis/re/room_topology.md` | CONFIRMED wall/door/aisle geometry and closed-door collision; runtime entrance/listener/timing PARTIAL |
 | Player `c00`/`C01Controller` | serialized prefab + stats | CONFIRMED technical; display name CANDIDATE |
 | Enemy `e_slime01`/`EnemyAI04` | serialized prefab + stats + contact path | CONFIRMED technical; full AI PARTIAL |
 | Weapon `weapon_000`/`Gun001` | serialized fields + Attack/CreateBullet chain | CONFIRMED asset/path; cooldown PARTIAL |
@@ -208,7 +217,9 @@ forbidden.
 ## 9. Phase 3 conclusion
 
 **PARTIAL.** The engine and vertical-slice behavioural contract is now concrete
-enough to design Phase 4 and begin the non-gameplay bootstrap. The first slice may
-use explicitly labelled approximations for exact wall gaps, attack cooldown, full
-reborn UI, and minimal `EnemyAI04` AI. Full Phase 3 parity remains incomplete; see
+enough to design Phase 4 and begin the non-gameplay bootstrap. Wall/door/aisle
+geometry and closed-door traversal are now recovered; remaining labelled
+approximations include all-open entrance state for the single-room test scene,
+native AABB/circle and door-timing approximations, attack cooldown, full reborn
+UI, and minimal `EnemyAI04` AI. Full Phase 3 parity remains incomplete; see
 `docs/GATE_B.md`, `docs/VERTICAL_SLICE.md`, and `analysis/re/*.md`.

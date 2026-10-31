@@ -176,8 +176,11 @@ What is recovered and what is native:
 | c00 `speed = 6.5`, `speed_rate = 0.5` | CONFIRMED serialized values |
 | `SetVelocity` low-inertial formula | HIGH CONFIDENCE; native effective speed `9.75` |
 | Fixed 0.02 s simulation consumption | CONFIRMED reference timing; native loop |
-| Native 13×13 interior collision AABB | NATIVE DESIGN / approximation from 15×15 room + 1-unit wall ring |
-| Player 0.5×0.5 feet AABB | NATIVE DESIGN; serialized c00 collider is a trigger hurtbox |
+| `CreateWall` 44 room wall cells, four five-cell gaps | CONFIRMED disassembly + serialized offsets |
+| `CreateAisleWall` 96 corridor wall cells | CONFIRMED disassembly |
+| Door barriers/triggers and one-way closed state | CONFIRMED serialized colliders + streamed clips/effector |
+| Player physical collider CircleCollider2D r=0.4 offset (0,0.5) | CONFIRMED serialized c00 child collider |
+| Native enclosing AABB (0.8×0.8, offset 0.5) | APPROXIMATION of the circle/Unity Physics2D solver |
 | 50 Hz idle/run state switching | NATIVE DESIGN |
 | Camera follow smoothing `8.0` | NATIVE DESIGN; reference values UNKNOWN |
 

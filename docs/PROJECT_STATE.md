@@ -1,14 +1,15 @@
 # Soul Knight 2.6.8 — Project State
 
-**Last Updated:** 2026-10-31 (native locomotion slice)
+**Last Updated:** 2026-10-31 (native room topology and door traversal slice)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
-**Current status:** Phase 4A-4E foundation is implemented and manually verified:
+**Current status:** Phase 4A-4F foundation is implemented and manually verified:
 Wayland-only SDL3 window, Vulkan 1.3 device/swapchain, 50 Hz/60 FPS loop, a
 batched textured sprite renderer, a native `r1_1` reconstruction test scene,
-real `c00` idle/run animation, keyboard movement, fixed-step collision, and
-camera follow. Combat, AI, audio, and UI are not implemented. The vertical slice
-is **not** cleared.
+real `c00` idle/run animation, keyboard movement, recovered `CreateWall`
+perimeter/aisle/door geometry, fixed-step collision, one-way closed doors, door
+triggers, and camera follow. Combat, AI, audio, and UI are not implemented. The
+vertical slice is **not** cleared.
 
 ---
 
@@ -43,6 +44,8 @@ Canonical reports:
 - Phase 3: `docs/PHASE_3_BEHAVIOURAL_RE.md` — **PARTIAL**
 - Phase 4 plan/state: `docs/PHASE_4_NATIVE_RUNTIME.md` — **PARTIAL**
 - Phase 4 runtime audit: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`
+- Room topology and traversal: `analysis/re/room_topology.md`
+- Machine-readable wall map: `analysis/re/r1_1_wall_map.json`
 - Asset pipeline: `docs/ASSET_PIPELINE.md` — **PNG path FUNCTIONAL; conversion/registry PARTIAL**
 - Gate B/Phase 3 final audit: `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`
 - Evidence standard: `docs/EVIDENCE_STANDARD.md`
@@ -91,11 +94,35 @@ reference. Render target remains 60 FPS. See `analysis/re/timing.md`.
 - `r1_1`: 178 transforms, 109 sprites, 12 box colliders, 4 doors, 4 door triggers,
   8 platform effectors, 4 animators; `room_width=15`, `room_height=15`.
   Runtime wall collision comes from `RGRoomX.CreateWall` instantiating
-  `MapManagerLevel.wall_list` 1×1 collider prefabs on layer `Edge` (17), not from
-  the 12 serialized colliders.
+  `MapManagerLevel.wall_list` 1×1 collider prefabs on runtime layer `Edge` (17),
+  not from the 12 serialized colliders.
+- `MapManagerLevel` places rooms on a 41-unit grid; `RGRoomX.OnSetRGRandomSeed`
+  gives 15×15 rooms offsets `(13,13)`. `CreateWall` places horizontal wall rows at
+  `y=12/28` and vertical columns at `x=12/28`, skipping the five cells `18..22`
+  on every side. The resulting interior is `[12.5,13]..[27.5,28]`; the 44 room
+  wall cells and four five-cell openings are recovered.
+- Wall prefabs `wall601`/`wall602` (level 1-1 manager, bundle `level-objects`)
+  have identical 1×1 non-trigger `BoxCollider2D` at offset `(0,0.5)`, tag
+  `Wall`. The prefab is serialized on layer 13 (`Wall`); `RGRoomX.cctor` sets
+  `EdgeLayer=17` and generated wall instances are assigned to layer 17 (`Edge`).
+  Variant selection is random per cell; collision is identical.
+- Four serialized doors have barriers `5×1` (N/S) or `1×5` (E/W), trigger
+  volumes `5×1.5` / `1.5×5`, and exact world rectangles recovered in
+  `analysis/re/r1_1_wall_map.json`. Door Animator clips set open doors to
+  `isTrigger=true`; closed doors restore the full solid collider with a
+  one-way inward `PlatformEffector2D` (blocks exit, permits aisle entry).
+  `RGDoorTrigger` events fire only while `room.door_open` is true and carry the
+  room name and north/south/west/east direction.
+- Runtime entrance bits are assigned by `MapManagerLevel.CreateRoom` from
+  `room_relation`: `[east,south,west,north]`. The serialized `r1_1` entrance
+  `[0,0,0,0]` is the template default; actual map instances differ. The native
+  test scene deliberately opens all four sides as a labeled test configuration.
 - Player spawn is `MapManager.centerPoint`; `b_point` children populate
   `RGRoomX.floor_list`. `CloseDoor`/`OpenDoor` iterate all four doors;
   `ClearRoom`/`IsClear` use `EnemyMaker`.
+- `c00` physical collision is a child `CircleCollider2D` radius 0.4 at
+  `(0,0.5)` on layer `Body`; the root `BoxCollider2D` is a trigger interaction
+  box. Movement uses `Rigidbody2D.velocity` and Unity Physics2D.
 - `c00` → `C01Controller` + `RoleAttributePlayer` (speed 6.5, hp 6, armor 5, atk 4,
   critical 5, c_index 0).
 - `c01` → `C02Controller` (speed 6.5, hp 5, armor 3, atk 5, critical 10, c_index 1).
@@ -169,9 +196,16 @@ Implemented and manually verified on 2026-10-31:
 - **Keyboard locomotion gate PASSED:** SDL3 keyboard actions feed normalized
   `MovementInput`; `PlayerLocomotion` applies the recovered
   `speed=6.5`/`speed_rate=0.5` equation (`9.75` effective units/s) only in the
-  fixed 0.02 s tick; swept AABB collision keeps the player inside the native
-  13x13 interior approximation and slides along walls; `Camera2D` follows the
-  player. Evidence/design: `analysis/assets/locomotion.md`.
+  fixed 0.02 s tick; swept AABB collision and `Camera2D` follow are verified.
+  Evidence/design: `analysis/assets/locomotion.md`.
+- **Room topology / door traversal gate PASSED (native reconstruction):**
+  `RGRoomX.CreateWall` and `RGAisle.CreateAisleWall` are reconstructed; the
+  native scene consumes 44 room wall cells, 96 corridor wall cells, four exact
+  door barriers/triggers, and the closed-door one-way normals. Open doors are
+  passable; closed doors block exit and permit aisle entry; door triggers emit
+  direction/room payloads only while `door_open`. The 41×41 map-cell edge is an
+  explicit native test boundary. Evidence: `analysis/re/room_topology.md`,
+  `analysis/re/r1_1_wall_map.json`.
 - Sprite metadata/camera/animation evidence: `analysis/assets/sprites.md`,
   `analysis/assets/coordinate_system.md`, `analysis/assets/animation.md`.
 - Manual smoke from `/tmp` (path-independent): PNG decoded, real scene rendered,
@@ -180,12 +214,14 @@ Implemented and manually verified on 2026-10-31:
   fallback.
 
 Not implemented: full AnimatorController transitions/layers/blend trees, other
-clips/states, exact `CreateWall` wall/door gaps, door/aisle traversal, combat,
-AI, general KTX2/atlas packing, the full asset registry/manifest loader, audio,
-UI, content, or parity comparison. Native sorting numbers are mapped to recovered
-TagManager layers; camera size, camera follow smoothing, the 13x13 interior
-collision approximation, and fixed-step rather than Normal-update sampling remain
-**PROJECT DECISIONS** because the exact reference behavior is not recovered.
+clips/states, door animation transition timing, the exact event-to-map-manager
+traversal listener, adjacent-room generation/coordinate updates, combat, AI,
+general KTX2/atlas packing, the full asset registry/manifest loader, audio, UI,
+content, or parity comparison. Native sorting numbers are mapped to recovered
+TagManager layers; camera size, camera follow smoothing, the AABB-vs-circle
+player collision approximation, and fixed-step rather than Normal-update sampling
+remain **PROJECT DECISIONS/APPROXIMATIONS** because exact reference behavior is
+not recovered.
 
 Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -193,9 +229,10 @@ Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
 ## Gate B blockers (must close or explicitly accept)
 
-1. Exact per-cell wall/door gap placement and the full door/aisle state machine
-   remain PARTIAL. First-slice approximation: rectangular 15×15 perimeter with
-   serialized door openings, explicitly labelled.
+1. Wall/door gap placement, door collider geometry, and door open/closed
+   collision states are now CONFIRMED and implemented. Remaining PARTIAL items:
+   the exact entrance bits of any generated `r1_1` instance, the event-to-
+   `MapManagerLevel` traversal listener, and door animation transition timing.
 2. Exact `Gun001` fire cooldown and the controller/hand field used in the spread
    formula remain PARTIAL. First-slice approximation: fixed documented attack
    interval; do not claim reference fire rate.
@@ -215,27 +252,30 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 52 cases / 1676 assertions, PASS
+- Debug tests: 55 cases / 1838 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 52 / 1676, PASS
+- RelWithDebInfo tests: 55 / 1838, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 35/1369 to 52/1676 because the sprite/scene, animation,
-and locomotion stages added SpriteData/Camera2D/SceneLoader tests, clip sampling
-and real idle/run metadata tests, normalized input tests, fixed-step movement,
-swept AABB collision, idle/run state switching, and camera-follow tests. No
-existing test was removed or weakened. The real scene conversion/smoke remains
-manual because it requires the local reference bundles and a Wayland/Vulkan GPU.
+The count changed from 52/1676 to 55/1838 in the room-topology pass because new
+deterministic tests cover the recovered 44 room wall cells, 96 corridor wall
+cells, four exact door/trigger rectangles, one-way closed doors, open-door
+passage, wall sliding, and synthetic loader parsing. No existing test was removed
+or weakened. The real scene conversion/smoke remains manual because it requires
+the local reference bundles and a Wayland/Vulkan GPU.
 
 ---
 
 ## Next Action
 
 Phase 4 foundation, PNG, controlled Unity Texture2D, SpriteData, camera, the
-`r1_1` native reconstruction test scene, real idle/run animation, and keyboard
-locomotion are **FUNCTIONAL**. The next large vertical slice is **complete real
-room geometry and traversal**: reconstruct the `RGRoomX.CreateWall` perimeter,
-door/aisle gaps, and door/aisle transitions, then make the player traverse the
-real room geometry. Do not start combat, AI, menus, or the full catalogue.
+`r1_1` native reconstruction test scene, real idle/run animation, keyboard
+locomotion, recovered room perimeter/aisle/door geometry, and native door
+traversal are **FUNCTIONAL**. The next bounded investigation is the higher-level
+room transition path: resolve the listener(s) for `EnterDungeonRoomEvent`/
+`ExitDungeonRoomEvent`, prove how `MapManagerLevel.IntoAisle` and room-coordinate
+updates are invoked, and decide whether one adjacent room can be reconstructed
+without starting procedural generation. Do not start combat, AI, menus, or the
+full catalogue.

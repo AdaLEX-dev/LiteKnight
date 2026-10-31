@@ -121,7 +121,10 @@ Session: Initial reconnaissance
 
 - **No runtime oracle**: no Android device/emulator/Waydroid/QEMU/Frida.
 - **Build/test baseline is fixed**; static-analysis and asset pipelines exist.
-- **Gate B blockers**: wall-collision placement, spawn/door state, weapon fire/projectile velocity, full death/reborn.
+- **Gate B blockers**: runtime entrance bits for a generated `r1_1`, the
+  event-to-`MapManagerLevel` traversal listener, door transition timing, weapon
+  fire/projectile velocity, and full death/reborn. Wall/door gap placement and
+  closed-door collision are now recovered.
 - **RGRandom residuals**: `seed_state` 1/2, DateTime seed exactness, runtime reference vectors.
 - **Renderer/Vulkan foundation is implemented** (Wayland window, Vulkan device/swapchain, textured-quad present); asset/input/gameplay layers remain incomplete. Gate C is **PARTIAL**.
 - **Asset extraction is reproducible**, but native conversion and display-name identity are incomplete.
@@ -162,14 +165,17 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Reconstructed `weapon_000`/`Gun001` and `bullet_0`/`Bullet01` evidence
   (`analysis/re/weapons_projectiles.md`).
 - Wrote Gate B, Phase 3, and Phase 4 planning reports.
-- Gate B remains **PARTIAL** due to wall-collision placement, spawn/door state,
-  weapon fire/projectile velocity, and full death/reborn. Phase 4 planning is
-  complete but no runtime code was started.
+- Gate B remains **PARTIAL**. At that stage the blockers were wall-collision
+  placement, spawn/door state, weapon fire/projectile velocity, and full
+  death/reborn; wall/door geometry has since been recovered in the room-topology
+  slice below.
 
 ## 2026-10-31 — Final Gate B / Phase 3 Evidence Sprint
 
-- Resolved the runtime wall source (`RGRoomX.CreateWall` → `MapManagerLevel.wall_list`,
-  layer `Edge`), player spawn (`MapManager.centerPoint`), and door/clear entry points.
+- Resolved the runtime wall source (`RGRoomX.CreateWall` → `MapManagerLevel.wall_list`),
+  player spawn (`MapManager.centerPoint`), and door/clear entry points. The later
+  room-topology pass corrected the wall layer to 13 (`Wall`), prefabs to
+  `wall601`/`wall602`, and recovered the exact gaps; see the final section.
 - Resolved `Gun001.Attack → CreateBullet → BulletFactory.TakeBullet`, effective
   speed 36, deviation 5, and `consume=0`; cooldown remains PARTIAL.
 - Resolved `EnemyAI04` contact `HitUnit(3,1.5)` and the minimal `e_slime01` contract.
@@ -262,4 +268,39 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
   confirmed canonical starting level.
 - Tests: **52 cases / 1676 assertions**.
 - Next dependency: complete recovered room wall/door/aisle geometry and traversal;
-  no combat or AI started.
+  no combat or AI started. (Superseded by the room-topology section below.)
+
+## 2026-10-31 — Native Room Topology and Door Traversal
+
+- Decoded the full normal-room `RGRoomX.CreateWall` loop: wall rows at
+  `room_y_offset-1` / `room_y_offset+height`, columns at
+  `room_x_offset-1` / `room_x_offset+width`, with the five cells `18..22` skipped
+  on every side. Runtime offsets are `(41-width)/2 = 13` / `(41-height)/2 = 13`.
+- Confirmed the level-1-1 wall prefabs `wall601`/`wall602`: 1×1 non-trigger
+  `BoxCollider2D` at offset `(0,0.5)`, tag `Wall`; both variants have identical
+  collision geometry. The prefab is serialized on layer 13 `Wall`; generated
+  instances are assigned `RGRoomX.EdgeLayer` = 17 `Edge`.
+- Recovered `RGAisle.CreateAisle`/`CreateWall`: entrance bits open a door/corridor
+  or disable the door and fill the five-cell gap with wall prefabs. Serialized
+  `r1_1` entrance is `[0,0,0,0]`; `MapManagerLevel.CreateRoom` assigns real bits
+  from `room_relation`.
+- Recovered all four serialized door/trigger components, collider/trigger
+  rectangles, path IDs, Animator controllers and clips.
+- Decoded door open/close streamed clips: open sets `isTrigger=true` and hides
+  leaves; closed restores the full solid collider with a one-way inward
+  `PlatformEffector2D`. Closed doors block leaving but permit aisle entry.
+- Recovered `RGDoorTrigger`/`RGDoor` event payloads: room name plus
+  north/south/west/east direction, gated by `door_open` and
+  `Body_P`/`Body_P_stealth` tags. Door triggers do not teleport; traversal is
+  physical through the aisle. The event-to-map-manager listener remains UNKNOWN.
+- Recovered the player physical collider: child `CircleCollider2D` radius 0.4 at
+  `(0,0.5)` on layer `Body`; movement uses `Rigidbody2D.velocity` and Unity
+  Physics2D. Native swept AABB now consumes recovered topology and models closed
+  doors as one-way barriers; the circle is approximated by its enclosing AABB.
+- Added `analysis/re/room_topology.md` and
+  `analysis/re/r1_1_wall_map.json`/`.txt`; extended the native scene metadata with
+  140 wall solids, four doors/triggers/one-way normals, and a labeled 41×41
+  map-cell test boundary.
+- Tests: **55 cases / 1838 assertions**.
+- Next dependency: event-to-map-manager traversal listener/adjacent-room
+  coordination; no combat or AI started.

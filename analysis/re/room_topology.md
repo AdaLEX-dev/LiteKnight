@@ -254,6 +254,13 @@ transforms are the closed pose; the open animation retracts the leaves.
 `bullet_collider` is a separate child collider on layer 13 used by projectiles;
 it is not the player door barrier.
 
+Serialized script fields: `RGDoor.the_room` is null in the prefab and is resolved
+in `Awake` from the door's grandparent; `RGDoorTrigger.the_room` is null in the
+prefab and resolved in `Start` from the trigger's third parent. `RGDoor` resolves
+its `Animator` in `Awake`. The door trigger GameObject is layer 0/tag 0 with a
+non-solid trigger collider; the door root is layer 14 (`Door`) / tag `Wall`
+(20002).
+
 ---
 
 ## 6. Door triggers

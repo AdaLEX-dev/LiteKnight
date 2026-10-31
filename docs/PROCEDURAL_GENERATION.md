@@ -30,8 +30,11 @@
 - How `room_relation`, `map_list`, `branch_room_list`, and `usedRoom` build the
   dungeon graph.
 - Template selection and placement rules for `r1_1` and other pattern rooms.
-- Wall/floor/obstacle prefab selection from `floor_list`/`wall_list`.
-- Door/aisle connection rules and special-room distribution.
+- Floor/obstacle prefab selection; wall-variant random selection seed.
+- Runtime entrance bit assignment only partly decoded (neighbor relation checks
+  are known; the actual `r1_1` instance values are not).
+- Higher-level door event-to-room-transition listener and special-room
+  distribution.
 - Exact use of `map_long`, `room_count`, `special_rooms`, `room_start_list`,
   `room_end_list`.
 - Enemy spawn table selection from `EnemyMaker`/`MapManagerLevel.enemy_infos`.
@@ -50,7 +53,8 @@
 
 - No reconstructed generation algorithm.
 - No runtime oracle to compare layouts for fixed seeds.
-- Wall-collision placement is unresolved even for the fixed `r1_1` prefab.
+- The fixed `r1_1` wall/door/aisle geometry is recovered; map-level template
+  selection, entrance assignment, and transition orchestration remain unknown.
 
 **Do not implement BSP/graph/template generation as if it were reference behavior
 without evidence.**

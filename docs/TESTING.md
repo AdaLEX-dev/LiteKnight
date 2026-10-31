@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **52 doctest cases / 1676 assertions**, all passing.
+**Status:** current baseline is **55 doctest cases / 1838 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -124,7 +124,11 @@ The committed metadata lives in `analysis/assets/scenes/r1_1_visual.json` and
 `analysis/assets/scenes/animations/`; generated PNG/scene bytes remain
 gitignored. This scene is a reverse-engineering test reconstruction, not a proven
 canonical gameplay level. Run with `--locomotion-debug` to log player position,
-input, velocity, animation state/frame, camera, and collision blocking.
+input, velocity, animation state/frame, camera, collision blocking, door state,
+and door-trigger enter/exit events. Press **O** to toggle all four recovered doors
+closed/open. Closed doors use the recovered one-way inward barrier; opening them
+makes both directions passable. Deterministic tests for all four doors, wall
+sliding, and the recovered coordinates are in `tests/unit/scene_test.cpp`.
 
 ### Unity Texture2D conversion / native round-trip (manual)
 

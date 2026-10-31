@@ -23,15 +23,19 @@ machine.
 ### Native r1_1 + c00 animated/locomotion scene
 
 Command: `build/soul-knight --scene scenes/r1_1_visual/scene.json --locomotion-debug --smoke-seconds 10`
-from `/tmp`, with WASD input exercised during the run. RelWithDebInfo, 111 sprite instances, 3 textures, 13 sprite assets, 2 animation
-clips (4 keyframes each), 5 contiguous texture draw groups:
+from `/tmp`, with the recovered wall/door/corridor geometry. RelWithDebInfo, 531
+sprite instances (471 drawn while all doors are open), 3 textures, 15 sprite
+assets, 2 animation clips (4 keyframes each):
 
-- `FrameTimer` average: **16.693 ms** over 573 samples.
-- **603 frames** over ~10.16 s (~59.3 presents/s).
-- **508 fixed simulation ticks** (~0.834 steps/render frame).
+- `FrameTimer` average: **16.663 ms** over 573 samples.
+- **603 frames** over ~10.10 s (~59.7 presents/s).
+- **505 fixed simulation ticks** (~0.832 steps/render frame).
 - Debug scene validation: 0 errors.
-- Animation overhead is not separately GPU-timestamped; the measurement is CPU
-  frame pacing on the test machine, not a GPU/60 FPS parity claim.
+- A 30-second run with active movement measured ~**16.66 ms** and ~59.8
+  presents/s; the recovered wall/door geometry did not change CPU pacing
+  materially versus the earlier 111-instance composition (16.693 ms).
+- Animation/geometry overhead is not separately GPU-timestamped; the measurement
+  is CPU frame pacing on the test machine, not a GPU/60 FPS parity claim.
 
 ## 1. Budgets (provisional, main thread)
 

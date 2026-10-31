@@ -7,6 +7,11 @@ Vulkan renderer, gameplay, or vertical-slice implementation was added.
 
 Run `git log -1 --format='%h %s'` for the commit containing this report.
 
+> **Superseded in part:** the later room-topology pass (`analysis/re/room_topology.md`)
+> corrected the wall-prefab layer to 13 (`Wall`), recovered the full
+> `CreateWall`/`CreateAisle` gaps, and implemented native wall/door/aisle
+> collision. The historical evidence below should be read with that correction.
+
 ---
 
 ## 1. Gate B result
@@ -61,8 +66,8 @@ Report: `docs/PHASE_3_BEHAVIOURAL_RE.md`.
   `door_open=1`, offsets 0.
 - `RGRoomX.CreateWall` (`0xDEBE3C`) instantiates `MapManagerLevel.wall_list`
   (`+0x100`) wall prefabs, parents them to `wall_group`, and assigns
-  `RGRoomX.EdgeLayer` (17). `wall101`/`wall201` have 1×1 non-trigger
-  `BoxCollider2D`.
+  `RGRoomX.EdgeLayer` (17). The later pass identified `wall601`/`wall602` as the
+  level-1-1 wall prefabs, with 1×1 non-trigger `BoxCollider2D`.
 - `CloseDoor`/`OpenDoor` (`0xDEA4AC`/`0xDEA53C`) call `RGDoor.Close/Open` on all
   four doors and set `door_open`.
 - `ClearRoom` (`0xDEA5D0`) sets process 2 and sends the room-clear message;

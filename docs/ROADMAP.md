@@ -1,6 +1,6 @@
 # Soul Knight 2.6.8 — Roadmap
 
-**Version:** 1.6 (native locomotion slice, 2026-10-31)
+**Version:** 1.7 (native room topology and door traversal slice, 2026-10-31)
 **Target:** CachyOS, x86-64, Wayland, 1920×1080, 60 FPS
 **Baseline:** Soul Knight 2.6.8 (APK SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)
 **Reference engine:** Unity **2018.4.12f1**, IL2CPP metadata **v24**
@@ -11,7 +11,7 @@
 > - Phase 1 — COMPLETE (artifact inventory)
 > - Phase 2 — PARTIAL; Gate B **PARTIAL** (see `docs/GATE_B.md`)
 > - Phase 3 — PARTIAL/CURRENT (vertical-slice contract largely reconstructed; full content/AI/save unknown; see `docs/PHASE_3_BEHAVIOURAL_RE.md`)
-> - Phase 4 — **PARTIAL**; foundation + PNG/Unity Texture2D + Sprite/camera/room composition + idle/run animation + keyboard locomotion FUNCTIONAL, Gate C **PARTIAL** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
+> - Phase 4 — **PARTIAL**; foundation + PNG/Unity Texture2D + Sprite/camera/room composition + idle/run animation + keyboard locomotion + recovered wall/door/aisle collision/traversal FUNCTIONAL, Gate C **PARTIAL** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
 > - Phase 5+ — BLOCKED by Gate B/C
 >
 > The build/test/evidence pipeline is clean and reproducible. This is not a Phase 4
@@ -60,14 +60,14 @@
 | Enemy AI (20+ types) | `analysis/re/enemy_ai04.md` (first slice) | ⚠️ PARTIAL — AI04 contact/base path; full AI not started |
 | Weapon mechanics (25+ types) | `docs/WEAPONS.md` (planned) | ⬜ NOT STARTED |
 | Projectile physics & triggers | `analysis/re/weapons_projectiles.md` | ⚠️ PARTIAL — Bullet01/trigger chain; velocity/rebound open |
-| Room generation algorithm | `docs/PROCEDURAL_GENERATION.md` | ⚠️ PARTIAL — `r1_1` prefab known; generation algorithm UNKNOWN |
+| Room generation algorithm | `analysis/re/room_topology.md`, `docs/PROCEDURAL_GENERATION.md` | ⚠️ PARTIAL — `CreateWall`/`CreateAisle`/door geometry recovered; map-level generation and runtime entrance assignment for `r1_1` UNKNOWN |
 | Item/buff/chest systems | `docs/ITEMS.md` (planned) | ⬜ NOT STARTED |
 | Progression & unlocks | `docs/PROGRESSION.md` (planned) | ⬜ NOT STARTED |
 | Save/load system | `analysis/re/save.md` | ⚠️ PARTIAL — PlayerPrefs boundary; payload UNKNOWN |
 | Audio triggers & music | `docs/AUDIO.md` (design only) | ⬜ NOT STARTED |
 | UI/HUD/Menu flow | `docs/UI.md` (planned) | ⬜ NOT STARTED |
 
-**Gate B:** Reusable engine/runtime primitives documented with evidence. **Current status: PARTIAL** — see `docs/GATE_B.md`; four explicit blockers remain (wall-collision placement, spawn/door state, weapon fire/projectile velocity, full death/reborn).
+**Gate B:** Reusable engine/runtime primitives documented with evidence. **Current status: PARTIAL** — see `docs/GATE_B.md`; wall/door gap placement and closed-door collision are now recovered, while runtime entrance assignment for a generated `r1_1`, the event-to-map-manager traversal listener, door animation timing, weapon fire/projectile velocity, and full death/reborn remain open.
 
 ---
 
@@ -91,10 +91,11 @@
 | Controlled Unity Texture2D | `tools/asset/extract_unity.py`, `analysis/assets/texture_conversion_manifest.json` | ✅ One real asset converted, deterministic, native round-trip/render verified |
 | Unity Sprite metadata / PPU | `SpriteData`, `analysis/assets/sprites.md` | ✅ Rect/pivot/PPU/border/filter/wrap; rectangular tight-crop approximation |
 | 2D camera / coordinate system | `Camera2D`, `analysis/assets/coordinate_system.md` | ✅ Y-up world, PPU 16, aspect-fit; exact reference camera size unresolved |
-| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 111 instances, 3 textures, rendered Wayland/Vulkan |
+| r1_1 + c00 visual composition | `build_visual_scene.py`, `SceneLoader`, `analysis/assets/scenes/r1_1_visual.json` | ✅ 531 instances (471 open-door draw batch), 15 sprite assets, 3 textures, rendered Wayland/Vulkan |
 | Sprite animation / Animator frames | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`, `analysis/assets/animation.md` | ✅ real `char_1_skin_0_ide` and `c00_run`; 4 frames each, 0.5 s loop; fixed-step native sampling |
-| Input-driven locomotion / idle-run transitions | `MovementInput`, `PlayerLocomotion`, `AabbCollision`, `Camera2D` | ✅ WASD, fixed 50 Hz, swept AABB, idle/run switching, camera follow; room gaps/door traversal pending |
-| Real room geometry / door traversal | planned | ⬜ Next large vertical slice; no combat |
+| Input-driven locomotion / idle-run transitions | `MovementInput`, `PlayerLocomotion`, `AabbCollision`, `Camera2D` | ✅ WASD, fixed 50 Hz, swept AABB, idle/run switching, camera follow |
+| Real room geometry / door traversal | `build_visual_scene.py`, `SceneLoader`, `AabbCollision`, `analysis/re/room_topology.md` | ✅ Recovered 44 wall cells + 96 corridor cells, four doors/triggers, one-way closed-door collision; open-door traversal verified |
+| Higher-level room transition listener / adjacent room | planned | ⬜ Next bounded investigation; no procedural generation yet |
 | Input abstraction (keyboard, mouse, gamepad) | `src/platform/input/InputManager.cpp` | ⚠️ scaffold, not wired |
 | miniaudio engine + bus system | `src/platform/audio/AudioEngine.cpp` | ⚠️ scaffold, not wired |
 | FileSystem (XDG paths) | `src/platform/filesystem/FileSystem.cpp` | ⚠️ scaffold |

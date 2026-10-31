@@ -82,13 +82,16 @@ before writing the manifest.
 and the real `r1_1` + `c00` Unity objects to produce:
 
 - `analysis/assets/scenes/r1_1_visual.json` — native scene metadata (textures,
-  sprite rects/pivots/PPU, 111 instances, camera), no pixels.
+  sprite rects/pivots/PPU, 531 instances, camera, recovered wall/door/aisle
+  collision topology), no pixels.
+- `analysis/re/r1_1_wall_map.json` / `.txt` — machine-readable and ASCII recovered
+  room topology.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — provenance and hashes.
 - gitignored `assets/generated/visual/r1_1_visual/` — runtime scene JSON and PNGs.
 
 The scene was rendered through Wayland/Vulkan; see
-`analysis/assets/sprites.md`, `analysis/assets/coordinate_system.md`, and
-`analysis/assets/animation.md`.
+`analysis/assets/sprites.md`, `analysis/assets/coordinate_system.md`,
+`analysis/assets/animation.md`, and `analysis/re/room_topology.md`.
 
 ## Animation metadata (2026-10-31)
 
@@ -103,6 +106,8 @@ The idle and run clips are combined by the native locomotion state switch.
 ## Locomotion evidence (2026-10-31)
 
 `analysis/assets/locomotion.md` records the recovered WASD/movement evidence,
-the native fixed-step input path, the `r1_1` 15x15 room reconstruction with its
-native 13x13 collision approximation, idle/run switching, and native camera
-follow. `r1_1_visual` remains a reverse-engineering test scene.
+the native fixed-step input path, the `r1_1` 15x15 room reconstruction, the
+recovered 44 room wall cells + 96 corridor wall cells + four door barriers,
+closed-door one-way collision, idle/run switching, and native camera follow.
+`r1_1_visual` remains a reverse-engineering test scene; the all-open entrance
+state is a labeled test configuration.

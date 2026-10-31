@@ -1,15 +1,17 @@
 # Phase 4 — Native Runtime Implementation Plan
 
 **Status:** **PARTIAL — native foundation, Unity-derived visual scene, real
-idle/run animation, and keyboard locomotion implemented and manually verified.** The application bootstrap,
+idle/run animation, keyboard locomotion, recovered wall/door/aisle geometry, and
+door traversal implemented and manually verified.** The application bootstrap,
 Wayland-only SDL3 window, Vulkan 1.3 context/swapchain, 50 Hz fixed loop,
 multi-texture sprite renderer, PNG → RGBA8 texture path, Unity Texture2D/Sprite
 metadata conversion, `Camera2D`, a native `r1_1` reconstruction test scene, native
-`AnimationClip`/`AnimationPlayer` playback of `char_1_skin_0_ide`/`c00_run`, and
-fixed-step keyboard movement, swept AABB collision, idle/run switching, and camera
-follow are implemented. Combat, AI, audio, gameplay, full AnimatorController
-semantics, exact wall/door geometry, general KTX2/atlas packing, and the full
-asset registry are not.
+`AnimationClip`/`AnimationPlayer` playback of `char_1_skin_0_ide`/`c00_run`,
+fixed-step keyboard movement, swept AABB collision, recovered wall/corridor/door
+solids, closed-door one-way barriers, door trigger events, idle/run switching,
+and camera follow are implemented. Combat, AI, audio, full gameplay, full
+AnimatorController semantics, the higher-level room transition listener,
+general KTX2/atlas packing, and the full asset registry are not.
 **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 / metadata v24.
 **Target:** CachyOS x86-64, Wayland only, Vulkan 1.3, 1920×1080, 60 FPS.
 **Gate:** Gate B remains **PARTIAL**. Gate C is **PARTIAL** — launch, present, and
@@ -32,10 +34,12 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | Controlled Unity Texture2D | FUNCTIONAL | `extract_unity.py convert-texture`, manifest, deterministic PNG/native round-trip |
 | Unity Sprite metadata / PPU | FUNCTIONAL | `SpriteData`, `analysis/assets/sprites.md`, tests |
 | Camera / world coordinates | FUNCTIONAL | `Camera2D`, `analysis/assets/coordinate_system.md`, tests |
-| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 111 instances rendered |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | `build_visual_scene.py`, `SceneLoader`, 531 instances (471 drawn open-door batch) |
 | Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`, `AnimationPlayer`, `LocomotionAnimator`; 4-key 0.5 s loops |
-| Movement / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, swept AABB, `Camera2D` follow |
-| Full Animator / exact room gaps / registry / KTX2 | NOT STARTED | next dependencies |
+| Movement / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, recovered wall/door AABBs, one-way closed doors, `Camera2D` follow |
+| Room topology / door traversal | FUNCTIONAL / MANUAL PASS | `analysis/re/room_topology.md`, `analysis/re/r1_1_wall_map.json`, `SceneLoader`, `AabbCollision` |
+| Higher-level room transition listener / adjacent room | NOT STARTED | next bounded investigation |
+| Full Animator / registry / KTX2 | NOT STARTED | next dependencies |
 | Audio/UI/gameplay | NOT STARTED | deliberate boundary |
 
 Do not read this table as parity. The reference layer order and native rendering
@@ -333,12 +337,16 @@ where evidence exists (damage → death → collider/weapon disable).
 
 ### 6.3 Collision
 
-- First slice: AABB/circle against room wall prefab colliders and door/aisle
-  triggers; layer mask from the reference layer table.
+- Recovered AABB geometry is consumed for the 1×1 wall cells, aisle corridor
+  walls, four door barriers, and door trigger volumes; layer/tag table is
+  recovered.
 - `Rigidbody2D` equivalent: velocity + kinematic/dynamic flag, no full Box2D.
 - Preserve trigger vs solid distinction; bullets are triggers, walls are solid,
-  door triggers are triggers.
-- Wall placement blocker must be resolved before claiming room collision parity.
+  door triggers are triggers. Closed doors are one-way inward solids.
+- Player collision uses the enclosing AABB of the reference circle collider; full
+  Physics2D solver parity is not claimed.
+- The higher-level traversal listener remains to be recovered before claiming
+  room-transition parity.
 
 ### 6.4 Damage and death
 
@@ -354,11 +362,14 @@ where evidence exists (damage → death → collider/weapon disable).
 ### 6.5 Rooms
 
 - Load `r1_1` hierarchy from converted room JSON.
-- Instantiate visual sprites and collider descriptors.
-- Use the door/aisle components as data-driven objects; first slice may keep doors
-  open and skip transitions if clearly labelled.
-- Player spawn: use `b_point` only after confirming its transform semantics; until
-  then use an explicit native spawn marker in the converted room data.
+- Instantiate visual sprites and collider descriptors from
+  `analysis/re/r1_1_wall_map.json`; the current native scene does this.
+- Use the door/aisle descriptors as data-driven objects. The native test scene
+  opens all four sides as a clearly labelled configuration and supports a debug
+  `O` toggle for closed/open state.
+- Player spawn: `b_point` children populate `RGRoomX.floor_list`; the test scene
+  keeps an explicit native spawn marker until the generated-map spawn selection is
+  recovered.
 
 ---
 
@@ -640,13 +651,16 @@ Rules:
 
 ## 11. Next implementation task
 
-Keyboard locomotion in the `r1_1` reconstruction test scene is verified. The
-next large vertical slice is **complete room geometry and traversal**: recover the
-actual `RGRoomX.CreateWall` gap placement and door/aisle collision geometry, then
-make the player traverse the real room structure without combat. Do not implement
-combat, AI, menus, or the full catalogue.
+Keyboard locomotion, recovered wall/aisle/door geometry, closed-door one-way
+collision and door trigger events are verified in the `r1_1` reconstruction test
+scene. The next bounded task is the **higher-level room transition path**:
+resolve the listener(s) for `EnterDungeonRoomEvent`/`ExitDungeonRoomEvent`,
+prove how `MapManagerLevel.IntoAisle` and current-room coordinates are updated,
+and determine whether one adjacent room can be reconstructed from evidence
+without starting procedural generation. Do not implement combat, AI, menus, or
+the full catalogue.
 
-Acceptance: wall/door colliders match recovered geometry as far as serialized
-evidence allows; movement and camera remain fixed-step deterministic; door and
-aisle traversal is visible; sanitizer/validation runs are clean; and no
-proprietary bytes are committed.
+Acceptance: traversal behavior beyond a single map cell is evidence-backed;
+movement and camera remain fixed-step deterministic; door/traversal tests are
+deterministic; sanitizer/validation runs are clean; and no proprietary bytes are
+committed.

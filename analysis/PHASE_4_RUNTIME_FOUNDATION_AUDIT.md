@@ -29,10 +29,11 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 | Asset-runtime PNG | FUNCTIONAL | libpng, exact-byte tests, synthetic PNGs |
 | Controlled Unity Texture2D | FUNCTIONAL / MANUAL PASS | `level-objects`/`f903`; deterministic conversion + native round-trip + render |
 | Unity Sprite metadata / camera | FUNCTIONAL | `SpriteData`, `Camera2D`, `analysis/assets/sprites.md`, `coordinate_system.md` |
-| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 111 instances, 3 textures, native SceneLoader, Wayland/Vulkan render |
+| r1_1 + c00 visual composition | FUNCTIONAL / MANUAL PASS | 531 instances, 15 sprite assets, 3 textures, native SceneLoader, Wayland/Vulkan render |
 | Unity idle/run animation | FUNCTIONAL / MANUAL PASS | `AnimationClip`/`AnimationPlayer`/`LocomotionAnimator`, real 4-frame clips, fixed-step loops |
-| Keyboard locomotion / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, swept AABB, `Camera2D` follow; manually exercised |
-| Full Animator / exact room gaps / registry / KTX2 | NOT STARTED | transitions, wall/door gaps, and full registry remain |
+| Keyboard locomotion / collision / camera | FUNCTIONAL / MANUAL PASS | `MovementInput`, `PlayerLocomotion`, recovered wall/door AABBs, one-way closed doors, `Camera2D` follow |
+| Room topology / door traversal | FUNCTIONAL / MANUAL PASS | `analysis/re/room_topology.md`, `r1_1_wall_map.json`, SceneLoader, AabbCollision |
+| Full Animator / registry / KTX2 | NOT STARTED | transitions and full registry remain |
 | Input → fixed tick | FUNCTIONAL / MANUAL PASS | keyboard `InputManager` → normalized `MovementInput` → 50 Hz `PlayerLocomotion`; `--locomotion-debug` evidence |
 | Audio/UI/gameplay | NOT STARTED | deliberate scope boundary |
 
@@ -117,8 +118,11 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 
 ### 4.1 Unit/CTest
 
-- Debug tests: **52 cases / 1676 assertions, all passing**.
+- Debug tests (current room-topology pass): **55 cases / 1838 assertions, all
+  passing**, including ASan/UBSan.
 - CTest: `soul-knight-unit-tests` 1/1 passing.
+- Earlier sections 4.5/4.7 record the measurements at the animation/locomotion
+  stages; section 4.8 supersedes their room-collision and count claims.
 - New tests:
   - config defaults + Wayland-only rejection,
   - bootstrap CLI parsing,
@@ -316,11 +320,45 @@ focused Wayland window. Logs showed idle -> run on key press, movement to the
 native boundary, blocked collision, wall sliding, release -> idle, and camera
 follow. `--locomotion-debug` exposes position/input/velocity/state/frame/collision.
 
+### 4.8 Recovered room topology and door traversal (2026-10-31, later pass)
+
+The room collision approximation in 4.7 has been replaced as far as the evidence
+allows:
+
+- `RGRoomX.CreateWall` gap placement fully decoded: rows `y=12/28`, columns
+  `x=12/28`, skip five cells `18..22`; runtime offsets `(13,13)` from the 41-unit
+  map cell.
+- Wall prefab `wall601`/`wall602`: 1×1 non-trigger `BoxCollider2D`, offset
+  `(0,0.5)`, tag `Wall`. The prefab is serialized on layer 13 `Wall`, but
+  `RGRoomX.cctor` sets `EdgeLayer=17` and generated instances are assigned to
+  layer 17 `Edge`.
+- 44 room wall cells and 96 aisle corridor wall cells represented explicitly.
+- Four serialized door barriers/triggers and directions recovered; open doors
+  set `isTrigger=true`; closed doors are full solid barriers with a one-way
+  inward `PlatformEffector2D`.
+- `RGDoorTrigger`/`RGDoor` events carry room name + direction, gated by
+  `door_open`; exact higher-level listener remains UNKNOWN.
+- Native `AabbCollisionWorld` gained one-way solids; tests cover all four doors in
+  both directions and wall sliding.
+- `r1_1_visual.json` now has 531 instances / 15 sprite assets; the initial
+  all-open state draws 471. Scene SHA-256:
+  `e7721abf2d90121cb0165c6f0cd1363b8f723c7574d3b09ca9a5780033b1e1d0`;
+  wall-map SHA-256:
+  `935a03bebd7d41c286cd978ce787f03f388cd65efdadc30474dd4e4937f1cd26`.
+- Tests: **55 cases / 1838 assertions**.
+- Runtime smoke: `recovered solids=140 doors=4 topology=true`, room interior
+  `[12.5,13]..[27.5,28]`, door state toggle via **O**, closed-door blocking and
+  open-door/east/south trigger traversal observed manually.
+
+Evidence: `analysis/re/room_topology.md`,
+`analysis/re/r1_1_wall_map.json`, `analysis/assets/locomotion.md`.
+
 ## 5. Remaining blockers / gaps
 
-1. **Full Animator / exact room geometry / KTX2 / asset registry** — idle and run
-   are implemented; transitions, other clips, exact `CreateWall` gaps, door/aisle
-   traversal, general atlas packing, and the full registry remain. The source
+1. **Full Animator / room transition / KTX2 / asset registry** — idle/run and
+   recovered `CreateWall`/door/aisle collision are implemented; transitions,
+   other clips, door animation timing, the event-to-map-manager traversal
+   listener, general atlas packing, and the full registry remain. The source
    `m_PPtrCurves` encoding is documented as a HIGH CONFIDENCE mapping +
    streamed-curve reconstruction, not full Unity Animator compatibility.
 2. **Shader/install path** — run-time shader and test-asset lookup now goes through

@@ -202,25 +202,34 @@ All three textures are `RGBA32`, 1 mip, import filter **Point**, wrap **Clamp**.
 
 Scene metadata:
 
-- `analysis/assets/scenes/r1_1_visual.json` — 13 sprite assets, 111 instances,
-  idle/run animation entries, textures/sprites/positions/camera, collision AABB,
+- `analysis/assets/scenes/r1_1_visual.json` — 15 sprite assets, 531 instances,
+  idle/run animation entries, textures/sprites/positions/camera, recovered
+  44-cell room walls + 96-cell aisle corridor walls + four door barriers/triggers,
   and no pixels.
+- `analysis/re/r1_1_wall_map.json` and `.txt` — machine-readable and ASCII
+  recovered topology. JSON SHA-256
+  `935a03bebd7d41c286cd978ce787f03f388cd65efdadc30474dd4e4937f1cd26`.
 - `analysis/assets/scenes/r1_1_visual_manifest.json` — source bundle hashes,
-  scene JSON SHA-256 `b2ad4f9ae68f676d7058c1c9d7318ace038ea52860bed8b322e4701f44a3ecc9`.
+  scene JSON SHA-256
+  `e7721abf2d90121cb0165c6f0cd1363b8f723c7574d3b09ca9a5780033b1e1d0`.
 - Generated pixels remain under gitignored
   `assets/generated/visual/r1_1_visual/`.
 
 Scene contents:
 
 - 49 × `skin` floor/wall tiles in a 7×7 block centered at (20,20),
-- 20 × `door02`, 20 × `shadow0`, 20 × `door01` at the four room edges,
+- 20 × `door02`, 20 × `shadow0`, 20 × `door01` at the four room edges (tagged by
+  door side; hidden while open),
+- 420 recovered wall sprites: 140 wall cells × root/`shadow0`/`WallFont`,
 - `c00` body (initial `c01_5`) at spawn (20,20), animated through real idle/run clips,
 - `c00` shadow (`shadow3`) at (20,19.95).
 
 This is a **controlled reverse-engineering test chamber assembled from real
 `r1_1` data**, not a proven canonical gameplay level, starting room, or character
-selector. The gray floor patch is only the portion represented by the current
-sprite extraction; the native collision bounds are an explicit approximation.
+selector. The room collision now consumes recovered `CreateWall`/door/aisle
+geometry; the 41×41 map-cell edge is a labeled native test boundary. The visual
+floor pattern is still not fully rendered, and the entrance state is an explicit
+all-open test configuration.
 
 The runtime command is:
 
@@ -229,10 +238,11 @@ cd /tmp
 build/soul-knight --scene scenes/r1_1_visual/scene.json --smoke-seconds 7
 ```
 
-The scene was rendered successfully through Wayland/Vulkan with 111 instances,
-3 textures, 5 contiguous texture draw groups, and no validation errors. The
-temporary screenshot shows the 7×7 floor patch, four door clusters, and the player
-sprite. This is the visual milestone, not gameplay or parity.
+The scene was rendered successfully through Wayland/Vulkan with 531 instances
+(471 drawn while all doors are open), 3 textures, and no validation errors. The
+runtime log confirms `recovered solids=140 doors=4 topology=true`, room interior
+`[12.5,13]..[27.5,28]`, and door trigger enter/exit events. This is a visual and
+collision milestone, not full gameplay or parity.
 
 ## 8. Unity idle/run animation
 
@@ -280,8 +290,10 @@ Animation metadata:
 - The native animation model implements one SpriteRenderer track and discrete
   sprite samples; generic curves, blend trees, layers, events, and IK are out of
   scope.
-- `r1_1` wall/door gap placement and door/aisle traversal are not reconstructed;
-  the locomotion collision bounds are a native 13x13 interior approximation.
+- `r1_1` wall/door gap placement, door barriers/triggers and one-way closed-door
+  collision are reconstructed. Remaining gaps: exact runtime entrance bits for a
+  generated `r1_1`, the event-to-`MapManagerLevel` traversal listener, door
+  transition timing, and adjacent-room generation.
 - No Unity-derived bytes are committed; generated PNG/RGBA outputs are ignored.
 - The synthetic smoke image remains the default renderer fixture.
 - Installed-asset shader/test discovery has not yet been exercised by a package.
