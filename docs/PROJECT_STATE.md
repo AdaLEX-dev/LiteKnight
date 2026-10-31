@@ -1,7 +1,7 @@
 # Soul Knight 2.6.8 — Project State
 
 **Last Updated:** 2026-10-31 (diagnostic review)
-**Commit:** `0703818` + uncommitted native baseline
+**Commit:** `cf8a346` (build baseline `4a2af27`, analysis pipeline `0a7c3e5`, docs `cf8a346`)
 **Phase:** Phase 2 is **not** complete; Phase 3 (behaviour reconstruction) has not started
 **Current Status:** Evidence and build pipeline need repair before further porting.
 
