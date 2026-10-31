@@ -1,8 +1,11 @@
 # Soul Knight 2.6.8 — Roadmap
 
-**Version:** 1.0
+**Version:** 1.1 (evidence-first correction, 2026-10-31)
 **Target:** CachyOS, x86-64, Wayland, 1920×1080, 60 FPS
 **Baseline:** Soul Knight 2.6.8 (APK SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)
+**Reference engine:** Unity **2018.4.12f1**, IL2CPP metadata **v24**
+
+> **Status correction:** Phase 2 is not complete; Gate B is **NOT MET**. Phase 3 has not started. Phase 4 code exists only as a skeleton and Gate C is **NOT MET**. The schedule below is a historical estimate, not a commitment. Behavioural work now follows `analysis/PROJECT_DIAGNOSIS.md` and `tools/re/`.
 
 ---
 
@@ -48,7 +51,7 @@
 | Unknown systems tracking | `analysis/UNKNOWN_SYSTEMS.md` | ⬜ |
 | Source map (ref → native) | `analysis/SOURCE_MAP.md` | ⬜ |
 
-**Gate B:** All major behavioural specs documented with evidence references.
+**Gate B:** All major behavioural specs documented with evidence references. **Current status: NOT MET** — no subsystem has an evidence-backed behavioural spec yet.
 
 ---
 
@@ -68,7 +71,7 @@
 | Basic render loop (clear + present) | `src/app/main.cpp` | ⬜ |
 | Debug overlay (FPS, frame graph, entity count) | `src/engine/core/DebugOverlay.cpp` | ⬜ |
 
-**Gate C:** Native app launches, shows window, maintains 60 FPS clear screen, handles input, clean exit.
+**Gate C:** Native app launches, shows window, maintains 60 FPS clear screen, handles input, clean exit. **Current status: NOT MET** — no renderer/swapchain/simulation; build/test feedback loop must be restored first.
 
 ---
 
@@ -265,7 +268,7 @@ Phase 11 (Release) ────────────┘
 |------|--------|------------|------------|
 | IL2CPP RE incomplete | Missed mechanics | Medium | Phase 3 thoroughness, runtime experiments |
 | Vulkan complexity | Delay Phase 4 | Medium | Minimal renderer, copy from working examples |
-| Determinism bugs | Desync in gen/combat | High | PCG32 streams, regression tests per system |
+| Determinism bugs | Desync in gen/combat | High | Reference-compatible RNG streams, regression tests per system |
 | Asset pipeline | Content missing | Medium | AssetRipper automation, validation step |
 | Performance | < 60 FPS | Medium | Profile early, budget per system |
 | Scope creep | Never release | High | Strict gate enforcement, no new features post-Gate E |

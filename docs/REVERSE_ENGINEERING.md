@@ -3,12 +3,15 @@
 Generated: 2026-10-30
 Session: Initial reconnaissance
 
+> **Correction — 2026-10-31.** The original log called Phase 2 "complete" and recorded Unity 2021.x / metadata v24.1. Both are wrong. The reference is **Unity 2018.4.12f1**, metadata **version 24**. The metadata dump is structural evidence; behaviour has not been reconstructed. Gate B is **NOT MET**. See `analysis/PROJECT_DIAGNOSIS.md`, `analysis/EVIDENCE_AUDIT.md`, and `analysis/re/`.
+
 ---
 
 ## Session Summary
 
 **Date:** 2026-10-30
-**Phase:** 0 → 1 → 2 (Environment → APK Forensics → Engine Reconstruction)
+**Original phase claim:** 0 → 1 → 2 (Environment → APK Forensics → Engine Reconstruction)
+**Corrected status:** Phase 1 artifact inventory is useful; Phase 2 behavioural reconstruction is **not complete**. Phase 3 has not started.
 **APK:** `original/SoulKnight-2.6.8.apk` (SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)
 
 ---
@@ -51,14 +54,20 @@ Session: Initial reconnaissance
 
 ---
 
-## Engine Reconstruction (Phase 2) — Complete
+## Engine Reconstruction (Phase 2) — **NOT COMPLETE**
 
-### IL2CPP Metadata Extraction
+### IL2CPP Metadata Extraction (structural only)
 - **Tool:** Il2CppDumper 6.7.46
-- **Metadata:** `assets/bin/Data/Managed/Metadata/global-metadata.dat` (10 MB)
-- **Output:** `DummyDll/Assembly-CSharp.dll` (4.5 MB), `il2cpp.h` (35 MB struct definitions)
+- **Metadata:** `assets/bin/Data/Managed/Metadata/global-metadata.dat` (10 MB, metadata version 24)
+- **Full local output (outside repo):**
+  - `/home/jules/bin/dump.cs` (458,499 lines)
+  - `/home/jules/bin/script.json` (103,252 method entries)
+  - `/home/jules/bin/il2cpp.h` (34 MB)
+  - `/home/jules/bin/DummyDll/` (75 assemblies)
+  - `/home/jules/bin/stringliteral.json`
+- **In-repo output:** `analysis/il2cpp_dump/` is a partial/truncated copy, not the full dump.
 
-### Class Hierarchy Discovered
+### Class Hierarchy Discovered (structural evidence)
 **Core Prefix: `RG*` (Rogue/Random Generation)**
 
 | Category | Classes | Key Types |
@@ -76,25 +85,25 @@ Session: Initial reconnaissance
 | Multiplayer | 8 | (Stripped for v1) |
 
 ### Architecture Document
-- ✅ `docs/ARCHITECTURE.md` — Complete system mapping
+- ⚠️ `docs/ARCHITECTURE.md` — structural class inventory plus unverified hypotheses; **not** a complete behavioural mapping
 
 ---
 
-## Evidence Log
+## Evidence Log (corrected)
 
 | ID | Type | Description | Confidence |
 |----|------|-------------|------------|
-| RE-001 | CONFIRMED | Unity IL2CPP (libil2cpp.so 52MB, metadata v24.1) | CONFIRMED |
+| RE-001 | CONFIRMED | Unity 2018.4.12f1 IL2CPP (`libil2cpp.so` 52MB, metadata version 24) | CONFIRMED |
 | RE-002 | CONFIRMED | Zero gameplay logic in DEX | CONFIRMED |
 | RE-003 | CONFIRMED | RG* namespace for game classes | CONFIRMED |
-| RE-004 | HIGH | 20 distinct EnemyAI classes | HIGH CONFIDENCE |
-| RE-005 | HIGH | 8 MapManager variants for game modes | HIGH CONFIDENCE |
-| RE-005 | HIGH | Deterministic RNG via RGRandom | HIGH CONFIDENCE |
-| RE-006 | HIGH | Room serialization via SerializeLinker | HIGH CONFIDENCE |
-| RE-007 | HYPOTHESIS | Damage formula: (atk - def) * crit * element | HYPOTHESIS |
-| RE-008 | HYPOTHESIS | Room gen: BSP + graph + template placement | HYPOTHESIS |
-| RE-009 | UNKNOWN | Exact projectile physics (gravity, bounce) | UNKNOWN |
-| RE-010 | UNKNOWN | Save file format (BinaryFormatter?) | UNKNOWN |
+| RE-004 | CONFIRMED (structural) | 20 distinct EnemyAI class names | HIGH STRUCTURAL |
+| RE-005 | CONFIRMED (structural) | Multiple MapManager classes for game modes | HIGH STRUCTURAL |
+| RE-006 | PARTIAL | `RGRandom` wraps `UnityEngine.Random.State`; wrapper semantics under reconstruction | PARTIAL |
+| RE-007 | CONFIRMED (structural) | Room serialization classes `SerializeLinker*` exist | HIGH STRUCTURAL |
+| RE-008 | HYPOTHESIS | Damage formula: `(atk - def) * crit * element` | UNVERIFIED |
+| RE-009 | HYPOTHESIS | Room gen: BSP + graph + template placement | UNVERIFIED |
+| RE-010 | UNKNOWN | Exact projectile physics (gravity, bounce) | UNKNOWN |
+| RE-011 | UNKNOWN | Save file format (Sirenix/Odin-backed `AboGameData` suspected; not disassembled) | UNKNOWN |
 
 ---
 
@@ -108,23 +117,32 @@ Session: Initial reconnaissance
 
 ---
 
-## Blockers
+## Blockers (corrected)
 
-- None — all tooling operational
-- Need to decide on C++ vs Rust, Vulkan vs OpenGL, SDL3 vs raw Wayland
-
----
-
-## Git Status
-
-```
-Initial commit pending
-Files to commit:
-- analysis/ (all deliverables)
-- docs/ARCHITECTURE.md
-- NEMOTRON_MASTER_PROJECT.md
-```
+- **No runtime oracle**: no Android device/emulator/Waydroid/QEMU/Frida.
+- **No disassembly workflow** at the time of the original session (Ghidra installed but no project).
+- **Build and tests were not working**; test results were false-green.
+- **Asset/data extraction not started**.
+- Behavioural specs are hypotheses, not evidence.
 
 ---
 
-**Session End:** Ready for technology selection and native runtime implementation.
+## Git Status (historical)
+
+The original session left `src/`, `tests/`, and `external/` untracked. See the current repository state and the build/test migration commits.
+
+---
+
+**Session End (historical):** technology selection and native runtime bootstrap were attempted before behaviour reconstruction. The corrected workflow is evidence-first; see `analysis/PROJECT_DIAGNOSIS.md` and `tools/re/`.
+
+---
+
+## 2026-10-31 — Evidence-First Session
+
+- Corrected Unity version/metadata and Gate B/C status.
+- Restored build/test feedback loop; 22 tests execute and an intentional failure turns CTest red.
+- Added `tools/re/il2cpp_re.py` for metadata → RVA → disassembly → xrefs.
+- Reconstructed `RGRandom` in `analysis/re/rgrandom.md`; native `UnityRandom`/`RGRandomStream` implemented and tested.
+- Started `analysis/re/damage.md`; player/enemy entry points and state mutation reconstructed, projectile bridge unresolved.
+- Added UnityPy extraction under `tools/asset/`; first-pass manifest has 284 entries and no proprietary bytes committed.
+- Next: resolve the projectile→target damage bridge, critical/element rules, and the map-seed virtual path before a vertical slice.

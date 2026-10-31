@@ -1,5 +1,7 @@
 # Soul Knight 2.6.8 — Source Map
 
+> **Correction — 2026-10-31.** The original evidence column cites `analysis/class-map.md`, which is a DEX/SDK class map and does **not** contain the cited `RG*` IL2CPP classes. Those citations are broken. Correct evidence for reconstructed behaviour is `analysis/re/*.md` with metadata RVAs and disassembly addresses. All rows are `PLANNED`; none are implemented or verified.
+
 **Purpose:** Map reference (IL2CPP/DEX) classes to native implementation files.
 
 **Format:**
@@ -193,5 +195,5 @@ Evidence:
 
 ---
 
-**Last Updated:** 2026-10-30
-**Next Review:** After each Phase 5 system implementation
+**Last Updated:** 2026-10-31 (evidence citations corrected; all implementation statuses remain PLANNED)
+**Next Review:** After each evidence-backed subsystem reconstruction

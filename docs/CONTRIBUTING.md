@@ -78,7 +78,7 @@ src/
 │   └── audio/              # miniaudio engine
 ├── engine/                 # Reusable engine systems
 │   ├── core/               # Log, math, ECS, timer
-│   ├── math/               # Vec2, Mat4, Random (PCG32)
+│   ├── math/               # Vec2, Mat4, Random (reference-compatible; algorithm pending)
 │   ├── ecs/                # Entity, ComponentPool, World
 │   ├── rendering/          # Vulkan, SpriteBatcher, Camera
 │   ├── animation/          # Animation system

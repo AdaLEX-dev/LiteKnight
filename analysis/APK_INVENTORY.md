@@ -172,7 +172,7 @@ These are resources Apktool couldn't classify — typically Unity-internal binar
 
 ### 7.1 Engine Confirmation
 - **Unity IL2CPP** — CONFIRMED
-- **Unity Version:** 2021.x (based on libunity.so symbols, IL2CPP metadata version)
+- **Unity Version:** **2018.4.12f1** (based on `libunity.so` build string, AssetBundle header, and `libil2cpp.so` build paths); IL2CPP metadata **version 24**
 - **Scripting Backend:** IL2CPP (not Mono)
 - **API Compatibility:** .NET 4.x / .NET Standard 2.1
 

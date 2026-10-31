@@ -1,5 +1,7 @@
 # Soul Knight 2.6.8 — Parity Matrix
 
+> **Correction — 2026-10-31.** Gate B was incorrectly marked ✅. It is **NOT MET**. Gate C is **NOT MET**. Rows in this matrix describe intended comparison points; most "Reference Behaviour" and "Confidence" entries were inferred before behavioural reconstruction and are not evidence. See `analysis/EVIDENCE_AUDIT.md`.
+
 **Status Definitions:**
 - `UNKNOWN` — Not yet investigated
 - `PARTIAL` — Some behavior implemented, gaps remain
@@ -15,7 +17,7 @@
 |-----------|---------------------|------------------|------------|------|--------|-------|
 | **Engine** | | | | | | |
 | Game Loop | MonoBehaviour (Update/FixedUpdate) | Fixed timestep (60 Hz sim) | HIGH | frame_timing_test | UNKNOWN | |
-| RNG | `RGRandom` (deterministic?) | PCG32 multi-stream | HIGH | rng_determinism_test | UNKNOWN | UNK-001 |
+| RNG | `RGRandom` wraps `UnityEngine.Random.State`; wrapper semantics under reconstruction | Not implemented; PCG32 rejected for parity | PARTIAL | none | UNKNOWN | `analysis/re/rgrandom.md`, UNK-001 |
 | Asset Loading | AssetBundles (LZ4/LZMA) | KTX2/JSON/Ogg pipeline | HIGH | asset_load_test | UNKNOWN | |
 | Save/Load | `RGSaveManager` (format?) | JSON + schema version | HIGH | save_roundtrip_test | UNKNOWN | UNK-007 |
 | **Player** | | | | | | |
@@ -80,11 +82,11 @@
 
 | Gate | Requirement | Status |
 |------|-------------|--------|
-| Gate B (Understanding) | All subsystems mapped to UNKNOWN or better | ✅ |
-| Gate C (Runtime) | Native app launches, renders, inputs | ⬜ |
-| Gate D (First Playable) | Core loop playable, all FUNCTIONAL | ⬜ |
-| Gate E (Content) | All discovered content PARTIAL+ | ⬜ |
-| Gate F (Release) | All VERIFIED, tests pass | ⬜ |
+| Gate B (Understanding) | All subsystems mapped to UNKNOWN or better | ❌ **NOT MET** — class inventory only; behaviour unresolved |
+| Gate C (Runtime) | Native app launches, renders, inputs | ❌ **NOT MET** — no renderer/simulation; build must be restored first |
+| Gate D (First Playable) | Core loop playable, all FUNCTIONAL | ⬜ Not started |
+| Gate E (Content) | All discovered content PARTIAL+ | ⬜ Not started |
+| Gate F (Release) | All VERIFIED, tests pass | ⬜ Not started |
 
 ---
 
@@ -92,8 +94,9 @@
 
 - Update this matrix after each subsystem implementation
 - Link to test files in `tests/`
-- Reference evidence in `analysis/`
+- Reference evidence in `analysis/re/`
 - Status changes require evidence commit
+- A field name or class name is not evidence for a mechanic
 
-**Last Updated:** 2026-10-30
+**Last Updated:** 2026-10-31 (gates corrected; behavioural entries marked unverified)
 **Next Review:** After Phase 4 (Gate C)

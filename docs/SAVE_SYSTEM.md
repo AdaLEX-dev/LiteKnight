@@ -1,5 +1,7 @@
 # Soul Knight 2.6.8 — Save System Design
 
+> **Correction — 2026-10-31.** This document is a **native design proposal**, not a reconstruction of the reference save format. Metadata shows `RGSaveManager` with `char_list`, `pet_list`, `hero_skin_list`, `AboGameData game_data`, and `store_key`; the assembly references Sirenix/Odin serialization. The reference format is **UNKNOWN** until `RGSaveManager.Save/Load` is disassembled. The JSON schema and version history below were invented for the native design and must not be cited as reference behaviour.
+
 **Target:** JSON + schema versioning, XDG compliance, fast save/load
 
 ---
@@ -294,7 +296,7 @@ private:
 ### RNG State Serialization (Critical for Determinism)
 ```cpp
 struct RNGState {
-    // PCG32 state per stream
+    // Reference-compatible RNG state per stream (algorithm pending reconstruction)
     struct Stream {
         uint64_t state = 0;
         uint64_t inc = 0;

@@ -1,5 +1,7 @@
 # Soul Knight 2.6.8 — Class Map (DEX Layer)
 
+> **Correction — 2026-10-31.** This file maps only the DEX/SDK layer. It is **not** the IL2CPP class map and does not contain the `RG*` gameplay classes. The full structural metadata dump is local at `/home/jules/bin/dump.cs` (outside Git); it is structural evidence, not behavioural evidence. Corrected architecture: Unity 2018.4.12f1, metadata version 24.
+
 Generated: 2026-10-30
 Source: `analysis/apktool_out/smali/`, `analysis/jadx_out/sources/`
 Reference APK: SHA-256 `8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea`

@@ -1,5 +1,7 @@
 # Soul Knight 2.6.8 — Reference Artifact Record
 
+> **Correction — 2026-10-31.** The original version claim in this file was wrong. Direct artifact evidence establishes **Unity 2018.4.12f1** and **IL2CPP metadata version 24**, not Unity 2021.x / metadata v24.1. The historical claim is retained below in the correction log. See `analysis/EVIDENCE_AUDIT.md` and `analysis/PROJECT_DIAGNOSIS.md`.
+
 ## Immutable Reference APK
 
 - **File:** `original/SoulKnight-2.6.8.apk`
@@ -30,7 +32,8 @@
 
 - **Engine:** Unity (IL2CPP backend)
 - **Primary Native Library:** `libil2cpp.so` (52.6 MB arm64, 42.5 MB armv7)
-- **Unity Version:** 2021.x (evidenced by libunity.so, unity metadata)
+- **Unity Version:** **2018.4.12f1** (`libunity.so` build string, AssetBundle header, `libil2cpp.so` build paths)
+- **IL2CPP Metadata Version:** **24** (`global-metadata.dat` header)
 - **Java/Kotlin Layer:** Minimal — UnityPlayerActivity + third-party SDKs only
 - **Game Logic:** Entirely in native IL2CPP compilation (C# → C++)
 
@@ -183,9 +186,27 @@
 - ✅ Native libraries inventoried
 - ✅ DEX structure mapped
 - ✅ Asset bundles catalogued
-- ⏳ IL2CPP metadata extraction (pending)
-- ⏳ Class/method mapping from libil2cpp.so (pending)
-- ⏳ Runtime behaviour observation (pending)
+- ✅ IL2CPP metadata extracted **locally, outside the repository**:
+  - `/home/jules/bin/dump.cs`
+  - `/home/jules/bin/script.json`
+  - `/home/jules/bin/il2cpp.h`
+  - `/home/jules/bin/DummyDll/`
+  - `/home/jules/bin/stringliteral.json`
+- ⚠️ Class/method mapping is **structural only**. Method bodies still require disassembly or runtime observation.
+- ⏳ Behavioural reconstruction (not started; see `analysis/PROJECT_DIAGNOSIS.md`)
+- ⏳ Runtime observation (no device/emulator configured)
+
+### Historical correction log
+
+The following claims appeared in the original version of this file and are retained for audit:
+
+| Original claim | Corrected fact |
+|---|---|
+| Unity Version: 2021.x | Unity 2018.4.12f1 |
+| IL2CPP metadata: v24.1 | Metadata version 24 |
+| IL2CPP metadata extraction pending | Full dump exists outside the repository; in-repo copy is partial |
+
+**Status of this document:** artifact inventory is CONFIRMED. Behavioural statements elsewhere are not automatically confirmed by this inventory.
 
 ---
 

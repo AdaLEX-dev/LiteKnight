@@ -4,14 +4,24 @@ Generated: 2026-10-30
 Source: IL2CPP metadata extraction from `libil2cpp.so` + `global-metadata.dat`
 Reference APK: SHA-256 `8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea`
 
+> **Correction — 2026-10-31.** This document was originally presented as a complete reconstruction. It is a **class inventory plus unmarked inference**. It is not a behavioural specification.
+>
+> - Engine: **Unity 2018.4.12f1**, metadata **version 24** — not Unity 2021.x / v24.1.
+> - Metadata supplies class names, field names/offsets, method names/signatures, and RVAs. It does **not** supply method bodies.
+> - Any field list below marked "inferred", "likely", or based only on a class name is **HYPOTHESIS**, not CONFIRMED.
+> - Corrected field-level evidence is in `analysis/re/` as each subsystem is reconstructed.
+> - Gate B is **NOT MET**; the original "complete" status was wrong.
+>
+> Historical claims are retained below where they are useful for audit. See `analysis/PROJECT_DIAGNOSIS.md` and `analysis/EVIDENCE_AUDIT.md`.
+
 ---
 
 ## Executive Summary
 
-**Engine:** Unity 2021.x (IL2CPP scripting backend)
+**Engine:** **Unity 2018.4.12f1** (IL2CPP scripting backend, metadata version 24)
 **Language:** C# compiled to C++ via IL2CPP
 **Game Namespace:** Primarily `RG*` (Rogue/Random Generation) classes
-**Architecture Pattern:** Component-based (MonoBehaviour), Manager singletons, Data-driven content
+**Architecture Pattern:** Structural evidence shows MonoBehaviour-based components, manager singletons, and serialized data. Behaviour is not yet reconstructed.
 
 ---
 
@@ -139,13 +149,21 @@ RGBaseController (MonoBehaviour)
   └─ RGDeveloperController (Debug)
 ```
 
-**Key Fields (inferred):**
-- `health`, `maxHealth`, `armor`, `energy`, `maxEnergy`
-- `moveSpeed`, `dashSpeed`, `dashCooldown`
-- `currentWeapon`, `weaponSlots[]`
-- `isDashing`, `isInvincible`
-- `facingDirection` (Vector2)
-- `animator` (Animator reference)
+**Key Fields — corrected from metadata (`dump.cs`), not inferred:**
+
+`RGController` itself contains:
+- `role_attribute` (`RoleAttributePlayer`)
+- `skills` (`SkillInfo[]`), `skillIndex`, `skillCasting`, `skill_time`
+- `movementInput` (`MovementInput`)
+- `rg_random` (`RGRandom`)
+- `hand` (`RGHand`), `move_dir`, `facing`, `in_battle`, `can_hurt`
+- multiple `Action` callbacks (`OnRoleAttack`, `OnRoleSkillStart`, etc.)
+
+Health/armor/energy are **not** fields of `RGController`; they live in `RoleAttribute` / `RoleAttributePlayer`:
+- `RoleAttribute`: `camp`, `speed`, `speed_rate`, `max_hp`, `hp`, `critical`
+- `RoleAttributePlayer`: `max_armor`, `armor`, `max_energy`, `_energy`, `atk`, `atk_speed`, `defence`, `c_index`, `c_level`
+
+**Behaviour is UNKNOWN/HYPOTHESIS until reconstructed from disassembly or runtime observation.** Field presence confirms data layout only.
 
 ### 3.2 Enemy System (`RGEController` hierarchy)
 
@@ -167,11 +185,12 @@ RGEController (RandomBehaviour) ← Base enemy AI
   └─ RGEHand (Enemy hand/weapon holder)
 ```
 
-**AI Patterns Observed:**
-- State machine via coroutines (`IEnumerator` methods like `CheckPositionValid`, `DizzyScout`, `SendingPosition`)
-- Behavior types: Melee, Ranged, Summoner, Boss, Turret, Suicide, Shielded
-- Targeting: Player position, predicted position, nearest target
-- Cooldowns per attack type
+**AI Patterns — HYPOTHESIS, not observed behaviour:**
+- Metadata shows `IEnumerator` classes and method names such as `CheckPositionValid`, `DizzyScout`, `SendingPosition`. That proves coroutine-shaped code exists; it does not reveal the state machine.
+- Behaviour types (Melee, Ranged, Summoner, Boss, Turret, Suicide, Shielded) were inferred from class names and are **not confirmed**.
+- Targeting and cooldown rules are **UNKNOWN** until disassembled or observed.
+
+A reusable method → RVA → disassembly workflow is being added under `tools/re/`. Evidence documents belong in `analysis/re/`.
 
 ### 3.3 Weapon System (`RGWeapon` hierarchy)
 
@@ -196,12 +215,23 @@ RGWeapon (MonoBehaviour) ← Base weapon
   └─ GunTelescope
 ```
 
-**Weapon Data (RGGameConst / ScriptableObject-like):**
-- `damage`, `fireRate`, `bulletSpeed`, `bulletCount`, `spread`
-- `knockback`, `critChance`, `critMultiplier`, `elementType`
-- `energyCost`, `ammo`, `maxAmmo`, `reloadTime`
-- `projectilePrefab`, `muzzleEffect`, `hitEffect`, `sound`
-- `weaponType` (enum: Melee, Ranged, Beam, Throwing, Special)
+**Weapon Data — corrected from metadata (`dump.cs`):**
+
+`RGWeapon` fields include:
+- `weapon_type` (`emWeaponType`), `weapon_tags`
+- `bulletsInfo` (`List<BulletInfoInspector>`)
+- `deviation`, `consume`, `weapon_speed`, `atk_move_speed`
+- `item_level`, `item_value`, `is_melee`, `need_lock`, `has_effect`
+- `rg_random`, `weapon_item` (`WeaponItemBase`), `controller` (`RGBaseController`)
+- `attack_count`, `attackPressed`, speed modifiers, and weapon-special callbacks
+
+The original list (`damage`, `fireRate`, `bulletCount`, `spread`, `energyCost`, `ammo`, `reloadTime`, etc.) was **inferred and does not match the metadata field set**. Exact damage/fire-rate behaviour is **UNKNOWN** and must be reconstructed from `RGWeapon.AttackStart`, `BulletInfo`, `DamageCarrier`, and related disassembly.
+
+`BulletInfo` fields include: `bulletProto`, `sourceObject`, `sourceWeapon`, `createPosition`, `initVelocity`, `speed`, `size`, `directionAngle`, `reflectCount`, `duration`, `camp`.
+
+`DamageInfo` fields include: `damageType`, `damage`, `throughCount`, `critic`, `repel`, `damageInterval`, `camp`.
+
+Field names are structural evidence; formulas are not implied.
 
 ### 3.4 Projectile System (`RGBullet` hierarchy)
 
@@ -343,18 +373,19 @@ RGMusicManager (singleton)
 - Boss phase change
 - UI interactions
 
-### 3.9 Save System (`RGSaveManager`)
+### 3.9 Save System (`RGSaveManager`) — corrected
 
-**Save Slots:** Multiple (auto + manual)
-**Data Includes:**
-- Character progression
-- Inventory (weapons, items)
-- Currency
-- Settings (volume, graphics, controls)
-- Game completion flags
-- RNG seed (for run reconstruction)
+**Metadata fields (`dump.cs`):**
+- `char_list` (`RGCharacterInfo[]`)
+- `pet_list` (`RGPetInfo[]`)
+- `hero_skin_list` (`RGSpriteList[]`)
+- `game_data` (`AboGameData`)
+- `store_key` (`string`)
+- `c_levelup_gems` (`int[]`)
 
-**Format:** Binary (Unity `BinaryFormatter` or custom) → **Native: JSON/MessagePack**
+**Format:** The assembly references **Sirenix.Serialization / Odin** and uses `AboGameData`. The original "BinaryFormatter or custom binary" claim was a guess; the original "multiple slots" claim and the detailed JSON schema in `docs/SAVE_SYSTEM.md` were **invented**, not reconstructed.
+
+**Status:** Save file format and serialization behaviour are **UNKNOWN** until `RGSaveManager.Save/Load` and `AboGameData` are disassembled. A native JSON format is a new design, not reference parity.
 
 ---
 
@@ -399,7 +430,7 @@ RGMusicManager (singleton)
 | ParticleSystem | Custom particle system | MEDIUM |
 | UI (uGUI/TextMeshPro) | Dear ImGui / custom UI | MEDIUM |
 | Save (BinaryFormatter) | JSON + schema versioning | HIGH |
-| RNG (Unity.Random) | PCG32 / xoshiro256** | CRITICAL |
+| RNG (Unity.Random) | Reference-compatible `RandomStream` (PCG32 rejected for parity) | CRITICAL |
 | SceneManager | Custom scene graph | MEDIUM |
 
 ---
@@ -423,7 +454,7 @@ RGMusicManager (singleton)
 
 ## 8. Phase 2 Deliverable Status
 
-✅ **Engine Identified:** Unity 2021 IL2CPP
+✅ **Engine Identified:** Unity **2018.4.12f1** IL2CPP, metadata v24
 ✅ **Java/Native Split:** 100% gameplay in `libil2cpp.so`
 ✅ **Renderer:** Unity SpriteRenderer/Canvas → Native Vulkan
 ✅ **Game Loop:** MonoBehaviour messages → Custom fixed timestep
@@ -460,24 +491,26 @@ RGMusicManager (singleton)
 
 ---
 
-## 10. Confidence Assessment
+## 10. Confidence Assessment (corrected)
 
-| Subsystem | Confidence | Evidence |
-|-----------|------------|----------|
-| Engine | CONFIRMED | IL2CPP metadata, Unity strings |
-| Class Hierarchy | HIGH | 200+ RG* classes extracted |
-| Game Loop | HIGH | MonoBehaviour pattern, FixedUpdate usage |
-| Player | HIGH | RGController hierarchy, MovementInput |
-| Enemies | HIGH | 20+ EnemyAI classes, BossController |
-| Weapons | HIGH | 25+ RGWeapon derivatives |
-| Projectiles | HIGH | 30+ RGBullet derivatives |
-| Rooms/Gen | HIGH | MapManager variants, SerializeLinker |
-| Items | HIGH | RGItem, RGChest, RGBuff, RGStateItem |
-| Progression | MEDIUM | RGGameInfo, RGSaveManager (partial) |
-| Audio | MEDIUM | RGMusicManager |
-| UI | MEDIUM | RGJoyControl, RGUIWindow |
-| Multiplayer | LOW | Stripped for v1 |
-| Determinism | HYPOTHESIS | RGRandom exists, needs verification |
+This table records **structural discovery confidence only**. Structural confidence is not behavioural confidence.
+
+| Subsystem | Structural confidence | Behaviour verified? | Evidence |
+|-----------|-----------------------|---------------------|----------|
+| Engine | CONFIRMED | N/A | Unity 2018.4.12f1, IL2CPP metadata v24 |
+| Class inventory | HIGH | NO | Full metadata dump (132 top-level RG* classes, 3,722 total classes) |
+| Game loop | UNKNOWN | NO | No method bodies analyzed; "FixedUpdate" claim lacks evidence |
+| Player | UNKNOWN | NO | `RGController` fields exist; mechanics not reconstructed |
+| Enemies | UNKNOWN | NO | 20+ AI class names; state machines not reconstructed |
+| Weapons | UNKNOWN | NO | 25+ class derivatives; fire logic not reconstructed |
+| Projectiles | UNKNOWN | NO | 35+ class derivatives; physics not reconstructed |
+| Rooms/Gen | UNKNOWN | NO | `MapManager` classes exist; generation algorithm not reconstructed |
+| Items | UNKNOWN | NO | Items/chests exist; loot logic not reconstructed |
+| Progression | UNKNOWN | NO | `RGSaveManager`/`RGGameInfo` exist; progression logic not reconstructed |
+| Audio | UNKNOWN | NO | `RGMusicManager` exists; trigger semantics not reconstructed |
+| UI | UNKNOWN | NO | UI classes exist; behaviour not reconstructed |
+| Multiplayer | LOW | N/A | Out of scope for v1 |
+| Determinism | PARTIAL | NO | `RGRandom` wraps `UnityEngine.Random.State`; wrapper semantics under reconstruction |
 
 ---
 
@@ -485,7 +518,7 @@ RGMusicManager (singleton)
 
 | ID | Description | Priority |
 |----|-------------|----------|
-| UNK-001 | Exact RNG algorithm (PCG32? xoshiro?) | HIGH |
+| UNK-001 | `RGRandom` wrapper semantics over `UnityEngine.Random` (local vs global state, seeding, stream isolation) | HIGH |
 | UNK-002 | Damage formula (armor, resist, crit) | HIGH |
 | UNK-003 | Room graph generation algorithm | HIGH |
 | UNK-004 | Enemy AI state machine details | HIGH |
@@ -497,4 +530,4 @@ RGMusicManager (singleton)
 
 ---
 
-**Architecture Reconstruction Complete.** Ready for Phase 3: Gameplay Reconstruction & Behavioural Specification.
+**Architecture reconstruction is NOT complete.** This document is a structural inventory plus historical hypotheses. Gate B is **NOT MET**. Behavioural reconstruction proceeds subsystem-by-subsystem under `analysis/re/` with evidence from disassembly or runtime observation.

@@ -336,7 +336,7 @@ Frame-time analysis, CPU/GPU profiling, memory tracking:
 ### Decision
 **Custom `math` module** (`src/engine/math/`)
 - `Vec2`, `Vec3`, `Mat3x3`, `Mat4x4`, `Quat`, `Rect`, `Color32`
-- `Random` — PCG32 (deterministic, fast, portable)
+- `Random` — **RNG choice superseded by ADR-0016**; the reference uses Unity 2018.4 `Random`, and PCG32 must not be used for parity-sensitive streams
 - `Easing`, `Interpolation` (lerp, slerp, smoothstep)
 - No SIMD in simulation (scalar for determinism)
 - SIMD allowed in render backend only (culling, skinning)
@@ -412,7 +412,9 @@ AssetBundles → Native formats at build time:
 
 ## ADR-0014: Deterministic RNG — PCG32
 
-**Status:** ACCEPTED
+**Status:** **SUPERSEDED — 2026-10-31**
+
+> **Superseded by ADR-0016.** This decision was made before the reference RNG was inspected. `RGRandom.Range` at RVA `0xDD07E8` saves/restores `UnityEngine.Random.state` and calls `UnityEngine.Random.Range` at `0x1AF8058`. PCG32 cannot reproduce the reference sequence. The historical decision is retained below for audit.
 
 ### Context
 Game requires deterministic runs (same seed = same dungeon):
@@ -464,6 +466,32 @@ Cross-platform (Linux only for now), reproducible, fast:
 
 ---
 
+## ADR-0016: Reference-Compatible RNG (provisional)
+
+**Status:** PROPOSED — supersedes ADR-0014
+
+### Context
+
+`RGRandom` is not an independent RNG. Metadata and disassembly show:
+
+- fields `seed_state`, `seed`, and `this_state` (`UnityEngine.Random.State`),
+- `RGRandom.Range(int,int)` at RVA `0xDD07E8`,
+- calls to `UnityEngine.Random.get_state` (`0x1AF7EC4`), `UnityEngine.Random.set_state` (`0x1AF7F58`), and `UnityEngine.Random.Range` (`0x1AF8058`).
+
+The exact wrapper semantics (when the seed is applied, how local state is saved/restored, whether multiple independent streams exist) are being reconstructed in `analysis/re/rgrandom.md`.
+
+### Decision
+
+The native RNG must be **reference-compatible**, not a convenient substitute. Implementation must reproduce the observed `RGRandom` wrapper semantics and the underlying Unity 2018.4 `Random` state transition. PCG32 must not be used for parity-sensitive systems.
+
+### Consequences
+
+- The native `RandomStream` abstraction is blocked until `analysis/re/rgrandom.md` reaches sufficient confidence.
+- Determinism tests must compare against reference-observed sequences or an exact reconstructed algorithm, not merely self-consistency.
+- If exact parity is abandoned, that is a scope decision requiring a new ADR, not a silent substitution.
+
+---
+
 ## Summary Table
 
 | ID | Decision | Category |
@@ -478,12 +506,16 @@ Cross-platform (Linux only for now), reproducible, fast:
 | ADR-0008 | doctest | Testing |
 | ADR-0009 | Custom logger | Logging |
 | ADR-0010 | Built-in + perf/RenderDoc | Profiling |
-| ADR-0011 | Custom math (PCG32 RNG) | Math |
+| ADR-0011 | Custom math (RNG portion superseded) | Math |
 | ADR-0012 | Manual Component System | Architecture |
 | ADR-0013 | Offline asset pipeline | Assets |
-| ADR-0014 | PCG32 (multi-stream) | RNG |
+| ADR-0014 | ~~PCG32 (multi-stream)~~ **SUPERSEDED** | RNG |
 | ADR-0015 | CMake 4 + Ninja | Build |
+| ADR-0016 | Reference-compatible RNG (provisional) | RNG |
 
 ---
 
-All decisions are **ACCEPTED** and binding. Changes require new ADR superseding.
+Decisions are binding unless marked **SUPERSEDED**. ADR-0014 is superseded by ADR-0016. In particular:
+
+- The "PCG32" language in ADR-0011 applies only to non-parity math utilities until the reference RNG is reconstructed.
+- The reference game uses Unity 2018.4.12f1; any port of `UnityEngine.Random` must match that version's state transition.

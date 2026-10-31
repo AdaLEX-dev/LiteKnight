@@ -53,7 +53,7 @@ res/
 | File | Size | Purpose |
 |------|------|---------|
 | `assets/AssetBundles/AssetBundles` | 3,990 B | Bundle catalog (names, dependencies, CRCs) |
-| `assets/AssetBundles/AssetBundles.manifest` | 16,709 B | Full dependency manifest (Unity 2021 format) |
+| `assets/AssetBundles/AssetBundles.manifest` | 16,709 B | Full dependency manifest (Unity 2018.4 format; original "2021" label was wrong) |
 
 ### Content Bundles (by Category)
 
@@ -100,11 +100,12 @@ res/
 | `assets/AssetBundles/res/` | Resource-only bundles (textures, audio) |
 
 ### AssetBundle Format Details
-- **Unity Version:** 2021.x (manifest format)
-- **Compression:** LZ4 (default for 2021+) or LZMA
-- **Serialization:** UnityFS (AssetBundle format v7)
+- **Unity Version:** **2018.4.12f1** (bundle header build string; the original "2021.x" claim was wrong)
+- **Compression:** LZ4/LZMA as used by the reference build
+- **Serialization:** UnityFS (AssetBundle format used by Unity 2018.4)
 - **Platform:** Android (ASTC textures, ETC2 fallback)
 - **Endianess:** Little-endian (ARM)
+- **Metadata version:** IL2CPP metadata version 24
 
 ---
 
@@ -113,10 +114,10 @@ res/
 ### Tools Required
 | Tool | Purpose | Status |
 |------|---------|--------|
-| `AssetStudio` | GUI extraction, preview | ⏳ Need to acquire |
-| `UnityAssetBundleExtractor` / `UABE` | CLI extraction | ⏳ Need to acquire |
-| `il2cppdumper` + `AssetRipper` | Combined IL2CPP + asset extraction | ⏳ Need to acquire |
-| Custom Python/C# script | Batch extraction, conversion | 📋 To build |
+| `UnityPy` 1.25.4 | Python extraction (verified in this environment) | ✅ Works; tool at `tools/asset/extract_unity.py` |
+| `AssetStudio` / UABE | GUI/CLI extraction alternatives | Optional; not required for first pass |
+| `il2cppdumper` + `AssetRipper` | Combined IL2CPP + asset extraction | Optional; may help with prefabs/materials |
+| Custom Python/C# script | Batch extraction, conversion | 🚧 First-pass tool being added |
 
 ### Target Native Formats
 | Asset Type | Source Format | Native Target | Conversion Tool |
