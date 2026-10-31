@@ -6,10 +6,12 @@
 > are implemented and manually verified. A generated 64x64 checkerboard texture
 > is presented as a textured quad. `docs/PARITY.md` Gate C is **PARTIAL**.
 >
-> **Not implemented:** PNG/KTX2/atlas decoding, real game assets, camera follow,
-> room sprite pivots/PPU validation, VMA, GPU timestamp profiling, or rendering
-> parity. The sections below remain design guidance beyond the implemented smoke
-> path. Evidence: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
+> **Not implemented:** KTX2/atlas packing, real game assets, camera follow, room
+> sprite pivots/PPU validation, VMA, GPU timestamp profiling, or rendering parity.
+> PNG decoding is now implemented through libpng into canonical RGBA8
+> `TextureData` and uploaded via the existing staging path. The sections below
+> remain design guidance beyond the implemented smoke path. Evidence:
+> `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`, `docs/ASSET_PIPELINE.md`.
 
 **Target:** Vulkan 1.3, 1920×1080, 60 FPS, 2D sprite batching
 
@@ -25,14 +27,15 @@ Wayland window / SDL3 surface
   -> B8G8R8A8_SRGB / FIFO / 3-image swapchain
   -> render pass + 2 frames in flight
   -> sprite.vert/sprite.frag SPIR-V
-  -> generated RGBA8 texture -> staging upload -> sampler
+  -> synthetic PNG -> libpng -> RGBA8 TextureData
+  -> staging upload -> sampler
   -> batched textured quad (alpha, UV, tint)
   -> present
 ```
 
 The native sorting layers are a **PROJECT DECISION**; no reference numeric
-sorting-layer values are claimed. The textured quad is a renderer bring-up asset,
-not APK content.
+sorting-layer values are claimed. The textured quad is a synthetic renderer bring-up asset, not APK content. The
+decoded PNG is asymmetric so vertical flips and channel swaps are visible.
 
 ## 1. Rendering Architecture
 

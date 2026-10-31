@@ -12,9 +12,9 @@ cross-machine 60 FPS guarantee is claimed.
 Command: `./build/soul-knight --smoke-seconds 10` on the target CachyOS/Wayland
 machine.
 
-- `FrameTimer` average: **16.679 ms** over 572 samples.
-- Presented **602 frames** over ~10.1 s wall time (~59.6 presents/s).
-- **505 fixed simulation ticks** in ~10.1 s (50 Hz contract).
+- `FrameTimer` average: **16.665 ms** over 573 samples.
+- Presented **603 frames** over ~10.1 s wall time (~59.6 presents/s).
+- **506 fixed simulation ticks** in ~10.1 s (50 Hz contract).
 - **0.834 simulation steps/render frame** (expected 50/60 ≈ 0.833).
 - Debug validation: 0 messages.
 - Measurement type: CPU frame pacing (`steady_clock` via `FrameTimer`), not GPU

@@ -11,7 +11,7 @@
 > - Phase 1 — COMPLETE (artifact inventory)
 > - Phase 2 — PARTIAL; Gate B **PARTIAL** (see `docs/GATE_B.md`)
 > - Phase 3 — PARTIAL/CURRENT (vertical-slice contract largely reconstructed; full content/AI/save unknown; see `docs/PHASE_3_BEHAVIOURAL_RE.md`)
-> - Phase 4 — **PARTIAL**; foundation FUNCTIONAL, Gate C **PARTIAL** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
+> - Phase 4 — **PARTIAL**; foundation + PNG asset path FUNCTIONAL, Gate C **PARTIAL** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
 > - Phase 5+ — BLOCKED by Gate B/C
 >
 > The build/test/evidence pipeline is clean and reproducible. This is not a Phase 4
@@ -87,7 +87,7 @@
 | Vulkan instance + device + swapchain | `src/engine/rendering/VulkanContext.cpp` | ✅ functional |
 | Frame timing (50 Hz sim, 60 FPS render target) | `FrameTimer`, `Application` | ✅ functional |
 | Sprite renderer (textured batched quad) | `SpriteRenderer`, `SpriteBatch`, `shaders/` | ✅ bring-up |
-| Asset runtime / PNG decode | `src/engine/rendering/Texture2D.cpp` (RGBA8 only) | ⚠️ RGBA8 path; PNG NOT STARTED |
+| Asset runtime / PNG decode | `src/engine/assets/PngDecoder.*`, `TextureData.hpp`, `Texture2D.cpp` | ✅ PNG → RGBA8 → GPU path; KTX2/registry pending |
 | Input abstraction (keyboard, mouse, gamepad) | `src/platform/input/InputManager.cpp` | ⚠️ scaffold, not wired |
 | miniaudio engine + bus system | `src/platform/audio/AudioEngine.cpp` | ⚠️ scaffold, not wired |
 | FileSystem (XDG paths) | `src/platform/filesystem/FileSystem.cpp` | ⚠️ scaffold |

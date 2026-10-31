@@ -176,7 +176,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Resolved death/reborn/game-over/restart entry flow; exact virtual slots/UI remain PARTIAL.
 - Resolved the save boundary as Unity `PlayerPrefs`; payload remains UNKNOWN.
 - Corrected native `FrameTimer` to the confirmed 50 Hz step and added a regression
-  test: **23 cases / 1276 assertions at that time** (now 31/1335 after Phase 4).
+  test: **23 cases / 1276 assertions at that time** (now 35/1367 after the PNG asset stage).
 - Gate B and Phase 3 remain **PARTIAL**; first-slice approximations are explicitly
   scoped in `docs/GATE_B.md` and `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`.
 
@@ -189,7 +189,7 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Added GLSL sprite shaders, dynamic batched quads, RGBA8 staging texture upload,
   alpha blending, stable layer sorting, and aspect-fit resize.
 - Manual 10 s smoke: exit 0, 0 validation messages, 602 presented frames,
-  505 fixed ticks, 16.679 ms average `FrameTimer` frame.
-- Tests: **31 cases / 1335 assertions**.
+  506 fixed ticks, 16.665 ms average `FrameTimer` frame.
+- Tests at that stage: **31 cases / 1335 assertions** (now 35/1367 after PNG).
 - Gate C is **PARTIAL**; asset decoding, input-to-simulation, audio, UI, and
   gameplay remain unimplemented. See `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.

@@ -33,6 +33,7 @@ cd SoulKnight-Linux
 sudo pacman -S --needed \
     base-devel cmake ninja gcc \
     sdl3 vulkan-headers vulkan-icd-loader vulkan-validation-layers \
+    libpng shaderc \
     libxkbcommon wayland wayland-protocols \
     pipewire alsa-lib \
     python3 git
@@ -197,7 +198,7 @@ git diff
 Only `all` and `unit` currently exist:
 
 ```bash
-./tools/test.sh               # all 31 cases
+./tools/test.sh               # all 35 cases
 ./tools/test.sh unit          # unit suite
 ```
 

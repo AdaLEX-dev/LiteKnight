@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **31 doctest cases / 1335 assertions**, all passing.
+**Status:** current baseline is **35 doctest cases / 1367 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -42,9 +42,20 @@ ctest --test-dir build --output-on-failure
 
 - SpriteBatch layer sort and stable insertion order.
 - SpriteBatch quad budget.
-- Shader build is a CMake target (`glslc`); SPIR-V is generated in the build tree.
+- Shader build is a CMake target (`glslc`); SPIR-V is generated in the build tree
+  and copied to the executable-relative asset directory.
 - Vulkan instance/device/swapchain/present is an **integration/manual** test,
   not a CTest case: it requires a real Wayland compositor and GPU.
+
+### PNG / asset runtime (implemented units)
+
+- libpng `PNG_FORMAT_RGBA` normalization to canonical RGBA8.
+- Exact 4x4 RGBA byte/alpha oracle.
+- RGB, grayscale, grayscale+alpha, and palette+tRNS normalization.
+- Repeated decode determinism.
+- Malformed/truncated input failure with cleared `TextureData` and non-empty error.
+- Missing-file failure.
+- Executable-relative test asset resolution (`FileSystem`).
 
 ### Integration / manual smoke
 
@@ -58,14 +69,14 @@ checks driver, Wayland enforcement, validation status, swapchain/renderer marker
 clean smoke completion, and rejects validation/renderer errors. It is intentionally
 not registered with CTest.
 
-### Assets (planned; not implemented)
+### Assets (partially implemented)
 
-- Manifest path-ID/hash stability.
-- PNG decode dimensions/format.
-- Sprite rect/pivot/UV.
-- Room JSON node/collider/spawn parse.
-- Missing asset → clear error.
-- No proprietary bytes tracked.
+- PNG decode dimensions/format/bytes: implemented and tested.
+- Manifest path-ID/hash stability: extraction tooling exists; native registry not.
+- Sprite rect/pivot/UV: not implemented.
+- Room JSON node/collider/spawn parse: not implemented.
+- Missing asset → clear error: tested for PNG.
+- No proprietary bytes tracked: checked in the repository hygiene pass.
 
 ### Simulation
 

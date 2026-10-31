@@ -3,8 +3,9 @@
 > **Current implementation (2026-10-31):** the Phase 4 foundation follows the
 > ownership model in `docs/PHASE_4_NATIVE_RUNTIME.md`. Implemented layers:
 > `Application` lifecycle, SDL3/Wayland window, Vulkan context/swapchain, batched
-> sprite renderer, 50 Hz fixed clock, and render-world `SpriteBatch`. Asset
-> runtime, input-to-simulation, audio, UI, and gameplay are not implemented. Gate B
+> sprite renderer, 50 Hz fixed clock, render-world `SpriteBatch`, and PNG → RGBA8
+> `TextureData` asset boundary. KTX2/atlas/registry, input-to-simulation, audio,
+> UI, and gameplay are not implemented. Gate B
 > remains **PARTIAL**; Gate C is **PARTIAL**. Evidence:
 > `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 >

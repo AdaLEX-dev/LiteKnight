@@ -1,6 +1,6 @@
 # Soul Knight 2.6.8 — Project State
 
-**Last Updated:** 2026-10-31 (Phase 4 runtime foundation)
+**Last Updated:** 2026-10-31 (Phase 4 PNG asset runtime)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (foundation FUNCTIONAL)**
 **Current status:** Phase 4A-4E foundation is implemented and manually verified:
@@ -41,6 +41,7 @@ Canonical reports:
 - Phase 3: `docs/PHASE_3_BEHAVIOURAL_RE.md` — **PARTIAL**
 - Phase 4 plan/state: `docs/PHASE_4_NATIVE_RUNTIME.md` — **PARTIAL**
 - Phase 4 runtime audit: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`
+- Asset pipeline: `docs/ASSET_PIPELINE.md` — **PNG path FUNCTIONAL; conversion/registry PARTIAL**
 - Gate B/Phase 3 final audit: `analysis/GATE_B_PHASE_3_FINAL_AUDIT.md`
 - Evidence standard: `docs/EVIDENCE_STANDARD.md`
 
@@ -139,15 +140,19 @@ Implemented and manually verified on 2026-10-31:
   generated 64x64 RGBA8 test texture, staging upload, aspect-fit resize.
 - 50 Hz fixed simulation consumed from the existing `FrameTimer`; rendering is
   decoupled and targets 60 FPS.
-- Manual smoke: 10 s run, exit 0, 0 validation messages, 602 presented frames,
-  505 fixed ticks, measured 16.679 ms average `FrameTimer` frame, 0.834 sim
-  steps/frame.
+- PNG asset runtime: libpng 1.6 system dependency, canonical RGBA8
+  `TextureData`, exact-byte/palette/gray/RGB tests, malformed-input rejection,
+  executable-relative synthetic fixtures, decoded PNG rendered through the
+  existing staging/`Texture2D`/`SpriteBatch` path.
+- Manual smoke from `/tmp` (path-independent): PNG decoded, 0 validation
+  messages, clean exit.
 - Non-Wayland startup fails with exit 1 (`wayland not available`), no X11
   fallback.
 
-Not implemented: PNG/KTX2/asset registry, input-to-simulation bridge, audio, UI,
-rooms, gameplay, content, parity comparison. Native sorting numbers are a
-**PROJECT DECISION**, not recovered Unity values.
+Not implemented: KTX2/atlas packing, the full asset registry/manifest loader,
+input-to-simulation bridge, audio, UI, rooms, gameplay, content, parity
+comparison. Native sorting numbers are a **PROJECT DECISION**, not recovered
+Unity values.
 
 Evidence and limitations: `analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
 
@@ -177,24 +182,25 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 31 cases / 1335 assertions, PASS
+- Debug tests: 35 cases / 1367 assertions, PASS
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 31 / 1335, PASS
+- RelWithDebInfo tests: 35 / 1367, PASS
 - `git diff --check`: clean
 - `git status`: clean after commit
 
-The count changed from 23/1276 to 31/1335 because Phase 4 added platform,
-window-state, sprite-batch, and frame-timer-step tests. No existing test was
-removed or weakened. The Phase 4 integration smoke test is manual because it
-requires a real Wayland compositor and GPU.
+The count changed from 31/1335 to 35/1367 because the PNG asset-runtime stage
+added exact RGBA normalization, palette/gray, malformed-input, and missing-file
+tests. No existing test was removed or weakened. The Phase 4 integration smoke
+test is manual because it requires a real Wayland compositor and GPU.
 
 ---
 
 ## Next Action
 
-Phase 4 foundation is **FUNCTIONAL**. The next implementation task is **Stage 4 —
-asset runtime foundation**: a non-proprietary PNG decode path producing RGBA8,
-uploaded through the existing `Texture2D`/`SpriteRenderer` path, with deterministic
-decode tests. Do not start gameplay/vertical-slice code until the asset/input
-gates and slice prerequisites are accepted.
+Phase 4 foundation and the PNG asset path are **FUNCTIONAL**. The next
+implementation task is controlled Unity-extracted asset conversion into the
+canonical native representation, starting with one small approved source and a
+reproducible conversion manifest. Do not import the full catalogue and do not
+start gameplay/vertical-slice code until the asset/input gates and slice
+prerequisites are accepted.

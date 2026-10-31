@@ -2,13 +2,14 @@
 
 **Status:** **PARTIAL — native foundation implemented and manually verified.**
 The application bootstrap, Wayland-only SDL3 window, Vulkan 1.3 context/swapchain,
-50 Hz fixed loop, and batched textured-quad renderer are implemented. Asset
-runtime, PNG decoding, input-to-simulation wiring, audio, and gameplay are not.
+50 Hz fixed loop, batched textured-quad renderer, and PNG → RGBA8 → GPU texture
+path are implemented. Input-to-simulation wiring, audio, gameplay, KTX2/atlas
+packing, and the full asset registry are not.
 **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 / metadata v24.
 **Target:** CachyOS x86-64, Wayland only, Vulkan 1.3, 1920×1080, 60 FPS.
 **Gate:** Gate B remains **PARTIAL**. Gate C is **PARTIAL** — launch, present, and
 resize are manually verified; input/gameplay are not. The evidence record is
-`analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md`.
+`analysis/PHASE_4_RUNTIME_FOUNDATION_AUDIT.md` and `docs/ASSET_PIPELINE.md`.
 
 ---
 
@@ -22,7 +23,8 @@ resize are manually verified; input/gameplay are not. The evidence record is
 | Vulkan instance/device/queues/swapchain | FUNCTIONAL / validation-clean | `src/engine/rendering/VulkanContext.*` |
 | Clear + textured quad | FUNCTIONAL / visual PASS | `SpriteRenderer`, `shaders/` |
 | 50 Hz fixed loop with 60 FPS render | FUNCTIONAL | `FrameTimer`, smoke log |
-| PNG/asset registry | NOT STARTED | generated RGBA8 test texture only |
+| PNG → RGBA8 → GPU texture | FUNCTIONAL | `PngDecoder`, `TextureData`, libpng, `tests/unit/png_test.cpp` |
+| Asset registry/KTX2/atlas | NOT STARTED | manifest conversion not implemented |
 | Input → fixed simulation | NOT STARTED | `InputManager` not wired |
 | Audio/UI/gameplay | NOT STARTED | deliberate boundary |
 
@@ -205,8 +207,10 @@ present
 
 ### 4.8 Textures and sprites
 
-- Decode PNG/KTX2 to RGBA8 (first slice); upload through a staging buffer.
-- Transition to `VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL`.
+- **Implemented:** libpng PNG decode to canonical RGBA8 `TextureData`; upload
+  through the existing staging buffer; transition to
+  `VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL`.
+- **Planned:** KTX2/atlas decode and packed sprite metadata.
 - Sprite metadata from the asset runtime: atlas rect, pivot, pixels-per-unit.
 - Dynamic vertex buffer for batched quads; index buffer with fixed quad pattern.
 - Sort by layer/sorting order; preserve reference sorting layer names
@@ -377,9 +381,15 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 - **Acceptance:** 5-second clear-screen run, clean exit.
 - **Risks:** driver-specific format/present support; handle fallbacks.
 
-### Stage 4 — Asset runtime foundation — **NEXT**
+### Stage 4 — Asset runtime foundation — **PARTIAL (2026-10-31)**
 
 - **Goal:** manifest → CPU asset registry; PNG/room/audio decode.
+- **Implemented:** libpng-backed PNG decode to canonical RGBA8 `TextureData`,
+  synthetic fixtures, deterministic/exact-byte tests, malformed-input rejection,
+  executable-relative asset lookup, PNG decoded into the existing `Texture2D`
+  staging path and rendered as the smoke quad.
+- **Not yet:** KTX2/atlas, manifest/registry, room/audio conversion, UnityPy
+  output import.
 - **Modules:** `src/assets/*`, `tools/asset/convert_*`.
 - **Tests:** texture decode, sprite rect, room JSON parse, missing-asset error.
 - **Acceptance:** load `r1_1`, `c00`, `e_slime01`, `weapon_000`, `bullet_0`
@@ -541,8 +551,8 @@ Every stage requires: goal, modules, tests, acceptance, dependencies, risks.
 
 ### Assets
 
-- PNG decode dimensions/format.
-- Sprite rect/pivot/atlas UV.
+- **Implemented:** PNG decode dimensions/format/exact bytes, malformed failure.
+- **Planned:** Sprite rect/pivot/atlas UV.
 - Room JSON node/collider/spawn parse.
 - Missing asset error.
 - Manifest hash/path-ID stability.
@@ -617,15 +627,18 @@ Rules:
 
 ## 11. Next implementation task
 
-Implement **Stage 4 — asset runtime foundation**: a non-proprietary PNG decoder
-that produces RGBA8, the existing `Texture2D` staging upload, and deterministic
-decode tests for the current `SpriteBatch`/`SpriteRenderer` path. Do not import
-the proprietary asset catalogue and do not begin gameplay/content work.
+The PNG asset path is verified. The next task is **controlled Unity-extracted
+asset conversion → canonical native asset representation**:
 
-Acceptance:
+- select a small, already-manifested non-proprietary test subset only after
+  establishing a deterministic conversion manifest;
+- convert one sprite/metadata pair into the canonical RGBA8/`TextureData` or an
+  atlas descriptor with documented source hashes;
+- add conversion-output tests and a visible smoke asset;
+- keep extracted proprietary bytes out of Git and keep the APK/bundles out of the
+  repository.
 
-- a committed generated/own PNG decodes to the expected RGBA8 bytes;
-- the decoded texture renders through the existing sprite pipeline;
-- decode failure is explicit and non-crashing;
-- Debug/RelWithDebInfo build and CTest remain green;
-- no APK/extracted proprietary assets or build output are tracked.
+Do not import the full asset catalogue and do not begin gameplay/content work.
+Acceptance: reproducible conversion report, exact decoded bytes for the chosen
+synthetic/approved source, Debug/RelWithDebInfo tests green, and no proprietary
+asset bytes tracked.

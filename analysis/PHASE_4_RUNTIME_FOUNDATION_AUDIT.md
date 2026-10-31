@@ -23,8 +23,10 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 | 4B Wayland-only smoke | PASS | SDL driver `wayland`; non-Wayland startup exits 1 |
 | 4C platform tests | PASS | `tests/unit/platform_test.cpp`, `render_test.cpp` |
 | 4D Vulkan instance/device/swapchain | PASS | 10-second smoke run, validation-clean |
-| 4E sprite renderer | PARTIAL / VISUAL PASS | generated RGBA8 texture, batched textured quad |
-| Asset-runtime PNG/manifest | NOT STARTED | generated test texture only |
+| 4E sprite renderer | PARTIAL / VISUAL PASS | decoded synthetic PNG, batched textured quad |
+| PNG asset runtime | FUNCTIONAL | libpng → RGBA8 `TextureData` → existing staging/upload path |
+| Asset-runtime PNG | FUNCTIONAL | libpng, exact-byte tests, synthetic PNGs |
+| Asset registry/KTX2/atlas | NOT STARTED | manifest conversion not implemented |
 | Input → fixed tick | NOT STARTED | `InputManager` not wired into the loop |
 | Audio/UI/gameplay | NOT STARTED | deliberate scope boundary |
 
@@ -97,9 +99,9 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
   layer enum `BackGround` → `UI`.
 - 1920x1080 logical projection with aspect-fit viewport/scissor on resize.
 - Alpha blending (`SRC_ALPHA`, `ONE_MINUS_SRC_ALPHA`) and no depth buffer.
-- Texture path: generated 64x64 RGBA8 checkerboard → staging buffer →
-  `R8G8B8A8_SRGB` image → sampler/view → descriptor → sprite batch. The test
-  texture is not a proprietary APK asset.
+- Texture path: libpng-decoded synthetic PNG → canonical RGBA8 `TextureData` →
+  existing staging buffer → `R8G8B8A8_SRGB` image → sampler/view → descriptor →
+  sprite batch. The test texture is not a proprietary APK asset.
 - Screenshot inspection confirmed a textured quad with correct checker/UV
   orientation and transparent border over the clear color.
 
@@ -109,7 +111,7 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
 
 ### 4.1 Unit/CTest
 
-- Debug tests: **31 cases / 1335 assertions, all passing**.
+- Debug tests: **35 cases / 1367 assertions, all passing**.
 - CTest: `soul-knight-unit-tests` 1/1 passing.
 - New tests:
   - config defaults + Wayland-only rejection,
@@ -117,7 +119,9 @@ This is not a native-runtime-complete claim and not a rendering-parity claim.
   - window-state transition coverage,
   - safe repeated shutdown before initialization,
   - sprite-batch layer sorting/stability and quad budget,
-  - `FrameTimer` consumed-step statistics.
+  - `FrameTimer` consumed-step statistics,
+  - PNG exact RGBA bytes/alpha, RGB/gray/gray-alpha/palette normalization,
+    repeated-decode determinism, malformed and missing-file failure.
 
 ### 4.2 Wayland/Vulkan manual smoke
 
@@ -130,13 +134,14 @@ Command:
 Result: exit **0**.
 
 - SDL video driver: `wayland`; Wayland-only mode enabled.
+- Synthetic PNG decoded: `test/phase4_smoke.png`, 64x64, 16384 RGBA bytes.
 - Window created at requested 1920x1080; compositor constrained it to
   1536x790 logical/pixels on this 1.25-scale display.
 - Initial swapchain 1920x1080, then recreated to 1536x790 after the compositor
   geometry event.
 - Validation: **0 validation messages/errors** in Debug.
-- Rendered **602 frames**; advanced **505 fixed simulation ticks** in ~10.1 s.
-- Measured average `FrameTimer` frame: **16.679 ms** over 572 samples;
+- Rendered **603 frames**; advanced **506 fixed simulation ticks** in ~10.1 s.
+- Measured average `FrameTimer` frame: **16.665 ms** over 573 samples;
   **0.834 simulation steps/frame**. This is a CPU frame-pacing measurement, not a
   GPU-timestamped 60 FPS guarantee.
 - Clean shutdown logged; no LeakSanitizer report with compositor decorations
@@ -170,19 +175,22 @@ DISPLAY=:0 WAYLAND_DISPLAY=invalid_wayland ./build/soul-knight --smoke-seconds 1
 ### 4.3 Screenshot
 
 A desktop screenshot captured while the runtime was presenting is at
-`/tmp/opencode/phase4_final_quad.png` (temporary, not committed). It shows the
-1920x1080-target window, dark clear color, and the generated checkerboard textured
-quad. Generated images/logs are intentionally not tracked.
+`/tmp/opencode/phase4_png_quad.png` (temporary, not committed). It shows the
+1920x1080-target window, dark clear color, and the decoded synthetic asymmetric
+PNG with distinct quadrants, white/black orientation markers, and alpha border.
+The app was launched from `/tmp` using the executable-relative asset search path.
+Generated images/logs are intentionally not tracked.
 
 ---
 
 ## 5. Remaining blockers / gaps
 
-1. **PNG/KTX2 and asset registry** — not implemented. `Texture2D` accepts RGBA8
-   only; the current texture is generated in code. This is the next stage.
-2. **Shader/install path** — SPIR-V lookup uses the build-tree
-   `SOUL_KNIGHT_SHADER_DIR` path. Installed/packaged shader discovery is not
-   implemented; packaging must install or embed the shaders.
+1. **KTX2/atlas and asset registry** — not implemented. PNG is now decoded via
+   libpng; KTX2 packing, sprite metadata/atlas, and the full registry remain.
+2. **Shader/install path** — run-time shader and test-asset lookup now goes through
+   `FileSystem`'s executable-relative/user/system search paths and CMake copies
+   assets into `build/assets`; a signed/installed package still needs to install
+   `share/soul-knight/assets/{test,shaders}`.
 3. **Input → fixed tick** — `InputManager` exists but is not wired into the
    application loop; no gameplay input is consumed.
 4. **Real 1920x1080 surface on this display** — the compositor's 1.25 scale and
@@ -200,7 +208,7 @@ quad. Generated images/logs are intentionally not tracked.
 
 ## 6. Exact next task
 
-**Stage 4 — asset runtime foundation:** add a non-proprietary PNG decode path that
-produces RGBA8, upload it through the existing `Texture2D` staging path, and render
-it through the current `SpriteBatch`/`SpriteRenderer`; add a deterministic decode
-test. Do not start gameplay or import the proprietary asset catalogue.
+**Controlled Unity-extracted asset conversion:** choose one small, manifest-backed
+source asset, produce a canonical native representation with source hashes, and add
+deterministic conversion tests. Do not import the full catalogue, commit proprietary
+bytes, or begin gameplay.
