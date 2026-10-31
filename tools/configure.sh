@@ -37,6 +37,11 @@ if ! pkg-config --exists sdl3 2>/dev/null; then
     echo "WARNING: SDL3 not found via pkg-config"
     echo "  Install: sudo pacman -S sdl3"
 fi
+# Check for libpng (asset decoder)
+if ! pkg-config --exists libpng 2>/dev/null; then
+    echo "WARNING: libpng not found via pkg-config"
+    echo "  Install: sudo pacman -S libpng"
+fi
 
 # Create build directory
 mkdir -p "${BUILD_DIR}"

@@ -29,6 +29,17 @@ Texture2D::~Texture2D() {
     // The owner (SpriteRenderer) calls Destroy while the logical device is alive.
 }
 
+bool Texture2D::CreateFromTextureData(VkDevice device, VkPhysicalDevice physical_device,
+                                      VkQueue queue, uint32_t queue_family,
+                                      const soulknight::engine::assets::TextureData& texture) {
+    if (!texture.IsValid()) {
+        LOG_ERROR_RENDER("Texture: canonical TextureData is invalid");
+        return false;
+    }
+    return CreateFromRGBA8(device, physical_device, queue, queue_family,
+                           texture.width, texture.height, texture.rgba8.data());
+}
+
 bool Texture2D::CreateFromRGBA8(VkDevice device, VkPhysicalDevice physical_device,
                                 VkQueue queue, uint32_t queue_family,
                                 uint32_t width, uint32_t height,

@@ -4,6 +4,12 @@
 #include "VulkanContext.hpp"
 #include "SpriteRenderer.hpp"
 
+#include <filesystem>
+
+namespace soulknight::engine::assets {
+struct TextureData;
+}
+
 namespace soulknight::platform {
 class Window;
 }
@@ -22,7 +28,9 @@ public:
     VulkanRenderer(const VulkanRenderer&) = delete;
     VulkanRenderer& operator=(const VulkanRenderer&) = delete;
 
-    bool Initialize(platform::Window& window, const VulkanInitOptions& options);
+    bool Initialize(platform::Window& window, const VulkanInitOptions& options,
+                    const soulknight::engine::assets::TextureData& texture,
+                    const std::filesystem::path& shader_dir);
     void Shutdown();
     bool Render(SpriteBatch& batch);
 

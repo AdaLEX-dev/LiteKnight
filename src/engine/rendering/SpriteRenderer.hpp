@@ -8,7 +8,12 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <vector>
+
+namespace soulknight::engine::assets {
+struct TextureData;
+}
 
 namespace soulknight::engine::rendering {
 
@@ -23,7 +28,8 @@ public:
     SpriteRenderer(const SpriteRenderer&) = delete;
     SpriteRenderer& operator=(const SpriteRenderer&) = delete;
 
-    bool Initialize(VulkanContext& context);
+    bool Initialize(VulkanContext& context, const soulknight::engine::assets::TextureData& texture,
+                    const std::filesystem::path& shader_dir);
     void Shutdown(VulkanContext& context);
     bool Render(VulkanContext& context, SpriteBatch& batch);
 
@@ -53,13 +59,13 @@ private:
     bool CreatePipeline(VulkanContext& context);
     bool CreateFrameBuffers(VulkanContext& context);
     bool CreateIndexBuffer(VulkanContext& context);
-    bool CreateTestTexture(VulkanContext& context);
+    bool CreateTexture(VulkanContext& context, const soulknight::engine::assets::TextureData& texture);
     bool UpdateDescriptor(VulkanContext& context);
     bool CreateHostVisibleBuffer(VulkanContext& context, VkDeviceSize size,
                                  VkBufferUsageFlags usage, VkBuffer& buffer,
                                  VkDeviceMemory& memory, void** mapped) const;
 
-    static std::vector<char> LoadShaderFile(const char* filename);
+    std::vector<char> LoadShaderFile(const char* filename) const;
     static VkShaderModule CreateShaderModule(VkDevice device, const std::vector<char>& code);
 
     VkDescriptorSetLayout descriptor_set_layout_ = VK_NULL_HANDLE;
@@ -73,7 +79,8 @@ private:
     std::array<FrameBuffer, 2> frame_buffers_{};
     VkBuffer index_buffer_ = VK_NULL_HANDLE;
     VkDeviceMemory index_memory_ = VK_NULL_HANDLE;
-    Texture2D test_texture_;
+    Texture2D texture_;
+    std::filesystem::path shader_dir_;
     std::vector<SpriteVertex> vertices_;
 
     bool initialized_ = false;

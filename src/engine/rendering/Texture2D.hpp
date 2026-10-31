@@ -1,13 +1,15 @@
 // Soul Knight Linux — GPU texture
 #pragma once
 
+#include "engine/assets/TextureData.hpp"
+
 #include <vulkan/vulkan.h>
 #include <cstdint>
 
 namespace soulknight::engine::rendering {
 
-// Minimal RGBA8 texture path. PNG/KTX decoding is intentionally not part of this
-// milestone; the renderer smoke test supplies generated RGBA8 bytes.
+// GPU texture sink. It accepts canonical RGBA8 TextureData and never knows
+// whether the pixels came from a PNG, a generated test, or a future converter.
 class Texture2D {
 public:
     Texture2D() = default;
@@ -16,6 +18,9 @@ public:
     Texture2D(const Texture2D&) = delete;
     Texture2D& operator=(const Texture2D&) = delete;
 
+    bool CreateFromTextureData(VkDevice device, VkPhysicalDevice physical_device,
+                               VkQueue queue, uint32_t queue_family,
+                               const soulknight::engine::assets::TextureData& texture);
     bool CreateFromRGBA8(VkDevice device, VkPhysicalDevice physical_device,
                          VkQueue queue, uint32_t queue_family,
                          uint32_t width, uint32_t height,

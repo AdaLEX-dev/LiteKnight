@@ -10,14 +10,16 @@ VulkanRenderer::~VulkanRenderer() {
     Shutdown();
 }
 
-bool VulkanRenderer::Initialize(platform::Window& window, const VulkanInitOptions& options) {
+bool VulkanRenderer::Initialize(platform::Window& window, const VulkanInitOptions& options,
+                                const soulknight::engine::assets::TextureData& texture,
+                                const std::filesystem::path& shader_dir) {
     if (initialized_) return true;
 
     if (!context_.Initialize(window, options)) {
         LOG_ERROR_RENDER("Vulkan context initialization failed");
         return false;
     }
-    if (!sprite_renderer_.Initialize(context_)) {
+    if (!sprite_renderer_.Initialize(context_, texture, shader_dir)) {
         LOG_ERROR_RENDER("Sprite renderer initialization failed");
         context_.WaitIdle();
         sprite_renderer_.Shutdown(context_);

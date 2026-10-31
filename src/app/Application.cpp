@@ -1,10 +1,9 @@
 // Soul Knight Linux — Application lifecycle implementation
 #include "Application.hpp"
 
+#include "engine/assets/PngDecoder.hpp"
 #include "engine/core/Log.hpp"
-#include "engine/rendering/SpriteRenderer.hpp"
 #include "engine/rendering/VulkanRenderer.hpp"
-#include "engine/rendering/VulkanContext.hpp"
 
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_vulkan.h>
@@ -78,6 +77,34 @@ bool Application::Initialize() {
     vulkan_library_loaded_ = true;
     LOG_INFO_APP("SDL revision: {}", SDL_GetRevision());
 
+    if (!filesystem_.Initialize()) {
+        LOG_FATAL_APP("Filesystem initialization failed");
+        return false;
+    }
+
+    const auto smoke_png = filesystem_.ReadFile("test/phase4_smoke.png");
+    if (!smoke_png) {
+        LOG_FATAL_APP("Synthetic smoke PNG not found in asset search path: test/phase4_smoke.png");
+        return false;
+    }
+
+    std::string png_error;
+    if (!engine::assets::PngDecoder::Decode(smoke_png->data(), smoke_png->size(),
+                                            smoke_texture_, &png_error)) {
+        LOG_FATAL_APP("PNG decode failed: {}", png_error);
+        return false;
+    }
+    LOG_INFO_APP("PNG decoded: test/phase4_smoke.png, {}x{}, {} bytes",
+                 smoke_texture_.width, smoke_texture_.height,
+                 smoke_texture_.rgba8.size());
+
+    const auto shader_dir = filesystem_.ResolvePath("shaders");
+    if (shader_dir.empty()) {
+        LOG_FATAL_APP("Shader directory not found in asset search path");
+        return false;
+    }
+    LOG_INFO_APP("Shader directory: {}", shader_dir.string());
+
     platform::WindowConfig window_config;
     window_config.title = config_.title;
     window_config.width = config_.window_width;
@@ -100,7 +127,7 @@ bool Application::Initialize() {
     render_options.enable_validation = config_.enable_validation;
     render_options.vsync = true;
 
-    if (!renderer_->Initialize(window_, render_options)) {
+    if (!renderer_->Initialize(window_, render_options, smoke_texture_, shader_dir)) {
         LOG_FATAL_APP("Vulkan renderer initialization failed");
         return false;
     }
@@ -134,9 +161,9 @@ bool Application::Initialize() {
 }
 
 void Application::BuildSmokeScene() {
-    // PROJECT DECISION / renderer bring-up only: this is a generated test
-    // texture, not a reference game asset. It proves texture upload, UV mapping,
-    // alpha blending, stable layer sorting, and dynamic batching.
+    // PROJECT DECISION / renderer bring-up only: the texture was decoded from the
+    // synthetic PNG asset, not from reference game content. It proves the
+    // PNG -> RGBA8 -> staging -> VkImage -> descriptor -> sprite path.
     sprite_batch_.Clear();
     sprite_batch_.DrawSprite(
         engine::Vec2{960.0f - 320.0f, 540.0f - 320.0f},

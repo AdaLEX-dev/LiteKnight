@@ -13,10 +13,6 @@
 #include <string>
 #include <vector>
 
-#ifndef SOUL_KNIGHT_SHADER_DIR
-#define SOUL_KNIGHT_SHADER_DIR "shaders"
-#endif
-
 namespace soulknight::engine::rendering {
 namespace {
 
@@ -42,8 +38,15 @@ SpriteRenderer::~SpriteRenderer() {
     // The owner calls Shutdown while the Vulkan device is alive.
 }
 
-bool SpriteRenderer::Initialize(VulkanContext& context) {
+bool SpriteRenderer::Initialize(VulkanContext& context,
+                                const soulknight::engine::assets::TextureData& texture,
+                                const std::filesystem::path& shader_dir) {
     if (initialized_) return true;
+    if (shader_dir.empty()) {
+        LOG_ERROR_RENDER("Sprite renderer: shader directory is empty");
+        return false;
+    }
+    shader_dir_ = shader_dir;
 
     vertices_.reserve(kMaxQuads * 4);
 
@@ -63,7 +66,7 @@ bool SpriteRenderer::Initialize(VulkanContext& context) {
         Shutdown(context);
         return false;
     }
-    if (!CreateTestTexture(context)) {
+    if (!CreateTexture(context, texture)) {
         Shutdown(context);
         return false;
     }
@@ -74,7 +77,7 @@ bool SpriteRenderer::Initialize(VulkanContext& context) {
 
     initialized_ = true;
     LOG_INFO_RENDER("Sprite renderer ready: max_quads={}, texture={}x{}",
-                    kMaxQuads, test_texture_.Width(), test_texture_.Height());
+                    kMaxQuads, texture_.Width(), texture_.Height());
     return true;
 }
 
@@ -82,12 +85,12 @@ void SpriteRenderer::Shutdown(VulkanContext& context) {
     VkDevice device = context.Device();
     if (device != VK_NULL_HANDLE) {
         // Release the descriptor pool first: its descriptor set still refers to
-        // the test sampler/image until this point.
+        // the decoded texture sampler/image until this point.
         if (descriptor_pool_ != VK_NULL_HANDLE) {
             vkDestroyDescriptorPool(device, descriptor_pool_, nullptr);
             descriptor_pool_ = VK_NULL_HANDLE;
         }
-        test_texture_.Destroy(device);
+        texture_.Destroy(device);
 
         for (FrameBuffer& frame : frame_buffers_) {
             if (frame.buffer != VK_NULL_HANDLE) {
@@ -177,24 +180,24 @@ bool SpriteRenderer::CreateDescriptorResources(VulkanContext& context) {
     return true;
 }
 
-std::vector<char> SpriteRenderer::LoadShaderFile(const char* filename) {
-    const std::string path = std::string(SOUL_KNIGHT_SHADER_DIR) + "/" + filename;
+std::vector<char> SpriteRenderer::LoadShaderFile(const char* filename) const {
+    const std::filesystem::path path = shader_dir_ / filename;
     std::ifstream file(path, std::ios::ate | std::ios::binary);
     if (!file.is_open()) {
-        LOG_ERROR_RENDER("Shader file missing: {}", path);
+        LOG_ERROR_RENDER("Shader file missing: {}", path.string());
         return {};
     }
 
     const std::streamsize size = file.tellg();
     if (size <= 0) {
-        LOG_ERROR_RENDER("Shader file is empty: {}", path);
+        LOG_ERROR_RENDER("Shader file is empty: {}", path.string());
         return {};
     }
 
     std::vector<char> data(static_cast<std::size_t>(size));
     file.seekg(0, std::ios::beg);
     if (!file.read(data.data(), size)) {
-        LOG_ERROR_RENDER("Shader file read failed: {}", path);
+        LOG_ERROR_RENDER("Shader file read failed: {}", path.string());
         return {};
     }
     return data;
@@ -464,37 +467,24 @@ bool SpriteRenderer::CreateIndexBuffer(VulkanContext& context) {
     return true;
 }
 
-bool SpriteRenderer::CreateTestTexture(VulkanContext& context) {
-    constexpr uint32_t width = 64;
-    constexpr uint32_t height = 64;
-    std::vector<uint8_t> pixels(static_cast<std::size_t>(width) * height * 4U);
-
-    for (uint32_t y = 0; y < height; ++y) {
-        for (uint32_t x = 0; x < width; ++x) {
-            const bool checker = (((x / 8U) + (y / 8U)) % 2U) == 0U;
-            const bool border = x < 4U || y < 4U || x >= width - 4U || y >= height - 4U;
-            const std::size_t index =
-                (static_cast<std::size_t>(y) * width + x) * 4U;
-            pixels[index + 0] = static_cast<uint8_t>(checker ? 232U : 48U);
-            pixels[index + 1] = static_cast<uint8_t>(checker ? 168U : 96U);
-            pixels[index + 2] = static_cast<uint8_t>(checker ? 64U : 208U);
-            pixels[index + 3] = static_cast<uint8_t>(border ? 0U : 255U);
-        }
+bool SpriteRenderer::CreateTexture(
+    VulkanContext& context, const soulknight::engine::assets::TextureData& texture) {
+    if (!texture.IsValid()) {
+        LOG_ERROR_RENDER("Sprite renderer: decoded TextureData is invalid");
+        return false;
     }
-
-    return test_texture_.CreateFromRGBA8(
+    return texture_.CreateFromTextureData(
         context.Device(), context.PhysicalDevice(),
-        context.GraphicsQueue(), context.GraphicsQueueFamily(),
-        width, height, pixels.data());
+        context.GraphicsQueue(), context.GraphicsQueueFamily(), texture);
 }
 
 bool SpriteRenderer::UpdateDescriptor(VulkanContext& context) {
-    if (!test_texture_.IsValid()) return false;
+    if (!texture_.IsValid()) return false;
 
     VkDescriptorImageInfo image_info{};
     image_info.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-    image_info.imageView = test_texture_.View();
-    image_info.sampler = test_texture_.Sampler();
+    image_info.imageView = texture_.View();
+    image_info.sampler = texture_.Sampler();
 
     VkWriteDescriptorSet write{};
     write.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;

@@ -81,6 +81,7 @@ FetchContent_MakeAvailable(tomlplusplus)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(SDL3 REQUIRED sdl3>=3.2.0)
 pkg_check_modules(VULKAN REQUIRED vulkan>=1.3)
+pkg_check_modules(LIBPNG REQUIRED libpng>=1.6)
 pkg_check_modules(PIPEWIRE pipewire-0.3)
 pkg_check_modules(PULSEAUDIO libpulse)
 pkg_check_modules(ALSA alsa)
@@ -114,6 +115,27 @@ add_custom_command(
 )
 add_custom_target(soul-knight-shaders ALL
     DEPENDS "${SOUL_KNIGHT_SPRITE_VERT_SPV}" "${SOUL_KNIGHT_SPRITE_FRAG_SPV}"
+)
+
+# Runtime assets are resolved relative to the executable by FileSystem. Copy the
+# synthesized test PNGs and compiled SPIR-V there so the runtime is independent
+# of the caller's current working directory.
+set(SOUL_KNIGHT_ASSET_OUTPUT_DIR "${CMAKE_BINARY_DIR}/assets")
+add_custom_target(soul-knight-assets ALL
+    COMMAND ${CMAKE_COMMAND} -E make_directory
+            "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/test"
+            "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/shaders"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/assets/test"
+            "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/test"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SOUL_KNIGHT_SPRITE_VERT_SPV}"
+            "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/shaders/sprite.vert.spv"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SOUL_KNIGHT_SPRITE_FRAG_SPV}"
+            "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/shaders/sprite.frag.spv"
+    DEPENDS soul-knight-shaders
+    COMMENT "Copying synthetic test assets and compiled shaders"
 )
 
 # Commit hash for startup diagnostics. Never fail configuration if Git is absent.
@@ -219,6 +241,10 @@ add_library(engine STATIC
     src/engine/rendering/SpriteRenderer.hpp
     src/engine/rendering/VulkanRenderer.cpp
     src/engine/rendering/VulkanRenderer.hpp
+    # Asset decoding
+    src/engine/assets/TextureData.hpp
+    src/engine/assets/PngDecoder.cpp
+    src/engine/assets/PngDecoder.hpp
     # src/engine/rendering/Shader.hpp
     # src/engine/rendering/DebugRenderer.hpp
     # Resources
@@ -247,12 +273,14 @@ target_include_directories(engine PUBLIC
 target_link_libraries(engine PUBLIC
     platform
     ${VULKAN_LIBRARIES}
+    ${LIBPNG_LIBRARIES}
     nlohmann_json::nlohmann_json
 )
 
-target_compile_definitions(engine PRIVATE
-    "SOUL_KNIGHT_SHADER_DIR=\"${SOUL_KNIGHT_SHADER_OUTPUT_DIR}\""
+target_include_directories(engine PUBLIC
+    ${LIBPNG_INCLUDE_DIRS}
 )
+
 add_dependencies(engine soul-knight-shaders)
 
 # ============================================================
@@ -388,6 +416,8 @@ target_link_libraries(app PUBLIC
     platform
 )
 
+add_dependencies(app soul-knight-assets)
+
 # ============================================================
 # Executable: soul-knight (Main Game)
 # ============================================================
@@ -399,7 +429,7 @@ target_link_libraries(soul-knight PRIVATE
     app
 )
 
-add_dependencies(soul-knight soul-knight-shaders)
+add_dependencies(soul-knight soul-knight-assets)
 
 # ============================================================
 # Executable: soul-knight-test (Unit Tests)
@@ -415,6 +445,7 @@ add_executable(soul-knight-test
     tests/unit/timing_test.cpp
     tests/unit/platform_test.cpp
     tests/unit/render_test.cpp
+    tests/unit/png_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp
@@ -440,13 +471,14 @@ target_link_libraries(soul-knight-test PRIVATE
     doctest::doctest
 )
 
-add_dependencies(soul-knight-test soul-knight-shaders)
+add_dependencies(soul-knight-test soul-knight-assets)
 
 # Doctest configuration. Do NOT define DOCTEST_CONFIG_DISABLE: doctest checks
 # only whether it is defined, so even DOCTEST_CONFIG_DISABLE=0 compiles all
 # tests out.
 target_compile_definitions(soul-knight-test PRIVATE
     DOCTEST_CONFIG_NO_POSIX_SIGNALS=1
+    "SOUL_KNIGHT_TEST_ASSET_DIR=\"${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/test\""
 )
 
 # ============================================================
@@ -459,6 +491,18 @@ install(TARGETS soul-knight
 install(DIRECTORY assets/
     DESTINATION share/soul-knight/assets
     FILES_MATCHING PATTERN "*.ktx2" PATTERN "*.ogg" PATTERN "*.json" PATTERN "*.toml"
+)
+
+# The Phase 4 smoke executable requires its synthetic PNG fixture and compiled
+# shaders at the same executable-relative/system asset root used by FileSystem.
+install(DIRECTORY assets/test
+    DESTINATION share/soul-knight/assets
+    FILES_MATCHING PATTERN "*.png"
+)
+install(FILES
+    "${SOUL_KNIGHT_SPRITE_VERT_SPV}"
+    "${SOUL_KNIGHT_SPRITE_FRAG_SPV}"
+    DESTINATION share/soul-knight/assets/shaders
 )
 
 install(FILES config/default.toml

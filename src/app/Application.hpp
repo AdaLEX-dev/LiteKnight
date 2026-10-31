@@ -4,6 +4,8 @@
 #include "AppConfig.hpp"
 #include "platform/wayland/Window.hpp"
 #include "platform/timing/FrameTimer.hpp"
+#include "platform/filesystem/FileSystem.hpp"
+#include "engine/assets/TextureData.hpp"
 #include "engine/rendering/SpriteBatch.hpp"
 
 #include <memory>
@@ -46,6 +48,8 @@ private:
     std::unique_ptr<engine::rendering::VulkanRenderer> renderer_;
     engine::rendering::SpriteBatch sprite_batch_;
     platform::FrameTimer frame_timer_;
+    platform::FileSystem filesystem_;
+    soulknight::engine::assets::TextureData smoke_texture_;
 
     bool sdl_initialized_ = false;
     bool vulkan_library_loaded_ = false;
