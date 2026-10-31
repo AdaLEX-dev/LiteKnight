@@ -5,7 +5,7 @@ The living inventory is generated from committed scene metadata:
 - [texture_inventory.json](../../analysis/assets/texture_inventory.json)
 - [asset_inventory.json](../../analysis/assets/asset_inventory.json)
 
-## Current statistics (`0.2.0-dev`)
+## Current statistics (`0.3.0-dev`)
 
 | Category | Integrated | Observed reference candidates | Highest status |
 |---|---:|---:|---|
@@ -15,11 +15,12 @@ The living inventory is generated from committed scene metadata:
 | Weapons | 4 | 365 unique IDs | DEVROOM_TESTED |
 | Projectiles | 3 unique | not counted | DEVROOM_TESTED |
 | Enemies | 1 (`e_slime01`) | 125 unique IDs | DEVROOM_TESTED |
-| Animations | 30 | 2098 clips | INTEGRATED (idle/run subset) |
+| Animations | 45 | 2098 clips | INTEGRATED (idle/run/death subset) |
 | Doors | 4 | 4 in `r1_1` | DEVROOM_TESTED |
 | Obstacle variants | 12 (8 solid) | recovered `obstacle_list` | DEVROOM_TESTED |
 | Walls | 140 cells / 420 sprites | room topology | DEVROOM_TESTED |
-| Effects / items / UI / audio | 0 | discovery names only | UNRECOVERED / PLACEHOLDER |
+| Living Room | 4,260 instances / 443 sprites | HeroRoom level2 | DEVROOM_TESTED |
+| Effects / items / UI / audio | 0 reference sprites | discovery names only | UNRECOVERED / native parity UI |
 
 The maturity ladder is `DISCOVERED`, `EXTRACTED`, `TRANSLATED`, `VALIDATED`,
 `INTEGRATED`, `DEVROOM_TESTED`. It is recorded per category in

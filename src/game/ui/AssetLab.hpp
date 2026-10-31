@@ -46,6 +46,7 @@ public:
     void SetItemIndex(std::size_t index) { item_ = index; time_ = 0.0; }
     void TogglePause();
     void StepFrame(int direction);
+    void Restart() { time_ = 0.0; paused_ = true; }
     bool Paused() const { return paused_; }
     AssetCategory Category() const { return category_; }
     std::size_t ItemIndex() const { return item_; }

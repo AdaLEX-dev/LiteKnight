@@ -52,19 +52,35 @@ done
 
 if [[ ${LIST_ONLY} -eq 1 ]]; then
     cat <<'LIST'
-character_all      IMPLEMENTED  recovered character inspection/switch
-weapon_all         IMPLEMENTED  recovered weapons + projectiles
-enemy_all          IMPLEMENTED  recovered enemy definitions/spawner
-projectile_all     IMPLEMENTED  asset-lab projectile inspection
-object_all         IMPLEMENTED  textures/sprites/obstacles inspection
-door_all           IMPLEMENTED  recovered door animation inspection
-combat_live        IMPLEMENTED  enemy pursuit/contact/damage/reset
-two_weapon         IMPLEMENTED  independent primary/secondary slots
-energy             IMPLEMENTED  serialized consume + HUD energy
-health             IMPLEMENTED  player HP/armor contact damage
-save_load          IMPLEMENTED  native XDG save round-trip
-room_transition    PARTIAL      one room; door motion only, no room load
-hub                UNRECOVERED  no recovered hub scene/interactables
+character_all             IMPLEMENTED  recovered character inspection/switch
+weapon_all                IMPLEMENTED  recovered weapons + projectiles
+enemy_all                 IMPLEMENTED  recovered enemy definitions/spawner
+projectile_all            IMPLEMENTED  asset-lab projectile inspection
+object_all                IMPLEMENTED  textures/sprites/obstacles inspection
+door_all                  IMPLEMENTED  recovered door animation inspection
+combat_live               IMPLEMENTED  enemy pursuit/contact/damage/reset
+two_weapon                IMPLEMENTED  independent primary/secondary slots
+energy                    IMPLEMENTED  serialized consume + HUD energy
+health                    IMPLEMENTED  player HP/armor contact damage
+save_load                 IMPLEMENTED  native XDG save round-trip
+test-ui                   IMPLEMENTED  logical 1080p pixel UI/font
+test-font                 IMPLEMENTED  pixel_bold metrics/atlas
+test-player-animation     IMPLEMENTED  idle/run/dead clips + frame stepping
+test-player-obstacle-collision IMPLEMENTED  F4 visual/collision debug
+test-weapon-pickup        IMPLEMENTED  E prompt + pickup + replacement
+test-no-weapon-render     IMPLEMENTED  empty equipment renders no weapon
+test-two-weapons          IMPLEMENTED  two slots and Q switching
+test-energy               IMPLEMENTED  live energy consumption
+test-hud                  IMPLEMENTED  top-left HP/armor/energy HUD
+test-pause                IMPLEMENTED  frozen gameplay + pause modal
+test-settings             IMPLEMENTED  fullscreen/debug settings
+test-home                 IMPLEMENTED  main menu/home flow
+test-living-room          IMPLEMENTED  recovered HeroRoom hub
+test-character-select    IMPLEMENTED  character station selector
+test-character-catalogue  IMPLEMENTED  character/animation lab
+room_transition           IMPLEMENTED  Living Room <-> r1_1 state-preserving swap
+test-room-transition      IMPLEMENTED  same as room_transition
+hub                       IMPLEMENTED  recovered HeroRoom launch
 LIST
     exit 0
 fi

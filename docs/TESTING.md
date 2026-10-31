@@ -1,6 +1,6 @@
 # Testing Strategy
 
-**Status:** current baseline is **115 doctest cases / 4983 assertions**, all passing.
+**Status:** current baseline is **129 doctest cases / 5090 assertions**, all passing.
 Future tests must be evidence-backed; do not invent expected values.
 
 ---
@@ -14,7 +14,7 @@ Future tests must be evidence-backed; do not invent expected values.
 ctest --test-dir build --output-on-failure
 ```
 
-- doctest 2.4.11, CTest entries `soul-knight-unit-tests` and `liteknight-asset-audit`.
+- doctest 2.4.11, CTest entries `soul-knight-unit-tests`, `liteknight-asset-audit` and `liteknight-hero-room-audit`.
 - Debug: ASan/UBSan.
 - RelWithDebInfo: optimized, no sanitizers.
 - CTest fails if the filter selects zero cases (`FAIL_REGULAR_EXPRESSION`).
@@ -257,7 +257,7 @@ inside the recovered obstacle block. Deterministic tests are in
 `tests/unit/direction_test.cpp`, `tests/unit/character_switch_test.cpp`,
 `tests/unit/obstacle_field_test.cpp`, `tests/unit/room_visual_test.cpp`,
 `tests/unit/combat_test.cpp`, `tests/unit/devroom_test.cpp`, and `tests/unit/scene_test.cpp`. The suite is
-115 cases / 4983 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
+129 cases / 5090 assertions in both RelWithDebInfo and Debug ASan/UBSan builds.
 
 ### Assets / energy / inventory / save / replay (implemented units)
 

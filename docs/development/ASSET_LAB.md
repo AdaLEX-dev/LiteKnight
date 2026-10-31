@@ -18,6 +18,14 @@ integration.
 # or press F5 inside the devroom
 ```
 
+## Animation lab
+
+Animations now include recovered idle, run and death clips for `c00..c14`
+(45 clips). Use `Space` play/pause, `F`/`N` step, `R` restart. The panel shows
+frame count, time/duration, sample rate and loop flag. Attack is not a body
+SpriteRenderer clip in the recovered c00 controller; the weapon Animator carries
+the attack timing.
+
 ## Controls
 
 | Input | Action |

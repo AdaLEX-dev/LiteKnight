@@ -38,6 +38,12 @@ bool Weapon::Configure(const engine::assets::WeaponDefinition& definition) {
     return configured_;
 }
 
+void Weapon::Clear() {
+    definition_ = {};
+    configured_ = false;
+    Release();
+}
+
 void Weapon::Release() {
     attacking_ = false;
     attack_time_ = 0.0f;

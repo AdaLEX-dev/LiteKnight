@@ -253,7 +253,12 @@ add_library(engine STATIC
     src/engine/rendering/Camera.hpp
     src/engine/rendering/SpriteBatch.cpp
     src/engine/rendering/SpriteBatch.hpp
-    src/engine/rendering/DebugText.cpp
+    src/engine/rendering/LogicalViewport.cpp
+    src/engine/rendering/LogicalViewport.hpp
+    src/engine/rendering/BitmapFont.cpp
+    src/engine/rendering/BitmapFont.hpp
+    src/engine/rendering/TextRenderer.cpp
+    src/engine/rendering/TextRenderer.hpp
     src/engine/rendering/DebugText.hpp
     src/engine/rendering/Texture2D.cpp
     src/engine/rendering/Texture2D.hpp
@@ -352,6 +357,8 @@ add_library(game STATIC
     src/game/room/ObstacleField.hpp
     src/game/room/RoomDoorController.cpp
     src/game/room/RoomDoorController.hpp
+    src/game/room/RoomManager.cpp
+    src/game/room/RoomManager.hpp
     # Combat
     src/game/combat/Damage.hpp
     src/game/combat/ProjectileSystem.cpp
@@ -371,10 +378,18 @@ add_library(game STATIC
     src/game/save/SaveSerializer.hpp
     src/game/save/SaveManager.cpp
     src/game/save/SaveManager.hpp
+    src/game/hub/PlantSystem.cpp
+    src/game/hub/PlantSystem.hpp
     src/game/ui/DevOverlay.cpp
     src/game/ui/DevOverlay.hpp
     src/game/ui/AssetLab.cpp
     src/game/ui/AssetLab.hpp
+    src/game/ui/UIRenderer.cpp
+    src/game/ui/UIRenderer.hpp
+    src/game/ui/GameUI.cpp
+    src/game/ui/GameUI.hpp
+    src/game/ui/UIAssets.cpp
+    src/game/ui/UIAssets.hpp
     src/game/test/InteractiveTest.cpp
     src/game/test/InteractiveTest.hpp
     src/game/test/InteractiveReplay.cpp
@@ -578,6 +593,10 @@ add_executable(soul-knight-test
     tests/unit/weapon_pickup_test.cpp
     tests/unit/save_test.cpp
     tests/unit/replay_test.cpp
+    tests/unit/foundation_test.cpp
+    tests/unit/plant_test.cpp
+    tests/unit/room_manager_test.cpp
+    tests/unit/ability_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp
@@ -655,6 +674,16 @@ if(PYTHON3_EXECUTABLE)
     add_test(NAME liteknight-asset-audit
         COMMAND "${PYTHON3_EXECUTABLE}"
                 "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_assets.py"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
+    add_test(NAME liteknight-hero-room-audit
+        COMMAND "${PYTHON3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_assets.py"
+                --scene "${CMAKE_CURRENT_SOURCE_DIR}/analysis/assets/scenes/hero_room.json"
+                --inventory "${CMAKE_CURRENT_SOURCE_DIR}/analysis/assets/asset_inventory.json"
+                --generated-root "${CMAKE_CURRENT_SOURCE_DIR}/assets/generated/visual/hero_room"
+                --report-dir "${CMAKE_CURRENT_BINARY_DIR}/hero-room-audit"
+                --require-generated
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
 endif()

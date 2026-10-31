@@ -1,19 +1,21 @@
 # LiteKnight — Project State
 
-**Version:** `0.2.0-dev`
-**Last Updated:** 2026-10-31 (asset laboratory, interactive tests/replay, live combat,
-energy/HUD, two weapons, pickups, native save/load)
+**Version:** `0.3.0-dev`
+**Last Updated:** 2026-10-31 (1080p pixel UI, recovered font, Living Room, room
+transition, equipment/pickups, character stations, save v2)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (devroom foundation FUNCTIONAL)**
 **Current status:** the native Wayland/Vulkan devroom is playable and is the
 primary development environment. It includes the recovered `r1_1` room,
 movement/collision/camera, animated doors, obstacles, 15 characters, four
 recovered weapons with real textures, deterministic projectiles, damage, enemy
-death, player death/reset, live enemy pursuit, player HP/armor/energy HUD, two
-weapon slots, weapon pickups, native save/load, an asset laboratory, and a
+death, player death/reset, live enemy pursuit, a 1920x1080 pixel UI with real
+HP/armor/energy HUD, two weapon slots, physical pickups, recovered-font pause/
+settings/main-menu screens, character/weapon stations, a recovered Living Room
+hub, two-room transitions, native save/load, an asset laboratory, and a
 serialized interactive test/replay harness. Full EnemyAI04 scouting/pathfinding,
-production menus/UI/audio, room transitions, the hub, forge/plants and the full
-catalogue are not implemented. Gate D remains unmet for a complete game, but the
+procedural dungeon generation, production forge/plant economy and the full
+catalogue remain incomplete. Gate D remains unmet for a complete game, but the
 permanent devroom invariant is maintained.
 
 ---
@@ -342,10 +344,10 @@ Recorded in `analysis/REPOSITORY_INTEGRITY_AUDIT.md` and the final audit. Curren
 baseline:
 
 - Debug clean configure/build: PASS, 0 warnings
-- Debug tests: 115 cases / 4983 assertions, PASS (ASan/UBSan)
+- Debug tests: 129 cases / 5090 assertions, PASS (ASan/UBSan)
 - Negative control: CTest FAIL (exit 8), restored PASS
 - RelWithDebInfo clean configure/build: PASS, 0 warnings
-- RelWithDebInfo tests: 115 / 4983, PASS
+- RelWithDebInfo tests: 129 / 5090, PASS
 - Debug Vulkan validation: enabled, 0 messages; Debug and RelWithDebInfo smoke PASS
 - Real keyboard/mouse combat, death/reset, character/obstacle switching, doors,
   and window resize/minimize/restore: PASS

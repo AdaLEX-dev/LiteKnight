@@ -50,7 +50,7 @@ SpriteQuad BuildSpriteQuad(const SpriteDraw& draw);
 
 class SpriteBatch {
 public:
-    static constexpr std::size_t kMaxSprites = 4096;
+    static constexpr std::size_t kMaxSprites = 16384;
 
     SpriteBatch();
 

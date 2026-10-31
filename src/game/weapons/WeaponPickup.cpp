@@ -27,7 +27,8 @@ void WeaponPickupSystem::Update(float delta_seconds) {
 
 bool WeaponPickupSystem::TakeNearest(const engine::Vec2& player_position,
                                      float radius,
-                                     std::size_t* weapon_index) {
+                                     std::size_t* weapon_index,
+                                     engine::Vec2* pickup_position) {
     if (radius <= 0.0f) return false;
     std::size_t best = pickups_.size();
     float best_distance = std::numeric_limits<float>::max();
@@ -46,7 +47,27 @@ bool WeaponPickupSystem::TakeNearest(const engine::Vec2& player_position,
     if (weapon_index != nullptr) {
         *weapon_index = pickups_[best].weapon_index;
     }
+    if (pickup_position != nullptr) {
+        *pickup_position = pickups_[best].position;
+    }
     return true;
+}
+
+const WeaponPickup* WeaponPickupSystem::Nearest(
+    const engine::Vec2& player_position, float radius) const {
+    if (radius <= 0.0f) return nullptr;
+    const WeaponPickup* best = nullptr;
+    float best_distance = radius * radius;
+    for (const WeaponPickup& pickup : pickups_) {
+        if (!pickup.active) continue;
+        const float distance =
+            (pickup.position - player_position).LengthSquared();
+        if (distance <= best_distance) {
+            best = &pickup;
+            best_distance = distance;
+        }
+    }
+    return best;
 }
 
 std::size_t WeaponPickupSystem::ActiveCount() const {

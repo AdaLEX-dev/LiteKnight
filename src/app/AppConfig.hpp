@@ -21,6 +21,8 @@ struct AppConfig {
     bool locomotion_debug = false;
     bool devroom = false;
     bool asset_lab = false;
+    bool start_gui = false;
+    bool fullscreen = false;
     bool interactive_test = false;
     std::string interactive_test_name;
     bool replay = false;

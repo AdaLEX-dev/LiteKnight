@@ -130,6 +130,14 @@ bool Application::Initialize() {
         filesystem_.GetDataHome() / "liteknight" / "saves");
     LOG_INFO_APP("Native save slot: {}",
                  save_manager_->SlotPath().string());
+    std::string ui_asset_error;
+    if (ui_assets_.Load(filesystem_, "ui/manifest.json", &ui_asset_error)) {
+        LOG_INFO_APP("Recovered UI atlases: {} textures",
+                     ui_assets_.Textures().size());
+    } else {
+        LOG_WARN_APP("Recovered UI atlases unavailable ({}); using native panels",
+                     ui_asset_error);
+    }
     if (config_.replay && !LoadReplayIfRequested()) {
         return false;
     }
@@ -146,6 +154,7 @@ bool Application::Initialize() {
     weapons_ = {};
     weapon_inventory_ = {};
     weapon_pickups_ = {};
+    plant_system_ = {};
     dev_ui_ = {};
     asset_lab_ = {};
     weapon_ = {};
@@ -177,10 +186,41 @@ bool Application::Initialize() {
             LOG_FATAL_APP("Scene loaded with no textures/sprites/instances");
             return false;
         }
+        LoadAlternateRoom();
+        std::vector<uint32_t> uploaded_ids;
         for (const engine::assets::TextureAsset& texture : scene_.textures) {
             texture_uploads_.push_back(engine::rendering::TextureUpload{
                 texture.id, &texture.data, texture.filter, texture.wrap
             });
+            uploaded_ids.push_back(texture.id);
+        }
+        if (alternate_room_available_) {
+            for (const engine::assets::TextureAsset& texture :
+                 alternate_scene_.textures) {
+                if (std::find(uploaded_ids.begin(), uploaded_ids.end(),
+                              texture.id) != uploaded_ids.end()) {
+                    continue;
+                }
+                texture_uploads_.push_back(engine::rendering::TextureUpload{
+                    texture.id, &texture.data, texture.filter, texture.wrap
+                });
+                uploaded_ids.push_back(texture.id);
+            }
+        }
+        for (const auto& texture : ui_assets_.Textures()) {
+            texture_uploads_.push_back(engine::rendering::TextureUpload{
+                texture.id, &texture.data,
+                engine::assets::TextureFilter::Point,
+                engine::assets::TextureWrap::Clamp
+            });
+        }
+        std::string font_error;
+        if (dev_ui_.LoadPixelFont(filesystem_, "ui/font/pixel_bold.json",
+                                  &font_error)) {
+            LOG_INFO_APP("Pixel font: recovered pixel_bold atlas loaded");
+        } else {
+            LOG_WARN_APP("Pixel font unavailable ({}); using developer fallback",
+                         font_error);
         }
         if (!dev_ui_.BuildFont()) {
             LOG_FATAL_APP("Developer UI font atlas failed");
@@ -210,8 +250,13 @@ bool Application::Initialize() {
             return false;
         }
         locomotion_animator_.Configure(player_characters_.IdleClip(),
-                                       player_characters_.RunClip());
+                                       player_characters_.RunClip(),
+                                       player_characters_.DeathClip());
         player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
+        previous_player_position_ = player_.Position();
+        render_player_position_ = player_.Position();
+        render_camera_ = camera_;
+        previous_camera_position_ = camera_.position;
         facing_ = engine::locomotion::FacingDirection::Right;
         player_render_ = engine::rendering::BindPlayerRenderInstances(scene_);
         if (!player_render_.IsValid()) {
@@ -272,15 +317,20 @@ bool Application::Initialize() {
             weapon_inventory_.Configure(weapons_.Count());
             ConfigureActiveWeapon();
             weapon_pickups_.Clear();
-            if (weapons_.Count() > 2) {
-                SpawnWeaponPickup(2);
-            }
+            if (weapons_.Count() > 0) SpawnWeaponPickup(0);
         }
         LOG_INFO_APP("Combat: player hp={} armor={} camp={}; enemies={} "
                      "(definitions={}), projectiles=0",
                      player_health_.hp, player_health_.armor,
                      player_health_.camp, enemies_.Enemies().size(),
                      enemies_.Definitions().size());
+        if (scene_.is_hub) {
+            plant_system_.Clear();
+            plant_system_.AddPlot("garden_1", {-27.0f, -2.5f}, 5.0f);
+            plant_system_.AddPlot("garden_2", {-25.0f, -2.5f}, 5.0f);
+            plant_system_.AddPlot("garden_3", {-27.0f, 0.0f}, 5.0f);
+            plant_system_.AddPlot("garden_4", {-25.0f, 0.0f}, 5.0f);
+        }
         if (config_.asset_lab) {
             asset_lab_.Open();
         }
@@ -362,7 +412,7 @@ bool Application::Initialize() {
     window_config.title = config_.title;
     window_config.width = config_.window_width;
     window_config.height = config_.window_height;
-    window_config.fullscreen = false;
+    window_config.fullscreen = config_.fullscreen;
     window_config.resizable = config_.resizable;
     window_config.high_dpi = config_.high_dpi;
     window_ = platform::Window(window_config);
@@ -410,6 +460,10 @@ bool Application::Initialize() {
     running_ = true;
     smoke_start_seconds_ = NowSeconds();
 
+    if (config_.start_gui) {
+        game_ui_.OpenMainMenu();
+        main_menu_started_ = true;
+    }
     if (config_.interactive_test) {
         StartInteractiveTest();
     }
@@ -493,8 +547,7 @@ void Application::BuildRenderBatch() {
                 sprite = &scene_.sprites[static_cast<std::size_t>(animated_index)];
             }
         }
-        if (locomotion_animator_.IsPlaying() &&
-            !(is_player_body && player_dead_)) {
+        if (locomotion_animator_.IsPlaying()) {
             const engine::animation::SpriteKeyframe* key =
                 locomotion_animator_.Evaluate(instance.path);
             if (key != nullptr) {
@@ -517,7 +570,7 @@ void Application::BuildRenderBatch() {
         }
         engine::rendering::SpriteDraw draw;
         draw.position = engine::rendering::ResolvePlayerRenderPosition(
-            scene_, player_render_, instance_index, player_.Position());
+            scene_, player_render_, instance_index, render_player_position_);
         if (door_visual_override && instance.door_role == "ornament") {
             // The ornament instance is authored at leaf + (0,1). The clip
             // animates the child's local y between 0.1 and 1.
@@ -535,6 +588,11 @@ void Application::BuildRenderBatch() {
         draw.pivot = sprite->pivot;
         draw.rotation = instance.rotation;
         draw.flip_x = instance.flip_x;
+        if (is_player_body && hit_flash_timer_ > 0.0f) {
+            const bool bright = static_cast<int>(hit_flash_timer_ * 100.0f) % 2 == 0;
+            draw.color = bright ? engine::Color{255, 245, 235, 255}
+                                : engine::Color{255, 150, 150, 255};
+        }
         if (is_player_body) {
             draw.flip_x = engine::rendering::ResolvePlayerBodyFlipX(
                 instance.flip_x, facing_);
@@ -669,13 +727,17 @@ void Application::BuildRenderBatch() {
         (void)sprite_batch_.DrawSprite(draw);
     }
 
-    soulknight::game::weapons::WeaponRenderer::Draw(
-        sprite_batch_, scene_, weapon_.Definition(), player_.Position(),
-        aim_direction_, player_dead_);
+    if (collision_debug_) DrawCollisionDebug();
+
+    if (weapon_.IsConfigured()) {
+        soulknight::game::weapons::WeaponRenderer::Draw(
+            sprite_batch_, scene_, weapon_.Definition(), player_.Position(),
+            aim_direction_, player_dead_);
+    }
 
     soulknight::game::ui::DevOverlayContext ui_context;
     ui_context.scene = &scene_;
-    ui_context.camera = &camera_;
+    ui_context.camera = &render_camera_;
     ui_context.characters = &player_characters_;
     ui_context.weapons = &weapons_;
     ui_context.enemies = &enemies_;
@@ -695,8 +757,80 @@ void Application::BuildRenderBatch() {
     ui_context.render_frames = render_frames_;
     ui_context.active_projectiles = projectiles_.ActiveCount();
     ui_context.pickups = weapon_pickups_.ActiveCount();
+    ui_context.logical_width = 1920;
+    ui_context.logical_height = 1080;
+    ui_context.framebuffer_width = window_.GetPixelWidth();
+    ui_context.framebuffer_height = window_.GetPixelHeight();
+    ui_context.framebuffer_scale = logical_viewport_.framebuffer_scale;
+    ui_context.hud_visible = false;
     dev_ui_.Draw(sprite_batch_, ui_context);
+    DrawGameUI();
     asset_lab_.Draw(sprite_batch_, scene_, camera_, dev_ui_);
+}
+
+void Application::DrawCollisionDebug() {
+    auto& text = dev_ui_.Text();
+    const auto world_rect = [&](const engine::collision::Aabb& box,
+                                engine::Color color, int32_t order) {
+        text.DrawPanelBorder(sprite_batch_, {box.min.x, box.max.y},
+                             {box.max.x - box.min.x, box.max.y - box.min.y},
+                             {0, 0, 0, 0}, color, 0.035f, order);
+    };
+
+    // Player gameplay collision footprint (circle approximated by its AABB).
+    const engine::collision::Aabb player_box{
+        {player_.Position().x - 0.4f, player_.Position().y + 0.1f},
+        {player_.Position().x + 0.4f, player_.Position().y + 0.9f}};
+    world_rect(player_box, {70, 255, 120, 255}, 910);
+    text.DrawPanel(sprite_batch_, {player_.Position().x - 0.055f,
+                                   player_.Position().y + 0.055f},
+                   {0.11f, 0.11f}, {255, 65, 65, 255}, 911);
+
+    // Visual sprite bounds for the active body sprite.
+    if (player_characters_.Count() > 0) {
+        const auto& character = player_characters_.Active();
+        const int32_t sprite_index = character.body_sprite_index;
+        if (sprite_index >= 0 &&
+            static_cast<std::size_t>(sprite_index) < scene_.sprites.size()) {
+            const auto& sprite =
+                scene_.sprites[static_cast<std::size_t>(sprite_index)];
+            const engine::Vec2 size = sprite.WorldSize();
+            const engine::Vec2 min{
+                render_player_position_.x - sprite.pivot.x * size.x,
+                render_player_position_.y - sprite.pivot.y * size.y};
+            text.DrawPanelBorder(
+                sprite_batch_, {min.x, min.y + size.y}, size,
+                {0, 0, 0, 0}, {255, 225, 80, 255}, 0.025f, 912);
+            text.DrawText(sprite_batch_, "VISUAL", {min.x, min.y + size.y - 0.12f},
+                          0.012f, {255, 225, 80, 255}, 913);
+        }
+    }
+
+    // Obstacle collision boxes and sort anchors.
+    if (!obstacles_.Variants().empty()) {
+        const auto& variant = obstacles_.ActiveVariant();
+        for (const auto& marker : obstacles_.Markers()) {
+            const engine::collision::Aabb box{
+                {marker.position.x + variant.collider.min.x,
+                 marker.position.y + variant.collider.min.y},
+                {marker.position.x + variant.collider.max.x,
+                 marker.position.y + variant.collider.max.y}};
+            world_rect(box, {255, 105, 105, 255}, 914);
+            text.DrawPanel(sprite_batch_, {marker.position.x - 0.045f,
+                                           marker.position.y + 0.045f},
+                           {0.09f, 0.09f}, {90, 170, 255, 255}, 915);
+            char label[64];
+            std::snprintf(label, sizeof(label), "sort %d/%d",
+                          variant.visuals.empty() ? 0
+                            : variant.visuals.front().sorting_layer,
+                          variant.visuals.empty() ? 0
+                            : variant.visuals.front().sorting_order);
+            text.DrawText(sprite_batch_, label,
+                          {marker.position.x - 0.5f,
+                           marker.position.y + variant.collider.max.y + 0.40f},
+                          0.010f, {215, 230, 255, 255}, 916);
+        }
+    }
 }
 
 void Application::BuildSyntheticBatch() {
@@ -728,6 +862,34 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
             simulation_ticks_ + 1, static_cast<int>(scancode),
             static_cast<int>(modifiers));
     }
+    if (interactive_test_.Active() && replay_ == nullptr &&
+        scancode == SDL_SCANCODE_F1) {
+        FinalizeInteractiveTest("PASS", "user finalized with F1");
+        running_ = false;
+        return;
+    }
+    if (game_ui_.IsPaused() || game_ui_.IsMainMenu()) {
+        HandleUIKey(scancode, modifiers);
+        return;
+    }
+    if (scancode == SDL_SCANCODE_P) {
+        game_ui_.OpenPause();
+        return;
+    }
+    if (scancode == SDL_SCANCODE_T && alternate_room_available_) {
+        SwitchRoom();
+        return;
+    }
+    if (scene_.is_hub && scancode == SDL_SCANCODE_H) {
+        game_ui_.OpenCharacterSelect(
+            static_cast<int>(player_characters_.ActiveIndex()));
+        return;
+    }
+    if (scene_.is_hub && scancode == SDL_SCANCODE_B) {
+        game_ui_.OpenWeaponSelect(
+            static_cast<int>(weapon_inventory_.ActiveIndex()));
+        return;
+    }
             if (interactive_test_.Active() && replay_ == nullptr &&
                 scancode == SDL_SCANCODE_RETURN &&
                 !dev_ui_.MenuOpen() && !asset_lab_.IsOpen()) {
@@ -748,8 +910,11 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                     CycleAssetLabItem(1);
                 } else if (scancode == SDL_SCANCODE_SPACE) {
                     asset_lab_.TogglePause();
-                } else if (scancode == SDL_SCANCODE_N) {
+                } else if (scancode == SDL_SCANCODE_N ||
+                           scancode == SDL_SCANCODE_F) {
                     asset_lab_.StepFrame(1);
+                } else if (scancode == SDL_SCANCODE_R) {
+                    asset_lab_.Restart();
                 } else if (scancode == SDL_SCANCODE_RETURN) {
                     ActivateAssetLabSelection();
                 } else if (scancode == SDL_SCANCODE_F5) {
@@ -759,6 +924,10 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                 SaveGameToDisk();
             } else if (scancode == SDL_SCANCODE_F3) {
                 LoadGameFromDisk();
+            } else if (scancode == SDL_SCANCODE_F4) {
+                collision_debug_ = !collision_debug_;
+                LOG_INFO_APP("Collision/debug bounds: {}",
+                             BooleanText(collision_debug_));
             } else if (scancode == SDL_SCANCODE_F5) {
                 asset_lab_.Open();
                 LOG_INFO_APP("Asset laboratory opened");
@@ -818,7 +987,7 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                                  dev_ui_.SelectedIndex(),
                                  enemies_.DefinitionCount());
             } else if (scancode == SDL_SCANCODE_E) {
-                TryPickupWeapon();
+                if (!TryPickupWeapon()) TryInteract();
             } else if (scancode == SDL_SCANCODE_G) {
                 SpawnWeaponPickup(weapons_.ActiveIndex());
             } else if (scancode == SDL_SCANCODE_O &&
@@ -831,7 +1000,7 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                 CycleCharacter(-1);
             } else if (scancode == SDL_SCANCODE_RIGHTBRACKET) {
                 CycleCharacter(1);
-            } else if (scancode == SDL_SCANCODE_P) {
+            } else if (scancode == SDL_SCANCODE_Y) {
                 CycleObstacleVariant();
             } else if (scancode == SDL_SCANCODE_R) {
                 ResetCombat();
@@ -843,11 +1012,141 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
             } else if ((modifiers & SDL_KMOD_CTRL) != 0 &&
                        scancode == SDL_SCANCODE_0) {
                 SwitchCharacter(9);
+            } else if (scancode == SDL_SCANCODE_Q) {
+                SwitchWeaponSlot((weapon_inventory_.ActiveSlot() + 1) % 2);
             } else if (scancode == SDL_SCANCODE_1) {
                 SwitchWeaponSlot(0);
             } else if (scancode == SDL_SCANCODE_2) {
                 SwitchWeaponSlot(1);
             }
+}
+
+void Application::HandleUIKey(SDL_Scancode scancode,
+                              SDL_Keymod /*modifiers*/) {
+    using soulknight::game::ui::UIScreen;
+    if (scancode == SDL_SCANCODE_UP || scancode == SDL_SCANCODE_W) {
+        game_ui_.Navigate(-1);
+    } else if (scancode == SDL_SCANCODE_DOWN ||
+               scancode == SDL_SCANCODE_S) {
+        game_ui_.Navigate(1);
+    } else if (scancode == SDL_SCANCODE_LEFT || scancode == SDL_SCANCODE_A) {
+        game_ui_.Navigate(-1);
+    } else if (scancode == SDL_SCANCODE_RIGHT ||
+               scancode == SDL_SCANCODE_D) {
+        game_ui_.Navigate(1);
+    } else if (scancode == SDL_SCANCODE_RETURN ||
+               scancode == SDL_SCANCODE_KP_ENTER ||
+               scancode == SDL_SCANCODE_SPACE) {
+        game_ui_.Confirm();
+        ProcessUIAction();
+    } else if (scancode == SDL_SCANCODE_ESCAPE) {
+        if (game_ui_.Screen() == UIScreen::Settings) {
+            game_ui_.Back();
+        } else if (game_ui_.IsPaused()) {
+            game_ui_.Resume();
+        }
+    } else if (scancode == SDL_SCANCODE_P && game_ui_.IsPaused()) {
+        game_ui_.Resume();
+    }
+}
+
+void Application::ProcessUIAction() {
+    using soulknight::game::ui::UIAction;
+    switch (game_ui_.TakeAction()) {
+        case UIAction::None:
+            break;
+        case UIAction::Resume:
+            game_ui_.Resume();
+            break;
+        case UIAction::Home:
+            if (scene_mode_) SaveGameToDisk();
+            game_ui_.OpenMainMenu();
+            break;
+        case UIAction::NewGame:
+            ResetCombat();
+            game_ui_.OpenGameplay();
+            break;
+        case UIAction::ContinueGame:
+            if (save_manager_ != nullptr && save_manager_->Exists()) {
+                LoadGameFromDisk();
+                game_ui_.OpenGameplay();
+            } else {
+                LOG_WARN_APP("Continue: no native save slot exists");
+            }
+            break;
+        case UIAction::Settings:
+            game_ui_.OpenSettings();
+            break;
+        case UIAction::Back:
+            game_ui_.Back();
+            break;
+        case UIAction::Quit:
+            running_ = false;
+            break;
+        case UIAction::ToggleFullscreen:
+            (void)window_.SetFullscreen(!window_.IsFullscreen());
+            break;
+        case UIAction::ToggleDebugOverlay:
+            dev_ui_.ToggleOverlay();
+            break;
+        case UIAction::SelectCharacter:
+            SwitchCharacter(static_cast<std::size_t>(
+                std::max(0, game_ui_.CharacterSelection())));
+            game_ui_.CloseSelection();
+            break;
+        case UIAction::SelectWeapon:
+            if (weapon_inventory_.EquipActive(static_cast<std::size_t>(
+                    std::max(0, game_ui_.WeaponSelection())))) {
+                ConfigureActiveWeapon();
+            }
+            game_ui_.CloseSelection();
+            break;
+        case UIAction::ResetSave:
+            if (save_manager_ != nullptr) {
+                std::string error;
+                if (save_manager_->Delete(&error)) {
+                    LOG_INFO_APP("Native save reset");
+                } else {
+                    LOG_ERROR_APP("Save reset failed: {}", error);
+                }
+            }
+            break;
+    }
+}
+
+void Application::DrawGameUI() {
+    if (!scene_mode_ || asset_lab_.IsOpen()) return;
+    soulknight::game::ui::GameUIData data;
+    data.scene = &scene_;
+    data.characters = &player_characters_;
+    data.weapons = &weapons_;
+    data.inventory = &weapon_inventory_;
+    data.health = &player_health_;
+    data.energy = &player_energy_;
+    data.paused = game_ui_.IsPaused();
+    data.dead = player_dead_;
+    data.save_exists = save_manager_ != nullptr && save_manager_->Exists();
+    data.fullscreen = window_.IsFullscreen();
+    data.debug_overlay = dev_ui_.OverlayVisible();
+    data.has_pixel_font = dev_ui_.HasPixelFont();
+    data.ui_assets = ui_assets_.IsLoaded() ? &ui_assets_ : nullptr;
+    if (const auto* pickup = weapon_pickups_.Nearest(player_.Position(), 1.5f);
+        pickup != nullptr && pickup->weapon_index < weapons_.Count()) {
+        data.pickup_nearby = true;
+        data.pickup_name = weapons_.Definitions()[pickup->weapon_index].id;
+        data.pickup_screen = render_camera_.WorldToScreen(pickup->position);
+    } else if (const auto* marker = NearbyInteraction(); marker != nullptr) {
+        data.interaction_nearby = true;
+        data.interaction_label = marker->id;
+        data.interaction_screen = render_camera_.WorldToScreen(marker->position);
+    }
+    soulknight::game::ui::UIRenderContext context;
+    context.camera = &render_camera_;
+    context.batch = &sprite_batch_;
+    context.text = &dev_ui_.Text();
+    context.scene = &scene_;
+    ui_renderer_.Begin(context);
+    game_ui_.Draw(ui_renderer_, data);
 }
 
 void Application::PollEvents() {
@@ -872,9 +1171,14 @@ void Application::PollEvents() {
                 asset_lab_.Close();
             } else if (dev_ui_.MenuOpen()) {
                 dev_ui_.CloseMenu();
-            } else {
-                LOG_INFO_APP("Escape pressed; requesting shutdown");
+            } else if (game_ui_.Screen() == soulknight::game::ui::UIScreen::Settings) {
+                game_ui_.Back();
+            } else if (game_ui_.IsPaused()) {
+                game_ui_.Resume();
+            } else if (game_ui_.IsMainMenu()) {
                 running_ = false;
+            } else {
+                game_ui_.OpenPause();
             }
         }
 
@@ -944,6 +1248,11 @@ void Application::RebuildCollisionWorld() {
     } else {
         collision_world_.SetBounds(MakeFallbackCollisionBounds(camera_.position));
     }
+    for (const engine::assets::CollisionBox& solid : scene_.collision_solids) {
+        collision_world_.AddSolid(ToAabb(solid));
+    }
+    obstacles_.AddColliders(collision_world_);
+    room_doors_.AddColliders(collision_world_);
 }
 
 void Application::ToggleAllDoors() {
@@ -982,15 +1291,40 @@ void Application::SwitchCharacter(std::size_t index) {
     if (player_characters_.Count() == 0) return;
     if (!player_characters_.Select(index)) return;
     locomotion_animator_.Configure(player_characters_.IdleClip(),
-                                   player_characters_.RunClip());
+                                   player_characters_.RunClip(),
+                                   player_characters_.DeathClip());
     last_animation_sprite_.clear();
     last_animation_state_ = engine::animation::LocomotionState::Idle;
     animation_logs_remaining_ = 8;
+    ApplyActiveCharacterStats();
     const auto& character = player_characters_.Active();
     LOG_INFO_APP("Character switch: [{}] {} (controller {}, body={}, idle={}, run={})",
                  player_characters_.ActiveIndex() + 1, character.id,
                  character.controller_name, character.body_sprite_id,
                  character.idle_animation_id, character.run_animation_id);
+}
+
+void Application::ApplyActiveCharacterStats() {
+    if (player_characters_.Count() == 0) return;
+    const auto& character = player_characters_.Active();
+    if (character.max_hp > 0) {
+        player_health_.Reset(character.max_hp, character.max_armor, 0);
+        player_health_.camp = scene_.player_stats.max_hp > 0
+            ? scene_.player_stats.camp : 1;
+        player_dead_ = false;
+        weapon_.Release();
+        attack_held_ = false;
+    }
+    if (character.max_energy > 0) {
+        player_energy_.Reset(character.max_energy, character.max_energy);
+    }
+    if (character.speed > 0.0f) {
+        player_.SetSpeedProfile(character.speed, character.speed_rate);
+    }
+    LOG_INFO_APP("Character stats: {} hp={} armor={} energy={} speed={:.2f}",
+                 character.id, player_health_.max_hp,
+                 player_health_.max_armor, player_energy_.max_energy,
+                 character.speed);
 }
 
 void Application::CycleCharacter(int delta) {
@@ -1038,15 +1372,8 @@ void Application::UpdateAimInput(const platform::InputSnapshot* override) {
             mouse_aim_valid_ = true;
         }
         if (mouse_aim_valid_) {
-            const int window_width = window_.GetWidth();
-            const int window_height = window_.GetHeight();
-            engine::Vec2 mouse = snapshot.mouse_position;
-            if (window_width > 0 && window_height > 0) {
-                mouse.x *= camera_.viewport_width /
-                           static_cast<float>(window_width);
-                mouse.y *= camera_.viewport_height /
-                           static_cast<float>(window_height);
-            }
+            const engine::Vec2 mouse = logical_viewport_.WindowPointToLogical(
+                snapshot.mouse_position);
             const engine::Vec2 world = camera_.ScreenToWorld(mouse);
             const engine::Vec2 delta = world - player_.Position();
             if (delta.LengthSquared() > 0.01f) {
@@ -1177,6 +1504,14 @@ void Application::SaveGameToDisk() {
     data.max_energy = player_energy_.max_energy;
     data.dead = player_health_.dead;
     data.playtime_seconds = static_cast<std::int64_t>(simulation_time_);
+    for (const auto& character : scene_.characters) {
+        data.unlocked_characters.push_back(character.id);
+    }
+    data.fullscreen = window_.IsFullscreen();
+    data.hub_visited = scene_.is_hub;
+    for (const auto& plot : plant_system_.Plots()) {
+        if (!plot.species.empty()) data.plants.push_back(plot.species);
+    }
     std::string error;
     if (save_manager_->Save(data, &error)) {
         LOG_INFO_APP("Saved native game state: {}",
@@ -1196,6 +1531,10 @@ void Application::LoadGameFromDisk() {
     }
     if (!error.empty()) {
         LOG_WARN_APP("Load recovered with warning: {}", error);
+    }
+    if (data.scene_id != scene_.id && alternate_room_available_ &&
+        alternate_scene_.id == data.scene_id) {
+        SwitchRoom();
     }
     if (data.scene_id != scene_.id) {
         LOG_ERROR_APP("Save scene mismatch: save={} current={}",
@@ -1240,6 +1579,9 @@ void Application::LoadGameFromDisk() {
     player_health_.dead = data.dead || data.hp <= 0;
     player_health_.can_hurt = !player_health_.dead;
     player_energy_.Reset(data.max_energy, data.energy);
+    if (data.fullscreen != window_.IsFullscreen()) {
+        (void)window_.SetFullscreen(data.fullscreen);
+    }
     player_dead_ = player_health_.dead;
     attack_held_ = false;
     weapon_.Release();
@@ -1270,18 +1612,82 @@ void Application::SpawnWeaponPickup(std::size_t weapon_index) {
     }
 }
 
-void Application::TryPickupWeapon() {
-    std::size_t weapon_index = 0;
-    if (!weapon_pickups_.TakeNearest(player_.Position(), 1.5f,
-                                     &weapon_index)) {
-        LOG_INFO_APP("No weapon pickup in range (1.5)");
+const engine::assets::InteractionMarker* Application::NearbyInteraction() const {
+    const engine::assets::InteractionMarker* best = nullptr;
+    float best_distance = 0.0f;
+    for (const auto& marker : scene_.interaction_markers) {
+        const float radius = marker.radius > 0.0f ? marker.radius : 2.0f;
+        const float distance =
+            (marker.position - player_.Position()).LengthSquared();
+        if (distance <= radius * radius &&
+            (best == nullptr || distance < best_distance)) {
+            best = &marker;
+            best_distance = distance;
+        }
+    }
+    return best;
+}
+
+void Application::TryInteract() {
+    const auto* marker = NearbyInteraction();
+    if (marker == nullptr) {
+        if (NearOpenDoor()) SwitchRoom();
         return;
     }
-    if (!weapon_inventory_.EquipActive(weapon_index)) return;
+    if (marker->kind == "character") {
+        game_ui_.OpenCharacterSelect(
+            static_cast<int>(player_characters_.ActiveIndex()));
+        LOG_INFO_APP("Living Room: character station opened");
+    } else if (marker->kind == "forge") {
+        game_ui_.OpenWeaponSelect(
+            static_cast<int>(weapon_inventory_.ActiveIndex()));
+        LOG_INFO_APP("Living Room: forge/weapon station opened (recipe system UNRECOVERED)");
+    } else if (marker->kind == "garden") {
+        const int plot = plant_system_.NearestPlot(player_.Position(), 4.0f);
+        if (plot >= 0) {
+            const auto result = plant_system_.Interact(plot, "carrot_dev");
+            if (result == game::hub::PlantInteraction::Planted) {
+                LOG_INFO_APP("Garden: planted seed in plot {} (5 s dev timer)",
+                             plot);
+            } else if (result == game::hub::PlantInteraction::Harvested) {
+                LOG_INFO_APP("Garden: harvested plot {} (harvested={})",
+                             plot, plant_system_.HarvestedCount());
+            } else if (result == game::hub::PlantInteraction::NotReady) {
+                LOG_INFO_APP("Garden: plot {} is still growing", plot);
+            }
+        } else {
+            LOG_INFO_APP("Living Room: garden station (walk closer to a plot)");
+        }
+    } else if (marker->kind == "door") {
+        SwitchRoom();
+    }
+}
+
+bool Application::TryPickupWeapon() {
+    std::size_t weapon_index = 0;
+    engine::Vec2 pickup_position = player_.Position();
+    if (!weapon_pickups_.TakeNearest(player_.Position(), 1.5f,
+                                     &weapon_index, &pickup_position)) {
+        return false;
+    }
+    // HYPOTHESIS (pickup replacement): the original inventory UI is not yet
+    // recovered. The native foundation swaps the active slot and drops the
+    // previous weapon at the pickup position so equipment is never destroyed.
+    const std::size_t slot = weapon_inventory_.ActiveSlot();
+    if (weapon_inventory_.SlotOccupied(slot)) {
+        const std::size_t old_index = weapon_inventory_.Slot(slot);
+        if (old_index < weapons_.Count()) {
+            (void)weapon_pickups_.Spawn(old_index, pickup_position);
+            LOG_INFO_APP("Weapon pickup swap: dropped {} at ({:.2f},{:.2f})",
+                         weapons_.Definitions()[old_index].id,
+                         pickup_position.x, pickup_position.y);
+        }
+    }
+    if (!weapon_inventory_.EquipActive(weapon_index)) return false;
     ConfigureActiveWeapon();
     LOG_INFO_APP("Weapon pickup equipped into slot {}: {}",
-                 weapon_inventory_.ActiveSlot() + 1,
-                 weapons_.Definitions()[weapon_index].id);
+                 slot + 1, weapons_.Definitions()[weapon_index].id);
+    return true;
 }
 
 void Application::SwitchWeaponSlot(std::size_t slot) {
@@ -1294,7 +1700,13 @@ void Application::SwitchWeaponSlot(std::size_t slot) {
 }
 
 void Application::ConfigureActiveWeapon() {
-    if (weapons_.Count() == 0) return;
+    if (weapons_.Count() == 0 ||
+        !weapon_inventory_.SlotOccupied(weapon_inventory_.ActiveSlot())) {
+        weapon_.Clear();
+        LOG_INFO_APP("Weapon active: EMPTY (slot {})",
+                     weapon_inventory_.ActiveSlot() + 1);
+        return;
+    }
     const std::size_t active_index = weapon_inventory_.ActiveIndex();
     if (!weapons_.Select(active_index)) return;
     engine::assets::WeaponDefinition weapon_definition = weapons_.Active();
@@ -1316,6 +1728,11 @@ void Application::ConfigureActiveWeapon() {
 
 void Application::ResetCombat() {
     player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
+    previous_player_position_ = player_.Position();
+    render_player_position_ = player_.Position();
+    previous_camera_position_ = scene_.spawn;
+    render_camera_ = camera_;
+    render_camera_.position = scene_.spawn;
     player_.SetSpeedRateBonus(0.0f);
     const int player_max_hp =
         scene_.player_stats.max_hp > 0 ? scene_.player_stats.max_hp : 6;
@@ -1341,22 +1758,25 @@ void Application::ResetCombat() {
     weapon_inventory_.Configure(weapons_.Count());
     ConfigureActiveWeapon();
     weapon_pickups_.Clear();
-    if (weapons_.Count() > 2) SpawnWeaponPickup(2);
+    if (weapons_.Count() > 0) SpawnWeaponPickup(0);
     player_characters_.Select(0);
+    ApplyActiveCharacterStats();
     room_doors_.OpenAll();
     door_trigger_inside_.assign(room_doors_.Count(), false);
     RebuildCollisionWorld();
     camera_.position = scene_.spawn;
     locomotion_animator_.Configure(player_characters_.IdleClip(),
-                                   player_characters_.RunClip());
+                                   player_characters_.RunClip(),
+                                   player_characters_.DeathClip());
     last_animation_sprite_.clear();
     last_animation_state_ = engine::animation::LocomotionState::Idle;
     animation_logs_remaining_ = 8;
     LOG_INFO_APP("Developer reset: spawn=({:.2f},{:.2f}) hp={} armor={} "
-                 "enemies={} doors=open character=c00 weapon=weapon_000 "
+                 "enemies={} doors=open character=c00 weapon={} "
                  "obstacle=wall603",
                  scene_.spawn.x, scene_.spawn.y, player_health_.hp,
-                 player_health_.armor, enemies_.Enemies().size());
+                 player_health_.armor, enemies_.Enemies().size(),
+                 weapon_.IsConfigured() ? weapon_.Definition().id : "EMPTY");
 }
 
 void Application::UpdateDoorTriggers() {
@@ -1398,8 +1818,10 @@ void Application::FixedUpdate(double dt) {
     ++simulation_ticks_;
 
     if (!scene_mode_) return;
+    hit_flash_timer_ = std::max(0.0f, hit_flash_timer_ - static_cast<float>(dt));
     asset_lab_.Update(static_cast<float>(dt));
     weapon_pickups_.Update(static_cast<float>(dt));
+    plant_system_.Update(static_cast<float>(dt));
 
     if (room_doors_.Update(static_cast<float>(dt))) {
         RebuildCollisionWorld();
@@ -1416,6 +1838,8 @@ void Application::FixedUpdate(double dt) {
         }
     }
 
+    previous_player_position_ = player_.Position();
+    previous_camera_position_ = camera_.position;
     if (!player_dead_) {
         player_.SetSpeedRateBonus(
             attack_held_ ? weapon_.Definition().atk_move_speed : 0.0f);
@@ -1463,12 +1887,16 @@ void Application::FixedUpdate(double dt) {
         static_cast<float>(dt), player_.Position(), player_health_,
         &collision_world_);
     if (player_damaged) {
+        hit_flash_timer_ = 0.12f;
         LOG_INFO_APP("Player damaged: hp={} armor={} dead={}",
                      player_health_.hp, player_health_.armor,
                      BooleanText(player_health_.dead));
     }
     if (player_health_.dead && !player_dead_) {
         player_dead_ = true;
+        if (!locomotion_animator_.PlayDead()) {
+            LOG_INFO_APP("Character has no recovered death clip; using dead sprite");
+        }
         LOG_INFO_APP("Player died: hp=0 armor={} position=({:.2f},{:.2f})",
                      player_health_.armor, player_.Position().x,
                      player_.Position().y);
@@ -1570,7 +1998,7 @@ std::string InteractiveTestInstructions(const std::string& name) {
                "the player. Space fires; damage, death and R reset are live. "
                "Enter finalizes.";
     }
-    if (name == "two_weapon") {
+    if (name == "two_weapon" || name == "test-two-weapons") {
         return "Press 1 for primary, 2 for secondary; each slot keeps its own "
                "weapon, projectile, cooldown and energy cost. Fire both. Enter "
                "finalizes.";
@@ -1583,15 +2011,65 @@ std::string InteractiveTestInstructions(const std::string& name) {
         return "Let an enemy contact-hit you; HUD HP/ARMOR must change. "
                "Reset with R. Enter finalizes.";
     }
+    if (name == "test-ui" || name == "test-font") {
+        return "Inspect the 1920x1080 pixel UI: pixel_bold text, HUD panel,\n"
+               "buttons and crisp nearest-neighbour scaling. Pause with P. " "Enter finalizes.";
+    }
+    if (name == "test-player-animation" || name == "test-character-catalogue") {
+        return "F5 asset lab: cycle CHARACTERS and ANIMATIONS. Verify idle, run\n"
+               "and dead clips, frame stepping and sample rate. Enter finalizes.";
+    }
+    if (name == "test-player-obstacle-collision") {
+        return "Walk around every recovered obstacle from all sides. F4 shows\n"
+               "visual/collision/feet/sort debug bounds. Enter finalizes.";
+    }
+    if (name == "test-weapon-pickup" || name == "test-no-weapon-render") {
+        return "The player starts with no weapon and a weapon pickup nearby.\n"
+               "Confirm no weapon is rendered and 'E PICK UP' appears; press E " "and confirm the real weapon appears. Enter finalizes.";
+    }
+    if (name == "test-two-weapons" || name == "two_weapon") {
+        return "Equip two weapons, switch with 1/2/Q, fire each, and check\n"
+               "that each keeps its own texture/projectile/cooldown. Enter finalizes.";
+    }
+    if (name == "test-energy") {
+        return "Equip weapon_002 (1 energy/shot) and fire; verify the HUD\n"
+               "energy value decreases. Enter finalizes.";
+    }
+    if (name == "test-hud") {
+        return "Inspect the top-left HP/armor/energy panel and weapon slots.\n"
+               "Take contact damage and verify live values. Enter finalizes.";
+    }
+    if (name == "test-pause") {
+        return "Press P; verify gameplay freezes and the recovered-style pause\n"
+               "panel appears. Navigate with arrows, Enter selects, Esc resumes. " "Enter finalizes after resuming.";
+    }
+    if (name == "test-settings") {
+        return "P -> SETTINGS. Toggle Fullscreen and Debug Overlay; verify the\n"
+               "pixel UI and that Esc returns to Pause. Enter finalizes.";
+    }
+    if (name == "test-home") {
+        return "From the main menu, navigate NEW GAME / SETTINGS / QUIT and\n"
+               "verify HOME from pause returns here. No social tab exists. " "Enter finalizes.";
+    }
+    if (name == "test-living-room") {
+        return "Walk the recovered Living Room, collision-test furniture,\n"
+               "use E at the character station and forge, and inspect garden\n"
+               "plots. Enter finalizes.";
+    }
+    if (name == "test-character-select") {
+        return "Walk to the character station, press E, browse characters and\n"
+               "confirm one; verify its real body/animations and stats. " "Enter finalizes.";
+    }
     if (name == "save_load") {
         return "Move, switch weapons, spend energy, then F2 save and F3 load. "
                "Verify character/weapons/HP/energy/position restore. Enter "
                "finalizes.";
     }
-    if (name == "room_transition") {
-        return "Native room transitions are not recovered yet. O/C only open "
-               "and close recovered r1_1 doors. Record this limitation and "
-               "press Enter; do not treat door motion as a room transition.";
+    if (name == "room_transition" || name == "test-room-transition") {
+        return "Press T (or E at the hub door / an open recovered door) to "
+               "switch between the Living Room and r1_1. Verify character, "
+               "weapons, HP, armor and energy survive the transition. Enter "
+               "finalizes.";
     }
     if (name == "hub") {
         return "HUB IS UNRECOVERED. No hub scene/interactables exist in this "
@@ -1657,7 +2135,7 @@ bool Application::ApplyReplayInputForNextTick() {
         SwitchWeaponSlot(1);
     }
     if (replay_snapshot_.IsPressed(platform::Action::Interact)) {
-        TryPickupWeapon();
+        if (!TryPickupWeapon()) TryInteract();
     }
     ApplyInputSnapshot(replay_snapshot_);
     return true;
@@ -1676,6 +2154,161 @@ void Application::ApplyInputSnapshot(const platform::InputSnapshot& snapshot) {
                    (snapshot.IsHeld(platform::Action::Attack) ||
                     snapshot.mouse_pressed[0]);
     UpdateAimInput(&snapshot);
+}
+
+bool Application::LoadAlternateRoom() {
+    const std::string alternate_path = scene_.id == "hero_room"
+        ? "scenes/r1_1_visual/scene.json"
+        : "scenes/hero_room/scene.json";
+    std::string error;
+    if (!engine::assets::SceneLoader::Load(filesystem_, alternate_path,
+                                           alternate_scene_, &error)) {
+        LOG_WARN_APP("Alternate room unavailable: {}", error);
+        alternate_scene_ = {};
+        alternate_room_available_ = false;
+        return false;
+    }
+    alternate_room_available_ = true;
+    room_manager_.Configure(
+        {{scene_.id, config_.scene_path},
+         {alternate_scene_.id, alternate_path}},
+        {{scene_.id, alternate_scene_.id, "bidirectional"}});
+    LOG_INFO_APP("Alternate room ready: {} ({})", alternate_scene_.id,
+                 alternate_path);
+    return true;
+}
+
+bool Application::NearOpenDoor() const {
+    if (scene_.is_hub || scene_.doors.empty()) return false;
+    for (std::size_t i = 0; i < scene_.doors.size() &&
+                            i < room_doors_.Count(); ++i) {
+        if (room_doors_.At(i).IsBlocking()) continue;
+        const auto& trigger = scene_.doors[i].trigger;
+        const engine::Vec2 center{
+            (trigger.min.x + trigger.max.x) * 0.5f,
+            (trigger.min.y + trigger.max.y) * 0.5f};
+        if ((center - player_.Position()).LengthSquared() <= 4.0f) {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Application::SwitchRoom() {
+    if (!alternate_room_available_) return;
+    const std::string character_id =
+        player_characters_.Count() > 0 ? player_characters_.Active().id : "c00";
+    const std::size_t slot0 =
+        weapon_inventory_.SlotOccupied(0) ? weapon_inventory_.Slot(0) : weapons_.Count();
+    const std::size_t slot1 =
+        weapon_inventory_.SlotOccupied(1) ? weapon_inventory_.Slot(1) : weapons_.Count();
+    const std::string weapon0 = slot0 < weapons_.Count()
+        ? weapons_.Definitions()[slot0].id : std::string{};
+    const std::string weapon1 = slot1 < weapons_.Count()
+        ? weapons_.Definitions()[slot1].id : std::string{};
+    const std::size_t active_slot = weapon_inventory_.ActiveSlot();
+    const int hp = player_health_.hp;
+    const int armor = player_health_.armor;
+    const int energy = player_energy_.energy;
+    const bool dead = player_health_.dead;
+
+    if (!room_manager_.TransitionTo(alternate_scene_.id)) {
+        LOG_WARN_APP("RoomManager rejected transition to {}",
+                     alternate_scene_.id);
+        return;
+    }
+    std::swap(scene_, alternate_scene_);
+    std::string error;
+    if (!player_characters_.Configure(scene_, &error)) {
+        LOG_ERROR_APP("Room switch character setup failed: {}", error);
+        return;
+    }
+    std::size_t character_index = 0;
+    for (std::size_t i = 0; i < player_characters_.Count(); ++i) {
+        if (player_characters_.CharacterAt(i).id == character_id) {
+            character_index = i;
+            break;
+        }
+    }
+    player_characters_.Select(character_index);
+    if (!weapons_.Configure(scene_)) {
+        LOG_ERROR_APP("Room switch weapon setup failed");
+        return;
+    }
+    weapon_inventory_.Configure(weapons_.Count());
+    const auto equip_by_id = [&](std::size_t slot, const std::string& id) {
+        if (id.empty()) return;
+        for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+            if (weapons_.Definitions()[i].id == id) {
+                weapon_inventory_.SwitchSlot(slot);
+                (void)weapon_inventory_.EquipActive(i);
+                break;
+            }
+        }
+    };
+    equip_by_id(0, weapon0);
+    equip_by_id(1, weapon1);
+    weapon_inventory_.SwitchSlot(active_slot);
+    ConfigureActiveWeapon();
+
+    player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
+    previous_player_position_ = player_.Position();
+    render_player_position_ = player_.Position();
+    camera_ = {};
+    camera_.position = scene_.spawn;
+    camera_.orthographic_size = 10.0f;
+    previous_camera_position_ = camera_.position;
+    render_camera_ = camera_;
+    player_health_.Reset(
+        player_characters_.Active().max_hp > 0
+            ? player_characters_.Active().max_hp : 6,
+        player_characters_.Active().max_armor > 0
+            ? player_characters_.Active().max_armor : 5, 0);
+    player_health_.hp = std::min(hp, player_health_.max_hp);
+    player_health_.armor = std::min(armor, player_health_.max_armor);
+    player_health_.dead = dead || player_health_.hp <= 0;
+    player_health_.can_hurt = !player_health_.dead;
+    player_energy_.Reset(
+        player_characters_.Active().max_energy > 0
+            ? player_characters_.Active().max_energy : 180);
+    player_energy_.energy = std::min(energy, player_energy_.max_energy);
+    player_dead_ = player_health_.dead;
+    player_.SetSpeedProfile(
+        player_characters_.Active().speed > 0.0f
+            ? player_characters_.Active().speed : 6.5f,
+        player_characters_.Active().speed_rate);
+    locomotion_animator_.Configure(player_characters_.IdleClip(),
+                                   player_characters_.RunClip(),
+                                   player_characters_.DeathClip());
+    if (player_dead_) locomotion_animator_.PlayDead();
+    last_animation_sprite_.clear();
+    last_animation_state_ = engine::animation::LocomotionState::Idle;
+    player_render_ = engine::rendering::BindPlayerRenderInstances(scene_);
+    if (!player_render_.IsValid()) {
+        LOG_ERROR_APP("Room switch player render binding missing");
+        return;
+    }
+    std::string enemy_error;
+    (void)enemies_.Configure(scene_, &enemy_error);
+    (void)obstacles_.Configure(scene_, &error);
+    (void)room_doors_.Configure(scene_, &error);
+    door_trigger_inside_.assign(room_doors_.Count(), false);
+    RebuildCollisionWorld();
+    projectiles_.Clear();
+    weapon_pickups_.Clear();
+    if (scene_.is_hub) {
+        plant_system_.Clear();
+        plant_system_.AddPlot("garden_1", {-27.0f, -2.5f}, 5.0f);
+        plant_system_.AddPlot("garden_2", {-25.0f, -2.5f}, 5.0f);
+        plant_system_.AddPlot("garden_3", {-27.0f, 0.0f}, 5.0f);
+        plant_system_.AddPlot("garden_4", {-25.0f, 0.0f}, 5.0f);
+    }
+    window_.SetTitle(scene_.is_hub ? "LiteKnight Living Room"
+                                   : "LiteKnight Devroom");
+    LOG_INFO_APP("Room transition: NOW {} spawn=({:.2f},{:.2f}) hp={} armor={} energy={} char={} weapon={}",
+                 scene_.id, scene_.spawn.x, scene_.spawn.y, player_health_.hp,
+                 player_health_.armor, player_energy_.energy, character_id,
+                 weapon_.IsConfigured() ? weapon_.Definition().id : "EMPTY");
 }
 
 void Application::StartInteractiveTest() {
@@ -1714,7 +2347,7 @@ void Application::RecordInteractiveTestTick() {
     state.animation_frame = frame != nullptr ? frame->sprite_id : "none";
     state.character = player_characters_.Count() > 0
         ? player_characters_.Active().id : "none";
-    state.weapon = weapons_.Count() > 0 ? weapon_.Definition().id : "none";
+    state.weapon = weapon_.IsConfigured() ? weapon_.Definition().id : "none";
     state.room = scene_.id;
     state.hp = player_health_.hp;
     state.max_hp = player_health_.max_hp;
@@ -1763,6 +2396,9 @@ int Application::Run() {
 
     while (running_) {
         PollEvents();
+        logical_viewport_.Update(window_.GetPixelWidth(),
+                                 window_.GetPixelHeight(),
+                                 window_.GetWidth(), window_.GetHeight());
         if (scene_mode_ && replay_ == nullptr) {
             ApplyInputSnapshot(input_manager_.GetSnapshot());
         } else if (!scene_mode_) {
@@ -1776,7 +2412,16 @@ int Application::Run() {
 
         frame_timer_.BeginFrame();
 
+        const bool ui_frozen = game_ui_.IsPaused() || game_ui_.IsMainMenu();
+        if (ui_frozen) {
+            movement_input_ = {};
+            attack_held_ = false;
+        }
         while (frame_timer_.ShouldSimulate()) {
+            if (ui_frozen) {
+                frame_timer_.ConsumeSimStep();
+                continue;
+            }
             if (replay_ != nullptr && !ApplyReplayInputForNextTick()) {
                 FinalizeInteractiveTest(
                     "PASS", "replay input stream exhausted: " +
@@ -1796,9 +2441,20 @@ int Application::Run() {
         }
 
         if (scene_mode_) {
-            // Animation time is advanced by fixed ticks, but the rendered
-            // sprite is evaluated here so a frame always reflects the latest
-            // deterministic animation state.
+            // Render interpolation: gameplay stays at 50 Hz, but the visual
+            // camera/player position is sampled between the previous and
+            // current fixed states for a smooth 60 FPS presentation.
+            const float alpha = static_cast<float>(
+                std::clamp(frame_timer_.GetInterpolationAlpha(), 0.0, 1.0));
+            render_player_position_ = previous_player_position_ +
+                (player_.Position() - previous_player_position_) * alpha;
+            render_camera_ = camera_;
+            render_camera_.position = previous_camera_position_ +
+                (camera_.position - previous_camera_position_) * alpha;
+            if (!scene_mode_) {
+                render_camera_.position = camera_.position;
+                render_player_position_ = player_.Position();
+            }
             BuildRenderBatch();
         }
 
@@ -1808,7 +2464,7 @@ int Application::Run() {
             // surface. The compositor will send RESTORED when it is ready.
             SDL_Delay(16);
         } else {
-            if (!renderer_->Render(sprite_batch_, camera_)) {
+            if (!renderer_->Render(sprite_batch_, render_camera_)) {
                 LOG_FATAL_APP("Renderer frame failed");
                 render_failed = true;
                 running_ = false;

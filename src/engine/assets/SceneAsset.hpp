@@ -103,6 +103,13 @@ struct SceneCharacter {
     int32_t dead_sprite_index = -1;
     std::string idle_animation_id;
     std::string run_animation_id;
+    std::string hit_animation_id;
+    std::string death_animation_id;
+    int32_t max_hp = 0;
+    int32_t max_armor = 0;
+    int32_t max_energy = 0;
+    float speed = 0.0f;
+    float speed_rate = 0.0f;
 };
 
 // Recovered RoleAttributePlayer values for the playable dev-room character.
@@ -227,6 +234,13 @@ struct SceneCamera {
     float viewport_height = 1080.0f;
 };
 
+struct InteractionMarker {
+    std::string id;
+    std::string kind;
+    Vec2 position{0.0f, 0.0f};
+    float radius = 2.0f;
+};
+
 struct SceneAsset {
     std::string id;
     std::vector<TextureAsset> textures;
@@ -246,7 +260,9 @@ struct SceneAsset {
     std::vector<EnemyDefinition> enemy_definitions;
     std::vector<EnemyFixture> enemy_fixtures;
     std::vector<SceneDoor> doors;
+    std::vector<InteractionMarker> interaction_markers;
     bool has_room_topology = false;
+    bool is_hub = false;
 
     int32_t FindSpriteIndex(const std::string& sprite_id) const {
         for (std::size_t i = 0; i < sprites.size(); ++i) {

@@ -4,11 +4,12 @@
 
 **Target:** JSON + schema versioning, XDG compliance, fast save/load
 
-> **Implementation status — 2026-10-31.** A native version-1 JSON save exists in
+> **Implementation status — 2026-10-31 (v2).** A native version-2 JSON save exists in
 > `src/game/save/`: `SaveData`, `SaveSerializer`, `SaveManager`. It writes
 > `$XDG_DATA_HOME/liteknight/saves/slot_0.json` atomically, keeps
 > `slot_0.json.bak`, falls back to the backup on corruption, and rejects future
-> versions. Unit tests cover round-trip, missing/corrupt files, migration,
+> versions. v1 saves migrate additively with progression/settings defaults.
+> Unit tests cover round-trip, missing/corrupt files, migration,
 > invalid ranges, atomic replacement, backup recovery and deletion. This remains
 > a **native design**, not decoded RGSaveManager parity. The larger schema below
 > is a design proposal; only the implemented subset is active.

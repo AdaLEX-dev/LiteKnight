@@ -3,6 +3,7 @@
 
 #include "engine/assets/TextureData.hpp"
 #include "engine/rendering/DebugText.hpp"
+#include "platform/filesystem/FileSystem.hpp"
 #include "game/combat/Damage.hpp"
 #include "game/player/Energy.hpp"
 #include "game/weapons/WeaponInventory.hpp"
@@ -59,6 +60,11 @@ struct DevOverlayContext {
     std::uint64_t render_frames = 0;
     std::size_t active_projectiles = 0;
     std::size_t pickups = 0;
+    int logical_width = 1920;
+    int logical_height = 1080;
+    int framebuffer_width = 1920;
+    int framebuffer_height = 1080;
+    float framebuffer_scale = 1.0f;
 };
 
 // The developer UI is deliberately a native overlay, not the production menu.
@@ -67,10 +73,14 @@ struct DevOverlayContext {
 class DevOverlay {
 public:
     bool BuildFont();
+    bool LoadPixelFont(const platform::FileSystem& filesystem,
+                       const std::string& json_path, std::string* error);
+    bool HasPixelFont() const { return text_.HasPixelFont(); }
     const engine::assets::TextureData& FontTexture() const {
         return text_.Atlas();
     }
     const engine::rendering::DebugTextRenderer& Text() const { return text_; }
+    engine::rendering::DebugTextRenderer& Text() { return text_; }
 
     bool OverlayVisible() const { return overlay_visible_; }
     void ToggleOverlay() { overlay_visible_ = !overlay_visible_; }

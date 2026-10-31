@@ -43,6 +43,10 @@ Generated pixels are gitignored. See `docs/legal/reference-assets.md`.
 | Input | Action |
 |---|---|
 | `F2` / `F3` | save / load native slot 0 |
+| `P` | pause / resume |
+| `F4` | collision/visual/sort debug bounds |
+| `T` | Living Room <-> r1_1 transition |
+| `H` / `B` | character station / weapon station (hub) |
 | `F5` | asset laboratory |
 | `F6` | character selector |
 | `F7` | weapon selector |
@@ -52,9 +56,9 @@ Generated pixels are gitignored. See `docs/legal/reference-assets.md`.
 | `F12` | clear enemies |
 | `F10` | developer overlay |
 | `1` / `2` | primary / secondary weapon slot |
-| `E` / `G` | pick up / spawn a weapon pickup |
+| `E` / `G` | interact/pick up / spawn a weapon pickup |
 | `R` | reset player/combat/enemies/doors/obstacles to deterministic initial state |
-| `Esc` | close selector/asset lab or quit |
+| `Esc` | close selector/asset lab, back, or quit |
 
 Selectors use `A/D` or left/right/up/down, `Enter` to confirm, `Esc` to return.
 Legacy controls remain available when a selector is closed.

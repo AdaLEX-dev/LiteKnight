@@ -38,7 +38,8 @@ def finite(*values: Any) -> bool:
     return True
 
 
-def audit(scene_path: Path, inventory_path: Path, require_generated: bool) -> Audit:
+def audit(scene_path: Path, inventory_path: Path, require_generated: bool,
+          generated_root: Path | None = None) -> Audit:
     result = Audit()
     scene = json.loads(scene_path.read_text(encoding="utf-8"))
     inventory = json.loads(inventory_path.read_text(encoding="utf-8"))
@@ -54,12 +55,15 @@ def audit(scene_path: Path, inventory_path: Path, require_generated: bool) -> Au
             result.error(f"duplicate texture id: {texture_id}")
         texture_ids[texture_id] = texture
         source_id = str(texture.get("source_path_id", ""))
+        source_cab = str(texture.get("source_cab", ""))
+        source_name = str(texture.get("source_name", ""))
+        source_key = (source_cab, source_id, source_name)
         if source_id:
-            if source_id in source_ids and source_ids[source_id] != texture_id:
+            if source_key in source_ids and source_ids[source_key] != texture_id:
                 result.error(
                     f"conflicting source_path_id {source_id}: "
-                    f"{source_ids[source_id]} vs {texture_id}")
-            source_ids[source_id] = texture_id
+                    f"{source_ids[source_key]} vs {texture_id}")
+            source_ids[source_key] = texture_id
         width = texture.get("width")
         height = texture.get("height")
         if not isinstance(width, int) or not isinstance(height, int) or width <= 0 or height <= 0:
@@ -69,7 +73,8 @@ def audit(scene_path: Path, inventory_path: Path, require_generated: bool) -> Au
         if texture.get("format") not in ("RGBA32", "RGBA4444"):
             result.warn(f"unexpected source texture format: {texture_id} {texture.get('format')}")
         if require_generated:
-            generated = ROOT / "assets/generated/visual/r1_1_visual" / texture.get("png", "")
+            root = generated_root or (ROOT / "assets/generated/visual/r1_1_visual")
+            generated = root / texture.get("png", "")
             if not generated.is_file():
                 result.error(f"missing generated texture: {generated.relative_to(ROOT)}")
 
@@ -159,6 +164,13 @@ def audit(scene_path: Path, inventory_path: Path, require_generated: bool) -> Au
     return result
 
 
+def _relative(path: Path) -> str:
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path)
+
+
 def write_reports(result: Audit, scene_path: Path, inventory_path: Path,
                   report_dir: Path) -> None:
     report_dir.mkdir(parents=True, exist_ok=True)
@@ -166,8 +178,8 @@ def write_reports(result: Audit, scene_path: Path, inventory_path: Path,
     document = {
         "schema": 1,
         "tool": "tools/asset/audit_assets.py",
-        "scene": str(scene_path.relative_to(ROOT)),
-        "inventory": str(inventory_path.relative_to(ROOT)),
+        "scene": _relative(scene_path),
+        "inventory": _relative(inventory_path),
         "status": status,
         "counts": result.counts,
         "errors": result.errors,
@@ -204,12 +216,15 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scene", type=Path, default=DEFAULT_SCENE)
     parser.add_argument("--inventory", type=Path, default=DEFAULT_INVENTORY)
+    parser.add_argument("--generated-root", type=Path,
+                        default=ROOT / "assets/generated/visual/r1_1_visual")
     parser.add_argument("--report-dir", type=Path,
                         default=ROOT / "analysis/assets")
     parser.add_argument("--require-generated", action="store_true",
                         help="also fail when generated local texture PNGs are absent")
     args = parser.parse_args()
-    result = audit(args.scene, args.inventory, args.require_generated)
+    result = audit(args.scene, args.inventory, args.require_generated,
+                   args.generated_root)
     write_reports(result, args.scene, args.inventory, args.report_dir)
     print(f"LiteKnight asset audit: {args.scene}")
     print(f"  errors: {len(result.errors)}  warnings: {len(result.warnings)}")
@@ -217,7 +232,7 @@ def main() -> int:
         print(f"  ERROR: {message}")
     for message in result.warnings:
         print(f"  WARN:  {message}")
-    print(f"  Reports: {args.report_dir.relative_to(ROOT)}/audit-report.json/.txt")
+    print(f"  Reports: {args.report_dir}/audit-report.json/.txt")
     if result.errors:
         return 1
     print("  RESULT: metadata integrity PASS")

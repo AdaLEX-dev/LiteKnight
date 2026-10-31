@@ -311,7 +311,7 @@ void AssetLab::Draw(engine::rendering::SpriteBatch& batch,
     text.DrawText(batch, std::string("[ / ] CATEGORY: ") + CategoryName(),
                   {center.x - 10.9f, center.y + 5.55f}, scale * 0.85f,
                   Color{190, 210, 240, 255}, 106);
-    text.DrawText(batch, "COMMA/DOT: ITEM   SPACE: PLAY/PAUSE   N: STEP",
+    text.DrawText(batch, "COMMA/DOT: ITEM   SPACE: PLAY/PAUSE   F: STEP   R: RESTART",
                   {center.x - 10.9f, center.y + 5.2f}, scale * 0.65f,
                   Color{150, 175, 205, 255}, 106);
     text.DrawText(batch, "ENTER: USE   ESC: CLOSE",
@@ -346,8 +346,20 @@ void AssetLab::Draw(engine::rendering::SpriteBatch& batch,
                   ppu, pivot.x, pivot.y);
     row(line);
     if (const auto* clip = CurrentClip(scene); clip != nullptr) {
-        std::snprintf(line, sizeof(line), "ANIMATION: %s  T=%.3f S",
-                      Upper(clip->id).c_str(), static_cast<float>(time_));
+        std::snprintf(line, sizeof(line), "ANIMATION: %s",
+                      Upper(clip->id).c_str());
+        row(line);
+        std::snprintf(line, sizeof(line),
+                      "FRAME: %zu/%zu  TIME: %.3f/%.3f S",
+                      clip->tracks.empty() ? 0U :
+                        clip->tracks.front().keys.size(),
+                      clip->tracks.empty() ? 0U :
+                        clip->tracks.front().keys.size(),
+                      static_cast<float>(time_), clip->duration);
+        row(line);
+        std::snprintf(line, sizeof(line),
+                      "SAMPLE: %.1f HZ  LOOP: %s  MODE: ACTIVE",
+                      clip->sample_rate, clip->loop ? "YES" : "NO");
         row(line);
     }
     if (category_ == AssetCategory::Weapons) {

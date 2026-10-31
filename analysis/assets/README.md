@@ -127,11 +127,13 @@ the entire local reference tree:
 
 - 365 Texture2D records
 - 6408 Sprite records
-- 2098 AnimationClip records
+- 2098 AnimationClip records (45 integrated idle/run/death clips)
 - 15 unique character IDs
 - 365 unique weapon IDs
 - 125 unique enemy IDs
 - 54,891 GameObject instances / 5,275 unique GameObject names
+- HeroRoom Living Room: 45 textures, 443 sprites, 4,260 instances, 91 solid
+  collider bounds and 4 interaction markers (`analysis/assets/scenes/hero_room.json`)
 
 `asset_inventory.json` records the maturity ladder for integrated categories:
 `DISCOVERED`, `EXTRACTED`, `TRANSLATED`, `VALIDATED`, `INTEGRATED`,

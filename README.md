@@ -7,10 +7,13 @@ playable **developer room**. The executable is not a mock-up: movement,
 collision, camera, animated doors, obstacle switching, character switching,
 weapon fire, projectiles, damage, enemy death, player death, reset, live enemy
 pursuit, energy/HUD, two weapon slots, weapon pickup and save/load all run
-through the native fixed-step simulation. The asset laboratory and serialized
-interactive test harness are part of the same executable.
+through the native fixed-step simulation. A 1920x1080 logical pixel UI,
+recovered pixel_bold font, pause/settings/main menu, Living Room hub, character
+and weapon stations, room transition, and native save/load are part of the same
+executable. The asset laboratory and serialized interactive test harness remain
+available.
 
-- **Version:** `0.2.0-dev`
+- **Version:** `0.3.0-dev`
 - **Platform:** Linux, Wayland only, Vulkan 1.3+
 - **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 (local reference only)
 - **Simulation:** 50 Hz fixed step; 60 FPS render target
@@ -53,7 +56,8 @@ Useful variants:
 ```bash
 ./scripts/build-dev.sh        # configure + build
 ./scripts/test.sh             # CTest
-./scripts/run-devroom.sh      # launch only
+./scripts/run-devroom.sh      # launch devroom only
+./scripts/play.sh             # main menu -> Living Room
 ./scripts/smoke-devroom.sh    # non-interactive playable check
 ./scripts/prepare-assets.sh   # full local reference/native preparation
 ./scripts/audit-assets.sh     # metadata + generated-pixel audit
@@ -119,12 +123,23 @@ source-controlled. Generated pixels remain gitignored. See
 - Asset laboratory (`--asset-lab`, `F5`) with category/item cycling and playback
 - Serialized interactive tests and deterministic replay (`scripts/test-interactive.sh`)
 - Versioned native save/load at `$XDG_DATA_HOME/liteknight/saves/` (`F2`/`F3`)
+- 1920x1080 logical 16:9 coordinate contract with framebuffer letterboxing
+- Recovered `pixel_bold` bitmap font, measured/centered text and pixel snapping
+- Top-left HP/armor/energy HUD with recovered/parity-styled icons and weapon slots
+- Pause, Settings, Main Menu and character/weapon station screens
+- Recovered Living Room (`level2`/HeroRoom) with tilemap floor, NPCs, furniture,
+  collision, character station, forge station, garden plots and hub door
+- Two-room state-preserving transition between Living Room and recovered `r1_1`
+- Empty equipment state, E pickup prompt/replacement, two slots and Q switching
+- Idle/run/death character clips with render interpolation and hit flash
+- Versioned save v2 with hub/settings/progression fields
 - Deterministic tests, Debug ASan/UBSan build, Vulkan validation support
 
-Known limitations: full EnemyAI04 scouting/pathfinding, room transitions, start
-GUI, hub, forge, plants, production UI/audio/items and most of the recovered
-catalogue are not integrated. Room transitions and the hub are not claimed as
-working. See [project state](docs/PROJECT_STATE.md) and
+Known limitations: full EnemyAI04 scouting/pathfinding, procedural dungeon
+rooms, production forge recipes/plant economy, full audio/effects/items and most
+of the recovered catalogue are not integrated. The two-room transition is not a
+procedural dungeon. UI icons are native parity recreations where exact icon
+sprite mapping remains UNKNOWN. See [project state](docs/PROJECT_STATE.md) and
 [known gaps](docs/ROADMAP.md).
 
 ---
@@ -137,19 +152,23 @@ working. See [project state](docs/PROJECT_STATE.md) and
 | `J`, `Space`, left mouse | attack (native test binding) |
 | mouse / right stick / keypad `8,2,4,6` | aim (native test binding; facing stays movement-driven) |
 | `F2` / `F3` | save / load native slot 0 |
+| `P` | pause / resume |
+| `F4` | collision/visual/sort debug bounds |
+| `T` | Living Room <-> r1_1 transition |
+| `H` / `B` | character station / weapon station (hub) |
 | `F5` | asset laboratory |
 | `F6` | character selector |
 | `F7` | weapon selector |
 | `F8` | enemy selector |
 | `F9` / `F11` / `F12` | spawn one / spawn five / clear enemies |
-| `F10` | developer overlay |
+| `F10` | developer overlay (logical/framebuffer/scale) |
 | `1` / `2` | primary / secondary weapon slot |
-| `E` / `G` | pick up / spawn weapon pickup |
+| `E` / `G` | interact/pick up / spawn weapon pickup |
 | `Ctrl+1..9`, `Ctrl+0`, `[` / `]` | legacy character shortcuts |
-| `P` | cycle solid recovered obstacle variant |
+| `Y` | cycle solid recovered obstacle variant |
 | `O` / `C` | toggle / close animated doors |
 | `R` | deterministic dev reset |
-| `Esc` | close selector / quit |
+| `Esc` | close selector/asset lab, back, or pause |
 
 Selectors use `A/D` or arrows to navigate and `Enter` to confirm. Character
 selection preserves the player position, collision, camera, and combat state.
@@ -164,10 +183,10 @@ ctest --test-dir build --output-on-failure
 ./scripts/smoke-devroom.sh
 ```
 
-Current baseline: **115 test cases / 4983 assertions** (RelWithDebInfo and Debug
-ASan/UBSan), Vulkan validation clean, real Wayland/Vulkan devroom smoke passes,
-and interactive replay reproduces recorded combat state exactly. The counts in
-`docs/TESTING.md` are authoritative for the exact commit.
+Current baseline: **129 test cases / 5090 assertions** (RelWithDebInfo and Debug
+ASan/UBSan), three CTest entries including the Living Room audit, Vulkan
+validation clean, and interactive replay reproduces recorded combat state
+exactly. The counts in `docs/TESTING.md` are authoritative for the exact commit.
 
 The CI workflow builds/tests only source-controlled metadata and native code; it
 does not require the proprietary reference bundle tree.
@@ -195,6 +214,8 @@ Development docs:
 - [DEVROOM.md](docs/development/DEVROOM.md)
 - [WORKFLOW.md](docs/development/WORKFLOW.md)
 - [Asset laboratory](docs/development/ASSET_LAB.md)
+- [Native pixel UI](docs/development/UI.md)
+- [Living Room](docs/development/LIVING_ROOM.md)
 - [Serialized interactive tests](docs/development/INTERACTIVE_TESTS.md)
 - [DEVROOM architecture](docs/architecture/DEVROOM.md)
 - [PIPELINE.md](docs/assets/PIPELINE.md)

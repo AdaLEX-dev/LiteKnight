@@ -1,6 +1,13 @@
 {
   "animations": [
     {
+      "id": "c00_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c00_dead.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
       "id": "c00_idle",
       "license_status": "UNKNOWN",
       "metadata": "animations/c00_idle.json",
@@ -11,6 +18,13 @@
       "id": "c00_run",
       "license_status": "UNKNOWN",
       "metadata": "animations/c00_run.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "c01_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c01_dead.json",
       "redistribution": "local_only",
       "status": "INTEGRATED"
     },
@@ -29,6 +43,13 @@
       "status": "INTEGRATED"
     },
     {
+      "id": "c02_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c02_dead.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
       "id": "c02_idle",
       "license_status": "UNKNOWN",
       "metadata": "animations/c02_idle.json",
@@ -39,6 +60,13 @@
       "id": "c02_run",
       "license_status": "UNKNOWN",
       "metadata": "animations/c02_run.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "c03_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c03_dead.json",
       "redistribution": "local_only",
       "status": "INTEGRATED"
     },
@@ -57,6 +85,13 @@
       "status": "INTEGRATED"
     },
     {
+      "id": "c04_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c04_dead.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
       "id": "c04_idle",
       "license_status": "UNKNOWN",
       "metadata": "animations/c04_idle.json",
@@ -67,6 +102,13 @@
       "id": "c04_run",
       "license_status": "UNKNOWN",
       "metadata": "animations/c04_run.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "c05_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c05_dead.json",
       "redistribution": "local_only",
       "status": "INTEGRATED"
     },
@@ -85,6 +127,13 @@
       "status": "INTEGRATED"
     },
     {
+      "id": "c06_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c06_dead.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
       "id": "c06_idle",
       "license_status": "UNKNOWN",
       "metadata": "animations/c06_idle.json",
@@ -95,6 +144,13 @@
       "id": "c06_run",
       "license_status": "UNKNOWN",
       "metadata": "animations/c06_run.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "c07_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c07_dead.json",
       "redistribution": "local_only",
       "status": "INTEGRATED"
     },
@@ -113,6 +169,13 @@
       "status": "INTEGRATED"
     },
     {
+      "id": "c08_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c08_dead.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
       "id": "c08_idle",
       "license_status": "UNKNOWN",
       "metadata": "animations/c08_idle.json",
@@ -123,6 +186,13 @@
       "id": "c08_run",
       "license_status": "UNKNOWN",
       "metadata": "animations/c08_run.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "c09_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c09_dead.json",
       "redistribution": "local_only",
       "status": "INTEGRATED"
     },
@@ -141,6 +211,13 @@
       "status": "INTEGRATED"
     },
     {
+      "id": "c10_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c10_dead.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
       "id": "c10_idle",
       "license_status": "UNKNOWN",
       "metadata": "animations/c10_idle.json",
@@ -151,6 +228,13 @@
       "id": "c10_run",
       "license_status": "UNKNOWN",
       "metadata": "animations/c10_run.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "c11_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c11_dead.json",
       "redistribution": "local_only",
       "status": "INTEGRATED"
     },
@@ -169,6 +253,13 @@
       "status": "INTEGRATED"
     },
     {
+      "id": "c12_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c12_dead.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
       "id": "c12_idle",
       "license_status": "UNKNOWN",
       "metadata": "animations/c12_idle.json",
@@ -183,6 +274,13 @@
       "status": "INTEGRATED"
     },
     {
+      "id": "c13_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c13_dead.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
       "id": "c13_idle",
       "license_status": "UNKNOWN",
       "metadata": "animations/c13_idle.json",
@@ -193,6 +291,13 @@
       "id": "c13_run",
       "license_status": "UNKNOWN",
       "metadata": "animations/c13_run.json",
+      "redistribution": "local_only",
+      "status": "INTEGRATED"
+    },
+    {
+      "id": "c14_dead",
+      "license_status": "UNKNOWN",
+      "metadata": "animations/c14_dead.json",
       "redistribution": "local_only",
       "status": "INTEGRATED"
     },
@@ -421,6 +526,22 @@
         "note": "AudioClip discovery only"
       },
       "status": "UNRECOVERED"
+    },
+    {
+      "category": "living_room",
+      "integrated": 4260,
+      "lifecycle": {
+        "DEVROOM_TESTED": 1,
+        "DISCOVERED": 4260,
+        "EXTRACTED": 4260,
+        "INTEGRATED": 4260,
+        "TRANSLATED": 4260,
+        "VALIDATED": 4260,
+        "highest": "DEVROOM_TESTED",
+        "note": "recovered HeroRoom tilemaps/sprites/colliders"
+      },
+      "note": "HeroRoom hub with tilemaps, collision, markers and station UI",
+      "status": "DEVROOM_TESTED"
     }
   ],
   "characters": [
@@ -742,13 +863,18 @@
     "unknown": "unreviewed recovered content"
   },
   "scene": "analysis/assets/scenes/r1_1_visual.json",
-  "scene_sha256": "77bc1fa75caf24ef1f4cf512da069b607a014cfef8f4bf0c46c5924772325059",
+  "scene_sha256": "4e0541593ff71920daa6bb938abd7c63e0209d2899d33251d90250bf81c07270",
   "schema": 1,
   "summary": {
-    "animations_integrated": 30,
+    "animations_integrated": 45,
     "characters_integrated": 15,
     "doors_integrated": 4,
     "enemies_integrated": 1,
+    "hub_scene": "analysis/assets/scenes/hero_room.json",
+    "hub_scene_collision_solids": 91,
+    "hub_scene_instances": 4260,
+    "hub_scene_interaction_markers": 4,
+    "hub_scene_sprites": 443,
     "lifecycle_statuses": [
       "DISCOVERED",
       "EXTRACTED",
@@ -760,7 +886,7 @@
     "not_integrated_categories": 5,
     "obstacle_variants": 12,
     "placeholders": [
-      "developer 5x7 text atlas (PLACEHOLDER)"
+      "developer 5x7 text atlas (fallback only; pixel_bold atlas is local)"
     ],
     "reference_candidates_observed": {
       "characters": 15,

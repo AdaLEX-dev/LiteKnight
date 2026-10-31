@@ -14,6 +14,7 @@
 #include "engine/locomotion/FacingDirection.hpp"
 #include "engine/assets/TextureData.hpp"
 #include "engine/rendering/Camera2D.hpp"
+#include "engine/rendering/LogicalViewport.hpp"
 #include "engine/rendering/PlayerRenderSync.hpp"
 #include "engine/rendering/SpriteBatch.hpp"
 #include "engine/rendering/SpriteRenderer.hpp"
@@ -26,6 +27,10 @@
 #include "game/test/InteractiveTest.hpp"
 #include "game/ui/AssetLab.hpp"
 #include "game/ui/DevOverlay.hpp"
+#include "game/ui/GameUI.hpp"
+#include "game/ui/UIAssets.hpp"
+#include "game/ui/UIRenderer.hpp"
+#include "game/hub/PlantSystem.hpp"
 #include "game/player/Energy.hpp"
 #include "game/save/SaveManager.hpp"
 #include "game/weapons/WeaponInventory.hpp"
@@ -33,6 +38,7 @@
 #include "game/weapons/WeaponRegistry.hpp"
 #include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
+#include "game/room/RoomManager.hpp"
 
 #include <filesystem>
 #include <memory>
@@ -68,6 +74,13 @@ public:
 private:
     void PollEvents();
     void HandleSceneKeyDown(SDL_Scancode scancode, SDL_Keymod modifiers);
+    void HandleUIKey(SDL_Scancode scancode, SDL_Keymod modifiers);
+    void ProcessUIAction();
+    void DrawGameUI();
+    bool LoadAlternateRoom();
+    void SwitchRoom();
+    bool NearOpenDoor() const;
+    void DrawCollisionDebug();
     void FixedUpdate(double dt);
     void ExerciseWindowIfRequested();
     void BuildRenderBatch();
@@ -83,8 +96,11 @@ private:
     void UpdateAimInput(const platform::InputSnapshot* snapshot = nullptr);
     void ConfigureActiveWeapon();
     void SwitchWeaponSlot(std::size_t slot);
+    void ApplyActiveCharacterStats();
     void SpawnWeaponPickup(std::size_t weapon_index);
-    void TryPickupWeapon();
+    bool TryPickupWeapon();
+    void TryInteract();
+    const engine::assets::InteractionMarker* NearbyInteraction() const;
     void SaveGameToDisk();
     void LoadGameFromDisk();
     void SpawnSelectedEnemy(int count);
@@ -114,6 +130,7 @@ private:
     engine::collision::AabbCollisionWorld collision_world_;
     engine::rendering::PlayerRenderBinding player_render_;
     soulknight::game::room::RoomDoorController room_doors_;
+    soulknight::game::room::RoomManager room_manager_;
     soulknight::game::room::ObstacleField obstacles_;
     soulknight::game::player::PlayerCharacterSet player_characters_;
     soulknight::game::weapons::WeaponRegistry weapons_;
@@ -121,6 +138,9 @@ private:
     soulknight::game::weapons::WeaponPickupSystem weapon_pickups_;
     std::unique_ptr<soulknight::game::save::SaveManager> save_manager_;
     soulknight::game::ui::DevOverlay dev_ui_;
+    soulknight::game::ui::GameUI game_ui_;
+    soulknight::game::ui::UIRenderer ui_renderer_;
+    soulknight::game::ui::UIAssets ui_assets_;
     soulknight::game::ui::AssetLab asset_lab_;
     soulknight::game::test::InteractiveTest interactive_test_;
     std::unique_ptr<soulknight::game::test::InteractiveReplay> replay_;
@@ -130,7 +150,13 @@ private:
     soulknight::game::enemy::EnemySystem enemies_;
     soulknight::game::combat::HealthState player_health_;
     soulknight::game::player::EnergyState player_energy_;
+    soulknight::game::hub::PlantSystem plant_system_;
     engine::Vec2 aim_direction_{1.0f, 0.0f};
+    engine::Vec2 previous_player_position_{0.0f, 0.0f};
+    engine::Vec2 render_player_position_{0.0f, 0.0f};
+    engine::Vec2 previous_camera_position_{0.0f, 0.0f};
+    engine::Camera2D render_camera_;
+    engine::rendering::LogicalViewport logical_viewport_;
     bool mouse_aim_valid_ = false;
     engine::locomotion::FacingDirection facing_ =
         engine::locomotion::FacingDirection::Right;
@@ -146,6 +172,11 @@ private:
     int animation_logs_remaining_ = 0;
     std::vector<engine::rendering::TextureUpload> texture_uploads_;
     bool scene_mode_ = false;
+    bool alternate_room_available_ = false;
+    soulknight::engine::assets::SceneAsset alternate_scene_;
+    bool main_menu_started_ = false;
+    bool collision_debug_ = false;
+    float hit_flash_timer_ = 0.0f;
     int exit_code_ = 0;
     std::filesystem::path project_root_;
     std::string scene_sha256_;

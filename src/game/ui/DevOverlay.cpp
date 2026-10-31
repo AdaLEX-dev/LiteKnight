@@ -56,7 +56,13 @@ void DrawSpriteFromScene(engine::rendering::SpriteBatch& batch,
 } // namespace
 
 bool DevOverlay::BuildFont() {
-    return text_.BuildAtlas();
+    return text_.BuildFont();
+}
+
+bool DevOverlay::LoadPixelFont(const platform::FileSystem& filesystem,
+                               const std::string& json_path,
+                               std::string* error) {
+    return text_.LoadPixelFont(filesystem, json_path, error);
 }
 
 void DevOverlay::OpenMenu(DevMenu menu, std::size_t initial_index,
@@ -120,8 +126,8 @@ void DevOverlay::Draw(SpriteBatch& batch, const DevOverlayContext& context) cons
 
 void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& context,
                              float left, float top, float scale) const {
-    const float panel_w = 12.2f;
-    const float panel_h = 6.6f;
+    const float panel_w = 13.6f;
+    const float panel_h = 8.0f;
     text_.DrawPanel(batch, {left - 0.15f, top + 0.15f},
                     {panel_w, panel_h}, Color{8, 12, 20, 205}, 100);
     float y = top;
@@ -134,6 +140,14 @@ void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& contex
     line("LITEKNIGHT");
     line(std::string("VERSION: ") + context.version + "  BUILD: " + context.build);
     char buffer[192];
+    std::snprintf(buffer, sizeof(buffer),
+                  "LOGICAL: %dx%d  FRAMEBUFFER: %dx%d",
+                  context.logical_width, context.logical_height,
+                  context.framebuffer_width, context.framebuffer_height);
+    line(buffer);
+    std::snprintf(buffer, sizeof(buffer),
+                  "SCALE: %.3fx  ASPECT: 16:9", context.framebuffer_scale);
+    line(buffer);
     std::snprintf(buffer, sizeof(buffer), "FPS: %.1f  FRAME: %.2f MS",
                   fps, context.frame_ms);
     line(buffer);
@@ -145,7 +159,9 @@ void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& contex
          (context.characters != nullptr && context.characters->Count() > 0
               ? Upper(context.characters->Active().id) : "NONE"));
     line(std::string("WEAPON: ") +
-         (context.weapons != nullptr && context.weapons->Count() > 0
+         (context.weapons != nullptr && context.weapon_inventory != nullptr &&
+                  context.weapon_inventory->SlotOccupied(
+                      context.weapon_inventory->ActiveSlot())
               ? Upper(context.weapons->Active().id) : "NONE"));
     if (context.weapon_inventory != nullptr && context.weapons != nullptr) {
         const std::size_t primary = context.weapon_inventory->Slot(0);
@@ -181,8 +197,8 @@ void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& contex
     line(std::string("ROOM: ") + context.room_id);
     line(std::string("RENDERER: ") + context.renderer + "  PLATFORM: " +
          context.platform);
-    line("F6 CHARACTERS  F7 WEAPONS  F8 ENEMIES  F10 OVERLAY");
-    line("F9 SPAWN  F11 SPAWN X5  F12 CLEAR  R RESET");
+    line("F4 COLLISION DEBUG  F6 CHARACTERS  F7 WEAPONS  F8 ENEMIES");
+    line("F9 SPAWN  F11 SPAWN X5  F12 CLEAR  P PAUSE  R RESET");
 }
 
 void DevOverlay::DrawCharacterMenu(SpriteBatch& batch,

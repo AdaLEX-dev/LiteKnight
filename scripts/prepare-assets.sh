@@ -10,6 +10,8 @@ ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 BUILD_DIR="${LITEKNIGHT_BUILD_DIR:-${ROOT}/build}"
 SCENE_DIR="${BUILD_DIR}/assets/scenes/r1_1_visual"
 SOURCE_DIR="${ROOT}/assets/generated/visual/r1_1_visual"
+HUB_SCENE_DIR="${BUILD_DIR}/assets/scenes/hero_room"
+HUB_SOURCE_DIR="${ROOT}/assets/generated/visual/hero_room"
 APK="${LITEKNIGHT_REFERENCE_APK:-${ROOT}/original/SoulKnight-2.6.8.apk}"
 BUNDLE_ROOT="${ROOT}/analysis/apktool_out/assets/AssetBundles"
 EXPECTED_APK_SHA256="8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea"
@@ -106,6 +108,27 @@ copy_scene() {
 copy_scene
 echo "Runtime scene: FOUND (${SCENE_DIR}/scene.json)"
 
+# 3b. Living Room / HeroRoom. The builder joins the local split sharedassets
+#     chunks and extracts level2 tilemaps, sprites and colliders.
+if [[ ${FORCE_BUILD} -eq 1 || ! -f "${HUB_SOURCE_DIR}/scene.json" ]]; then
+    if [[ -x "${ROOT}/tools/asset/.venv/bin/python" && -f "${ROOT}/analysis/apktool_out/assets/bin/Data/level2" ]]; then
+        echo "Building Living Room scene metadata/textures..."
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_hub_scene.py"
+    else
+        echo "Living Room assets: SKIPPED (local reference level2 unavailable)"
+    fi
+fi
+if [[ -f "${HUB_SOURCE_DIR}/scene.json" ]]; then
+    mkdir -p "${HUB_SCENE_DIR}"
+    if command -v rsync >/dev/null 2>&1; then
+        rsync -a --delete "${HUB_SOURCE_DIR}/" "${HUB_SCENE_DIR}/"
+    else
+        rm -rf "${HUB_SCENE_DIR}"
+        cp -a "${HUB_SOURCE_DIR}" "${HUB_SCENE_DIR}"
+    fi
+    echo "Runtime Living Room scene: FOUND (${HUB_SCENE_DIR}/scene.json)"
+fi
+
 # 4. Reference catalogue/discovery. The full scan is slower, so run it only when
 #    missing or explicitly requested.
 if [[ ${REFRESH_CATALOGUE} -eq 1 || ! -f "${CATALOGUE}" ]]; then
@@ -117,6 +140,34 @@ if [[ ${REFRESH_CATALOGUE} -eq 1 || ! -f "${CATALOGUE}" ]]; then
     fi
 else
     echo "Reference catalogue: FOUND (${CATALOGUE})"
+fi
+
+# 4a. Recovered UI atlases/title logo (local-only pixels).
+if [[ ! -f "${ROOT}/assets/generated/ui/manifest.json" ]]; then
+    if [[ -d "${BUNDLE_ROOT}" && -x "${ROOT}/tools/asset/.venv/bin/python" ]]; then
+        echo "Building local UI atlas manifest..."
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_ui_scene.py"
+    fi
+fi
+
+# 4b. Local pixel font atlas (reference-derived TTF rasterized locally). The
+#     runtime falls back to the developer atlas when this is absent.
+if [[ ! -f "${ROOT}/assets/generated/ui/font/pixel_bold.json" ]]; then
+    if [[ -d "${BUNDLE_ROOT}" && -x "${ROOT}/tools/asset/.venv/bin/python" ]]; then
+        echo "Building local pixel font atlas..."
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_ui_font.py"
+    else
+        echo "Pixel font atlas: SKIPPED (local reference font unavailable)"
+    fi
+fi
+if [[ -d "${ROOT}/assets/generated/ui" ]]; then
+    mkdir -p "${BUILD_DIR}/assets/ui"
+    if command -v rsync >/dev/null 2>&1; then
+        rsync -a --delete "${ROOT}/assets/generated/ui/" "${BUILD_DIR}/assets/ui/"
+    else
+        cp -a "${ROOT}/assets/generated/ui/." "${BUILD_DIR}/assets/ui/"
+    fi
+    echo "Runtime UI assets: FOUND (${BUILD_DIR}/assets/ui)"
 fi
 
 # 5. Inventory + validation. These are metadata-only and safe in CI.

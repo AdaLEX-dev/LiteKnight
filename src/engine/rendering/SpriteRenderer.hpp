@@ -65,7 +65,7 @@ private:
         void* mapped = nullptr;
     };
 
-    static constexpr std::size_t kMaxQuads = 4096;
+    static constexpr std::size_t kMaxQuads = 16384;
 
     bool CreateDescriptorResources(VulkanContext& context, std::size_t texture_count);
     bool CreatePipeline(VulkanContext& context);

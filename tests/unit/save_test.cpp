@@ -48,6 +48,10 @@ SaveData MakeSave() {
     data.max_energy = 180;
     data.dead = false;
     data.playtime_seconds = 42;
+    data.unlocked_characters = {"c00", "c01", "c02"};
+    data.plants = {"carrot_dev"};
+    data.fullscreen = true;
+    data.hub_visited = true;
     return data;
 }
 
@@ -88,6 +92,10 @@ TEST_CASE("Save round-trips through atomic slot file" *
     CHECK(loaded.armor == 2);
     CHECK(loaded.energy == 120);
     CHECK(loaded.playtime_seconds == 42);
+    CHECK(loaded.unlocked_characters.size() == 3);
+    CHECK(loaded.plants.size() == 1);
+    CHECK(loaded.fullscreen);
+    CHECK(loaded.hub_visited);
 }
 
 TEST_CASE("Missing save returns a diagnostic rather than a fake default" *
@@ -165,6 +173,33 @@ TEST_CASE("Version 0 native draft migrates to current schema" *
     CHECK(loaded.energy == 99);
     CHECK(loaded.position_x == doctest::Approx(7.0f));
     CHECK(loaded.position_y == doctest::Approx(8.0f));
+}
+
+TEST_CASE("Version 1 native save migrates additively to current schema" *
+          doctest::test_suite("unit")) {
+    TempSaveDirectory temp;
+    std::filesystem::create_directories(temp.Path());
+    Json v1 = Json::object();
+    v1["save_version"] = 1;
+    v1["player"] = Json::object({
+        {"character_id", "c00"},
+        {"position", Json::array({1.0f, 2.0f})},
+        {"hp", 6}, {"max_hp", 6}, {"armor", 5}, {"max_armor", 5},
+        {"energy", 180}, {"max_energy", 180}, {"dead", false}});
+    v1["inventory"] = Json::object({
+        {"weapon_slots", Json::array({"weapon_000", ""})},
+        {"active_slot", 0}});
+    WriteFile(temp.Path() / "slot_0.json", v1.dump(2));
+    SaveManager manager(temp.Path());
+    SaveData loaded;
+    std::string error;
+    CHECK(manager.Load(&loaded, &error));
+    CHECK(loaded.save_version == SaveData::kCurrentVersion);
+    CHECK(loaded.character_id == "c00");
+    CHECK(loaded.unlocked_characters.empty());
+    CHECK(loaded.plants.empty());
+    CHECK_FALSE(loaded.fullscreen);
+    CHECK_FALSE(loaded.hub_visited);
 }
 
 TEST_CASE("Future save version is rejected and never treated as current" *

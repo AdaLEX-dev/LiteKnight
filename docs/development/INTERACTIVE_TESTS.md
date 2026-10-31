@@ -51,15 +51,23 @@ step.
 ## Named scenarios
 
 ```text
-character_all  weapon_all  enemy_all      projectile_all
-object_all     door_all    combat_live    two_weapon
-energy         health      save_load      room_transition (partial)
-hub            UNRECOVERED
+character_all  weapon_all  enemy_all       projectile_all
+object_all     door_all    combat_live     two_weapon
+energy         health      save_load
+
+test-ui        test-font   test-hud        test-pause
+test-settings  test-home   test-weapon-pickup
+test-no-weapon-render        test-two-weapons
+test-energy    test-player-animation       test-character-catalogue
+test-player-obstacle-collision
+ test-living-room             test-character-select
+room_transition / test-room-transition  (Living Room <-> r1_1)
+hub (alias for Living Room)
 ```
 
-`room_transition` currently records the one-room door limitation rather than
-claiming a room transition. `hub` records the missing hub feature; no fabricated
-hub is presented as recovered content.
+`room_transition` toggles between the recovered Living Room and `r1_1` with
+state preservation. It is not procedural dungeon generation. Menu screens use
+`F1` to finalize a test when Enter is reserved for menu selection.
 
 ## Replay
 

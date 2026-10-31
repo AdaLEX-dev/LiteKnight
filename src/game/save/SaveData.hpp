@@ -8,11 +8,12 @@
 #include <array>
 #include <cstdint>
 #include <string>
+#include <vector>
 
 namespace soulknight::game::save {
 
 struct SaveData {
-    static constexpr int kCurrentVersion = 1;
+    static constexpr int kCurrentVersion = 2;
 
     int save_version = kCurrentVersion;
     std::string game_version;
@@ -30,6 +31,10 @@ struct SaveData {
     int max_energy = 0;
     bool dead = false;
     std::int64_t playtime_seconds = 0;
+    std::vector<std::string> unlocked_characters;
+    std::vector<std::string> plants;
+    bool fullscreen = false;
+    bool hub_visited = false;
 };
 
 } // namespace soulknight::game::save

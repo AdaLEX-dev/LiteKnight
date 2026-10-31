@@ -949,25 +949,31 @@ class SceneBuilder:
         if controller_ptr is None or controller_ptr.path_id == 0:
             raise SystemExit(f"{character_id} Animator has no controller")
         controller = controller_ptr.read()
-        state_machine = controller.m_Controller.m_StateMachineArray[0].data
-        state_names = {2215514825: "ide", 1349952704: "run", 3978643748: "dead"}
+        state_names = {2215514825: "ide", 1349952704: "run",
+                       3978643748: "dead", 4116247876: "hit"}
         selected_states = {
             "ide": f"{character_id}_idle",
             "run": f"{character_id}_run",
+            "dead": f"{character_id}_dead",
         }
 
-        states_by_name: dict[str, object] = {}
-        for state_offset in state_machine.m_StateConstantArray:
-            state = state_offset.data
-            state_name = state_names.get(int(state.m_NameID))
-            if state_name in selected_states:
-                states_by_name[state_name] = state
+        states_by_name: dict[str, tuple[object, int, str]] = {}
+        for sm_index, sm_offset in enumerate(
+                controller.m_Controller.m_StateMachineArray):
+            state_machine = sm_offset.data
+            layer_name = ("Base Layer" if sm_index == 0 else
+                          "HitLayer" if sm_index == 1 else f"Layer {sm_index}")
+            for state_offset in state_machine.m_StateConstantArray:
+                state = state_offset.data
+                state_name = state_names.get(int(state.m_NameID))
+                if state_name in selected_states and state_name not in states_by_name:
+                    states_by_name[state_name] = (state, sm_index, layer_name)
 
         for state_name, native_id in selected_states.items():
-            state = states_by_name.get(state_name)
-            if state is None:
+            if state_name not in states_by_name:
                 raise SystemExit(
                     f"{character_id} controller has no selected {state_name} state")
+            state, state_machine_index, layer_name = states_by_name[state_name]
             clip_index = int(
                 state.m_BlendTreeConstantArray[0].data.m_NodeArray[0].data.m_ClipID)
             clip_ptr = controller.m_AnimationClips[clip_index]
@@ -979,13 +985,19 @@ class SceneBuilder:
             sample_rate = float(clip.m_SampleRate)
 
             bindings = list(clip.m_ClipBindingConstant.genericBindings)
-            target_hash = zlib.crc32(PLAYER_BODY_PATH.encode("utf-8")) & 0xFFFFFFFF
+            target_hashes = [
+                zlib.crc32(PLAYER_BODY_PATH.encode("utf-8")) & 0xFFFFFFFF,
+                zlib.crc32(b"img/body") & 0xFFFFFFFF,
+                zlib.crc32(b"c00/img") & 0xFFFFFFFF,
+            ]
+            target_hash = target_hashes[0]
             target_index = None
             for index, binding in enumerate(bindings):
-                if (int(binding.path) == target_hash and
+                if (int(binding.path) in target_hashes and
                         int(binding.customType) == 23 and
                         int(binding.isPPtrCurve) == 1 and
                         int(getattr(binding, "typeID", 0) or 0) == 212):
+                    target_hash = int(binding.path)
                     target_index = index
                     break
             if target_index is None:
@@ -1016,6 +1028,9 @@ class SceneBuilder:
                 raise SystemExit("animation clip pptrCurveMapping is empty")
             mapping_sprite_ids: list[str] = []
             for mapping_ptr in mapping:
+                if getattr(mapping_ptr, "path_id", 0) == 0:
+                    mapping_sprite_ids.append("")
+                    continue
                 sprite_id, _ = self.ensure_sprite_asset(mapping_ptr)
                 mapping_sprite_ids.append(sprite_id)
 
@@ -1025,6 +1040,8 @@ class SceneBuilder:
                 if abs(value - rounded) > 1e-4 or not (0 <= rounded < len(mapping)):
                     raise SystemExit(
                         f"pptr curve value {value} does not index pptrCurveMapping")
+                if not mapping_sprite_ids[rounded]:
+                    continue
                 source_keys.append({
                     "time": time,
                     "sprite": mapping_sprite_ids[rounded],
@@ -1056,8 +1073,8 @@ class SceneBuilder:
                     "animator_update_mode": int(animator.m_UpdateMode),
                     "controller_path_id": str(controller_ptr.path_id),
                     "controller_name": getattr(controller, "m_Name", ""),
-                    "state_machine_index": "0",
-                    "state_machine_layer": "Base Layer",
+                    "state_machine_index": str(state_machine_index),
+                    "state_machine_layer": layer_name,
                     "state_path_id": str(state.m_PathID),
                     "state_name": state_name,
                     "state_loop": bool(state.m_Loop),
@@ -2005,8 +2022,24 @@ class SceneBuilder:
             self.extract_player_animations(root, character_id)
             state_machine = controller.m_Controller.m_StateMachineArray[0].data
             dead_sprite = self._character_dead_sprite(controller, state_machine)
+            role = None
+            for component in root.read().m_Component:
+                if component.component.type.name != "MonoBehaviour":
+                    continue
+                try:
+                    candidate = component.component.read()
+                except Exception:
+                    continue
+                if hasattr(candidate, "max_hp") and hasattr(candidate, "max_armor"):
+                    role = candidate
+                    break
             self.characters.append({
                 "id": character_id,
+                "max_hp": int(getattr(role, "max_hp", 0)) if role else 0,
+                "max_armor": int(getattr(role, "max_armor", 0)) if role else 0,
+                "max_energy": int(getattr(role, "max_energy", 0)) if role else 0,
+                "speed": float(getattr(role, "speed", 0.0)) if role else 0.0,
+                "speed_rate": float(getattr(role, "speed_rate", 0.0)) if role else 0.0,
                 "controller_name": getattr(controller, "m_Name", ""),
                 "controller_path_id": str(animator.m_Controller.path_id),
                 "source_path_id": str(root.path_id),
@@ -2014,6 +2047,7 @@ class SceneBuilder:
                 "dead_sprite": dead_sprite,
                 "idle_animation": f"{character_id}_idle",
                 "run_animation": f"{character_id}_run",
+                "death_animation": f"{character_id}_dead",
                 "classification": (
                     "CONFIRMED serialized c00..c14 character prefabs from the "
                     "common bundle; display names are not proven"),

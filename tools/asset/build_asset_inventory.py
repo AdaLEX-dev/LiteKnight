@@ -67,6 +67,9 @@ def lifecycle(discovered: int, extracted: int, translated: int,
 
 def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
     scene = json.loads(scene_path.read_text(encoding="utf-8"))
+    hub_path = ROOT / "analysis/assets/scenes/hero_room.json"
+    hub_scene = (json.loads(hub_path.read_text(encoding="utf-8"))
+                 if hub_path.is_file() else {})
     sprites_by_texture: dict[str, list[dict[str, Any]]] = {}
     for sprite in scene.get("sprites", []):
         sprites_by_texture.setdefault(sprite["texture"], []).append(sprite)
@@ -241,6 +244,17 @@ def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
         {"category": "audio", "integrated": 0, "status": "UNRECOVERED",
          "lifecycle": lifecycle(288, 0, 0, 0, 0, 0,
                                 "AudioClip discovery only")},
+        {"category": "living_room",
+         "integrated": len(hub_scene.get("instances", [])),
+         "status": "DEVROOM_TESTED" if hub_scene else "UNRECOVERED",
+         "lifecycle": lifecycle(
+             len(hub_scene.get("instances", [])),
+             len(hub_scene.get("instances", [])),
+             len(hub_scene.get("instances", [])),
+             len(hub_scene.get("instances", [])),
+             len(hub_scene.get("instances", [])), 1 if hub_scene else 0,
+             "recovered HeroRoom tilemaps/sprites/colliders"),
+         "note": "HeroRoom hub with tilemaps, collision, markers and station UI"},
     ]
 
     texture_inventory = {
@@ -290,7 +304,14 @@ def build(scene_path: Path) -> tuple[dict[str, Any], dict[str, Any]]:
             "obstacle_variants": len(scene.get("obstacles", {}).get("variants", [])),
             "reference_candidates_observed": REFERENCE_OBSERVED,
             "reference_catalogue": "analysis/assets/reference_catalogue.json",
-            "placeholders": ["developer 5x7 text atlas (PLACEHOLDER)"],
+            "placeholders": ["developer 5x7 text atlas (fallback only; pixel_bold atlas is local)"],
+            "hub_scene": "analysis/assets/scenes/hero_room.json" if hub_scene else None,
+            "hub_scene_sprites": len(hub_scene.get("sprites", [])),
+            "hub_scene_instances": len(hub_scene.get("instances", [])),
+            "hub_scene_collision_solids": len(
+                hub_scene.get("collision", {}).get("solids", [])),
+            "hub_scene_interaction_markers": len(
+                hub_scene.get("interaction_markers", [])),
             "not_integrated_categories": sum(
                 1 for item in categories if item["status"] in ("UNRECOVERED", "PLACEHOLDER")
             ),

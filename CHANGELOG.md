@@ -5,6 +5,64 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.3.0-dev] - 2026-10-31
+
+### Added
+- 1920×1080 logical 16:9 UI/render contract, letterboxing and framebuffer
+  diagnostics in the developer overlay (`LogicalViewport`).
+- Recovered `pixel_bold` TTF/atlas pipeline (`tools/asset/build_ui_font.py`,
+  `BitmapFont`, `TextRenderer`) with metrics, alignment, multiline, shadow and
+  pixel snapping. Fallback developer font remains for fresh clones.
+- Top-left HP/armor/energy HUD with parity-styled icons and two weapon slots.
+- Empty weapon equipment state; weapon rendering is suppressed when the active
+  slot is empty.
+- Physical weapon pickup prompt (`E PICK UP`), active-slot replacement/drop and
+  two-slot switching (`1`/`2`/`Q`).
+- Native pause, settings, main menu, character station and weapon station UI.
+  No social tab.
+- Recovered Living Room/HeroRoom scene: 15 tilemaps (~3,896 tiles), 443 sprites,
+  4,260 instances and 91 solid collider bounds; interactive character/forge/
+  garden/door markers.
+- State-preserving two-room transition between Living Room and `r1_1`.
+- Plant/Seed/growth/harvest foundation with deterministic development plots.
+- Character stats extraction (HP/armor/energy/speed) and death animation clips
+  for c00..c14; character selector displays real sprites and stats.
+- Save v2 with unlocked characters, plants, fullscreen/hub flags and v1
+  migration.
+- Collision/visual/sorting debug bounds (`F4`), hit flash and 60 FPS render
+  interpolation over the 50 Hz simulation.
+
+### Changed
+- Weapon inventory represents empty slots explicitly; `Weapon::Clear()`.
+- Character switching applies recovered per-character stats and speed.
+- Hub/room rendering batches raised to 16,384 quads for recovered tile counts.
+- Developer overlay uses the recovered pixel font and reports logical/
+  framebuffer/scale values.
+- Main player flow: `scripts/play.sh` opens main menu -> Living Room; devroom
+  remains direct.
+
+### Fixed
+- sRGB-authored flat UI colors are converted to linear vertex colors (no grey
+  dark panels).
+- The old bottom-left debug HUD was replaced by the reference-style top-left HUD.
+- Player camera/position render interpolation reduces 50 Hz visual judder.
+- Character death uses the recovered death clip when present.
+
+### Testing
+- 129 doctest cases / 5,090 assertions.
+- Three CTest entries: native unit tests, r1_1 asset audit, HeroRoom audit.
+- Interactive scenarios added for UI/font, pickup/no-weapon, two weapons,
+  energy/HUD, pause/settings/home, Living Room, character select, animation and
+  room transition.
+- Vulkan validation, Debug ASan/UBSan, RelWithDebInfo and devroom smoke remain
+  in the verification gate.
+
+### Assets / legal
+- Recovered UI/title and Hub pixels remain local-only and are not committed.
+- Native HUD icons are parity recreations where exact recovered icon mapping is
+  still UNKNOWN.
+- Reference save format and production hub/forge/plant rules remain UNKNOWN.
+
 ## [0.2.0-dev] - 2026-10-31
 
 ### Added

@@ -29,6 +29,16 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.devroom = true;
             config.scene_path = "scenes/r1_1_visual/scene.json";
             config.title = "LiteKnight Devroom";
+        } else if (arg == "--start-gui") {
+            config.start_gui = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight";
+        } else if (arg == "--hub") {
+            config.devroom = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Living Room";
+        } else if (arg == "--fullscreen") {
+            config.fullscreen = true;
         } else if (arg == "--asset-lab") {
             config.asset_lab = true;
             config.scene_path = "scenes/r1_1_visual/scene.json";
@@ -38,6 +48,17 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.interactive_test_name = std::string(arg.substr(19));
             config.scene_path = "scenes/r1_1_visual/scene.json";
             config.title = "LiteKnight Interactive Test";
+            const std::string& test = config.interactive_test_name;
+            if (test == "living_room" || test == "test-living-room" ||
+                test == "character_select" || test == "test-character-select" ||
+                test == "weapon_station") {
+                config.scene_path = "scenes/hero_room/scene.json";
+            }
+            if (test == "home" || test == "test-home" ||
+                test == "main_menu") {
+                config.scene_path = "scenes/hero_room/scene.json";
+                config.start_gui = true;
+            }
         } else if (arg == "--interactive-test" && i + 1 < argc) {
             config.interactive_test = true;
             config.interactive_test_name = argv[i + 1];

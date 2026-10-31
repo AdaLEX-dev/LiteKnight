@@ -49,6 +49,10 @@ public:
 
     void SetPosition(const Vec2& position) { position_ = position; }
     void SetSpeedRateBonus(float bonus) { config_.speed_rate_bonus = bonus; }
+    void SetSpeedProfile(float speed, float speed_rate) {
+        config_.speed = speed;
+        config_.speed_rate = speed_rate;
+    }
 
 private:
     LocomotionConfig config_{};

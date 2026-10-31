@@ -7,6 +7,7 @@ namespace soulknight::game::weapons {
 void WeaponInventory::Configure(std::size_t available_count) {
     count_ = available_count;
     slots_ = {0, 0};
+    occupied_ = {false, false};
     if (count_ > 1) slots_[1] = 1;
     active_slot_ = 0;
 }
@@ -14,6 +15,12 @@ void WeaponInventory::Configure(std::size_t available_count) {
 bool WeaponInventory::EquipActive(std::size_t index) {
     if (count_ == 0 || index >= count_) return false;
     slots_[active_slot_] = index;
+    occupied_[active_slot_] = true;
+    return true;
+}
+
+bool WeaponInventory::ClearActive() {
+    occupied_[active_slot_] = false;
     return true;
 }
 

@@ -39,6 +39,8 @@ public:
     void SyncRuntimeState();
 
     bool Resize(int width, int height);
+    bool SetFullscreen(bool fullscreen);
+    void SetTitle(const std::string& title);
 
     SDL_Window* GetSDLWindow() const { return sdl_window_; }
     VkSurfaceKHR CreateVulkanSurface(VkInstance instance) const;

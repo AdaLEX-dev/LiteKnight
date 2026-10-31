@@ -124,6 +124,13 @@ bool MigrateToCurrent(Json& document, std::string* error) {
     while (version < SaveData::kCurrentVersion) {
         if (version == 0) {
             if (!MigrateLegacyV0(document, error)) return false;
+        } else if (version == 1) {
+            // v1 -> v2: progression lists/settings are additive defaults.
+            document["unlocked_characters"] = Json::array();
+            document["plants"] = Json::array();
+            document["fullscreen"] = false;
+            document["hub_visited"] = false;
+            document["save_version"] = 2;
         } else {
             if (error != nullptr) {
                 *error = "no migration path from save version " +
@@ -142,6 +149,10 @@ Json Serialize(const SaveData& data) {
     document["game_version"] = data.game_version;
     document["scene_id"] = data.scene_id;
     document["playtime_seconds"] = data.playtime_seconds;
+    document["unlocked_characters"] = data.unlocked_characters;
+    document["plants"] = data.plants;
+    document["fullscreen"] = data.fullscreen;
+    document["hub_visited"] = data.hub_visited;
 
     Json player = Json::object();
     player["character_id"] = data.character_id;
@@ -221,6 +232,25 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
         !ReadInt(player, "max_energy", &loaded.max_energy, error) ||
         !ReadBool(player, "dead", &loaded.dead, error)) {
         return false;
+    }
+    if (document.contains("unlocked_characters") &&
+        document["unlocked_characters"].is_array()) {
+        for (const Json& item : document["unlocked_characters"]) {
+            if (item.is_string()) {
+                loaded.unlocked_characters.push_back(item.get<std::string>());
+            }
+        }
+    }
+    if (document.contains("plants") && document["plants"].is_array()) {
+        for (const Json& item : document["plants"]) {
+            if (item.is_string()) loaded.plants.push_back(item.get<std::string>());
+        }
+    }
+    if (document.contains("fullscreen") && document["fullscreen"].is_boolean()) {
+        loaded.fullscreen = document["fullscreen"].get<bool>();
+    }
+    if (document.contains("hub_visited") && document["hub_visited"].is_boolean()) {
+        loaded.hub_visited = document["hub_visited"].get<bool>();
     }
     if (!inventory.contains("weapon_slots") ||
         !inventory["weapon_slots"].is_array() ||

@@ -1,33 +1,48 @@
 {
   "animations": [
+    "animations/c00_dead.json",
     "animations/c00_idle.json",
     "animations/c00_run.json",
+    "animations/c01_dead.json",
     "animations/c01_idle.json",
     "animations/c01_run.json",
+    "animations/c02_dead.json",
     "animations/c02_idle.json",
     "animations/c02_run.json",
+    "animations/c03_dead.json",
     "animations/c03_idle.json",
     "animations/c03_run.json",
+    "animations/c04_dead.json",
     "animations/c04_idle.json",
     "animations/c04_run.json",
+    "animations/c05_dead.json",
     "animations/c05_idle.json",
     "animations/c05_run.json",
+    "animations/c06_dead.json",
     "animations/c06_idle.json",
     "animations/c06_run.json",
+    "animations/c07_dead.json",
     "animations/c07_idle.json",
     "animations/c07_run.json",
+    "animations/c08_dead.json",
     "animations/c08_idle.json",
     "animations/c08_run.json",
+    "animations/c09_dead.json",
     "animations/c09_idle.json",
     "animations/c09_run.json",
+    "animations/c10_dead.json",
     "animations/c10_idle.json",
     "animations/c10_run.json",
+    "animations/c11_dead.json",
     "animations/c11_idle.json",
     "animations/c11_run.json",
+    "animations/c12_dead.json",
     "animations/c12_idle.json",
     "animations/c12_run.json",
+    "animations/c13_dead.json",
     "animations/c13_idle.json",
     "animations/c13_run.json",
+    "animations/c14_dead.json",
     "animations/c14_idle.json",
     "animations/c14_run.json"
   ],
@@ -49,10 +64,16 @@
       "controller_name": "char_0_skin_0",
       "controller_path_id": "7636633949607769228",
       "dead_sprite": "c01_8_-3060927491772971668",
+      "death_animation": "c00_dead",
       "id": "c00",
       "idle_animation": "c00_idle",
+      "max_armor": 5,
+      "max_energy": 180,
+      "max_hp": 6,
       "run_animation": "c00_run",
-      "source_path_id": "477341006719182088"
+      "source_path_id": "477341006719182088",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c02_4_2533696368722729423",
@@ -60,10 +81,16 @@
       "controller_name": "char_1_skin_0",
       "controller_path_id": "4544909861760622252",
       "dead_sprite": "c02_12_-4566108353330725342",
+      "death_animation": "c01_dead",
       "id": "c01",
       "idle_animation": "c01_idle",
+      "max_armor": 3,
+      "max_energy": 180,
+      "max_hp": 5,
       "run_animation": "c01_run",
-      "source_path_id": "807205304274085047"
+      "source_path_id": "807205304274085047",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c03_4_886919620004310966",
@@ -71,10 +98,16 @@
       "controller_name": "char_2_skin_9",
       "controller_path_id": "642608917832470274",
       "dead_sprite": "c03_s9_8_487300314718891922",
+      "death_animation": "c02_dead",
       "id": "c02",
       "idle_animation": "c02_idle",
+      "max_armor": 5,
+      "max_energy": 240,
+      "max_hp": 3,
       "run_animation": "c02_run",
-      "source_path_id": "1168348965011867508"
+      "source_path_id": "1168348965011867508",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c04_4_-7867999071091526313",
@@ -82,10 +115,16 @@
       "controller_name": "char_3_skin_0",
       "controller_path_id": "5825952770403818906",
       "dead_sprite": "c04_8_2941712870547867169",
+      "death_animation": "c03_dead",
       "id": "c03",
       "idle_animation": "c03_idle",
+      "max_armor": 4,
+      "max_energy": 180,
+      "max_hp": 4,
       "run_animation": "c03_run",
-      "source_path_id": "876286124042024925"
+      "source_path_id": "876286124042024925",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c05_4_5265925524066825488",
@@ -93,10 +132,16 @@
       "controller_name": "char_4_skin_6",
       "controller_path_id": "2335676690781087344",
       "dead_sprite": "c05_s7_8_4246808436877579121",
+      "death_animation": "c04_dead",
       "id": "c04",
       "idle_animation": "c04_idle",
+      "max_armor": 5,
+      "max_energy": 180,
+      "max_hp": 5,
       "run_animation": "c04_run",
-      "source_path_id": "-8750918653079633220"
+      "source_path_id": "-8750918653079633220",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c06_4_-3777194365302842433",
@@ -104,10 +149,16 @@
       "controller_name": "char_5_skin_0",
       "controller_path_id": "5041898125028767678",
       "dead_sprite": "c06_8_-1544188320726130366",
+      "death_animation": "c05_dead",
       "id": "c05",
       "idle_animation": "c05_idle",
+      "max_armor": 5,
+      "max_energy": 180,
+      "max_hp": 5,
       "run_animation": "c05_run",
-      "source_path_id": "-2833758477232551031"
+      "source_path_id": "-2833758477232551031",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c07_4_1463359596663786837",
@@ -115,10 +166,16 @@
       "controller_name": "char_6_skin_8",
       "controller_path_id": "6442956300685693679",
       "dead_sprite": "c07_s8_8_8832478288807169244",
+      "death_animation": "c06_dead",
       "id": "c06",
       "idle_animation": "c06_idle",
+      "max_armor": 4,
+      "max_energy": 120,
+      "max_hp": 3,
       "run_animation": "c06_run",
-      "source_path_id": "7947237732622912572"
+      "source_path_id": "7947237732622912572",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c08_4_3710336989381504109",
@@ -126,10 +183,16 @@
       "controller_name": "char_7_skin_0",
       "controller_path_id": "3758672382458874556",
       "dead_sprite": "c08_8_-6409065126302074367",
+      "death_animation": "c07_dead",
       "id": "c07",
       "idle_animation": "c07_idle",
+      "max_armor": 8,
+      "max_energy": 120,
+      "max_hp": 1,
       "run_animation": "c07_run",
-      "source_path_id": "-9119891326791522651"
+      "source_path_id": "-9119891326791522651",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c09_4_-3680572327282884399",
@@ -137,10 +200,16 @@
       "controller_name": "char_8_skin_7",
       "controller_path_id": "6928425595976413047",
       "dead_sprite": "c09_s7_8_-4663798734321013105",
+      "death_animation": "c08_dead",
       "id": "c08",
       "idle_animation": "c08_idle",
+      "max_armor": 4,
+      "max_energy": 180,
+      "max_hp": 5,
       "run_animation": "c08_run",
-      "source_path_id": "7956743744005869555"
+      "source_path_id": "7956743744005869555",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c10_4_2246788773732299709",
@@ -148,10 +217,16 @@
       "controller_name": "char_9_skin_0",
       "controller_path_id": "-6150109766992458398",
       "dead_sprite": "c10_8_7440815215802235236",
+      "death_animation": "c09_dead",
       "id": "c09",
       "idle_animation": "c09_idle",
+      "max_armor": 1,
+      "max_energy": 120,
+      "max_hp": 11,
       "run_animation": "c09_run",
-      "source_path_id": "-424237070712932886"
+      "source_path_id": "-424237070712932886",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c11_4_1481129277041277472",
@@ -159,10 +234,16 @@
       "controller_name": "char_10_skin_0",
       "controller_path_id": "6298006729416303932",
       "dead_sprite": "c11_8_-2929463278745239023",
+      "death_animation": "c10_dead",
       "id": "c10",
       "idle_animation": "c10_idle",
+      "max_armor": 5,
+      "max_energy": 200,
+      "max_hp": 3,
       "run_animation": "c10_run",
-      "source_path_id": "6140759719464330234"
+      "source_path_id": "6140759719464330234",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c12_4_5717826693161860153",
@@ -170,10 +251,16 @@
       "controller_name": "char_11_skin_6",
       "controller_path_id": "1872923863050452248",
       "dead_sprite": "c12_s6_8_-117899815933696297",
+      "death_animation": "c11_dead",
       "id": "c11",
       "idle_animation": "c11_idle",
+      "max_armor": 3,
+      "max_energy": 130,
+      "max_hp": 6,
       "run_animation": "c11_run",
-      "source_path_id": "-3035991816020803956"
+      "source_path_id": "-3035991816020803956",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c13_0_-5666529826470317902",
@@ -181,10 +268,16 @@
       "controller_name": "char_12_skin_0",
       "controller_path_id": "4891092779523587718",
       "dead_sprite": "c13_8_-5748865747657373273",
+      "death_animation": "c12_dead",
       "id": "c12",
       "idle_animation": "c12_idle",
+      "max_armor": 6,
+      "max_energy": 180,
+      "max_hp": 3,
       "run_animation": "c12_run",
-      "source_path_id": "3792964550872340968"
+      "source_path_id": "3792964550872340968",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c14_0_7269486461648906396",
@@ -192,10 +285,16 @@
       "controller_name": "char_13_skin_7",
       "controller_path_id": "6024769279351972702",
       "dead_sprite": "c14_s7_8_-42999903250018685",
+      "death_animation": "c13_dead",
       "id": "c13",
       "idle_animation": "c13_idle",
+      "max_armor": 3,
+      "max_energy": 150,
+      "max_hp": 9,
       "run_animation": "c13_run",
-      "source_path_id": "7365918473955128911"
+      "source_path_id": "7365918473955128911",
+      "speed": 6.5,
+      "speed_rate": 0.5
     },
     {
       "body_sprite": "c15_s0_5_-7812027089734984391",
@@ -203,10 +302,16 @@
       "controller_name": "char_14_skin_0",
       "controller_path_id": "-2501557774459474140",
       "dead_sprite": "c15_s0_8_-6836897207488494262",
+      "death_animation": "c14_dead",
       "id": "c14",
       "idle_animation": "c14_idle",
+      "max_armor": 5,
+      "max_energy": 240,
+      "max_hp": 3,
       "run_animation": "c14_run",
-      "source_path_id": "-4213919442539727298"
+      "source_path_id": "-4213919442539727298",
+      "speed": 6.5,
+      "speed_rate": 0.5
     }
   ],
   "collision": {

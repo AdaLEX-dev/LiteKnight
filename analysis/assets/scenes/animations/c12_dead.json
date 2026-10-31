@@ -1,0 +1,51 @@
+{
+  "duration": 2.0,
+  "id": "c12_dead",
+  "loop": false,
+  "sample_rate": 8.0,
+  "source": {
+    "animator_component_path_id": "-4032169146239971931",
+    "animator_enabled": true,
+    "animator_game_object_path_id": "3792964550872340968",
+    "animator_update_mode": 0,
+    "apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
+    "binding_path": "img/body",
+    "binding_path_hash": "3966442053",
+    "binding_property": "m_Sprite",
+    "bundle": "common",
+    "bundle_sha256": "4f49c9d3aa24f5f6b9771125245f9a1dd5ea5e3718d2864b50f3b60e8df511cb",
+    "character_id": "c12",
+    "clip_name": "char_13_skin_0_dead",
+    "clip_path_id": "96088112089900674",
+    "clip_start_time": 0.0,
+    "clip_stop_time": 2.0,
+    "controller_name": "char_12_skin_0",
+    "controller_path_id": "4891092779523587718",
+    "pptr_curve_index": "12",
+    "pptr_curve_mapping_count": 2,
+    "serialized_pptr_curve_count": 0,
+    "sprite_mapping_path_ids": [
+      "6962225712603698694",
+      "-5748865747657373273"
+    ],
+    "state_loop": false,
+    "state_machine_index": "0",
+    "state_machine_layer": "Base Layer",
+    "state_name": "dead",
+    "state_path_id": "3294237558",
+    "state_speed": 1.0
+  },
+  "tracks": [
+    {
+      "keys": [
+        {
+          "sprite": "c13_8_-5748865747657373273",
+          "time": 0.0
+        }
+      ],
+      "property": "m_Sprite",
+      "target_path": "c00/img/body"
+    }
+  ],
+  "update_mode": "normal"
+}

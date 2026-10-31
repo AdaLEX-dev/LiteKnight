@@ -9,7 +9,8 @@ namespace soulknight::engine::animation {
 
 enum class LocomotionState {
     Idle,
-    Run
+    Run,
+    Dead
 };
 
 // The recovered c00 controller has many states, but this milestone only needs
@@ -20,14 +21,18 @@ public:
     LocomotionAnimator() = default;
 
     // Pointers must outlive the animator; SceneAsset owns the clips.
-    void Configure(const AnimationClip* idle, const AnimationClip* run);
+    void Configure(const AnimationClip* idle, const AnimationClip* run,
+                   const AnimationClip* death = nullptr);
     void Update(bool moving, float delta_seconds);
+    bool PlayDead();
     void Reset();
 
     LocomotionState State() const { return state_; }
     const AnimationClip* CurrentClip() const { return player_.Clip(); }
     const AnimationClip* IdleClip() const { return idle_; }
     const AnimationClip* RunClip() const { return run_; }
+    const AnimationClip* DeathClip() const { return death_; }
+    bool DeadPlaying() const { return dead_playing_; }
     bool IsPlaying() const { return player_.IsPlaying(); }
     float Time() const { return player_.Time(); }
     uint64_t LoopCount() const { return player_.LoopCount(); }
@@ -39,12 +44,16 @@ public:
 private:
     const AnimationClip* idle_ = nullptr;
     const AnimationClip* run_ = nullptr;
+    const AnimationClip* death_ = nullptr;
     LocomotionState state_ = LocomotionState::Idle;
+    bool dead_playing_ = false;
     AnimationPlayer player_;
 };
 
 inline const char* LocomotionStateName(LocomotionState state) {
-    return state == LocomotionState::Run ? "run" : "ide";
+    if (state == LocomotionState::Run) return "run";
+    if (state == LocomotionState::Dead) return "dead";
+    return "ide";
 }
 
 } // namespace soulknight::engine::animation

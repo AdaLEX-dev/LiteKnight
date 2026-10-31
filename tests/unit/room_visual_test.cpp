@@ -247,7 +247,7 @@ TEST_CASE("r1_1 carries recovered character assets and animation pairs" *
     // each exposes the same ide/run/dead state hashes and relies on the
     // horizontal img mirror for facing.
     const Json& animations = scene["animations"];
-    CHECK(animations.size() == 30);
+    CHECK(animations.size() == 45);
 }
 
 TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *

@@ -2,7 +2,7 @@ LiteKnight asset audit
 scene: analysis/assets/scenes/r1_1_visual.json
 status: WARNING
 errors: 0  warnings: 1
-count animations: 30
+count animations: 45
 count characters: 15
 count doors: 4
 count enemies: 1

@@ -338,6 +338,30 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 loaded.doors.push_back(std::move(door));
             }
         }
+        loaded.is_hub = document.value("hub", false);
+        if (document.contains("interaction_markers")) {
+            if (!document["interaction_markers"].is_array()) {
+                SetError(error, "scene interaction_markers is not an array");
+                return false;
+            }
+            for (const Json& item : document["interaction_markers"]) {
+                if (!item.is_object() || !item.contains("id") ||
+                    !item["id"].is_string() || !item.contains("kind") ||
+                    !item["kind"].is_string() || !item.contains("position")) {
+                    SetError(error, "scene interaction marker is invalid");
+                    return false;
+                }
+                InteractionMarker marker;
+                marker.id = item["id"].get<std::string>();
+                marker.kind = item["kind"].get<std::string>();
+                if (!ReadVec2(item["position"], marker.position)) {
+                    SetError(error, "scene interaction marker position is invalid");
+                    return false;
+                }
+                marker.radius = item.value("radius", 2.0f);
+                loaded.interaction_markers.push_back(std::move(marker));
+            }
+        }
         loaded.has_room_topology =
             !loaded.collision_solids.empty() || !loaded.doors.empty();
     }
@@ -780,6 +804,21 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 item["idle_animation"].get<std::string>();
             character.run_animation_id =
                 item["run_animation"].get<std::string>();
+            character.max_hp = item.value("max_hp", 0);
+            character.max_armor = item.value("max_armor", 0);
+            character.max_energy = item.value("max_energy", 0);
+            character.speed = item.value("speed", 0.0f);
+            character.speed_rate = item.value("speed_rate", 0.0f);
+            if (item.contains("hit_animation") &&
+                item["hit_animation"].is_string()) {
+                character.hit_animation_id =
+                    item["hit_animation"].get<std::string>();
+            }
+            if (item.contains("death_animation") &&
+                item["death_animation"].is_string()) {
+                character.death_animation_id =
+                    item["death_animation"].get<std::string>();
+            }
             if (loaded.FindAnimationIndex(character.idle_animation_id) < 0 ||
                 loaded.FindAnimationIndex(character.run_animation_id) < 0) {
                 SetError(error, "character references unknown animation: " +

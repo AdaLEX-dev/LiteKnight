@@ -27,9 +27,13 @@ public:
 
     // Deactivates and returns the nearest active pickup within radius.
     bool TakeNearest(const engine::Vec2& player_position, float radius,
-                     std::size_t* weapon_index);
+                     std::size_t* weapon_index,
+                     engine::Vec2* pickup_position = nullptr);
 
     const std::vector<WeaponPickup>& Pickups() const { return pickups_; }
+    // Nearest active pickup within radius, without taking it.
+    const WeaponPickup* Nearest(const engine::Vec2& player_position,
+                                float radius) const;
     std::size_t ActiveCount() const;
 
 private:

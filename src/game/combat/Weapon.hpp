@@ -26,6 +26,8 @@ using engine::Vec2;
 class Weapon {
 public:
     bool Configure(const engine::assets::WeaponDefinition& definition);
+    void Clear();
+    bool IsConfigured() const { return configured_; }
 
     // Advances the attack state and spawns projectiles for any Attack events
     // crossed by this fixed tick. Returns the number of projectiles created.

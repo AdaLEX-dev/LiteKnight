@@ -52,6 +52,19 @@ The renderer receives RGBA8 bytes and does not know the source format.
 Reference pixels remain local-only and are never committed. See
 `docs/development/ASSET_LAB.md`.
 
+## 0.2 1080p UI, font and Living Room (2026-10-31)
+
+- `tools/asset/build_ui_font.py` recovers the `pixel_bold` TTF and builds a
+  binary-alpha 20px atlas plus metrics in the local UI asset tree.
+- `tools/asset/build_ui_scene.py` extracts local-only title/UI atlases; the main
+  menu uses recovered `title_en0`.
+- `tools/asset/build_hub_scene.py` reconstructs split sharedassets, extracts
+  HeroRoom tilemaps/SpriteRenderers/colliders and writes the hub metadata.
+- `LogicalViewport`, `UIRenderer`, `BitmapFont` and `TextRenderer` implement the
+  stable 1920x1080 UI contract; see `docs/development/UI.md`.
+- `PlantSystem`, room markers and the two-scene transition are native
+  foundations; exact production rules remain UNKNOWN.
+
 ## 1. Decoder and dependency
 
 - Library: **libpng** (`libpng16`), via the system package and `pkg-config`.

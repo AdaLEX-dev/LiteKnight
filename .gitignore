@@ -76,6 +76,9 @@ $XDG_CACHE_HOME/soul-knight/
 ~/.config/soul-knight/
 ~/.cache/soul-knight/
 
+# User-provided visual references / screenshots (NEVER COMMIT)
+*.webp
+
 # Reference APK (NEVER COMMIT)
 original/*.apk
 original/*.ipa

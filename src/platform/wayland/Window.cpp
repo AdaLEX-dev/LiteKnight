@@ -104,6 +104,25 @@ bool Window::Resize(int width, int height) {
     return true;
 }
 
+void Window::SetTitle(const std::string& title) {
+    if (sdl_window_) SDL_SetWindowTitle(sdl_window_, title.c_str());
+}
+
+bool Window::SetFullscreen(bool fullscreen) {
+    if (!sdl_window_) return false;
+    if (!SDL_SetWindowFullscreen(sdl_window_, fullscreen)) {
+        LOG_WARN_RENDER("SDL_SetWindowFullscreen failed: {}", SDL_GetError());
+        return false;
+    }
+    fullscreen_ = fullscreen;
+    RefreshSizes();
+    LOG_INFO_RENDER("Fullscreen: {} ({}x{} logical, {}x{} pixels)",
+                    fullscreen_ ? "on" : "off", state_.logical_width,
+                    state_.logical_height, state_.pixel_width,
+                    state_.pixel_height);
+    return true;
+}
+
 VkSurfaceKHR Window::CreateVulkanSurface(VkInstance instance) const {
     VkSurfaceKHR surface = VK_NULL_HANDLE;
     if (!sdl_window_) {
