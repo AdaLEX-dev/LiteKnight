@@ -3,6 +3,7 @@
 
 #include "SpriteData.hpp"
 #include "TextureData.hpp"
+#include "engine/animation/AnimationClip.hpp"
 #include "engine/math/Color.hpp"
 #include "engine/math/Vec2.hpp"
 
@@ -46,7 +47,15 @@ struct SceneAsset {
     std::vector<TextureAsset> textures;
     std::vector<SpriteData> sprites;
     std::vector<SpriteInstance> instances;
+    std::vector<engine::animation::AnimationClip> animations;
     SceneCamera camera;
+
+    int32_t FindSpriteIndex(const std::string& sprite_id) const {
+        for (std::size_t i = 0; i < sprites.size(); ++i) {
+            if (sprites[i].id == sprite_id) return static_cast<int32_t>(i);
+        }
+        return -1;
+    }
 };
 
 } // namespace soulknight::engine::assets

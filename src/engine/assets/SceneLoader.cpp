@@ -2,6 +2,7 @@
 #include "SceneLoader.hpp"
 
 #include "PngDecoder.hpp"
+#include "engine/animation/AnimationClipLoader.hpp"
 #include "engine/core/Types.hpp"
 #include "platform/filesystem/FileSystem.hpp"
 
@@ -253,6 +254,38 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         loaded.sprites.push_back(std::move(sprite));
     }
 
+    if (document.contains("animations")) {
+        if (!document["animations"].is_array()) {
+            SetError(error, "scene JSON animations is not an array");
+            return false;
+        }
+        for (const Json& item : document["animations"]) {
+            if (!item.is_string()) {
+                SetError(error, "scene animation entry is not a path");
+                return false;
+            }
+            const std::filesystem::path animation_path =
+                scene_path.parent_path() / item.get<std::string>();
+            engine::animation::AnimationClip clip;
+            std::string animation_error;
+            if (!engine::animation::AnimationClipLoader::Load(
+                    filesystem, animation_path, clip, &animation_error)) {
+                SetError(error, "animation load failed: " + animation_error);
+                return false;
+            }
+            for (const engine::animation::SpriteTrack& track : clip.tracks) {
+                for (const engine::animation::SpriteKeyframe& key : track.keys) {
+                    if (sprite_ids.find(key.sprite_id) == sprite_ids.end()) {
+                        SetError(error, "animation references unknown sprite: " +
+                                        key.sprite_id);
+                        return false;
+                    }
+                }
+            }
+            loaded.animations.push_back(std::move(clip));
+        }
+    }
+
     if (!document.contains("instances") || !document["instances"].is_array()) {
         SetError(error, "scene JSON has no instances array");
         return false;
@@ -309,6 +342,23 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             instance.path = item["path"].get<std::string>();
         }
         loaded.instances.push_back(std::move(instance));
+    }
+
+    for (const engine::animation::AnimationClip& clip : loaded.animations) {
+        for (const engine::animation::SpriteTrack& track : clip.tracks) {
+            bool target_found = false;
+            for (const SpriteInstance& instance : loaded.instances) {
+                if (instance.path == track.target_path) {
+                    target_found = true;
+                    break;
+                }
+            }
+            if (!target_found) {
+                SetError(error, "animation target instance not found: " +
+                                track.target_path);
+                return false;
+            }
+        }
     }
 
     scene = std::move(loaded);

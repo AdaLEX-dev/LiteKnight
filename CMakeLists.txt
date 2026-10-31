@@ -128,6 +128,9 @@ add_custom_target(soul-knight-assets ALL
     COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_CURRENT_SOURCE_DIR}/assets/test"
             "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/test"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+            "${CMAKE_CURRENT_SOURCE_DIR}/analysis/assets/scenes"
+            "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/test/scenes"
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${SOUL_KNIGHT_SPRITE_VERT_SPV}"
             "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/shaders/sprite.vert.spv"
@@ -241,6 +244,13 @@ add_library(engine STATIC
     src/engine/rendering/SpriteRenderer.hpp
     src/engine/rendering/VulkanRenderer.cpp
     src/engine/rendering/VulkanRenderer.hpp
+    # Animation
+    src/engine/animation/AnimationClip.cpp
+    src/engine/animation/AnimationClip.hpp
+    src/engine/animation/AnimationClipLoader.cpp
+    src/engine/animation/AnimationClipLoader.hpp
+    src/engine/animation/AnimationPlayer.cpp
+    src/engine/animation/AnimationPlayer.hpp
     # Asset decoding / native scene
     src/engine/assets/TextureData.hpp
     src/engine/assets/TextureSampling.hpp
@@ -465,6 +475,7 @@ add_executable(soul-knight-test
     tests/unit/render_test.cpp
     tests/unit/png_test.cpp
     tests/unit/scene_test.cpp
+    tests/unit/animation_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp

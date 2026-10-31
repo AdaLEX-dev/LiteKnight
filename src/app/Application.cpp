@@ -3,6 +3,7 @@
 
 #include "engine/assets/PngDecoder.hpp"
 #include "engine/assets/SceneLoader.hpp"
+#include "engine/animation/AnimationClip.hpp"
 #include "engine/core/Log.hpp"
 #include "engine/rendering/VulkanRenderer.hpp"
 
@@ -99,6 +100,10 @@ bool Application::Initialize() {
 
     texture_uploads_.clear();
     camera_ = engine::Camera2D{};
+    animation_player_.Stop();
+    scene_ = {};
+    last_animation_sprite_.clear();
+    animation_logs_remaining_ = 8;
     scene_mode_ = !config_.scene_path.empty();
 
     if (scene_mode_) {
@@ -122,9 +127,20 @@ bool Application::Initialize() {
         camera_.orthographic_size = scene_.camera.orthographic_size;
         camera_.viewport_width = scene_.camera.viewport_width;
         camera_.viewport_height = scene_.camera.viewport_height;
-        LOG_INFO_APP("Scene loaded: {} ({} textures, {} sprites, {} instances)",
+        LOG_INFO_APP("Scene loaded: {} ({} textures, {} sprites, {} instances, {} animations)",
                      scene_.id, scene_.textures.size(), scene_.sprites.size(),
-                     scene_.instances.size());
+                     scene_.instances.size(), scene_.animations.size());
+        if (!scene_.animations.empty()) {
+            animation_player_.Play(scene_.animations.front());
+            const engine::animation::AnimationClip& clip = scene_.animations.front();
+            LOG_INFO_APP("Animation: {} ({} s, {} Hz, loop={}, tracks={})",
+                         clip.id, clip.duration, clip.sample_rate,
+                         BooleanText(clip.loop), clip.tracks.size());
+            for (const engine::animation::SpriteTrack& track : clip.tracks) {
+                LOG_INFO_APP("Animation track: {} keys={}", track.target_path,
+                             track.keys.size());
+            }
+        }
         LOG_INFO_APP("Camera: center ({:.2f},{:.2f}), ortho size {:.2f}",
                      camera_.position.x, camera_.position.y,
                      camera_.orthographic_size);
@@ -191,6 +207,8 @@ bool Application::Initialize() {
                  BooleanText(renderer_->ValidationEnabled()));
 
     BuildRenderBatch();
+    LOG_INFO_APP("Render batch: {} sprite instances",
+                 sprite_batch_.GetDraws().size());
 
     warmup_frames_ = 30;
     perf_samples_ = 0;
@@ -224,25 +242,46 @@ void Application::BuildRenderBatch() {
 
     for (const engine::assets::SpriteInstance& instance : scene_.instances) {
         if (instance.sprite_index >= scene_.sprites.size()) continue;
-        const engine::assets::SpriteData& sprite = scene_.sprites[instance.sprite_index];
+        const engine::assets::SpriteData* sprite =
+            &scene_.sprites[instance.sprite_index];
+        if (animation_player_.IsPlaying()) {
+            const engine::animation::SpriteKeyframe* key =
+                animation_player_.Evaluate(instance.path);
+            if (key != nullptr) {
+                const int32_t animated_index = scene_.FindSpriteIndex(key->sprite_id);
+                if (animated_index >= 0 &&
+                    static_cast<std::size_t>(animated_index) < scene_.sprites.size()) {
+                    sprite = &scene_.sprites[static_cast<std::size_t>(animated_index)];
+                }
+                if (key->sprite_id != last_animation_sprite_) {
+                    if (animation_logs_remaining_ > 0) {
+                        LOG_INFO_APP("Animation frame: {} at t={:.3f}s",
+                                     key->sprite_id, animation_player_.Time());
+                        --animation_logs_remaining_;
+                    }
+                    last_animation_sprite_ = key->sprite_id;
+                }
+            }
+        }
         engine::rendering::SpriteDraw draw;
         draw.position = instance.position;
         draw.size = engine::Vec2{
-            sprite.WorldSize().x * instance.scale.x,
-            sprite.WorldSize().y * instance.scale.y
+            sprite->WorldSize().x * instance.scale.x,
+            sprite->WorldSize().y * instance.scale.y
         };
-        draw.uv = sprite.UvRect();
+        draw.uv = sprite->UvRect();
         draw.color = instance.color;
         draw.layer = MapSortingLayer(instance.sorting_layer);
         draw.sorting_order = instance.sorting_order;
-        draw.texture_id = sprite.texture_id;
-        draw.pivot = sprite.pivot;
+        draw.texture_id = sprite->texture_id;
+        draw.pivot = sprite->pivot;
         draw.rotation = instance.rotation;
         draw.flip_x = instance.flip_x;
         draw.flip_y = instance.flip_y;
         (void)sprite_batch_.DrawSprite(draw);
     }
-    LOG_INFO_APP("Render batch: {} sprite instances", sprite_batch_.GetDraws().size());
+    // BuildRenderBatch is called after fixed updates while an animation is
+    // active; avoid spamming the log from the per-frame path.
 }
 
 void Application::BuildSyntheticBatch() {
@@ -318,6 +357,7 @@ void Application::FixedUpdate(double dt) {
     // counted so the frame loop contract is exercised independently of render.
     simulation_time_ += dt;
     ++simulation_ticks_;
+    animation_player_.Update(static_cast<float>(dt));
 }
 
 void Application::ExerciseWindowIfRequested() {
@@ -374,6 +414,13 @@ int Application::Run() {
         while (frame_timer_.ShouldSimulate()) {
             FixedUpdate(frame_timer_.GetFixedDeltaTime());
             frame_timer_.ConsumeSimStep();
+        }
+
+        if (scene_mode_) {
+            // Animation time is advanced by fixed ticks, but the rendered
+            // sprite is evaluated here so a frame always reflects the latest
+            // deterministic animation state.
+            BuildRenderBatch();
         }
 
         const auto& stats = frame_timer_.GetStats();

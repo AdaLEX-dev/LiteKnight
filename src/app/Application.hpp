@@ -5,6 +5,7 @@
 #include "platform/wayland/Window.hpp"
 #include "platform/timing/FrameTimer.hpp"
 #include "platform/filesystem/FileSystem.hpp"
+#include "engine/animation/AnimationPlayer.hpp"
 #include "engine/assets/SceneAsset.hpp"
 #include "engine/assets/TextureData.hpp"
 #include "engine/rendering/Camera2D.hpp"
@@ -12,6 +13,7 @@
 #include "engine/rendering/SpriteRenderer.hpp"
 
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace soulknight::engine::rendering {
@@ -56,7 +58,10 @@ private:
     platform::FileSystem filesystem_;
     soulknight::engine::assets::TextureData smoke_texture_;
     soulknight::engine::assets::SceneAsset scene_;
+    engine::animation::AnimationPlayer animation_player_;
     engine::Camera2D camera_;
+    std::string last_animation_sprite_;
+    int animation_logs_remaining_ = 0;
     std::vector<engine::rendering::TextureUpload> texture_uploads_;
     bool scene_mode_ = false;
 

@@ -1,0 +1,17 @@
+{
+  "id": "test_walk",
+  "duration": 0.5,
+  "sample_rate": 4.0,
+  "loop": true,
+  "update_mode": "normal",
+  "tracks": [
+    {
+      "target_path": "c00/img/body",
+      "property": "m_Sprite",
+      "keys": [
+        {"time": 0.0, "sprite": "frame0"},
+        {"time": 0.25, "sprite": "frame1"}
+      ]
+    }
+  ]
+}

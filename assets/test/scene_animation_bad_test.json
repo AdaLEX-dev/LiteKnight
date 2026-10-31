@@ -1,0 +1,45 @@
+{
+  "id": "animation_bad_test_scene",
+  "camera": {
+    "position": [0.0, 0.0],
+    "orthographic_size": 5.0,
+    "viewport": [1920.0, 1080.0]
+  },
+  "textures": [
+    {
+      "id": "rgba",
+      "png": "phase4_rgba.png",
+      "filter": "point",
+      "wrap": "clamp"
+    }
+  ],
+  "sprites": [
+    {
+      "id": "frame0",
+      "texture": "rgba",
+      "rect": [0.0, 0.0, 2.0, 2.0],
+      "pivot": [0.5, 0.5],
+      "pixels_per_unit": 4.0,
+      "border": [0.0, 0.0, 0.0, 0.0]
+    },
+    {
+      "id": "frame1",
+      "texture": "rgba",
+      "rect": [2.0, 0.0, 2.0, 2.0],
+      "pivot": [0.5, 0.0],
+      "pixels_per_unit": 4.0,
+      "border": [0.0, 0.0, 0.0, 0.0]
+    }
+  ],
+  "instances": [
+    {
+      "sprite": "frame0",
+      "position": [0.0, 0.0],
+      "color": [255, 255, 255, 255],
+      "sorting_layer": 5,
+      "sorting_order": 0,
+      "path": "c00/img/body"
+    }
+  ],
+  "animations": ["animations/test_clip_bad.json"]
+}

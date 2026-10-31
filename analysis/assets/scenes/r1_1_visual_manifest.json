@@ -1,4 +1,14 @@
 {
+  "animation_count": 1,
+  "animation_keyframe_count": 4,
+  "animations": [
+    {
+      "generated": "assets/generated/visual/r1_1_visual/animations/c00_idle.json",
+      "id": "c00_idle",
+      "metadata": "analysis/assets/scenes/animations/c00_idle.json",
+      "sha256": "23f34e0a6e3b5eb7d11f2e7dcbb11d89c25a9f2b8a17360ff70c280e846f7d44"
+    }
+  ],
   "camera": {
     "orthographic_size": 10.5,
     "position": [
@@ -13,8 +23,8 @@
   "converter_version": "1.0.0",
   "instance_count": 111,
   "manifest_version": 1,
-  "notes": "r1_1 room sprites plus c00 body/shadow; no proprietary pixels committed.",
-  "scene_json_sha256": "ba9f3bdca080ddc67045ea64060f3b8353e1027d7b56356cc6d92995de708194",
+  "notes": "r1_1 room sprites plus c00 body/shadow and real idle clip; no proprietary pixels committed.",
+  "scene_json_sha256": "2cccf9dae93822c0ce84f216eb95e956442580bcbc82666b8bcdc6d2d1558888",
   "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -26,7 +36,7 @@
     20.0,
     20.0
   ],
-  "sprite_count": 6,
+  "sprite_count": 9,
   "textures": [
     {
       "filter": "point",

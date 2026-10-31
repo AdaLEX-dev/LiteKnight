@@ -18,7 +18,9 @@ import hashlib
 import json
 import math
 import shutil
+import struct
 import sys
+import zlib
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -41,12 +43,17 @@ DEFAULT_TEXTURE_MANIFEST = ROOT / "analysis/assets/texture_conversion_manifest.j
 DEFAULT_OUT = ROOT / "assets/generated/visual/r1_1_visual"
 DEFAULT_SCENE_META = ROOT / "analysis/assets/scenes/r1_1_visual.json"
 DEFAULT_SCENE_MANIFEST = ROOT / "analysis/assets/scenes/r1_1_visual_manifest.json"
+DEFAULT_ANIMATION_META = ROOT / "analysis/assets/scenes/animations/c00_idle.json"
 
 TEXTURE_SPECS = (
     ("floor_atlas", "res/floor", "5467841708608453938"),
     ("character_atlas", "common", "6092784074628815488"),
     ("object_common_atlas", "common", "3188784419113904678"),
 )
+
+TEXTURE_BY_PATH_ID = {path_id: (name, bundle) for name, bundle, path_id in TEXTURE_SPECS}
+PLAYER_BODY_PATH = "img/body"
+PLAYER_BODY_SCENE_PATH = "c00/img/body"
 
 SORTING_LAYER_NAMES = {
     0: "Default",
@@ -92,6 +99,8 @@ class SceneBuilder:
         self.sprite_order: list[str] = []
         self.instances: list[dict] = []
         self.textures: dict[str, dict] = {}
+        self.animation: dict | None = None
+        self.animation_json: str | None = None
         self.texture_manifest = json.loads(args.texture_manifest.read_text(encoding="utf-8"))
         self.texture_manifest_by_id = {
             entry["source_path_id"]: entry
@@ -205,6 +214,172 @@ class SceneBuilder:
         self.sprite_order.append(record["id"])
         return record["id"]
 
+    def ensure_sprite_asset(self, sprite_ptr) -> tuple[str, object]:
+        sprite = sprite_ptr.read()
+        texture_path_id = str(sprite.m_RD.texture.path_id)
+        spec = TEXTURE_BY_PATH_ID.get(texture_path_id)
+        if spec is None:
+            raise SystemExit(
+                f"unhandled texture path_id {texture_path_id} for {sprite.m_Name}")
+        texture_name, source_bundle = spec
+        self.texture_info(texture_name, source_bundle, texture_path_id)
+        sprite_id = self.sprite_record(sprite, texture_name, str(sprite_ptr.path_id))
+        return sprite_id, sprite
+
+    @staticmethod
+    def _streamed_frames(clip) -> list[tuple[float, list[tuple[int, float]]]]:
+        stream = clip.m_MuscleClip.m_Clip.data.m_StreamedClip
+        data = stream.data
+        raw = struct.pack(f"<{len(data)}I", *data)
+        frames: list[tuple[float, list[tuple[int, float]]]] = []
+        position = 0
+        while position + 8 <= len(raw):
+            time, key_count = struct.unpack_from("<fi", raw, position)
+            position += 8
+            keys: list[tuple[int, float]] = []
+            for _ in range(key_count):
+                if position + 20 > len(raw):
+                    raise SystemExit("truncated StreamedClip key data")
+                curve_index, = struct.unpack_from("<i", raw, position)
+                coefficients = struct.unpack_from("<4f", raw, position + 4)
+                position += 20
+                keys.append((curve_index, coefficients[3]))
+            frames.append((time, keys))
+            if key_count == 0:
+                break
+        if position != len(raw):
+            raise SystemExit("trailing bytes in StreamedClip data")
+        return frames
+
+    @staticmethod
+    def _binding_curve_count(binding) -> int:
+        if int(getattr(binding, "typeID", 0) or 0) == 4:  # Transform
+            if int(binding.attribute) in (1, 3, 4):
+                return 3
+            if int(binding.attribute) == 2:
+                return 4
+        return 1
+
+    def extract_player_animation(self, player_root) -> None:
+        animator_component = None
+        for component in player_root.read().m_Component:
+            if component.component.type.name == "Animator":
+                animator_component = component.component
+                break
+        if animator_component is None:
+            raise SystemExit("c00 has no Animator component")
+
+        animator = animator_component.read()
+        controller_ptr = animator.m_Controller
+        if controller_ptr is None or controller_ptr.path_id == 0:
+            raise SystemExit("c00 Animator has no controller")
+        controller = controller_ptr.read()
+        state_machine = controller.m_Controller.m_StateMachineArray[0].data
+        state_index = int(state_machine.m_DefaultState)
+        state = state_machine.m_StateConstantArray[state_index].data
+        clip_index = int(state.m_BlendTreeConstantArray[0].data.m_NodeArray[0].data.m_ClipID)
+        clip_ptr = controller.m_AnimationClips[clip_index]
+        clip = clip_ptr.read()
+
+        state_names = {2215514825: "ide", 1349952704: "run", 3978643748: "dead"}
+        state_name = state_names.get(int(state.m_NameID), f"hash_{int(state.m_NameID)}")
+        loop = bool(state.m_Loop) and bool(clip.m_MuscleClip.m_LoopTime)
+        duration = float(clip.m_MuscleClip.m_StopTime - clip.m_MuscleClip.m_StartTime)
+        sample_rate = float(clip.m_SampleRate)
+
+        bindings = list(clip.m_ClipBindingConstant.genericBindings)
+        target_hash = zlib.crc32(PLAYER_BODY_PATH.encode("utf-8")) & 0xFFFFFFFF
+        target_index = None
+        for index, binding in enumerate(bindings):
+            if (int(binding.path) == target_hash and int(binding.customType) == 23 and
+                    int(binding.isPPtrCurve) == 1 and int(getattr(binding, "typeID", 0) or 0) == 212):
+                target_index = index
+                break
+        if target_index is None:
+            raise SystemExit(f"no SpriteRenderer.m_Sprite binding for {PLAYER_BODY_PATH}")
+        curve_index = sum(self._binding_curve_count(b) for b in bindings[:target_index])
+
+        frames = self._streamed_frames(clip)
+        if not frames:
+            raise SystemExit("animation clip has no streamed frames")
+        initial_values = {index: value for index, value in frames[0][1]}
+        curve_keys: list[tuple[float, float]] = []
+        for time, keys in frames[1:]:
+            if not math.isfinite(time) or time < 0.0:
+                continue
+            for index, value in keys:
+                if index == curve_index:
+                    curve_keys.append((float(time), float(value)))
+        if not curve_keys:
+            curve_keys = [(0.0, float(initial_values.get(curve_index, 0.0)))]
+        elif curve_keys[0][0] > 0.0:
+            curve_keys.insert(0, (0.0, float(initial_values.get(curve_index, 0.0))))
+
+        mapping = list(clip.m_ClipBindingConstant.pptrCurveMapping)
+        if not mapping:
+            raise SystemExit("animation clip pptrCurveMapping is empty")
+        mapping_sprite_ids: list[str] = []
+        mapping_sprite_names: list[str] = []
+        for mapping_ptr in mapping:
+            sprite_id, sprite = self.ensure_sprite_asset(mapping_ptr)
+            mapping_sprite_ids.append(sprite_id)
+            mapping_sprite_names.append(getattr(sprite, "m_Name", ""))
+
+        source_keys: list[dict] = []
+        for time, value in curve_keys:
+            rounded = int(round(value))
+            if abs(value - rounded) > 1e-4 or not (0 <= rounded < len(mapping)):
+                raise SystemExit(
+                    f"pptr curve value {value} does not index pptrCurveMapping ")
+            source_keys.append({"time": time, "sprite": mapping_sprite_ids[rounded]})
+
+        # The selected idle clip uses a single body track. Keep the native
+        # format explicit and reject unexpected extra tracks instead of silently
+        # pretending to support the full Animator graph.
+        track = {
+            "target_path": PLAYER_BODY_SCENE_PATH,
+            "property": "m_Sprite",
+            "keys": source_keys,
+        }
+        animation = {
+            "id": "c00_idle",
+            "duration": duration,
+            "sample_rate": sample_rate,
+            "loop": loop,
+            "update_mode": "normal" if int(animator.m_UpdateMode) == 0 else str(int(animator.m_UpdateMode)),
+            "tracks": [track],
+            "source": {
+                "apk_sha256": REFERENCE_APK_SHA256,
+                "bundle": "common",
+                "bundle_sha256": source_sha256(bundle_path("common", self.args.bundle_root)),
+                "animator_game_object_path_id": str(player_root.path_id),
+                "animator_component_path_id": str(animator_component.path_id),
+                "animator_enabled": bool(animator.m_Enabled),
+                "animator_update_mode": int(animator.m_UpdateMode),
+                "controller_path_id": str(controller_ptr.path_id),
+                "controller_name": getattr(controller, "m_Name", ""),
+                "state_machine_index": "0",
+                "state_machine_layer": "Base Layer",
+                "state_path_id": str(state.m_PathID),
+                "state_name": state_name,
+                "state_loop": bool(state.m_Loop),
+                "state_speed": float(state.m_Speed),
+                "clip_path_id": str(clip_ptr.path_id),
+                "clip_name": getattr(clip, "m_Name", ""),
+                "clip_start_time": float(clip.m_MuscleClip.m_StartTime),
+                "clip_stop_time": float(clip.m_MuscleClip.m_StopTime),
+                "serialized_pptr_curve_count": len(clip.m_PPtrCurves or []),
+                "pptr_curve_mapping_count": len(mapping),
+                "binding_path": PLAYER_BODY_PATH,
+                "binding_property": "m_Sprite",
+                "binding_path_hash": str(target_hash),
+                "pptr_curve_index": str(curve_index),
+                "sprite_mapping_path_ids": [str(p.path_id) for p in mapping],
+            },
+        }
+        self.animation = animation
+        self.animation_json = json.dumps(animation, indent=2, sort_keys=True) + "\n"
+
     def add_sprite_renderer(self, sr, world_pos, world_angle, world_scale, path,
                             allowed_names=None) -> None:
         sprite_ptr = sr.m_Sprite
@@ -213,21 +388,7 @@ class SceneBuilder:
         sprite = sprite_ptr.read()
         if allowed_names is not None and getattr(sprite, "m_Name", "") not in allowed_names:
             return
-        texture_ptr = sprite.m_RD.texture
-        texture_path_id = str(texture_ptr.path_id)
-        texture_name = {
-            "5467841708608453938": "floor_atlas",
-            "6092784074628815488": "character_atlas",
-            "3188784419113904678": "object_common_atlas",
-        }.get(texture_path_id)
-        if texture_name is None:
-            raise SystemExit(f"unhandled texture path_id {texture_path_id} for {sprite.m_Name}")
-        self.texture_info(texture_name, {
-            "floor_atlas": "res/floor",
-            "character_atlas": "common",
-            "object_common_atlas": "common",
-        }[texture_name], texture_path_id)
-        sprite_id = self.sprite_record(sprite, texture_name, str(sprite_ptr.path_id))
+        sprite_id, _ = self.ensure_sprite_asset(sprite_ptr)
         self.instances.append({
             "sprite": sprite_id,
             "position": [world_pos[0], world_pos[1]],
@@ -340,6 +501,7 @@ class SceneBuilder:
         spawn = self.args.spawn
         for child in player_transform.m_Children:
             self.walk_player(child, spawn, 0.0, (1.0, 1.0), "c00")
+        self.extract_player_animation(player_root)
 
         return {
             "id": "r1_1_visual",
@@ -356,6 +518,7 @@ class SceneBuilder:
                          if key in self.textures],
             "sprites": [self.sprites[key] for key in self.sprites],
             "instances": self.instances,
+            "animations": ["animations/c00_idle.json"],
         }
 
 
@@ -377,6 +540,18 @@ def main(argv=None) -> int:
     args.scene.parent.mkdir(parents=True, exist_ok=True)
     args.scene.write_text(scene_text, encoding="utf-8")
 
+    animation_sha = None
+    animation_generated = None
+    animation_metadata = None
+    if builder.animation_json is not None:
+        animation_generated = args.out / "animations" / "c00_idle.json"
+        animation_metadata = args.scene.parent / "animations" / "c00_idle.json"
+        animation_generated.parent.mkdir(parents=True, exist_ok=True)
+        animation_metadata.parent.mkdir(parents=True, exist_ok=True)
+        animation_generated.write_text(builder.animation_json, encoding="utf-8")
+        animation_metadata.write_text(builder.animation_json, encoding="utf-8")
+        animation_sha = hashlib.sha256(builder.animation_json.encode("utf-8")).hexdigest()
+
     scene_sha = hashlib.sha256(scene_text.encode("utf-8")).hexdigest()
     bundles = {
         "room/r1_1": source_sha256(bundle_path("room/r1_1", args.bundle_root)),
@@ -397,7 +572,16 @@ def main(argv=None) -> int:
         "instance_count": len(scene["instances"]),
         "camera": scene["camera"],
         "spawn": scene["spawn"],
-        "notes": "r1_1 room sprites plus c00 body/shadow; no proprietary pixels committed.",
+        "animation_count": len(scene["animations"]),
+        "animation_keyframe_count": sum(
+            len(track["keys"]) for track in (builder.animation or {}).get("tracks", [])),
+        "animations": ([{
+            "id": builder.animation["id"],
+            "metadata": str(animation_metadata.relative_to(ROOT)),
+            "generated": str(animation_generated.relative_to(ROOT)),
+            "sha256": animation_sha,
+        }] if builder.animation is not None else []),
+        "notes": "r1_1 room sprites plus c00 body/shadow and real idle clip; no proprietary pixels committed.",
     }
     args.manifest.parent.mkdir(parents=True, exist_ok=True)
     args.manifest.write_text(
@@ -407,7 +591,9 @@ def main(argv=None) -> int:
     print(f"metadata: {args.scene}")
     print(f"manifest: {args.manifest}")
     print(f"textures: {len(scene['textures'])}, sprites: {len(scene['sprites'])}, "
-          f"instances: {len(scene['instances'])}")
+          f"instances: {len(scene['instances'])}, animations: {len(scene['animations'])}")
+    if animation_sha is not None:
+        print(f"animation_sha256={animation_sha}")
     print(f"scene_sha256={scene_sha}")
     return 0
 

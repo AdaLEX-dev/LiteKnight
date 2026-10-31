@@ -13,6 +13,10 @@ proprietary data.
 | `phase4_palette.png` | 2x2 palette + tRNS | palette/alpha → RGBA8 |
 | `phase4_smoke.png` | 64x64 RGBA8 | asymmetric renderer orientation/alpha proof |
 | `scene_test.json` | native scene JSON | SceneLoader/SpriteData/Camera2D contract test |
+| `scene_animation_test.json` | native scene + animation JSON | animated SceneLoader/AnimationPlayer contract test |
+| `animations/test_clip.json` | native animation JSON | discrete sprite-key sampling test |
+| `animations/test_clip_bad.json` | invalid animation JSON | missing-sprite failure test |
+| `scene_animation_bad_test.json` | invalid animated scene | clear unknown-sprite error test |
 
 The runtime copies this directory to `build/assets/test` so the existing
 `FileSystem` executable-relative asset search works from any current working
