@@ -240,8 +240,8 @@ serialized `r1_1` hierarchy and `common/c00` prefab:
 
 The run from `/tmp` with `--scene scenes/r1_1_visual/scene.json` rendered the
 7×7 floor block, four door clusters, and the `c00` player/shadows successfully.
-The final RelWithDebInfo animated-scene run measured **16.740 ms** average
-`FrameTimer` frame, **601 frames / 513 fixed ticks over 10.26 s**, with 111
+The final RelWithDebInfo animated-scene run measured **16.662 ms** average
+`FrameTimer` frame, **604 frames / 508 fixed ticks over 10.16 s**, with 111
 instances, 3 textures, 9 sprite assets, 1 animation clip, 4 keyframes, and 5 draw
 groups (CPU pacing, not a parity/FPS guarantee). Debug validation: 0 errors.
 

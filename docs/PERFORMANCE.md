@@ -25,9 +25,9 @@ machine.
 RelWithDebInfo, 111 sprite instances, 3 textures, 9 sprite assets, 1 animation
 clip (4 keyframes), 5 contiguous texture draw groups:
 
-- `FrameTimer` average: **16.740 ms** over 571 samples.
-- **601 frames** over ~10.26 s (~58.6 presents/s).
-- **513 fixed simulation ticks** (~0.837 steps/render frame).
+- `FrameTimer` average: **16.662 ms** over 574 samples.
+- **604 frames** over ~10.16 s (~59.4 presents/s).
+- **508 fixed simulation ticks** (~0.833 steps/render frame).
 - Debug scene validation: 0 errors.
 - Animation overhead is not separately GPU-timestamped; the measurement is CPU
   frame pacing on the test machine, not a GPU/60 FPS parity claim.
