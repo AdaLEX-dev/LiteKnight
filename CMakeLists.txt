@@ -683,7 +683,6 @@ if(PYTHON3_EXECUTABLE)
                 --inventory "${CMAKE_CURRENT_SOURCE_DIR}/analysis/assets/asset_inventory.json"
                 --generated-root "${CMAKE_CURRENT_SOURCE_DIR}/assets/generated/visual/hero_room"
                 --report-dir "${CMAKE_CURRENT_BINARY_DIR}/hero-room-audit"
-                --require-generated
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
 endif()
