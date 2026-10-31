@@ -427,7 +427,20 @@ Each instance stores its own `this_state`. Sampling sets the global Unity state 
 
 In multiplayer, the same function calls `NetSyncVar.UpdateSampleRandomSeed` / `UpdateMapRandomSeed` instead.
 
-`MapManager.SetRGRandomSeed(seed)` seeds `MapManager.rg_random` at `+0x58`. `MapManagerLevel.SetRGRandomSeed` calls the base implementation and then adds a `Range(0,100)`-based map-length adjustment under specific normal-mode conditions. The exact virtual call site that passes `RGGameInfo.map_random_seed` into `MapManagerLevel.SetRGRandomSeed` is not yet resolved; this is tracked below.
+`MapManager.SetRGRandomSeed(seed)` seeds `MapManager.rg_random` at `+0x58`. `MapManagerLevel.SetRGRandomSeed` calls the base implementation and then adds a `Range(0,100)`-based map-length adjustment under specific normal-mode conditions.
+
+The map-seed call path is now resolved. `MapManager.Start` at `0xD26A10`:
+
+```text
+ldr w1, [RGGameInfo, #0x1C]       ; map_random_seed
+mov x0, MapManager instance
+ldp x9, x2, [vtable, #0x1E8]
+blr x9                            ; virtual SetRGRandomSeed(seed)
+```
+
+So the map manager's virtual `SetRGRandomSeed` receives `RGGameInfo.map_random_seed` directly. For a `MapManagerLevel` instance, that dispatches to `MapManagerLevel.SetRGRandomSeed` (`0x103B1D8`), which calls the base `MapManager.SetRGRandomSeed` (`0xD26D8C`) and then applies the extra map-length logic.
+
+**Confidence:** CONFIRMED.
 
 ### 5.3 How gameplay objects obtain streams
 
@@ -467,7 +480,7 @@ In multiplayer, the same function calls `NetSyncVar.UpdateSampleRandomSeed` / `U
 | Int RNG uses unsigned modulo and the branch behaviour above | CONFIRMED (static) | `0x37B9EC` |
 | `insideUnitCircle` algorithm | CONFIRMED (static) | `0x37AD64` |
 | Multiple independent streams | CONFIRMED (structure + ctor xrefs) | fields and `SetUpRGRandom` |
-| Exact virtual call site for map seed | UNRESOLVED | no direct xref |
+| Map seed virtual call path | CONFIRMED | `MapManager.Start` `0xD26A10` loads `RGGameInfo+0x1C` and calls vtable `+0x1E8` |
 | `seed_state` values 1/2 usage | UNRESOLVED | only value 3 observed in executed paths |
 | `RGController.rg_random` initialization | UNRESOLVED | no ctor xref found |
 | Cross-platform float bit-exactness (`sinf/cosf/sqrtf`) | RISK | libm differences possible |
@@ -476,7 +489,7 @@ In multiplayer, the same function calls `NetSyncVar.UpdateSampleRandomSeed` / `U
 
 ## 7. Unresolved questions and next experiments
 
-1. **Map seed call path.** Find the virtual/interface caller that invokes `MapManagerLevel.SetRGRandomSeed` and confirm the argument is `RGGameInfo.map_random_seed`. Static route: locate the vtable slot / `MapManager` method table and scan indirect calls; runtime route: log the argument.
+1. ~~**Map seed call path.**~~ RESOLVED: `MapManager.Start` loads `RGGameInfo.map_random_seed` (`+0x1C`) and calls virtual `SetRGRandomSeed` via vtable `+0x1E8`.
 2. **`seed_state` state machine.** Determine whether `C_READY` (1) and `S_SEND_SEED` (2) are used in multiplayer transitions. Search writes to `+0x10` after `SetRandomSeed`; no such writes found yet.
 3. **`RGController.rg_random` initialization.** Find where `RGController` obtains/seeds its `+0x130` field.
 4. **Map/room seed derivation.** `MapManagerLevel.SetRGRandomSeed` has extra `Range(0,100)` logic under normal-mode conditions; reconstruct the full condition set and how it affects `map_long`.

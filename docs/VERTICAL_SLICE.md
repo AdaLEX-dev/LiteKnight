@@ -32,7 +32,7 @@ progression, final balance, packaging.
 
 | Gate | Requirement | Current status |
 |---|---|---|
-| RNG | `analysis/re/rgrandom.md` core semantics reconstructed; native `UnityRandom`/`RGRandomStream` tests pass | ✅ Met for core wrapper/engine; map-seed virtual path remains open |
+| RNG | `analysis/re/rgrandom.md` core semantics reconstructed; native `UnityRandom`/`RGRandomStream` tests pass | ✅ Met for core wrapper/engine and map-seed call path; `RGController` stream init and `seed_state` 1/2 remain open |
 | Damage | `analysis/re/damage.md` identifies projectile → target `GetHurt`, armor/HP ordering, death threshold, critical rule | ❌ NOT MET — player/enemy entry points reconstructed, projectile bridge and crit unresolved |
 | Assets | Manifest records source bundle/hash/object identity for room, character, enemy, weapon, UI, audio | ✅ First pass done (284 entries) |
 | Platform | Build/test loop works; Vulkan context/swapchain/shader path exists | ⚠️ Build/tests restored; renderer not implemented |

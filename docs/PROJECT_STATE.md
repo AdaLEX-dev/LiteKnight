@@ -72,7 +72,7 @@
 
 **Next actions:**
 1. Resolve the projectile→target damage bridge and critical/element rules.
-2. Finish RGRandom call-site/stream documentation (map seed virtual path).
+2. Finish RGRandom residual questions (`RGController.rg_random` initialization, `seed_state` 1/2, map-length branch).
 3. Start the vertical slice only after the damage/RNG evidence gates in `docs/VERTICAL_SLICE.md` are met.
 
 ---
