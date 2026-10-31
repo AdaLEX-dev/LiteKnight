@@ -53,6 +53,16 @@ bool ReadRect(const Json& value, Rect& output) {
     return true;
 }
 
+bool ReadCollisionBox(const Json& value, CollisionBox& output) {
+    if (!value.is_array() || value.size() != 4) return false;
+    for (const Json& element : value) {
+        if (!element.is_number()) return false;
+    }
+    output.min = {value[0].get<float>(), value[1].get<float>()};
+    output.max = {value[2].get<float>(), value[3].get<float>()};
+    return output.IsValid();
+}
+
 bool ReadColor(const Json& value, Color& output) {
     if (!value.is_array() || value.size() != 4) return false;
     for (const Json& element : value) {
@@ -80,6 +90,17 @@ bool ReadWrap(const Json& value, TextureWrap& output) {
     if (name == "repeat") { output = TextureWrap::Repeat; return true; }
     if (name == "clamp") { output = TextureWrap::Clamp; return true; }
     if (name == "mirror") { output = TextureWrap::Mirror; return true; }
+    return false;
+}
+
+bool ReadDoorOneWayBlock(const Json& value, DoorOneWayBlock& output) {
+    if (!value.is_string()) return false;
+    const std::string name = value.get<std::string>();
+    if (name == "none") { output = DoorOneWayBlock::None; return true; }
+    if (name == "positive_x") { output = DoorOneWayBlock::PositiveX; return true; }
+    if (name == "negative_x") { output = DoorOneWayBlock::NegativeX; return true; }
+    if (name == "positive_y") { output = DoorOneWayBlock::PositiveY; return true; }
+    if (name == "negative_y") { output = DoorOneWayBlock::NegativeY; return true; }
     return false;
 }
 
@@ -138,14 +159,96 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         return false;
     }
     if (document.contains("collision")) {
-        if (!document["collision"].is_object() ||
-            !document["collision"].contains("bounds") ||
-            !ReadRect(document["collision"]["bounds"], loaded.collision_bounds) ||
+        const Json& collision = document["collision"];
+        if (!collision.is_object() || !collision.contains("bounds") ||
+            !ReadRect(collision["bounds"], loaded.collision_bounds) ||
             loaded.collision_bounds.w <= 0.0f ||
             loaded.collision_bounds.h <= 0.0f) {
             SetError(error, "scene collision bounds are invalid");
             return false;
         }
+        if (collision.contains("interior_bounds")) {
+            if (!ReadRect(collision["interior_bounds"], loaded.interior_bounds) ||
+                loaded.interior_bounds.w <= 0.0f ||
+                loaded.interior_bounds.h <= 0.0f) {
+                SetError(error, "scene interior collision bounds are invalid");
+                return false;
+            }
+        }
+        if (collision.contains("solids")) {
+            if (!collision["solids"].is_array()) {
+                SetError(error, "scene collision solids is not an array");
+                return false;
+            }
+            for (const Json& item : collision["solids"]) {
+                CollisionBox solid;
+                if (!ReadCollisionBox(item, solid)) {
+                    SetError(error, "scene collision solid is invalid");
+                    return false;
+                }
+                loaded.collision_solids.push_back(solid);
+            }
+        }
+        if (collision.contains("doors")) {
+            if (!collision["doors"].is_array()) {
+                SetError(error, "scene collision doors is not an array");
+                return false;
+            }
+            for (const Json& item : collision["doors"]) {
+                if (!item.is_object() || !item.contains("id") ||
+                    !item["id"].is_string() ||
+                    !item.contains("barrier") || !item.contains("trigger")) {
+                    SetError(error, "scene door entry is invalid");
+                    return false;
+                }
+                SceneDoor door;
+                door.id = item["id"].get<std::string>();
+                if (loaded.FindDoorIndex(door.id) >= 0) {
+                    SetError(error, "duplicate scene door id: " + door.id);
+                    return false;
+                }
+                if (!ReadCollisionBox(item["barrier"], door.barrier) ||
+                    !ReadCollisionBox(item["trigger"], door.trigger)) {
+                    SetError(error, "scene door geometry is invalid: " + door.id);
+                    return false;
+                }
+                if (item.contains("aisle") && item["aisle"].is_string()) {
+                    door.aisle = item["aisle"].get<std::string>();
+                }
+                if (item.contains("door_path") && item["door_path"].is_string()) {
+                    door.door_path_id = item["door_path"].get<std::string>();
+                }
+                if (item.contains("trigger_path") &&
+                    item["trigger_path"].is_string()) {
+                    door.trigger_path_id = item["trigger_path"].get<std::string>();
+                }
+                if (item.contains("direction") && item["direction"].is_number_integer()) {
+                    door.direction = item["direction"].get<int32_t>();
+                }
+                if (item.contains("enter_exit_direction") &&
+                    item["enter_exit_direction"].is_number_integer()) {
+                    door.enter_exit_direction =
+                        item["enter_exit_direction"].get<int32_t>();
+                }
+                if (item.contains("enabled") && item["enabled"].is_boolean()) {
+                    door.enabled = item["enabled"].get<bool>();
+                }
+                if (item.contains("one_way_block")) {
+                    if (!ReadDoorOneWayBlock(item["one_way_block"],
+                                             door.one_way_block)) {
+                        SetError(error, "scene door one_way_block is invalid: " +
+                                        door.id);
+                        return false;
+                    }
+                }
+                if (item.contains("open") && item["open"].is_boolean()) {
+                    door.open = item["open"].get<bool>();
+                }
+                loaded.doors.push_back(std::move(door));
+            }
+        }
+        loaded.has_room_topology =
+            !loaded.collision_solids.empty() || !loaded.doors.empty();
     }
 
     if (!document.contains("textures") || !document["textures"].is_array()) {
@@ -355,6 +458,13 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         }
         if (item.contains("path") && item["path"].is_string()) {
             instance.path = item["path"].get<std::string>();
+        }
+        if (item.contains("door") && item["door"].is_string()) {
+            instance.door = item["door"].get<std::string>();
+            if (loaded.FindDoorIndex(instance.door) < 0) {
+                SetError(error, "instance references unknown door: " + instance.door);
+                return false;
+            }
         }
         loaded.instances.push_back(std::move(instance));
     }

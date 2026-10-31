@@ -97,6 +97,10 @@ TEST_CASE("Player locomotion uses the recovered speed equation at fixed dt" *
     CHECK(player.Config().speed == doctest::Approx(6.5f));
     CHECK(player.Config().speed_rate == doctest::Approx(0.5f));
     CHECK(player.Config().EffectiveSpeed() == doctest::Approx(9.75f));
+    CHECK(player.Config().collider_half_extents.x == doctest::Approx(0.4f));
+    CHECK(player.Config().collider_half_extents.y == doctest::Approx(0.4f));
+    CHECK(player.Config().collider_offset.x == doctest::Approx(0.0f));
+    CHECK(player.Config().collider_offset.y == doctest::Approx(0.5f));
 
     const auto collision = player.FixedUpdate({1.0f, 0.0f}, 1.0f, 0.02f, world);
     CHECK_FALSE(collision.blocked_x);

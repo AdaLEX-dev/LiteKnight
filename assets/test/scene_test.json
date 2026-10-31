@@ -35,7 +35,30 @@
       "sorting_layer": 5,
       "sorting_order": 2,
       "flip_x": true,
-      "path": "test/quad"
+      "path": "test/quad",
+      "door": "south"
     }
-  ]
+  ],
+  "collision": {
+    "bounds": [-5.0, -5.0, 10.0, 10.0],
+    "interior_bounds": [1.0, 1.0, 8.0, 8.0],
+    "solids": [
+      [4.0, 0.0, 5.0, 10.0]
+    ],
+    "doors": [
+      {
+        "id": "south",
+        "aisle": "aisle_s",
+        "direction": 1,
+        "enter_exit_direction": 2,
+        "door_path": "synthetic-door",
+        "trigger_path": "synthetic-trigger",
+        "barrier": [3.0, 3.0, 4.0, 4.0],
+        "trigger": [5.0, 5.0, 6.0, 6.0],
+        "one_way_block": "positive_y",
+        "enabled": true,
+        "open": true
+      }
+    ]
+  }
 }

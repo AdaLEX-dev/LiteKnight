@@ -13,11 +13,12 @@ struct LocomotionConfig {
     float speed_rate = 0.5f;
     float speed_bonus = 0.0f;
 
-    // NATIVE DESIGN: the serialized c00 collider is a trigger hurtbox, not the
-    // room collision footprint. This small AABB at the feet is used only for the
-    // native test chamber's wall/boundary collision.
-    Vec2 collider_half_extents{0.25f, 0.25f};
-    Vec2 collider_offset{0.0f, 0.0f};
+    // APPROXIMATION: the reference player has a non-trigger CircleCollider2D
+    // radius 0.4 at offset (0, 0.5) on child "collider" (layer Body). The native
+    // swept-AABB test uses the circle's enclosing square; the feet-anchored
+    // transform remains the authoritative player position.
+    Vec2 collider_half_extents{0.4f, 0.4f};
+    Vec2 collider_offset{0.0f, 0.5f};
 
     float EffectiveSpeed() const {
         return speed * (speed_rate + 1.0f) + speed_bonus;

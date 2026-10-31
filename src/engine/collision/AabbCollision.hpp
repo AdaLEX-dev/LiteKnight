@@ -26,6 +26,18 @@ struct CollisionResult {
     bool blocked_y = false;
 };
 
+enum class OneWayDirection {
+    PositiveX,
+    NegativeX,
+    PositiveY,
+    NegativeY,
+};
+
+struct OneWaySolid {
+    Aabb box{};
+    OneWayDirection blocked_direction = OneWayDirection::PositiveX;
+};
+
 // Axis-separated AABB movement. This is deliberately small: the first native
 // locomotion slice needs sliding, no tunneling at player speed, and deterministic
 // results, not a general physics engine.
@@ -34,10 +46,15 @@ public:
     void SetBounds(const Aabb& bounds);
     void ClearSolids();
     void AddSolid(const Aabb& solid);
+    // One-way barriers model the closed door colliders' PlatformEffector2D
+    // behavior: movement in one direction is blocked; the reverse direction
+    // passes through, exactly like an inward-only room door.
+    void AddOneWaySolid(const Aabb& solid, OneWayDirection blocked_direction);
 
     const Aabb& Bounds() const { return bounds_; }
     bool HasBounds() const { return has_bounds_; }
     const std::vector<Aabb>& Solids() const { return solids_; }
+    const std::vector<OneWaySolid>& OneWaySolids() const { return one_way_solids_; }
 
     // Moves the centre of the body by delta and resolves each axis separately.
     // The resulting centre is written to out_position.
@@ -50,6 +67,7 @@ private:
     Aabb bounds_{};
     bool has_bounds_ = false;
     std::vector<Aabb> solids_;
+    std::vector<OneWaySolid> one_way_solids_;
 };
 
 } // namespace soulknight::engine::collision

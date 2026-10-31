@@ -52,6 +52,9 @@ private:
     void ExerciseWindowIfRequested();
     void BuildRenderBatch();
     void BuildSyntheticBatch();
+    void RebuildCollisionWorld();
+    void ToggleAllDoors();
+    void UpdateDoorTriggers();
     bool SmokeTestExpired() const;
 
     AppConfig config_;
@@ -65,6 +68,8 @@ private:
     engine::animation::LocomotionAnimator locomotion_animator_;
     engine::locomotion::PlayerLocomotion player_;
     engine::collision::AabbCollisionWorld collision_world_;
+    std::vector<bool> door_open_;
+    std::vector<bool> door_trigger_inside_;
     platform::InputManager input_manager_;
     platform::MovementInput movement_input_;
     engine::Camera2D camera_;

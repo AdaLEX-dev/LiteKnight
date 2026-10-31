@@ -33,6 +33,38 @@ struct SpriteInstance {
     int32_t sorting_layer = 0;
     int32_t sorting_order = 0;
     std::string path; // source hierarchy path, evidence only
+    std::string door; // optional recovered door side this leaf belongs to
+};
+
+struct CollisionBox {
+    Vec2 min{0.0f, 0.0f};
+    Vec2 max{0.0f, 0.0f};
+
+    bool IsValid() const {
+        return max.x > min.x && max.y > min.y;
+    }
+};
+
+enum class DoorOneWayBlock {
+    None,
+    PositiveX,
+    NegativeX,
+    PositiveY,
+    NegativeY,
+};
+
+struct SceneDoor {
+    std::string id;      // north/south/east/west
+    std::string aisle;   // aisle_n/aisle_s/aisle_e/aisle_w
+    std::string door_path_id;
+    std::string trigger_path_id;
+    int32_t direction = 0;            // RGAisle direction: east=0, south=1, west=2, north=3
+    int32_t enter_exit_direction = 0; // emRoomDoorDir: north=1, south=2, west=3, east=4
+    CollisionBox barrier{};
+    CollisionBox trigger{};
+    DoorOneWayBlock one_way_block = DoorOneWayBlock::None;
+    bool enabled = false;
+    bool open = false;
 };
 
 struct SceneCamera {
@@ -51,10 +83,21 @@ struct SceneAsset {
     SceneCamera camera;
     Vec2 spawn{0.0f, 0.0f};
     Rect collision_bounds{0.0f, 0.0f, 0.0f, 0.0f};
+    Rect interior_bounds{0.0f, 0.0f, 0.0f, 0.0f};
+    std::vector<CollisionBox> collision_solids;
+    std::vector<SceneDoor> doors;
+    bool has_room_topology = false;
 
     int32_t FindSpriteIndex(const std::string& sprite_id) const {
         for (std::size_t i = 0; i < sprites.size(); ++i) {
             if (sprites[i].id == sprite_id) return static_cast<int32_t>(i);
+        }
+        return -1;
+    }
+
+    int32_t FindDoorIndex(const std::string& door_id) const {
+        for (std::size_t i = 0; i < doors.size(); ++i) {
+            if (doors[i].id == door_id) return static_cast<int32_t>(i);
         }
         return -1;
     }

@@ -10,7 +10,9 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_vulkan.h>
 
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <cstdlib>
 #include <string_view>
 #include <utility>
@@ -43,13 +45,17 @@ engine::rendering::SortLayer MapSortingLayer(int32_t unity_sorting_layer) {
 }
 
 engine::collision::Aabb MakeFallbackCollisionBounds(const engine::Vec2& center) {
-    // NATIVE DESIGN: r1_1 is 15x15 with a 1-unit wall ring. If a scene omits
-    // explicit native collision data, use the resulting 13x13 interior.
+    // NATIVE DESIGN: compatibility fallback for scenes without explicit
+    // collision solids. The r1_1 scene always supplies recovered topology.
     constexpr float kInteriorHalfExtent = 6.5f;
     return engine::collision::Aabb{
         {center.x - kInteriorHalfExtent, center.y - kInteriorHalfExtent},
         {center.x + kInteriorHalfExtent, center.y + kInteriorHalfExtent}
     };
+}
+
+engine::collision::Aabb ToAabb(const engine::assets::CollisionBox& box) {
+    return engine::collision::Aabb{box.min, box.max};
 }
 
 } // namespace
@@ -159,22 +165,29 @@ bool Application::Initialize() {
         }
         locomotion_animator_.Configure(idle_clip, run_clip);
         player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
-        if (scene_.collision_bounds.w > 0.0f && scene_.collision_bounds.h > 0.0f) {
-            collision_world_.SetBounds(engine::collision::Aabb{
-                {scene_.collision_bounds.x, scene_.collision_bounds.y},
-                {scene_.collision_bounds.x + scene_.collision_bounds.w,
-                 scene_.collision_bounds.y + scene_.collision_bounds.h}
-            });
-        } else {
-            collision_world_.SetBounds(MakeFallbackCollisionBounds(camera_.position));
+        door_open_.clear();
+        door_trigger_inside_.clear();
+        for (const engine::assets::SceneDoor& door : scene_.doors) {
+            door_open_.push_back(door.open);
+            door_trigger_inside_.push_back(false);
         }
+        RebuildCollisionWorld();
         LOG_INFO_APP("Locomotion: spawn ({:.2f},{:.2f}), effective speed {:.2f}, idle={}, run={}",
                      scene_.spawn.x, scene_.spawn.y, player_.Config().EffectiveSpeed(),
                      idle_clip != nullptr ? "yes" : "no",
                      run_clip != nullptr ? "yes" : "no");
-        LOG_INFO_APP("Collision: native room AABB [{:.2f},{:.2f}]..[{:.2f},{:.2f}]",
+        LOG_INFO_APP("Collision: bounds [{:.2f},{:.2f}]..[{:.2f},{:.2f}], "
+                     "recovered solids={}, doors={}, topology={}",
                      collision_world_.Bounds().min.x, collision_world_.Bounds().min.y,
-                     collision_world_.Bounds().max.x, collision_world_.Bounds().max.y);
+                     collision_world_.Bounds().max.x, collision_world_.Bounds().max.y,
+                     scene_.collision_solids.size(), scene_.doors.size(),
+                     BooleanText(scene_.has_room_topology));
+        if (scene_.interior_bounds.w > 0.0f && scene_.interior_bounds.h > 0.0f) {
+            LOG_INFO_APP("Room interior: [{:.2f},{:.2f}]..[{:.2f},{:.2f}]",
+                         scene_.interior_bounds.x, scene_.interior_bounds.y,
+                         scene_.interior_bounds.x + scene_.interior_bounds.w,
+                         scene_.interior_bounds.y + scene_.interior_bounds.h);
+        }
         LOG_INFO_APP("Camera: center ({:.2f},{:.2f}), ortho size {:.2f}",
                      camera_.position.x, camera_.position.y,
                      camera_.orthographic_size);
@@ -286,6 +299,17 @@ void Application::BuildRenderBatch() {
 
     for (const engine::assets::SpriteInstance& instance : scene_.instances) {
         if (instance.sprite_index >= scene_.sprites.size()) continue;
+        if (!instance.door.empty()) {
+            const int32_t door_index = scene_.FindDoorIndex(instance.door);
+            if (door_index >= 0) {
+                const engine::assets::SceneDoor& door =
+                    scene_.doors[static_cast<std::size_t>(door_index)];
+                const bool is_open =
+                    static_cast<std::size_t>(door_index) < door_open_.size() &&
+                    door_open_[static_cast<std::size_t>(door_index)];
+                if (!door.enabled || is_open) continue;
+            }
+        }
         const engine::assets::SpriteData* sprite =
             &scene_.sprites[instance.sprite_index];
         if (locomotion_animator_.IsPlaying()) {
@@ -370,6 +394,12 @@ void Application::PollEvents() {
             running_ = false;
         }
 
+        if (event.type == SDL_EVENT_KEY_DOWN &&
+            event.key.scancode == SDL_SCANCODE_O && !event.key.repeat &&
+            scene_mode_ && !scene_.doors.empty()) {
+            ToggleAllDoors();
+        }
+
         window_.HandleEvent(event);
         input_manager_.ProcessEvent(event);
 
@@ -402,6 +432,106 @@ void Application::PollEvents() {
     window_.SyncRuntimeState();
 }
 
+void Application::RebuildCollisionWorld() {
+    collision_world_ = {};
+    if (scene_.has_room_topology) {
+        if (scene_.collision_bounds.w > 0.0f && scene_.collision_bounds.h > 0.0f) {
+            collision_world_.SetBounds(engine::collision::Aabb{
+                {scene_.collision_bounds.x, scene_.collision_bounds.y},
+                {scene_.collision_bounds.x + scene_.collision_bounds.w,
+                 scene_.collision_bounds.y + scene_.collision_bounds.h}
+            });
+        } else {
+            collision_world_.SetBounds(MakeFallbackCollisionBounds(camera_.position));
+        }
+        for (const engine::assets::CollisionBox& solid : scene_.collision_solids) {
+            collision_world_.AddSolid(ToAabb(solid));
+        }
+        for (std::size_t i = 0; i < scene_.doors.size(); ++i) {
+            const engine::assets::SceneDoor& door = scene_.doors[i];
+            if (!door.enabled || i >= door_open_.size() || door_open_[i]) continue;
+            const auto direction = [&door]() {
+                switch (door.one_way_block) {
+                    case engine::assets::DoorOneWayBlock::PositiveX:
+                        return engine::collision::OneWayDirection::PositiveX;
+                    case engine::assets::DoorOneWayBlock::NegativeX:
+                        return engine::collision::OneWayDirection::NegativeX;
+                    case engine::assets::DoorOneWayBlock::PositiveY:
+                        return engine::collision::OneWayDirection::PositiveY;
+                    case engine::assets::DoorOneWayBlock::NegativeY:
+                        return engine::collision::OneWayDirection::NegativeY;
+                    case engine::assets::DoorOneWayBlock::None:
+                        break;
+                }
+                return engine::collision::OneWayDirection::PositiveX;
+            }();
+            if (door.one_way_block == engine::assets::DoorOneWayBlock::None) {
+                collision_world_.AddSolid(ToAabb(door.barrier));
+            } else {
+                collision_world_.AddOneWaySolid(ToAabb(door.barrier), direction);
+            }
+        }
+        return;
+    }
+
+    if (scene_.collision_bounds.w > 0.0f && scene_.collision_bounds.h > 0.0f) {
+        collision_world_.SetBounds(engine::collision::Aabb{
+            {scene_.collision_bounds.x, scene_.collision_bounds.y},
+            {scene_.collision_bounds.x + scene_.collision_bounds.w,
+             scene_.collision_bounds.y + scene_.collision_bounds.h}
+        });
+    } else {
+        collision_world_.SetBounds(MakeFallbackCollisionBounds(camera_.position));
+    }
+}
+
+void Application::ToggleAllDoors() {
+    if (door_open_.empty()) return;
+    const bool target = !door_open_.front();
+    for (auto&& open : door_open_) open = target;
+    RebuildCollisionWorld();
+    int closed_barriers = 0;
+    for (std::size_t i = 0; i < scene_.doors.size() && i < door_open_.size(); ++i) {
+        if (scene_.doors[i].enabled && !door_open_[i]) ++closed_barriers;
+    }
+    LOG_INFO_APP("Door state: all recovered doors {}; closed barriers={}",
+                 target ? "open (passable, leaves hidden)" :
+                          "closed (solid, leaves visible)",
+                 closed_barriers);
+}
+
+void Application::UpdateDoorTriggers() {
+    if (!scene_.has_room_topology || scene_.doors.empty()) return;
+    // The reference door trigger reacts to c00's root trigger box, offset
+    // (0, 0.7). This native probe is for debug/traversal logging only.
+    const engine::Vec2 probe{
+        player_.Position().x,
+        player_.Position().y + 0.7f
+    };
+    for (std::size_t i = 0; i < scene_.doors.size() &&
+                            i < door_trigger_inside_.size(); ++i) {
+        const engine::assets::SceneDoor& door = scene_.doors[i];
+        const bool inside =
+            probe.x >= door.trigger.min.x && probe.x <= door.trigger.max.x &&
+            probe.y >= door.trigger.min.y && probe.y <= door.trigger.max.y;
+        const bool was_inside = door_trigger_inside_[i];
+        if (inside != was_inside) {
+            door_trigger_inside_[i] = inside;
+            if (config_.locomotion_debug) {
+                LOG_INFO_APP("Door trigger {}: {} aisle={} open={} "
+                             "active={} probe=({:.3f},{:.3f})",
+                             door.id,
+                             inside ? "enter" : "exit",
+                             door.aisle,
+                             BooleanText(i < door_open_.size() && door_open_[i]),
+                             BooleanText(door.enabled && i < door_open_.size() &&
+                                         door_open_[i]),
+                             probe.x, probe.y);
+            }
+        }
+    }
+}
+
 void Application::FixedUpdate(double dt) {
     simulation_time_ += dt;
     ++simulation_ticks_;
@@ -412,6 +542,7 @@ void Application::FixedUpdate(double dt) {
                         static_cast<float>(dt), collision_world_);
     locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
     camera_.Follow(player_.Position(), static_cast<float>(dt));
+    UpdateDoorTriggers();
 
     if (config_.locomotion_debug && simulation_ticks_ % 25 == 0) {
         const engine::animation::SpriteKeyframe* frame =

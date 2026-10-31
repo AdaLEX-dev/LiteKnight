@@ -12,10 +12,18 @@ void AabbCollisionWorld::SetBounds(const Aabb& bounds) {
 
 void AabbCollisionWorld::ClearSolids() {
     solids_.clear();
+    one_way_solids_.clear();
 }
 
 void AabbCollisionWorld::AddSolid(const Aabb& solid) {
     if (solid.IsValid()) solids_.push_back(solid);
+}
+
+void AabbCollisionWorld::AddOneWaySolid(const Aabb& solid,
+                                        OneWayDirection blocked_direction) {
+    if (solid.IsValid()) {
+        one_way_solids_.push_back(OneWaySolid{solid, blocked_direction});
+    }
 }
 
 Aabb AabbCollisionWorld::MakeBox(const Vec2& center, const Vec2& half_extents) {
@@ -65,6 +73,28 @@ CollisionResult AabbCollisionWorld::Move(const Vec2& position,
                 result.blocked_x = true;
             }
         }
+
+        for (const OneWaySolid& solid : one_way_solids_) {
+            const bool direction_blocked =
+                (delta.x > 0.0f &&
+                 solid.blocked_direction == OneWayDirection::PositiveX) ||
+                (delta.x < 0.0f &&
+                 solid.blocked_direction == OneWayDirection::NegativeX);
+            if (!direction_blocked) continue;
+            const Aabb& box = solid.box;
+            const bool vertical_overlap = start_box.min.y < box.max.y &&
+                                          start_box.max.y > box.min.y;
+            if (!vertical_overlap) continue;
+            if (delta.x > 0.0f && start_box.max.x <= box.min.x &&
+                target_box.max.x > box.min.x) {
+                target.x = std::min(target.x, box.min.x - half_extents.x);
+                result.blocked_x = true;
+            } else if (delta.x < 0.0f && start_box.min.x >= box.max.x &&
+                       target_box.min.x < box.max.x) {
+                target.x = std::max(target.x, box.max.x + half_extents.x);
+                result.blocked_x = true;
+            }
+        }
         center.x = target.x;
     }
 
@@ -97,6 +127,28 @@ CollisionResult AabbCollisionWorld::Move(const Vec2& position,
             } else if (delta.y < 0.0f && start_box.min.y >= solid.max.y &&
                        target_box.min.y < solid.max.y) {
                 target.y = std::max(target.y, solid.max.y + half_extents.y);
+                result.blocked_y = true;
+            }
+        }
+
+        for (const OneWaySolid& solid : one_way_solids_) {
+            const bool direction_blocked =
+                (delta.y > 0.0f &&
+                 solid.blocked_direction == OneWayDirection::PositiveY) ||
+                (delta.y < 0.0f &&
+                 solid.blocked_direction == OneWayDirection::NegativeY);
+            if (!direction_blocked) continue;
+            const Aabb& box = solid.box;
+            const bool horizontal_overlap = start_box.min.x < box.max.x &&
+                                            start_box.max.x > box.min.x;
+            if (!horizontal_overlap) continue;
+            if (delta.y > 0.0f && start_box.max.y <= box.min.y &&
+                target_box.max.y > box.min.y) {
+                target.y = std::min(target.y, box.min.y - half_extents.y);
+                result.blocked_y = true;
+            } else if (delta.y < 0.0f && start_box.min.y >= box.max.y &&
+                       target_box.min.y < box.max.y) {
+                target.y = std::max(target.y, box.max.y + half_extents.y);
                 result.blocked_y = true;
             }
         }
