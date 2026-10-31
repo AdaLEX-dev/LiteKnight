@@ -1,8 +1,11 @@
 # Vertical Slice — Evidence-Gated Plan
 
-**Status:** planning only. No gameplay implementation until the gates below are met.
+**Status:** **BLOCKED** — planning only. No gameplay implementation until the gates
+below are met or explicitly accepted.
 **Target:** native CachyOS x86-64, Wayland, Vulkan, 1920×1080.
 **Reference:** Soul Knight 2.6.8, Unity 2018.4.12f1, metadata v24.
+**Gate B report:** `docs/GATE_B.md` — **PARTIAL**.
+**Phase 3 report:** `docs/PHASE_3_BEHAVIOURAL_RE.md` — **PARTIAL**.
 
 ---
 
@@ -11,16 +14,17 @@
 Prove the native architecture and evidence pipeline with the smallest genuinely
 playable loop, not a broad speculative port.
 
-**Scope:**
+**Technical slice content:**
 
 - room `r1_1`,
-- one player character (`c01` candidate; identity must be confirmed),
-- one weapon (exact weapon unresolved),
-- one enemy (`enemy01` / `e_slime01` candidate; identity must be confirmed),
+- player prefab `c00` (`C01Controller`; display name CANDIDATE),
+- enemy prefab `e_slime01` (`EnemyAI04`; display name/AI partially unresolved),
+- weapon `weapon_000` (`Gun001`; display name CANDIDATE),
+- projectile `bullet_0` (`Bullet01`),
 - movement, collision, attack, projectile, damage, enemy death, player death,
 - restart,
 - basic HUD,
-- real extracted sprites/audio,
+- extracted sprites/audio,
 - native Wayland/Vulkan window and renderer.
 
 **Non-goals:** full content, full UI, all characters/weapons/enemies, online,
@@ -28,30 +32,35 @@ progression, final balance, packaging.
 
 ---
 
-## 2. Evidence gates (must pass before implementation)
+## 2. Evidence gates
 
-Every row must have an evidence document, an exact missing-evidence statement, and a responsible subsystem. A file existing is not a pass.
+A file existing is not a pass. Each gate needs an evidence document, exact missing
+evidence, and a responsible subsystem.
 
 | Gate | Status | Evidence document | Exact missing evidence | Responsible subsystem |
 |---|---|---|---|---|
-| Player identity | ❌ NOT MET | `analysis/assets/extraction_manifest.json` | `c01` is only a candidate; no serialized character definition proves it is the Knight | Character data / `RGCharacterInfo` |
-| Enemy identity | ❌ NOT MET | `analysis/assets/extraction_manifest.json` | `enemy01`/`e_slime01` are candidates; no enemy definition proves identity | Enemy data / `RGEController` |
-| Weapon identity | ❌ NOT MET | `analysis/assets/extraction_manifest.json` | Generic weapon prefab only; no weapon definition proves the starting weapon | Weapon data / `RGWeapon` |
-| Input semantics | ❌ NOT MET | `docs/INPUT.md` (provisional design) | Reference movement/aim/attack/dodge input mapping not reconstructed | Input / `RGJoyControl`, `MovementInput` |
-| Room hierarchy | ❌ NOT MET | `analysis/assets/extraction_manifest.json` | `r1_1` prefab hierarchy/bounds/spawn points not interpreted; only shared sprites extracted | Rooms / `RGRoomX`, `SerializeLinkerRoom` |
-| Room collision | ❌ NOT MET | none | Tile/collider geometry and collision layer rules not reconstructed | Rooms / collision |
-| Enemy AI | ❌ NOT MET | none | No `EnemyAI##` state machine/attack/death reconstructed | AI / `RGEController` |
-| Weapon behaviour | ❌ NOT MET | none | Fire mode, ammo, projectile spawn, spread, and cooldowns not reconstructed | Weapons / `RGWeapon` |
-| Projectile behaviour | ❌ NOT MET | none | Collision, pierce, rebound, lifetime, and trigger semantics not reconstructed | Projectiles / `RGBullet` |
-| Damage bridge | ❌ NOT MET | `analysis/re/damage.md` | Box branch is `RGBox.Hit` (HIGH CONFIDENCE); enemy/player controller dispatch at `0x1160F78` (vtable `+0x2C8`) and critical/element rules unresolved | Combat / `DamageCarrier` |
-| Tick rate | ❌ NOT MET | `docs/ARCHITECTURE.md` (claim unsupported) | No `Time.fixedDeltaTime` value or runtime measurement; 50 Hz is unsupported and 60 Hz is only the render target | Engine loop / `FrameTimer` |
-| Renderer | ❌ NOT MET | `docs/RENDERING.md` (design only) | No Vulkan instance/device/swapchain/pipeline/sprite path exists | Rendering / platform |
-| RNG core | ⚠️ PARTIAL | `analysis/re/rgrandom.md` | `seed_state` 1/2 and map-length branch unresolved | RNG / `RGRandom` |
-| Asset extraction | ⚠️ PARTIAL | `analysis/assets/extraction_manifest.json` | Source bundle/object identity recorded; candidate identities and native conversion missing | Assets / extraction tool |
-| Build/test baseline | ✅ MET (tooling only) | `analysis/REPOSITORY_INTEGRITY_AUDIT.md` | Not a gameplay gate | Build / tests |
+| Player identity | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | `c00`/`C01Controller`/stats confirmed; display name "Knight" not proven | Character data / `c00` |
+| Enemy identity | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | `e_slime01`/`EnemyAI04`/stats confirmed; display name and AI state machine unknown | Enemy data / `RGEController` |
+| Weapon identity | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `weapon_000`/`Gun001`/`bullet_0` confirmed; display name/starting assignment not proven | Weapon data / `RGWeapon` |
+| Input semantics | ⚠️ PARTIAL | `analysis/re/input_movement.md` | WASD/joystick + movement confirmed; exact attack/skill/dodge button semantics partial | Input / `RGJoyControl` |
+| Room hierarchy | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | `r1_1` prefab hierarchy confirmed; spawn point and door/aisle state transitions unknown | Rooms / `RGRoomX` |
+| Room collision | ⚠️ PARTIAL | `analysis/re/rooms_scene.md` | Door/trigger/bullet colliders confirmed; wall-collider placement from room grid unknown | Rooms / `RGRoomX`, `MapManagerLevel` |
+| Enemy AI | ❌ NOT MET | `analysis/UNKNOWN_SYSTEMS.md` | No `EnemyAI04` state machine/attack/death transitions reconstructed | AI / `RGEController` |
+| Weapon behaviour | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `Gun001.Attack`→`CreateBullet`→`BulletFactory.TakeBullet` identified; cadence/ammo/spread exact values open | Weapons / `RGWeapon` |
+| Projectile behaviour | ⚠️ PARTIAL | `analysis/re/weapons_projectiles.md` | `Bullet01` fields/trigger chain confirmed; exact velocity/rebound/through math open | Projectiles / `RGBullet` |
+| Damage bridge | ✅ MET | `analysis/re/damage.md` | Player `+0x228`, enemy `+0x2C8`, box `+0x168` resolved | Combat / `DamageCarrier` |
+| Damage formulas | ⚠️ PARTIAL | `analysis/re/damage.md` | Armor/HP/CanDie confirmed; effect-trigger/crit/element details open | Combat / `GetHurt` |
+| Death/restart | ⚠️ PARTIAL | `analysis/re/damage.md` | Entry effects confirmed; post-death virtual slots, reborn/game-over/restart open | Combat/state |
+| Tick rate | ✅ MET | `analysis/re/timing.md` | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) confirmed | Engine loop / `FrameTimer` |
+| Renderer | ❌ NOT MET | `docs/RENDERING.md` / `docs/PHASE_4_NATIVE_RUNTIME.md` | No Vulkan instance/device/swapchain/pipeline/sprite path exists | Rendering / platform |
+| RNG core | ⚠️ PARTIAL | `analysis/re/rgrandom.md` | Core/map/LongMap confirmed; `seed_state` 1/2, DateTime seed, reference vectors unavailable | RNG / `RGRandom` |
+| Asset extraction | ⚠️ PARTIAL | `analysis/assets/extraction_manifest.json` | Extraction reproducible; native conversion/atlas/audio pipeline not started | Assets / extraction tool |
+| Save/runtime boundary | ⚠️ PARTIAL | `docs/PHASE_4_NATIVE_RUNTIME.md` | Runtime state classes identified; save format/versioning unknown | Save / `RGSaveManager` |
+| Build/test baseline | ✅ MET (tooling) | `analysis/REPOSITORY_INTEGRITY_AUDIT.md` | Not a gameplay gate | Build / tests |
 
-Do not label the slice "playable" or "parity" until every applicable gate has a
-linked evidence note.
+**Slice gate:** **NOT CLEARED.** The minimum blockers are room collision placement,
+room spawn/door state, weapon/projectile fire contract, and death/restart. Renderer
+is a Phase 4 implementation gate, not an evidence gate.
 
 ---
 
@@ -59,67 +68,70 @@ linked evidence note.
 
 Generated by `tools/asset/extract.sh extract --profile first-pass`:
 
-- `room-r1-1`: shared floor/wall/door sprites from `res/floor` (102 objects); the `room/r1_1` bundle itself is prefab references, not a sprite atlas,
-- `character-c01-candidate`: 133 entries (sprites + hierarchy; candidate),
-- `enemy-enemy01-slime-candidate`: 7 sprites (candidate),
-- `enemy-e-slime01`: 1 hierarchy JSON,
-- `weapon-candidate`: 5 entries (sprite sample + generic prefab hierarchies),
-- `ui-sprites`: 30 representative UI sprites,
+- `room-r1-1`: 102 shared floor/wall/door sprite entries from `res/floor`; the
+  `room/r1_1` bundle itself is prefab references, not an atlas.
+- `character-c01-candidate`: 133 entries (sprites + hierarchy; candidate). The
+  prefab/controller evidence for `c00`/`c01` is now confirmed separately.
+- `enemy-enemy01-slime-candidate`: 7 sprites (candidate).
+- `enemy-e-slime01`: 1 hierarchy JSON (`e_slime01`/`EnemyAI04` confirmed technical).
+- `weapon-candidate`: 5 entries (sprite sample + generic prefab hierarchies);
+  `weapon_000`/`bullet_0` confirmed separately.
+- `ui-sprites`: 30 representative UI sprites.
 - `audio-sample`: 6 clips.
 
-The exact character, enemy, and weapon mappings are **not yet verified**. The
-vertical slice must not claim they are the Knight/slime/pistol until character
-and weapon data are decoded.
+Display names remain candidate until a serialized name mapping is found.
 
 ---
 
 ## 4. Implementation order (after gates)
 
-1. **Renderer smoke test** — window, Vulkan instance/device/swapchain, clear
-   screen, present, resize, clean exit.
-2. **Sprite path** — one texture, one sprite quad, atlas UVs, camera.
-3. **Fixed simulation** — resolve the reference tick rate from evidence
-   (`ARCHITECTURE.md` claims 50 Hz but currently lacks a citation; do not assume
-   60 Hz).
-4. **Room load** — parse `r1_1` hierarchy/bounds and place visual sprites.
-5. **Player movement/collision** — evidence-backed speed/collision from
-   `RGController`/`RoleAttribute` disassembly.
-6. **Weapon/projectile** — one confirmed weapon, one projectile, spawn/lifetime.
-7. **Damage** — use the reconstructed player/enemy state mutation and the
-   resolved projectile bridge.
-8. **Death/restart** — player/enemy death and restart path.
-9. **HUD** — health/armor/energy from the actual state, real UI sprites.
-10. **Audio** — one BGM and a few SFX through miniaudio.
+1. **Renderer smoke test** — window, Vulkan instance/device/swapchain, clear,
+   present, resize, clean exit.
+2. **Sprite path** — one texture, one quad, atlas UVs, camera.
+3. **Simulation clock** — 50 Hz fixed step + 60 FPS render/interpolation.
+4. **Input** — WASD/joystick movement; verify attack mapping.
+5. **Room load** — parse `r1_1` hierarchy/bounds, place sprites/colliders.
+6. **Collision** — wall/door/bullet trigger representation.
+7. **Player entity** — c00/C01Controller stats, movement, damage.
+8. **Weapon/projectile** — weapon_000/Gun001 → bullet_0/Bullet01.
+9. **Enemy** — e_slime01/EnemyAI04 minimal documented behavior.
+10. **Damage/death/restart** — reconstructed pipeline.
+11. **HUD** — HP/armor/energy from state.
+12. **Audio** — one BGM and SFX.
+13. **Integration** — complete `r1_1` loop.
+14. **Reference comparison/performance** — only where evidence supports.
 
 ---
 
 ## 5. Tests for the slice
 
-- simulation tick is independent of render rate,
-- room loads deterministically from a fixed manifest,
-- player collides with room bounds,
-- projectile spawn/lifetime/hit,
+- simulation tick independent of render rate,
+- room loads from fixed converted data,
+- player wall collision and door trigger,
+- weapon creates bullet_0 with documented damage/speed,
+- projectile lifetime/hit/despawn,
 - armor absorbs then overflows to HP,
 - enemy HP reaches zero → death,
-- player `CanDie == false` leaves 1 HP,
+- player `CanDie` leaves 1 HP where applicable,
 - restart resets state without stale entities,
-- Vulkan frame presents and exits cleanly,
+- Vulkan frame presents/resizes/exits cleanly,
 - headless test path does not require a display.
 
 ---
 
 ## 6. Open decisions
 
-- Exact player character identity from `c01` candidate.
-- Exact enemy identity and one AI behavior.
-- Exact weapon identity/fire mode.
-- Reference tick rate.
-- Whether to use VMA, a simple allocator, or a minimal Vulkan path for the first
-  frame.
-- Input mapping defaults (keyboard/mouse vs gamepad).
+- Exact display identity of c00/c01/e_slime01/weapon_000 (technical identities are
+  confirmed; names are candidates).
+- Wall-collider placement and room spawn point.
+- Exact weapon fire cadence/ammo/spread and projectile velocity.
+- Full enemy AI behavior for e_slime01.
+- Death/reborn/restart branches.
+- Renderer material/shader parity.
+- Save format (not required for first slice; runtime state can be transient).
 
 ---
 
-**Rule:** the vertical slice is a validation vehicle, not a place to hide
-missing evidence. If a system is implemented on a hypothesis, label it in code
-and in the parity matrix.
+**Rule:** the vertical slice is a validation vehicle, not a place to hide missing
+evidence. If a system is implemented on a hypothesis, label it in code and in the
+parity matrix.

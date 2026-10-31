@@ -1,20 +1,23 @@
 # Soul Knight 2.6.8 — Roadmap
 
-**Version:** 1.2 (integrity pass, 2026-10-31)
+**Version:** 1.3 (Gate B / Phase 3 evidence pass, 2026-10-31)
 **Target:** CachyOS, x86-64, Wayland, 1920×1080, 60 FPS
 **Baseline:** Soul Knight 2.6.8 (APK SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)
 **Reference engine:** Unity **2018.4.12f1**, IL2CPP metadata **v24**
 
-> **Current status (2026-10-31):**
+> **Current status (2026-10-31 Gate B / Phase 3 evidence pass):**
 >
 > - Phase 0 — COMPLETE
 > - Phase 1 — COMPLETE (artifact inventory)
-> - Phase 2 — PARTIAL; Gate B **NOT MET**
-> - Phase 3 — CURRENT (behavioural reconstruction; RNG core reconstructed, damage partial)
-> - Phase 4 — NOT STARTED; Gate C **NOT MET**
-> - Phase 5+ — BLOCKED by evidence gates
+> - Phase 2 — PARTIAL; Gate B **PARTIAL** (see `docs/GATE_B.md`)
+> - Phase 3 — PARTIAL/CURRENT (vertical-slice contract largely reconstructed; full content/AI/save unknown; see `docs/PHASE_3_BEHAVIOURAL_RE.md`)
+> - Phase 4 — **PLANNED only**; Gate C **NOT MET** (see `docs/PHASE_4_NATIVE_RUNTIME.md`)
+> - Phase 5+ — BLOCKED by Gate B/C
 >
-> The build/test baseline and platform scaffold were repaired during the integrity pass; that is not a Phase 4 gate completion. The schedule below is a historical estimate, not a commitment. Behavioural work follows `analysis/PROJECT_DIAGNOSIS.md`, `docs/EVIDENCE_STANDARD.md`, and `tools/re/`.
+> The build/test/evidence pipeline is clean and reproducible. This is not a Phase 4
+> completion. The schedule below is a historical estimate, not a commitment.
+> Behavioural work follows `analysis/re/`, `docs/EVIDENCE_STANDARD.md`, and
+> `tools/re/`.
 
 ---
 
@@ -24,9 +27,9 @@
 |-------|------|--------|------|----------------|
 | 0 | Environment | Tooling verified | A | ✅ COMPLETE |
 | 1 | APK Forensics | Inventory complete | B | ✅ COMPLETE |
-| 2 | Engine Reconstruction | Architecture mapped | B | ⚠️ PARTIAL / Gate B NOT MET |
-| 3 | Gameplay Reconstruction | Behavioural specs | B | 🔄 CURRENT |
-| 4 | Native Runtime | Wayland app launches | C | ⬜ NOT STARTED / Gate C NOT MET |
+| 2 | Engine Reconstruction | Architecture mapped | B | ⚠️ PARTIAL / Gate B PARTIAL |
+| 3 | Gameplay Reconstruction | Behavioural specs | B | ⚠️ PARTIAL / CURRENT |
+| 4 | Native Runtime | Wayland app launches | C | ⬜ PLANNED / Gate C NOT MET |
 | 5 | First Playable | Core loop playable | D | ⛔ BLOCKED |
 | 6 | Core Systems | All major systems | E | ⛔ BLOCKED |
 | 7 | Content Parity | Full catalog implemented | E | ⛔ BLOCKED |
@@ -48,30 +51,33 @@
 
 | Task | Evidence document / planned deliverable | Status |
 |------|------------------------------------------|--------|
-| RNG stream isolation design | `analysis/re/rgrandom.md` | 🔄 PARTIAL — core/map-seed path reconstructed; `seed_state` 1/2 and map-length branch open |
-| Damage system (armor, crit, elements, status) | `analysis/re/damage.md` | 🔄 PARTIAL — player/enemy state mutation; projectile bridge/crit/element unresolved |
+| RNG stream isolation design | `analysis/re/rgrandom.md` | ⚠️ PARTIAL — core/map-seed/LongMap reconstructed; `seed_state` 1/2 and DateTime seed open |
+| Damage system (armor, crit, elements, status) | `analysis/re/damage.md` | ⚠️ PARTIAL — player/enemy/box bridges confirmed; crit/element/effect-trigger details open |
 | Unknown systems tracking | `analysis/UNKNOWN_SYSTEMS.md` | 🔄 ACTIVE |
 | Source map (reference → native) | `analysis/SOURCE_MAP.md` | 🔄 ACTIVE (planning only; no implementation) |
-| Player movement & physics | `docs/PLAYER.md` (planned) | ⬜ NOT STARTED |
+| Player movement & physics | `analysis/re/input_movement.md` | ⚠️ PARTIAL — movement formula/stats reconstructed; no native implementation |
 | Player combat (attack, dodge, skill) | `docs/COMBAT.md` (planned) | ⬜ NOT STARTED |
 | Enemy AI (20+ types) | `docs/AI.md` (planned) | ⬜ NOT STARTED |
 | Weapon mechanics (25+ types) | `docs/WEAPONS.md` (planned) | ⬜ NOT STARTED |
-| Projectile physics & triggers | `docs/PROJECTILES.md` (planned) | ⬜ NOT STARTED |
-| Room generation algorithm | `docs/PROCEDURAL_GENERATION.md` (planned) | ⬜ NOT STARTED |
+| Projectile physics & triggers | `analysis/re/weapons_projectiles.md` | ⚠️ PARTIAL — Bullet01/trigger chain; velocity/rebound open |
+| Room generation algorithm | `docs/PROCEDURAL_GENERATION.md` | ⚠️ PARTIAL — `r1_1` prefab known; generation algorithm UNKNOWN |
 | Item/buff/chest systems | `docs/ITEMS.md` (planned) | ⬜ NOT STARTED |
 | Progression & unlocks | `docs/PROGRESSION.md` (planned) | ⬜ NOT STARTED |
 | Save/load system | `docs/SAVE_SYSTEM.md` (design only) | ⬜ NOT STARTED |
 | Audio triggers & music | `docs/AUDIO.md` (design only) | ⬜ NOT STARTED |
 | UI/HUD/Menu flow | `docs/UI.md` (planned) | ⬜ NOT STARTED |
 
-**Gate B:** All major behavioural specs documented with evidence references. **Current status: NOT MET** — RNG and damage are partial; movement, AI, weapons, rooms, items, progression, UI, audio, and save behaviour are not reconstructed.
+**Gate B:** Reusable engine/runtime primitives documented with evidence. **Current status: PARTIAL** — see `docs/GATE_B.md`; four explicit blockers remain (wall-collision placement, spawn/door state, weapon fire/projectile velocity, full death/reborn).
 
 ---
 
-### Phase 4 — Native Runtime (NOT STARTED; Gate C NOT MET)
+### Phase 4 — Native Runtime (PLANNED; Gate C NOT MET)
 **Goal:** Native Wayland application launches reliably
 
-> The build/test baseline and a window/input/audio/filesystem scaffold exist, but there is no Vulkan context/swapchain/renderer and no Gate C runtime checkpoint. The task table remains `NOT STARTED` for gate purposes.
+> The full implementation plan is `docs/PHASE_4_NATIVE_RUNTIME.md`. The build/test
+> baseline and window/input/audio/filesystem scaffold exist, but there is no Vulkan
+> context/swapchain/renderer and no Gate C runtime checkpoint. No Phase 4 feature
+> code has been started.
 
 | Task | Deliverable | Status |
 |------|-------------|--------|
@@ -86,7 +92,7 @@
 | Basic render loop (clear + present) | `src/app/main.cpp` | ⬜ |
 | Debug overlay (FPS, frame graph, entity count) | `src/engine/core/DebugOverlay.cpp` | ⬜ |
 
-**Gate C:** Native app launches, shows window, maintains 60 FPS clear screen, handles input, clean exit. **Current status: NOT MET** — no renderer/swapchain/simulation; build/test feedback loop must be restored first.
+**Gate C:** Native app launches, shows window, maintains 60 FPS clear screen, handles input, clean exit. **Current status: NOT MET** — no renderer/swapchain/simulation; the implementation plan is `docs/PHASE_4_NATIVE_RUNTIME.md`, but no Phase 4 code has started.
 
 ---
 
@@ -263,10 +269,10 @@ Phase 11 (Release) ────────────┘
 
 | Phase | Est. Time | Focus |
 |-------|-----------|-------|
-| 0-1 | 1 week | ✅ DONE |
-| 2 | — | ⚠️ PARTIAL / Gate B NOT MET |
-| 3 | — | 🔄 CURRENT (estimate suspended until evidence gates pass) |
-| 4 | — | ⬜ NOT STARTED / Gate C NOT MET |
+| 0-1 | 1 week | ✅ DONE (historical) |
+| 2 | — | ⚠️ PARTIAL / Gate B PARTIAL |
+| 3 | — | ⚠️ PARTIAL/CURRENT (estimate suspended) |
+| 4 | — | ⬜ PLANNED / Gate C NOT MET |
 | 5 | — | ⛔ BLOCKED |
 | 6 | 9 weeks | Core systems (parallelizable) |
 | 7 | 6 weeks | Content implementation |
@@ -311,5 +317,5 @@ Phase 11 (Release) ────────────┘
 
 ---
 
-**Next Review:** After Phase 3 complete (Gate B).
+**Next Review:** After Gate B blockers are closed or explicitly accepted.
 **Roadmap Version:** 1.2 — Update at each gate.

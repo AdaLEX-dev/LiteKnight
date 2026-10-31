@@ -1,5 +1,10 @@
 # Soul Knight 2.6.8 — Platform Layer Design
 
+> **Current plan (2026-10-31):** `docs/PHASE_4_NATIVE_RUNTIME.md` is the canonical
+> Phase 4 platform plan. Gate B is **PARTIAL**; Gate C is **NOT MET**; no Vulkan or
+> renderer code exists. Confirmed reference facts: fixed timestep 0.02 s, Physics2D
+> gravity `(0,-9.81)`, legacy input, Wayland-only target.
+
 > **Status:** design proposal only. The current implementation is limited to an
 > SDL3 window/input/audio/file-system scaffold; there is no Vulkan context or
 > swapchain. Gate C is **NOT MET**. Do not treat code snippets here as

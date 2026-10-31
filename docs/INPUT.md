@@ -1,8 +1,14 @@
 # Soul Knight 2.6.8 — Input Design
 
-> **Status:** design proposal only. The reference input semantics are **NOT**
-> reconstructed. The SDL3 action mapping in `src/platform/input/` is a native
-> scaffold and must not be cited as parity evidence. See `docs/VERTICAL_SLICE.md`.
+> **Current plan (2026-10-31):** `analysis/re/input_movement.md` and
+> `docs/PHASE_4_NATIVE_RUNTIME.md` are canonical. Confirmed: legacy Unity input,
+> WASD/joystick axes, `MovementInput`, `RGController.SetVelocity` in FixedUpdate.
+> Exact attack/skill/dodge button semantics remain PARTIAL.
+
+> **Status:** **PARTIAL.** Movement axes/mapping are reconstructed in
+> `analysis/re/input_movement.md`; exact attack/skill/dodge semantics are still
+> partial. The SDL3 action mapping in `src/platform/input/` is a native scaffold,
+> not parity evidence. See `docs/VERTICAL_SLICE.md`.
 
 **Target:** Keyboard, Mouse, Gamepad (SDL3), Wayland
 

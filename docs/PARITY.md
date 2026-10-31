@@ -1,69 +1,76 @@
 # Soul Knight 2.6.8 — Parity Matrix
 
-> **Current truth (2026-10-31 integrity pass).** The previous matrix marked many
-> subsystems `HIGH` confidence even though they were inferred from class/field
-> names. Those rows were planning hypotheses, not evidence. They are preserved in
-> Git history and summarized in `analysis/EVIDENCE_AUDIT.md`; they are not
-> current parity claims.
+> **Current truth (2026-10-31 Gate B / Phase 3 pass).** This matrix is evidence-first.
+> `PLANNED` means no native implementation exists. `PARTIAL` means some reference
+> behaviour is reconstructed, with named gaps. No row is marked `VERIFIED` without
+> a reference comparison. The old speculative matrix remains in Git history and is
+> audited in `analysis/EVIDENCE_AUDIT.md`.
 
-**Status Definitions:**
-- `UNKNOWN` — no evidence-backed behaviour reconstructed.
-- `PARTIAL` — some behaviour reconstructed/implemented, with named gaps.
-- `FUNCTIONAL` — works natively but is not verified against the reference.
-- `HIGH-FIDELITY` — verified behavioural match with minor differences.
+**Status definitions:**
+
+- `UNKNOWN` — not reconstructed.
+- `PARTIAL` — some evidence/implementation, named gaps remain.
+- `PLANNED` — design exists; no native implementation.
+- `FUNCTIONAL` — native implementation works but is not reference-verified.
+- `HIGH-FIDELITY` — reference-verified with known minor differences.
 - `VERIFIED` — reference-verified with regression tests.
 
 ---
 
-## Current Evidence-Backed Matrix
+## Evidence-backed matrix
 
-| Subsystem | Reference evidence | Native state | Evidence | Status |
+| Feature | Reference Evidence | Native Status | Confidence | Validation |
 |---|---|---|---|---|
-| Reference identity | Unity **2018.4.12f1**, IL2CPP metadata **v24**, APK hash verified | N/A | `analysis/ARTIFACT.md`, `analysis/EVIDENCE_AUDIT.md` | **VERIFIED (structural)** |
-| Build/test baseline | N/A — platform tooling, not game parity | Debug/RelWithDebInfo build; 22 doctest cases | `analysis/REPOSITORY_INTEGRITY_AUDIT.md` | **VERIFIED (tooling)** |
-| RNG | `RGRandom` wrapper over Unity `Random`; Xorshift128 engine and wrapper reconstructed; map-seed path resolved | `UnityRandom` / `RGRandomStream` implemented and tested | `analysis/re/rgrandom.md`, `tests/unit/unity_random_test.cpp` | **PARTIAL** — `seed_state` 1/2 and map-length branch open |
-| Player damage state mutation | `RGController.GetHurt`, `HurtArmor`, `HurtHp`, `RoleAttribute*`, `CanDie` partly reconstructed | Not implemented | `analysis/re/damage.md` | **PARTIAL** — projectile→controller bridge/crit/element unresolved |
-| Enemy damage state mutation | `RGEController.GetHurt` HP subtraction/callback/death partly reconstructed; projectile→box `RGBox.Hit` bridge reconstructed | Not implemented | `analysis/re/damage.md` | **PARTIAL** — projectile→controller bridge/source filtering/death branches open |
-| Asset extraction | Bundle contents readable with UnityPy; candidates are unverified | Not a runtime subsystem | `analysis/assets/extraction_manifest.json` | **PARTIAL** — identities unverified; conversion not started |
-| Player movement/combat | Class/field structure only | Placeholder code only | — | **UNKNOWN** |
-| Enemy AI | Class names/coroutine signatures only | Nothing | — | **UNKNOWN** |
-| Weapons/projectiles | Class names/field structure only | Nothing | — | **UNKNOWN** |
-| Rooms/generation | Class names/serialization classes only | Nothing | — | **UNKNOWN** |
-| Items/progression | Class names only | Nothing | — | **UNKNOWN** |
-| UI/audio/save | Class names/design proposals only | Audio/file-system wrapper exists; no game integration | — | **UNKNOWN** |
-| Renderer | Unity renderer target known; no reference behaviour reconstructed | No Vulkan context/swapchain/batcher | `docs/RENDERING.md` | **UNKNOWN / NOT IMPLEMENTED** |
+| Reference identity | Unity 2018.4.12f1, metadata v24, APK hash | N/A | **CONFIRMED** | `analysis/ARTIFACT.md`, `analysis/EVIDENCE_AUDIT.md` |
+| Build/test baseline | N/A (tooling) | Debug + RelWithDebInfo, 22/1273 | **VERIFIED (tooling)** | `analysis/REPOSITORY_INTEGRITY_AUDIT.md` |
+| RNG core | Unity 2018.4 Xorshift128, LCG seed, 23-bit floats | `UnityRandom`/`RGRandomStream` implemented | **CONFIRMED (static)** | `analysis/re/rgrandom.md`, `tests/unit/unity_random_test.cpp` |
+| RNG wrapper / streams | `seed_state`, map seed, `RandomBehaviour`, `RGController` seed | Native wrapper implemented | **PARTIAL** — seed_state 1/2 and DateTime seed exactness open | `analysis/re/rgrandom.md` |
+| Fixed timestep | `TimeManager.Fixed_Timestep = 0.02` (50 Hz) | `FrameTimer` scaffold exists | **CONFIRMED reference** | `analysis/re/timing.md` |
+| Frame-loop model | Update vs FixedUpdate; render target 60 FPS | Planned | **PLANNED** | `docs/PHASE_4_NATIVE_RUNTIME.md` |
+| Math/vector conventions | Unity Vector2/3, quaternion, Y-up, 2D physics | Vec2/Vec3/Mat4 helpers exist | **CONFIRMED API**, no parity test | `analysis/re/timing.md`, `analysis/re/input_movement.md` |
+| Scene/object lifecycle | MonoBehaviour messages, coroutines, pooling | Planned | **PARTIAL** — destruction/pool details open | `analysis/re/rooms_scene.md` |
+| Room `r1_1` | Prefab hierarchy, 12 colliders, doors/aisles/triggers | Not loaded natively | **CONFIRMED asset**, collision placement PARTIAL | `analysis/re/rooms_scene.md` |
+| Procedural room generation | `MapManagerLevel.CreateMap`, `SerializeLinkerRoom` | Not started | **UNKNOWN** | `docs/PROCEDURAL_GENERATION.md` |
+| Collision settings | Physics2D gravity (0,-9.81), layers/tags, wall prefab colliders | Not implemented | **HIGH CONFIDENCE** — wall placement open | `analysis/re/rooms_scene.md` |
+| Input mapping | Legacy axes, WASD, joystick deadzone 0.19 | Scaffold only | **CONFIRMED reference** | `analysis/re/input_movement.md` |
+| Player movement | `C01Controller.FixedUpdate` → `SetVelocity`; speed 6.5/speed_rate 0.5 | Not implemented | **HIGH CONFIDENCE** | `analysis/re/input_movement.md` |
+| Player identity | `c00` prefab uses `C01Controller` + `RoleAttributePlayer` | Not loaded natively | **CONFIRMED technical**; display name CANDIDATE | `analysis/re/rooms_scene.md` |
+| Enemy identity | `e_slime01` uses `EnemyAI04` + `RoleAttribute` | Not loaded natively | **CONFIRMED technical**; display name/AI UNKNOWN | `analysis/re/rooms_scene.md` |
+| Enemy AI | `EnemyAI01..20`, coroutines | Not started | **UNKNOWN** | `analysis/UNKNOWN_SYSTEMS.md` |
+| Weapon identity | `weapon_000` = `Gun001`, bullet `bullet_0` | Not loaded natively | **CONFIRMED technical**; display name CANDIDATE | `analysis/re/weapons_projectiles.md` |
+| Weapon fire | `Gun001.Attack` → `CreateBullet` → `BulletFactory.TakeBullet` | Not implemented | **PARTIAL** — cadence/ammo/velocity open | `analysis/re/weapons_projectiles.md` |
+| Projectile | `Bullet01`/`RGBullet` fields, `destroy_time=5` | Not implemented | **PARTIAL** — exact velocity/rebound open | `analysis/re/weapons_projectiles.md` |
+| Damage bridge | Player `+0x228`, enemy `+0x2C8`, box `+0x168` | Not implemented | **CONFIRMED** | `analysis/re/damage.md` |
+| Damage formula | `GetHurt`, armor overflow, `CanDie`, enemy HP | Not implemented | **HIGH CONFIDENCE** — crit/element open | `analysis/re/damage.md` |
+| Critical hits | `Random.Range(0,100)` vs `DamageTrigger.critical` | Not implemented | **PARTIAL** — base damage vs effect/knockback semantics | `analysis/re/damage.md` |
+| Elements/status | `emDamageType`, `ShieldIce` factor 0.5 | Not implemented | **PARTIAL** — full status rules unknown | `analysis/re/damage.md` |
+| Enemy death | HP <= 0 → `Dead`, collider/delegates | Not implemented | **PARTIAL** — post-death slots open | `analysis/re/damage.md` |
+| Player death | flags, collider/weapon disable, Animator, game-over | Not implemented | **PARTIAL** — reborn/game-over open | `analysis/re/damage.md` |
+| Save/runtime boundary | `RGSaveManager`, `PlayerSaveData`, `BattleData` | Not implemented | **PARTIAL/UNKNOWN format** | `docs/PHASE_4_NATIVE_RUNTIME.md` |
+| Renderer | No reference renderer reconstruction; built-in RP indicated | No Vulkan implementation | **NOT IMPLEMENTED** | `docs/RENDERING.md` |
+| Audio | miniaudio wrapper only; reference triggers unknown | Not implemented | **PLANNED** | `docs/AUDIO.md` |
+| UI/HUD | No reconstruction; UI assets extracted | Not implemented | **PLANNED** | `docs/PHASE_4_NATIVE_RUNTIME.md` |
 
 ---
 
-## Parity Gates
+## Parity gates
 
 | Gate | Requirement | Status |
 |---|---|---|
-| Gate B (Understanding) | All subsystems mapped with evidence | ❌ **NOT MET** — RNG/damage partial; movement/AI/weapons/rooms/items/UI/audio/save not reconstructed |
-| Gate C (Runtime) | Native app launches, renders, inputs | ❌ **NOT MET** — no renderer/swapchain/simulation; build/test baseline alone is not Gate C |
-| Gate D (First Playable) | Core loop playable and FUNCTIONAL | ⛔ **BLOCKED** by Gate B/C and `docs/VERTICAL_SLICE.md` gates |
+| Gate B (Understanding) | Reusable engine/runtime primitives documented with evidence | ⚠️ **PARTIAL** — four blockers in `docs/GATE_B.md` |
+| Gate C (Runtime) | Native app launches, renders, inputs | ❌ **NOT MET** — no Vulkan/render loop |
+| Gate D (First Playable) | Core loop playable and FUNCTIONAL | ⛔ **BLOCKED** by Gate B/C and `docs/VERTICAL_SLICE.md` |
 | Gate E (Content) | All discovered content PARTIAL+ | ⛔ **BLOCKED** |
 | Gate F (Release) | All VERIFIED, tests pass | ⛔ **BLOCKED** |
 
 ---
 
-## Historical Planning Rows (Superseded)
+## Tracking rules
 
-The 2026-10-30 matrix claimed high confidence for movement, combat, AI, weapons,
-rooms, generation, items, progression, UI, audio, and save. Those claims were
-based on class/field names and design assumptions. They must not be cited as
-evidence. The old matrix is available in Git history and its claims are audited
-in `analysis/EVIDENCE_AUDIT.md`.
+- A row may move to `FUNCTIONAL` only when native code exists and tests execute.
+- A row may move to `HIGH-FIDELITY`/`VERIFIED` only with reference comparison.
+- A class/field/asset name is structural evidence, never behavioural proof.
+- Candidate display names stay `CANDIDATE` until a serialized mapping proves them.
+- No gate is marked complete to make the roadmap green.
 
----
-
-## Tracking Rules
-
-- Update a row only after an evidence document exists.
-- Link the exact evidence file and test.
-- A field name or class name is never sufficient evidence.
-- `PARTIAL` rows must list their exact gaps.
-- Do not mark Gate B/C complete to make the roadmap look green.
-
-**Last Updated:** 2026-10-31 (integrity pass)
-**Next Review:** When a new subsystem evidence document is accepted.
+**Last Updated:** 2026-10-31 (Gate B / Phase 3 pass)

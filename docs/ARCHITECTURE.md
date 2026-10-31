@@ -1,5 +1,24 @@
 # Soul Knight 2.6.8 — Architecture Reconstruction
 
+> **Current architecture plan (2026-10-31):** the Phase 4 runtime layers and
+> ownership are specified in `docs/PHASE_4_NATIVE_RUNTIME.md`. The Gate B status is
+> **PARTIAL** (`docs/GATE_B.md`); the text below is a historical class inventory,
+> not the implementation architecture.
+>
+> ```text
+> Application
+>   ├── Platform (SDL3/Wayland, filesystem, timing)
+>   ├── Asset Runtime (decoded registry; conversion output)
+>   ├── Renderer (Vulkan device/swapchain/sprites)
+>   ├── Input / Audio
+>   └── Simulation (50 Hz fixed clock, RNG, ECS world)
+>         └── Gameplay (controllers, projectiles, damage, rooms)
+> ```
+>
+> Reference facts now confirmed: fixed timestep 0.02 s (50 Hz), Physics2D gravity
+> `(0,-9.81)`, legacy input axes, damage bridge player `+0x228` / enemy `+0x2C8` /
+> box `+0x168`, `CanDie` checks `RGGameProcess.this_index`.
+
 Generated: 2026-10-30
 Source: IL2CPP metadata extraction from `libil2cpp.so` + `global-metadata.dat`
 Reference APK: SHA-256 `8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea`
@@ -10,7 +29,7 @@ Reference APK: SHA-256 `8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5
 > - Metadata supplies class names, field names/offsets, method names/signatures, and RVAs. It does **not** supply method bodies.
 > - Any field list below marked "inferred", "likely", or based only on a class name is **HYPOTHESIS**, not CONFIRMED.
 > - Corrected field-level evidence is in `analysis/re/` as each subsystem is reconstructed.
-> - Gate B is **NOT MET**; the original "complete" status was wrong.
+> - Gate B is **PARTIAL**; the original "complete" status was wrong. See `docs/GATE_B.md`.
 >
 > Historical claims are retained below where they are useful for audit. See `analysis/PROJECT_DIAGNOSIS.md` and `analysis/EVIDENCE_AUDIT.md`.
 
@@ -124,7 +143,7 @@ Candidate states (HYPOTHESIS; not observed in a runtime trace):
 - Save/Load
 
 ### Fixed Timestep
-- Physics: the original document claimed `FixedUpdate()` at 50 Hz (0.02s) and labelled it **CONFIRMED**. No citation or runtime measurement exists in the repository; this is **UNSUPPORTED** until the actual `Time.fixedDeltaTime` value or a runtime trace is recorded. Do not build the native tick rate on this claim yet.
+- Physics: `FixedUpdate()` at 50 Hz (0.02 s) is now **CONFIRMED** from the serialized `TimeManager.Fixed_Timestep` in `globalgamemanagers`; see `analysis/re/timing.md`. This supersedes the earlier unsupported status. Render target remains 60 FPS.
 - Rendering: `Update()` at monitor refresh (variable)
 - **Critical:** Simulation speed MUST NOT depend on frame rate
 
@@ -447,7 +466,7 @@ RGMusicManager (singleton)
 - RNG: `RGRandom`/`RGRandomInterface` — core wrapper and Xorshift128 engine reconstructed in `analysis/re/rgrandom.md`; exact native implementation exists. **PARTIAL/CONFIRMED** for the core.
 - Room Generation: `MapManager*` — "same seed = same dungeon" is **HYPOTHESIS**; the generation algorithm has not been reconstructed.
 - Enemy Spawn: `EnemyCreateInfo` — deterministic placement is **HYPOTHESIS**; not yet traced.
-- Combat: damage/crit/proc determinism is **UNKNOWN**; the damage bridge and crit rule are unresolved.
+- Combat: the player/enemy/box damage bridge is **CONFIRMED**; critical/element/effect-trigger rules and full death/reborn remain **PARTIAL/UNKNOWN**.
 
 **RNG Streams (candidate isolation domains, not yet proven):**
 1. World Generation (dungeon layout)
@@ -538,4 +557,4 @@ This table records **structural discovery confidence only**. Structural confiden
 
 ---
 
-**Architecture reconstruction is NOT complete.** This document is a structural inventory plus historical hypotheses. Gate B is **NOT MET**. Behavioural reconstruction proceeds subsystem-by-subsystem under `analysis/re/` with evidence from disassembly or runtime observation.
+**Architecture reconstruction is NOT complete.** This document is a structural inventory plus historical hypotheses. Gate B is **PARTIAL** (`docs/GATE_B.md`). Behavioural reconstruction proceeds subsystem-by-subsystem under `analysis/re/` with evidence from disassembly or runtime observation.

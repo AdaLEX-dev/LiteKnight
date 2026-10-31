@@ -1,5 +1,9 @@
 # Soul Knight 2.6.8 — Audio Design
 
+> **Current plan (2026-10-31):** `docs/PHASE_4_NATIVE_RUNTIME.md` §7–8 covers the
+> audio stage. The miniaudio wrapper is scaffolding; reference audio triggers and
+> mixing are not reconstructed.
+
 > **Status:** design proposal only. No reference audio trigger, mixing, or
 > playback behaviour has been reconstructed. The miniaudio wrapper is platform
 > scaffolding, not game audio parity.

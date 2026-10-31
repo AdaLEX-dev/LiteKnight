@@ -3,7 +3,7 @@
 Generated: 2026-10-30
 Session: Initial reconnaissance
 
-> **Correction — 2026-10-31.** The original log called Phase 2 "complete" and recorded Unity 2021.x / metadata v24.1. Both are wrong. The reference is **Unity 2018.4.12f1**, metadata **version 24**. The metadata dump is structural evidence; behaviour has not been reconstructed. Gate B is **NOT MET**. See `analysis/PROJECT_DIAGNOSIS.md`, `analysis/EVIDENCE_AUDIT.md`, and `analysis/re/`.
+> **Correction — 2026-10-31.** The original log called Phase 2 "complete" and recorded Unity 2021.x / metadata v24.1. Both are wrong. The reference is **Unity 2018.4.12f1**, metadata **version 24**. The metadata dump is structural evidence. Gate B is now **PARTIAL** (`docs/GATE_B.md`); core engine primitives and the vertical-slice damage/input/room contracts are reconstructed, but full gameplay/content remains partial. See `analysis/PROJECT_DIAGNOSIS.md`, `analysis/EVIDENCE_AUDIT.md`, and `analysis/re/`.
 
 ---
 
@@ -11,7 +11,7 @@ Session: Initial reconnaissance
 
 **Date:** 2026-10-30
 **Original phase claim:** 0 → 1 → 2 (Environment → APK Forensics → Engine Reconstruction)
-**Corrected status:** Phase 1 artifact inventory is useful; Phase 2 behavioural reconstruction is **not complete**. Phase 3 is **CURRENT** (RNG core reconstructed; damage partial).
+**Corrected status:** Phase 1 artifact inventory is complete. Phase 2 is **PARTIAL** (Gate B PARTIAL). Phase 3 is **PARTIAL/CURRENT**: RNG, timing, input, room prefab, weapon/projectile assets, and damage bridges reconstructed; AI/save/procedural generation/full content remain unresolved.
 **APK:** `original/SoulKnight-2.6.8.apk` (SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)
 
 ---
@@ -100,10 +100,10 @@ Session: Initial reconnaissance
 | RE-005 | CONFIRMED (structural) | Multiple MapManager classes for game modes | HIGH STRUCTURAL |
 | RE-006 | CONFIRMED (structural + disassembly) | `RGRandom` wrapper and Unity Xorshift128 engine reconstructed; map-seed path resolved | HIGH |
 | RE-007 | CONFIRMED (structural) | Room serialization classes `SerializeLinker*` exist | HIGH STRUCTURAL |
-| RE-008 | HYPOTHESIS | Damage formula: `(atk - def) * crit * element` | UNVERIFIED |
-| RE-009 | HYPOTHESIS | Room gen: BSP + graph + template placement | UNVERIFIED |
-| RE-010 | UNKNOWN | Exact projectile physics (gravity, bounce) | UNKNOWN |
-| RE-011 | UNKNOWN | Save file format (Sirenix/Odin-backed `AboGameData` suspected; not disassembled) | UNKNOWN |
+| RE-008 | PARTIAL | Damage bridge confirmed (`RGController +0x228`, `RGEController +0x2C8`, `RGBox +0x168`); HP/armor/CanDie reconstructed; crit/element details open | HIGH (bridge), PARTIAL (formula) |
+| RE-009 | UNKNOWN | Room gen algorithm; `r1_1` prefab/seed path confirmed, generation not reconstructed | UNKNOWN |
+| RE-010 | PARTIAL | `bullet_0`/`Bullet01` fields, trigger chain, destroy_time; exact velocity/rebound open | PARTIAL |
+| RE-011 | UNKNOWN | Save file format (`RGSaveManager`/`AboGameData`); not decoded | UNKNOWN |
 
 ---
 
@@ -120,11 +120,12 @@ Session: Initial reconnaissance
 ## Blockers (current)
 
 - **No runtime oracle**: no Android device/emulator/Waydroid/QEMU/Frida.
-- **Build/test baseline is fixed**; static-analysis pipeline exists.
-- **Damage bridge, critical/element rules, and RGRandom residuals remain unresolved**.
+- **Build/test baseline is fixed**; static-analysis and asset pipelines exist.
+- **Gate B blockers**: wall-collision placement, spawn/door state, weapon fire/projectile velocity, full death/reborn.
+- **RGRandom residuals**: `seed_state` 1/2, DateTime seed exactness, runtime reference vectors.
 - **Renderer/Vulkan runtime is not implemented**; Gate C NOT MET.
-- **Asset extraction is first-pass only**; identities unverified and no native conversion.
-- Behavioural specs remain partial; see `docs/PARITY.md`.
+- **Asset extraction is reproducible**, but native conversion and display-name identity are incomplete.
+- Full AI/procedural generation/save/content remain Phase 3 work; see `docs/PHASE_3_BEHAVIOURAL_RE.md` and `docs/PARITY.md`.
 
 ---
 
@@ -144,6 +145,23 @@ The original session left `src/`, `tests/`, and `external/` untracked. See the c
 - Restored build/test feedback loop; 22 tests execute and an intentional failure turns CTest red.
 - Added `tools/re/il2cpp_re.py` for metadata → RVA → disassembly → xrefs.
 - Reconstructed `RGRandom` in `analysis/re/rgrandom.md`; native `UnityRandom`/`RGRandomStream` implemented and tested.
-- Started `analysis/re/damage.md`; player/enemy entry points and state mutation reconstructed, projectile bridge unresolved.
 - Added UnityPy extraction under `tools/asset/`; first-pass manifest has 284 entries and no proprietary bytes committed.
-- Next: resolve the projectile→target damage bridge and critical/element rules; finish RGRandom residuals. The map-seed path is resolved. Vertical slice remains blocked by evidence gates.
+
+## 2026-10-31 — Gate B / Phase 3 Evidence Pass
+
+- Confirmed fixed timestep **0.02 s (50 Hz)** from serialized `TimeManager`
+  (`analysis/re/timing.md`).
+- Resolved damage dispatch: player `+0x228` (`RGController.GetHurt`), enemy
+  `+0x2C8` (`RGEController.GetHurt`), box `+0x168` (`RGBox.Hit`);
+  `CanDie` checks `RGGameProcess.this_index` (`analysis/re/damage.md`).
+- Resolved RGRandom map seed and `MapManagerLevel` LongMap branch; `seed_state`
+  1/2 remains unused (`analysis/re/rgrandom.md`).
+- Reconstructed input/movement contract (`analysis/re/input_movement.md`).
+- Reconstructed `r1_1` room hierarchy/collider representation and asset identities
+  (`analysis/re/rooms_scene.md`).
+- Reconstructed `weapon_000`/`Gun001` and `bullet_0`/`Bullet01` evidence
+  (`analysis/re/weapons_projectiles.md`).
+- Wrote Gate B, Phase 3, and Phase 4 planning reports.
+- Gate B remains **PARTIAL** due to wall-collision placement, spawn/door state,
+  weapon fire/projectile velocity, and full death/reborn. Phase 4 planning is
+  complete but no runtime code was started.

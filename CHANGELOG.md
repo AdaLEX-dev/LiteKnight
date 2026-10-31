@@ -7,9 +7,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Gate B / Phase 3 Evidence Pass — 2026-10-31
+
+- Confirmed the reference fixed timestep is **0.02 s (50 Hz)** from the serialized
+  `TimeManager`; render target remains 60 FPS.
+- Resolved the projectile damage bridge: player `RGController.GetHurt` (`+0x228`),
+  enemy `RGEController.GetHurt` (`+0x2C8`), box `RGBox.Hit` (`+0x168`).
+- Resolved `RoleAttributePlayer.CanDie` to `RGGameProcess.this_index` (`+0x1C`);
+  removed the incorrect `RGGameInfo.map_random_seed` interpretation.
+- Resolved `RGRandom` map seed and `MapManagerLevel` LongMap branch; documented the
+  remaining `seed_state` 1/2 and reference-vector gaps.
+- Added `analysis/re/timing.md`, `analysis/re/input_movement.md`,
+  `analysis/re/rooms_scene.md`, and `analysis/re/weapons_projectiles.md`.
+- Added `docs/GATE_B.md`, `docs/PHASE_3_BEHAVIOURAL_RE.md`, and
+  `docs/PHASE_4_NATIVE_RUNTIME.md`.
+- Updated parity, roadmap, project state, vertical slice, source map, unknown
+  systems, architecture, platform, renderer, input, audio, procedural generation,
+  testing, and performance documents.
+- Gate B and Phase 3 remain **PARTIAL**; no native runtime/gameplay code was added.
+
+
 ### Documentation
 - Added `analysis/PROJECT_DIAGNOSIS.md`, `analysis/EVIDENCE_AUDIT.md`, and `docs/EVIDENCE_STANDARD.md`.
-- Corrected the project state: Unity 2018.4.12f1 (metadata v24), not Unity 2021.x; Gate B and Gate C are NOT MET.
+- Corrected the project state at the time of the integrity pass: Unity 2018.4.12f1 (metadata v24), not Unity 2021.x; Gate B was NOT MET then and is now **PARTIAL**; Gate C remains NOT MET.
 - Superseded the PCG32 parity ADR with ADR-0016 (reference-compatible RNG).
 - Added `analysis/re/rgrandom.md`, `analysis/re/damage.md`, `docs/VERTICAL_SLICE.md`, and `analysis/assets/README.md`.
 
@@ -34,12 +54,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Known Issues
 - No runtime observation oracle (no device/emulator/Frida); analysis is static-only.
-- Projectile-effect → target `GetHurt` bridge, critical hits, and element/status formulas remain unresolved.
-- RGRandom `seed_state` 1/2 and map-length branch remain unresolved.
+- Projectile → controller/box damage bridge is resolved; effect-trigger critical/element details and full death/reborn branches remain partial.
+- RGRandom `seed_state` 1/2 and DateTime seed exactness remain unresolved; the `MapManagerLevel` LongMap branch is resolved.
 - Renderer/Vulkan context is not implemented; Gate C remains NOT MET.
 - Vertical slice implementation is blocked on the evidence gates in `docs/VERTICAL_SLICE.md`.
 - `analysis/il2cpp_dump/` is partial; the full Il2CppDumper output remains outside Git.
-- The first-pass asset extraction manifest uses candidate identities (`c01`, `enemy01`, generic weapon); no identity is proven.
+- Asset extraction is reproducible; `c00`/`c01`/`e_slime01`/`weapon_000`/`bullet_0` technical identities are confirmed, but display names remain candidate.
 
 ### Reverse Engineering
 - APK forensics complete: manifest, DEX inventory, native libraries, AssetBundles

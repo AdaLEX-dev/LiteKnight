@@ -1,5 +1,9 @@
 # Soul Knight 2.6.8 — Rendering Design
 
+> **Current plan (2026-10-31):** `docs/PHASE_4_NATIVE_RUNTIME.md` §4 is the canonical
+> renderer plan (SDL3 Wayland → Vulkan 1.3, swapchain, sprite pipeline, frame
+> pacing). No renderer code exists; Gate C is **NOT MET**.
+
 > **Status:** design proposal only. There is **no renderer implementation** in
 > the repository: no Vulkan context, swapchain, sprite batcher, shader, or VMA
 > integration. `docs/PARITY.md` Gate C remains **NOT MET**.
