@@ -43,6 +43,8 @@ void PrintUsage(const char* executable) {
         << "  Q                        Knight c00 Dual Wield character power\n"
         << "  Tab / 1 / 2              next / primary / secondary weapon slot\n"
         << "  Esc                      pause/resume, settings back, close UI\n"
+        << "  M                        open/close the map overlay\n"
+        << "  E                        interact / open chest / pick up\n"
         << "  F6 / F7 / F8             character / weapon / enemy selector\n"
         << "  F9 / Shift+F9 / F12      spawn enemy / spawn x5 / clear enemies\n"
         << "  F11                      toggle bordered fullscreen\n"

@@ -32,6 +32,8 @@
 #include "game/ui/UIRenderer.hpp"
 #include "game/hub/PlantSystem.hpp"
 #include "game/player/Ability.hpp"
+#include "game/items/ItemAssets.hpp"
+#include "game/items/ItemWorld.hpp"
 #include "game/player/Aim.hpp"
 #include "game/player/Energy.hpp"
 #include "game/save/SaveManager.hpp"
@@ -83,6 +85,14 @@ private:
     void HandleUIKey(SDL_Scancode scancode, SDL_Keymod modifiers);
     void ProcessUIAction();
     void DrawGameUI();
+    void LoadUiLayout();
+    void SaveUiLayout();
+    void EnterUiDesignMode();
+    void ExitUiDesignMode();
+    bool HandleUiDesignEvent(const SDL_Event& event);
+    void HandleMainMenuPointer(const SDL_Event& event);
+    void ToggleMapOverlay();
+    void LogViewportContract();
     bool LoadWorldRooms();
     void ConfigureWorldGraph();
     bool SwitchRoom(const std::string& door_id = {});
@@ -123,7 +133,9 @@ private:
     float AimAngleDegrees() const;
     void SpawnWeaponPickup(std::size_t weapon_index);
     bool TryPickupWeapon();
+    bool TryOpenChest();
     void TryInteract();
+    void ConfigureRoomItems();
     const engine::assets::InteractionMarker* NearbyInteraction() const;
     void SaveGameToDisk();
     void LoadGameFromDisk();
@@ -163,6 +175,7 @@ private:
     std::unique_ptr<soulknight::game::save::SaveManager> save_manager_;
     soulknight::game::ui::DevOverlay dev_ui_;
     soulknight::game::ui::GameUI game_ui_;
+    soulknight::game::ui::HudLayout hud_layout_;
     soulknight::game::ui::UIRenderer ui_renderer_;
     soulknight::game::ui::UIAssets ui_assets_;
     soulknight::game::ui::AssetLab asset_lab_;
@@ -172,11 +185,13 @@ private:
     soulknight::game::combat::Weapon weapon_;
     soulknight::game::combat::Weapon secondary_weapon_;
     soulknight::game::player::AbilityController abilities_;
-    soulknight::game::player::AimMode aim_mode_ = soulknight::game::player::AimMode::Manual;
+    soulknight::game::player::AimMode aim_mode_ = soulknight::game::player::AimMode::Auto;
     soulknight::game::combat::ProjectileSystem projectiles_;
     soulknight::game::enemy::EnemySystem enemies_;
     soulknight::game::combat::HealthState player_health_;
     soulknight::game::player::EnergyState player_energy_;
+    soulknight::game::items::ItemAssets item_assets_;
+    soulknight::game::items::ItemWorld item_world_;
     soulknight::game::hub::PlantSystem plant_system_;
     engine::Vec2 aim_direction_{1.0f, 0.0f};
     engine::Vec2 previous_player_position_{0.0f, 0.0f};
@@ -218,10 +233,21 @@ private:
         std::vector<soulknight::game::enemy::EnemyInstance>>
         room_enemy_snapshots_;
     std::unordered_set<std::string> cleared_rooms_;
+    std::vector<std::string> visited_rooms_;
+    int player_coins_ = 0;
+    bool ui_design_mode_ = false;
+    bool ui_design_dragging_ = false;
+    std::string ui_design_selected_;
+    engine::Vec2 ui_design_drag_offset_{0.0f, 0.0f};
+    engine::Vec2 ui_design_mouse_{0.0f, 0.0f};
     bool main_menu_started_ = false;
     bool collision_debug_ = false;
     bool room_clear_pending_ = false;
     float hit_flash_timer_ = 0.0f;
+    int last_framebuffer_width_ = -1;
+    int last_framebuffer_height_ = -1;
+    int last_window_width_ = -1;
+    int last_window_height_ = -1;
     int exit_code_ = 0;
     std::filesystem::path project_root_;
     std::string scene_sha256_;

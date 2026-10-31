@@ -29,13 +29,14 @@ struct SaveData {
     int max_armor = 0;
     int energy = 0;
     int max_energy = 0;
+    int coins = 0;
     bool dead = false;
     std::int64_t playtime_seconds = 0;
     std::vector<std::string> unlocked_characters;
     std::vector<std::string> plants;
     bool fullscreen = false;
     bool hub_visited = false;
-    bool auto_aim = false;
+    bool auto_aim = true;
     std::int32_t map_seed = 0;
 };
 

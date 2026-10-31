@@ -48,6 +48,25 @@ TEST_CASE("Logical viewport keeps 16:9 and letterboxes arbitrary framebuffers" *
     viewport.Update(2560, 1080, 2560, 1080);
     CHECK(viewport.framebuffer_scale == doctest::Approx(1.0f));
     CHECK(viewport.framebuffer_x == 320);
+
+    // 1920x1200 bordered fullscreen: integer scale 1 with vertical bars.
+    viewport.Update(1920, 1200, 1920, 1200);
+    CHECK(viewport.framebuffer_scale == doctest::Approx(1.0f));
+    CHECK(viewport.framebuffer_y == 60);
+    CHECK(viewport.framebuffer_viewport_width == 1920);
+    CHECK(viewport.framebuffer_viewport_height == 1080);
+    const Vec2 mapped = viewport.WindowPointToLogical({960.0f, 600.0f});
+    CHECK(mapped.x == doctest::Approx(960.0f));
+    CHECK(mapped.y == doctest::Approx(540.0f));
+
+    // 4K integer 2x presentation has no borders and exact mouse mapping.
+    viewport.Update(3840, 2160, 3840, 2160);
+    CHECK(viewport.framebuffer_scale == doctest::Approx(2.0f));
+    CHECK(viewport.framebuffer_x == 0);
+    CHECK(viewport.framebuffer_y == 0);
+    const Vec2 four_k = viewport.WindowPointToLogical({1920.0f, 1080.0f});
+    CHECK(four_k.x == doctest::Approx(960.0f));
+    CHECK(four_k.y == doctest::Approx(540.0f));
 }
 
 TEST_CASE("Aim facing flips at the vertical threshold with hysteresis" *

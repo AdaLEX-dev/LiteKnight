@@ -146,7 +146,10 @@ void DevOverlay::DrawOverlay(SpriteBatch& batch, const DevOverlayContext& contex
                   context.framebuffer_width, context.framebuffer_height);
     line(buffer);
     std::snprintf(buffer, sizeof(buffer),
-                  "SCALE: %.3fx  ASPECT: 16:9", context.framebuffer_scale);
+                  "SCALE: %.3fx  VIEWPORT: %dx%d AT %d,%d  ASPECT: 16:9",
+                  context.framebuffer_scale, context.framebuffer_viewport_width,
+                  context.framebuffer_viewport_height, context.framebuffer_x,
+                  context.framebuffer_y);
     line(buffer);
     std::snprintf(buffer, sizeof(buffer), "FPS: %.1f  FRAME: %.2f MS",
                   fps, context.frame_ms);

@@ -5,6 +5,7 @@ ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 python3 "${ROOT}/tools/asset/audit_assets.py" --require-generated "$@"
 python3 "${ROOT}/tools/asset/audit_ui_assets.py"
 python3 "${ROOT}/tools/asset/audit_weapon_energy.py"
+python3 "${ROOT}/tools/asset/audit_item_assets.py"
 "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/audit_room_catalogue.py"
 if [[ -f "${ROOT}/analysis/assets/scenes/hero_room.json" ]]; then
     python3 "${ROOT}/tools/asset/audit_assets.py" \

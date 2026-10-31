@@ -1,0 +1,24 @@
+{
+  "chests": 1,
+  "coin_frame_counts": {
+    "coin_0": 4,
+    "coin_1": 4,
+    "coin_2": 4
+  },
+  "coin_values": {
+    "coin_0": 5,
+    "coin_1": 3,
+    "coin_2": 1
+  },
+  "coins": 3,
+  "errors": [],
+  "evidence": [
+    "chest00 prefab: Animator + BoxCollider2D + RGChest level=0",
+    "coin_0/1/2 prefab RGCoin: type 0/1/2 and value 5/3/1, speed 20, range 7",
+    "coin_gold/silver/copper AnimationClip PPtr frame mappings"
+  ],
+  "native_extension": "chest00 loot one coin_0 (value 5), lid lift and open state; exact RGChest loot tables UNKNOWN",
+  "schema": 1,
+  "source": "analysis/assets/items/item_assets.json",
+  "tool": "tools/asset/audit_item_assets.py"
+}

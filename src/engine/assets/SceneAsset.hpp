@@ -160,6 +160,12 @@ struct WeaponDefinition {
     int32_t energy_cost = -1;
     int EnergyCost() const { return energy_cost >= 0 ? energy_cost : consume; }
     float weapon_speed = 1.0f;
+    // Native display scale. Serialized `w` transform scale is 1.0 and the
+    // recovered pistol sprite is only 9 px high (0.56 world units) against a
+    // 1.87-unit character. A 1.5x presentation scale gives the reference hand
+    // weapon a readable silhouette without touching muzzle/projectile math.
+    // This is a presentation-only HYPOTHESIS and does not change collision.
+    float visual_scale = 1.5f;
     // RGWeapon.atk_move_speed; AttackStart adds this to speed_rate and
     // AttackStop subtracts it. weapon_000 serializes -0.1.
     float atk_move_speed = 0.0f;

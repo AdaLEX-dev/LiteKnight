@@ -79,6 +79,10 @@ struct DevOverlayContext {
     int framebuffer_width = 1920;
     int framebuffer_height = 1080;
     float framebuffer_scale = 1.0f;
+    int framebuffer_x = 0;
+    int framebuffer_y = 0;
+    int framebuffer_viewport_width = 1920;
+    int framebuffer_viewport_height = 1080;
 };
 
 // The developer UI is deliberately a native overlay, not the production menu.

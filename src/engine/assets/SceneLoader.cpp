@@ -919,6 +919,7 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             weapon.owner_deviation = item.value("owner_deviation", 0);
             weapon.consume = item.value("consume", 0);
         weapon.energy_cost = item.value("energy_cost", weapon.consume);
+        weapon.visual_scale = item.value("visual_scale", weapon.visual_scale);
             weapon.weapon_speed = item.value("weapon_speed", 1.0f);
             weapon.atk_move_speed = item.value("atk_move_speed", 0.0f);
             weapon.repel = item.value("repel", 0);

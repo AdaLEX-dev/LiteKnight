@@ -140,6 +140,32 @@ for room in r1_2_visual r1_3_visual; do
     echo "Runtime scene: FOUND (${scene_dir}/scene.json)"
 done
 
+# 3a. Actual chest00/RGCoin item pack (prefab sprites + coin values).
+ITEM_SOURCE="${ROOT}/assets/generated/items"
+ITEM_TARGET="${BUILD_DIR}/assets/scenes/items"
+if [[ ${FORCE_BUILD} -eq 1 || ! -f "${ROOT}/analysis/assets/items/item_assets.json" || ! -d "${ITEM_SOURCE}/textures" ]]; then
+    if [[ ! -x "${ROOT}/tools/asset/.venv/bin/python" || ! -f "${BUNDLE_ROOT}/common" ]]; then
+        echo "ERROR: cannot generate chest/coin item pack without UnityPy venv + common bundle." >&2
+        exit 2
+    fi
+    echo "Generating chest/coin item pack..."
+    "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_item_assets.py"
+fi
+if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
+    mkdir -p "${ITEM_TARGET}"
+    if command -v rsync >/dev/null 2>&1; then
+        rsync -a --delete "${ROOT}/analysis/assets/items/" "${ITEM_TARGET}/"
+        mkdir -p "${ITEM_TARGET}/textures"
+        rsync -a "${ITEM_SOURCE}/textures/" "${ITEM_TARGET}/textures/"
+    else
+        cp -a "${ROOT}/analysis/assets/items/." "${ITEM_TARGET}/"
+        mkdir -p "${ITEM_TARGET}/textures"
+        cp -a "${ITEM_SOURCE}/textures/." "${ITEM_TARGET}/textures/"
+    fi
+    cp -f "${ROOT}/analysis/assets/items/item_assets.json" "${ITEM_TARGET}/items.json"
+    echo "Runtime item pack: FOUND (${ITEM_TARGET}/items.json)"
+fi
+
 # 3b. Living Room / HeroRoom. The builder joins the local split sharedassets
 #     chunks and extracts level2 tilemaps, sprites and colliders.
 if [[ ${FORCE_BUILD} -eq 1 || ! -f "${HUB_SOURCE_DIR}/scene.json" ]]; then

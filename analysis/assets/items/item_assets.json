@@ -1,0 +1,894 @@
+{
+  "camera": {
+    "orthographic_size": 10.5,
+    "position": [
+      0.0,
+      0.0
+    ],
+    "viewport": [
+      1920.0,
+      1080.0
+    ]
+  },
+  "chests": [
+    {
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest00 prefab; RGChest.level=0; coin_0 type=0 value=5",
+      "id": "chest00",
+      "level": 0,
+      "loot_coin": "coin_0",
+      "loot_count": 1,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest00_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest00_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest00_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest00_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ]
+    }
+  ],
+  "coins": [
+    {
+      "evidence": "RGCoin serialized type/value/speed/range; actual coin_gold/silver/copper clip frames where available",
+      "frames": [
+        "coin_0_frame0",
+        "coin_0_frame1",
+        "coin_0_frame2",
+        "coin_0_frame3"
+      ],
+      "id": "coin_0",
+      "range": 7.0,
+      "speed": 20.0,
+      "type": 0,
+      "value": 5
+    },
+    {
+      "evidence": "RGCoin serialized type/value/speed/range; actual coin_gold/silver/copper clip frames where available",
+      "frames": [
+        "coin_1_frame0",
+        "coin_1_frame1",
+        "coin_1_frame2",
+        "coin_1_frame3"
+      ],
+      "id": "coin_1",
+      "range": 7.0,
+      "speed": 20.0,
+      "type": 1,
+      "value": 3
+    },
+    {
+      "evidence": "RGCoin serialized type/value/speed/range; actual coin_gold/silver/copper clip frames where available",
+      "frames": [
+        "coin_2_frame0",
+        "coin_2_frame1",
+        "coin_2_frame2",
+        "coin_2_frame3"
+      ],
+      "id": "coin_2",
+      "range": 7.0,
+      "speed": 20.0,
+      "type": 2,
+      "value": 1
+    }
+  ],
+  "instances": [],
+  "notes": "Chest00 and RGCoin prefab metadata/sprites. Coin values/type/speed/range are serialized RGCoin fields. Chest coin loot and lid animation are native test behavior; exact RGChest loot tables remain UNKNOWN.",
+  "schema": 1,
+  "source": "analysis/apktool_out/assets/AssetBundles/common",
+  "spawn": [
+    0.0,
+    0.0
+  ],
+  "sprites": [
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest00_box06",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        127.0,
+        98.0,
+        20.0,
+        8.0
+      ],
+      "source_name": "objects_common_6",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        9.0,
+        48.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect": [
+        127.0,
+        150.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest00_box05",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        173.0,
+        212.0,
+        20.0,
+        20.0
+      ],
+      "source_name": "objects_common_0",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        37.0,
+        80.0,
+        20.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        173.0,
+        24.0,
+        20.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest00_box04",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        87.0,
+        92.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_5",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        20.0,
+        57.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        87.0,
+        144.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest00_box03",
+      "pivot": [
+        1.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        66.0,
+        65.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_4",
+      "source_pivot": [
+        1.0,
+        0.0
+      ],
+      "source_rect": [
+        8.0,
+        57.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        66.0,
+        171.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest00_shadow",
+      "pivot": [
+        0.5,
+        0.30000001192092896
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        234.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "source_name": "shadow1",
+      "source_pivot": [
+        0.5,
+        0.30000001192092896
+      ],
+      "source_rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "source_texture_rect": [
+        234.0,
+        104.0,
+        16.0,
+        24.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_5467841708608453938",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_0_frame0",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        100.0,
+        50.0,
+        8.0,
+        9.0
+      ],
+      "source_name": "objects_common_31",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        176.0,
+        170.0,
+        8.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        100.0,
+        197.0,
+        8.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_0_frame1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        134.0,
+        73.0,
+        7.0,
+        9.0
+      ],
+      "source_name": "objects_common_32",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        188.0,
+        170.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        134.0,
+        174.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_0_frame2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        51.0,
+        50.0,
+        4.0,
+        9.0
+      ],
+      "source_name": "objects_common_33",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        199.0,
+        170.0,
+        4.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        51.0,
+        197.0,
+        4.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_0_frame3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        227.0,
+        126.0,
+        7.0,
+        9.0
+      ],
+      "source_name": "objects_common_34",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        208.0,
+        170.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        227.0,
+        121.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_1_frame0",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        161.0,
+        82.0,
+        8.0,
+        9.0
+      ],
+      "source_name": "objects_common_27",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        176.0,
+        156.0,
+        8.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        161.0,
+        165.0,
+        8.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_1_frame1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        186.0,
+        91.0,
+        7.0,
+        9.0
+      ],
+      "source_name": "objects_common_28",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        188.0,
+        156.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        186.0,
+        156.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_1_frame2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        195.0,
+        81.0,
+        4.0,
+        9.0
+      ],
+      "source_name": "objects_common_29",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        199.0,
+        156.0,
+        4.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        195.0,
+        166.0,
+        4.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_1_frame3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        43.0,
+        75.0,
+        7.0,
+        9.0
+      ],
+      "source_name": "objects_common_30",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        208.0,
+        156.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        43.0,
+        172.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_2_frame0",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        124.0,
+        67.0,
+        8.0,
+        9.0
+      ],
+      "source_name": "objects_common_23",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        176.0,
+        142.0,
+        8.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        124.0,
+        180.0,
+        8.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_2_frame1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        191.0,
+        103.0,
+        7.0,
+        9.0
+      ],
+      "source_name": "objects_common_24",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        188.0,
+        142.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        191.0,
+        144.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_2_frame2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        143.0,
+        73.0,
+        4.0,
+        9.0
+      ],
+      "source_name": "objects_common_25",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        199.0,
+        142.0,
+        4.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        143.0,
+        174.0,
+        4.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "coin_2_frame3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        161.0,
+        71.0,
+        7.0,
+        9.0
+      ],
+      "source_name": "objects_common_26",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        208.0,
+        142.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        161.0,
+        176.0,
+        7.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    }
+  ],
+  "textures": [
+    {
+      "filter": "point",
+      "id": "item_m1240183975920528313",
+      "png": "textures/item_m1240183975920528313.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_5467841708608453938",
+      "png": "textures/item_5467841708608453938.png",
+      "wrap": "clamp"
+    }
+  ],
+  "tool": "tools/asset/build_item_assets.py"
+}

@@ -1,0 +1,14 @@
+{
+  "chest_count": 1,
+  "coin_count": 3,
+  "meta_sha256": "216f7c5e143503d6655234655e6c253db79b2dec788cf627a1bf6c7ac28c694a",
+  "schema": 1,
+  "source_sha256": "4f49c9d3aa24f5f6b9771125245f9a1dd5ea5e3718d2864b50f3b60e8df511cb",
+  "sprite_count": 17,
+  "texture_count": 2,
+  "textures": [
+    "item_m1240183975920528313",
+    "item_5467841708608453938"
+  ],
+  "tool": "tools/asset/build_item_assets.py"
+}

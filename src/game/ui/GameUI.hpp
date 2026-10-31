@@ -2,6 +2,7 @@
 #pragma once
 
 #include "UIAssets.hpp"
+#include "HudLayout.hpp"
 #include "UIRenderer.hpp"
 #include "engine/assets/SceneAsset.hpp"
 #include "game/combat/Damage.hpp"
@@ -12,6 +13,7 @@
 
 #include <cstddef>
 #include <string>
+#include <vector>
 
 namespace soulknight::game::ui {
 
@@ -19,9 +21,26 @@ enum class UIScreen {
     Gameplay,
     Pause,
     Settings,
+    Map,
     MainMenu,
     CharacterSelect,
     WeaponSelect
+};
+
+struct MapRoomView {
+    std::string id;
+    int x = 0;
+    int y = 0;
+    bool current = false;
+    bool visited = false;
+    bool devroom = false;
+};
+
+struct MapLinkView {
+    int from_x = 0;
+    int from_y = 0;
+    int to_x = 0;
+    int to_y = 0;
 };
 
 enum class UIAction {
@@ -38,7 +57,9 @@ enum class UIAction {
     ResetSave,
     SelectCharacter,
     SelectWeapon,
-    ToggleAimMode
+    ToggleAimMode,
+    OpenUiDesignMode,
+    OpenDevroom
 };
 
 struct GameUIData {
@@ -54,10 +75,21 @@ struct GameUIData {
     bool fullscreen = false;
     bool debug_overlay = false;
     bool has_pixel_font = false;
-    bool auto_aim = false;
+    bool auto_aim = true;
+    int coins = 0;
     int ability_state = 0; // 0 empty, 1 ready, 2 active, 3 cooldown
     float ability_cooldown = 0.0f;
+    const HudLayout* layout = nullptr;
+    bool ui_design_mode = false;
+    std::string ui_design_selected;
+    engine::Vec2 design_mouse{0.0f, 0.0f};
+    std::vector<MapRoomView> map_rooms;
+    std::vector<MapLinkView> map_links;
+    std::string devroom_room_id;
+    bool map_open = false;
     const UIAssets* ui_assets = nullptr;
+    bool chest_nearby = false;
+    std::string chest_label;
     bool pickup_nearby = false;
     std::string pickup_name;
     int pickup_damage = 0;
@@ -74,6 +106,9 @@ public:
     void OpenPause();
     void Resume();
     void OpenSettings();
+    void OpenMap();
+    void CloseMap();
+    bool IsMapOpen() const { return screen_ == UIScreen::Map; }
     void OpenCharacterSelect(int initial_index = 0);
     void OpenWeaponSelect(int initial_index = 0);
     void CloseSelection();
@@ -86,6 +121,7 @@ public:
 
     bool IsPaused() const {
         return screen_ == UIScreen::Pause || screen_ == UIScreen::Settings ||
+               screen_ == UIScreen::Map ||
                screen_ == UIScreen::CharacterSelect ||
                screen_ == UIScreen::WeaponSelect;
     }
@@ -95,11 +131,18 @@ public:
     void Navigate(int delta);
     void Confirm();
     UIAction TakeAction();
+    // Pointer support for the main menu/devroom entry. Returns true when the
+    // click changed UI state.
+    bool HandlePointerClick(const engine::Vec2& logical);
 
     void Draw(UIRenderer& ui, const GameUIData& data) const;
 
 private:
     void DrawHud(UIRenderer& ui, const GameUIData& data) const;
+    void DrawMinimap(UIRenderer& ui, const GameUIData& data,
+                     const engine::Rect& rect, bool expanded) const;
+    void DrawMap(UIRenderer& ui, const GameUIData& data) const;
+    void DrawDesignOverlay(UIRenderer& ui, const GameUIData& data) const;
     void DrawPause(UIRenderer& ui, const GameUIData& data) const;
     void DrawSettings(UIRenderer& ui, const GameUIData& data) const;
     void DrawMainMenu(UIRenderer& ui, const GameUIData& data) const;

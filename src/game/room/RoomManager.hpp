@@ -11,6 +11,10 @@ namespace soulknight::game::room {
 struct Room {
     std::string id;
     std::string scene_path;
+    // Logical map-grid coordinates used by the HUD minimap. These are native
+    // test-layout coordinates, not reference MapManager positions.
+    int map_x = 0;
+    int map_y = 0;
 };
 
 struct RoomConnection {

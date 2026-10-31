@@ -30,7 +30,19 @@ DungeonPlan BuildDungeonPlan(std::int32_t seed,
     const std::string third_id = templates[count > 2 ? 2 : 0].id;
 
     for (const DungeonRoomTemplate& room : templates) {
-        plan.rooms.push_back(Room{room.id, room.scene_path});
+        plan.rooms.push_back(Room{room.id, room.scene_path, 0, 0});
+    }
+    if (!plan.rooms.empty()) {
+        plan.rooms[0].map_x = 1;
+        plan.rooms[0].map_y = 1;
+    }
+    if (plan.rooms.size() > 1) {
+        plan.rooms[1].map_x = 1;
+        plan.rooms[1].map_y = 2;
+    }
+    if (plan.rooms.size() > 2) {
+        plan.rooms[2].map_x = 2;
+        plan.rooms[2].map_y = 1;
     }
     plan.start_room_id = first_id;
 

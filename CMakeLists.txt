@@ -382,6 +382,10 @@ add_library(game STATIC
     src/game/save/SaveManager.hpp
     src/game/hub/PlantSystem.cpp
     src/game/hub/PlantSystem.hpp
+    src/game/items/ItemAssets.cpp
+    src/game/items/ItemAssets.hpp
+    src/game/items/ItemWorld.cpp
+    src/game/items/ItemWorld.hpp
     src/game/ui/DevOverlay.cpp
     src/game/ui/DevOverlay.hpp
     src/game/ui/AssetLab.cpp
@@ -390,6 +394,8 @@ add_library(game STATIC
     src/game/ui/UIRenderer.hpp
     src/game/ui/GameUI.cpp
     src/game/ui/GameUI.hpp
+    src/game/ui/HudLayout.cpp
+    src/game/ui/HudLayout.hpp
     src/game/ui/UIAssets.cpp
     src/game/ui/UIAssets.hpp
     src/game/test/InteractiveTest.cpp
@@ -601,6 +607,9 @@ add_executable(soul-knight-test
     tests/unit/ability_test.cpp
     tests/unit/ui_assets_test.cpp
     tests/unit/ui_test.cpp
+    tests/unit/ui_layout_test.cpp
+    tests/unit/world_depth_test.cpp
+    tests/unit/item_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp

@@ -1,6 +1,7 @@
 #include "WeaponRenderer.hpp"
 
 #include "engine/rendering/SpriteBatch.hpp"
+#include "engine/rendering/WorldDepth.hpp"
 
 #include <cmath>
 
@@ -28,13 +29,14 @@ void WeaponRenderer::Draw(engine::rendering::SpriteBatch& batch,
     };
     engine::rendering::SpriteDraw draw;
     draw.position = player_position + engine::Vec2{0.0f, 0.5f} + rotated_offset;
-    draw.size = sprite.WorldSize();
+    draw.size = sprite.WorldSize() * weapon.visual_scale;
     draw.uv = sprite.UvRect();
     draw.color = engine::Color::White();
     // Recovered weapon Renderers use Unity sorting layer 5, which maps to the
     // native Character layer.
     draw.layer = engine::rendering::SortLayer::Character;
-    draw.sorting_order = weapon.sorting_order;
+    draw.sorting_order = engine::rendering::WorldDepthOrder(
+        draw.position.y, 30);
     draw.texture_id = sprite.texture_id;
     draw.pivot = sprite.pivot;
     draw.rotation = aim_angle + weapon.visual_rotation;

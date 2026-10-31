@@ -16,7 +16,7 @@ TEST_CASE("Room manager allows only declared connections" *
     rooms.Configure(
         {{"hero_room", "scenes/hero_room/scene.json"},
          {"r1_1_visual", "scenes/r1_1_visual/scene.json"}},
-        {{"hero_room", "r1_1_visual", "bidirectional"}});
+        {{"hero_room", "r1_1_visual", "bidirectional", "", ""}});
     CHECK(rooms.Current() != nullptr);
     CHECK(rooms.Current()->id == "hero_room");
     CHECK(rooms.CanTransition("r1_1_visual"));

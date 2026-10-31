@@ -7,6 +7,7 @@
 #include "engine/animation/AnimationClip.hpp"
 #include "engine/core/Log.hpp"
 #include "engine/rendering/VulkanRenderer.hpp"
+#include "engine/rendering/WorldDepth.hpp"
 #include "game/weapons/WeaponRenderer.hpp"
 #include "game/ui/AssetLab.hpp"
 
@@ -137,6 +138,7 @@ bool Application::Initialize() {
         filesystem_.GetDataHome() / "liteknight" / "saves");
     LOG_INFO_APP("Native save slot: {}",
                  save_manager_->SlotPath().string());
+    LoadUiLayout();
     std::string ui_asset_error;
     if (ui_assets_.Load(filesystem_, "ui/manifest.json", &ui_asset_error)) {
         LOG_INFO_APP("Recovered UI atlases: {} textures",
@@ -167,8 +169,14 @@ bool Application::Initialize() {
     weapon_ = {};
     projectiles_.Clear();
     stored_rooms_.clear();
+    item_world_.Reset();
     room_enemy_snapshots_.clear();
     cleared_rooms_.clear();
+    visited_rooms_.clear();
+    player_coins_ = 0;
+    ui_design_mode_ = false;
+    ui_design_dragging_ = false;
+    ui_design_selected_.clear();
     multi_room_world_ = false;
     map_seed_ = config_.map_seed;
     enemies_ = {};
@@ -199,6 +207,21 @@ bool Application::Initialize() {
             return false;
         }
         LoadWorldRooms();
+        std::string item_error;
+        if (item_assets_.Load(filesystem_, "scenes/items/items.json",
+                              &item_error)) {
+            item_assets_.AppendToScene(scene_);
+            for (StoredRoom& stored : stored_rooms_) {
+                item_assets_.AppendToScene(stored.scene);
+            }
+            item_world_.Reset();
+            LOG_INFO_APP("Item assets: {} chest(s), {} coin type(s)",
+                         item_assets_.Chests().size(),
+                         item_assets_.Coins().size());
+        } else {
+            LOG_WARN_APP("Item assets unavailable ({}); chests/coins disabled",
+                         item_error);
+        }
         std::vector<uint32_t> uploaded_ids;
         for (const engine::assets::TextureAsset& texture : scene_.textures) {
             texture_uploads_.push_back(engine::rendering::TextureUpload{
@@ -268,6 +291,8 @@ bool Application::Initialize() {
         previous_player_position_ = player_.Position();
         render_player_position_ = player_.Position();
         render_camera_ = camera_;
+        visited_rooms_.clear();
+        visited_rooms_.push_back(scene_.id);
         previous_camera_position_ = camera_.position;
         facing_ = engine::locomotion::FacingDirection::Right;
         player_render_ = engine::rendering::BindPlayerRenderInstances(scene_);
@@ -349,6 +374,7 @@ bool Application::Initialize() {
         if (config_.asset_lab) {
             asset_lab_.Open();
         }
+        ConfigureRoomItems();
         std::string door_error;
         if (!room_doors_.Configure(scene_, &door_error)) {
             LOG_FATAL_APP("Room door configuration failed: {}", door_error);
@@ -602,8 +628,15 @@ void Application::BuildRenderBatch() {
         };
         draw.uv = sprite->UvRect();
         draw.color = instance.color;
-        draw.layer = MapSortingLayer(instance.sorting_layer);
-        draw.sorting_order = instance.sorting_order;
+        if (engine::rendering::IsCharacterSortedUnityLayer(
+                instance.sorting_layer)) {
+            draw.layer = engine::rendering::SortLayer::Character;
+            draw.sorting_order = engine::rendering::WorldDepthOrder(
+                draw.position.y, is_player_body ? 20 : 0);
+        } else {
+            draw.layer = MapSortingLayer(instance.sorting_layer);
+            draw.sorting_order = instance.sorting_order;
+        }
         draw.texture_id = sprite->texture_id;
         draw.pivot = sprite->pivot;
         draw.rotation = instance.rotation;
@@ -643,8 +676,15 @@ void Application::BuildRenderBatch() {
                 };
                 draw.uv = sprite.UvRect();
                 draw.color = visual.color;
-                draw.layer = MapSortingLayer(visual.sorting_layer);
-                draw.sorting_order = visual.sorting_order;
+                if (engine::rendering::IsCharacterSortedUnityLayer(
+                        visual.sorting_layer)) {
+                    draw.layer = engine::rendering::SortLayer::Character;
+                    draw.sorting_order = engine::rendering::WorldDepthOrder(
+                        draw.position.y);
+                } else {
+                    draw.layer = MapSortingLayer(visual.sorting_layer);
+                    draw.sorting_order = visual.sorting_order;
+                }
                 draw.texture_id = sprite.texture_id;
                 draw.pivot = sprite.pivot;
                 draw.rotation = visual.rotation;
@@ -652,6 +692,65 @@ void Application::BuildRenderBatch() {
                 draw.flip_y = visual.flip_y;
                 (void)sprite_batch_.DrawSprite(draw);
             }
+        }
+    }
+
+    if (item_assets_.IsLoaded()) {
+        const auto draw_item_sprite = [&](const std::string& sprite_id,
+                                          const engine::Vec2& position,
+                                          int32_t unity_layer,
+                                          int32_t fallback_order,
+                                          int32_t tie_break) {
+            const int32_t sprite_index = scene_.FindSpriteIndex(sprite_id);
+            if (sprite_index < 0 ||
+                static_cast<std::size_t>(sprite_index) >= scene_.sprites.size()) {
+                return;
+            }
+            const engine::assets::SpriteData& sprite =
+                scene_.sprites[static_cast<std::size_t>(sprite_index)];
+            engine::rendering::SpriteDraw draw;
+            draw.position = position;
+            draw.size = sprite.WorldSize();
+            draw.uv = sprite.UvRect();
+            draw.color = engine::Color::White();
+            draw.texture_id = sprite.texture_id;
+            draw.pivot = sprite.pivot;
+            if (engine::rendering::IsCharacterSortedUnityLayer(unity_layer)) {
+                draw.layer = engine::rendering::SortLayer::Character;
+                draw.sorting_order = engine::rendering::WorldDepthOrder(
+                    position.y, tie_break);
+            } else {
+                draw.layer = MapSortingLayer(unity_layer);
+                draw.sorting_order = fallback_order;
+            }
+            (void)sprite_batch_.DrawSprite(draw);
+        };
+        for (const auto& chest : item_world_.Chests()) {
+            const auto* definition = item_assets_.FindChest(chest.definition);
+            if (definition == nullptr) continue;
+            const float lift = chest.state == soulknight::game::items::ChestState::Opening
+                ? std::min(chest.timer / 0.45f, 1.0f) * 0.32f : 0.0f;
+            for (std::size_t i = 0; i < definition->visuals.size(); ++i) {
+                const auto& visual = definition->visuals[i];
+                if (chest.state == soulknight::game::items::ChestState::Open &&
+                    i == 0) {
+                    continue; // lid is removed after opening
+                }
+                engine::Vec2 position = chest.position + visual.offset;
+                if (i == 0) position.y += lift;
+                draw_item_sprite(visual.sprite, position,
+                                 visual.sorting_layer, visual.sorting_order, 4);
+            }
+        }
+        for (const auto& coin : item_world_.Coins()) {
+            if (!coin.active) continue;
+            const auto* definition = item_assets_.FindCoin(coin.definition);
+            if (definition == nullptr || definition->frames.empty()) continue;
+            const std::size_t frame = static_cast<std::size_t>(
+                static_cast<int>(coin.age * 8.0f) %
+                static_cast<int>(definition->frames.size()));
+            draw_item_sprite(definition->frames[frame], coin.position,
+                             5, 5, 8);
         }
     }
 
@@ -672,8 +771,15 @@ void Application::BuildRenderBatch() {
             draw.size = sprite.WorldSize();
             draw.uv = sprite.UvRect();
             draw.color = engine::Color::White();
-            draw.layer = MapSortingLayer(definition.body_sorting_layer);
-            draw.sorting_order = definition.body_sorting_order;
+            if (engine::rendering::IsCharacterSortedUnityLayer(
+                    definition.body_sorting_layer)) {
+                draw.layer = engine::rendering::SortLayer::Character;
+                draw.sorting_order = engine::rendering::WorldDepthOrder(
+                    enemy.position.y);
+            } else {
+                draw.layer = MapSortingLayer(definition.body_sorting_layer);
+                draw.sorting_order = definition.body_sorting_order;
+            }
             draw.texture_id = sprite.texture_id;
             draw.pivot = sprite.pivot;
             draw.flip_x = enemy.facing_left;
@@ -716,8 +822,9 @@ void Application::BuildRenderBatch() {
         draw.size = sprite.WorldSize();
         draw.uv = sprite.UvRect();
         draw.color = engine::Color::White();
-        draw.layer = MapSortingLayer(5);
-        draw.sorting_order = 5;
+        draw.layer = engine::rendering::SortLayer::Character;
+        draw.sorting_order = engine::rendering::WorldDepthOrder(
+            pickup.position.y, 10);
         draw.texture_id = sprite.texture_id;
         draw.pivot = sprite.pivot;
         (void)sprite_batch_.DrawSprite(draw);
@@ -799,6 +906,12 @@ void Application::BuildRenderBatch() {
     ui_context.framebuffer_width = window_.GetPixelWidth();
     ui_context.framebuffer_height = window_.GetPixelHeight();
     ui_context.framebuffer_scale = logical_viewport_.framebuffer_scale;
+    ui_context.framebuffer_x = logical_viewport_.framebuffer_x;
+    ui_context.framebuffer_y = logical_viewport_.framebuffer_y;
+    ui_context.framebuffer_viewport_width =
+        logical_viewport_.framebuffer_viewport_width;
+    ui_context.framebuffer_viewport_height =
+        logical_viewport_.framebuffer_viewport_height;
     ui_context.hud_visible = false;
     dev_ui_.Draw(sprite_batch_, ui_context);
     DrawGameUI();
@@ -894,6 +1007,7 @@ void Application::BuildSyntheticBatch() {
 
 void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                                    SDL_Keymod modifiers) {
+    if (ui_design_mode_) return;
     if (interactive_test_.Active() && replay_ == nullptr) {
         interactive_test_.RecordCommand(
             simulation_ticks_ + 1, static_cast<int>(scancode),
@@ -1041,7 +1155,9 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                                  dev_ui_.SelectedIndex(),
                                  enemies_.DefinitionCount());
             } else if (scancode == SDL_SCANCODE_E) {
-                if (!TryPickupWeapon()) TryInteract();
+                if (!TryOpenChest()) {
+                    if (!TryPickupWeapon()) TryInteract();
+                }
             } else if (scancode == SDL_SCANCODE_G) {
                 SpawnWeaponPickup(weapons_.ActiveIndex());
             } else if (scancode == SDL_SCANCODE_O &&
@@ -1171,6 +1287,15 @@ void Application::ProcessUIAction() {
                 soulknight::game::player::AimMode::Auto ? "AUTO AIM" : "MANUAL");
             if (scene_mode_) SaveGameToDisk();
             break;
+        case UIAction::OpenUiDesignMode:
+            EnterUiDesignMode();
+            break;
+        case UIAction::OpenDevroom:
+            if (multi_room_world_ && scene_.is_hub) {
+                (void)SwitchRoom("hub_door");
+            }
+            game_ui_.OpenGameplay();
+            break;
         case UIAction::ResetSave:
             if (save_manager_ != nullptr) {
                 std::string error;
@@ -1181,6 +1306,163 @@ void Application::ProcessUIAction() {
                 }
             }
             break;
+    }
+}
+
+void Application::LoadUiLayout() {
+    const std::filesystem::path path =
+        filesystem_.GetConfigHome() / "liteknight" / "ui_layout.json";
+    std::string error;
+    if (hud_layout_.Load(path, &error)) {
+        LOG_INFO_APP("UI layout loaded: {}", path.string());
+    } else if (!error.empty()) {
+        LOG_WARN_APP("UI layout load failed ({}); using default layout", error);
+    } else {
+        LOG_INFO_APP("UI layout default: {}", path.string());
+    }
+}
+
+void Application::SaveUiLayout() {
+    const std::filesystem::path path =
+        filesystem_.GetConfigHome() / "liteknight" / "ui_layout.json";
+    std::string error;
+    if (hud_layout_.Save(path, &error)) {
+        LOG_INFO_APP("UI layout saved: {}", path.string());
+    } else {
+        LOG_ERROR_APP("UI layout save failed: {}", error);
+    }
+}
+
+void Application::EnterUiDesignMode() {
+    if (!scene_mode_) return;
+    ui_design_mode_ = true;
+    ui_design_dragging_ = false;
+    ui_design_selected_.clear();
+    game_ui_.OpenGameplay();
+    movement_input_ = {};
+    attack_held_ = false;
+    LOG_INFO_APP("UI Design Mode: drag HUD elements; ESC saves and exits");
+}
+
+void Application::ExitUiDesignMode() {
+    if (!ui_design_mode_) return;
+    ui_design_mode_ = false;
+    ui_design_dragging_ = false;
+    SaveUiLayout();
+    game_ui_.OpenSettings();
+    LOG_INFO_APP("UI Design Mode exited");
+}
+
+bool Application::HandleUiDesignEvent(const SDL_Event& event) {
+    if (!ui_design_mode_) return false;
+    if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat) {
+        if (event.key.scancode == SDL_SCANCODE_ESCAPE) {
+            ExitUiDesignMode();
+            return true;
+        }
+        if (event.key.scancode == SDL_SCANCODE_R) {
+            hud_layout_.ResetToDefaults();
+            ui_design_selected_.clear();
+            LOG_INFO_APP("UI layout reset to default");
+            return true;
+        }
+        if (event.key.scancode == SDL_SCANCODE_S) {
+            SaveUiLayout();
+            return true;
+        }
+        return false;
+    }
+    if (event.type != SDL_EVENT_MOUSE_BUTTON_DOWN &&
+        event.type != SDL_EVENT_MOUSE_BUTTON_UP &&
+        event.type != SDL_EVENT_MOUSE_MOTION) {
+        return false;
+    }
+    const engine::Vec2 logical = logical_viewport_.WindowPointToLogical(
+        {event.type == SDL_EVENT_MOUSE_MOTION
+             ? event.motion.x : event.button.x,
+         event.type == SDL_EVENT_MOUSE_MOTION
+             ? event.motion.y : event.button.y});
+    ui_design_mouse_ = logical;
+    if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN &&
+        event.button.button == SDL_BUTTON_LEFT) {
+        if (const auto* hit = hud_layout_.HitTest(logical); hit != nullptr) {
+            ui_design_selected_ = hit->id;
+            ui_design_dragging_ = true;
+            ui_design_drag_offset_ = logical - engine::Vec2{hit->rect.x,
+                                                            hit->rect.y};
+            LOG_INFO_APP("UI Design: selected {} at ({:.1f},{:.1f})",
+                         hit->id, hit->rect.x, hit->rect.y);
+        }
+        return true;
+    }
+    if (event.type == SDL_EVENT_MOUSE_MOTION && ui_design_dragging_ &&
+        !ui_design_selected_.empty()) {
+        (void)hud_layout_.MoveTo(
+            ui_design_selected_,
+            {logical.x - ui_design_drag_offset_.x,
+             logical.y - ui_design_drag_offset_.y});
+        return true;
+    }
+    if (event.type == SDL_EVENT_MOUSE_BUTTON_UP &&
+        event.button.button == SDL_BUTTON_LEFT) {
+        if (ui_design_dragging_) SaveUiLayout();
+        ui_design_dragging_ = false;
+        return true;
+    }
+    return false;
+}
+
+void Application::HandleMainMenuPointer(const SDL_Event& event) {
+    if (event.type != SDL_EVENT_MOUSE_BUTTON_DOWN ||
+        event.button.button != SDL_BUTTON_LEFT ||
+        !game_ui_.IsMainMenu() || ui_design_mode_) {
+        return;
+    }
+    const engine::Vec2 logical = logical_viewport_.WindowPointToLogical(
+        {event.button.x, event.button.y});
+    if (game_ui_.HandlePointerClick(logical)) ProcessUIAction();
+}
+
+void Application::LogViewportContract() {
+    if (logical_viewport_.framebuffer_width == last_framebuffer_width_ &&
+        logical_viewport_.framebuffer_height == last_framebuffer_height_ &&
+        logical_viewport_.window_width == last_window_width_ &&
+        logical_viewport_.window_height == last_window_height_) {
+        return;
+    }
+    last_framebuffer_width_ = logical_viewport_.framebuffer_width;
+    last_framebuffer_height_ = logical_viewport_.framebuffer_height;
+    last_window_width_ = logical_viewport_.window_width;
+    last_window_height_ = logical_viewport_.window_height;
+    const int left = logical_viewport_.framebuffer_x;
+    const int top = logical_viewport_.framebuffer_y;
+    const int right = logical_viewport_.framebuffer_width -
+        (left + logical_viewport_.framebuffer_viewport_width);
+    const int bottom = logical_viewport_.framebuffer_height -
+        (top + logical_viewport_.framebuffer_viewport_height);
+    const engine::Vec2 center = logical_viewport_.WindowPointToLogical(
+        {static_cast<float>(logical_viewport_.window_width) * 0.5f,
+         static_cast<float>(logical_viewport_.window_height) * 0.5f});
+    LOG_INFO_APP("Viewport contract: drawable {}x{}, viewport [{}x{} at {},{}] "
+                 "{}x{}, scale {:.4f}x, borders L{} R{} T{} B{}, window {}x{}",
+                 logical_viewport_.framebuffer_width,
+                 logical_viewport_.framebuffer_height,
+                 logical_viewport_.framebuffer_viewport_width,
+                 logical_viewport_.framebuffer_viewport_height,
+                 left, top, logical_viewport_.window_width,
+                 logical_viewport_.window_height,
+                 logical_viewport_.framebuffer_scale, left, right, top, bottom,
+                 logical_viewport_.window_width, logical_viewport_.window_height);
+    LOG_INFO_APP("Viewport mouse mapping: window center -> logical ({:.2f},{:.2f})",
+                 center.x, center.y);
+}
+
+void Application::ToggleMapOverlay() {
+    if (!scene_mode_ || game_ui_.IsMainMenu() || ui_design_mode_) return;
+    if (game_ui_.IsMapOpen()) {
+        game_ui_.CloseMap();
+    } else if (game_ui_.Screen() == soulknight::game::ui::UIScreen::Gameplay) {
+        game_ui_.OpenMap();
     }
 }
 
@@ -1209,7 +1491,40 @@ void Application::DrawGameUI() {
         }
     }
     data.ui_assets = ui_assets_.IsLoaded() ? &ui_assets_ : nullptr;
-    if (const auto* pickup = weapon_pickups_.Nearest(player_.Position(), 1.5f);
+    data.layout = &hud_layout_;
+    data.ui_design_mode = ui_design_mode_;
+    data.ui_design_selected = ui_design_selected_;
+    data.design_mouse = ui_design_mouse_;
+    data.coins = player_coins_;
+    data.map_open = game_ui_.IsMapOpen();
+    data.map_rooms.clear();
+    data.map_links.clear();
+    std::string devroom_room;
+    for (const auto& room : room_manager_.Rooms()) {
+        if (devroom_room.empty() && room.id.rfind("r1_", 0) == 0) {
+            devroom_room = room.id;
+        }
+        data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
+            room.id, room.map_x, room.map_y, room.id == scene_.id,
+            std::find(visited_rooms_.begin(), visited_rooms_.end(), room.id) !=
+                visited_rooms_.end(),
+            false});
+    }
+    if (scene_.id.rfind("r1_", 0) == 0) devroom_room = scene_.id;
+    for (auto& room : data.map_rooms) room.devroom = room.id == devroom_room;
+    data.devroom_room_id = devroom_room;
+    for (const auto& connection : room_manager_.Connections()) {
+        const auto* from = room_manager_.Find(connection.from);
+        const auto* to = room_manager_.Find(connection.to);
+        if (from == nullptr || to == nullptr) continue;
+        data.map_links.push_back(soulknight::game::ui::MapLinkView{
+            from->map_x, from->map_y, to->map_x, to->map_y});
+    }
+    if (const auto* chest = item_world_.NearestClosedChest(
+            player_.Position(), 1.8f); chest != nullptr) {
+        data.chest_nearby = true;
+        data.chest_label = "CHEST";
+    } else if (const auto* pickup = weapon_pickups_.Nearest(player_.Position(), 1.5f);
         pickup != nullptr && pickup->weapon_index < weapons_.Count()) {
         data.pickup_nearby = true;
         const auto& pickup_weapon = weapons_.Definitions()[pickup->weapon_index];
@@ -1244,8 +1559,18 @@ void Application::PollEvents() {
             running_ = false;
         }
 
+        if (HandleUiDesignEvent(event)) {
+            window_.HandleEvent(event);
+            input_manager_.ProcessEvent(event);
+            continue;
+        }
+        HandleMainMenuPointer(event);
+
         const bool key_down = event.type == SDL_EVENT_KEY_DOWN &&
                               !event.key.repeat;
+        if (key_down && event.key.scancode == SDL_SCANCODE_M) {
+            ToggleMapOverlay();
+        }
         if (key_down && event.key.scancode == SDL_SCANCODE_ESCAPE) {
             if (interactive_test_.Active()) {
                 FinalizeInteractiveTest("ABORTED", "user aborted with Escape");
@@ -1335,6 +1660,20 @@ void Application::RebuildCollisionWorld() {
         collision_world_.AddSolid(ToAabb(solid));
     }
     obstacles_.AddColliders(collision_world_);
+    for (const auto& chest : item_world_.Chests()) {
+        const auto* definition = item_assets_.FindChest(chest.definition);
+        if (definition == nullptr) continue;
+        const engine::collision::Aabb box{
+            {chest.position.x + definition->collider_offset.x -
+                 definition->collider_half_extents.x,
+             chest.position.y + definition->collider_offset.y -
+                 definition->collider_half_extents.y},
+            {chest.position.x + definition->collider_offset.x +
+                 definition->collider_half_extents.x,
+             chest.position.y + definition->collider_offset.y +
+                 definition->collider_half_extents.y}};
+        collision_world_.AddSolid(box);
+    }
     room_doors_.AddColliders(collision_world_);
 }
 
@@ -1589,6 +1928,7 @@ void Application::SaveGameToDisk() {
     data.max_armor = player_health_.max_armor;
     data.energy = player_energy_.energy;
     data.max_energy = player_energy_.max_energy;
+    data.coins = player_coins_;
     data.dead = player_health_.dead;
     data.playtime_seconds = static_cast<std::int64_t>(simulation_time_);
     for (const auto& character : scene_.characters) {
@@ -1677,6 +2017,7 @@ void Application::LoadGameFromDisk() {
     player_health_.dead = data.dead || data.hp <= 0;
     player_health_.can_hurt = !player_health_.dead;
     player_energy_.Reset(data.max_energy, data.energy);
+    player_coins_ = std::max(0, data.coins);
     aim_mode_ = data.auto_aim ? soulknight::game::player::AimMode::Auto
                               : soulknight::game::player::AimMode::Manual;
     if (data.fullscreen != window_.IsFullscreen()) {
@@ -1727,6 +2068,23 @@ const engine::assets::InteractionMarker* Application::NearbyInteraction() const 
         }
     }
     return best;
+}
+
+bool Application::TryOpenChest() {
+    if (!item_assets_.IsLoaded()) return false;
+    if (item_world_.OpenNearestChest(player_.Position(), 1.8f)) {
+        LOG_INFO_APP("Chest opened: {}", scene_.id);
+        return true;
+    }
+    return false;
+}
+
+void Application::ConfigureRoomItems() {
+    if (!scene_mode_ || !item_assets_.IsLoaded()) return;
+    const bool dungeon = !scene_.is_hub &&
+                         scene_.id.rfind("r1_", 0) == 0;
+    item_world_.EnterRoom(scene_.id, dungeon,
+                          scene_.spawn + engine::Vec2{0.0f, 2.4f});
 }
 
 void Application::TryInteract() {
@@ -1964,12 +2322,16 @@ void Application::ResetCombat() {
     attack_held_ = false;
     weapon_.Release();
     aim_direction_ = {1.0f, 0.0f};
+    aim_mode_ = soulknight::game::player::AimMode::Auto;
     mouse_aim_valid_ = true;
     facing_ = engine::locomotion::FacingDirection::Right;
     projectiles_.Clear();
     enemies_.Reset();
     cleared_rooms_.erase(scene_.id);
     room_enemy_snapshots_.erase(scene_.id);
+    item_world_.Reset();
+    player_coins_ = 0;
+    ConfigureRoomItems();
     obstacles_.Select(0);
     weapon_inventory_.Configure(weapons_.Count());
     ConfigureActiveWeapon();
@@ -2147,6 +2509,17 @@ void Application::FixedUpdate(double dt) {
     const bool player_damaged = enemies_.FixedUpdate(
         static_cast<float>(dt), player_.Position(), player_health_,
         &collision_world_);
+    if (item_assets_.IsLoaded()) {
+        item_world_.Update(static_cast<float>(dt), player_.Position(),
+                           item_assets_);
+        const int collected = item_world_.CollectCoins(
+            player_.Position(), 0.75f, item_assets_);
+        if (collected > 0) {
+            player_coins_ += collected;
+            LOG_INFO_APP("Coin collected: +{} total={}", collected,
+                         player_coins_);
+        }
+    }
     UpdateRoomClear();
     if (player_damaged) {
         hit_flash_timer_ = 0.12f;
@@ -2477,7 +2850,7 @@ void Application::ConfigureWorldGraph() {
     if (world_templates_.empty()) return;
     const DungeonPlan plan = BuildDungeonPlan(map_seed_, world_templates_);
     std::vector<Room> rooms;
-    rooms.push_back(Room{world_hub_id_, world_hub_path_});
+    rooms.push_back(Room{world_hub_id_, world_hub_path_, 0, 1});
     for (const Room& room : plan.rooms) rooms.push_back(room);
     std::vector<RoomConnection> connections = plan.connections;
     connections.push_back(RoomConnection{
@@ -2753,6 +3126,7 @@ bool Application::ActivateRoom(const std::string& room_id,
     }
     RestoreCurrentRoomState();
     (void)obstacles_.Configure(scene_, &error);
+    ConfigureRoomItems();
     if (!room_doors_.Configure(scene_, &error)) {
         LOG_ERROR_APP("Room switch door setup failed: {}", error);
         return false;
@@ -2783,6 +3157,10 @@ bool Application::ActivateRoom(const std::string& room_id,
     window_.SetTitle(scene_.is_hub
         ? "LiteKnight Living Room"
         : std::string("LiteKnight Devroom - ") + scene_.id);
+    if (std::find(visited_rooms_.begin(), visited_rooms_.end(), scene_.id) ==
+        visited_rooms_.end()) {
+        visited_rooms_.push_back(scene_.id);
+    }
     LOG_INFO_APP("Room transition: NOW {} entrance={} spawn=({:.2f},{:.2f}) "
                  "hp={} armor={} energy={} char={} weapon={} clear={}",
                  scene_.id, entrance_door.empty() ? "spawn" : entrance_door,
@@ -2881,6 +3259,7 @@ int Application::Run() {
         logical_viewport_.Update(window_.GetPixelWidth(),
                                  window_.GetPixelHeight(),
                                  window_.GetWidth(), window_.GetHeight());
+        LogViewportContract();
         if (scene_mode_ && replay_ == nullptr) {
             ApplyInputSnapshot(input_manager_.GetSnapshot());
         } else if (!scene_mode_) {
@@ -2894,7 +3273,8 @@ int Application::Run() {
 
         frame_timer_.BeginFrame();
 
-        const bool ui_frozen = game_ui_.IsPaused() || game_ui_.IsMainMenu();
+        const bool ui_frozen = game_ui_.IsPaused() || game_ui_.IsMainMenu() ||
+                               ui_design_mode_;
         if (ui_frozen) {
             movement_input_ = {};
             attack_held_ = false;

@@ -1,6 +1,6 @@
 {
   "counts": {
-    "approximated": 4,
+    "approximated": 7,
     "excluded": 2,
     "recovered_integrated": 18,
     "unknown": 0
@@ -106,7 +106,7 @@
     },
     {
       "asset": "ui_skill01",
-      "note": "actual SkillInfo[0] icon sprite from c00; 5.0 s active / 10.0 s cooldown",
+      "note": "actual c00 SkillInfo[0] icon; 5.0 s active / 10.0 s cooldown; charge fill uses ui_67",
       "present_in_manifest": true,
       "status": "RECOVERED/INTEGRATED",
       "use": "Knight c00 Dual Wield HUD icon"
@@ -141,10 +141,31 @@
     },
     {
       "asset": "pickup stats card",
-      "note": "native panel with recovered weapon icon/name, damage, energy cost and cycle",
+      "note": "native panel with recovered weapon icon/name, damage and energy cost",
       "present_in_manifest": false,
       "status": "APPROXIMATED",
       "use": "Bottom-centre pickup prompt"
+    },
+    {
+      "asset": "minimap / map panel",
+      "note": "native room-cell renderer; reference UIMap icon atlas UNKNOWN",
+      "present_in_manifest": false,
+      "status": "APPROXIMATED",
+      "use": "HUD minimap and M overlay"
+    },
+    {
+      "asset": "D-ROOM button",
+      "note": "native opaque blue button; requested project UI, not a reference sprite",
+      "present_in_manifest": false,
+      "status": "APPROXIMATED",
+      "use": "Main-menu developer entry"
+    },
+    {
+      "asset": "UI Design Mode",
+      "note": "native logical layout editor and JSON schema",
+      "present_in_manifest": false,
+      "status": "APPROXIMATED",
+      "use": "Persistent HUD editor"
     },
     {
       "asset": "main menu background",

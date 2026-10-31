@@ -37,3 +37,26 @@ TEST_CASE("Pause default selection resumes without toggling aim mode" *
     ui.Resume();
     CHECK(ui.Screen() == UIScreen::Gameplay);
 }
+
+TEST_CASE("Main-menu D-ROOM pointer target is clickable" *
+          doctest::test_suite("unit")) {
+    GameUI ui;
+    ui.OpenMainMenu();
+    CHECK(ui.HandlePointerClick({70.0f, 360.0f}));
+    CHECK(ui.TakeAction() == UIAction::OpenDevroom);
+    ui.OpenMainMenu();
+    CHECK_FALSE(ui.HandlePointerClick({150.0f, 420.0f}));
+    CHECK(ui.TakeAction() == UIAction::None);
+}
+
+TEST_CASE("Map overlay freezes gameplay and closes back to play" *
+          doctest::test_suite("unit")) {
+    GameUI ui;
+    ui.OpenGameplay();
+    ui.OpenMap();
+    CHECK(ui.IsMapOpen());
+    CHECK(ui.IsPaused());
+    ui.CloseMap();
+    CHECK(ui.Screen() == UIScreen::Gameplay);
+    CHECK_FALSE(ui.IsPaused());
+}

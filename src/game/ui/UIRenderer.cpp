@@ -102,6 +102,122 @@ void UIRenderer::TextCentered(std::string_view text, const engine::Rect& rect,
                 engine::rendering::TextAlign::Center, size_pixels, shadow);
 }
 
+
+namespace {
+std::vector<std::string> WrapWords(std::string_view text, float max_width,
+                                   const engine::rendering::TextRenderer& renderer,
+                                   float scale) {
+    std::vector<std::string> lines;
+    std::string current;
+    std::size_t start = 0;
+    while (start <= text.size()) {
+        const std::size_t end = text.find(' ', start);
+        const std::string word(text.substr(start, end == std::string_view::npos
+                                                    ? std::string_view::npos
+                                                    : end - start));
+        if (word.empty()) {
+            if (end == std::string_view::npos) break;
+            start = end + 1;
+            continue;
+        }
+        const std::string candidate = current.empty() ? word : current + " " + word;
+        if (!current.empty() &&
+            renderer.TextWidth(candidate, scale) > max_width) {
+            lines.push_back(current);
+            current = word;
+        } else {
+            current = candidate;
+        }
+        if (end == std::string_view::npos) break;
+        start = end + 1;
+    }
+    if (!current.empty()) lines.push_back(current);
+    if (lines.empty()) lines.push_back(std::string(text));
+    return lines;
+}
+} // namespace
+
+float UIRenderer::TextWidthFitted(std::string_view text, const engine::Rect& rect,
+                                  float preferred_size, float min_size) const {
+    if (context_.text == nullptr) return 0.0f;
+    const float world = world_per_pixel_;
+    float size = std::max(28.0f, preferred_size);
+    while (size >= min_size) {
+        const float scale = (size / 28.0f) * world;
+        if (context_.text->TextWidth(text, scale) <= rect.w &&
+            context_.text->LineHeight(scale) <= rect.h) {
+            return size;
+        }
+        size -= 1.0f;
+    }
+    return min_size;
+}
+
+float UIRenderer::TextFitted(std::string_view text, const engine::Rect& rect,
+                             engine::Color color, int32_t order,
+                             engine::rendering::TextAlign align,
+                             float preferred_size, float min_size,
+                             bool shadow) const {
+    if (!Ready() || rect.w <= 0.0f || rect.h <= 0.0f) return 0.0f;
+    const float world = world_per_pixel_;
+    float size = std::max(28.0f, preferred_size);
+    float scale = (size / 28.0f) * world;
+    const float width = context_.text->TextWidth(text, scale);
+    if (width <= rect.w && context_.text->LineHeight(scale) <= rect.h) {
+        TextAligned(text, rect, color, order, align, size, shadow);
+        return size;
+    }
+    // Keep the recovered primary font size and wrap at word boundaries.
+    const std::vector<std::string> lines =
+        WrapWords(text, rect.w, *context_.text, scale);
+    const float line_height = context_.text->LineHeight(scale);
+    if (static_cast<float>(lines.size()) * line_height <= rect.h &&
+        lines.size() > 1) {
+        const float total = static_cast<float>(lines.size()) * line_height;
+        float y = rect.y + (rect.h - total) * 0.5f;
+        for (const std::string& line : lines) {
+            const float line_width = context_.text->TextWidth(line, scale);
+            float x = rect.x;
+            if (align == engine::rendering::TextAlign::Center) {
+                x += (rect.w - line_width) * 0.5f;
+            } else if (align == engine::rendering::TextAlign::Right) {
+                x += rect.w - line_width;
+            }
+            Text(line, {std::round(x), std::round(y)}, color, order, shadow,
+                 false, size);
+            y += line_height;
+        }
+        return size;
+    }
+    // Last resort: shrink inside the content box rather than overflow it.
+    while (size > min_size) {
+        size -= 1.0f;
+        scale = (size / 28.0f) * world;
+        if (context_.text->TextWidth(text, scale) <= rect.w &&
+            context_.text->LineHeight(scale) <= rect.h) {
+            break;
+        }
+    }
+    const float raw_width = context_.text->TextWidth(text, scale);
+    engine::Vec2 position{
+        rect.x, rect.y + (rect.h - context_.text->LineHeight(scale)) * 0.5f};
+    if (align == engine::rendering::TextAlign::Center) {
+        position.x += (rect.w - raw_width) * 0.5f;
+    } else if (align == engine::rendering::TextAlign::Right) {
+        position.x += rect.w - raw_width;
+    }
+    engine::rendering::TextStyle style;
+    style.color = color;
+    style.shadow = shadow;
+    style.shadow_offset = {2.0f, 2.0f};
+    style.shadow_color = engine::Color{0, 0, 0, 210};
+    style.outline = false;
+    context_.text->DrawText(*context_.batch, text,
+                            ToWorld({std::round(position.x),
+                                     std::round(position.y)}),
+                            scale, style, context_.order_base + order);
+    return size;
+}
 float UIRenderer::TextWidth(std::string_view text, float size_pixels) const {
     if (context_.text == nullptr) return 0.0f;
     return context_.text->TextWidth(text, FontScale(size_pixels));

@@ -46,6 +46,7 @@ SaveData MakeSave() {
     data.max_armor = 5;
     data.energy = 120;
     data.max_energy = 180;
+    data.coins = 17;
     data.dead = false;
     data.playtime_seconds = 42;
     data.unlocked_characters = {"c00", "c01", "c02"};
@@ -93,6 +94,7 @@ TEST_CASE("Save round-trips through atomic slot file" *
     CHECK(loaded.hp == 4);
     CHECK(loaded.armor == 2);
     CHECK(loaded.energy == 120);
+    CHECK(loaded.coins == 17);
     CHECK(loaded.playtime_seconds == 42);
     CHECK(loaded.unlocked_characters.size() == 3);
     CHECK(loaded.plants.size() == 1);
@@ -100,6 +102,12 @@ TEST_CASE("Save round-trips through atomic slot file" *
     CHECK(loaded.hub_visited);
     CHECK(loaded.auto_aim);
     CHECK(loaded.map_seed == 20261031);
+}
+
+TEST_CASE("Fresh save defaults to auto aim" * doctest::test_suite("unit")) {
+    const SaveData fresh;
+    CHECK(fresh.auto_aim);
+    CHECK(fresh.coins == 0);
 }
 
 TEST_CASE("Missing save returns a diagnostic rather than a fake default" *

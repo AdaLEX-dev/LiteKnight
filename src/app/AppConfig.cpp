@@ -114,6 +114,16 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
         // Unknown arguments are harmless for a desktop-launched executable.
     }
 
+    // Test/play executable default: start at the normal main menu. Explicit
+    // --devroom, --scene, --asset-lab, interactive-test and smoke modes keep
+    // their documented behavior.
+    if (config.scene_path.empty() && !config.help_requested &&
+        config.smoke_test_seconds <= 0.0 && !config.asset_lab &&
+        !config.interactive_test && !config.replay) {
+        config.start_gui = true;
+        config.scene_path = "scenes/hero_room/scene.json";
+        config.title = "LiteKnight";
+    }
     return config;
 }
 

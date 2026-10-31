@@ -130,8 +130,12 @@ bool MigrateToCurrent(Json& document, std::string* error) {
             document["plants"] = Json::array();
             document["fullscreen"] = false;
             document["hub_visited"] = false;
-            document["auto_aim"] = false;
+            document["auto_aim"] = true;
             document["map_seed"] = 0;
+            if (document.contains("player") && document["player"].is_object() &&
+                !document["player"].contains("coins")) {
+                document["player"]["coins"] = 0;
+            }
             document["save_version"] = 2;
         } else {
             if (error != nullptr) {
@@ -167,6 +171,7 @@ Json Serialize(const SaveData& data) {
     player["max_armor"] = data.max_armor;
     player["energy"] = data.energy;
     player["max_energy"] = data.max_energy;
+    player["coins"] = data.coins;
     player["dead"] = data.dead;
     document["player"] = std::move(player);
 
@@ -234,6 +239,7 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
         !ReadInt(player, "max_armor", &loaded.max_armor, error) ||
         !ReadInt(player, "energy", &loaded.energy, error) ||
         !ReadInt(player, "max_energy", &loaded.max_energy, error) ||
+        !ReadInt(player, "coins", &loaded.coins, error, false) ||
         !ReadBool(player, "dead", &loaded.dead, error)) {
         return false;
     }

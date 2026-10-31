@@ -56,6 +56,18 @@ public:
     void TextCentered(std::string_view text, const engine::Rect& rect,
                       engine::Color color, int32_t order = 0,
                       float size_pixels = 28.0f, bool shadow = false) const;
+    // Draws text inside a content rectangle. It first tries the requested size
+    // (never below the recovered 28 px primary size), then word-wraps, and only
+    // as a last resort reduces below 28 px. Return value is the rendered size.
+    float TextFitted(std::string_view text, const engine::Rect& rect,
+                     engine::Color color, int32_t order = 0,
+                     engine::rendering::TextAlign align =
+                         engine::rendering::TextAlign::Center,
+                     float preferred_size = 28.0f, float min_size = 16.0f,
+                     bool shadow = true) const;
+    float TextWidthFitted(std::string_view text, const engine::Rect& rect,
+                          float preferred_size = 28.0f,
+                          float min_size = 16.0f) const;
     float TextWidth(std::string_view text, float size_pixels = 28.0f) const;
     float LineHeight(float size_pixels = 28.0f) const;
     void Image(uint32_t texture_id, const engine::Rect& uv,
