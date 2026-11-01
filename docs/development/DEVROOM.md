@@ -20,6 +20,53 @@ title: LiteKnight Devroom
 The normal `soul-knight` executable remains available for synthetic smoke tests
 and explicit `--scene` runs.
 
+## Hub topology and physical routes
+
+The Living Room is a single recovered `HeroRoom` scene with physically connected
+subareas:
+
+```text
+Living Room / hall
+├── weapon workshop / research (forge, mech, bookshelf)
+├── planter garden (land_root, plant pots, bushes)
+├── cellar / bottom room (blueprint table, decorations)
+├── magic/protection area
+└── battle-door marker
+```
+
+The reference scene's default active hierarchy is extracted; inactive event
+objects/tilemaps (for example `chinesenewyear_wall_lobby`) are excluded. Wall
+tile cells provide collision while the reference floor tilemaps define the
+walkable openings. Progression-lock colliders around the cellar and portals are
+removed for the explorable native hub. Furniture/BoxCollider2D props retain
+their recovered collision where present.
+
+In the dungeon graph, each room still has four recovered physical door objects.
+After door configuration, any door with no matching `RoomManager` edge is
+sealed: it stays closed and is skipped by `OpenAll`, so a map edge and a
+traversable corridor always correspond. Rooms can only be entered/exited through
+the doors listed in the generated graph.
+
+The minimap adds native hub subarea nodes for garden/workshop/cellar on top of
+the room graph. These are a native visualization of the single-scene subareas,
+not separate `MapManagerLevel` rooms.
+
+## Return portal
+
+Dungeon rooms acquire a real return portal from the reference
+`transfer_gate_02` AnimationClip (6 sprite frames at 12 fps, 0.5 s loop) and the
+actual `magic_protal2` assets. The portal is placed at a clear spawn-relative
+floor position and uses the normal interaction prompt:
+
+```text
+E  return portal
+E again within 3 s to confirm
+```
+
+Confirmation returns through `ActivateRoom` to `hero_room` and reloads the
+Living Room at its normal spawn; it is not a debug teleport and does not reset
+room progress.
+
 ## Start
 
 ```bash
@@ -67,6 +114,21 @@ automatically. Chests open with `E`; coins magnetize and update the HUD wallet.
 The test executable starts at the main menu; D-ROOM is the developer entry. `--map-seed <int>` reproduces the same deterministic native room
 assignment. Selectors use `A/D` or left/right/up/down, `Enter` to confirm, `Esc`
 to return. Legacy controls remain available when a selector is closed.
+
+## 30-second review areas
+
+```bash
+./scripts/test-explore.sh living_room
+./scripts/test-explore.sh workshop
+./scripts/test-explore.sh garden
+./scripts/test-explore.sh cellar
+./scripts/test-explore.sh chest
+./scripts/test-explore.sh weapons
+./scripts/test-explore.sh r1_1
+```
+
+The review harness freezes the real application after the timer, prints
+`REVIEW REQUIRED`, and waits for ENTER.
 
 ## Developer overlay
 

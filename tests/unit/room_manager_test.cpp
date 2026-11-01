@@ -1,10 +1,13 @@
 // Soul Knight Linux — room graph foundation tests
 #include <doctest/doctest.h>
 
+#include "engine/assets/SceneAsset.hpp"
 #include "game/room/DungeonPlan.hpp"
+#include "game/room/RoomDoorController.hpp"
 #include "game/room/RoomManager.hpp"
 
 using soulknight::game::room::BuildDungeonPlan;
+using soulknight::game::room::RoomDoorController;
 using soulknight::game::room::DungeonRoomTemplate;
 using soulknight::game::room::Room;
 using soulknight::game::room::RoomConnection;
@@ -87,4 +90,34 @@ TEST_CASE("Native dungeon plan is deterministic per recovered RNG seed" *
                          other.rooms[1].id != first.rooms[1].id ||
                          other.rooms[2].id != first.rooms[2].id;
     CHECK(differs);
+}
+
+TEST_CASE("Doors without a map edge stay sealed and block the room boundary" *
+          doctest::test_suite("unit")) {
+    soulknight::engine::assets::SceneAsset scene;
+    for (const char* id : {"north", "east"}) {
+        soulknight::engine::assets::SceneDoor door;
+        door.id = id;
+        door.enabled = true;
+        door.open = true;
+        door.open_animation.duration = 0.1f;
+        door.close_animation.duration = 0.1f;
+        scene.doors.push_back(std::move(door));
+    }
+    RoomDoorController doors;
+    std::string error;
+    CHECK(doors.Configure(scene, &error));
+    CHECK_FALSE(doors.IsSealed(0));
+    CHECK_FALSE(doors.IsSealed(1));
+    doors.SealDoor(1);
+    CHECK(doors.IsSealed(1));
+    (void)doors.Update(0.2f);
+    doors.OpenAll();
+    (void)doors.Update(0.2f);
+    CHECK(doors.At(0).State() == soulknight::game::room::DoorState::Open);
+    CHECK(doors.At(1).State() == soulknight::game::room::DoorState::Closed);
+    CHECK_FALSE(doors.At(0).IsBlocking());
+    CHECK(doors.At(1).IsBlocking());
+    doors.SealDoor(99);
+    CHECK_FALSE(doors.IsSealed(99));
 }

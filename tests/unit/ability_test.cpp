@@ -68,3 +68,19 @@ TEST_CASE("Knight Dual Wield uses recovered 5s active / 10s cooldown" *
     abilities.Update(0.002f);
     CHECK(abilities.Abilities()[0].state == AbilityState::Ready);
 }
+
+TEST_CASE("Skill mask charge fills from empty to blue-ready" *
+          doctest::test_suite("unit")) {
+    CHECK(AbilityChargeFraction(AbilityState::Empty, 0.0f) ==
+          doctest::Approx(0.0f));
+    CHECK(AbilityChargeFraction(AbilityState::Cooldown, 1.0f) ==
+          doctest::Approx(0.0f));
+    CHECK(AbilityChargeFraction(AbilityState::Cooldown, 0.5f) ==
+          doctest::Approx(0.5f));
+    CHECK(AbilityChargeFraction(AbilityState::Cooldown, 0.0f) ==
+          doctest::Approx(1.0f));
+    CHECK(AbilityChargeFraction(AbilityState::Ready, 0.0f) ==
+          doctest::Approx(1.0f));
+    CHECK(AbilityChargeFraction(AbilityState::Active, 0.0f) ==
+          doctest::Approx(1.0f));
+}

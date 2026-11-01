@@ -1,9 +1,9 @@
 # LiteKnight — Project State
 
-**Version:** `0.5.2-dev`
-**Last Updated:** 2026-11-01 (0.5.2 UI emergency: reference menu/HUD/map/
-settings/pause assets, global logical text alignment, weapon metadata catalogue,
-VSync present pacing and 30-second review harness)
+**Version:** `0.5.3-dev`
+**Last Updated:** 2026-11-01 (0.5.3 content integration: default Living Room,
+physical hub access and return portal, 15-weapon runtime catalogue, chest
+catalogue/loot, room metadata, directional facing and ability charge)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (devroom foundation FUNCTIONAL)**
 **Current status:** the native Wayland/Vulkan devroom is playable and is the
@@ -264,7 +264,7 @@ Implemented and manually verified on 2026-10-31:
   inventories and metadata audits live in `analysis/assets/` and
   `tools/asset/`; reference-derived pixels remain local-only.
 - **Developer UI PASSED:** `F6` character selector (all c00..c14 with real
-  sprites), `F7` weapon selector (four recovered Gun001 weapons with real
+  sprites), `F7` weapon selector (15 recovered Gun001 weapons with real
   weapon textures), `F8` enemy selector, `F9`/`F11`/`F12` spawn one/five/clear,
   and `F10` overlay (version/build/FPS/ticks/player/weapon/enemies/projectiles/
   position/facing/room/platform). Selectors preserve player position, collision,

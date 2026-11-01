@@ -34,11 +34,19 @@ public:
           "textures": [{"id":"tex","png":"texture.png","filter":"point","wrap":"clamp"}],
           "sprites": [{"id":"sprite","texture":"tex","rect":[0,0,1,1],
                        "pivot":[0.5,0.5],"pixels_per_unit":1.0}],
-          "chests": [{"id":"chest00","level":0,"loot_coin":"coin_0","loot_count":1,
-                      "visuals":[{"sprite":"sprite","offset":[0,0],
-                                  "sorting_layer":5,"sorting_order":1}]}],
+          "chests": [
+            {"id":"chest00","level":0,"open_time":1.0,"loot_coin":"coin_0","loot_count":1,
+             "visuals":[{"sprite":"sprite","offset":[0,0],
+                         "sorting_layer":5,"sorting_order":1}]},
+            {"id":"chest01","level":1,"open_time":1.0,"weapon_drop_level":1,
+             "visuals":[{"sprite":"sprite","offset":[0,0],
+                         "sorting_layer":5,"sorting_order":1}]}
+          ],
           "coins": [{"id":"coin_0","type":0,"value":5,"speed":20,"range":7,
-                     "frames":["sprite"]}]
+                     "frames":["sprite"]}],
+          "weapon_drops": [{"level":1,"entries":[
+            {"weapon":"weapon_000","weight":1,"title":"Bad Pistol"},
+            {"weapon":"weapon_001","weight":1,"title":"P250 Pistol"}]}]
         })";
     }
     ~TempItemDirectory() {
@@ -67,13 +75,40 @@ TEST_CASE("Chest opens once and spawns one collectible coin" *
     CHECK(world.Chests().front().state == soulknight::game::items::ChestState::Closed);
     CHECK(world.OpenNearestChest({10.0f, 10.0f}, 2.0f));
     CHECK_FALSE(world.OpenNearestChest({10.0f, 10.0f}, 2.0f));
-    world.Update(0.5f, {10.0f, 10.0f}, assets);
+    world.Update(1.01f, {10.0f, 10.0f}, assets);
     CHECK(world.Chests().front().state == soulknight::game::items::ChestState::Open);
     CHECK(world.Coins().size() == 1);
     CHECK(world.CollectCoins({10.0f, 10.0f}, 5.0f, assets) == 5);
     CHECK(world.CollectCoins({10.0f, 10.0f}, 5.0f, assets) == 0);
-    world.Update(0.5f, {10.0f, 10.0f}, assets);
+    world.Update(0.2f, {10.0f, 10.0f}, assets);
     CHECK(world.Coins().size() == 1); // no duplicated loot
+}
+
+TEST_CASE("RGChest weapon loot uses the recovered drop table deterministically" *
+          doctest::test_suite("unit")) {
+    TempItemDirectory temp;
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    ItemAssets assets;
+    std::string error;
+    CHECK(assets.Load(filesystem, temp.Path() / "items.json", &error));
+    CHECK(assets.WeaponDrops().size() == 1);
+    ItemWorld world;
+    world.SetAvailableWeapons({"weapon_000", "weapon_001"});
+    world.EnterRoom("r1_2_visual", false, {0.0f, 0.0f});
+    world.AddChest("chest01", {4.0f, 4.0f});
+    CHECK(world.OpenNearestChest({4.0f, 4.0f}, 2.0f));
+    world.Update(0.99f, {4.0f, 4.0f}, assets);
+    CHECK(world.TakePendingWeaponDrops().empty());
+    world.Update(0.02f, {4.0f, 4.0f}, assets);
+    const auto drops = world.TakePendingWeaponDrops();
+    CHECK(drops.size() == 1);
+    if (drops.size() == 1) {
+        CHECK((drops[0].weapon == "weapon_000" ||
+               drops[0].weapon == "weapon_001"));
+        CHECK(drops[0].position.x == doctest::Approx(4.0f));
+    }
+    CHECK(world.TakePendingWeaponDrops().empty());
 }
 
 TEST_CASE("Room transitions preserve opened chest state" *
@@ -87,7 +122,7 @@ TEST_CASE("Room transitions preserve opened chest state" *
     ItemWorld world;
     world.EnterRoom("r1_1_visual", true, {3.0f, 3.0f});
     CHECK(world.OpenNearestChest({3.0f, 3.0f}, 2.0f));
-    world.Update(0.5f, {3.0f, 3.0f}, assets);
+    world.Update(1.01f, {3.0f, 3.0f}, assets);
     world.EnterRoom("r1_2_visual", true, {6.0f, 6.0f});
     CHECK(world.Chests().size() == 1);
     CHECK(world.Chests().front().state == soulknight::game::items::ChestState::Closed);

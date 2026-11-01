@@ -4,7 +4,7 @@
 review. It is intentionally not a screenshot regression test.
 
 ```bash
-./scripts/test-explore.sh <area> [seconds]
+LITEKNIGHT_REVIEW_SECONDS=30 ./scripts/test-explore.sh <area>
 ```
 
 The script prints a large terminal banner, starts the normal executable, and
@@ -26,10 +26,16 @@ Available areas:
 | `settings` | main menu with Settings open |
 | `pause` | Living Room gameplay with Pause open |
 | `living_room` | Living Room gameplay |
+| `devroom` | seeded `r1_1_visual` room with the full room graph |
 | `r1_1` | seeded `r1_1_visual` room |
 | `r1_2` | seeded `r1_2_visual` room |
 | `r1_3` | seeded `r1_3_visual` room |
 | `ui_design` | Living Room with UI Design Mode active |
+| `workshop` | Living Room teleported to the weapon workshop |
+| `garden` | Living Room teleported to the planter/garden |
+| `cellar` | Living Room teleported to the bottom cellar |
+| `chest` | r1_1 with chest00/01/02 review row |
+| `weapons` | integrated weapon catalogue selector |
 | `fullscreen` | main menu in 1920x1080 fullscreen |
 
 The application also supports the flags directly:

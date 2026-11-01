@@ -78,3 +78,19 @@ TEST_CASE("Gameplay uses the compact HUD and has no fullscreen map state" *
     CHECK(ui.Screen() == UIScreen::Gameplay);
     CHECK_FALSE(ui.IsPaused());
 }
+
+TEST_CASE("Weapon selector navigation wraps across the integrated catalogue" *
+          doctest::test_suite("unit")) {
+    GameUI ui;
+    ui.OpenGameplay();
+    ui.SetWeaponCount(15);
+    ui.OpenWeaponSelect(0);
+    ui.Navigate(-1);
+    CHECK(ui.WeaponSelection() == 14);
+    ui.Navigate(1);
+    CHECK(ui.WeaponSelection() == 0);
+    ui.Navigate(1);
+    CHECK(ui.WeaponSelection() == 1);
+    ui.Confirm();
+    CHECK(ui.TakeAction() == UIAction::SelectWeapon);
+}

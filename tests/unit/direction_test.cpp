@@ -26,6 +26,8 @@ using soulknight::engine::assets::SpriteInstance;
 using soulknight::engine::collision::AabbCollisionWorld;
 using soulknight::engine::locomotion::FacingDirection;
 using soulknight::engine::locomotion::PlayerLocomotion;
+using soulknight::engine::locomotion::ResolveAimFacing;
+using soulknight::engine::locomotion::ResolveBodyFacing;
 using soulknight::engine::locomotion::ResolveFacing;
 using soulknight::engine::rendering::BindPlayerRenderInstances;
 using soulknight::engine::rendering::PlayerRenderBinding;
@@ -162,6 +164,22 @@ TEST_CASE("Facing is horizontal-only and vertical input retains the last facing"
     CHECK(ResolvePlayerBodyFlipX(false, FacingDirection::Left));
     CHECK(ResolvePlayerBodyFlipX(true, FacingDirection::Right));
     CHECK_FALSE(ResolvePlayerBodyFlipX(true, FacingDirection::Left));
+}
+
+TEST_CASE("Body facing follows movement and only uses aim while idle" *
+          doctest::test_suite("unit")) {
+    FacingDirection facing = FacingDirection::Right;
+    // Moving left wins over an aim vector pointing right.
+    facing = ResolveBodyFacing(facing, {-1.0f, 0.0f}, {1.0f, 0.0f}, true);
+    CHECK(facing == FacingDirection::Left);
+    // Vertical movement retains the last horizontal body facing.
+    facing = ResolveBodyFacing(facing, {0.0f, 1.0f}, {1.0f, 0.0f}, true);
+    CHECK(facing == FacingDirection::Left);
+    // Idle body follows the aim direction.
+    facing = ResolveBodyFacing(facing, {0.0f, 0.0f}, {1.0f, 0.0f}, false);
+    CHECK(facing == FacingDirection::Right);
+    CHECK(ResolveAimFacing(FacingDirection::Right, {0.0f, 1.0f}) ==
+          FacingDirection::Right);
 }
 
 TEST_CASE("Run animation and player render stay synchronized for every movement direction" *

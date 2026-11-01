@@ -72,3 +72,11 @@ cell/connector quads, `color_0/1/2`, the five special-icon sprite references,
 `HYPOTHESIS`: mapping the native room graph's IDs onto the reference 5x5 cell
 grid and the exact desktop minimap anchor. These are native desktop decisions,
 not recovered `MapManagerLevel` positions.
+
+## 0.5.3 hub subarea nodes
+
+The Living Room remains one recovered `HeroRoom` scene. For exploration, the
+minimap additionally shows native conceptual nodes for the physically accessible
+garden, workshop/research and cellar. They are marked visited and linked to the
+home cell; they are not claimed to be separate `MapManagerLevel` rooms. The
+white `D` cell remains reserved for the developer room.

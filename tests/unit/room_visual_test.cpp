@@ -260,7 +260,9 @@ TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *
     CHECK(player.value("camp", 0) == 1);
     CHECK(player.value("deviation", -1) == 0);
 
-    CHECK(scene["weapons"].size() == 4);
+    CHECK(scene["weapons"].size() >= 15);
+    CHECK(scene["room"].value("type", -1) == 1);
+    CHECK(scene["room"].value("label", "") == "1-1");
     const Json& weapon = scene["weapons"].at(0);
     CHECK(weapon.value("id", "") == "weapon_000");
     CHECK(weapon.value("damage", 0) == 3);
