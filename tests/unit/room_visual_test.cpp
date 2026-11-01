@@ -277,7 +277,14 @@ TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *
         CAPTURE(entry.value("id", ""));
         CHECK_FALSE(entry.value("visual_sprite", "").empty());
         CHECK(entry.value("attack_cycle_seconds", 0.0) > 0.0);
-        CHECK_FALSE(entry["projectile"].value("sprite", "").empty());
+        if (!entry.value("is_melee", false)) {
+            const Json& projectile_entry = entry["projectile"];
+            CHECK(projectile_entry.contains("sprite"));
+            if (projectile_entry.contains("sprite") &&
+                projectile_entry["sprite"].is_string()) {
+                CHECK_FALSE(projectile_entry["sprite"].get<std::string>().empty());
+            }
+        }
     }
     const Json& projectile = weapon["projectile"];
     CHECK(projectile.value("id", "") == "bullet_0");

@@ -1290,7 +1290,9 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
         SwitchRoom();
         return;
     }
-    if (scancode == SDL_SCANCODE_N) {
+    const bool dev_tools = config_.devroom || config_.review_mode ||
+                           config_.asset_lab;
+    if (dev_tools && scancode == SDL_SCANCODE_N) {
         player_.SetPosition(scene_.spawn);
         previous_player_position_ = scene_.spawn;
         render_player_position_ = scene_.spawn;
@@ -1301,12 +1303,12 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                      scene_.spawn.x, scene_.spawn.y);
         return;
     }
-    if (scene_.is_hub && scancode == SDL_SCANCODE_H) {
+    if (dev_tools && scene_.is_hub && scancode == SDL_SCANCODE_H) {
         game_ui_.OpenCharacterSelect(
             static_cast<int>(player_characters_.ActiveIndex()));
         return;
     }
-    if (scene_.is_hub && scancode == SDL_SCANCODE_B) {
+    if (dev_tools && scene_.is_hub && scancode == SDL_SCANCODE_B) {
         game_ui_.OpenWeaponSelect(
             static_cast<int>(weapon_inventory_.ActiveIndex()));
         return;
@@ -1364,13 +1366,13 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                     LOG_INFO_APP("Developer overlay: {}",
                                  BooleanText(dev_ui_.OverlayVisible()));
                 }
-            } else if (scancode == SDL_SCANCODE_F9) {
+            } else if (dev_tools && scancode == SDL_SCANCODE_F9) {
                 SpawnSelectedEnemy((modifiers & SDL_KMOD_SHIFT) != 0 ? 5 : 1);
             } else if (scancode == SDL_SCANCODE_F11) {
                 (void)window_.SetFullscreen(!window_.IsFullscreen());
                 LOG_INFO_APP("Fullscreen: {}",
                              BooleanText(window_.IsFullscreen()));
-            } else if (scancode == SDL_SCANCODE_F12) {
+            } else if (dev_tools && scancode == SDL_SCANCODE_F12) {
                 enemies_.ClearEnemies();
                 LOG_INFO_APP("Developer enemy spawner: enemies cleared");
             } else if (dev_ui_.MenuOpen()) {
@@ -1422,7 +1424,7 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                 if (!TryOpenChest()) {
                     if (!TryPickupWeapon()) TryInteract();
                 }
-            } else if (scancode == SDL_SCANCODE_G) {
+            } else if (dev_tools && scancode == SDL_SCANCODE_G) {
                 SpawnWeaponPickup(weapons_.ActiveIndex());
             } else if (scancode == SDL_SCANCODE_O &&
                        (config_.devroom || config_.review_mode)) {
@@ -1434,23 +1436,23 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                     LOG_INFO_APP("Developer: +100 orbs (total {})",
                                  player_orbs_);
                 }
-            } else if (scancode == SDL_SCANCODE_C &&
+            } else if (dev_tools && scancode == SDL_SCANCODE_C &&
                        !scene_.doors.empty()) {
                 CloseAllDoors();
-            } else if (scancode == SDL_SCANCODE_LEFTBRACKET) {
+            } else if (dev_tools && scancode == SDL_SCANCODE_LEFTBRACKET) {
                 CycleCharacter(-1);
-            } else if (scancode == SDL_SCANCODE_RIGHTBRACKET) {
+            } else if (dev_tools && scancode == SDL_SCANCODE_RIGHTBRACKET) {
                 CycleCharacter(1);
-            } else if (scancode == SDL_SCANCODE_Y) {
+            } else if (dev_tools && scancode == SDL_SCANCODE_Y) {
                 CycleObstacleVariant();
-            } else if (scancode == SDL_SCANCODE_R) {
+            } else if (dev_tools && scancode == SDL_SCANCODE_R) {
                 ResetCombat();
-            } else if ((modifiers & SDL_KMOD_CTRL) != 0 &&
+            } else if (dev_tools && (modifiers & SDL_KMOD_CTRL) != 0 &&
                        scancode >= SDL_SCANCODE_1 &&
                        scancode <= SDL_SCANCODE_9) {
                 SwitchCharacter(static_cast<std::size_t>(
                     scancode - SDL_SCANCODE_1));
-            } else if ((modifiers & SDL_KMOD_CTRL) != 0 &&
+            } else if (dev_tools && (modifiers & SDL_KMOD_CTRL) != 0 &&
                        scancode == SDL_SCANCODE_0) {
                 SwitchCharacter(9);
             } else if (scancode == SDL_SCANCODE_D &&

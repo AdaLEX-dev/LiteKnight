@@ -236,6 +236,10 @@ struct EnemyDefinition {
     int32_t projectile_damage = 0;
     float shoot_cooldown = 2.0f;
     float attack_range = 8.0f;
+    std::string class_name;
+    bool stand_in_shooting = false;
+    bool lock_in_shooting = false;
+    float shoot_time = 0.0f;
     int32_t body_sorting_layer = 5;
     int32_t body_sorting_order = 1;
     int32_t shadow_sorting_layer = 3;

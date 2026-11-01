@@ -1043,21 +1043,26 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             read_visual_curve("visual_rotation_z", &weapon.visual_rotation_z);
             read_visual_curve("muzzle_enabled", &weapon.muzzle_enabled);
             const Json& projectile = item["projectile"];
+            const bool melee_definition = item.value("is_melee", false);
+            const bool has_projectile_sprite =
+                projectile.contains("sprite") && projectile["sprite"].is_string();
             if (!projectile.contains("id") || !projectile["id"].is_string() ||
-                !projectile.contains("sprite") || !projectile["sprite"].is_string()) {
+                (!melee_definition && !has_projectile_sprite)) {
                 SetError(error, "scene projectile entry is invalid");
                 return false;
             }
             weapon.projectile.id = projectile["id"].get<std::string>();
-            const auto sprite_it =
-                sprite_ids.find(projectile["sprite"].get<std::string>());
-            if (sprite_it == sprite_ids.end()) {
-                SetError(error, "projectile references unknown sprite: " +
-                                projectile["sprite"].get<std::string>());
-                return false;
+            if (has_projectile_sprite) {
+                const auto sprite_it =
+                    sprite_ids.find(projectile["sprite"].get<std::string>());
+                if (sprite_it == sprite_ids.end()) {
+                    SetError(error, "projectile references unknown sprite: " +
+                                    projectile["sprite"].get<std::string>());
+                    return false;
+                }
+                weapon.projectile.sprite_index =
+                    static_cast<int32_t>(sprite_it->second);
             }
-            weapon.projectile.sprite_index =
-                static_cast<int32_t>(sprite_it->second);
             weapon.projectile.prefab_speed =
                 projectile.value("prefab_speed", 0.0f);
             weapon.projectile.lifetime =
@@ -1242,6 +1247,12 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                     }
                 }
             }
+            enemy.class_name = item.value("class_name", std::string{});
+            enemy.stand_in_shooting =
+                item.value("stand_in_shooting", false);
+            enemy.lock_in_shooting =
+                item.value("lock_in_shooting", false);
+            enemy.shoot_time = item.value("shoot_time", 0.0f);
             enemy.body_sorting_layer = item.value("body_sorting_layer", 5);
             enemy.body_sorting_order = item.value("body_sorting_order", 1);
             enemy.shadow_sorting_layer = item.value("shadow_sorting_layer", 3);

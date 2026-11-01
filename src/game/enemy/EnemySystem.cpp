@@ -148,7 +148,10 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
                 definition.projectile_damage, definition.camp, 0, 0);
             enemy.shoot_timer = std::max(0.1f, definition.shoot_cooldown);
         }
-        if (!in_ranged_band && distance > kContactRange &&
+        const bool hold_position = definition.ranged &&
+            (definition.stand_in_shooting || definition.lock_in_shooting) &&
+            in_ranged_band;
+        if (!hold_position && !in_ranged_band && distance > kContactRange &&
             distance < kAggroRadius && distance > 0.0001f) {
             const engine::Vec2 direction = to_player * (1.0f / distance);
             enemy.facing_left = direction.x < 0.0f;
