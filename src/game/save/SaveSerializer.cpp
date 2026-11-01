@@ -185,6 +185,12 @@ Json Serialize(const SaveData& data) {
     document["materials"] = std::move(materials);
     document["cleared_rooms"] = data.cleared_rooms;
     document["chest_spawned_rooms"] = data.chest_spawned_rooms;
+    document["sold_shop_items"] = data.sold_shop_items;
+    document["active_statue"] = data.active_statue;
+    document["active_mercenary"] = data.active_mercenary;
+    document["mercenary_level"] = data.mercenary_level;
+    document["active_mount"] = data.active_mount;
+    document["pot_empty"] = Json::array({data.pot_empty[0], data.pot_empty[1]});
 
     Json player = Json::object();
     player["character_id"] = data.character_id;
@@ -324,6 +330,23 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
     if (document.contains("map_seed") &&
         document["map_seed"].is_number_integer()) {
         loaded.map_seed = document["map_seed"].get<std::int32_t>();
+    }
+    loaded.active_statue = document.value("active_statue", std::string{});
+    loaded.active_mercenary = document.value("active_mercenary", std::string{});
+    loaded.mercenary_level = document.value("mercenary_level", 0);
+    loaded.active_mount = document.value("active_mount", std::string{});
+    if (document.contains("pot_empty") && document["pot_empty"].is_array() &&
+        document["pot_empty"].size() == 2) {
+        loaded.pot_empty[0] = document["pot_empty"][0].get<bool>();
+        loaded.pot_empty[1] = document["pot_empty"][1].get<bool>();
+    }
+    if (document.contains("sold_shop_items") &&
+        document["sold_shop_items"].is_array()) {
+        for (const Json& item : document["sold_shop_items"]) {
+            if (item.is_string()) {
+                loaded.sold_shop_items.push_back(item.get<std::string>());
+            }
+        }
     }
     if (document.contains("rooms") && document["rooms"].is_array()) {
         for (const Json& room_json : document["rooms"]) {

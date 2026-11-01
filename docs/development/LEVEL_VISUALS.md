@@ -68,11 +68,20 @@ visual theme change cannot reorder gameplay RNG.
 - `--devroom --map-seed` logs the selected theme and measured 60 Hz present
   pacing.
 
+## Obstacle theme overrides
+
+- Each `LevelTheme` now carries the recovered `obstacle_list` prefab groups.
+- `Application` renders the active level's obstacle group at each
+  `RGObjectSkin` marker (`obj_index`), suppressing the baked room variant.
+- Collision geometry remains the room's recovered solid set, as required by
+  the task. No arbitrary re-skin is applied where a theme has no entry.
+- Tests cover branch/level lookup and deterministic surface output; the
+  `--area r1_1` visual smoke confirms theme obstacle rendering.
+
 ## Remaining limitation
 
-- Obstacle prefab themes (`obstacle_list[obj_index]`) are still rendered from
-  the room's recovered 1-1 obstacle variants. The floor/wall override does not
-  silently re-skin obstacle markers. This is a separate data path and is
-  documented in the completion audit rather than approximated.
 - `map_catalogue.json` remains the mixed first-occurrence audit table; the
   runtime theme selection no longer depends on its floor/wall lists.
+- Obstacle collision is intentionally unchanged across themes; if a future
+  theme has a different obstacle collider, it needs an explicit collision
+  update rather than an implicit swap.

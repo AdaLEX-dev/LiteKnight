@@ -163,6 +163,14 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.devroom = true;
             config.scene_path = "scenes/hero_room/scene.json";
             config.title = "LiteKnight Review - Weapon Catalogue";
+        } else if (area == "r_sell" || area == "r_statue" ||
+                   area == "r_mineral" || area == "r_mercenary" ||
+                   area == "r_mount" || area == "r_chest" ||
+                   area == "r_weapon_provider" ||
+                   area == "r_start_no_event" || area == "r_transgete") {
+            config.devroom = true;
+            config.scene_path = "scenes/" + area + "_visual/scene.json";
+            config.title = "LiteKnight Review - " + area;
         } else if (area == "r1_1" || area == "r1_2" || area == "r1_3") {
             config.devroom = true;
             config.scene_path = "scenes/" + area + "_visual/scene.json";

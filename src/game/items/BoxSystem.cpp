@@ -48,6 +48,10 @@ bool BoxSystem::DeployBox(const engine::Vec2& position, int hp,
     return true;
 }
 
+void BoxSystem::SpawnEnergyAt(const engine::Vec2& position) {
+    SpawnBubble(position);
+}
+
 void BoxSystem::AddColliders(
         engine::collision::AabbCollisionWorld& world) const {
     for (const BreakableBox& box : boxes_) {

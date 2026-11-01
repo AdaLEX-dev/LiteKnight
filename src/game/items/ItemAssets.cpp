@@ -106,6 +106,47 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
             chests_.push_back(std::move(chest));
         }
     }
+    if (document.contains("special_objects") &&
+        document["special_objects"].is_array()) {
+        for (const Json& item : document["special_objects"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string() || !item.contains("sprite") ||
+                !item["sprite"].is_string()) {
+                SetError(error, "special object definition is invalid");
+                return false;
+            }
+            SpecialObjectDefinition object;
+            object.id = item["id"].get<std::string>();
+            object.role = item.value("role", std::string{});
+            object.sprite = item["sprite"].get<std::string>();
+            object.price = item.value("price", 0);
+            object.hp = item.value("hp", 0);
+            object.damage = item.value("damage", 0);
+            object.statue_index = item.value("statue_index", 0);
+            object.mineral_count = item.value("mineral_count", 0);
+            object.drop_item = item.value("drop_item", std::string{});
+            special_objects_.push_back(std::move(object));
+        }
+    }
+    if (document.contains("shop_items") && document["shop_items"].is_array()) {
+        for (const Json& item : document["shop_items"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string() || !item.contains("sprite") ||
+                !item["sprite"].is_string()) {
+                SetError(error, "shop item definition is invalid");
+                return false;
+            }
+            ShopItemDefinition shop;
+            shop.id = item["id"].get<std::string>();
+            shop.item_name = item.value("item_name", shop.id);
+            shop.kind = item.value("kind", std::string{});
+            shop.sprite = item["sprite"].get<std::string>();
+            shop.price = item.value("price", 0);
+            shop.health = item.value("health", 0);
+            shop.energy = item.value("energy", 0);
+            shop_items_.push_back(std::move(shop));
+        }
+    }
     if (document.contains("coins")) {
         for (const Json& item : document["coins"]) {
             if (!item.is_object() || !item.contains("id") ||
@@ -211,6 +252,21 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
 const ChestDefinition* ItemAssets::FindChest(const std::string& id) const {
     for (const ChestDefinition& chest : chests_) {
         if (chest.id == id) return &chest;
+    }
+    return nullptr;
+}
+
+const SpecialObjectDefinition* ItemAssets::FindSpecialObject(
+        const std::string& id) const {
+    for (const SpecialObjectDefinition& object : special_objects_) {
+        if (object.id == id) return &object;
+    }
+    return nullptr;
+}
+
+const ShopItemDefinition* ItemAssets::FindShopItem(const std::string& id) const {
+    for (const ShopItemDefinition& item : shop_items_) {
+        if (item.id == id) return &item;
     }
     return nullptr;
 }

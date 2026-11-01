@@ -401,6 +401,8 @@ add_library(game STATIC
     src/game/items/ItemWorld.hpp
     src/game/items/BoxSystem.cpp
     src/game/items/BoxSystem.hpp
+    src/game/items/SellerSystem.cpp
+    src/game/items/SellerSystem.hpp
     src/game/ui/DevOverlay.cpp
     src/game/ui/DevOverlay.hpp
     src/game/ui/AssetLab.cpp
@@ -635,6 +637,7 @@ add_executable(soul-knight-test
     tests/unit/unique_weapon_test.cpp
     tests/unit/level_surface_test.cpp
     tests/unit/enemy_family_test.cpp
+    tests/unit/seller_test.cpp
     tests/unit/save_test.cpp
     tests/unit/replay_test.cpp
     tests/unit/foundation_test.cpp

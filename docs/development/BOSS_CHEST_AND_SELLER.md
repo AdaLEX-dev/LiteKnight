@@ -59,15 +59,25 @@
 
 ### Status
 
-**REFERENCE-RECOVERED, NOT WIRED.** The native runtime has no generated
-`r_sell_visual` scene and no seller interaction marker/UI. Implementing it
-requires extracting the `r_sell` room variants, their containers and the
-`RGContainer`/`ItemSellPlaceAttrbute` markers. The exact inventory is not
-invented or replaced with the hub orb trader.
+**WIRED (native reconstruction).** A real `r_sell` room shell was built from
+the recovered `r_sell` prefab (19x13 geometry, doors, walls, level themes) and
+added to the special-room pool. The exact `sell2-1` stock is used:
 
-### Blockers
+- `health_pot` 25 coins, +2 HP
+- `energy_pot` 20 coins, +80 energy
+- one `read_xml=1` weapon container from the recovered level 5/6 pool, priced
+  by the weapon’s recovered `item_value`
 
-- No `r_sell_visual` generated scene exists in `assets/generated/visual`.
-- `ItemSellPlaceAttrbute`/`RGContainer` interaction markers are not emitted by
-  the current room builder.
-- Exact save-path state for shop refresh/persistence is not decoded.
+The container transforms are Odin-serialized, so the three positions are
+explicitly labelled **NATIVE RECONSTRUCTION** on the recovered room floor.
+Purchase deducts coins, applies potion restoration, spawns weapon pickups,
+marks the offer sold, plays `fx_buy`, shows the dialogue/feedback, and persists
+sold ids in `sold_shop_items`.
+
+### Remaining limitations
+
+- The exact `RGContainer`/`ItemSellPlaceAttrbute` container transforms are not
+  decoded; positions are reconstructed, stock/prices are exact.
+- Shop refresh timing is not decoded; sold offers persist for the run.
+- The full `r_sell` random layout pool (mystery/HP sellers) is recovered but
+  only `sell2-1` is implemented as the native presentation.

@@ -1859,10 +1859,428 @@
     }
   ],
   "schema": 1,
+  "shop_items": [
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 40,
+      "health": 1,
+      "id": "restore_pot",
+      "item_name": "item_restore_pot",
+      "kind": "both_pot",
+      "price": 22,
+      "sprite": "restore_pot_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 80,
+      "health": 2,
+      "id": "restore_pot_big",
+      "item_name": "item_restore_pot_L",
+      "kind": "both_pot",
+      "price": 35,
+      "sprite": "restore_pot_big_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 2,
+      "id": "health_pot",
+      "item_name": "item_health_pot",
+      "kind": "health_pot",
+      "price": 25,
+      "sprite": "health_pot_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 4,
+      "id": "health_pot_big",
+      "item_name": "item_health_pot_L",
+      "kind": "health_pot",
+      "price": 40,
+      "sprite": "health_pot_big_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 80,
+      "health": 0,
+      "id": "energy_pot",
+      "item_name": "item_energy_pot",
+      "kind": "energy_pot",
+      "price": 20,
+      "sprite": "energy_pot_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 150,
+      "health": 0,
+      "id": "energy_pot_big",
+      "item_name": "item_energy_pot_L",
+      "kind": "energy_pot",
+      "price": 30,
+      "sprite": "energy_pot_big_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "ball_buff",
+      "item_name": "objects/buffbook",
+      "kind": "buff",
+      "price": 25,
+      "sprite": "ball_buff_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "drink_bloody_mary",
+      "item_name": "drink_bloody_mary",
+      "kind": "drink",
+      "price": 20,
+      "sprite": "drink_bloody_mary_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "drink_coconut",
+      "item_name": "drink_coconut",
+      "kind": "drink",
+      "price": 20,
+      "sprite": "drink_coconut_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "drink_coffee",
+      "item_name": "drink_coffee",
+      "kind": "drink",
+      "price": 20,
+      "sprite": "drink_coffee_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "drink_juice",
+      "item_name": "drink_juice",
+      "kind": "drink",
+      "price": 20,
+      "sprite": "drink_juice_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "drink_tea",
+      "item_name": "drink_tea",
+      "kind": "drink",
+      "price": 25,
+      "sprite": "drink_tea_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "drink_wine",
+      "item_name": "drink_wine",
+      "kind": "drink",
+      "price": 20,
+      "sprite": "drink_wine_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "drink_forget",
+      "item_name": "drink_forget",
+      "kind": "drink",
+      "price": 20,
+      "sprite": "drink_forget_icon"
+    },
+    {
+      "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
+      "energy": 0,
+      "health": 0,
+      "id": "drink_milk",
+      "item_name": "drink_milk",
+      "kind": "drink",
+      "price": 30,
+      "sprite": "drink_milk_icon"
+    }
+  ],
   "source": "analysis/apktool_out/assets/AssetBundles/common",
   "spawn": [
     0.0,
     0.0
+  ],
+  "special_objects": [
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_01",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 1
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_02",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 2
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_03",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 3
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_04",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 4
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_05",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 5
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_06",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 6
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_07",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 7
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_08",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 8
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "statue_09",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "statue",
+      "sprite": "statue_01_icon",
+      "statue_index": 9
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "coin_2",
+      "hp": 40,
+      "id": "mineral_gold",
+      "mineral_count": 10,
+      "price": 0,
+      "role": "mineral",
+      "sprite": "mineral_gold_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "energy",
+      "hp": 40,
+      "id": "mineral_crystal",
+      "mineral_count": 10,
+      "price": 0,
+      "role": "mineral",
+      "sprite": "mineral_crystal_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 2,
+      "drop_item": "",
+      "hp": 70,
+      "id": "npc_01",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "mercenary",
+      "sprite": "npc_01_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 2,
+      "drop_item": "",
+      "hp": 50,
+      "id": "npc_02",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "mercenary",
+      "sprite": "npc_02_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 2,
+      "drop_item": "",
+      "hp": 60,
+      "id": "npc_03",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "mercenary",
+      "sprite": "npc_03_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 2,
+      "drop_item": "",
+      "hp": 55,
+      "id": "npc_04",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "mercenary",
+      "sprite": "npc_04_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 2,
+      "drop_item": "",
+      "hp": 65,
+      "id": "npc_05",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "mercenary",
+      "sprite": "npc_05_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 2,
+      "drop_item": "",
+      "hp": 55,
+      "id": "npc_06",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "mercenary",
+      "sprite": "npc_06_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 2,
+      "drop_item": "",
+      "hp": 55,
+      "id": "npc_07",
+      "mineral_count": 0,
+      "price": 0,
+      "role": "mercenary",
+      "sprite": "npc_07_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 55,
+      "id": "npc_07_mad",
+      "mineral_count": 0,
+      "price": 0,
+      "role": "mercenary",
+      "sprite": "npc_07_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "npc_trainer",
+      "mineral_count": 0,
+      "price": 10,
+      "role": "mercenary",
+      "sprite": "npc_trainer_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "npc_mount_creature",
+      "mineral_count": 0,
+      "price": 15,
+      "role": "mount",
+      "sprite": "npc_mount_creature_icon",
+      "statue_index": 0
+    },
+    {
+      "classification": "CONFIRMED serialized special-room prefab fields; room placement is a native reconstruction",
+      "damage": 0,
+      "drop_item": "",
+      "hp": 0,
+      "id": "npc_mount_mech",
+      "mineral_count": 0,
+      "price": 30,
+      "role": "mount",
+      "sprite": "npc_mount_creature_icon",
+      "statue_index": 0
+    }
   ],
   "sprites": [
     {
@@ -3271,6 +3689,1194 @@
         0.0
       ],
       "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "restore_pot_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        114.0,
+        65.0,
+        8.0,
+        11.0
+      ],
+      "source_name": "objects_common_37",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        147.0,
+        130.0,
+        8.0,
+        11.0
+      ],
+      "source_texture_rect": [
+        114.0,
+        180.0,
+        8.0,
+        11.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "restore_pot_big_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        74.0,
+        48.0,
+        9.0,
+        15.0
+      ],
+      "source_name": "objects_common_36",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        160.0,
+        130.0,
+        9.0,
+        15.0
+      ],
+      "source_texture_rect": [
+        74.0,
+        193.0,
+        9.0,
+        15.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "health_pot_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        100.0,
+        61.0,
+        8.0,
+        11.0
+      ],
+      "source_name": "objects_common_18",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        147.0,
+        165.0,
+        8.0,
+        11.0
+      ],
+      "source_texture_rect": [
+        100.0,
+        184.0,
+        8.0,
+        11.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "health_pot_big_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        150.0,
+        77.0,
+        9.0,
+        15.0
+      ],
+      "source_name": "objects_common_19",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        159.0,
+        162.0,
+        9.0,
+        15.0
+      ],
+      "source_texture_rect": [
+        150.0,
+        164.0,
+        9.0,
+        15.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "energy_pot_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        176.0,
+        89.0,
+        8.0,
+        11.0
+      ],
+      "source_name": "objects_common_20",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        147.0,
+        152.0,
+        8.0,
+        11.0
+      ],
+      "source_texture_rect": [
+        176.0,
+        156.0,
+        8.0,
+        11.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "energy_pot_big_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        89.0,
+        56.0,
+        9.0,
+        15.0
+      ],
+      "source_name": "objects_common_21",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        159.0,
+        146.0,
+        9.0,
+        15.0
+      ],
+      "source_texture_rect": [
+        89.0,
+        185.0,
+        9.0,
+        15.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "ball_buff_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        98.0,
+        231.0,
+        25.0,
+        25.0
+      ],
+      "source_name": "objects_pickable_32",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        1.0,
+        179.0,
+        25.0,
+        25.0
+      ],
+      "source_texture_rect": [
+        98.0,
+        0.0,
+        25.0,
+        25.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "drink_bloody_mary_icon",
+      "pivot": [
+        0.375,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        102.0,
+        103.0,
+        11.0,
+        19.0
+      ],
+      "source_name": "objects_pickable_35",
+      "source_pivot": [
+        0.375,
+        0.0
+      ],
+      "source_rect": [
+        34.0,
+        3.0,
+        11.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        102.0,
+        134.0,
+        11.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "drink_coconut_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        109.0,
+        124.0,
+        14.0,
+        16.0
+      ],
+      "source_name": "objects_pickable_39",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        84.0,
+        3.0,
+        14.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        109.0,
+        116.0,
+        14.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "drink_coffee_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        99.0,
+        85.0,
+        12.0,
+        16.0
+      ],
+      "source_name": "objects_pickable_41",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        111.0,
+        3.0,
+        12.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        99.0,
+        155.0,
+        12.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "drink_juice_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        24.0,
+        14.0,
+        8.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_38",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        72.0,
+        3.0,
+        8.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        24.0,
+        225.0,
+        8.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "drink_tea_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        24.0,
+        43.0,
+        17.0,
+        10.0
+      ],
+      "source_name": "objects_pickable_34",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        16.0,
+        6.0,
+        17.0,
+        10.0
+      ],
+      "source_texture_rect": [
+        24.0,
+        203.0,
+        17.0,
+        10.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "drink_wine_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        114.0,
+        11.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_36",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        47.0,
+        3.0,
+        11.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        125.0,
+        11.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "drink_forget_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        89.0,
+        73.0,
+        8.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_40",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        101.0,
+        3.0,
+        8.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        89.0,
+        166.0,
+        8.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "drink_milk_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        62.0,
+        49.0,
+        10.0,
+        14.0
+      ],
+      "source_name": "objects_pickable_33",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        4.0,
+        5.0,
+        10.0,
+        14.0
+      ],
+      "source_texture_rect": [
+        62.0,
+        193.0,
+        10.0,
+        14.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "statue_01_icon",
+      "pivot": [
+        0.5,
+        0.10000000149011612
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        218.0,
+        290.0,
+        34.0,
+        49.0
+      ],
+      "source_name": "objects3_6",
+      "source_pivot": [
+        0.5,
+        0.10000000149011612
+      ],
+      "source_rect": [
+        56.0,
+        144.0,
+        34.0,
+        49.0
+      ],
+      "source_texture_rect": [
+        218.0,
+        173.0,
+        34.0,
+        49.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_8607965889740011037",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "mineral_gold_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        370.0,
+        310.0,
+        35.0,
+        32.0
+      ],
+      "source_name": "objects1_77",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        215.0,
+        99.0,
+        35.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        370.0,
+        170.0,
+        35.0,
+        32.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_8607965889740011037",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "mineral_crystal_icon",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        293.0,
+        294.0,
+        35.0,
+        36.0
+      ],
+      "source_name": "objects1_80",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        217.0,
+        60.0,
+        35.0,
+        36.0
+      ],
+      "source_texture_rect": [
+        293.0,
+        182.0,
+        35.0,
+        36.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_8607965889740011037",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_01_icon",
+      "pivot": [
+        0.5190912373960662,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        55.07611846923828,
+        162.02675247192383,
+        24.89712905883789,
+        30.89712905883789
+      ],
+      "source_name": "enemy04_7",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        64.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        55.07611846923828,
+        63.07611846923828,
+        24.89712905883789,
+        30.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        3.0761184692382812,
+        0.07611846923828125
+      ],
+      "texture": "item_2755411589560438748",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_02_icon",
+      "pivot": [
+        0.5391303911911189,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        432.05133056640625,
+        162.07612991333008,
+        25.872562408447266,
+        29.847759246826172
+      ],
+      "source_name": "npc02_7",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        96.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        432.05133056640625,
+        320.07611083984375,
+        25.872562408447266,
+        29.847759246826172
+      ],
+      "source_texture_rect_offset": [
+        2.0513153076171875,
+        0.07611846923828125
+      ],
+      "texture": "item_1152304610094628773",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_03_icon",
+      "pivot": [
+        0.4813764718536387,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        327.07611083984375,
+        18.076129913330078,
+        26.847759246826172,
+        27.847759246826172
+      ],
+      "source_name": "npc03_4",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        327.07611083984375,
+        466.07611083984375,
+        26.847759246826172,
+        27.847759246826172
+      ],
+      "source_texture_rect_offset": [
+        3.076120376586914,
+        0.07611846923828125
+      ],
+      "texture": "item_1152304610094628773",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_04_icon",
+      "pivot": [
+        0.5198296089867642,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        403.07611083984375,
+        96.01977348327637,
+        24.861764907836914,
+        30.928895950317383
+      ],
+      "source_name": "npc04_7",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        96.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        403.07611083984375,
+        385.05133056640625,
+        24.861764907836914,
+        30.928895950317383
+      ],
+      "source_texture_rect_offset": [
+        3.0761184692382812,
+        0.0513153076171875
+      ],
+      "texture": "item_1152304610094628773",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_05_icon",
+      "pivot": [
+        0.5548503521738508,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        412.07611083984375,
+        223.02676010131836,
+        26.89712905883789,
+        29.89712905883789
+      ],
+      "source_name": "npc05_7",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        96.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        412.07611083984375,
+        259.07611083984375,
+        26.89712905883789,
+        29.89712905883789
+      ],
+      "source_texture_rect_offset": [
+        1.0761184692382812,
+        1.0761184692382812
+      ],
+      "texture": "item_1152304610094628773",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_06_icon",
+      "pivot": [
+        0.49946947641250455,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        449.0563659667969,
+        415.0563735961914,
+        27.91687774658203,
+        29.867507934570312
+      ],
+      "source_name": "npc06_4",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        449.0563659667969,
+        67.07611846923828,
+        27.91687774658203,
+        29.867507934570312
+      ],
+      "source_texture_rect_offset": [
+        2.0563716888427734,
+        1.0761184692382812
+      ],
+      "texture": "item_1152304610094628773",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_07_icon",
+      "pivot": [
+        0.49899821211937745,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        320.0563659667969,
+        382.0,
+        27.9432430267334,
+        32.0
+      ],
+      "source_name": "npc07_4",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        320.0563659667969,
+        98.0,
+        27.9432430267334,
+        32.0
+      ],
+      "source_texture_rect_offset": [
+        2.0563716888427734,
+        0.0
+      ],
+      "texture": "item_1152304610094628773",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_trainer_icon",
+      "pivot": [
+        0.5323759533326221,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        235.0761260986328,
+        75.07612037658691,
+        29.910966873168945,
+        28.923879623413086
+      ],
+      "source_name": "npc_trainer_0",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        33.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        235.0761260986328,
+        408.0,
+        29.910966873168945,
+        28.923879623413086
+      ],
+      "source_texture_rect_offset": [
+        0.07612049579620361,
+        0.0
+      ],
+      "texture": "item_1152304610094628773",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "npc_mount_creature_icon",
+      "pivot": [
+        0.5008641954734478,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        118.0,
+        192.0513153076172,
+        35.93788528442383,
+        34.94868469238281
+      ],
+      "source_name": "npc_mount_seller_0",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        0.0,
+        0.0,
+        36.0,
+        36.0
+      ],
+      "source_texture_rect": [
+        118.0,
+        285.0,
+        35.93788528442383,
+        34.94868469238281
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_1152304610094628773",
       "wrap": "clamp"
     },
     {
@@ -5447,6 +7053,18 @@
       "filter": "point",
       "id": "item_8607965889740011037",
       "png": "textures/item_8607965889740011037.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_2755411589560438748",
+      "png": "textures/item_2755411589560438748.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_1152304610094628773",
+      "png": "textures/item_1152304610094628773.png",
       "wrap": "clamp"
     },
     {

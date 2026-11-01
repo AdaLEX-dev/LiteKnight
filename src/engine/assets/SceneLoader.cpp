@@ -393,6 +393,9 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 marker.character_id =
                     item.value("character_id", std::string{});
                 marker.pet_id = item.value("pet_id", std::string{});
+                marker.seller_index = item.value("seller_index", -1);
+                marker.price = item.value("price", 0);
+                marker.item_id = item.value("item_id", std::string{});
                 loaded.interaction_markers.push_back(std::move(marker));
             }
         }
@@ -1069,24 +1072,28 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                     theme.floors.push_back(std::move(variant));
                 }
             }
-            if (item.contains("walls") && item["walls"].is_array()) {
-                for (const Json& wall : item["walls"]) {
+            const auto read_theme_group = [&](const char* key,
+                    std::vector<LevelWallVariant>* output) -> bool {
+                if (!item.contains(key) || !item[key].is_array()) return true;
+                for (const Json& group : item[key]) {
                     LevelWallVariant variant;
-                    if (!wall.is_object() || !wall.contains("sprites") ||
-                        !wall["sprites"].is_array()) {
-                        SetError(error, "scene wall theme is invalid");
+                    if (!group.is_object() || !group.contains("sprites") ||
+                        !group["sprites"].is_array()) {
                         return false;
                     }
-                    for (const Json& part : wall["sprites"]) {
+                    for (const Json& part : group["sprites"]) {
                         LevelSurfaceSprite surface;
-                        if (!read_surface(part, &surface)) {
-                            SetError(error, "scene wall surface is invalid");
-                            return false;
-                        }
+                        if (!read_surface(part, &surface)) return false;
                         variant.sprites.push_back(std::move(surface));
                     }
-                    theme.walls.push_back(std::move(variant));
+                    output->push_back(std::move(variant));
                 }
+                return true;
+            };
+            if (!read_theme_group("walls", &theme.walls) ||
+                !read_theme_group("obstacles", &theme.obstacles)) {
+                SetError(error, "scene wall/obstacle theme is invalid");
+                return false;
             }
             loaded.level_themes.push_back(std::move(theme));
         }

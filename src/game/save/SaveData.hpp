@@ -72,6 +72,12 @@ struct SaveData {
     std::vector<SaveMaterial> materials;
     std::vector<std::string> cleared_rooms;
     std::vector<std::string> chest_spawned_rooms;
+    std::vector<std::string> sold_shop_items;
+    std::string active_statue;
+    std::string active_mercenary;
+    int mercenary_level = 0;
+    std::string active_mount;
+    std::array<bool, 2> pot_empty{};
     std::vector<SaveRoomItems> rooms;
 };
 

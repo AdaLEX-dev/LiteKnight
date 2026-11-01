@@ -60,13 +60,28 @@ mechanic; no invented healing behavior is attached.
 - zero-charge release (no minimum threshold).
 - Gun011 normal event shot plus free end shot.
 
+## GunPot and reload presentation
+
+- GunPot is now a real consumable: hold attack, the recovered 0.75 s drink
+  event fires once, `RGHealthPot`/`RGEnergyPot`/`RGBothPot` values restore HP
+  and energy with clamping, the drink clip plays, and the weapon switches to the
+  recovered empty sprite with `consume=0`. An empty pot then uses the recovered
+  base projectile path.
+- Pot empty state is persisted per weapon slot (`pot_empty`) and restored when
+  the active/offhand weapon is configured.
+- The recovered `reload_clip` five-segment sprite is rendered above the player
+  while charging; filled segments follow `ChargePercent`. The visual is timed
+  by `max_time/holdSpeed/speedFactor`, never an invented animation duration.
+- Tests cover full/partial/mixed HP/energy, empty transition, base projectile
+  after empty, and save/load fields.
+
 ## Remaining limitations
 
-- The `reload_clip` visual/animation is not rendered; its timing and
-  `FlnishReload` semantics are documented, and charge accumulation is timed
-  from the same serialized `max_time`.
-- `GunPot` drink/heal/empty-state behavior and `GunThrowSword` mode switching
-  remain explicitly partial; neither is replaced with an invented generic
-  mechanic.
+- `FlnishReload` is represented by the charge duration and segment completion;
+  the original Animator trigger `play`/`hide` state machine is not played as a
+  Unity Animator.
+- `GunThrowSword` has no separate native mode input in the recovered control
+  abstraction; it uses the contextual rifle + melee attack path and retains the
+  recovered thrown-spear variant.
 - `clip_big` selection in Gun007 uses the recovered 0.5/size-sign condition
   only for audio; the projectile formula is fully implemented.

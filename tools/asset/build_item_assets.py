@@ -113,6 +113,18 @@ def main() -> int:
             game_objects.setdefault(name, data)
         elif re.fullmatch(r"chest_boss\d{2}", name):
             game_objects.setdefault(name, data)
+        elif re.fullmatch(r"statue_0[1-9]", name) or name in {
+                "mineral_gold", "mineral_crystal", "npc_01", "npc_02",
+                "npc_03", "npc_04", "npc_05", "npc_06", "npc_07",
+                "npc_07_mad", "npc_trainer", "npc_mount_creature",
+                "npc_mount_mech"}:
+            game_objects.setdefault(name, data)
+        elif name in {"restore_pot", "restore_pot_big", "health_pot",
+                      "health_pot_big", "energy_pot", "energy_pot_big",
+                      "ball_buff", "drink_bloody_mary", "drink_coconut",
+                      "drink_coffee", "drink_juice", "drink_tea",
+                      "drink_wine", "drink_forget", "drink_milk"}:
+            game_objects.setdefault(name, data)
         elif re.fullmatch(r"material_[a-z0-9_]+", name) and \
                 name not in {"material_panel", "material_proto"}:
             game_objects.setdefault(name, data)
@@ -255,6 +267,233 @@ def main() -> int:
                 "object_list entry is weapon_021" if chest_name == "chest00" else
                 f"actual {chest_name} RGChest prefab level {level}; "
                 "RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel"),
+        })
+
+    shop_defs = []
+    shop_names = ["restore_pot", "restore_pot_big", "health_pot",
+                  "health_pot_big", "energy_pot", "energy_pot_big",
+                  "ball_buff", "drink_bloody_mary", "drink_coconut",
+                  "drink_coffee", "drink_juice", "drink_tea", "drink_wine",
+                  "drink_forget", "drink_milk"]
+    for shop_name in shop_names:
+        go = game_objects.get(shop_name)
+        if go is None:
+            continue
+
+        def find_shop_sprite(game_object, depth=0):
+            if game_object is None or depth > 3:
+                return None
+            for component in game_object.m_Component:
+                if component.component.type.name != "SpriteRenderer":
+                    continue
+                renderer = component.component.read()
+                if renderer.m_Sprite and renderer.m_Sprite.path_id:
+                    return renderer
+            transform = next(
+                (c.component.read() for c in game_object.m_Component
+                 if c.component.type.name == "Transform"), None)
+            if transform is None:
+                return None
+            for child in getattr(transform, "m_Children", []) or []:
+                found = find_shop_sprite(
+                    child.read().m_GameObject.read(), depth + 1)
+                if found is not None:
+                    return found
+            return None
+
+        renderer = find_shop_sprite(go)
+        if renderer is None:
+            continue
+        sprite_id = ensure_sprite(renderer.m_Sprite, f"{shop_name}_icon")
+        price = 0
+        health = 0
+        energy = 0
+        item_name = shop_name
+        kind = "potion"
+        for component in go.m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            try:
+                candidate = component.component.read()
+                price = int(getattr(candidate, "item_value", 0) or 0)
+                health = int(getattr(candidate, "health", 0) or 0)
+                energy = int(getattr(candidate, "energy", 0) or 0)
+                item_name = str(getattr(candidate, "item_name", shop_name) or
+                                shop_name)
+                cls = ""
+                script = (candidate.m_Script.read()
+                          if getattr(candidate, "m_Script", None) and
+                          candidate.m_Script.path_id else None)
+                cls = str(getattr(script, "m_ClassName", ""))
+                if cls.startswith("ItemDrink"):
+                    kind = "drink"
+                elif cls == "ItemBuffBook":
+                    kind = "buff"
+                elif cls == "RGBothPot":
+                    kind = "both_pot"
+                elif cls == "RGHealthPot":
+                    kind = "health_pot"
+                elif cls == "RGEnergyPot":
+                    kind = "energy_pot"
+            except Exception:
+                continue
+        shop_defs.append({
+            "id": shop_name,
+            "item_name": item_name,
+            "kind": kind,
+            "sprite": sprite_id,
+            "price": price,
+            "health": health,
+            "energy": energy,
+            "classification": (
+                "CONFIRMED serialized shop item prefab fields; native seller "
+                "placement is reconstructed from the recovered item pool"),
+        })
+
+    special_defs = []
+    special_names = [f"statue_{i:02d}" for i in range(1, 10)] + [
+        "mineral_gold", "mineral_crystal", "npc_01", "npc_02", "npc_03",
+        "npc_04", "npc_05", "npc_06", "npc_07", "npc_07_mad",
+        "npc_trainer", "npc_mount_creature", "npc_mount_mech"]
+
+    def find_special_sprite(game_object, preferred=None, depth=0):
+        if game_object is None or depth > 5:
+            return None
+        if preferred is not None and game_object.m_Name == preferred:
+            for component in game_object.m_Component:
+                if component.component.type.name != "SpriteRenderer":
+                    continue
+                renderer = component.component.read()
+                if renderer.m_Sprite and renderer.m_Sprite.path_id:
+                    return renderer
+        transform = next(
+            (c.component.read() for c in game_object.m_Component
+             if c.component.type.name == "Transform"), None)
+        if transform is None:
+            return None
+        for child in getattr(transform, "m_Children", []) or []:
+            child_go = child.read().m_GameObject.read()
+            if preferred is not None and child_go.m_Name == preferred:
+                found = find_special_sprite(child_go, preferred, depth + 1)
+                if found is not None:
+                    return found
+        for component in game_object.m_Component:
+            if component.component.type.name != "SpriteRenderer":
+                continue
+            renderer = component.component.read()
+            if renderer.m_Sprite and renderer.m_Sprite.path_id:
+                return renderer
+        for child in getattr(transform, "m_Children", []) or []:
+            found = find_special_sprite(
+                child.read().m_GameObject.read(), preferred, depth + 1)
+            if found is not None:
+                return found
+        return None
+
+    def field_class(game_object, cls, name, default=None):
+        if game_object is None:
+            return default
+        transform = next(
+            (c.component.read() for c in game_object.m_Component
+             if c.component.type.name == "Transform"), None)
+        if transform is not None:
+            for child in getattr(transform, "m_Children", []) or []:
+                found = field_class(
+                    child.read().m_GameObject.read(), cls, name)
+                if found is not None:
+                    return found
+        for component in game_object.m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            try:
+                candidate = component.component.read()
+                script = (candidate.m_Script.read()
+                          if getattr(candidate, "m_Script", None) and
+                          candidate.m_Script.path_id else None)
+                if str(getattr(script, "m_ClassName", "")) != cls:
+                    continue
+                if hasattr(candidate, name):
+                    return getattr(candidate, name)
+            except Exception:
+                continue
+        return default
+
+    def field_any(game_object, name, default=None):
+        if game_object is None:
+            return default
+        transform = next(
+            (c.component.read() for c in game_object.m_Component
+             if c.component.type.name == "Transform"), None)
+        if transform is not None:
+            for child in getattr(transform, "m_Children", []) or []:
+                found = field_any(child.read().m_GameObject.read(), name)
+                if found is not None:
+                    return found
+        for component in game_object.m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            try:
+                candidate = component.component.read()
+                if hasattr(candidate, name):
+                    return getattr(candidate, name)
+            except Exception:
+                continue
+        return default
+
+    for special_name in special_names:
+        go = game_objects.get(special_name)
+        if go is None:
+            continue
+        renderer = find_special_sprite(go, "body")
+        if renderer is None:
+            renderer = find_special_sprite(go, "img")
+        if renderer is None:
+            renderer = find_special_sprite(go)
+        if renderer is None:
+            continue
+        sprite_id = ensure_sprite(renderer.m_Sprite, f"{special_name}_icon")
+        role = "statue"
+        if special_name.startswith("mineral_"):
+            role = "mineral"
+        elif special_name.startswith("npc_mount"):
+            role = "mount"
+        elif special_name.startswith("npc_"):
+            role = "mercenary"
+        price = 0
+        if role == "statue":
+            price = int(field_class(go, "TalkStatue", "item_value", 15) or 15)
+        elif role == "mercenary":
+            price = int(field_class(go, "TalkMercenary", "item_value", 0) or 0)
+            if price == 0:
+                price = int(field_class(
+                    go, "ObjectMercenaryTraining", "item_value", 0) or 0)
+        elif role == "mount":
+            price = int(field_class(
+                go, "ItemMountSeller", "item_value", 0) or 0)
+        else:
+            price = int(field_any(go, "item_value", 0) or 0)
+        hp = int(field_any(go, "max_hp", 0) or 0)
+        damage = int(field_any(go, "damage", 0) or 0)
+        statue_index = int(field_any(go, "statue_index", 0) or 0)
+        mineral_count = int(field_any(go, "mineral_count", 0) or 0)
+        drop_item = ""
+        if special_name == "mineral_gold":
+            drop_item = "coin_2"
+        elif special_name == "mineral_crystal":
+            drop_item = "energy"
+        special_defs.append({
+            "id": special_name,
+            "role": role,
+            "sprite": sprite_id,
+            "price": price,
+            "hp": hp,
+            "damage": damage,
+            "statue_index": statue_index,
+            "mineral_count": mineral_count,
+            "drop_item": drop_item,
+            "classification": (
+                "CONFIRMED serialized special-room prefab fields; room "
+                "placement is a native reconstruction"),
         })
 
     # Coin animation clips: the four PPtr frames are the actual spin sequence.
@@ -500,6 +739,8 @@ def main() -> int:
         "coins": coin_defs,
         "portals": portal_defs,
         "materials": material_defs,
+        "shop_items": shop_defs,
+        "special_objects": special_defs,
         "energy": energy_def,
         "weapon_drops": weapon_drops,
         "notes": "Chest00/RGCoin prefab metadata/sprites plus the actual transfer_gate_02 portal sprite clip. Chest coin loot and lid animation are native test behavior; RGChest weapon selection and WeaponDropInfo are recovered in the 0.5.3 chest pipeline.",
@@ -518,6 +759,8 @@ def main() -> int:
         "coin_count": len(coin_defs),
         "portal_count": len(portal_defs),
         "material_count": len(material_defs),
+        "shop_item_count": len(shop_defs),
+        "special_object_count": len(special_defs),
         "energy_pickup": energy_def is not None,
         "weapon_drop_levels": len(weapon_drops),
         "textures": [entry["id"] for entry in texture_records],

@@ -39,6 +39,10 @@ bool Weapon::Configure(const engine::assets::WeaponDefinition& definition) {
     // stream; the exact runtime seed is not serialized in the prefab.
     random_.SetRandomSeed(1);
     speed_multiplier_ = 1.0f;
+    pot_empty_ = false;
+    pot_drinking_ = false;
+    pot_drink_timer_ = 0.0f;
+    original_visual_sprite_ = definition_.visual_sprite_index;
     return configured_;
 }
 
@@ -64,6 +68,8 @@ void Weapon::Release() {
     charge_cooldown_ = 0.0f;
     end_shot_charge_ = 0.0f;
     end_shot_was_held_ = false;
+    pot_drinking_ = false;
+    pot_drink_timer_ = 0.0f;
     fire_events_.clear();
 }
 
@@ -81,6 +87,10 @@ int Weapon::Update(float delta_seconds,
     if (special_kind.rfind("charge_", 0) == 0) {
         return UpdateCharge(delta_seconds, attack_held, owner_position,
                             aim_direction, projectiles, energy);
+    }
+    if (special_kind == "pot" && !pot_empty_) {
+        return UpdatePot(delta_seconds, attack_held, owner_position,
+                         aim_direction, projectiles, energy);
     }
     if (special_kind == "end_shot") {
         if (attack_held) {
@@ -138,7 +148,8 @@ int Weapon::Update(float delta_seconds,
             special_kind == "multi_pattern" ||
             special_kind == "revolver_burst" ||
             special_kind == "invisible_missile" ||
-            special_kind == "end_shot";
+            special_kind == "end_shot" ||
+            special_kind == "pot";
         const bool passive = special_kind == "passive" ||
                              special_kind == "revive";
         if (passive) {
@@ -178,6 +189,52 @@ int Weapon::Update(float delta_seconds,
         }
     }
     return fired;
+}
+
+void Weapon::SetPotEmpty(bool empty) {
+    pot_empty_ = empty;
+    if (definition_.special.kind != "pot") return;
+    if (empty && definition_.special.sprite_index >= 0) {
+        definition_.visual_sprite_index = definition_.special.sprite_index;
+        definition_.consume = 0;
+        definition_.energy_cost = 0;
+    } else if (!empty && original_visual_sprite_ >= 0) {
+        definition_.visual_sprite_index = original_visual_sprite_;
+    }
+}
+
+int Weapon::UpdatePot(float delta_seconds, bool attack_held,
+                      const Vec2& owner_position,
+                      const Vec2& aim_direction,
+                      ProjectileSystem& projectiles,
+                      player::EnergyState* energy) {
+    (void)owner_position;
+    (void)aim_direction;
+    (void)projectiles;
+    (void)energy;
+    if (!attack_held) {
+        pot_drinking_ = false;
+        pot_drink_timer_ = 0.0f;
+        return 0;
+    }
+    if (!pot_drinking_) {
+        pot_drinking_ = true;
+        pot_drink_timer_ = 0.0f;
+        fire_events_.push_back(WeaponFireEvent{
+            "pot_drink_start", owner_position,
+            aim_direction.LengthSquared() > 1e-8f
+                ? aim_direction.Normalized() : Vec2{1.0f, 0.0f}, 0});
+    }
+    pot_drink_timer_ += delta_seconds * speed_multiplier_;
+    if (pot_drink_timer_ + 1e-4f < 0.75f) return 0;
+    pot_drinking_ = false;
+    pot_drink_timer_ = 0.0f;
+    SetPotEmpty(true);
+    fire_events_.push_back(WeaponFireEvent{
+        "pot_drink", owner_position,
+        aim_direction.LengthSquared() > 1e-8f
+            ? aim_direction.Normalized() : Vec2{1.0f, 0.0f}, 0});
+    return 0;
 }
 
 int Weapon::UpdateCharge(float delta_seconds, bool attack_held,

@@ -56,6 +56,12 @@ SaveData MakeSave() {
     data.hub_visited = true;
     data.auto_aim = true;
     data.map_seed = 20261031;
+    data.sold_shop_items = {"health_pot", "weapon_005"};
+    data.active_statue = "statue_04";
+    data.active_mercenary = "npc_03";
+    data.mercenary_level = 3;
+    data.active_mount = "npc_mount_creature";
+    data.pot_empty = {true, false};
     soulknight::game::save::SaveRoomItems room;
     room.id = "r1_1_visual";
     soulknight::game::save::SaveChestState chest;
@@ -121,6 +127,13 @@ TEST_CASE("Save round-trips through atomic slot file" *
     CHECK(loaded.hub_visited);
     CHECK(loaded.auto_aim);
     CHECK(loaded.map_seed == 20261031);
+    CHECK(loaded.sold_shop_items.size() == 2);
+    CHECK(loaded.active_statue == "statue_04");
+    CHECK(loaded.active_mercenary == "npc_03");
+    CHECK(loaded.mercenary_level == 3);
+    CHECK(loaded.active_mount == "npc_mount_creature");
+    CHECK(loaded.pot_empty[0]);
+    CHECK_FALSE(loaded.pot_empty[1]);
     CHECK(loaded.rooms.size() == 1);
     if (loaded.rooms.size() == 1) {
         CHECK(loaded.rooms[0].id == "r1_1_visual");

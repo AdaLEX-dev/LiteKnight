@@ -3,12 +3,12 @@
   "tool": "tools/asset/build_gallery_manifest.py",
   "asset_root": "/home/jules/Documents/Programming/SoulKnight-Linux/build/assets",
   "counts": {
-    "textures": 93,
-    "sprites": 1802,
-    "prefabs": 2452,
-    "entries": 4347,
+    "textures": 96,
+    "sprites": 1921,
+    "prefabs": 2464,
+    "entries": 4481,
     "broken": 0,
-    "scenes": 117
+    "scenes": 118
   },
   "textures": [
     {
@@ -271,6 +271,18 @@
       "path": "scenes/hero_room/textures/auto_atlas_m7412614709012982549.png",
       "width": 256,
       "height": 256,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-8465473729473640669",
+      "name": "sandbox_objects",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m8465473729473640669.png",
+      "width": 512,
+      "height": 512,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -816,6 +828,18 @@
       "status": "included"
     },
     {
+      "key": "tex:item_1152304610094628773",
+      "name": "item_1152304610094628773",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/item_1152304610094628773.png",
+      "width": 1024,
+      "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
       "key": "tex:item_2171739766242525964",
       "name": "item_2171739766242525964",
       "source": "items",
@@ -823,6 +847,18 @@
       "path": "scenes/items/textures/item_2171739766242525964.png",
       "width": 1024,
       "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:item_2755411589560438748",
+      "name": "item_2755411589560438748",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/item_2755411589560438748.png",
+      "width": 256,
+      "height": 256,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -1339,6 +1375,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-1204072163585814410",
+      "name": "objects2_57",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        257.0,
+        149.0,
+        18.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_57",
+      "status": "included"
+    },
+    {
       "key": "spr:-1253577901244276649",
       "name": "weapons_12",
       "scene": "hero_room",
@@ -1374,6 +1429,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons2_72",
+      "status": "included"
+    },
+    {
+      "key": "spr:-1285668098131535219",
+      "name": "objects2_56",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        330.0,
+        297.0,
+        18.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_56",
       "status": "included"
     },
     {
@@ -1469,6 +1543,25 @@
       ],
       "ppu": 16.0,
       "source_name": "ghost_13",
+      "status": "included"
+    },
+    {
+      "key": "spr:-1393481937170166191",
+      "name": "objects2_30",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        130.0,
+        72.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_30",
       "status": "included"
     },
     {
@@ -2289,6 +2382,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-2178665406362670037",
+      "name": "objects4_45",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        313.0,
+        144.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_45",
+      "status": "included"
+    },
+    {
       "key": "spr:-2201761302901802718",
       "name": "weapons_96",
       "scene": "hero_room",
@@ -2305,6 +2417,44 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_96",
+      "status": "included"
+    },
+    {
+      "key": "spr:-2211263110933309191",
+      "name": "objects2_48",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        308.0,
+        109.0,
+        14.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_48",
+      "status": "included"
+    },
+    {
+      "key": "spr:-2222446170123128065",
+      "name": "w504",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w504",
       "status": "included"
     },
     {
@@ -2441,6 +2591,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-2424365849772219261",
+      "name": "objects1_34",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        236.0,
+        82.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_34",
+      "status": "included"
+    },
+    {
       "key": "spr:-243034883751467912",
       "name": "weapons_13",
       "scene": "hero_room",
@@ -2476,6 +2645,44 @@
       ],
       "ppu": 16.0,
       "source_name": "pet00_s1_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:-2454621439306634597",
+      "name": "objects1_33",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        352.0,
+        93.0,
+        16.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_33",
+      "status": "included"
+    },
+    {
+      "key": "spr:-2467476437029114213",
+      "name": "objects2_11",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        457.0,
+        427.0,
+        31.0,
+        27.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_11",
       "status": "included"
     },
     {
@@ -2571,6 +2778,25 @@
       ],
       "ppu": 18.0,
       "source_name": "pumpkin_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:-2516655087974227743",
+      "name": "objects1_20",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        363.0,
+        149.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_20",
       "status": "included"
     },
     {
@@ -3847,6 +4073,44 @@
       "status": "included"
     },
     {
+      "key": "spr:-3548934272818492555",
+      "name": "objects4_64",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        452.0,
+        160.0,
+        10.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_64",
+      "status": "included"
+    },
+    {
+      "key": "spr:-355595587883817003",
+      "name": "objects2_68",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        350.0,
+        496.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_68",
+      "status": "included"
+    },
+    {
       "key": "spr:-3560308371758672994",
       "name": "weapons4_47",
       "scene": "hero_room",
@@ -3958,6 +4222,25 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet2_50",
+      "status": "included"
+    },
+    {
+      "key": "spr:-3672281484503636836",
+      "name": "objects4_79",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        413.0,
+        130.0,
+        16.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_79",
       "status": "included"
     },
     {
@@ -4110,6 +4393,44 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy25_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:-3887603759938907568",
+      "name": "objects1_19",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        393.0,
+        104.0,
+        16.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_19",
+      "status": "included"
+    },
+    {
+      "key": "spr:-3889430111792677644",
+      "name": "objects4_84",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        474.0,
+        320.0,
+        31.0,
+        25.0
+      ],
+      "pivot": [
+        0.42500001192092896,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_84",
       "status": "included"
     },
     {
@@ -4398,6 +4719,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-4043858576258045769",
+      "name": "objects4_48",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        212.0,
+        163.0,
+        21.0,
+        18.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_48",
+      "status": "included"
+    },
+    {
       "key": "spr:-4053710326255510269",
       "name": "enemy23_6",
       "scene": "hero_room",
@@ -4588,6 +4928,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-4226039366573176847",
+      "name": "objects4_43",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        309.0,
+        162.0,
+        16.0,
+        20.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_43",
+      "status": "included"
+    },
+    {
       "key": "spr:-4226452341420905142",
       "name": "c01_1",
       "scene": "hero_room",
@@ -4623,6 +4982,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c13_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4246948832959033868",
+      "name": "objects2_0",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        366.0,
+        167.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_0",
       "status": "included"
     },
     {
@@ -4987,6 +5365,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-4495553419235307133",
+      "name": "objects4_77",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        280.0,
+        68.0,
+        16.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_77",
+      "status": "included"
+    },
+    {
       "key": "spr:-4519551836381203921",
       "name": "weapons_19",
       "scene": "hero_room",
@@ -5022,6 +5419,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c15_s0_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4525023969216960",
+      "name": "objects4_47",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        287.0,
+        169.0,
+        20.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_47",
       "status": "included"
     },
     {
@@ -5193,6 +5609,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_52",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4617219179629165920",
+      "name": "objects2_12",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        272.0,
+        98.0,
+        29.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_12",
       "status": "included"
     },
     {
@@ -5500,6 +5935,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-4829964726074813781",
+      "name": "objects4_56",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        300.0,
+        393.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_56",
+      "status": "included"
+    },
+    {
       "key": "spr:-4876205757651736817",
       "name": "door01",
       "scene": "hero_room",
@@ -5573,6 +6027,25 @@
       ],
       "ppu": 16.0,
       "source_name": "effect_shotgun_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4970262015484161421",
+      "name": "objects4_29",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        212.0,
+        198.0,
+        32.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_29",
       "status": "included"
     },
     {
@@ -5842,6 +6315,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-5132746274202686867",
+      "name": "objects4_10",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        416.0,
+        141.0,
+        16.0,
+        12.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_10",
+      "status": "included"
+    },
+    {
       "key": "spr:-515314976885372310",
       "name": "weapons_121",
       "scene": "hero_room",
@@ -5953,6 +6445,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_98",
+      "status": "included"
+    },
+    {
+      "key": "spr:-521942579647225706",
+      "name": "objects4_80",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        478.0,
+        240.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_80",
       "status": "included"
     },
     {
@@ -6678,6 +7189,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-5723607748549985485",
+      "name": "w503",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        90.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w503",
+      "status": "included"
+    },
+    {
       "key": "spr:-5734303052896741615",
       "name": "c01_4",
       "scene": "hero_room",
@@ -6849,6 +7379,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-587600210770038131",
+      "name": "objects4_58",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        0.0,
+        11.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_58",
+      "status": "included"
+    },
+    {
       "key": "spr:-590366675519413317",
       "name": "rockcrab_0",
       "scene": "hero_room",
@@ -6865,6 +7414,25 @@
       ],
       "ppu": 16.0,
       "source_name": "rockcrab_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:-5912487356167894583",
+      "name": "w807",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        72.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w807",
       "status": "included"
     },
     {
@@ -6922,6 +7490,25 @@
       ],
       "ppu": 16.0,
       "source_name": "w508",
+      "status": "included"
+    },
+    {
+      "key": "spr:-5982950721296172035",
+      "name": "objects2_1",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        69.0,
+        33.0,
+        16.0,
+        15.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_1",
       "status": "included"
     },
     {
@@ -7036,6 +7623,25 @@
       ],
       "ppu": 16.0,
       "source_name": "pet08_s0_3",
+      "status": "included"
+    },
+    {
+      "key": "spr:-610643274832187158",
+      "name": "objects1_35",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        195.0,
+        250.0,
+        16.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_35",
       "status": "included"
     },
     {
@@ -7590,6 +8196,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-6605824960345776390",
+      "name": "objects4_44",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        402.0,
+        172.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_44",
+      "status": "included"
+    },
+    {
       "key": "spr:-6637501097075663937",
       "name": "ghost_6",
       "scene": "hero_room",
@@ -7853,6 +8478,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_107",
+      "status": "included"
+    },
+    {
+      "key": "spr:-68017957643712955",
+      "name": "objects4_78",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        290.0,
+        126.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_78",
       "status": "included"
     },
     {
@@ -8141,6 +8785,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-7009494588311467953",
+      "name": "objects4_70",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        266.0,
+        44.0,
+        10.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_70",
+      "status": "included"
+    },
+    {
       "key": "spr:-7011584409753400362",
       "name": "weapons_56",
       "scene": "hero_room",
@@ -8385,6 +9048,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy09_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:-7202276376141507721",
+      "name": "objects4_49",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        320.0,
+        374.0,
+        56.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_49",
       "status": "included"
     },
     {
@@ -9338,6 +10020,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-7991901473037313641",
+      "name": "objects4_72",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        295.0,
+        144.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_72",
+      "status": "included"
+    },
+    {
       "key": "spr:-7995173797577875970",
       "name": "weapons2_99",
       "scene": "hero_room",
@@ -9490,6 +10191,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-8067448093080777534",
+      "name": "objects1_32",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        254.0,
+        113.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_32",
+      "status": "included"
+    },
+    {
       "key": "spr:-8108148935947895414",
       "name": "c10_7",
       "scene": "hero_room",
@@ -9585,6 +10305,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-8194832056667516831",
+      "name": "objects4_86",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        371.0,
+        432.0,
+        50.0,
+        33.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_86",
+      "status": "included"
+    },
+    {
       "key": "spr:-8200924229464830555",
       "name": "objects1_83",
       "scene": "hero_room",
@@ -9601,6 +10340,25 @@
       ],
       "ppu": 16.0,
       "source_name": "objects1_83",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8213880749039728376",
+      "name": "texture_c5",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7412614709012982549",
+      "rect": [
+        70.0,
+        192.0,
+        64.0,
+        64.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 64.0,
+      "source_name": "texture_c5",
       "status": "included"
     },
     {
@@ -9927,6 +10685,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-848970431230786148",
+      "name": "objects4_54",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        110.0,
+        413.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_54",
+      "status": "included"
+    },
+    {
       "key": "spr:-8552297759256105170",
       "name": "ghost_4",
       "scene": "hero_room",
@@ -10114,6 +10891,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c11_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8735730654345214641",
+      "name": "objects4_38",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        318.0,
+        89.0,
+        14.0,
+        12.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_38",
       "status": "included"
     },
     {
@@ -10307,6 +11103,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-8831311374045918667",
+      "name": "objects4_73",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        119.0,
+        192.0,
+        16.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_73",
+      "status": "included"
+    },
+    {
       "key": "spr:-8847249744880482256",
       "name": "weapons3_133",
       "scene": "hero_room",
@@ -10342,6 +11157,25 @@
       ],
       "ppu": 16.0,
       "source_name": "objects2_55",
+      "status": "included"
+    },
+    {
+      "key": "spr:-886192237305031227",
+      "name": "objects1_25",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        456.0,
+        347.0,
+        31.0,
+        25.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_25",
       "status": "included"
     },
     {
@@ -10573,6 +11407,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-9068812245608293694",
+      "name": "box01",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        54.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "box01",
+      "status": "included"
+    },
+    {
       "key": "spr:-9085461350947652706",
       "name": "weapons_32",
       "scene": "hero_room",
@@ -10722,6 +11575,25 @@
       ],
       "ppu": 16.0,
       "source_name": "f403",
+      "status": "included"
+    },
+    {
+      "key": "spr:-93123199508496934",
+      "name": "objects4_13",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        402.0,
+        190.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_13",
       "status": "included"
     },
     {
@@ -11010,6 +11882,25 @@
       "status": "included"
     },
     {
+      "key": "spr:1255752870506251281",
+      "name": "objects5_25",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        18.0,
+        29.0,
+        12.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects5_25",
+      "status": "included"
+    },
+    {
       "key": "spr:126422199719527966",
       "name": "weapons4_20",
       "scene": "hero_room",
@@ -11200,6 +12091,25 @@
       "status": "included"
     },
     {
+      "key": "spr:1449842174399554820",
+      "name": "w808",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        198.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w808",
+      "status": "included"
+    },
+    {
       "key": "spr:1455232726792941302",
       "name": "enemy41_5",
       "scene": "hero_room",
@@ -11330,6 +12240,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons3_83",
+      "status": "included"
+    },
+    {
+      "key": "spr:1573965675458367639",
+      "name": "objects4_81",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        393.0,
+        114.0,
+        16.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_81",
       "status": "included"
     },
     {
@@ -11618,6 +12547,25 @@
       "status": "included"
     },
     {
+      "key": "spr:1786722115203236477",
+      "name": "objects4_55",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        366.0,
+        185.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_55",
+      "status": "included"
+    },
+    {
       "key": "spr:1820202638074115274",
       "name": "enemy20_5",
       "scene": "hero_room",
@@ -11653,6 +12601,25 @@
       ],
       "ppu": 16.0,
       "source_name": "w403",
+      "status": "included"
+    },
+    {
+      "key": "spr:1863173223853418318",
+      "name": "objects4_76",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        363.0,
+        131.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_76",
       "status": "included"
     },
     {
@@ -11903,6 +12870,25 @@
       "status": "included"
     },
     {
+      "key": "spr:2139257096082568237",
+      "name": "sandbox_objects_8",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-8465473729473640669",
+      "rect": [
+        69.0,
+        1.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "sandbox_objects_8",
+      "status": "included"
+    },
+    {
       "key": "spr:2140902389170920830",
       "name": "weapons_23",
       "scene": "hero_room",
@@ -11938,6 +12924,25 @@
       ],
       "ppu": 16.0,
       "source_name": "f504",
+      "status": "included"
+    },
+    {
+      "key": "spr:2146049364543751087",
+      "name": "objects1_30",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        148.0,
+        72.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_30",
       "status": "included"
     },
     {
@@ -12394,6 +13399,25 @@
       ],
       "ppu": 16.0,
       "source_name": "monkey_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:2603485249211759521",
+      "name": "objects4_9",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        416.0,
+        155.0,
+        16.0,
+        15.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_9",
       "status": "included"
     },
     {
@@ -12948,6 +13972,25 @@
       "status": "included"
     },
     {
+      "key": "spr:2988620280429377804",
+      "name": "objects2_34",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        202.0,
+        109.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_34",
+      "status": "included"
+    },
+    {
       "key": "spr:2999717533694587267",
       "name": "enemy13_5",
       "scene": "hero_room",
@@ -13176,6 +14219,25 @@
       "status": "included"
     },
     {
+      "key": "spr:312888755048254352",
+      "name": "objects4_39",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        254.0,
+        77.0,
+        14.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_39",
+      "status": "included"
+    },
+    {
       "key": "spr:3155575047523445495",
       "name": "door03",
       "scene": "hero_room",
@@ -13344,6 +14406,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy26_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:3290983099118619754",
+      "name": "objects4_83",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        395.0,
+        125.0,
+        16.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_83",
       "status": "included"
     },
     {
@@ -14525,6 +15606,25 @@
       "status": "included"
     },
     {
+      "key": "spr:4184573884255743047",
+      "name": "objects4_89",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        320.0,
+        348.0,
+        51.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_89",
+      "status": "included"
+    },
+    {
       "key": "spr:423907734515690887",
       "name": "enemy32_4",
       "scene": "hero_room",
@@ -14560,6 +15660,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c05_s7_8",
+      "status": "included"
+    },
+    {
+      "key": "spr:4258674030755791572",
+      "name": "objects1_31",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        298.0,
+        70.0,
+        16.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_31",
       "status": "included"
     },
     {
@@ -14674,6 +15793,44 @@
       ],
       "ppu": 16.0,
       "source_name": "w704",
+      "status": "included"
+    },
+    {
+      "key": "spr:4357977433643142121",
+      "name": "objects2_69",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        118.0,
+        96.0,
+        16.0,
+        19.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_69",
+      "status": "included"
+    },
+    {
+      "key": "spr:4381636857265109862",
+      "name": "objects4_30",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        69.0,
+        164.0,
+        32.0,
+        20.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_30",
       "status": "included"
     },
     {
@@ -14867,6 +16024,25 @@
       "status": "included"
     },
     {
+      "key": "spr:4590472448002379470",
+      "name": "objects4_85",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        130.0,
+        203.0,
+        31.0,
+        19.0
+      ],
+      "pivot": [
+        0.42500001192092896,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_85",
+      "status": "included"
+    },
+    {
       "key": "spr:4595297079794702158",
       "name": "bullet_36",
       "scene": "hero_room",
@@ -14943,6 +16119,25 @@
       "status": "included"
     },
     {
+      "key": "spr:4668594951341927071",
+      "name": "box02",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        108.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "box02",
+      "status": "included"
+    },
+    {
       "key": "spr:4702448629543164964",
       "name": "c13_3",
       "scene": "hero_room",
@@ -14959,6 +16154,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c13_3",
+      "status": "included"
+    },
+    {
+      "key": "spr:4705366188981859163",
+      "name": "objects5_31",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        56.0,
+        127.0,
+        12.0,
+        10.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects5_31",
       "status": "included"
     },
     {
@@ -15171,6 +16385,25 @@
       "status": "included"
     },
     {
+      "key": "spr:4931188858857698146",
+      "name": "objects2_62",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        280.0,
+        188.0,
+        30.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_62",
+      "status": "included"
+    },
+    {
       "key": "spr:4952216272493081762",
       "name": "w602",
       "scene": "hero_room",
@@ -15285,6 +16518,25 @@
       "status": "included"
     },
     {
+      "key": "spr:5063219723633813926",
+      "name": "objects2_39",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        149.0,
+        392.0,
+        20.0,
+        28.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_39",
+      "status": "included"
+    },
+    {
       "key": "spr:5068983567063010848",
       "name": "f804",
       "scene": "r1_100_visual",
@@ -15339,6 +16591,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy43_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:5107610290217013516",
+      "name": "objects4_42",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        88.0,
+        80.0,
+        16.0,
+        20.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_42",
       "status": "included"
     },
     {
@@ -15931,6 +17202,25 @@
       "status": "included"
     },
     {
+      "key": "spr:5492153448223306408",
+      "name": "objects1_27",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        423.0,
+        439.0,
+        30.0,
+        29.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_27",
+      "status": "included"
+    },
+    {
       "key": "spr:5513074526522361957",
       "name": "weapons4_38",
       "scene": "hero_room",
@@ -16004,6 +17294,25 @@
       ],
       "ppu": 18.0,
       "source_name": "squash_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:5543585938873427757",
+      "name": "objects4_47_2",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        235.0,
+        154.0,
+        20.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_47_2",
       "status": "included"
     },
     {
@@ -16156,6 +17465,25 @@
       ],
       "ppu": 16.0,
       "source_name": "f102",
+      "status": "included"
+    },
+    {
+      "key": "spr:56590294994459998",
+      "name": "objects4_50",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        378.0,
+        370.0,
+        44.0,
+        28.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_50",
       "status": "included"
     },
     {
@@ -16688,6 +18016,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy20_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:6019585493145319311",
+      "name": "objects1_85",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        148.0,
+        54.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_85",
       "status": "included"
     },
     {
@@ -17508,6 +18855,25 @@
       "status": "included"
     },
     {
+      "key": "spr:6779088818188914228",
+      "name": "objects4_57",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        424.0,
+        240.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_57",
+      "status": "included"
+    },
+    {
       "key": "spr:6781355902440180674",
       "name": "w702",
       "scene": "r1_100_visual",
@@ -17622,6 +18988,25 @@
       "status": "included"
     },
     {
+      "key": "spr:6866018284932723691",
+      "name": "objects2_49",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        336.0,
+        218.0,
+        26.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_49",
+      "status": "included"
+    },
+    {
       "key": "spr:6896487601783549936",
       "name": "weapons3_1",
       "scene": "hero_room",
@@ -17717,6 +19102,25 @@
       "status": "included"
     },
     {
+      "key": "spr:696339930474159695",
+      "name": "objects1_86",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        123.0,
+        26.0,
+        16.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_86",
+      "status": "included"
+    },
+    {
       "key": "spr:7010442573258404328",
       "name": "weapons3_85",
       "scene": "hero_room",
@@ -17793,6 +19197,25 @@
       "status": "included"
     },
     {
+      "key": "spr:7049640333416247019",
+      "name": "objects4_26",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        156.0,
+        37.0,
+        16.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_26",
+      "status": "included"
+    },
+    {
       "key": "spr:7056646525692367748",
       "name": "monkey02_8",
       "scene": "hero_room",
@@ -17812,6 +19235,25 @@
       "status": "included"
     },
     {
+      "key": "spr:7074230475735139295",
+      "name": "objects2_32",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        332.0,
+        477.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_32",
+      "status": "included"
+    },
+    {
       "key": "spr:7079749542183406626",
       "name": "pet08_s0_7",
       "scene": "hero_room",
@@ -17828,6 +19270,25 @@
       ],
       "ppu": 16.0,
       "source_name": "pet08_s0_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:7090173671643476970",
+      "name": "objects2_63",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        114.0,
+        240.0,
+        30.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_63",
       "status": "included"
     },
     {
@@ -18021,6 +19482,25 @@
       "status": "included"
     },
     {
+      "key": "spr:732966090086080213",
+      "name": "objects1_14",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        472.0,
+        219.0,
+        6.0,
+        19.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_14",
+      "status": "included"
+    },
+    {
       "key": "spr:7344282957721930590",
       "name": "enemy05_0",
       "scene": "hero_room",
@@ -18154,6 +19634,25 @@
       "status": "included"
     },
     {
+      "key": "spr:742454887917159332",
+      "name": "objects4_49_2",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        407.0,
+        322.0,
+        56.0,
+        20.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_49_2",
+      "status": "included"
+    },
+    {
       "key": "spr:7440815215802235236",
       "name": "c10_8",
       "scene": "hero_room",
@@ -18246,6 +19745,25 @@
       ],
       "ppu": 18.0,
       "source_name": "pumpkin_8",
+      "status": "included"
+    },
+    {
+      "key": "spr:7504353924892807493",
+      "name": "sandbox_objects_1",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-8465473729473640669",
+      "rect": [
+        1.0,
+        17.0,
+        16.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.10000000149011612
+      ],
+      "ppu": 16.0,
+      "source_name": "sandbox_objects_1",
       "status": "included"
     },
     {
@@ -18648,6 +20166,25 @@
       "status": "included"
     },
     {
+      "key": "spr:78513698090495338",
+      "name": "objects4_52",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        355.0,
+        266.0,
+        44.0,
+        19.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_52",
+      "status": "included"
+    },
+    {
       "key": "spr:785546683114399763",
       "name": "bullet_54",
       "scene": "hero_room",
@@ -18683,6 +20220,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy45_8",
+      "status": "included"
+    },
+    {
+      "key": "spr:7864725018584453806",
+      "name": "objects4_74",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        272.0,
+        113.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_74",
       "status": "included"
     },
     {
@@ -18740,6 +20296,44 @@
       ],
       "ppu": 16.0,
       "source_name": "monkey02_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:7913242108194984845",
+      "name": "objects4_87",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        373.0,
+        344.0,
+        50.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_87",
+      "status": "included"
+    },
+    {
+      "key": "spr:7939234780596279434",
+      "name": "objects4_62",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        166.0,
+        65.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_62",
       "status": "included"
     },
     {
@@ -18990,6 +20584,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8150545166496184133",
+      "name": "objects4_59",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        425.0,
+        353.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_59",
+      "status": "included"
+    },
+    {
       "key": "spr:8152942427751999663",
       "name": "f703",
       "scene": "r1_100_visual",
@@ -19104,6 +20717,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8246557519485186545",
+      "name": "objects1_28",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        330.0,
+        315.0,
+        38.0,
+        31.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_28",
+      "status": "included"
+    },
+    {
       "key": "spr:8250095503982608753",
       "name": "weapons3_59",
       "scene": "r1_100_visual",
@@ -19199,6 +20831,25 @@
       "status": "included"
     },
     {
+      "key": "spr:830087357337855015",
+      "name": "objects4_88",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        225.0,
+        341.0,
+        51.0,
+        33.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_88",
+      "status": "included"
+    },
+    {
       "key": "spr:8313479921691387144",
       "name": "enemy38_1",
       "scene": "hero_room",
@@ -19253,6 +20904,44 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons3_155",
+      "status": "included"
+    },
+    {
+      "key": "spr:8352870227497738062",
+      "name": "objects1_26",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        326.0,
+        122.0,
+        31.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_26",
+      "status": "included"
+    },
+    {
+      "key": "spr:835845866584496707",
+      "name": "objects4_48_2",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        31.0,
+        238.0,
+        21.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_48_2",
       "status": "included"
     },
     {
@@ -19408,6 +21097,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8441396244303079331",
+      "name": "objects4_63",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        238.0,
+        52.0,
+        16.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_63",
+      "status": "included"
+    },
+    {
       "key": "spr:8455323988830007940",
       "name": "weapons_125",
       "scene": "hero_room",
@@ -19443,6 +21151,25 @@
       ],
       "ppu": 16.0,
       "source_name": "w603",
+      "status": "included"
+    },
+    {
+      "key": "spr:8533014963534542141",
+      "name": "objects1_9",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        477.0,
+        258.0,
+        22.0,
+        34.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_9",
       "status": "included"
     },
     {
@@ -19693,6 +21420,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8792852382479474563",
+      "name": "objects4_75",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        64.0,
+        22.0,
+        16.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_75",
+      "status": "included"
+    },
+    {
       "key": "spr:8832478288807169244",
       "name": "c07_s8_8",
       "scene": "hero_room",
@@ -19861,6 +21607,25 @@
       ],
       "ppu": 16.0,
       "source_name": "w701",
+      "status": "included"
+    },
+    {
+      "key": "spr:8911617222072829089",
+      "name": "objects2_38",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        230.0,
+        42.0,
+        16.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_38",
       "status": "included"
     },
     {
@@ -20260,6 +22025,25 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet_20",
+      "status": "included"
+    },
+    {
+      "key": "spr:990812075264473175",
+      "name": "objects4_82",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        447.0,
+        222.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects4_82",
       "status": "included"
     },
     {
@@ -23759,6 +25543,25 @@
       "status": "included"
     },
     {
+      "key": "spr:item:ball_buff_icon",
+      "name": "objects_pickable_32",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        98.0,
+        231.0,
+        25.0,
+        25.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_32",
+      "status": "included"
+    },
+    {
       "key": "spr:item:chest00_box03",
       "name": "objects_common_4",
       "scene": "items",
@@ -24595,6 +26398,158 @@
       "status": "included"
     },
     {
+      "key": "spr:item:drink_bloody_mary_icon",
+      "name": "objects_pickable_35",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        102.0,
+        103.0,
+        11.0,
+        19.0
+      ],
+      "pivot": [
+        0.375,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_35",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:drink_coconut_icon",
+      "name": "objects_pickable_39",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        109.0,
+        124.0,
+        14.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_39",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:drink_coffee_icon",
+      "name": "objects_pickable_41",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        99.0,
+        85.0,
+        12.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_41",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:drink_forget_icon",
+      "name": "objects_pickable_40",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        89.0,
+        73.0,
+        8.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_40",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:drink_juice_icon",
+      "name": "objects_pickable_38",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        24.0,
+        14.0,
+        8.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_38",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:drink_milk_icon",
+      "name": "objects_pickable_33",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        62.0,
+        49.0,
+        10.0,
+        14.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_33",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:drink_tea_icon",
+      "name": "objects_pickable_34",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        24.0,
+        43.0,
+        17.0,
+        10.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_34",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:drink_wine_icon",
+      "name": "objects_pickable_36",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        114.0,
+        11.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_36",
+      "status": "included"
+    },
+    {
       "key": "spr:item:energy_pickup",
       "name": "bullet_16",
       "scene": "items",
@@ -24611,6 +26566,82 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet_16",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:energy_pot_big_icon",
+      "name": "objects_common_21",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        89.0,
+        56.0,
+        9.0,
+        15.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_common_21",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:energy_pot_icon",
+      "name": "objects_common_20",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        176.0,
+        89.0,
+        8.0,
+        11.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_common_20",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:health_pot_big_icon",
+      "name": "objects_common_19",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        150.0,
+        77.0,
+        9.0,
+        15.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_common_19",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:health_pot_icon",
+      "name": "objects_common_18",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        100.0,
+        61.0,
+        8.0,
+        11.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_common_18",
       "status": "included"
     },
     {
@@ -25184,6 +27215,215 @@
       "status": "included"
     },
     {
+      "key": "spr:item:mineral_crystal_icon",
+      "name": "objects1_80",
+      "scene": "items",
+      "texture_key": "tex:item_8607965889740011037",
+      "rect": [
+        293.0,
+        294.0,
+        35.0,
+        36.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_80",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:mineral_gold_icon",
+      "name": "objects1_77",
+      "scene": "items",
+      "texture_key": "tex:item_8607965889740011037",
+      "rect": [
+        370.0,
+        310.0,
+        35.0,
+        32.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_77",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_01_icon",
+      "name": "enemy04_7",
+      "scene": "items",
+      "texture_key": "tex:item_2755411589560438748",
+      "rect": [
+        55.07611846923828,
+        162.02675247192383,
+        24.89712905883789,
+        30.89712905883789
+      ],
+      "pivot": [
+        0.5190912373960662,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "enemy04_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_02_icon",
+      "name": "npc02_7",
+      "scene": "items",
+      "texture_key": "tex:item_1152304610094628773",
+      "rect": [
+        432.05133056640625,
+        162.07612991333008,
+        25.872562408447266,
+        29.847759246826172
+      ],
+      "pivot": [
+        0.5391303911911189,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "npc02_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_03_icon",
+      "name": "npc03_4",
+      "scene": "items",
+      "texture_key": "tex:item_1152304610094628773",
+      "rect": [
+        327.07611083984375,
+        18.076129913330078,
+        26.847759246826172,
+        27.847759246826172
+      ],
+      "pivot": [
+        0.4813764718536387,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "npc03_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_04_icon",
+      "name": "npc04_7",
+      "scene": "items",
+      "texture_key": "tex:item_1152304610094628773",
+      "rect": [
+        403.07611083984375,
+        96.01977348327637,
+        24.861764907836914,
+        30.928895950317383
+      ],
+      "pivot": [
+        0.5198296089867642,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "npc04_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_05_icon",
+      "name": "npc05_7",
+      "scene": "items",
+      "texture_key": "tex:item_1152304610094628773",
+      "rect": [
+        412.07611083984375,
+        223.02676010131836,
+        26.89712905883789,
+        29.89712905883789
+      ],
+      "pivot": [
+        0.5548503521738508,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "npc05_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_06_icon",
+      "name": "npc06_4",
+      "scene": "items",
+      "texture_key": "tex:item_1152304610094628773",
+      "rect": [
+        449.0563659667969,
+        415.0563735961914,
+        27.91687774658203,
+        29.867507934570312
+      ],
+      "pivot": [
+        0.49946947641250455,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "npc06_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_07_icon",
+      "name": "npc07_4",
+      "scene": "items",
+      "texture_key": "tex:item_1152304610094628773",
+      "rect": [
+        320.0563659667969,
+        382.0,
+        27.9432430267334,
+        32.0
+      ],
+      "pivot": [
+        0.49899821211937745,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "npc07_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_mount_creature_icon",
+      "name": "npc_mount_seller_0",
+      "scene": "items",
+      "texture_key": "tex:item_1152304610094628773",
+      "rect": [
+        118.0,
+        192.0513153076172,
+        35.93788528442383,
+        34.94868469238281
+      ],
+      "pivot": [
+        0.5008641954734478,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "npc_mount_seller_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:npc_trainer_icon",
+      "name": "npc_trainer_0",
+      "scene": "items",
+      "texture_key": "tex:item_1152304610094628773",
+      "rect": [
+        235.0761260986328,
+        75.07612037658691,
+        29.910966873168945,
+        28.923879623413086
+      ],
+      "pivot": [
+        0.5323759533326221,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "npc_trainer_0",
+      "status": "included"
+    },
+    {
       "key": "spr:item:portal_frame0",
       "name": "gate_02_0",
       "scene": "items",
@@ -25295,6 +27535,63 @@
       ],
       "ppu": 30.0,
       "source_name": "gate_02_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:restore_pot_big_icon",
+      "name": "objects_common_36",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        74.0,
+        48.0,
+        9.0,
+        15.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_common_36",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:restore_pot_icon",
+      "name": "objects_common_37",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        114.0,
+        65.0,
+        8.0,
+        11.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_common_37",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:statue_01_icon",
+      "name": "objects3_6",
+      "scene": "items",
+      "texture_key": "tex:item_8607965889740011037",
+      "rect": [
+        218.0,
+        290.0,
+        34.0,
+        49.0
+      ],
+      "pivot": [
+        0.5,
+        0.10000000149011612
+      ],
+      "ppu": 16.0,
+      "source_name": "objects3_6",
       "status": "included"
     },
     {
@@ -72764,6 +75061,318 @@
       "status": "included"
     },
     {
+      "key": "prefab:door:r_sell_visual:east:leaf",
+      "name": "door east leaf",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_e/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:east:ornament",
+      "name": "door east ornament",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_e/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:east:shadow",
+      "name": "door east shadow",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_e/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:north:leaf",
+      "name": "door north leaf",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_n/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:north:ornament",
+      "name": "door north ornament",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_n/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:north:shadow",
+      "name": "door north shadow",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_n/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:south:leaf",
+      "name": "door south leaf",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_s/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:south:ornament",
+      "name": "door south ornament",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_s/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:south:shadow",
+      "name": "door south shadow",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_s/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:west:leaf",
+      "name": "door west leaf",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_w/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:west:ornament",
+      "name": "door west ornament",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_w/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r_sell_visual:west:shadow",
+      "name": "door west shadow",
+      "type": "door",
+      "scene": "r_sell_visual",
+      "source": "r_sell/r_sell/aisle_w/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:door:r_start_no_event_visual:east:leaf",
       "name": "door east leaf",
       "type": "door",
@@ -104349,6 +106958,10 @@
     },
     {
       "type": "texture",
+      "key": "tex:-8465473729473640669"
+    },
+    {
+      "type": "texture",
       "key": "tex:-8582120698074145341"
     },
     {
@@ -104529,7 +107142,15 @@
     },
     {
       "type": "texture",
+      "key": "tex:item_1152304610094628773"
+    },
+    {
+      "type": "texture",
       "key": "tex:item_2171739766242525964"
+    },
+    {
+      "type": "texture",
+      "key": "tex:item_2755411589560438748"
     },
     {
       "type": "texture",
@@ -104677,11 +107298,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-1204072163585814410"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-1253577901244276649"
     },
     {
       "type": "sprite",
       "key": "spr:-127657403021498133"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-1285668098131535219"
     },
     {
       "type": "sprite",
@@ -104702,6 +107331,10 @@
     {
       "type": "sprite",
       "key": "spr:-1387928549833920094"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-1393481937170166191"
     },
     {
       "type": "sprite",
@@ -104877,7 +107510,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-2178665406362670037"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-2201761302901802718"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-2211263110933309191"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-2222446170123128065"
     },
     {
       "type": "sprite",
@@ -104909,11 +107554,23 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-2424365849772219261"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-243034883751467912"
     },
     {
       "type": "sprite",
       "key": "spr:-2444310192479850160"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-2454621439306634597"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-2467476437029114213"
     },
     {
       "type": "sprite",
@@ -104934,6 +107591,10 @@
     {
       "type": "sprite",
       "key": "spr:-2501083579335484354"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-2516655087974227743"
     },
     {
       "type": "sprite",
@@ -105205,6 +107866,14 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-3548934272818492555"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-355595587883817003"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-3560308371758672994"
     },
     {
@@ -105226,6 +107895,10 @@
     {
       "type": "sprite",
       "key": "spr:-366518409148801096"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-3672281484503636836"
     },
     {
       "type": "sprite",
@@ -105258,6 +107931,14 @@
     {
       "type": "sprite",
       "key": "spr:-3857395746455346620"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-3887603759938907568"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-3889430111792677644"
     },
     {
       "type": "sprite",
@@ -105321,6 +108002,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4043858576258045769"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-4053710326255510269"
     },
     {
@@ -105361,11 +108046,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4226039366573176847"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-4226452341420905142"
     },
     {
       "type": "sprite",
       "key": "spr:-4232664596238525539"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4246948832959033868"
     },
     {
       "type": "sprite",
@@ -105445,11 +108138,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4495553419235307133"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-4519551836381203921"
     },
     {
       "type": "sprite",
       "key": "spr:-4522898657242282166"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4525023969216960"
     },
     {
       "type": "sprite",
@@ -105486,6 +108187,10 @@
     {
       "type": "sprite",
       "key": "spr:-4586370965645187404"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4617219179629165920"
     },
     {
       "type": "sprite",
@@ -105553,6 +108258,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4829964726074813781"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-4876205757651736817"
     },
     {
@@ -105566,6 +108275,10 @@
     {
       "type": "sprite",
       "key": "spr:-4944635985672205833"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4970262015484161421"
     },
     {
       "type": "sprite",
@@ -105625,6 +108338,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-5132746274202686867"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-515314976885372310"
     },
     {
@@ -105646,6 +108363,10 @@
     {
       "type": "sprite",
       "key": "spr:-5193792124080956641"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-521942579647225706"
     },
     {
       "type": "sprite",
@@ -105801,6 +108522,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-5723607748549985485"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-5734303052896741615"
     },
     {
@@ -105837,7 +108562,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-587600210770038131"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-590366675519413317"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-5912487356167894583"
     },
     {
       "type": "sprite",
@@ -105850,6 +108583,10 @@
     {
       "type": "sprite",
       "key": "spr:-594635548390245920"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-5982950721296172035"
     },
     {
       "type": "sprite",
@@ -105874,6 +108611,10 @@
     {
       "type": "sprite",
       "key": "spr:-6100199358441242486"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-610643274832187158"
     },
     {
       "type": "sprite",
@@ -105993,6 +108734,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-6605824960345776390"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-6637501097075663937"
     },
     {
@@ -106046,6 +108791,10 @@
     {
       "type": "sprite",
       "key": "spr:-6777473861087044728"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-68017957643712955"
     },
     {
       "type": "sprite",
@@ -106109,6 +108858,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-7009494588311467953"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-7011584409753400362"
     },
     {
@@ -106158,6 +108911,10 @@
     {
       "type": "sprite",
       "key": "spr:-7195689907842277511"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-7202276376141507721"
     },
     {
       "type": "sprite",
@@ -106361,6 +109118,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-7991901473037313641"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-7995173797577875970"
     },
     {
@@ -106393,6 +109154,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-8067448093080777534"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-8108148935947895414"
     },
     {
@@ -106413,7 +109178,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-8194832056667516831"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-8200924229464830555"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8213880749039728376"
     },
     {
       "type": "sprite",
@@ -106485,6 +109258,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-848970431230786148"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-8552297759256105170"
     },
     {
@@ -106522,6 +109299,10 @@
     {
       "type": "sprite",
       "key": "spr:-8725504821765607768"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8735730654345214641"
     },
     {
       "type": "sprite",
@@ -106565,11 +109346,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-8831311374045918667"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-8847249744880482256"
     },
     {
       "type": "sprite",
       "key": "spr:-885745039736529902"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-886192237305031227"
     },
     {
       "type": "sprite",
@@ -106621,6 +109410,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-9068812245608293694"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-9085461350947652706"
     },
     {
@@ -106650,6 +109443,10 @@
     {
       "type": "sprite",
       "key": "spr:-930133120529433484"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-93123199508496934"
     },
     {
       "type": "sprite",
@@ -106713,6 +109510,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:1255752870506251281"
+    },
+    {
+      "type": "sprite",
       "key": "spr:126422199719527966"
     },
     {
@@ -106753,6 +109554,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:1449842174399554820"
+    },
+    {
+      "type": "sprite",
       "key": "spr:1455232726792941302"
     },
     {
@@ -106778,6 +109583,10 @@
     {
       "type": "sprite",
       "key": "spr:1527999046970687307"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:1573965675458367639"
     },
     {
       "type": "sprite",
@@ -106841,11 +109650,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:1786722115203236477"
+    },
+    {
+      "type": "sprite",
       "key": "spr:1820202638074115274"
     },
     {
       "type": "sprite",
       "key": "spr:1827681857348604616"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:1863173223853418318"
     },
     {
       "type": "sprite",
@@ -106901,11 +109718,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:2139257096082568237"
+    },
+    {
+      "type": "sprite",
       "key": "spr:2140902389170920830"
     },
     {
       "type": "sprite",
       "key": "spr:2145013445196991046"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:2146049364543751087"
     },
     {
       "type": "sprite",
@@ -107002,6 +109827,10 @@
     {
       "type": "sprite",
       "key": "spr:2586913414433868505"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:2603485249211759521"
     },
     {
       "type": "sprite",
@@ -107121,6 +109950,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:2988620280429377804"
+    },
+    {
+      "type": "sprite",
       "key": "spr:2999717533694587267"
     },
     {
@@ -107169,6 +110002,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:312888755048254352"
+    },
+    {
+      "type": "sprite",
       "key": "spr:3155575047523445495"
     },
     {
@@ -107202,6 +110039,10 @@
     {
       "type": "sprite",
       "key": "spr:327012115718120037"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:3290983099118619754"
     },
     {
       "type": "sprite",
@@ -107453,11 +110294,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:4184573884255743047"
+    },
+    {
+      "type": "sprite",
       "key": "spr:423907734515690887"
     },
     {
       "type": "sprite",
       "key": "spr:4246808436877579121"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:4258674030755791572"
     },
     {
       "type": "sprite",
@@ -107482,6 +110331,14 @@
     {
       "type": "sprite",
       "key": "spr:4326109709560414507"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:4357977433643142121"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:4381636857265109862"
     },
     {
       "type": "sprite",
@@ -107525,6 +110382,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:4590472448002379470"
+    },
+    {
+      "type": "sprite",
       "key": "spr:4595297079794702158"
     },
     {
@@ -107541,7 +110402,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:4668594951341927071"
+    },
+    {
+      "type": "sprite",
       "key": "spr:4702448629543164964"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:4705366188981859163"
     },
     {
       "type": "sprite",
@@ -107589,6 +110458,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:4931188858857698146"
+    },
+    {
+      "type": "sprite",
       "key": "spr:4952216272493081762"
     },
     {
@@ -107613,6 +110486,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:5063219723633813926"
+    },
+    {
+      "type": "sprite",
       "key": "spr:5068983567063010848"
     },
     {
@@ -107622,6 +110499,10 @@
     {
       "type": "sprite",
       "key": "spr:5097965456664978042"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:5107610290217013516"
     },
     {
       "type": "sprite",
@@ -107749,6 +110630,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:5492153448223306408"
+    },
+    {
+      "type": "sprite",
       "key": "spr:5513074526522361957"
     },
     {
@@ -107762,6 +110647,10 @@
     {
       "type": "sprite",
       "key": "spr:5537301905545960370"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:5543585938873427757"
     },
     {
       "type": "sprite",
@@ -107794,6 +110683,10 @@
     {
       "type": "sprite",
       "key": "spr:5656402357190427458"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:56590294994459998"
     },
     {
       "type": "sprite",
@@ -107906,6 +110799,10 @@
     {
       "type": "sprite",
       "key": "spr:5991314767215976177"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:6019585493145319311"
     },
     {
       "type": "sprite",
@@ -108081,6 +110978,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:6779088818188914228"
+    },
+    {
+      "type": "sprite",
       "key": "spr:6781355902440180674"
     },
     {
@@ -108105,6 +111006,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:6866018284932723691"
+    },
+    {
+      "type": "sprite",
       "key": "spr:6896487601783549936"
     },
     {
@@ -108125,6 +111030,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:696339930474159695"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7010442573258404328"
     },
     {
@@ -108141,11 +111050,23 @@
     },
     {
       "type": "sprite",
+      "key": "spr:7049640333416247019"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7056646525692367748"
     },
     {
       "type": "sprite",
+      "key": "spr:7074230475735139295"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7079749542183406626"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:7090173671643476970"
     },
     {
       "type": "sprite",
@@ -108189,6 +111110,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:732966090086080213"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7344282957721930590"
     },
     {
@@ -108217,6 +111142,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:742454887917159332"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7440815215802235236"
     },
     {
@@ -108234,6 +111163,10 @@
     {
       "type": "sprite",
       "key": "spr:7489681065513136924"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:7504353924892807493"
     },
     {
       "type": "sprite",
@@ -108321,11 +111254,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:78513698090495338"
+    },
+    {
+      "type": "sprite",
       "key": "spr:785546683114399763"
     },
     {
       "type": "sprite",
       "key": "spr:7863392078566352694"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:7864725018584453806"
     },
     {
       "type": "sprite",
@@ -108338,6 +111279,14 @@
     {
       "type": "sprite",
       "key": "spr:7903194949819974171"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:7913242108194984845"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:7939234780596279434"
     },
     {
       "type": "sprite",
@@ -108393,6 +111342,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8150545166496184133"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8152942427751999663"
     },
     {
@@ -108417,6 +111370,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8246557519485186545"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8250095503982608753"
     },
     {
@@ -108437,6 +111394,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:830087357337855015"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8313479921691387144"
     },
     {
@@ -108446,6 +111407,14 @@
     {
       "type": "sprite",
       "key": "spr:8349396298206301999"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:8352870227497738062"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:835845866584496707"
     },
     {
       "type": "sprite",
@@ -108481,11 +111450,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8441396244303079331"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8455323988830007940"
     },
     {
       "type": "sprite",
       "key": "spr:850745456718645216"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:8533014963534542141"
     },
     {
       "type": "sprite",
@@ -108541,6 +111518,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8792852382479474563"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8832478288807169244"
     },
     {
@@ -108574,6 +111555,10 @@
     {
       "type": "sprite",
       "key": "spr:8909231305608317842"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:8911617222072829089"
     },
     {
       "type": "sprite",
@@ -108658,6 +111643,10 @@
     {
       "type": "sprite",
       "key": "spr:967084784833834541"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:990812075264473175"
     },
     {
       "type": "sprite",
@@ -109397,6 +112386,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:item:ball_buff_icon"
+    },
+    {
+      "type": "sprite",
       "key": "spr:item:chest00_box03"
     },
     {
@@ -109573,7 +112566,55 @@
     },
     {
       "type": "sprite",
+      "key": "spr:item:drink_bloody_mary_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:drink_coconut_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:drink_coffee_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:drink_forget_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:drink_juice_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:drink_milk_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:drink_tea_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:drink_wine_icon"
+    },
+    {
+      "type": "sprite",
       "key": "spr:item:energy_pickup"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:energy_pot_big_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:energy_pot_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:health_pot_big_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:health_pot_icon"
     },
     {
       "type": "sprite",
@@ -109697,6 +112738,50 @@
     },
     {
       "type": "sprite",
+      "key": "spr:item:mineral_crystal_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:mineral_gold_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_01_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_02_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_03_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_04_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_05_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_06_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_07_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_mount_creature_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:npc_trainer_icon"
+    },
+    {
+      "type": "sprite",
       "key": "spr:item:portal_frame0"
     },
     {
@@ -109718,6 +112803,18 @@
     {
       "type": "sprite",
       "key": "spr:item:portal_frame5"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:restore_pot_big_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:restore_pot_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:statue_01_icon"
     },
     {
       "type": "sprite",
@@ -117362,6 +120459,54 @@
     {
       "type": "prefab",
       "key": "prefab:door:r_mount_visual:west:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:east:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:east:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:east:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:north:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:north:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:north:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:south:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:south:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:south:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:west:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:west:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r_sell_visual:west:shadow"
     },
     {
       "type": "prefab",

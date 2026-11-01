@@ -73,6 +73,8 @@ public:
     }
     bool IsAttacking() const { return attacking_; }
     bool IsCharging() const { return charging_; }
+    bool PotEmpty() const { return pot_empty_; }
+    void SetPotEmpty(bool empty);
     float ChargePercent() const {
         return definition_.special.duration > 0.0f
             ? std::clamp(charge_time_ / definition_.special.duration, 0.0f, 1.0f)
@@ -92,6 +94,10 @@ private:
                      const Vec2& owner_position, const Vec2& aim_direction,
                      ProjectileSystem& projectiles,
                      player::EnergyState* energy);
+    int UpdatePot(float delta_seconds, bool attack_held,
+                  const Vec2& owner_position, const Vec2& aim_direction,
+                  ProjectileSystem& projectiles,
+                  player::EnergyState* energy);
     int FireCharged(float percent, const Vec2& owner_position,
                     const Vec2& aim_direction,
                     ProjectileSystem& projectiles,
@@ -111,6 +117,10 @@ private:
     float charge_cooldown_ = 0.0f;
     float end_shot_charge_ = 0.0f;
     bool end_shot_was_held_ = false;
+    bool pot_empty_ = false;
+    bool pot_drinking_ = false;
+    float pot_drink_timer_ = 0.0f;
+    int original_visual_sprite_ = -1;
     float speed_multiplier_ = 1.0f;
     std::vector<WeaponFireEvent> fire_events_;
 };

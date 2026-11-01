@@ -649,6 +649,7 @@ void Application::RefreshLevelSurfaces() {
     const engine::assets::LevelTheme* theme =
         soulknight::game::room::LevelSurfaceBuilder::Find(
             scene_, level->id, "A");
+    active_level_theme_ = theme;
     if (theme == nullptr) return;
     std::uint32_t seed = 2166136261u;
     for (const char c : key) {
@@ -893,6 +894,43 @@ void Application::BuildRenderBatch() {
                     break;
                 }
             }
+            bool themed_obstacle = false;
+            if (active_level_theme_ != nullptr &&
+                marker.variant >= 0 &&
+                static_cast<std::size_t>(marker.variant) <
+                    active_level_theme_->obstacles.size()) {
+                const auto& group =
+                    active_level_theme_->obstacles[
+                        static_cast<std::size_t>(marker.variant)];
+                for (const engine::assets::LevelSurfaceSprite& part :
+                     group.sprites) {
+                    if (part.sprite_index < 0 ||
+                        static_cast<std::size_t>(part.sprite_index) >=
+                            scene_.sprites.size()) {
+                        continue;
+                    }
+                    const engine::assets::SpriteData& sprite =
+                        scene_.sprites[
+                            static_cast<std::size_t>(part.sprite_index)];
+                    engine::rendering::SpriteDraw draw;
+                    draw.position = marker.position + part.offset;
+                    draw.size = engine::Vec2{
+                        sprite.WorldSize().x * part.scale.x,
+                        sprite.WorldSize().y * part.scale.y};
+                    draw.uv = sprite.UvRect();
+                    draw.color = part.color;
+                    draw.layer = MapSortingLayer(part.sorting_layer);
+                    draw.sorting_order = part.sorting_order;
+                    draw.texture_id = sprite.texture_id;
+                    draw.pivot = sprite.pivot;
+                    draw.rotation = part.rotation;
+                    draw.flip_x = part.flip_x;
+                    draw.flip_y = part.flip_y;
+                    (void)sprite_batch_.DrawSprite(draw);
+                    themed_obstacle = true;
+                }
+            }
+            if (themed_obstacle) continue;
             for (const engine::assets::ObstacleVisual& visual :
                  obstacle_variant.visuals) {
                 if (visual.sprite_index < 0 ||
@@ -1021,6 +1059,18 @@ void Application::BuildRenderBatch() {
                 draw_item_sprite(visual.sprite, position,
                                  visual.sorting_layer, visual.sorting_order, 4);
             }
+        }
+        for (const auto& offer : seller_.Offers()) {
+            if (offer.sold || offer.sprite.empty()) continue;
+            draw_item_sprite(offer.sprite,
+                             offer.position + engine::Vec2{0.0f, 0.9f},
+                             5, 5, 7);
+        }
+        for (const auto& object : special_objects_) {
+            if (!object.active || object.used || object.sprite.empty()) continue;
+            draw_item_sprite(object.sprite,
+                             object.position + engine::Vec2{0.0f, 0.7f},
+                             5, 5, 7);
         }
         for (const auto& coin : item_world_.Coins()) {
             if (!coin.active) continue;
@@ -1178,6 +1228,36 @@ void Application::BuildRenderBatch() {
                 {0.55f * mirror, 0.6f}, player_dead_,
                 secondary_weapon_.VisualTime(),
                 secondary_weapon_.IsAttacking());
+        }
+    }
+
+    if (weapon_.IsCharging() &&
+        !weapon_.Definition().special.sprite_id.empty()) {
+        const int32_t sprite_index = scene_.FindSpriteIndex(
+            weapon_.Definition().special.sprite_id);
+        if (sprite_index >= 0 &&
+            static_cast<std::size_t>(sprite_index) < scene_.sprites.size()) {
+            const engine::assets::SpriteData& sprite =
+                scene_.sprites[static_cast<std::size_t>(sprite_index)];
+            const float progress = weapon_.ChargePercent();
+            const int filled = std::clamp(
+                static_cast<int>(std::ceil(progress * 5.0f)), 0, 5);
+            for (int segment = 0; segment < 5; ++segment) {
+                engine::rendering::SpriteDraw draw;
+                draw.position = player_.Position() +
+                    engine::Vec2{-0.8f + static_cast<float>(segment) * 0.32f,
+                                 1.75f};
+                draw.size = sprite.WorldSize() * 0.8f;
+                draw.uv = sprite.UvRect();
+                draw.color = segment < filled
+                    ? engine::Color::White()
+                    : engine::Color{120, 120, 120, 90};
+                draw.layer = engine::rendering::SortLayer::Effect;
+                draw.sorting_order = 40;
+                draw.texture_id = sprite.texture_id;
+                draw.pivot = sprite.pivot;
+                (void)sprite_batch_.DrawSprite(draw);
+            }
         }
     }
 
@@ -1948,7 +2028,12 @@ void Application::ConfigureReviewMode() {
     } else if (config_.review_area == "living_room" ||
                config_.review_area.rfind("r1_", 0) == 0 ||
                config_.review_area == "devroom" ||
-               config_.review_area == "chest") {
+               config_.review_area == "chest" ||
+               config_.review_area == "r_sell" ||
+               config_.review_area == "r_statue" ||
+               config_.review_area == "r_mineral" ||
+               config_.review_area == "r_mercenary" ||
+               config_.review_area == "r_mount") {
         game_ui_.OpenGameplay();
     } else if (config_.review_area == "workshop" ||
                config_.review_area == "garden" ||
@@ -2085,7 +2170,8 @@ void Application::DrawGameUI() {
         }
     }
     data.room_clear_label = scene_.room.clear_label;
-    data.room_cleared = cleared_rooms_.contains(scene_.id);
+    data.room_cleared = scene_.room.type == 1 &&
+        cleared_rooms_.contains(scene_.id);
     data.room_title_timer = room_title_timer_;
     data.room_clear_timer = room_clear_timer_;
     data.transition_flash = room_transition_flash_;
@@ -2589,6 +2675,13 @@ void Application::SaveGameToDisk() {
     data.cleared_rooms.assign(cleared_rooms_.begin(), cleared_rooms_.end());
     data.chest_spawned_rooms.assign(chest_spawned_rooms_.begin(),
                                     chest_spawned_rooms_.end());
+    data.sold_shop_items.assign(sold_shop_items_.begin(),
+                                sold_shop_items_.end());
+    data.active_statue = active_statue_id_;
+    data.active_mercenary = active_mercenary_id_;
+    data.mercenary_level = mercenary_level_;
+    data.active_mount = active_mount_id_;
+    data.pot_empty = pot_empty_state_;
     data.materials.clear();
     for (const auto& material : workshop_.SnapshotMaterials()) {
         data.materials.push_back({material.id, material.count});
@@ -2788,6 +2881,16 @@ void Application::LoadGameFromDisk() {
     chest_spawned_rooms_.clear();
     chest_spawned_rooms_.insert(data.chest_spawned_rooms.begin(),
                                 data.chest_spawned_rooms.end());
+    sold_shop_items_.clear();
+    sold_shop_items_.insert(data.sold_shop_items.begin(),
+                            data.sold_shop_items.end());
+    active_statue_id_ = data.active_statue;
+    active_mercenary_id_ = data.active_mercenary;
+    mercenary_level_ = std::max(1, data.mercenary_level);
+    active_mount_id_ = data.active_mount;
+    mount_speed_bonus_ = active_mount_id_.empty() ? 0.0f : 0.35f;
+    pot_empty_state_ = data.pot_empty;
+    mercenary_spawned_ = false;
     std::vector<soulknight::game::items::RoomItemSnapshot> room_items;
     for (const auto& room : data.rooms) {
         soulknight::game::items::RoomItemSnapshot snapshot;
@@ -2863,6 +2966,22 @@ const engine::assets::InteractionMarker* Application::NearbyInteraction() const 
             marker.character_id == player_characters_.Active().id) {
             continue;
         }
+        if (marker.kind == "mineral" || marker.kind == "statue") {
+            const auto object = std::find_if(
+                special_objects_.begin(), special_objects_.end(),
+                [&](const SpecialObjectInstance& candidate) {
+                    return candidate.id == marker.item_id;
+                });
+            if (object == special_objects_.end() || !object->active ||
+                object->used) {
+                continue;
+            }
+        }
+        if (marker.kind == "seller" && marker.seller_index >= 0) {
+            const auto* offer = seller_.FindByIndex(
+                static_cast<std::size_t>(marker.seller_index));
+            if (offer == nullptr || offer->sold) continue;
+        }
         const float radius = marker.radius > 0.0f ? marker.radius : 2.0f;
         const float distance =
             (marker.position - player_.Position()).LengthSquared();
@@ -2897,6 +3016,167 @@ void Application::ConfigureRoomItems() {
                          scene_.id.rfind("r_", 0) == 0;
     item_world_.SetChestLevel(
         biome_.Current() != nullptr ? biome_.Current()->chest_level : 1);
+    seller_.Reset();
+    scene_.interaction_markers.erase(
+        std::remove_if(scene_.interaction_markers.begin(),
+                       scene_.interaction_markers.end(),
+                       [](const engine::assets::InteractionMarker& marker) {
+                           return marker.kind == "seller";
+                       }),
+        scene_.interaction_markers.end());
+    if (scene_.id == "r_sell_visual" &&
+        seller_.Configure(item_assets_, scene_,
+                          biome_.Current() != nullptr
+                              ? biome_.Current()->chest_level : 1,
+                          map_seed_, &weapon_catalogue_, scene_.id)) {
+        seller_.RestoreSold(std::vector<std::string>(
+            sold_shop_items_.begin(), sold_shop_items_.end()));
+        for (std::size_t i = 0; i < seller_.Offers().size(); ++i) {
+            const auto& offer = seller_.Offers()[i];
+            if (offer.sold) continue;
+            engine::assets::InteractionMarker marker;
+            marker.id = "seller_" + std::to_string(i);
+            marker.kind = "seller";
+            marker.label = offer.display_name + "  -" +
+                std::to_string(offer.price);
+            marker.position = offer.position;
+            marker.radius = 2.4f;
+            marker.seller_index = static_cast<int>(i);
+            marker.price = offer.price;
+            marker.item_id = offer.item_id;
+            scene_.interaction_markers.push_back(std::move(marker));
+        }
+        LOG_INFO_APP("Seller: {} recovered offers in {}", seller_.Offers().size(),
+                     scene_.id);
+    }
+    special_objects_.clear();
+    scene_.interaction_markers.erase(
+        std::remove_if(scene_.interaction_markers.begin(),
+                       scene_.interaction_markers.end(),
+                       [](const engine::assets::InteractionMarker& marker) {
+                           return marker.kind == "statue" ||
+                                  marker.kind == "mineral" ||
+                                  marker.kind == "mercenary" ||
+                                  marker.kind == "mercenary_trainer" ||
+                                  marker.kind == "mount";
+                       }),
+        scene_.interaction_markers.end());
+    const bool special_room =
+        scene_.id == "r_statue_visual" ||
+        scene_.id == "r_mineral_visual" ||
+        scene_.id == "r_mercenary_visual" ||
+        scene_.id == "r_mount_visual";
+    if (special_room && item_assets_.IsLoaded()) {
+        std::uint32_t seed = static_cast<std::uint32_t>(map_seed_) ^
+            0x53504543u;
+        for (const char c : scene_.id) {
+            seed ^= static_cast<unsigned char>(c);
+            seed *= 16777619u;
+        }
+        const soulknight::game::items::SpecialObjectDefinition* chosen = nullptr;
+        std::string marker_kind;
+        int marker_price = 0;
+        if (scene_.id == "r_statue_visual") {
+            std::vector<const soulknight::game::items::SpecialObjectDefinition*> statues;
+            for (const auto& object : item_assets_.SpecialObjects()) {
+                if (object.role == "statue") statues.push_back(&object);
+            }
+            if (!statues.empty()) {
+                chosen = statues[seed % statues.size()];
+                marker_kind = "statue";
+                marker_price = chosen->price;
+            }
+        } else if (scene_.id == "r_mineral_visual") {
+            const bool gold = (seed & 1u) == 0;
+            chosen = item_assets_.FindSpecialObject(
+                gold ? "mineral_gold" : "mineral_crystal");
+            marker_kind = "mineral";
+        } else if (scene_.id == "r_mercenary_visual") {
+            if (active_mercenary_id_.empty()) {
+                std::vector<const soulknight::game::items::SpecialObjectDefinition*> pool;
+                for (const auto& object : item_assets_.SpecialObjects()) {
+                    if (object.role == "mercenary" &&
+                        object.id != "npc_trainer" &&
+                        object.id != "npc_07_mad" &&
+                        object.id != "npc_07") {
+                        pool.push_back(&object);
+                    }
+                }
+                if (!pool.empty()) chosen = pool[seed % pool.size()];
+                marker_kind = "mercenary";
+            } else if (mercenary_level_ < 5) {
+                chosen = item_assets_.FindSpecialObject("npc_trainer");
+                marker_kind = "mercenary_trainer";
+            } else {
+                chosen = item_assets_.FindSpecialObject("mineral_gold");
+                marker_kind = "mineral";
+            }
+            if (chosen != nullptr && marker_kind == "mercenary") {
+                marker_price = chosen->price;
+            } else if (marker_kind == "mercenary_trainer") {
+                marker_price = 10 * (1 << (mercenary_level_ - 1));
+            }
+        } else if (scene_.id == "r_mount_visual") {
+            const bool creature = (seed % 10u) < 8u;
+            chosen = item_assets_.FindSpecialObject(
+                creature ? "npc_mount_creature" : "npc_mount_mech");
+            marker_kind = "mount";
+            marker_price = chosen != nullptr ? chosen->price : 0;
+        }
+        if (chosen != nullptr) {
+            SpecialObjectInstance object;
+            object.id = chosen->id;
+            object.role = chosen->role;
+            object.sprite = chosen->sprite;
+            object.drop_item = chosen->drop_item;
+            object.position = scene_.spawn + engine::Vec2{0.0f, 2.8f};
+            object.price = marker_price > 0 ? marker_price : chosen->price;
+            object.hp = chosen->hp;
+            object.max_hp = chosen->hp;
+            object.damage = chosen->damage;
+            object.statue_index = chosen->statue_index;
+            object.mineral_count = chosen->mineral_count;
+            object.used = marker_kind == "statue" &&
+                active_statue_id_ == object.id;
+            special_objects_.push_back(object);
+            if (!object.used) {
+                engine::assets::InteractionMarker marker;
+                marker.id = "special_" + object.id;
+                marker.kind = marker_kind;
+                marker.label = marker_kind == "mineral"
+                    ? "MINERAL"
+                    : object.id + (object.price > 0
+                        ? "  -" + std::to_string(object.price) : "");
+                marker.position = object.position;
+                marker.radius = 2.4f;
+                marker.price = object.price;
+                marker.item_id = object.id;
+                scene_.interaction_markers.push_back(std::move(marker));
+            }
+            LOG_INFO_APP("Special room: {} ({}) at ({:.2f},{:.2f})",
+                         object.id, marker_kind, object.position.x,
+                         object.position.y);
+        }
+    }
+    if (!active_mercenary_id_.empty() && !mercenary_spawned_ &&
+        item_assets_.IsLoaded()) {
+        const auto* definition =
+            item_assets_.FindSpecialObject(active_mercenary_id_);
+        const int sprite = definition != nullptr
+            ? scene_.FindSpriteIndex(definition->sprite) : -1;
+        if (sprite >= 0) {
+            engine::assets::WeaponSpecial special;
+            special.sprite_index = sprite;
+            special.duration = 100000.0f;
+            special.damage = std::max(1, definition->damage);
+            special.speed = 6.0f;
+            special.range = 2.0f;
+            special.interval = 1.0f;
+            (void)summons_.Spawn(special, player_.Position(), 1, false);
+            mercenary_spawned_ = true;
+        }
+    }
+
     current_chest_definition_ = "chest01";
     const bool chest_room = scene_.id == "r_chest_visual";
     if (chest_room) {
@@ -3052,6 +3332,175 @@ void Application::TryInteract() {
         } else {
             LOG_INFO_APP("Living Room: garden station (walk closer to a plot)");
         }
+    } else if (marker->kind == "statue") {
+        const auto object = std::find_if(
+            special_objects_.begin(), special_objects_.end(),
+            [&](const SpecialObjectInstance& candidate) {
+                return candidate.id == marker->item_id;
+            });
+        if (object == special_objects_.end() || object->used) {
+            ShowDialogue("", "STATUE ALREADY USED", 1.5f);
+            return;
+        }
+        const double now = NowSeconds();
+        if (statue_confirm_id_ != object->id ||
+            statue_confirm_seconds_ < 0.0 ||
+            now - statue_confirm_seconds_ > 4.0) {
+            statue_confirm_id_ = object->id;
+            statue_confirm_seconds_ = now;
+            ShowDialogue("STATUE", "USE FOR " +
+                         std::to_string(object->price) +
+                         " COINS? PRESS E AGAIN", 2.0f);
+            PlayEffect("ui_click", 0.4f);
+            return;
+        }
+        if (player_coins_ < object->price) {
+            ShowDialogue("", "NOT ENOUGH COINS", 1.5f);
+            return;
+        }
+        player_coins_ -= object->price;
+        active_statue_id_ = object->id;
+        object->used = true;
+        statue_confirm_id_.clear();
+        statue_confirm_seconds_ = -1.0;
+        PlayEffect("weapon_fx_buy", 0.65f);
+        ShowDialogue("STATUE", "BLESSING RECEIVED", 2.0f);
+        LOG_INFO_APP("Statue: purchased {} (index {}) for {}", object->id,
+                     object->statue_index, object->price);
+    } else if (marker->kind == "mineral") {
+        const auto object = std::find_if(
+            special_objects_.begin(), special_objects_.end(),
+            [&](const SpecialObjectInstance& candidate) {
+                return candidate.id == marker->item_id;
+            });
+        if (object == special_objects_.end() || !object->active) return;
+        object->hp = std::max(0, object->hp - 10);
+        PlayEffect("enemy_hit", 0.35f);
+        if (object->hp > 0) {
+            ShowDialogue("MINERAL", std::to_string(object->hp) + " HP", 1.0f);
+            return;
+        }
+        object->active = false;
+        const int count = std::max(1, object->mineral_count);
+        if (object->drop_item == "coin_2") {
+            item_world_.SpawnCoins("coin_2", count, object->position);
+        } else {
+            for (int i = 0; i < count; ++i) {
+                boxes_.SpawnEnergyAt(object->position +
+                    engine::Vec2{static_cast<float>(i % 5) * 0.12f - 0.3f,
+                                 0.3f + static_cast<float>(i / 5) * 0.12f});
+            }
+        }
+        PlayEffect("pickup", 0.6f);
+        ShowDialogue("MINERAL", "MINED", 1.5f);
+        LOG_INFO_APP("Mineral: {} destroyed, {} drops", object->id, count);
+    } else if (marker->kind == "mercenary" ||
+               marker->kind == "mercenary_trainer") {
+        if (marker->kind == "mercenary_trainer") {
+            const int price = 10 * (1 << std::max(0, mercenary_level_ - 1));
+            if (player_coins_ < price) {
+                ShowDialogue("", "NOT ENOUGH COINS", 1.5f);
+                return;
+            }
+            player_coins_ -= price;
+            ++mercenary_level_;
+            PlayEffect("weapon_fx_buy", 0.6f);
+            ShowDialogue("TRAINER", "MERCENARY LEVEL " +
+                         std::to_string(mercenary_level_), 2.0f);
+            LOG_INFO_APP("Mercenary trained to level {} for {}",
+                         mercenary_level_, price);
+            return;
+        }
+        const auto object = std::find_if(
+            special_objects_.begin(), special_objects_.end(),
+            [&](const SpecialObjectInstance& candidate) {
+                return candidate.id == marker->item_id;
+            });
+        if (object == special_objects_.end() || object->used) return;
+        if (player_coins_ < object->price) {
+            ShowDialogue("", "NOT ENOUGH COINS", 1.5f);
+            return;
+        }
+        player_coins_ -= object->price;
+        active_mercenary_id_ = object->id;
+        mercenary_level_ = 1;
+        mercenary_spawned_ = false;
+        object->used = true;
+        PlayEffect("weapon_fx_buy", 0.6f);
+        ShowDialogue("MERCENARY", "RECRUITED", 2.0f);
+        LOG_INFO_APP("Mercenary: recruited {} for {}", object->id,
+                     object->price);
+    } else if (marker->kind == "mount") {
+        const auto object = std::find_if(
+            special_objects_.begin(), special_objects_.end(),
+            [&](const SpecialObjectInstance& candidate) {
+                return candidate.id == marker->item_id;
+            });
+        if (object == special_objects_.end()) return;
+        if (active_mount_id_ == object->id) {
+            active_mount_id_.clear();
+            mount_speed_bonus_ = 0.0f;
+            ShowDialogue("MOUNT", "DISMOUNTED", 1.5f);
+            PlayEffect("ui_click", 0.4f);
+            LOG_INFO_APP("Mount: dismounted {}", object->id);
+            return;
+        }
+        if (!active_mount_id_.empty()) {
+            ShowDialogue("", "ALREADY MOUNTED", 1.5f);
+            return;
+        }
+        if (player_coins_ < object->price) {
+            ShowDialogue("", "NOT ENOUGH COINS", 1.5f);
+            return;
+        }
+        player_coins_ -= object->price;
+        active_mount_id_ = object->id;
+        mount_speed_bonus_ = 0.35f;
+        PlayEffect("weapon_fx_buy", 0.6f);
+        ShowDialogue("MOUNT", "MOUNTED", 2.0f);
+        LOG_INFO_APP("Mount: purchased {} for {}", object->id,
+                     object->price);
+    } else if (marker->kind == "seller") {
+        const std::size_t index = marker->seller_index >= 0
+            ? static_cast<std::size_t>(marker->seller_index) : 0;
+        const auto* offer = seller_.FindByIndex(index);
+        if (offer == nullptr || offer->sold) {
+            ShowDialogue("", "SOLD OUT", 1.2f);
+            return;
+        }
+        const std::string purchased = offer->display_name;
+        const std::string purchased_weapon = offer->weapon_id;
+        const engine::Vec2 purchased_position = offer->position;
+        const soulknight::game::items::SellerPurchase result = seller_.Purchase(
+            index, player_coins_, player_health_.hp, player_health_.max_hp,
+            player_energy_.energy, player_energy_.max_energy);
+        if (result == soulknight::game::items::SellerPurchase::NoMoney) {
+            ShowDialogue("", "NOT ENOUGH COINS", 1.5f);
+            PlayEffect("ui_click", 0.4f);
+            LOG_INFO_APP("Seller: insufficient coins for {} ({})",
+                         purchased, marker->price);
+            return;
+        }
+        if (result != soulknight::game::items::SellerPurchase::Success) return;
+        sold_shop_items_.insert(marker->item_id);
+        PlayEffect("weapon_fx_buy", 0.65f);
+        if (!purchased_weapon.empty()) {
+            std::size_t weapon_index = weapons_.Count();
+            for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+                if (weapons_.Definitions()[i].id == purchased_weapon) {
+                    weapon_index = i;
+                    break;
+                }
+            }
+            if (weapon_index < weapons_.Count()) {
+                SpawnWeaponPickupAt(
+                    weapon_index, purchased_position + engine::Vec2{0.0f, 0.9f});
+            }
+        }
+        ShowDialogue("SELLER", "BOUGHT " + purchased + "  -" +
+                     std::to_string(marker->price), 2.0f);
+        LOG_INFO_APP("Seller: bought {} for {} coins", purchased,
+                     marker->price);
     } else if (marker->kind == "trader") {
         game_ui_.OpenTrader();
         LOG_INFO_APP("Trader: opened orb weapon inventory");
@@ -3143,7 +3592,14 @@ void Application::ConfigureSecondaryWeapon() {
     if (scene_.player_stats.max_hp > 0) {
         definition.owner_deviation = scene_.player_stats.deviation;
     }
-    if (!secondary_weapon_.Configure(definition)) secondary_weapon_.Clear();
+    if (!secondary_weapon_.Configure(definition)) {
+        secondary_weapon_.Clear();
+    } else {
+        const std::size_t state_slot = weapon_inventory_.SlotOccupied(other)
+            ? other : active;
+        secondary_weapon_.SetPotEmpty(
+            pot_empty_state_[std::min<std::size_t>(state_slot, 1)]);
+    }
 }
 
 void Application::ConfigureTraderOffers() {
@@ -3352,6 +3808,8 @@ void Application::ConfigureActiveWeapon() {
         LOG_ERROR_APP("Weapon configuration failed: {}", weapon_definition.id);
         return;
     }
+    weapon_.SetPotEmpty(pot_empty_state_[
+        std::min<std::size_t>(weapon_inventory_.ActiveSlot(), 1)]);
     LOG_INFO_APP("Weapon active: [{}] {} projectile={} speed={:.1f} "
                  "damage={} deviation={} consume={} cycle={:.6f}s",
                  weapons_.ActiveIndex() + 1, weapon_definition.id,
@@ -3407,6 +3865,7 @@ void Application::ResetCombat() {
     boxes_.Reset();
     boxes_.Configure(scene_, obstacles_);
     summons_.Clear();
+    mercenary_spawned_ = false;
     black_holes_.clear();
     weapon_inventory_.Configure(weapons_.Count());
     ConfigureActiveWeapon();
@@ -3786,7 +4245,8 @@ void Application::FixedUpdate(double dt) {
     UpdateAutoAim();
     if (!player_dead_) {
         player_.SetSpeedRateBonus(
-            attack_held_ ? weapon_.Definition().atk_move_speed : 0.0f);
+            (attack_held_ ? weapon_.Definition().atk_move_speed : 0.0f) +
+            mount_speed_bonus_);
         player_.FixedUpdate(movement_input_.direction, movement_input_.weight,
                             static_cast<float>(dt), collision_world_);
         // Body orientation follows movement while moving; aim only chooses the
@@ -3804,7 +4264,23 @@ void Application::FixedUpdate(double dt) {
              weapon_.TakeFireEvents()) {
             const engine::assets::WeaponSpecial& special =
                 weapon_.Definition().special;
-            if (event.kind == "charge_start") {
+            if (event.kind == "pot_drink") {
+                const auto restored = soulknight::game::items::ApplyRestore(
+                    special.hp, special.energy, player_health_.hp,
+                    player_health_.max_hp, player_energy_.energy,
+                    player_energy_.max_energy);
+                if (!special.audio_clip.empty()) {
+                    PlayEffect("weapon_" + special.audio_clip, 0.55f);
+                }
+                ShowDialogue("POTION", "+" +
+                             std::to_string(restored.health_gained) + " HP  +" +
+                             std::to_string(restored.energy_gained) + " ENERGY",
+                             1.8f);
+                pot_empty_state_[std::min<std::size_t>(
+                    weapon_inventory_.ActiveSlot(), 1)] = true;
+                LOG_INFO_APP("GunPot: healed {} hp, {} energy; empty",
+                             restored.health_gained, restored.energy_gained);
+            } else if (event.kind == "charge_start") {
                 if (!special.audio_clip.empty()) {
                     PlayEffect("weapon_" + special.audio_clip, 0.45f);
                 }
@@ -4047,7 +4523,7 @@ void Application::FixedUpdate(double dt) {
         }
     }
     bool box_destroyed = false;
-    if (!boxes_.Boxes().empty()) {
+    if (!boxes_.Boxes().empty() || !boxes_.Bubbles().empty()) {
         (void)boxes_.ApplyProjectiles(projectiles_, player_health_.camp);
         if (!player_dead_ && attack_held_ && weapon_.IsConfigured() &&
             weapon_.IsAttacking()) {
@@ -4474,6 +4950,7 @@ bool Application::LoadWorldRooms() {
     add_room("r_mineral", &world_templates_.specials, 10);
     add_room("r_mercenary", &world_templates_.specials, 10);
     add_room("r_mount", &world_templates_.specials, 4);
+    add_room("r_sell", &world_templates_.specials, 10);
     multi_room_world_ = false;
     const auto known_scene = [&](const std::string& path) {
         if (path == world_hub_path_) return true;
@@ -4685,6 +5162,9 @@ void Application::SealUnconnectedDoors() {
 
 void Application::UpdateRoomClear() {
     if (!room_clear_pending_ || scene_.is_hub) return;
+    // Start/end/chest/special rooms are not combat rooms; the reference does
+    // not show the normal-room clear banner or spawn a silver chest there.
+    if (scene_.room.type != 1) return;
     if (enemies_.AliveCount() != 0) return;
     room_clear_pending_ = false;
     cleared_rooms_.insert(scene_.id);

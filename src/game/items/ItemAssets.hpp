@@ -74,6 +74,28 @@ struct EnergyPickupDefinition {
     float range = 6.0f;
 };
 
+struct ShopItemDefinition {
+    std::string id;
+    std::string item_name;
+    std::string kind;
+    std::string sprite;
+    int price = 0;
+    int health = 0;
+    int energy = 0;
+};
+
+struct SpecialObjectDefinition {
+    std::string id;
+    std::string role;
+    std::string sprite;
+    int price = 0;
+    int hp = 0;
+    int damage = 0;
+    int statue_index = 0;
+    int mineral_count = 0;
+    std::string drop_item;
+};
+
 struct PortalDefinition {
     std::string id;
     std::vector<std::string> frames;
@@ -101,6 +123,15 @@ public:
         return materials_;
     }
     const MaterialDefinition* FindMaterial(const std::string& id) const;
+    const std::vector<ShopItemDefinition>& ShopItems() const {
+        return shop_items_;
+    }
+    const ShopItemDefinition* FindShopItem(const std::string& id) const;
+    const std::vector<SpecialObjectDefinition>& SpecialObjects() const {
+        return special_objects_;
+    }
+    const SpecialObjectDefinition* FindSpecialObject(
+        const std::string& id) const;
     const EnergyPickupDefinition* EnergyPickup() const {
         return energy_loaded_ ? &energy_ : nullptr;
     }
@@ -119,6 +150,8 @@ private:
     std::vector<CoinDefinition> coins_;
     std::vector<PortalDefinition> portals_;
     std::vector<MaterialDefinition> materials_;
+    std::vector<ShopItemDefinition> shop_items_;
+    std::vector<SpecialObjectDefinition> special_objects_;
     EnergyPickupDefinition energy_;
     bool energy_loaded_ = false;
     std::vector<WeaponDropLevel> weapon_drops_;

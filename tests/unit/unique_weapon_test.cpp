@@ -3,6 +3,7 @@
 
 #include "engine/assets/SceneAsset.hpp"
 #include "game/combat/Weapon.hpp"
+#include "game/items/Consumable.hpp"
 #include "game/enemy/EnemySystem.hpp"
 #include "game/summon/SummonSystem.hpp"
 
@@ -270,6 +271,70 @@ TEST_CASE("Gun011 keeps normal event shots and fires the free end shot" *
     CHECK(weapon.Update(0.02f, false, Vec2{}, Vec2{1.0f, 0.0f},
                         projectiles) == 1);
     CHECK(projectiles.Projectiles().size() == 2);
+}
+
+TEST_CASE("GunPot drinks once, restores resources and becomes empty" *
+          doctest::test_suite("unit")) {
+    WeaponDefinition definition = ProjectileWeapon();
+    definition.special.kind = "pot";
+    definition.special.hp = 2;
+    definition.special.energy = 40;
+    definition.special.audio_clip = "fx_healthpot";
+    Weapon weapon;
+    CHECK(weapon.Configure(definition));
+    ProjectileSystem projectiles;
+    for (int tick = 0; tick < 37; ++tick) { // 0.74 s
+        CHECK(weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                            projectiles) == 0);
+    }
+    CHECK_FALSE(weapon.PotEmpty());
+    CHECK(weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                        projectiles) == 0);
+    CHECK(weapon.PotEmpty());
+    CHECK(projectiles.Projectiles().empty());
+    const auto events = weapon.TakeFireEvents();
+    bool drank = false;
+    for (const auto& event : events) {
+        if (event.kind == "pot_drink") drank = true;
+    }
+    CHECK(drank);
+
+    // Once empty, the recovered base projectile path is available.
+    int fired = 0;
+    for (int tick = 0; tick < 10; ++tick) {
+        fired += weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                               projectiles);
+    }
+    CHECK(fired >= 1);
+    CHECK_FALSE(projectiles.Projectiles().empty());
+}
+
+TEST_CASE("Consumable restoration clamps at full and mixes resources" *
+          doctest::test_suite("unit")) {
+    int hp = 6;
+    int energy = 160;
+    auto result = soulknight::game::items::ApplyRestore(
+        2, 40, hp, 6, energy, 160);
+    CHECK(result.health_gained == 0);
+    CHECK(result.energy_gained == 0);
+    CHECK(hp == 6);
+    CHECK(energy == 160);
+
+    hp = 1;
+    energy = 0;
+    result = soulknight::game::items::ApplyRestore(2, 40, hp, 6, energy, 160);
+    CHECK(hp == 3);
+    CHECK(energy == 40);
+    CHECK(result.health_gained == 2);
+    CHECK(result.energy_gained == 40);
+
+    hp = 5;
+    energy = 150;
+    result = soulknight::game::items::ApplyRestore(2, 40, hp, 6, energy, 160);
+    CHECK(hp == 6);
+    CHECK(energy == 160);
+    CHECK(result.health_gained == 1);
+    CHECK(result.energy_gained == 10);
 }
 
 TEST_CASE("BuffDeadNote kills the marked enemy after the recovered delay" *

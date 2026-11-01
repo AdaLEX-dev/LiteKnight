@@ -1839,6 +1839,9 @@ class SceneBuilder:
                         "value": float(getattr(gun, "angle", 0.0) or 0.0),
                         "variants": variants,
                     }
+                reload_go = deref(getattr(gun, "reload_obj", None))
+                reload_sprite = (first_sprite_id(reload_go)[0]
+                                 if reload_go is not None else None)
                 if gun_class == "Gun020":
                     special_kind = "charge_gun020"
                     special = {
@@ -1849,6 +1852,7 @@ class SceneBuilder:
                         "force": int(getattr(gun, "force", 0) or 0),
                         "reflect_count": int(getattr(gun, "reflectCount", 0) or 0),
                         "audio_clip": clip_name(getattr(gun, "clip_hold", None)),
+                        "sprite": reload_sprite,
                         "audio_clip2": clip_name(getattr(gun, "clip_shoot_max", None)),
                         "variants": variants[1:] if len(variants) > 1 else [],
                     }
@@ -1866,6 +1870,7 @@ class SceneBuilder:
                         "inactive_time": float(getattr(
                             gun, "inactiveTime", 0.1) or 0.1),
                         "audio_clip": clip_name(getattr(gun, "clip_hold", None)),
+                        "sprite": reload_sprite,
                         "audio_clip2": clip_name(getattr(gun, "clip_big", None)),
                         "variants": variants[1:] if len(variants) > 1 else [],
                     }
@@ -1876,8 +1881,8 @@ class SceneBuilder:
                         "duration": float(getattr(gun, "max_time", 2.0) or 2.0),
                         "hold_speed": float(getattr(gun, "holdSpeed", 1.0) or 1.0),
                         "audio_clip": clip_name(getattr(gun, "clip_hold", None)),
-                        "sprite": sprite_id_of(getattr(gun, "s_atk", None)),
-                        "sprite2": sprite_id_of(getattr(gun, "s_ide", None)),
+                        "sprite": reload_sprite,
+                        "sprite2": sprite_id_of(getattr(gun, "s_atk", None)),
                         "variants": variants[1:] if len(variants) > 1 else [],
                     }
                 elif gun_class == "Gun011":
@@ -1887,8 +1892,18 @@ class SceneBuilder:
                         "duration": float(getattr(
                             gun, "shoot_end_time", 2.0) or 2.0),
                         "hold_speed": float(getattr(gun, "holdSpeed", 1.0) or 1.0),
+                        "sprite": reload_sprite,
                         "audio_clip2": clip_name(getattr(gun, "clip_end_shoot", None)),
                         "variants": variants[1:] if len(variants) > 1 else [],
+                    }
+                if gun_class == "GunPot":
+                    special_kind = "pot"
+                    special = {
+                        "kind": special_kind,
+                        "hp": int(getattr(gun, "hp", 0) or 0),
+                        "energy": int(getattr(gun, "energy", 0) or 0),
+                        "audio_clip": clip_name(getattr(gun, "drinkClip", None)),
+                        "sprite": sprite_id_of(getattr(gun, "emptySprite", None)),
                     }
                 if (not special_kind and not is_melee_serialized and
                         bullet_sprite is None and bullet_info is not None):
@@ -2429,6 +2444,14 @@ class SceneBuilder:
                     continue
                 if parts:
                     walls.append({"sprites": parts})
+            obstacles = []
+            for pointer in list(getattr(manager, "obstacle_list", []) or []):
+                try:
+                    parts = prefab_parts(pointer)
+                except Exception:
+                    continue
+                if parts:
+                    obstacles.append({"sprites": parts})
             if not floors or not walls:
                 continue
             themes.append({
@@ -2439,6 +2462,7 @@ class SceneBuilder:
                     manager, "use_new_floor_pattern", False)),
                 "floors": floors,
                 "walls": walls,
+                "obstacles": obstacles,
             })
         return themes
 
@@ -2745,7 +2769,7 @@ class SceneBuilder:
         height = int(room_mb.room_height)
         offset_x = (ROOM_MAP_CELL_SIZE - width) // 2
         offset_y = (ROOM_MAP_CELL_SIZE - height) // 2
-        if width not in (11, 15, 21) or height not in (11, 15, 21):
+        if width not in (11, 13, 15, 19, 21) or height not in (11, 13, 15, 19, 21):
             raise SystemExit(
                 f"unexpected {self.room_id} room size {width}x{height}; "
                 "recovered sizes are 11/15/21")

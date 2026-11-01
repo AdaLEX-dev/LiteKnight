@@ -178,6 +178,8 @@ struct LevelTheme {
     bool use_new_floor_pattern = false;
     std::vector<LevelFloorVariant> floors;
     std::vector<LevelWallVariant> walls;
+    // obstacle_list entries, indexed by RGObjectSkin.obj_index.
+    std::vector<LevelWallVariant> obstacles;
 };
 
 struct WeaponVisualKey {
@@ -420,6 +422,9 @@ struct InteractionMarker {
     std::string dialogue_term;
     std::string character_id;
     std::string pet_id;
+    int seller_index = -1;
+    int price = 0;
+    std::string item_id;
 };
 
 // Recovered EnemyAIStake (room/objects/stake): 40 HP, stake_hit_l 0.375 s,

@@ -24,8 +24,10 @@ bool ObstacleField::Configure(const engine::assets::SceneAsset& scene,
         return false;
     }
     if (scene.obstacle_markers.empty()) {
-        if (error != nullptr) *error = "obstacle variants have no markers";
-        return false;
+        // Special rooms can legitimately have no RGObjectSkin markers while the
+        // shared obstacle_list catalogue is still present.
+        configured_ = true;
+        return true;
     }
 
     // The dev obstacle switcher intentionally exposes only recovered prefabs

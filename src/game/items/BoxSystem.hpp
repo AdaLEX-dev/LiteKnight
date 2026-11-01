@@ -42,6 +42,7 @@ public:
     // GunBox: place the recovered bullet_box prefab at the validated position.
     bool DeployBox(const engine::Vec2& position, int hp, int32_t sprite_index);
     void AddColliders(engine::collision::AabbCollisionWorld& world) const;
+    void SpawnEnergyAt(const engine::Vec2& position);
 
     // Returns the number of boxes hit.
     int ApplyMelee(const engine::Vec2& origin, const engine::Vec2& direction,

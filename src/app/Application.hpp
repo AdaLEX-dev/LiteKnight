@@ -39,8 +39,10 @@
 #include "game/pet/PetSystem.hpp"
 #include "game/summon/SummonSystem.hpp"
 #include "game/player/Ability.hpp"
+#include "game/items/Consumable.hpp"
 #include "game/items/ItemAssets.hpp"
 #include "game/items/ItemWorld.hpp"
+#include "game/items/SellerSystem.hpp"
 #include "game/items/BoxSystem.hpp"
 #include "game/player/Aim.hpp"
 #include "game/player/Energy.hpp"
@@ -231,6 +233,7 @@ private:
     soulknight::game::player::EnergyState player_energy_;
     soulknight::game::items::ItemAssets item_assets_;
     soulknight::game::items::ItemWorld item_world_;
+    soulknight::game::items::SellerSystem seller_;
     soulknight::game::items::BoxSystem boxes_;
     soulknight::game::hub::PlantSystem plant_system_;
     soulknight::game::hub::TrainingStake training_stake_;
@@ -280,7 +283,34 @@ private:
     int animation_logs_remaining_ = 0;
     std::vector<engine::rendering::TextureUpload> texture_uploads_;
     std::vector<soulknight::game::room::SurfaceInstance> level_surfaces_;
+    std::unordered_set<std::string> sold_shop_items_;
+    struct SpecialObjectInstance {
+        std::string id;
+        std::string role;
+        std::string sprite;
+        std::string drop_item;
+        engine::Vec2 position{0.0f, 0.0f};
+        int price = 0;
+        int hp = 0;
+        int max_hp = 0;
+        int damage = 0;
+        int statue_index = 0;
+        int mineral_count = 0;
+        bool active = true;
+        bool used = false;
+    };
+    std::vector<SpecialObjectInstance> special_objects_;
+    std::string active_statue_id_;
+    std::string active_mercenary_id_;
+    std::string active_mount_id_;
+    std::array<bool, 2> pot_empty_state_{false, false};
+    int mercenary_level_ = 1;
+    float mount_speed_bonus_ = 0.0f;
+    bool mercenary_spawned_ = false;
+    std::string statue_confirm_id_;
+    double statue_confirm_seconds_ = -1.0;
     std::string level_surface_key_;
+    const engine::assets::LevelTheme* active_level_theme_ = nullptr;
     bool scene_mode_ = false;
     struct StoredRoom {
         std::string id;

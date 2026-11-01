@@ -53,6 +53,8 @@ public:
                    const std::string& chest_definition = "chest00");
     void SetChestLevel(int level) { chest_level_ = level; }
     void AddChest(const std::string& definition, const engine::Vec2& position);
+    void SpawnCoins(const std::string& definition, int count,
+                    const engine::Vec2& position);
     // RGChest opens on trigger/proximity; the reference normal-room silver
     // chest does not require an E button.
     bool AutoOpenNear(const engine::Vec2& player_position, float radius);

@@ -44,6 +44,22 @@ void ItemWorld::AddChest(const std::string& definition,
     room.chests.push_back(std::move(chest));
 }
 
+void ItemWorld::SpawnCoins(const std::string& definition, int count,
+                           const engine::Vec2& position) {
+    if (definition.empty() || count <= 0) return;
+    RoomState& room = Current(room_id_);
+    for (int i = 0; i < count; ++i) {
+        CoinInstance spawned;
+        spawned.definition = definition;
+        const float angle = static_cast<float>(i) * 2.399963f;
+        spawned.position = position + engine::Vec2{
+            std::cos(angle) * 0.22f, 0.34f + std::sin(angle) * 0.12f};
+        spawned.velocity = {std::cos(angle) * 1.8f,
+                            std::sin(angle) * 1.8f + 2.0f};
+        room.coins.push_back(std::move(spawned));
+    }
+}
+
 bool ItemWorld::AutoOpenNear(const engine::Vec2& player_position, float radius) {
     RoomState& room = Current(room_id_);
     bool opened = false;

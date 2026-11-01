@@ -11,7 +11,7 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 | 85 unique/catalogue-only | **IMPLEMENTED (18/24) / UNRECOVERABLE (6)** | 18 recovered unique subclasses are integrated (summons, channel, buffs, burst, deployable, death mark, revive, funnel, camera). `weapon_232/262/263/269/271/272` are localization-only in 2.6.8: no prefab or WeaponInfo row. 296 catalogue weapons + all 24 init/skin prefabs are runtime definitions. See `UNIQUE_WEAPON_RECOVERY.md`. |
 | Weapon Animator recoil | **IMPLEMENTED** | Streamed `w` position/rotation curves parsed from `w_pistol`, `w_rifle`, `w_m4`, `w_smg`, `w_gatlin`, `w_sword`, `w_axe`, `w_spear`, `w_staff`, `w_laser`. `WeaponRenderer` samples the recovered curve at the Attack event time. |
 | Weapon muzzle | **IMPLEMENTED** | `w/gun_point` SpriteRenderer and `m_Enabled` curve extracted per weapon; flash is drawn at the recovered local offset only during its curve window. |
-| Weapon Animator reload/charge | **IMPLEMENTED (charge input) / PARTIAL (reload visual)** | Gun020/Gun007/Gun005 charge accumulation, zero-charge release, per-class projectile formulas, energy spend and 0.1 s lockout are implemented. Gun011 keeps normal event shots and fires the free end shot. `reload_clip` timing/`FlnishReload` is recovered but the progress visual is not rendered. See `CHARGE_RELOAD_RECOVERY.md`. |
+| Weapon Animator reload/charge | **IMPLEMENTED** | Charge accumulation, per-class formulas, energy spend, 0.1 s lockout, Gun011 end shot and the five-segment `reload_clip` progress visual are implemented. GunPot drink/empty state and persistence are wired. See `CHARGE_RELOAD_RECOVERY.md`. |
 | Per-weapon audio | **IMPLEMENTED** | `RGWeapon.audio_clip` exported for every weapon prefab; 70 unique clips exported under both logical and per-weapon ids (140 files). Runtime uses `weapon_<clip>`, falling back only when null (13 null-clip weapons). |
 | Baseline loadouts | **IMPLEMENTED** | `RGController.GetInitWeaponName` fully decoded; level `<7` returns the base prefab, Knight `weapon_000`, others `weapon_init_<lower enum>`. `character_loadouts.json` covers c00..c14; scenes carry `starting_weapon`; switching character equips it. |
 | Dual wield | **IMPLEMENTED** | `C01Controller.hand2/hand3`; two real Weapon entities, two hand mounts, both fire/melee, 5 s/10 s recovered values. |
@@ -22,7 +22,7 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 | Backlog | Status | Evidence / remaining layer |
 |---|---|---|
 | Chest families | **IMPLEMENTED for 9 recovered prefabs** | `chest00/01/02`, `chest03` (`RGChestMaterial`), `chest_big` (count 2), `chest_boss`, `chest_room_reward` (award_count 2, has_coin), `chest_single_big`, `chest_gold_single_big`. |
-| Boss/big/material/seller loot | **IMPLEMENTED chests / REFERENCE-RECOVERED seller** | `RGChestBig` count and 50% level reduction, `RGChest` final-level formula and 14 `RGChestBoss` fixed `object_list` mappings are implemented with the 25% boss path. Seller stock/price formulas are recovered but `r_sell` is not in the generated scene set; see `BOSS_CHEST_AND_SELLER.md`. |
+| Boss/big/material/seller loot | **IMPLEMENTED** | `RGChestBig` count/level reduction, `RGChest` final-level formula and 14 `RGChestBoss` fixed mappings are implemented. `r_sell` is built from its real 19x13 prefab and wired with recovered potion/weapon stock, prices, purchase, sold state and save/load; positions are native reconstruction. See `BOSS_CHEST_AND_SELLER.md`. |
 | Chest-room generation | **IMPLEMENTED** | `r_chest` (type 3) spawns `chest_room_reward`; normal rooms spawn `chest01` after clear; boss chest assets exist but no boss room scene is integrated yet. |
 | Chest-contained weapon visual | **IMPLEMENTED** | Loot is created only after the 1.0 s open window; no weapon renders above a closed chest. |
 | Per-room chest/coin persistence | **IMPLEMENTED** | Save v5 stores every room's chests (definition, position, state, timer, pending weapon list) and coins, plus cleared/chest-spawned room sets. |
@@ -33,7 +33,7 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 |---|---|---|
 | MapManagerLevel generation | **IMPLEMENTED** | 5×5 relation grid, `map_long`, main-path walk with backtracking, 70/40/10% branch thresholds, relation values, entrance rule, slot types 0/1/2/3/4, weighted special selection, unique normal templates. 1000 seeds checked for determinism/connectivity/uniqueness. |
 | 108 PatternRooms | **IMPLEMENTED** | All 108 `room/r1_N` bundles built by `build_pattern_rooms.py`; runtime auto-discovers every `r1_*_visual` scene. Sizes 15×15, 15×21, 21×15 and 21×21 are preserved by the builder. `LITEKNIGHT_ALL_ROOMS=1 ./scripts/prepare-assets.sh` regenerates the full set. |
-| Special rooms | **SCENES IMPLEMENTED / INTERACTIONS BLOCKED** | All eight room prefabs are built and selected. Statue/mineral/mercenary/mount interaction call chains and exact prices/stock are now recovered, but the random `enemy_group` objects and markers are not extracted into the native scenes; see `SPECIAL_ROOM_INTERACTIONS.md` for the exact pipeline blocker. |
+| Special rooms | **IMPLEMENTED (native reconstruction)** | Statue two-press purchase, mineral 40 HP/10 drops, mercenary hire/trainer and mount purchase/dismount are wired using recovered fields and deterministic reconstructed placement. Water/bar remain recovered-only. See `SPECIAL_ROOM_INTERACTIONS.md`. |
 | Biome system | **IMPLEMENTED** | 16 campaign levels loaded with map_long/chest_level/enemy weights. Default branch A/G1 floor/wall themes are extracted from the actual MapManagerLevel assets and applied to every PatternRoom at runtime with the recovered CreateFloor/CreateWall algorithm. Geometry/collision stay from the PatternRoom. Obstacle-prefab theme switching remains a documented limitation. See `LEVEL_VISUALS.md`. |
 | Enemy runtime | **IMPLEMENTED core / PARTIAL presentation** | 101 definitions with biome-weighted spawning, chase/contact, ranged projectiles, AI20 fan, AI11/14 and AI03/18/19 timed bursts, AI09/Frog/Witch dashes, AI13/Frog death blasts and stationary controllers. AI07 attack selection, AI12 fireball arc, AI16 invulnerability window and AI08 loot UI remain data/presentation gaps. See `ENEMY_CONTROLLER_RECOVERY.md`. |
 | Dungeon progression | **IMPLEMENTED base** | Start room → normal rooms → transfer-gate end room → next recovered level (map_long and level label update, new deterministic plan, dynamic texture upload). Final 3-6 reports CAMPAIGN COMPLETE. Boss rooms are not present among the recovered PatternRoom bundles. |
@@ -52,7 +52,7 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 | Boxes | **IMPLEMENTED** | RGBox obstacle variants `box01..box07` with serialized hp=4, per-marker ownership, melee/projectile damage, destruction, collision removal and hit flash. Placement comes from recovered obstacle markers, so boxes never intersect wall cells. |
 | Energy bubbles | **IMPLEMENTED** | RGEnergy value 8 / speed 14 / range 6 / `energy` sprite; bubble attraction/absorption, energy gain and pickup audio. Normal box drop path instantiates the recovered energy register pickup (PrefabManager slot 8; medium-confidence prefab identity). |
 | Orb system | **IMPLEMENTED** | `ui_52`, Living Room-only HUD, save field, orb trader; developer `O = +100` now requires `--devroom`/`--review`. |
-| Dungeon trader | **REFERENCE-RECOVERED / NOT WIRED** | Living Room orb trader is native. Dungeon `r_sell` uses `RGContainer`/`ItemSellPlaceAttrbute` with exact recovered potion/weapon stock and prices; no `r_sell_visual` scene or interaction marker exists. See `BOSS_CHEST_AND_SELLER.md`. |
+| Dungeon trader | **IMPLEMENTED** | Living Room orb trader is native. Dungeon `r_sell` uses recovered `sell2-1` stock/prices and a native reconstructed container presentation; purchases deduct coins, apply potions, spawn weapons and persist sold ids. See `BOSS_CHEST_AND_SELLER.md`. |
 | Room persistence | **IMPLEMENTED** | Enemies, cleared/chest-spawned sets, chest/coin state, materials, pet and player state persist in save v5. |
 | Hub collision | **IMPLEMENTED** | Wall tile cells + non-trigger Box/Circle colliders from level2; removed cellar/staircase, signs, Drilmaster, promotion NPCs, lower portals, event decorations and `!` markers. |
 | Audio completeness | **IMPLEMENTED core** | 70 unique recovered clips exported under 140 logical ids: UI, pickup, chest, door, transition, player/enemy hit, two BGM tracks, and every `RGWeapon.audio_clip` used by a prefab. Weapon/subclass extra clips (bow draw, charge, throw) are wired for the implemented charge/end-shot events; eat/empty-pot specials remain catalogued only. |
@@ -64,8 +64,8 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 
 ## Texture gallery
 
-The separate `liteknight-texture-gallery` executable enumerates 4347 prepared
-visual entries (93 textures, 1802 sprites, 2452 prefabs) with 0 broken assets.
+The separate `liteknight-texture-gallery` executable enumerates 4481 prepared
+visual entries (96 textures, 1921 sprites, 2464 prefabs) with 0 broken assets.
 `--validate-all` runs headlessly; see `REFERENCE_TEXTURE_GALLERY.md`.
 
 ## Gameplay-loop validation
