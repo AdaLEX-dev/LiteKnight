@@ -11,6 +11,8 @@ Only normal battle rooms are present in the current native graph.
 ```text
 PatternRooms discovered: 108
 Rooms integrated:          3  (r1_1, r1_2, r1_3)
+Room sizes:  15x15 (49), 15x21 (23), 21x15 (22), 21x21 (14)
+RGRoomX room_type: 1 for all 108  (battle/normal integer; enum-name mapping HYPOTHESIS)
 ```
 
 Each integrated room was re-extracted with its own floor/wall/door/obstacle
@@ -60,6 +62,12 @@ They are not claimed to be the canonical MapManagerLevel progression.
 The integrated r1 rooms are all normal battle, so they correctly show plain
 cells. The Living Room hub shows home plus native hub subarea nodes for the
 physically accessible garden/workshop/cellar.
+
+Special start/exit/boss/shop rooms are referenced by `MapManagerLevel`
+`room_start_list`/`room_end_list`, not by the 108 PatternRoom prefabs. The native
+HUD labels dungeon rooms by BFS visitation order from the generated start room, using the
+recovered level-1 prefix: `1-1`, `1-2`, `1-3`. This is documented as a HYPOTHESIS
+for exact MapManagerLevel progression.
 
 ## Remaining work
 

@@ -98,7 +98,7 @@
 | Eight-way movement / facing | `MovementInput`, `PlayerLocomotion`, `FacingDirection` | ✅ normalized 8-way, 9.75 speed, horizontal mirror facing, 50 Hz |
 | Character test switching | `PlayerCharacterSet`, recovered c00..c14 | ✅ 15 recovered prefabs, 30 ide/run clips, keys 1..0 and [ ] |
 | Obstacle variant switching | `ObstacleField`, `obstacle_list` | ✅ 8 solid recovered variants selectable (12 entries in metadata), 49 marker cells, per-variant collision |
-| Combat prototype | `Weapon`, `ProjectileSystem`, `Damage`, `EnemySystem`, `Application` | ✅ four recovered Gun001 weapons -> e_slime01 damage/death; player contact/death/reset; native aim/attack bindings |
+| Combat prototype | `Weapon`, `ProjectileSystem`, `Damage`, `EnemySystem`, `Application` | ✅ 168 recovered projectile weapons -> e_slime01 damage/death; player contact/death/reset; native aim/attack bindings |
 | Developer devroom / UI | `scripts/dev.sh`, `DevOverlay`, `DebugTextRenderer`, selectors | ✅ permanent launcher, overlay, character/weapon/enemy selectors, spawner |
 | Asset inventory / audit | `tools/asset/pipeline.py`, `build_asset_inventory.py`, `audit_assets.py` | ✅ texture/category inventories, metadata validation, redistribution classes |
 | Door animation / collision lifecycle | `Door`, `RoomDoorController`, recovered Animator clips | ✅ open/close clips, four states, animation-synchronized blocking, all four orientations |

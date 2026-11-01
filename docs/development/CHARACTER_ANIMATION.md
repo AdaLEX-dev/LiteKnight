@@ -50,14 +50,16 @@ Muzzle position (`gun_point`) and projectile math are unchanged.
 ## Evidence boundary
 
 `CONFIRMED`: c00 clip set, side-view-only animation, prefab scale/pivot,
-horizontal mirroring, character hand-local concept.
+horizontal mirroring, and the c00 `img/h1 (0,0.5)`, `h2 (0.55,0.6)`,
+`h3 (0.15,0.85)` RGHand mounts. Weapon sprite pivots are near the grip.
 
-`HYPOTHESIS`: exact Knight hand mount object (the explicit serialized hand
-objects recovered so far belong to wolf prefabs), native hand offset and the
-final visual scale.
+`HYPOTHESIS`: per-weapon Animator offsets/recoil and the exact left-aim flip
+convention. The generic weapon is no longer placed with a guessed ±0.2 hand
+offset; depth is sorted against the character feet.
 
 ## Review
 
-`./scripts/test-explore.sh living_room` and `r1_1` are the visual review states.
+`./scripts/play-area.sh living_room` and `./scripts/play-area.sh r1_1` are the
+visual review states.
 Watch for body flip vs movement, weapon grip stability, foreground/weapon
 sorting and projectile muzzle alignment.

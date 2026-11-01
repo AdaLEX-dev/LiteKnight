@@ -45,6 +45,10 @@ uses the icon fill mask.
 `Q` remains zero-energy for the recovered Knight Dual Wield (5 s active, 10 s
 cooldown).
 
+The native ability now instantiates a real second `Weapon`: it consumes energy,
+fires at the recovered cadence, and is rendered at the c00 `h2` off-hand mount.
+It is not just a duplicate sprite.
+
 ## Current limitation
 
 The exact reference `Image.Type`/fill origin (`Horizontal`/`Vertical`/`Radial`)

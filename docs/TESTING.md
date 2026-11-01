@@ -324,7 +324,7 @@ Observed on the real Wayland/Vulkan devroom:
   facing, room, renderer and platform.
 - `F6` shows all 15 recovered character sprites with C00..C14 labels and current
   selection. `D` + `Enter` selected c01 and preserved player/camera/collision.
-- `F7` lists the four recovered weapons with their real sprites and stats. `D` +
+- `F7` lists the 168 recovered standard projectile weapons with their real sprites and stats. `D` +
   `Enter` equipped `weapon_002`; subsequent attack logs use its projectile and
   cadence.
 - `F8` opens the enemy selector. `F9` spawned one `e_slime01`, `F11` spawned

@@ -1,7 +1,8 @@
 # Weapon Catalogue and Runtime Integration
 
-**Status:** full reference catalogue recovered; 15 standard weapons are loaded by
-the native runtime, with the remainder explicitly classified as Tier B/C.
+**Status:** full reference catalogue recovered; 168 standard projectile weapons
+are loaded by the native runtime, with the remainder explicitly classified as
+Tier B/C. See `WEAPON_SYSTEM.md` for the pipeline and rarity finding.
 
 ## Sources
 
@@ -22,39 +23,24 @@ the native runtime, with the remainder explicitly classified as Tier B/C.
 
 ```text
 Catalogue entries discovered:              302
-Weapons with complete standard runtime:     15  (Tier A)
-Weapons with stats pending assets/cadence: 281  (Tier B)
-Weapons requiring unique/non-bullet logic:   6  (Tier C)
+Weapons with complete standard runtime:    168  (Tier A)
+Recovered melee weapons pending hitbox:     49  (Tier B)
+Unique / catalogue-only weapons:            85  (Tier C)
 ```
 
-Tier A is the set bundled into each native room scene: correct localized name,
-actual `consume`, first-bullet damage, projectile id/sprite/speed/lifetime,
-weapon visual, gun point and the first non-idle Attack AnimationEvent cadence.
-Tier B is not silently given generic behaviour; it remains catalogue/UI data
-until its visual, projectile and cadence pack is bundled.
+Tier A is generated automatically from every serializable projectile prefab
+with a valid visual, bullet prefab and Attack event. Each entry carries the
+localized name, actual `consume`, first-bullet damage, projectile
+id/sprite/speed/lifetime, visual, gun point, `multiCount` and Attack cadence.
+Tier B/C are not silently given generic behaviour; they remain catalogue/UI data
+until their actual melee/unique mechanic is reconstructed.
 
-## Integrated weapons (CONFIRMED)
+## Integrated weapons
 
-| ID | Player name | Damage | Energy | Cycle (s) | Projectile |
-|---|---|---:|---:|---:|---|
-| `weapon_000` | Bad Pistol | 3 | 0 | 0.3333 | `bullet_0` |
-| `weapon_001` | P250 Pistol | 3 | 0 | 0.2778 | `bullet_0` |
-| `weapon_002` | AK-47 | 3 | 1 | 0.1667 | `bullet_14` |
-| `weapon_003` | Shotgun | 3 | 3 | 0.8333 | `bullet_14` |
-| `weapon_004` | Shotgun Pro | 3 | 4 | 0.8333 | `bullet_14` |
-| `weapon_007` | Snow Fox L | 2 | 0 | 0.1667 | `bullet_11` |
-| `weapon_010` | Desert Eagle | 4 | 1 | 0.3333 | `bullet_1` |
-| `weapon_015` | Revolver | 8 | 3 | 1.0 | `bullet_14` |
-| `weapon_017` | Assault Rifle | 3 | 1 | 0.1667 | `bullet_0` |
-| `weapon_021` | Blaster | 3 | 1 | 0.1667 | `bullet_15` |
-| `weapon_034` | Glacier | 10 | 4 | 0.8333 | `bullet_2` |
-| `weapon_048` | Next-gen SMG | 3 | 1 | 0.5 | `bullet_11` |
-| `weapon_049` | Next-next-gen SMG | 2 | 2 | 0.5 | `bullet_12` |
-| `weapon_062` | Machete | 6 | 0 | 0.5 | `sword_1_75` |
-| `weapon_287` | Revolver Gold | 4 | 1 | 0.1333 | `bullet_14` |
-
-The native pickup card and weapon station always use the localized name, never
-`weapon_xyz`.
+The generated list is authoritative in
+`analysis/assets/weapon_runtime_integration.md`; it contains all 168 Tier A ids,
+names, damage and energy costs. The first integrated set includes the original
+15 plus automatic extraction of the standard projectile catalogue.
 
 ## Energy / resource rules
 

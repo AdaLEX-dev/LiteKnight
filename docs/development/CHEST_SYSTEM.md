@@ -51,8 +51,16 @@ Evidence: `analysis/assets/chests/chest_catalogue.json/.md`.
 - `TakePendingWeaponDrops()` gives Application a real weapon id; the runtime
   spawns a normal weapon pickup if that weapon is Tier A. If it is not bundled,
   it is logged as catalogue-only rather than silently replaced.
+- Normal-room chests do not appear before room clear. On clear they appear at the
+  room’s deterministic chest position and auto-open when the player enters the
+  trigger radius; no E press is required.
 - Repeated interaction cannot duplicate loot; room transitions preserve opened
   state in memory.
+- Chest01/02/00 are review definitions. The exact silver-vs-wooden room
+  classification remains incomplete; normal rooms currently use the recovered
+  level-indexed chest definition rather than random chest types.
+- The weapon pickup is spawned only after the chest opens; no weapon is rendered
+  above the closed chest.
 - `chest00` is a fixed `RGChestAppoint` variant. The recovered chest00 variants'
   fixed objects include `weapon_021`, `weapon_034`, `weapon_049`, `weapon_062`
   and `restore_pot_max`. The exact room-to-variant association remains UNKNOWN.
@@ -74,6 +82,7 @@ Still UNKNOWN / not claimed:
 
 ## Review harness
 
-`./scripts/test-explore.sh chest` launches r1_1 with chest00/01/02 in a review
-row. `E` opens; the card shows the actual loot name/stats. The 30-second freeze
-and ENTER confirmation remain in force.
+`./scripts/play-area.sh chest` launches r1_1 with chest00/01/02 in a review
+row. Chests auto-open on proximity; the card shows the actual loot name/stats.
+Normal gameplay validates the post-clear chest spawn separately. The launch runs
+until the window is closed.

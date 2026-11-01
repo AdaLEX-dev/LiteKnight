@@ -115,20 +115,26 @@ The test executable starts at the main menu; D-ROOM is the developer entry. `--m
 assignment. Selectors use `A/D` or left/right/up/down, `Enter` to confirm, `Esc`
 to return. Legacy controls remain available when a selector is closed.
 
-## 30-second review areas
+## Developer areas
+
+Direct launches run normally until the window is closed:
 
 ```bash
-./scripts/test-explore.sh living_room
-./scripts/test-explore.sh workshop
-./scripts/test-explore.sh garden
-./scripts/test-explore.sh cellar
-./scripts/test-explore.sh chest
-./scripts/test-explore.sh weapons
-./scripts/test-explore.sh r1_1
+./scripts/play-area.sh main_menu
+./scripts/play-area.sh living_room
+./scripts/play-area.sh workshop
+./scripts/play-area.sh garden
+./scripts/play-area.sh chest
+./scripts/play-area.sh weapons
+./scripts/play-area.sh r1_1
 ```
 
-The review harness freezes the real application after the timer, prints
-`REVIEW REQUIRED`, and waits for ENTER.
+Non-interactive invariants:
+
+```bash
+./scripts/smoke-devroom.sh
+./scripts/smoke-hub.sh
+```
 
 ## Developer overlay
 

@@ -70,8 +70,8 @@ coordinates.
   the recovered font. No social tab.
 - Character station: 15 recovered body sprites and serialized HP/armor/energy
   stats; arrows browse, Enter confirms.
-- Weapon station: 15 Tier A recovered weapons with real icons, damage, cost,
-  cycle and projectile ID, paginated across the 302-entry catalogue.
+- Weapon station: 168 Tier A recovered projectile weapons with real icons,
+  damage, cost, cycle and projectile ID, paginated across the 302-entry catalogue.
 
 ## Rendering notes
 

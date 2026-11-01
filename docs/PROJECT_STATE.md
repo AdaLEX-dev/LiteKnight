@@ -1,23 +1,23 @@
 # LiteKnight — Project State
 
-**Version:** `0.5.3-dev`
-**Last Updated:** 2026-11-01 (0.5.3 content integration: default Living Room,
-physical hub access and return portal, 15-weapon runtime catalogue, chest
-catalogue/loot, room metadata, directional facing and ability charge)
+**Version:** `0.5.4-dev`
+**Last Updated:** 2026-11-01 (0.5.4 reference pass: 168 standard weapons,
+main-menu S/L and direct-area launches, hub cleanup/collision audit, orb trader,
+audio, auto-open chests, map/enemy/room catalogues)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (devroom foundation FUNCTIONAL)**
 **Current status:** the native Wayland/Vulkan devroom is playable and is the
 primary development environment. It includes the recovered `r1_1` room,
-movement/collision/camera, animated doors, obstacles, 15 characters, four
-recovered weapons with real textures, deterministic projectiles, damage, enemy
-death, player death/reset, live enemy pursuit, a 1920x1080 pixel UI with real
+movement/collision/camera, animated doors, obstacles, 15 characters, 168
+recovered standard projectile weapons with real textures, deterministic
+projectiles, damage, enemy death, player death/reset, live enemy pursuit, a 1920x1080 pixel UI with real
 HP/armor/energy HUD, two weapon slots, physical pickups, recovered-font pause/
 settings/main-menu screens, character/weapon stations, a recovered Living Room
 hub, 360° mouse aiming (Auto Aim fresh default), weapon energy costs, Knight
 Dual Wield, a three-room deterministic dungeon graph over actual PatternRooms,
 persistent logical HUD layout editor, compact reference-derived HUD minimap,
 actual chest and world coin pickups, recovered main-menu/HUD/settings/pause
-assets, corrected global text centering and a 30-second manual review harness, native save/load, an asset laboratory, and a serialized
+assets, corrected global text centering and direct developer-area launches, native save/load, an asset laboratory, and a serialized
 interactive test/replay harness. Full EnemyAI04 scouting/pathfinding, reference procedural dungeon
 generation, production forge/plant economy and the full catalogue remain
 incomplete. Gate D remains unmet for a complete game, but the
@@ -264,7 +264,7 @@ Implemented and manually verified on 2026-10-31:
   inventories and metadata audits live in `analysis/assets/` and
   `tools/asset/`; reference-derived pixels remain local-only.
 - **Developer UI PASSED:** `F6` character selector (all c00..c14 with real
-  sprites), `F7` weapon selector (15 recovered Gun001 weapons with real
+  sprites), `F7` weapon selector (168 recovered standard projectile weapons with real
   weapon textures), `F8` enemy selector, `F9`/`F11`/`F12` spawn one/five/clear,
   and `F10` overlay (version/build/FPS/ticks/player/weapon/enemies/projectiles/
   position/facing/room/platform). Selectors preserve player position, collision,

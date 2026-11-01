@@ -66,3 +66,20 @@ and icons.
 Canvas; the native layout places the recovered elements at logical 1920×1080
 corners. Borders, the compact minimap size and the desktop vertical main-menu
 stack are presentation policy, not recovered serialized values.
+
+## 0.5.4 main-menu elements
+
+The same persistent layout document now carries addressable main-menu elements:
+
+```text
+menu_droom
+menu_new_game
+menu_continue
+menu_settings
+menu_quit
+menu_save_load
+```
+
+`DrawMainMenu` and `HandlePointerClick` both read these rects, so dragging a menu
+button in UI Design Mode moves its click target too. Older v2 layout files only
+update the elements they contain; new menu elements keep their defaults.

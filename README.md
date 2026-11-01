@@ -14,7 +14,7 @@ auto-aim, weapon energy consumption, Knight Dual Wield and native save/load are
 part of the same executable. The asset laboratory and serialized interactive
 test harness remain available.
 
-- **Version:** `0.5.3-dev`
+- **Version:** `0.5.4-dev`
 - **Platform:** Linux, Wayland only, Vulkan 1.3+
 - **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 (local reference only)
 - **Simulation:** 50 Hz fixed step; 60 FPS render target (FIFO VSync,
@@ -44,7 +44,7 @@ ChillyRoom, and not a complete game. See [LEGAL.md](LEGAL.md).
 ```
 
 This configures/builds, runs the deterministic tests, prepares the local scene
-assets, and launches the native devroom. It stops before launch if tests fail.
+assets, and launches the native main menu. It stops before launch if tests fail.
 
 Useful variants:
 
@@ -64,13 +64,13 @@ Useful variants:
 ./scripts/prepare-assets.sh   # full local reference/native preparation
 ./scripts/audit-assets.sh     # metadata + generated-pixel audit
 ./scripts/test-interactive.sh --list
-./scripts/test-explore.sh main_menu      # 30-second manual review, then pause
-./scripts/test-explore.sh fullscreen     # 1920x1080 fullscreen review
-./scripts/test-explore.sh workshop       # hub workshop area
-./scripts/test-explore.sh garden         # planter garden
-./scripts/test-explore.sh cellar         # bottom cellar
-./scripts/test-explore.sh chest          # three recovered chest types
-./scripts/test-explore.sh weapons        # integrated weapon catalogue selector
+./scripts/play-area.sh main_menu         # main menu until normal exit
+./scripts/play-area.sh living_room       # Living Room until normal exit
+./scripts/play-area.sh workshop          # hub workshop area
+./scripts/play-area.sh garden            # planter garden
+./scripts/play-area.sh chest             # three recovered chest types
+./scripts/play-area.sh weapons           # weapon catalogue selector
+./scripts/smoke-hub.sh                   # non-interactive hub invariant smoke
 ```
 
 The built launcher is:
@@ -145,8 +145,9 @@ source-controlled. Generated pixels remain gitignored. See
 - Recovered UI construction: main-menu `biaoti 01/02` backdrop/swirl, actual
   button/panel/ribbon frames, `ui_15` HUD plate and `ui_12` bar fills, actual
   skill lightning (`ui_joy_3`), pickup card (`ui_191`), pause/settings assets
-- Weapon catalogue: 302 entries loaded at runtime, with 15 Tier A weapons
-  fully spawnable/fireable and the remainder explicitly classified
+- Weapon catalogue: 302 entries loaded at runtime, with 168 Tier A projectile
+  weapons fully spawnable/fireable and 49 melee / 85 unique entries explicitly
+  classified
 - Chest catalogue: 13 reference classes / 86 GameObjects audited; chest00/01/02
   integrated with actual visuals, 1.0 s open animation and reference-derived
   weapon loot
@@ -154,7 +155,7 @@ source-controlled. Generated pixels remain gitignored. See
   cellar and the actual transfer_gate_02 return portal
 - Directional body-facing separation, stabilized in-hand weapon rendering and
   blue Knight ability charge fill
-- Manual 30-second visual-review harness (`scripts/test-explore.sh`) for main
+- Direct developer-area launcher (`scripts/play-area.sh`) for main
   menu, settings, pause, Living Room, r1_1/r1_2/r1_3, UI Design Mode and
   fullscreen
 - Main menu defaults for the test executable, LIGHT KNIGHT wordmark and D-ROOM
@@ -284,12 +285,21 @@ Development docs:
 - [Native pixel UI](docs/development/UI.md)
 - [UI reconstruction evidence](docs/development/UI_RECONSTRUCTION.md)
 - [Weapon catalogue](docs/development/WEAPON_CATALOGUE.md)
+- [Weapon system](docs/development/WEAPON_SYSTEM.md)
+- [Weapon attachment](docs/development/WEAPON_ATTACHMENT.md)
 - [Chest system](docs/development/CHEST_SYSTEM.md)
 - [Room types and stage labels](docs/development/ROOM_TYPES.md)
+- [Map generation](docs/development/MAP_GENERATION.md)
+- [Biomes](docs/development/BIOMES.md)
+- [Living Room hub](docs/development/HUB.md)
 - [Character animation](docs/development/CHARACTER_ANIMATION.md)
 - [Knight ability UI](docs/development/ABILITY_UI.md)
+- [Trader and orbs](docs/development/TRADER_SYSTEM.md)
+- [Audio](docs/development/AUDIO_SYSTEM.md)
+- [Enemy catalogue](docs/development/ENEMY_CATALOGUE.md)
+- [Save/load](docs/development/SAVE_LOAD.md)
 - [Compact minimap](docs/development/MAP.md)
-- [30-second review harness](docs/development/REVIEW_TESTS.md)
+- [Living Room topology audit](../analysis/assets/hub_topology.md)
 - [Living Room](docs/development/LIVING_ROOM.md)
 - [Serialized interactive tests](docs/development/INTERACTIVE_TESTS.md)
 - [DEVROOM architecture](docs/architecture/DEVROOM.md)
