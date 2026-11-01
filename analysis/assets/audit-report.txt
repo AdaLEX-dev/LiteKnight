@@ -7,11 +7,11 @@ count characters: 15
 count doors: 4
 count enemies: 88
 count obstacle_variants: 12
-count sprites: 697
-count textures: 27
-count weapons: 210
+count sprites: 803
+count textures: 30
+count weapons: 227
 WARNING: unexpected source texture format: auto_atlas_4699608564152035255 ETC2_RGBA8
-WARNING: 27 texture records are local_only (expected for reference-derived pixels)
+WARNING: 30 texture records are local_only (expected for reference-derived pixels)
 UNRECOVERABLE: categories with no native representation are listed in asset_inventory.json
 UNKNOWN: reference save format, UI flow and many MonoBehaviour behaviours
 local_only / reference_derived / not_for_redistribution

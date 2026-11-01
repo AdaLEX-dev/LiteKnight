@@ -13,6 +13,7 @@
   "chests": [
     {
       "appointed_weapon": "weapon_021",
+      "class_name": "RGChest",
       "collider_half_extents": [
         0.5,
         0.35
@@ -22,10 +23,12 @@
         0.35
       ],
       "evidence": "actual RGChestAppoint chest00 variant; one recovered appointed object_list entry is weapon_021",
+      "has_coin": false,
       "id": "chest00",
       "level": 0,
       "loot_coin": "",
       "loot_count": 0,
+      "material_chest": false,
       "open_time": 1.0,
       "visuals": [
         {
@@ -74,10 +77,12 @@
           "sprite": "chest00_shadow"
         }
       ],
+      "weapon_count": 1,
       "weapon_drop_level": -1
     },
     {
       "appointed_weapon": "",
+      "class_name": "RGChest",
       "collider_half_extents": [
         0.5,
         0.35
@@ -87,10 +92,12 @@
         0.35
       ],
       "evidence": "actual chest01 RGChest prefab level 1; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
       "id": "chest01",
       "level": 1,
       "loot_coin": "",
       "loot_count": 0,
+      "material_chest": false,
       "open_time": 1.0,
       "visuals": [
         {
@@ -139,10 +146,12 @@
           "sprite": "chest00_shadow"
         }
       ],
+      "weapon_count": 1,
       "weapon_drop_level": 1
     },
     {
       "appointed_weapon": "",
+      "class_name": "RGChest",
       "collider_half_extents": [
         0.5,
         0.35
@@ -152,10 +161,12 @@
         0.35
       ],
       "evidence": "actual chest02 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
       "id": "chest02",
       "level": 2,
       "loot_coin": "",
       "loot_count": 0,
+      "material_chest": false,
       "open_time": 1.0,
       "visuals": [
         {
@@ -204,7 +215,440 @@
           "sprite": "chest00_shadow"
         }
       ],
+      "weapon_count": 1,
       "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "class_name": "RGChestMaterial",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest03 RGChest prefab level 0; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest03",
+      "level": 0,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": true,
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest03_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest00_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest03_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest03_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 0
+    },
+    {
+      "appointed_weapon": "",
+      "class_name": "RGChestBig",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_big RGChest prefab level 1; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_big",
+      "level": 1,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest_big_font"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest_big_board"
+        },
+        {
+          "offset": [
+            0.0,
+            1.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest_big_R"
+        },
+        {
+          "offset": [
+            0.0,
+            1.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest_big_L"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest_big_shadow"
+        },
+        {
+          "offset": [
+            -3.5,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 1,
+          "sprite": "chest_big_button1"
+        },
+        {
+          "offset": [
+            3.5,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 1,
+          "sprite": "chest_big_button1"
+        }
+      ],
+      "weapon_count": 2,
+      "weapon_drop_level": 1
+    },
+    {
+      "appointed_weapon": "",
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "class_name": "RGChestRoomReward",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_room_reward RGChest prefab level 0; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": true,
+      "id": "chest_room_reward",
+      "level": 0,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest_room_reward_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest00_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest_room_reward_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest_room_reward_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 2,
+      "weapon_drop_level": -2
+    },
+    {
+      "appointed_weapon": "",
+      "class_name": "ItemChestBig",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_single_big RGChest prefab level 1; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_single_big",
+      "level": 1,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest_single_big_font"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest_single_big_board"
+        },
+        {
+          "offset": [
+            0.0,
+            1.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest_single_big_R"
+        },
+        {
+          "offset": [
+            0.0,
+            1.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest_single_big_L"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest_big_shadow"
+        }
+      ],
+      "weapon_count": 2,
+      "weapon_drop_level": 1
+    },
+    {
+      "appointed_weapon": "",
+      "class_name": "ItemChestBig",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_gold_single_big RGChest prefab level 1; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_gold_single_big",
+      "level": 1,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest_gold_single_big_font"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest_gold_single_big_board"
+        },
+        {
+          "offset": [
+            0.0,
+            1.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest_gold_single_big_R"
+        },
+        {
+          "offset": [
+            0.0,
+            1.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest_gold_single_big_L"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest_big_shadow"
+        }
+      ],
+      "weapon_count": 2,
+      "weapon_drop_level": 1
     }
   ],
   "coins": [
@@ -251,7 +695,384 @@
       "value": 1
     }
   ],
+  "energy": {
+    "classification": "CONFIRMED RGEnergy prefab; serialized value/speed/range and actual bullet_16 pickup sprite",
+    "id": "energy",
+    "offset": [
+      0.0,
+      0.0
+    ],
+    "range": 6.0,
+    "speed": 14.0,
+    "sprite": "energy_pickup",
+    "value": 8
+  },
   "instances": [],
+  "materials": [
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_battery",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 30,
+      "sprite": "material_battery_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_cell",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 30,
+      "sprite": "material_cell_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_fertilize",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 200,
+      "sprite": "material_fertilize_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_fragment_c6h8o6",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 30,
+      "sprite": "material_fragment_c6h8o6_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_fragment_zulan",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 30,
+      "sprite": "material_fragment_zulan_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_gear",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 30,
+      "sprite": "material_gear_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_gem",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 1,
+      "sprite": "material_gem_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_iron",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 30,
+      "sprite": "material_iron_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_magic_black",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 200,
+      "sprite": "material_magic_black_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_magic_blue",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 200,
+      "sprite": "material_magic_blue_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_magic_green",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 200,
+      "sprite": "material_magic_green_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_magic_orange",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 200,
+      "sprite": "material_magic_orange_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_magic_purple",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 200,
+      "sprite": "material_magic_purple_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_magic_red",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 200,
+      "sprite": "material_magic_red_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_plantpot_1",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 500,
+      "sprite": "material_plantpot_1_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_plantpot_2",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 500,
+      "sprite": "material_plantpot_1_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_plantpot_3",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 500,
+      "sprite": "material_plantpot_1_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_plantpot_4",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 500,
+      "sprite": "material_plantpot_1_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_boss01",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_boss01_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_boss02",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_boss02_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_boss07",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_boss07_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_boss10",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_boss10_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_boss15",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_boss15_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_boss16",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_boss16_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_boss18",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_boss18_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_boss19",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_boss19_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_c12_s06",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 1200,
+      "sprite": "material_skin_fragment_c12_s06_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_c12_s6",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_c12_s6_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_c5_s8",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 1200,
+      "sprite": "material_skin_fragment_c5_s8_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_skin_fragment_shop",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 800,
+      "sprite": "material_skin_fragment_shop_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_ticket",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 500,
+      "sprite": "material_ticket_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_ticket_bossrush",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 500,
+      "sprite": "material_ticket_bossrush_icon"
+    },
+    {
+      "classification": "CONFIRMED ItemPickable material prefab with child i SpriteRenderer; price from serialized item_value",
+      "id": "material_wood",
+      "item_type": 3,
+      "offset": [
+        0.0,
+        0.0
+      ],
+      "price": 30,
+      "sprite": "material_wood_icon"
+    }
+  ],
   "notes": "Chest00/RGCoin prefab metadata/sprites plus the actual transfer_gate_02 portal sprite clip. Chest coin loot and lid animation are native test behavior; RGChest weapon selection and WeaponDropInfo are recovered in the 0.5.3 chest pipeline.",
   "portals": [
     {
@@ -797,6 +1618,886 @@
         209.0,
         10.0,
         20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest03_box06",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        113.0,
+        88.0,
+        20.0,
+        8.0
+      ],
+      "source_name": "objects_common_40",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        97.0,
+        89.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect": [
+        113.0,
+        160.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest03_box04",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        199.0,
+        130.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_39",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        110.0,
+        103.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        199.0,
+        106.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest03_box03",
+      "pivot": [
+        1.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        28.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_38",
+      "source_pivot": [
+        1.0,
+        0.0
+      ],
+      "source_rect": [
+        94.0,
+        103.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        208.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_big_font",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        429.0,
+        281.0,
+        46.0,
+        20.0
+      ],
+      "source_name": "objects3_19",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        207.0,
+        10.0,
+        46.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        429.0,
+        211.0,
+        46.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_8607965889740011037",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_big_board",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        409.0,
+        403.0,
+        46.0,
+        27.0
+      ],
+      "source_name": "objects3_18",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        207.0,
+        34.0,
+        46.0,
+        27.0
+      ],
+      "source_texture_rect": [
+        409.0,
+        82.0,
+        46.0,
+        27.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_8607965889740011037",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_big_R",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        105.0,
+        208.0,
+        23.0,
+        30.0
+      ],
+      "source_name": "objects3_17",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        182.0,
+        31.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect": [
+        105.0,
+        274.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_8607965889740011037",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_big_L",
+      "pivot": [
+        1.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        22.0,
+        179.0,
+        23.0,
+        30.0
+      ],
+      "source_name": "objects3_16",
+      "source_pivot": [
+        1.0,
+        0.0
+      ],
+      "source_rect": [
+        157.0,
+        31.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect": [
+        22.0,
+        303.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_8607965889740011037",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_big_shadow",
+      "pivot": [
+        0.5,
+        0.30000001192092896
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        54.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "source_name": "shadow0",
+      "source_pivot": [
+        0.5,
+        0.30000001192092896
+      ],
+      "source_rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "source_texture_rect": [
+        54.0,
+        52.0,
+        16.0,
+        24.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_5467841708608453938",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_big_button1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        216.0,
+        145.0,
+        16.0,
+        16.0
+      ],
+      "source_name": "objects2_5",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        117.0,
+        115.0,
+        16.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        216.0,
+        351.0,
+        16.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_8607965889740011037",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_room_reward_box06",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        40.0,
+        61.0,
+        20.0,
+        8.0
+      ],
+      "source_name": "objects_common_9",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        40.0,
+        48.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect": [
+        40.0,
+        187.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_room_reward_box04",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        115.0,
+        102.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_8",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        51.0,
+        57.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        115.0,
+        134.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_room_reward_box03",
+      "pivot": [
+        1.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        50.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_7",
+      "source_pivot": [
+        1.0,
+        0.0
+      ],
+      "source_rect": [
+        39.0,
+        57.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        186.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_single_big_font",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        178.0,
+        46.0,
+        20.0
+      ],
+      "source_name": "objects_common_44",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        206.0,
+        71.0,
+        46.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        58.0,
+        46.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_single_big_board",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        200.0,
+        46.0,
+        27.0
+      ],
+      "source_name": "objects_common_43",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        206.0,
+        95.0,
+        46.0,
+        27.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        29.0,
+        46.0,
+        27.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_single_big_R",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        73.0,
+        226.0,
+        23.0,
+        30.0
+      ],
+      "source_name": "objects_common_42",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        181.0,
+        92.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect": [
+        73.0,
+        0.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_single_big_L",
+      "pivot": [
+        1.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        73.0,
+        194.0,
+        23.0,
+        30.0
+      ],
+      "source_name": "objects_common_41",
+      "source_pivot": [
+        1.0,
+        0.0
+      ],
+      "source_rect": [
+        156.0,
+        92.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect": [
+        73.0,
+        32.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_gold_single_big_font",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        156.0,
+        46.0,
+        20.0
+      ],
+      "source_name": "objects_common_48",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        206.0,
+        12.0,
+        46.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        80.0,
+        46.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_gold_single_big_board",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        229.0,
+        46.0,
+        27.0
+      ],
+      "source_name": "objects_common_47",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        206.0,
+        36.0,
+        46.0,
+        27.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        0.0,
+        46.0,
+        27.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_gold_single_big_R",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        48.0,
+        226.0,
+        23.0,
+        30.0
+      ],
+      "source_name": "objects_common_46",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        181.0,
+        33.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect": [
+        48.0,
+        0.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest_gold_single_big_L",
+      "pivot": [
+        1.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        48.0,
+        194.0,
+        23.0,
+        30.0
+      ],
+      "source_name": "objects_common_45",
+      "source_pivot": [
+        1.0,
+        0.0
+      ],
+      "source_rect": [
+        156.0,
+        33.0,
+        23.0,
+        30.0
+      ],
+      "source_texture_rect": [
+        48.0,
+        32.0,
+        23.0,
+        30.0
       ],
       "source_texture_rect_offset": [
         0.0,
@@ -1596,6 +3297,1370 @@
       ],
       "texture": "item_62",
       "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_battery_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        194.0,
+        152.0,
+        20.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_9",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        36.0,
+        213.0,
+        20.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        194.0,
+        87.0,
+        20.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_cell_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        211.0,
+        123.0,
+        14.0,
+        12.0
+      ],
+      "source_name": "objects_pickable_12",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        242.0,
+        236.0,
+        14.0,
+        12.0
+      ],
+      "source_texture_rect": [
+        211.0,
+        121.0,
+        14.0,
+        12.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_fertilize_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        168.0,
+        286.0,
+        17.0,
+        16.0
+      ],
+      "source_name": "weapons3_21",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        80.0,
+        209.0,
+        17.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        168.0,
+        210.0,
+        17.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_fragment_c6h8o6_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        216.0,
+        155.0,
+        18.0,
+        16.0
+      ],
+      "source_name": "objects_pickable_15",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        111.0,
+        218.0,
+        18.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        216.0,
+        85.0,
+        18.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_fragment_zulan_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        57.0,
+        100.0,
+        21.0,
+        12.0
+      ],
+      "source_name": "objects_pickable_14",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        84.0,
+        218.0,
+        21.0,
+        12.0
+      ],
+      "source_texture_rect": [
+        57.0,
+        144.0,
+        21.0,
+        12.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_gear_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        125.0,
+        210.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_1",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        36.0,
+        233.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        125.0,
+        24.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_gem_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 32.0,
+      "rect": [
+        584.0,
+        68.0,
+        18.0,
+        18.0
+      ],
+      "source_name": "ui_52",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        333.0,
+        345.0,
+        18.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        584.0,
+        426.0,
+        18.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2171739766242525964",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_iron_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        236.0,
+        160.0,
+        19.0,
+        15.0
+      ],
+      "source_name": "objects_pickable_11",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        222.0,
+        235.0,
+        19.0,
+        15.0
+      ],
+      "source_texture_rect": [
+        236.0,
+        81.0,
+        19.0,
+        15.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_magic_black_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        121.0,
+        142.0,
+        21.0,
+        18.0
+      ],
+      "source_name": "objects_pickable_30",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        156.0,
+        216.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        121.0,
+        96.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_magic_blue_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        171.0,
+        152.0,
+        21.0,
+        18.0
+      ],
+      "source_name": "objects_pickable_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        60.0,
+        236.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        171.0,
+        86.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_magic_green_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        178.0,
+        192.0,
+        21.0,
+        18.0
+      ],
+      "source_name": "objects_pickable_4",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        109.0,
+        236.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        178.0,
+        46.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_magic_orange_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        197.0,
+        216.0,
+        21.0,
+        18.0
+      ],
+      "source_name": "objects_pickable_31",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        182.0,
+        216.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        197.0,
+        22.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_magic_purple_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        219.0,
+        238.0,
+        21.0,
+        18.0
+      ],
+      "source_name": "objects_pickable_3",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        85.0,
+        236.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        219.0,
+        0.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_magic_red_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        171.0,
+        172.0,
+        21.0,
+        18.0
+      ],
+      "source_name": "objects_pickable_5",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        132.0,
+        236.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        171.0,
+        66.0,
+        21.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_plantpot_1_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        71.0,
+        484.0,
+        63.0,
+        48.0
+      ],
+      "source_name": "common_room_item_2_4",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        0.0,
+        280.0,
+        63.0,
+        48.0
+      ],
+      "source_texture_rect": [
+        71.0,
+        492.0,
+        63.0,
+        48.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m2911942529307809326",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_boss01_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        71.0,
+        168.0,
+        24.0,
+        24.0
+      ],
+      "source_name": "objects_pickable_44",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        74.0,
+        187.0,
+        24.0,
+        24.0
+      ],
+      "source_texture_rect": [
+        71.0,
+        64.0,
+        24.0,
+        24.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_boss02_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        97.0,
+        170.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_42",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        29.0,
+        189.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        97.0,
+        64.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_boss07_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        121.0,
+        162.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_48",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        30.0,
+        165.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        121.0,
+        72.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_boss10_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        149.0,
+        210.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_50",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        76.0,
+        165.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        149.0,
+        24.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_boss15_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        173.0,
+        234.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_49",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        53.0,
+        165.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        173.0,
+        0.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_boss16_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        97.0,
+        146.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_43",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        51.0,
+        187.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        97.0,
+        88.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_boss18_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        124.0,
+        186.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_51",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        98.0,
+        165.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        124.0,
+        48.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_boss19_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        148.0,
+        169.0,
+        21.0,
+        21.0
+      ],
+      "source_name": "objects_pickable_64",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        122.0,
+        166.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect": [
+        148.0,
+        66.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_c12_s06_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        149.0,
+        234.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_63",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        172.0,
+        188.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        149.0,
+        0.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_c12_s6_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        71.0,
+        142.0,
+        24.0,
+        24.0
+      ],
+      "source_name": "objects_pickable_55",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        122.0,
+        187.0,
+        24.0,
+        24.0
+      ],
+      "source_texture_rect": [
+        71.0,
+        90.0,
+        24.0,
+        24.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_c5_s8_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        125.0,
+        234.0,
+        22.0,
+        22.0
+      ],
+      "source_name": "objects_pickable_62",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        145.0,
+        188.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect": [
+        125.0,
+        0.0,
+        22.0,
+        22.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_skin_fragment_shop_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        98.0,
+        205.0,
+        24.0,
+        24.0
+      ],
+      "source_name": "objects_pickable_52",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        98.0,
+        187.0,
+        24.0,
+        24.0
+      ],
+      "source_texture_rect": [
+        98.0,
+        27.0,
+        24.0,
+        24.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_ticket_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        148.0,
+        192.0,
+        28.0,
+        16.0
+      ],
+      "source_name": "objects_pickable_7",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        172.0,
+        238.0,
+        28.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        148.0,
+        48.0,
+        28.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_ticket_bossrush_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        216.0,
+        137.0,
+        18.0,
+        16.0
+      ],
+      "source_name": "objects_pickable_29",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        132.0,
+        218.0,
+        18.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        216.0,
+        103.0,
+        18.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "material_wood_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        34.0,
+        114.0,
+        20.0,
+        13.0
+      ],
+      "source_name": "objects_pickable_10",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        201.0,
+        237.0,
+        20.0,
+        13.0
+      ],
+      "source_texture_rect": [
+        34.0,
+        129.0,
+        20.0,
+        13.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "energy_pickup",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        17.0,
+        5.0,
+        8.0,
+        8.0
+      ],
+      "source_name": "bullet_16",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        15.0,
+        44.0,
+        8.0,
+        8.0
+      ],
+      "source_texture_rect": [
+        17.0,
+        499.0,
+        8.0,
+        8.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m304717225150204165",
+      "wrap": "clamp"
     }
   ],
   "textures": [
@@ -1613,8 +4678,38 @@
     },
     {
       "filter": "point",
+      "id": "item_8607965889740011037",
+      "png": "textures/item_8607965889740011037.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
       "id": "item_62",
       "png": "textures/item_62.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_m7138671102567859681",
+      "png": "textures/item_m7138671102567859681.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_2171739766242525964",
+      "png": "textures/item_2171739766242525964.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_m2911942529307809326",
+      "png": "textures/item_m2911942529307809326.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_m304717225150204165",
+      "png": "textures/item_m304717225150204165.png",
       "wrap": "clamp"
     }
   ],

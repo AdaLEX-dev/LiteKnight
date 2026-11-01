@@ -1,0 +1,390 @@
+{
+  "schema": 1,
+  "tool": "tools/asset/audit_character_loadouts.py",
+  "evidence": {
+    "CONFIRMED": "RGController.GetInitWeaponName (0x117D954): level<7 returns base weapon; Knight weapon_000; other heroes weapon_init_<lower enum name>.",
+    "HIGH_CONFIDENCE": "UIHeroSkinWeaponIndex Odin blob skin->suffix mapping."
+  },
+  "default_level_rule": "char_list[hero].level < 7 -> base prefab",
+  "characters": [
+    {
+      "id": "c00",
+      "hero_index": 0,
+      "hero_name": "Knight",
+      "starting_weapon": "weapon_000",
+      "starting_weapon_name": "Bad Pistol",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "5": "x",
+        "9": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_000",
+          "display_name": "Bad Pistol"
+        },
+        {
+          "id": "weapon_000x",
+          "display_name": "weapon_000x"
+        },
+        {
+          "id": "weapon_000xx",
+          "display_name": "weapon_000xx"
+        }
+      ]
+    },
+    {
+      "id": "c01",
+      "hero_index": 1,
+      "hero_name": "Ranger",
+      "starting_weapon": "weapon_init_ranger",
+      "starting_weapon_name": "Jack and Mary",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "5": "x",
+        "7": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_ranger",
+          "display_name": "Jack and Mary"
+        },
+        {
+          "id": "weapon_init_rangerx",
+          "display_name": "Jack and Mary"
+        },
+        {
+          "id": "weapon_init_rangerxx",
+          "display_name": "Jack and Mary"
+        }
+      ]
+    },
+    {
+      "id": "c02",
+      "hero_index": 2,
+      "hero_name": "Mage",
+      "starting_weapon": "weapon_init_mage",
+      "starting_weapon_name": "The Code",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "6": "x",
+        "9": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_mage",
+          "display_name": "The Code"
+        },
+        {
+          "id": "weapon_init_magex",
+          "display_name": "The Code"
+        },
+        {
+          "id": "weapon_init_magexx",
+          "display_name": "The Code"
+        }
+      ]
+    },
+    {
+      "id": "c03",
+      "hero_index": 3,
+      "hero_name": "Assassin",
+      "starting_weapon": "weapon_init_assassin",
+      "starting_weapon_name": "Blood Blade",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "6": "x",
+        "8": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_assassin",
+          "display_name": "Blood Blade"
+        },
+        {
+          "id": "weapon_init_assassinx",
+          "display_name": "Blood Blade"
+        },
+        {
+          "id": "weapon_init_assassinxx",
+          "display_name": "Blood Blade"
+        }
+      ]
+    },
+    {
+      "id": "c04",
+      "hero_index": 4,
+      "hero_name": "Alchemist",
+      "starting_weapon": "weapon_init_alchemist",
+      "starting_weapon_name": "Dormant Bubble Machine",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "4": "x",
+        "6": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_alchemist",
+          "display_name": "Dormant Bubble Machine"
+        },
+        {
+          "id": "weapon_init_alchemistx",
+          "display_name": "Dormant Bubble Machine"
+        },
+        {
+          "id": "weapon_init_alchemistxx",
+          "display_name": "Dormant Bubble Machine"
+        }
+      ]
+    },
+    {
+      "id": "c05",
+      "hero_index": 5,
+      "hero_name": "Engineer",
+      "starting_weapon": "weapon_init_engineer",
+      "starting_weapon_name": "H2O",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "6": "x",
+        "8": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_engineer",
+          "display_name": "H2O"
+        },
+        {
+          "id": "weapon_init_engineerx",
+          "display_name": "H2O"
+        },
+        {
+          "id": "weapon_init_engineerxx",
+          "display_name": "H2O"
+        }
+      ]
+    },
+    {
+      "id": "c06",
+      "hero_index": 6,
+      "hero_name": "Vampire",
+      "starting_weapon": "weapon_init_vampire",
+      "starting_weapon_name": "Crimson Wine Glass",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "6": "x",
+        "8": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_vampire",
+          "display_name": "Crimson Wine Glass"
+        },
+        {
+          "id": "weapon_init_vampirex",
+          "display_name": "Crimson Wine Glass"
+        },
+        {
+          "id": "weapon_init_vampirexx",
+          "display_name": "Crimson Wine Glass"
+        }
+      ]
+    },
+    {
+      "id": "c07",
+      "hero_index": 7,
+      "hero_name": "Paladin",
+      "starting_weapon": "weapon_init_paladin",
+      "starting_weapon_name": "Sacred Flail",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "6": "x",
+        "9": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_paladin",
+          "display_name": "Sacred Flail"
+        },
+        {
+          "id": "weapon_init_paladinx",
+          "display_name": "Sacred Flail"
+        },
+        {
+          "id": "weapon_init_paladinxx",
+          "display_name": "Sacred Flail"
+        }
+      ]
+    },
+    {
+      "id": "c08",
+      "hero_index": 8,
+      "hero_name": "Elves",
+      "starting_weapon": "weapon_init_elves",
+      "starting_weapon_name": "Ancient Bow",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "5": "x",
+        "7": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_elves",
+          "display_name": "Ancient Bow"
+        },
+        {
+          "id": "weapon_init_elvesx",
+          "display_name": "Ancient Bow"
+        },
+        {
+          "id": "weapon_init_elvesxx",
+          "display_name": "Ancient Bow"
+        }
+      ]
+    },
+    {
+      "id": "c09",
+      "hero_index": 9,
+      "hero_name": "Werewolf",
+      "starting_weapon": "weapon_init_werewolf",
+      "starting_weapon_name": "Flaring Claw",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "8": "x",
+        "10": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_werewolf",
+          "display_name": "Flaring Claw"
+        },
+        {
+          "id": "weapon_init_werewolfx",
+          "display_name": "Flaring Claw"
+        },
+        {
+          "id": "weapon_init_werewolfxx",
+          "display_name": "Flaring Claw"
+        }
+      ]
+    },
+    {
+      "id": "c10",
+      "hero_index": 10,
+      "hero_name": "Priest",
+      "starting_weapon": "weapon_init_priest",
+      "starting_weapon_name": "Wooden Cross",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "4": "x",
+        "7": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_priest",
+          "display_name": "Wooden Cross"
+        },
+        {
+          "id": "weapon_init_priestx",
+          "display_name": "Wooden Cross"
+        },
+        {
+          "id": "weapon_init_priestxx",
+          "display_name": "Wooden Cross"
+        }
+      ]
+    },
+    {
+      "id": "c11",
+      "hero_index": 11,
+      "hero_name": "Druid",
+      "starting_weapon": "weapon_init_druid",
+      "starting_weapon_name": "Crispy Bone",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "5": "x",
+        "7": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_druid",
+          "display_name": "Crispy Bone"
+        },
+        {
+          "id": "weapon_init_druidx",
+          "display_name": "Crispy Bone"
+        },
+        {
+          "id": "weapon_init_druidxx",
+          "display_name": "Crispy Bone"
+        }
+      ]
+    },
+    {
+      "id": "c12",
+      "hero_index": 12,
+      "hero_name": "Robot",
+      "starting_weapon": "weapon_init_robot",
+      "starting_weapon_name": "Satellite Floating Gun",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "3": "x",
+        "6": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_robot",
+          "display_name": "Satellite Floating Gun"
+        },
+        {
+          "id": "weapon_init_robotx",
+          "display_name": "Satellite Floating Gun"
+        },
+        {
+          "id": "weapon_init_robotxx",
+          "display_name": "Satellite Floating Gun"
+        }
+      ]
+    },
+    {
+      "id": "c13",
+      "hero_index": 13,
+      "hero_name": "Viking",
+      "starting_weapon": "weapon_init_viking",
+      "starting_weapon_name": "Boxing Gloves",
+      "level_gate": 7,
+      "skin_suffixes": {
+        "2": "x",
+        "7": "xx"
+      },
+      "variants": [
+        {
+          "id": "weapon_init_viking",
+          "display_name": "Boxing Gloves"
+        },
+        {
+          "id": "weapon_init_vikingx",
+          "display_name": "Boxing Gloves"
+        },
+        {
+          "id": "weapon_init_vikingxx",
+          "display_name": "Boxing Gloves"
+        }
+      ]
+    },
+    {
+      "id": "c14",
+      "hero_index": 14,
+      "hero_name": "Necromancer",
+      "starting_weapon": "weapon_init_necromancer",
+      "starting_weapon_name": "Staff of Plague",
+      "level_gate": 7,
+      "skin_suffixes": {},
+      "variants": [
+        {
+          "id": "weapon_init_necromancer",
+          "display_name": "Staff of Plague"
+        }
+      ]
+    }
+  ]
+}

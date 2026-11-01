@@ -212,3 +212,5 @@ analysis/re/*.log
 # Tool-local virtual environments
 tools/asset/.venv/
 tools/re/.venv/
+analysis/assets/scenes/pattern/
+analysis/re/pattern/

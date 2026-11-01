@@ -25,8 +25,24 @@
     "forge_station": {
       "kind": "forge",
       "cell": [
+        35,
+        -7
+      ],
+      "reachable": true
+    },
+    "weapon_station": {
+      "kind": "weapon_station",
+      "cell": [
         44,
         -7
+      ],
+      "reachable": true
+    },
+    "material_chest": {
+      "kind": "material_chest",
+      "cell": [
+        48,
+        0
       ],
       "reachable": true
     },
@@ -51,6 +67,134 @@
       "cell": [
         0,
         7
+      ],
+      "reachable": true
+    },
+    "npc_c00": {
+      "kind": "npc",
+      "cell": [
+        7,
+        6
+      ],
+      "reachable": true
+    },
+    "npc_c01": {
+      "kind": "npc",
+      "cell": [
+        9,
+        -2
+      ],
+      "reachable": true
+    },
+    "npc_c02": {
+      "kind": "npc",
+      "cell": [
+        -3,
+        -8
+      ],
+      "reachable": true
+    },
+    "npc_c03": {
+      "kind": "npc",
+      "cell": [
+        0,
+        -3
+      ],
+      "reachable": true
+    },
+    "npc_c04": {
+      "kind": "npc",
+      "cell": [
+        -3,
+        -1
+      ],
+      "reachable": true
+    },
+    "npc_c05": {
+      "kind": "npc",
+      "cell": [
+        8,
+        -8
+      ],
+      "reachable": true
+    },
+    "npc_c06": {
+      "kind": "npc",
+      "cell": [
+        -8,
+        -7
+      ],
+      "reachable": true
+    },
+    "npc_c07": {
+      "kind": "npc",
+      "cell": [
+        5,
+        6
+      ],
+      "reachable": true
+    },
+    "npc_c08": {
+      "kind": "npc",
+      "cell": [
+        2,
+        -1
+      ],
+      "reachable": true
+    },
+    "npc_c09": {
+      "kind": "npc",
+      "cell": [
+        -7,
+        -2
+      ],
+      "reachable": true
+    },
+    "npc_c10": {
+      "kind": "npc",
+      "cell": [
+        -14,
+        3
+      ],
+      "reachable": true
+    },
+    "npc_c11": {
+      "kind": "npc",
+      "cell": [
+        -11,
+        -3
+      ],
+      "reachable": true
+    },
+    "npc_c12": {
+      "kind": "npc",
+      "cell": [
+        5,
+        -6
+      ],
+      "reachable": true
+    },
+    "npc_c13": {
+      "kind": "npc",
+      "cell": [
+        0,
+        1
+      ],
+      "reachable": true
+    },
+    "npc_c14": {
+      "kind": "npc",
+      "cell": [
+        -10,
+        3
+      ],
+      "reachable": true
+    },
+    "pet_cat": {
+      "kind": "pet",
+      "cell": [
+        -9,
+        -1
       ],
       "reachable": true
     }

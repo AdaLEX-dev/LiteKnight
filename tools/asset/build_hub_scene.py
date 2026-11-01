@@ -13,6 +13,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import struct
+import zlib
 import math
 import re
 from pathlib import Path
@@ -175,11 +177,17 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
     # Start from the already-integrated r1_1 character/weapon metadata and
     # sprites so the hub player has the same animation/equipment path.
     base = json.loads(BASE_SCENE.read_text(encoding="utf-8"))
+    localization_path = ROOT / "analysis/assets/localization.json"
+    try:
+        localized = json.loads(localization_path.read_text(encoding="utf-8")).get("terms", {})
+    except (OSError, json.JSONDecodeError):
+        localized = {}
     textures = list(base.get("textures", []))
     sprites = list(base.get("sprites", []))
     animations = list(base.get("animations", []))
     characters = list(base.get("characters", []))
     weapons = list(base.get("weapons", []))
+    pet_definitions = list(base.get("pet_definitions", []))
     player_stats = dict(base.get("player_stats", {}))
     texture_ids = {t["id"]: t for t in textures}
     sprite_ids = {s["id"]: s for s in sprites}
@@ -579,8 +587,12 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
     markers = [
         {"id": "character_station", "kind": "character", "label": "CHARACTER STATION",
          "position": [7.0, 5.0], "radius": 3.0},
-        {"id": "forge_station", "kind": "forge", "label": "WEAPON WORKSHOP",
+        {"id": "forge_station", "kind": "forge", "label": "REFORGING FURNACE",
+         "position": [35.92, -6.42], "radius": 4.0},
+        {"id": "weapon_station", "kind": "weapon_station", "label": "WEAPON STATION",
          "position": [44.98, -6.3], "radius": 4.0},
+        {"id": "material_chest", "kind": "material_chest", "label": "MATERIAL CHEST",
+         "position": [48.93, 0.81], "radius": 3.0},
         {"id": "garden_station", "kind": "garden", "label": "PLANTER GARDEN",
          "position": [-26.0, 0.0], "radius": 4.0},
         {"id": "trader_station", "kind": "trader", "label": "ORB WEAPON TRADER",
@@ -588,6 +600,128 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         {"id": "hub_door", "kind": "door", "label": "DUNGEON",
          "position": [0.0, 7.5], "radius": 3.0},
     ]
+    # Every visible Living Room hero NPC is a TalkCharNpc. The runtime hides
+    # the selected player's duplicate and skips its marker.
+    npc_positions = {}
+    for instance in instances:
+        instance_path = instance.get("path", "")
+        match = re.match(r"characters/(c\d{2})/img/body/SpriteRenderer$",
+                         instance_path)
+        if match:
+            npc_positions[match.group(1)] = instance["position"]
+    for character_id, position in sorted(npc_positions.items()):
+        index = int(character_id[1:])
+        term = f"Character{index}_name_skin0"
+        speaker = localized.get(term, character_id)
+        talk1 = localized.get(f"Character{index}_talk1", "")
+        talk2 = localized.get(f"Character{index}_talk2", "")
+        markers.append({
+            "id": f"npc_{character_id}",
+            "kind": "npc",
+            "label": speaker.upper(),
+            "speaker": speaker,
+            "text": talk1,
+            "text_alt": talk2,
+            "dialogue_term": f"Character{index}_talk1",
+            "character_id": character_id,
+            "position": position,
+            "radius": 2.8,
+        })
+    pet_sprite = None
+    for instance in instances:
+        if instance.get("path") == "pet/img/body/SpriteRenderer":
+            pet_sprite = instance
+            break
+    if pet_sprite is not None:
+        markers.append({
+            "id": "pet_cat",
+            "kind": "pet",
+            "label": "PET",
+            "speaker": localized.get("Pet_name_0", "Cat"),
+            "text": localized.get("A_pet_atk", "Pet atk"),
+            "pet_id": "pet",
+            "position": pet_sprite["position"],
+            "radius": 3.0,
+        })
+
+    # Recovered EnemyAIStake: room/objects/stake, 40 HP, stake_hit_l 0.375 s,
+    # resets to full HP on every hit and never dies.
+    stake_position = None
+    stake_body_sprite = None
+    stake_frames = []
+    for instance in instances:
+        if instance.get("path") == "room/objects/stake/img/body/SpriteRenderer":
+            stake_body_sprite = instance["sprite"]
+            stake_position = instance["position"]
+            break
+    try:
+        clip = None
+        for obj in env.objects:
+            if obj.type.name != "AnimationClip":
+                continue
+            candidate = obj.read()
+            if getattr(candidate, "m_Name", "") == "stake_hit_l":
+                clip = candidate
+                break
+        if clip is not None:
+            bindings = list(clip.m_ClipBindingConstant.genericBindings)
+            target_hash = zlib.crc32(b"img/body") & 0xFFFFFFFF
+            target_index = None
+            for index, binding in enumerate(bindings):
+                if (int(binding.path) == target_hash and
+                        int(getattr(binding, "customType", 0)) == 23 and
+                        int(getattr(binding, "isPPtrCurve", 0)) == 1 and
+                        int(getattr(binding, "typeID", 0) or 0) == 212):
+                    target_index = index
+                    break
+            if target_index is not None:
+                def curve_count(binding):
+                    if int(getattr(binding, "typeID", 0) or 0) == 4:
+                        return 4 if int(binding.attribute) == 2 else 3
+                    return 1
+                curve_index = sum(curve_count(b) for b in bindings[:target_index])
+                mapping = [ensure_sprite(ptr) for ptr in
+                           getattr(clip.m_ClipBindingConstant, "pptrCurveMapping", [])]
+                raw_data = clip.m_MuscleClip.m_Clip.data.m_StreamedClip.data
+                raw = struct.pack(f"<{len(raw_data)}I", *raw_data)
+                cursor = 0
+                previous_time = -1.0
+                while cursor + 8 <= len(raw):
+                    time, key_count = struct.unpack_from("<fi", raw, cursor)
+                    cursor += 8
+                    for _ in range(key_count):
+                        if cursor + 20 > len(raw):
+                            break
+                        index, = struct.unpack_from("<i", raw, cursor)
+                        value, = struct.unpack_from("<f", raw, cursor + 16)
+                        cursor += 20
+                        if index != curve_index:
+                            continue
+                        if not math.isfinite(time) or time < 0.0:
+                            continue
+                        mapped = int(round(value))
+                        if 0 <= mapped < len(mapping) and mapping[mapped]:
+                            if time <= previous_time + 1e-7 and stake_frames:
+                                stake_frames[-1]["sprite"] = mapping[mapped]
+                            else:
+                                stake_frames.append({"time": float(time),
+                                                     "sprite": mapping[mapped]})
+                                previous_time = float(time)
+    except Exception as exc:
+        print("stake animation extraction skipped:", exc)
+    training_stake = None
+    if stake_position is not None and stake_body_sprite is not None:
+        training_stake = {
+            "id": "stake",
+            "position": stake_position,
+            "hp": 40,
+            "hit_duration": 0.375,
+            "body_sprite": stake_body_sprite,
+            "frames": stake_frames,
+            "classification": (
+                "CONFIRMED level2 room/objects/stake EnemyAIStake 40 HP; "
+                "stake_hit_l controller clip 0.375 s; HP resets every hit"),
+        }
 
     scene = {
         "id": "hero_room",
@@ -611,6 +745,8 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         "weapons": weapons,
         "enemy_definitions": [],
         "enemy_fixtures": [],
+        "pet_definitions": pet_definitions,
+        "training_stake": training_stake,
         "doors": [],
         "collision": {
             "bounds": [minx, miny, maxx - minx, maxy - miny],

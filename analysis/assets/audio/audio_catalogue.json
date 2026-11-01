@@ -6,18 +6,45 @@
     "HYPOTHESIS": "logical event mapping for the first-pass native audio wiring"
   },
   "counts": {
-    "logical_events": 11,
-    "exported": 11
+    "logical_events": 72,
+    "exported": 72
   },
   "sounds": [
     {
-      "id": "ui_click",
-      "source_clip": "fx_tapClick",
-      "source_cab": "CAB-81d4d133237886a66e6bf9422594d302",
-      "file": "ui_click.wav",
-      "duration": 0.8125,
+      "id": "bgm_dungeon",
+      "source_clip": "bgm_1Low",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "bgm_dungeon.wav",
+      "duration": 85.89060974121094,
       "channels": 1,
-      "frequency": 48000
+      "frequency": 44100
+    },
+    {
+      "id": "bgm_hub",
+      "source_clip": "bgm_room",
+      "source_cab": "CAB-dd66d3d12e7d214d810a154a6cb0e732",
+      "file": "bgm_hub.wav",
+      "duration": 31.529796600341797,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "chest_open",
+      "source_clip": "fx_chest_open",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "chest_open.wav",
+      "duration": 0.7053061127662659,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "enemy_hit",
+      "source_clip": "fx_hit",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "enemy_hit.wav",
+      "duration": 0.6791836619377136,
+      "channels": 1,
+      "frequency": 22050
     },
     {
       "id": "pause",
@@ -38,13 +65,40 @@
       "frequency": 22050
     },
     {
-      "id": "chest_open",
-      "source_clip": "fx_chest_open",
+      "id": "transition",
+      "source_clip": "fx_door",
       "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "file": "chest_open.wav",
-      "duration": 0.7053061127662659,
+      "file": "transition.wav",
+      "duration": 1.2016326189041138,
       "channels": 1,
       "frequency": 22050
+    },
+    {
+      "id": "weapon_bgm_1High",
+      "source_clip": "bgm_1High",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "file": "weapon_bgm_1High.wav",
+      "duration": 66.92571258544922,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_bgm_2High",
+      "source_clip": "bgm_2High",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "file": "weapon_bgm_2High.wav",
+      "duration": 76.59101867675781,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_bgm_3High",
+      "source_clip": "bgm_3High",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "file": "weapon_bgm_3High.wav",
+      "duration": 142.39346313476562,
+      "channels": 1,
+      "frequency": 44100
     },
     {
       "id": "weapon_fire",
@@ -56,56 +110,551 @@
       "frequency": 22050
     },
     {
-      "id": "player_hit",
-      "source_clip": "fx_hit",
+      "id": "weapon_fx_aim",
+      "source_clip": "fx_aim",
       "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "file": "player_hit.wav",
-      "duration": 0.6791836619377136,
+      "file": "weapon_fx_aim.wav",
+      "duration": 0.8097959160804749,
       "channels": 1,
       "frequency": 22050
     },
     {
-      "id": "enemy_hit",
-      "source_clip": "fx_hit",
+      "id": "weapon_fx_atk_hummer",
+      "source_clip": "fx_atk_hummer",
       "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "file": "enemy_hit.wav",
-      "duration": 0.6791836619377136,
-      "channels": 1,
-      "frequency": 22050
-    },
-    {
-      "id": "door",
-      "source_clip": "fx_door",
-      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "file": "door.wav",
-      "duration": 1.2016326189041138,
-      "channels": 1,
-      "frequency": 22050
-    },
-    {
-      "id": "transition",
-      "source_clip": "fx_door",
-      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "file": "transition.wav",
-      "duration": 1.2016326189041138,
-      "channels": 1,
-      "frequency": 22050
-    },
-    {
-      "id": "bgm_hub",
-      "source_clip": "bgm_room",
-      "source_cab": "CAB-dd66d3d12e7d214d810a154a6cb0e732",
-      "file": "bgm_hub.wav",
-      "duration": 31.529796600341797,
+      "file": "weapon_fx_atk_hummer.wav",
+      "duration": 1.645714282989502,
       "channels": 1,
       "frequency": 44100
     },
     {
-      "id": "bgm_dungeon",
-      "source_clip": "bgm_1Low",
+      "id": "weapon_fx_boss1_atk1",
+      "source_clip": "fx_boss1_atk1",
       "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "file": "bgm_dungeon.wav",
-      "duration": 85.89060974121094,
+      "file": "weapon_fx_boss1_atk1.wav",
+      "duration": 1.8808163404464722,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_bow_shoot",
+      "source_clip": "fx_bow_shoot",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_bow_shoot.wav",
+      "duration": 1.7240816354751587,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_btn_levelup",
+      "source_clip": "fx_btn_levelup",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_btn_levelup.wav",
+      "duration": 0.9926530718803406,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_bullhorn",
+      "source_clip": "fx_bullhorn",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_bullhorn.wav",
+      "duration": 1.750204086303711,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_buy",
+      "source_clip": "fx_buy",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_buy.wav",
+      "duration": 1.2538775205612183,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_dead_note",
+      "source_clip": "fx_dead_note",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_dead_note.wav",
+      "duration": 0.8620408177375793,
+      "channels": 2,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_elec",
+      "source_clip": "fx_elec",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_elec.wav",
+      "duration": 1.2016326189041138,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_explode_big",
+      "source_clip": "fx_explode_big",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_explode_big.wav",
+      "duration": 1.9069387912750244,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_explode_small",
+      "source_clip": "fx_explode_small",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_explode_small.wav",
+      "duration": 1.0710203647613525,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_fire",
+      "source_clip": "fx_fire",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_fire.wav",
+      "duration": 1.3844897747039795,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_fireball",
+      "source_clip": "fx_fireball",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_fireball.wav",
+      "duration": 1.750204086303711,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_firework",
+      "source_clip": "fx_firework",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_firework.wav",
+      "duration": 0.3988208472728729,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_get_buff",
+      "source_clip": "fx_get_buff",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_get_buff.wav",
+      "duration": 1.750204086303711,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_gong",
+      "source_clip": "fx_gong",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gong.wav",
+      "duration": 3.3175511360168457,
+      "channels": 2,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_gun_2",
+      "source_clip": "fx_gun_2",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_2.wav",
+      "duration": 1.9853061437606812,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_gun_3",
+      "source_clip": "fx_gun_3",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_3.wav",
+      "duration": 0.7314285635948181,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_gun_4",
+      "source_clip": "fx_gun_4",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_4.wav",
+      "duration": 0.3395918309688568,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_gun_5",
+      "source_clip": "fx_gun_5",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_5.wav",
+      "duration": 1.85469388961792,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_gun_6",
+      "source_clip": "fx_gun_6",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_6.wav",
+      "duration": 0.2612244784832001,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_gun_7",
+      "source_clip": "fx_gun_7",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_7.wav",
+      "duration": 0.5224489569664001,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_gun_camera",
+      "source_clip": "fx_gun_camera",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_camera.wav",
+      "duration": 0.5224489569664001,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_gun_cannon",
+      "source_clip": "fx_gun_cannon",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_cannon.wav",
+      "duration": 0.9926530718803406,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_gun_rocket",
+      "source_clip": "fx_gun_rocket",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_rocket.wav",
+      "duration": 0.2612244784832001,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_gun_xl2",
+      "source_clip": "fx_gun_xl2",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_gun_xl2.wav",
+      "duration": 2.2204082012176514,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_healthpot",
+      "source_clip": "fx_healthpot",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_healthpot.wav",
+      "duration": 0.41795918345451355,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_ice",
+      "source_clip": "fx_ice",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_ice.wav",
+      "duration": 1.123265266418457,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_jump",
+      "source_clip": "fx_jump",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_jump.wav",
+      "duration": 0.36571428179740906,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_laser",
+      "source_clip": "fx_laser",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_laser.wav",
+      "duration": 6.530612468719482,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_laser_bullet",
+      "source_clip": "fx_laser_bullet",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_laser_bullet.wav",
+      "duration": 0.8881632685661316,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_laser_chain",
+      "source_clip": "fx_laser_chain",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_laser_chain.wav",
+      "duration": 1.3061224222183228,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_laser_eletric",
+      "source_clip": "fx_laser_eletric",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_laser_eletric.wav",
+      "duration": 0.7037642002105713,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_laser_explode",
+      "source_clip": "fx_laser_explode",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_laser_explode.wav",
+      "duration": 1.0971428155899048,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_laser_short",
+      "source_clip": "fx_laser_short",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_laser_short.wav",
+      "duration": 1.1755101680755615,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_laser_sword",
+      "source_clip": "fx_laser_sword",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_laser_sword.wav",
+      "duration": 1.018775463104248,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_magic1",
+      "source_clip": "fx_magic1",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_magic1.wav",
+      "duration": 0.8097959160804749,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_magic_stone",
+      "source_clip": "fx_magic_stone",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_magic_stone.wav",
+      "duration": 1.6718367338180542,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_message",
+      "source_clip": "fx_message",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_message.wav",
+      "duration": 0.23510204255580902,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_message2",
+      "source_clip": "fx_message2",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_message2.wav",
+      "duration": 0.18285714089870453,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_nuclear_launch",
+      "source_clip": "fx_nuclear_launch",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_nuclear_launch.wav",
+      "duration": 1.2538775205612183,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_orc_shoot",
+      "source_clip": "fx_orc_shoot",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_orc_shoot.wav",
+      "duration": 0.7314285635948181,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_sea_wave",
+      "source_clip": "fx_sea_wave",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_sea_wave.wav",
+      "duration": 1.400498867034912,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_self_destruction",
+      "source_clip": "fx_self_destruction",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_self_destruction.wav",
+      "duration": 1.2015454769134521,
+      "channels": 2,
+      "frequency": 11000
+    },
+    {
+      "id": "weapon_fx_shoot_e1",
+      "source_clip": "fx_shoot_e1",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_shoot_e1.wav",
+      "duration": 0.4963265359401703,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_shoot_e2",
+      "source_clip": "fx_shoot_e2",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_shoot_e2.wav",
+      "duration": 0.31346938014030457,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_shoot_e3",
+      "source_clip": "fx_shoot_e3",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_shoot_e3.wav",
+      "duration": 1.6718367338180542,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_shoot_e5",
+      "source_clip": "fx_shoot_e5",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_shoot_e5.wav",
+      "duration": 1.541224479675293,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_shoot_flower",
+      "source_clip": "fx_shoot_flower",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_shoot_flower.wav",
+      "duration": 1.6195918321609497,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_shoot_long",
+      "source_clip": "fx_shoot_long",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_shoot_long.wav",
+      "duration": 2.559999942779541,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_skill",
+      "source_clip": "fx_skill",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_skill.wav",
+      "duration": 1.0448979139328003,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_skill_c3",
+      "source_clip": "fx_skill_c3",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_skill_c3.wav",
+      "duration": 1.436734676361084,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_skill_c5",
+      "source_clip": "fx_skill_c5",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_skill_c5.wav",
+      "duration": 0.9404081702232361,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_skill_c8",
+      "source_clip": "fx_skill_c8",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_skill_c8.wav",
+      "duration": 1.2016326189041138,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_skill_ploy",
+      "source_clip": "fx_skill_ploy",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_skill_ploy.wav",
+      "duration": 1.4106122255325317,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_staff1",
+      "source_clip": "fx_staff1",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_staff1.wav",
+      "duration": 2.9257142543792725,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_sword1",
+      "source_clip": "fx_sword1",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_sword1.wav",
+      "duration": 0.2873469293117523,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_sword2",
+      "source_clip": "fx_sword2",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_sword2.wav",
+      "duration": 0.23510204255580902,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_transform",
+      "source_clip": "fx_transform",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_transform.wav",
+      "duration": 1.2799999713897705,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fx_tree_begin",
+      "source_clip": "fx_tree_begin",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_tree_begin.wav",
+      "duration": 1.2799999713897705,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "weapon_fx_wolf_show",
+      "source_clip": "fx_wolf_show",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fx_wolf_show.wav",
+      "duration": 1.9069387912750244,
       "channels": 1,
       "frequency": 44100
     }

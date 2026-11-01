@@ -4,9 +4,9 @@
   "loop": false,
   "sample_rate": 8.0,
   "source": {
-    "animator_component_path_id": "-6977503318715224032",
-    "animator_enabled": true,
-    "animator_game_object_path_id": "7947237732622912572",
+    "animator_component_path_id": "-6901896184488381881",
+    "animator_enabled": false,
+    "animator_game_object_path_id": "3032318106458171101",
     "animator_update_mode": 0,
     "apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
     "binding_path": "img/body",

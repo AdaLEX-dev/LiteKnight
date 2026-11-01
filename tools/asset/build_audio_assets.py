@@ -32,6 +32,21 @@ def main()->int:
     files=[str(p) for p in BUNDLES.rglob("*") if p.is_file() and not p.name.endswith(".manifest")]
     env=UnityPy.load(*files)
     wanted={v:k for k,v in MAPPING.items()}
+    # Every serialized RGWeapon audio_clip and its subclasses is a real
+    # per-weapon sound. Export all of them with stable clip-name ids.
+    weapon_audio=set()
+    for o in env.objects:
+        if o.type.name!="MonoBehaviour": continue
+        try: mb=o.read()
+        except Exception: continue
+        ptr=getattr(mb,"audio_clip",None)
+        if ptr is None or getattr(ptr,"path_id",0)==0: continue
+        try: clip=ptr.read()
+        except Exception: continue
+        name=str(getattr(clip,"m_Name",""))
+        if name: weapon_audio.add(name)
+    for name in sorted(weapon_audio):
+        wanted.setdefault(name, f"weapon_{name}")
     found={}
     for o in env.objects:
         if o.type.name!="AudioClip": continue
@@ -52,7 +67,7 @@ def main()->int:
         }
     OUT.mkdir(parents=True,exist_ok=True)
     entries=[]
-    for logical,clip_name in MAPPING.items():
+    for clip_name, logical in sorted(wanted.items(), key=lambda item: item[1]):
         item=found.get(clip_name)
         if item is None:
             print(f"MISSING {logical} <- {clip_name}")
@@ -76,7 +91,7 @@ def main()->int:
             "CONFIRMED":"actual Unity AudioClip sample bytes and serialized length/channels/frequency",
             "HYPOTHESIS":"logical event mapping for the first-pass native audio wiring",
         },
-        "counts":{"logical_events":len(MAPPING),"exported":len(entries)},
+        "counts":{"logical_events":len(wanted),"exported":len(entries)},
         "sounds":entries,
     }
     META.write_text(json.dumps(document,indent=2)+"\n",encoding="utf-8")

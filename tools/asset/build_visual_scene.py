@@ -99,6 +99,34 @@ def _load_weapon_catalogue() -> dict[str, dict]:
 
 WEAPON_CATALOGUE = _load_weapon_catalogue()
 
+
+def _load_character_loadouts() -> tuple[dict[str, dict], dict[str, str]]:
+    path = ROOT / "analysis/assets/characters/character_loadouts.json"
+    if not path.is_file():
+        return {}, {}
+    try:
+        document = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}, {}
+    entries = {
+        str(entry.get("id")): entry
+        for entry in document.get("characters", [])
+        if isinstance(entry, dict) and entry.get("id")
+    }
+    names = {}
+    for entry in entries.values():
+        base = str(entry.get("starting_weapon", ""))
+        if base:
+            names[base] = str(entry.get("starting_weapon_name", base))
+        for variant in entry.get("variants", []) or []:
+            if isinstance(variant, dict) and variant.get("id"):
+                names[str(variant["id"])] = str(
+                    variant.get("display_name", variant["id"]))
+    return entries, names
+
+
+CHARACTER_LOADOUTS, LOADOUT_WEAPON_NAMES = _load_character_loadouts()
+
 SORTING_LAYER_NAMES = {
     0: "Default",
     1: "BackGround",
@@ -187,14 +215,23 @@ class SceneBuilder:
         # level-objects supplies the runtime wall prefab; level-common supplies
         # the door AnimatorControllers referenced by the room prefab.
         self.room_id = getattr(args, "room", "r1_1")
-        self.env = UnityPy.load(
-            str(bundle_path(f"room/{self.room_id}", args.bundle_root)),
+        requested_bundle = getattr(args, "bundle", None)
+        if requested_bundle:
+            self.bundle_name = str(requested_bundle)
+        else:
+            self.bundle_name = f"room/{self.room_id}"
+        self.root_name = getattr(args, "root_name", None) or self.room_id
+        bundle_paths = [
             str(bundle_path("level-objects", args.bundle_root)),
             str(bundle_path("level-common", args.bundle_root)),
             str(bundle_path("res/floor", args.bundle_root)),
             str(bundle_path("res/charactor_common", args.bundle_root)),
             str(bundle_path("common", args.bundle_root)),
-        )
+        ]
+        if Path(bundle_path(self.bundle_name, args.bundle_root)).is_file():
+            bundle_paths.insert(0, str(bundle_path(self.bundle_name,
+                                                   args.bundle_root)))
+        self.env = UnityPy.load(*bundle_paths)
         self.sprites: dict[tuple[str, str], dict] = {}
         self.sprite_order: list[str] = []
         self.instances: list[dict] = []
@@ -204,6 +241,7 @@ class SceneBuilder:
         self.player_stats: dict = {}
         self.weapons: list[dict] = []
         self.enemy_definitions: list[dict] = []
+        self.pet_definitions: list[dict] = []
         self.enemy_fixtures: list[dict] = []
         self.textures: dict[str, dict] = {}
         self.animations: dict[str, dict] = {}
@@ -677,6 +715,185 @@ class SceneBuilder:
                 return keys[-1]["sprite"]
         return None
 
+    def _clip_weapon_visual_curves(self, clip, attack_time):
+        bindings = getattr(clip.m_ClipBindingConstant, "genericBindings", []) or []
+        expanded = []
+        for binding_index, binding in enumerate(bindings):
+            type_id = int(getattr(binding, "typeID", 0) or 0)
+            attribute = int(getattr(binding, "attribute", 0) or 0)
+            path = int(getattr(binding, "path", 0) or 0)
+            components = 1
+            if type_id == 4 and attribute in (1, 3, 4):
+                components = 3
+            elif type_id == 4 and attribute == 2:
+                components = 4
+            for component in range(components):
+                expanded.append((binding_index, component, type_id,
+                                 attribute, path))
+        raw = getattr(clip.m_MuscleClip.m_Clip.data.m_StreamedClip, "data", []) or []
+        data = b"".join(struct.pack("<I", int(value) & 0xFFFFFFFF) for value in raw)
+        values = {}
+        position = 0
+        while position + 8 <= len(data):
+            time = struct.unpack_from("<f", data, position)[0]
+            key_count = struct.unpack_from("<I", data, position + 4)[0]
+            position += 8
+            if key_count > 512 or position + key_count * 20 > len(data):
+                break
+            if not math.isfinite(time) or time < 0.0:
+                position += key_count * 20
+                continue
+            for _ in range(key_count):
+                curve_index = struct.unpack_from("<I", data, position)[0]
+                _, _, _, value = struct.unpack_from("<4f", data, position + 4)
+                position += 20
+                if curve_index < len(expanded):
+                    binding_index, component, type_id, attribute, path = expanded[curve_index]
+                    values.setdefault((binding_index, component), []).append(
+                        (time, float(value)))
+        path_w = zlib.crc32(b"w") & 0xFFFFFFFF
+        path_gun = zlib.crc32(b"w/gun_point") & 0xFFFFFFFF
+        position_x = []
+        rotation_z = []
+        muzzle = []
+        for binding_index, component, type_id, attribute, path in expanded:
+            keys = values.get((binding_index, component), [])
+            if not keys:
+                continue
+            if path == path_w and type_id == 4 and attribute == 1 and component == 0:
+                position_x = sorted(keys)
+            elif path == path_w and type_id == 4 and attribute == 2 and component == 2:
+                z_keys = dict(keys)
+                w_keys = dict(values.get((binding_index, 3), []))
+                merged = []
+                for time in sorted(set(z_keys) | set(w_keys)):
+                    z = z_keys.get(time, 0.0)
+                    w = w_keys.get(time, 1.0)
+                    merged.append((time, math.degrees(2.0 * math.atan2(z, w))))
+                rotation_z = merged
+            elif path == path_gun and type_id == 212 and attribute == 3305885265:
+                muzzle = sorted(keys)
+        return {
+            "visual_position_x": [[t, v] for t, v in position_x],
+            "visual_rotation_z": [[t, v] for t, v in rotation_z],
+            "muzzle_enabled": [[t, v] for t, v in muzzle],
+            "visual_attack_time": float(attack_time),
+        }
+
+    def _extract_pet(self, pet_id, pet_go):
+        pet_data = pet_go.read()
+        role = None
+        controller = None
+        animator = None
+        for component in pet_data.m_Component:
+            if component.component.type.name == "MonoBehaviour":
+                try:
+                    candidate = component.component.read()
+                except Exception:
+                    continue
+                if hasattr(candidate, "max_hp") and hasattr(candidate, "speed"):
+                    role = candidate
+                elif hasattr(candidate, "atk_cd") and hasattr(candidate, "damage"):
+                    controller = candidate
+            elif component.component.type.name == "Animator":
+                animator = component.component.read()
+        if role is None or controller is None or animator is None or not animator.m_Controller:
+            raise RuntimeError("missing RoleAttribute/RGPetController/Animator")
+        pet_transform = next(c.component.read() for c in pet_data.m_Component
+                             if c.component.type.name == "Transform")
+        shadow_sprite = None
+        def find_shadow(tf, depth=0):
+            nonlocal shadow_sprite
+            if depth > 4 or shadow_sprite is not None:
+                return
+            go = tf.m_GameObject.read()
+            if go.m_Name == "shadow":
+                for c in go.m_Component:
+                    if c.component.type.name == "SpriteRenderer":
+                        shadow_sprite, _ = self.ensure_sprite_asset(
+                            c.component.read().m_Sprite)
+                        return
+            for child in getattr(tf, "m_Children", []) or []:
+                find_shadow(child.read(), depth + 1)
+        find_shadow(pet_transform)
+        ctrl = animator.m_Controller.read()
+        clips = [p.read() for p in getattr(ctrl, "m_AnimationClips", []) or []]
+        def clip_with(suffixes):
+            for clip in clips:
+                name = str(getattr(clip, "m_Name", ""))
+                if any(name.endswith(suffix) for suffix in suffixes):
+                    return clip
+            return None
+        idle_clip = clip_with(("_ide", "_idle"))
+        run_clip = clip_with(("_run",))
+        atk_clip = clip_with(("_atk", "_attack", "char_atk"))
+        dead_clip = clip_with(("_dead", "_death"))
+        def frames(clip):
+            if clip is None:
+                return []
+            for path in ("img/body", "body"):
+                try:
+                    keys = self._clip_sprite_keys(clip, path)
+                except Exception:
+                    keys = []
+                if keys:
+                    return keys
+            return []
+        idle_frames = frames(idle_clip)
+        if not idle_frames:
+            # Some pet controllers use one static body sprite instead of an
+            # idle PPtr clip (pet_datura/battery). Use the serialized body.
+            def find_body(tf, depth=0):
+                if depth > 4:
+                    return None
+                go = tf.m_GameObject.read()
+                if go.m_Name == "body":
+                    for c in go.m_Component:
+                        if c.component.type.name == "SpriteRenderer":
+                            sprite_id, _ = self.ensure_sprite_asset(
+                                c.component.read().m_Sprite)
+                            return sprite_id
+                for child in getattr(tf, "m_Children", []) or []:
+                    found = find_body(child.read(), depth + 1)
+                    if found:
+                        return found
+                return None
+            static_body = find_body(pet_transform)
+            if not static_body:
+                raise RuntimeError("no idle body sprite mapping")
+            idle_frames = [{"time": 0.0, "sprite": static_body}]
+        run_frames = frames(run_clip) or idle_frames
+        atk_frames = frames(atk_clip) or idle_frames
+        dead_frames = frames(dead_clip) or idle_frames
+        body_sprite = idle_frames[0]["sprite"]
+        return {
+            "id": pet_id,
+            "prefab": pet_id,
+            "class_name": type(controller).__name__,
+            "max_hp": int(role.max_hp),
+            "speed": float(role.speed),
+            "speed_rate": float(getattr(role, "speed_rate", 0.0) or 0.0),
+            "damage": int(getattr(controller, "damage", 0) or 0),
+            "atk_cd": float(getattr(controller, "atk_cd", 2.0) or 2.0),
+            "min_follow_distance": float(
+                getattr(controller, "min_follow_distance", 2.0) or 2.0),
+            "max_follow_distance": float(
+                getattr(controller, "max_follow_distance", 20.0) or 20.0),
+            "min_distance": float(getattr(controller, "min_distance", 8.0) or 8.0),
+            "atk_range": float(getattr(controller, "atk_range", 2.0) or 2.0),
+            "is_melee": bool(getattr(controller, "is_melee", True)),
+            "body_sprite": body_sprite,
+            "shadow_sprite": shadow_sprite,
+            "idle_sprites": idle_frames,
+            "run_sprites": run_frames,
+            "attack_sprites": atk_frames,
+            "dead_sprites": dead_frames,
+            "classification": (
+                f"CONFIRMED {pet_id}/{type(controller).__name__} serialized "
+                "RoleAttribute and Animator; follow/attack fields from the "
+                "recovered RGPetController family"),
+        }
+
     def _extract_enemy(self, enemy_id, enemy_go):
         enemy_data = enemy_go.read()
         role = None
@@ -872,9 +1089,12 @@ class SceneBuilder:
                 name = str(obj.read().m_Name)
             except Exception:
                 continue
-            if re.fullmatch(r"weapon_\d{3}", name):
+            if re.fullmatch(r"weapon_(?:\d{3}|init_[a-z0-9_]+)", name):
                 weapon_objects.setdefault(name, obj)
-        weapon_ids = sorted(weapon_objects, key=lambda value: int(value.split("_")[1]))
+        def weapon_sort_key(value):
+            suffix = value.split("_", 1)[1]
+            return (0, int(suffix), "") if suffix.isdigit() else (1, 0, suffix)
+        weapon_ids = sorted(weapon_objects, key=weapon_sort_key)
         # c00 RoleAttributePlayer: the playable dev-room combat state.
         for obj in self.env.objects:
             if obj.type.name != "GameObject":
@@ -976,6 +1196,7 @@ class SceneBuilder:
                 visual_sprite = None
                 visual_offset = [0.0, 0.0]
                 muzzle_offset = [0.6, 0.15]
+                muzzle_sprite = None
                 visual_rotation = 0.0
                 visual_layer = 5
                 visual_order = 1
@@ -993,6 +1214,21 @@ class SceneBuilder:
                             visual_sprite, _ = self.ensure_sprite_asset(sr.m_Sprite)
                             visual_layer = int(sr.m_SortingLayer)
                             visual_order = int(sr.m_SortingOrder)
+                        for w_child in getattr(transform, "m_Children", []) or []:
+                            w_transform = w_child.read()
+                            w_go = w_transform.m_GameObject.read()
+                            if w_go.m_Name != "gun_point":
+                                continue
+                            muzzle_offset = [
+                                float(w_transform.m_LocalPosition.x),
+                                float(w_transform.m_LocalPosition.y)]
+                            muzzle_sr = next(
+                                (c.component.read() for c in w_go.m_Component
+                                 if c.component.type.name == "SpriteRenderer"),
+                                None)
+                            if muzzle_sr is not None and muzzle_sr.m_Sprite:
+                                muzzle_sprite, _ = self.ensure_sprite_asset(
+                                    muzzle_sr.m_Sprite)
                     elif game_object.m_Name == "gun_point":
                         muzzle_offset = [float(transform.m_LocalPosition.x),
                                          float(transform.m_LocalPosition.y)]
@@ -1022,9 +1258,12 @@ class SceneBuilder:
                     attack_cycle = float(clip.m_MuscleClip.m_StopTime) / speed_scale
                     first_shot_delay = float(events[0].time) / speed_scale
                     attack_clip_name = getattr(clip, "m_Name", "")
+                    attack_clip = clip
                     break
                 if attack_cycle <= 0.0:
                     raise SystemExit(f"{weapon_id} has no Attack AnimationEvent")
+                visual_curves = self._clip_weapon_visual_curves(
+                    attack_clip, first_shot_delay)
 
                 projectile = {
                     "id": getattr(bullet_go, "m_Name", "bullet"),
@@ -1049,6 +1288,7 @@ class SceneBuilder:
                     "id": weapon_id,
                     "display_name": (
                         catalogue_meta.get("display_name")
+                        or LOADOUT_WEAPON_NAMES.get(weapon_id)
                         or WEAPON_DISPLAY_NAMES.get(weapon_id, weapon_id)),
                     "class_name": gun_class,
                     "rarity": catalogue_meta.get("level"),
@@ -1071,15 +1311,21 @@ class SceneBuilder:
                     "melee_arc": 110.0 if bool(getattr(gun, "is_melee", False)) else 0.0,
                     "owner_deviation": 0,
                     "consume": int(gun.consume),
+                    "audio_clip": (
+                        str(getattr(gun.audio_clip.read(), "m_Name", ""))
+                        if getattr(gun, "audio_clip", None) is not None and
+                        gun.audio_clip.path_id != 0 else ""),
                     "weapon_speed": float(gun.weapon_speed),
                     "atk_move_speed": float(gun.atk_move_speed),
                     "repel": int(bullet_info.repel),
                     "through": int(bullet_info.throughCount),
                     "attack_cycle_seconds": attack_cycle,
                     "first_shot_delay_seconds": first_shot_delay,
+                    **visual_curves,
                     "visual_sprite": visual_sprite,
                     "visual_offset": visual_offset,
                     "muzzle_offset": muzzle_offset,
+                    "muzzle_sprite": muzzle_sprite,
                     "visual_rotation": visual_rotation,
                     "sorting_layer": visual_layer,
                     "sorting_order": visual_order,
@@ -1125,6 +1371,55 @@ class SceneBuilder:
              "position": [26.0, 15.5]},
         ]
 
+        # Recovered pet prefabs. The base ResourcesUtil path suffix is not
+        # serialized, so only prefabs that actually exist in the bundles are
+        # emitted; no pet skin ids are fabricated.
+        pet_objects = {}
+        pet_candidates = {}
+        pet_names = {
+            "pet", "wolf1", "wolf2", "pet_datura", "pet_eator", "battery",
+            "npc_snowman", "easter_rabbit", "wild_pet_battle",
+        }
+        for obj in self.env.objects:
+            if obj.type.name != "GameObject":
+                continue
+            try:
+                name = str(obj.read().m_Name)
+            except Exception:
+                continue
+            if name in pet_names:
+                pet_candidates.setdefault(name, []).append(obj)
+        for name, candidates in pet_candidates.items():
+            best = None
+            best_mono = -1
+            for candidate in candidates:
+                try:
+                    components = [c.component.type.name
+                                  for c in candidate.read().m_Component]
+                except Exception:
+                    continue
+                mono_count = components.count("MonoBehaviour")
+                if "Animator" in components and mono_count > best_mono:
+                    best = candidate
+                    best_mono = mono_count
+            if best is not None:
+                pet_objects[name] = best
+        pet_labels = {
+            "pet": "Cat", "wolf1": "Wolf", "wolf2": "Snow Wolf",
+            "pet_datura": "Datura", "pet_eator": "Eater", "battery": "Battery",
+            "npc_snowman": "Snowman", "easter_rabbit": "Easter Rabbit",
+            "wild_pet_battle": "Wild Pet",
+        }
+        self.pet_definitions = []
+        for pet_id in sorted(pet_objects):
+            try:
+                definition = self._extract_pet(pet_id, pet_objects[pet_id])
+            except (Exception, SystemExit) as exc:
+                print(f"SKIP PET {pet_id}: {exc}")
+                continue
+            definition["display_name"] = pet_labels.get(pet_id, pet_id)
+            self.pet_definitions.append(definition)
+
     def extract_player_animations(self, player_root, character_id="c00") -> None:
         animator_component = None
         for component in player_root.read().m_Component:
@@ -1145,6 +1440,7 @@ class SceneBuilder:
             "ide": f"{character_id}_idle",
             "run": f"{character_id}_run",
             "dead": f"{character_id}_dead",
+            "hit": f"{character_id}_hit",
         }
 
         states_by_name: dict[str, tuple[object, int, str]] = {}
@@ -1161,6 +1457,8 @@ class SceneBuilder:
 
         for state_name, native_id in selected_states.items():
             if state_name not in states_by_name:
+                if state_name == "hit":
+                    continue
                 raise SystemExit(
                     f"{character_id} controller has no selected {state_name} state")
             state, state_machine_index, layer_name = states_by_name[state_name]
@@ -1191,8 +1489,11 @@ class SceneBuilder:
                     target_index = index
                     break
             if target_index is None:
+                if state_name in ("dead", "hit"):
+                    continue
                 raise SystemExit(
-                    f"no SpriteRenderer.m_Sprite binding for {PLAYER_BODY_PATH}")
+                    f"{character_id}: no SpriteRenderer.m_Sprite binding for "
+                    f"{PLAYER_BODY_PATH} ({state_name})")
             curve_index = sum(
                 self._binding_curve_count(b) for b in bindings[:target_index])
 
@@ -1495,6 +1796,23 @@ class SceneBuilder:
                 component.component.read() for component in game_object.m_Component
                 if component.component.type.name == "Transform")
             collider, _ = self._component(game_object, "BoxCollider2D")
+            breakable = False
+            box_hp = 0
+            for component in game_object.m_Component:
+                if component.component.type.name != "MonoBehaviour":
+                    continue
+                try:
+                    candidate = component.component.read()
+                    script = (candidate.m_Script.read()
+                              if getattr(candidate, "m_Script", None) and
+                              candidate.m_Script.path_id else None)
+                    class_name = getattr(script, "m_ClassName", "")
+                except Exception:
+                    continue
+                if class_name == "RGBox":
+                    breakable = True
+                    box_hp = int(getattr(candidate, "hp", 0) or 0)
+                    break
             prefabs.append({
                 "index": index,
                 "name": getattr(game_object, "m_Name", ""),
@@ -1508,6 +1826,8 @@ class SceneBuilder:
                     if collider is not None else None),
                 "collider_trigger": (
                     bool(collider.m_IsTrigger) if collider is not None else None),
+                "breakable": breakable,
+                "box_hp": box_hp,
                 "visuals": collect(transform, (0.0, 0.0), 0.0, (1.0, 1.0),
                                    getattr(game_object, "m_Name", ""),
                                    is_root=True),
@@ -1549,6 +1869,8 @@ class SceneBuilder:
                 "name": prefab["name"],
                 "path_id": prefab["path_id"],
                 "collider": collider,
+                "breakable": bool(prefab["breakable"]),
+                "hp": int(prefab["box_hp"]),
                 "visuals": visuals,
             })
         markers = []
@@ -1606,18 +1928,16 @@ class SceneBuilder:
                 room_mb = candidate
                 break
         if room_mb is None:
-            raise SystemExit("r1_1 has no RGRoomX MonoBehaviour")
+            raise SystemExit(f"{self.room_id} has no RGRoomX MonoBehaviour")
 
         width = int(room_mb.room_width)
         height = int(room_mb.room_height)
         offset_x = (ROOM_MAP_CELL_SIZE - width) // 2
         offset_y = (ROOM_MAP_CELL_SIZE - height) // 2
-        if width != 15 or height != 15:
+        if width not in (11, 15, 21) or height not in (11, 15, 21):
             raise SystemExit(
-                f"unexpected r1_1 room size {width}x{height}; evidence expects 15x15")
-        if offset_x != 13 or offset_y != 13:
-            raise SystemExit(
-                f"unexpected r1_1 map offsets ({offset_x},{offset_y})")
+                f"unexpected {self.room_id} room size {width}x{height}; "
+                "recovered sizes are 11/15/21")
 
         aisle_children = {}
         for child in room_tf.m_Children:
@@ -1630,7 +1950,7 @@ class SceneBuilder:
         openings = []
         for aisle_name, (side, aisle_direction, exit_direction) in AISLE_DIRECTIONS.items():
             if aisle_name not in aisle_children:
-                raise SystemExit(f"r1_1 missing {aisle_name}")
+                raise SystemExit(f"{self.room_id} missing {aisle_name}")
             aisle_tf, aisle_go = aisle_children[aisle_name]
             door_tf = None
             trigger_go = None
@@ -1887,17 +2207,17 @@ class SceneBuilder:
         stage = int(room_parts[0][1:]) if room_parts and room_parts[0].startswith("r") and room_parts[0][1:].isdigit() else 0
         number = int(room_parts[1]) if len(room_parts) > 1 and room_parts[1].isdigit() else 0
         room_type = int(getattr(room_mb, "room_type", 0))
-        room_type_name = {0: "normal", 1: "battle", 2: "boss", 3: "shop",
-                          4: "chest", 5: "special"}.get(room_type, "unknown")
+        room_type_name = {0: "start", 1: "normal", 2: "end",
+                          3: "chest", 4: "special"}.get(room_type, "unknown")
         topology = {
-            "source_room": f"room/{self.room_id}",
+            "source_room": self.bundle_name,
             "room": {
                 "type": room_type,
                 "type_name": room_type_name,
                 "stage": stage,
                 "number": number,
                 "label": f"{stage}-{number}" if stage > 0 and number > 0 else self.room_id,
-                "clear_label": "CLEARED",
+                "clear_label": "clear",
                 "classification": "CONFIRMED RGRoomX.room_type; stage/number derived from recovered PatternRoom id",
             },
             "source_wall_manager_path_id": WALL_PREFAB_MANAGER_PATH_ID,
@@ -2171,30 +2491,78 @@ class SceneBuilder:
     def build(self):
         room_root = None
         character_roots: dict[str, object] = {}
+        character_candidates: dict[str, list] = {}
+
+        def has_body_binding(root) -> bool:
+            try:
+                animator = next(
+                    c.component.read() for c in root.read().m_Component
+                    if c.component.type.name == "Animator")
+                controller = animator.m_Controller.read()
+                for state_offset in (
+                        controller.m_Controller.m_StateMachineArray[0].data
+                        .m_StateConstantArray):
+                    state = state_offset.data
+                    if int(state.m_NameID) != 2215514825:
+                        continue
+                    clip_index = int(
+                        state.m_BlendTreeConstantArray[0].data
+                        .m_NodeArray[0].data.m_ClipID)
+                    clip = controller.m_AnimationClips[clip_index].read()
+                    target_hashes = {
+                        zlib.crc32(PLAYER_BODY_PATH.encode("utf-8")) & 0xFFFFFFFF,
+                        zlib.crc32(b"img/body") & 0xFFFFFFFF,
+                        zlib.crc32(b"c00/img") & 0xFFFFFFFF,
+                    }
+                    for binding in clip.m_ClipBindingConstant.genericBindings:
+                        if (int(binding.path) in target_hashes and
+                                int(binding.customType) == 23 and
+                                int(binding.isPPtrCurve) == 1 and
+                                int(getattr(binding, "typeID", 0) or 0) == 212):
+                            return True
+            except Exception:
+                return False
+            return False
         for obj in self.env.objects:
             if obj.type.name != "GameObject":
                 continue
             data = obj.read()
             name = getattr(data, "m_Name", "")
-            if name == self.room_id:
-                room_root = obj
+            if name == self.root_name:
+                components = [c.component.type.name for c in data.m_Component]
+                if "MonoBehaviour" not in components:
+                    continue
+                is_room = False
+                for component in data.m_Component:
+                    if component.component.type.name != "MonoBehaviour":
+                        continue
+                    try:
+                        candidate_data = component.component.read()
+                    except Exception:
+                        continue
+                    if hasattr(candidate_data, "room_width"):
+                        is_room = True
+                        break
+                if is_room:
+                    room_root = obj
             elif re.fullmatch(r"c\d{2}", name):
+                # Character prefabs live in the common bundle. Room bundles can
+                # contain same-named skin variants whose body binding differs.
+                if self.cab_to_bundle.get(
+                        getattr(obj.assets_file, "name", "")) != "common":
+                    continue
                 components = [c.component.type.name for c in data.m_Component]
                 if "Animator" not in components:
                     continue
-                existing = character_roots.get(name)
-                if existing is None:
-                    character_roots[name] = obj
+                candidates = character_candidates.setdefault(name, [])
+                if all(candidate.path_id != obj.path_id for candidate in candidates):
+                    candidates.append(obj)
+                good = [candidate for candidate in candidates
+                        if has_body_binding(candidate)]
+                if good:
+                    character_roots[name] = good[0]
                 else:
-                    # Prefer an enabled Animator when the bundle contains both
-                    # a disabled prefab instance and a runtime instance.
-                    animator = next(c.component.read() for c in data.m_Component
-                                    if c.component.type.name == "Animator")
-                    old_animator = next(
-                        c.component.read() for c in existing.read().m_Component
-                        if c.component.type.name == "Animator")
-                    if bool(animator.m_Enabled) and not bool(old_animator.m_Enabled):
-                        character_roots[name] = obj
+                    character_roots[name] = candidates[0]
         if room_root is None:
             raise SystemExit(f"{self.room_id} root GameObject not found")
         if "c00" not in character_roots:
@@ -2253,6 +2621,10 @@ class SceneBuilder:
                 "idle_animation": f"{character_id}_idle",
                 "run_animation": f"{character_id}_run",
                 "death_animation": f"{character_id}_dead",
+                "hit_animation": f"{character_id}_hit",
+                "starting_weapon": str(
+                    CHARACTER_LOADOUTS.get(character_id, {}).get(
+                        "starting_weapon", "")),
                 "classification": (
                     "CONFIRMED serialized c00..c14 character prefabs from the "
                     "common bundle; display names are not proven"),
@@ -2261,7 +2633,7 @@ class SceneBuilder:
         return {
             "id": f"{self.room_id}_visual",
             "room": self.topology.get("room", {}),
-            "source_room": f"room/{self.room_id}",
+            "source_room": self.bundle_name,
             "source_player": "common/c00",
             "spawn": [spawn[0], spawn[1]],
             "characters": self.characters,
@@ -2269,6 +2641,7 @@ class SceneBuilder:
             "weapons": self.weapons,
             "enemy_definitions": self.enemy_definitions,
             "enemy_fixtures": self.enemy_fixtures,
+            "pet_definitions": self.pet_definitions,
             "spawn_classification": (
                 "NATIVE TEST CONFIGURATION: player starts just inside the "
                 "south door on free floor; the recovered c00 prefab transform "
@@ -2303,6 +2676,10 @@ def main(argv=None) -> int:
         "--wall-map", type=Path,
         default=ROOT / "analysis/re/r1_1_wall_map.json")
     parser.add_argument("--room", default="r1_1")
+    parser.add_argument("--bundle", default=None,
+                        help="AssetBundle name; defaults to room/<room>")
+    parser.add_argument("--root-name", default=None,
+                        help="root GameObject name; defaults to --room")
     parser.add_argument("--spawn", type=float, nargs=2, default=(20.0, 15.0))
     args = parser.parse_args(argv)
 
@@ -2343,8 +2720,10 @@ def main(argv=None) -> int:
 
     scene_sha = hashlib.sha256(scene_text.encode("utf-8")).hexdigest()
     wall_map_sha = hashlib.sha256(wall_map_text.encode("utf-8")).hexdigest()
+    source_bundle_name = args.bundle or f"room/{args.room}"
     bundles = {
-        f"room/{args.room}": source_sha256(bundle_path(f"room/{args.room}", args.bundle_root)),
+        source_bundle_name: source_sha256(
+            bundle_path(source_bundle_name, args.bundle_root)),
         "level-objects": source_sha256(
             bundle_path("level-objects", args.bundle_root)),
         "level-common": source_sha256(

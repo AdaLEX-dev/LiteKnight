@@ -336,12 +336,12 @@
     },
     {
       "category": "weapons",
-      "integrated": 210,
+      "integrated": 227,
       "lifecycle": {
         "DEVROOM_TESTED": 4,
         "DISCOVERED": 365,
         "EXTRACTED": 4,
-        "INTEGRATED": 210,
+        "INTEGRATED": 227,
         "TRANSLATED": 4,
         "VALIDATED": 4,
         "highest": "DEVROOM_TESTED",
@@ -353,12 +353,12 @@
     },
     {
       "category": "projectiles",
-      "integrated": 125,
+      "integrated": 135,
       "lifecycle": {
         "DEVROOM_TESTED": 3,
         "DISCOVERED": 3,
         "EXTRACTED": 3,
-        "INTEGRATED": 125,
+        "INTEGRATED": 135,
         "TRANSLATED": 3,
         "VALIDATED": 3,
         "highest": "DEVROOM_TESTED",
@@ -561,7 +561,7 @@
       ],
       "redistribution": "local_only",
       "run_animation": "c00_run",
-      "source_path_id": "477341006719182088",
+      "source_path_id": "-2381127569301570839",
       "status": "INTEGRATED_IDLE_RUN"
     },
     {
@@ -599,7 +599,7 @@
       ],
       "redistribution": "local_only",
       "run_animation": "c02_run",
-      "source_path_id": "1168348965011867508",
+      "source_path_id": "-8736330119066142312",
       "status": "INTEGRATED_IDLE_RUN"
     },
     {
@@ -675,7 +675,7 @@
       ],
       "redistribution": "local_only",
       "run_animation": "c06_run",
-      "source_path_id": "7947237732622912572",
+      "source_path_id": "3032318106458171101",
       "status": "INTEGRATED_IDLE_RUN"
     },
     {
@@ -713,7 +713,7 @@
       ],
       "redistribution": "local_only",
       "run_animation": "c08_run",
-      "source_path_id": "7956743744005869555",
+      "source_path_id": "-4798003300364874684",
       "status": "INTEGRATED_IDLE_RUN"
     },
     {
@@ -732,7 +732,7 @@
       ],
       "redistribution": "local_only",
       "run_animation": "c09_run",
-      "source_path_id": "-424237070712932886",
+      "source_path_id": "-1142237923672115994",
       "status": "INTEGRATED_IDLE_RUN"
     },
     {
@@ -789,7 +789,7 @@
       ],
       "redistribution": "local_only",
       "run_animation": "c12_run",
-      "source_path_id": "3792964550872340968",
+      "source_path_id": "-7827214302052179859",
       "status": "INTEGRATED_IDLE_RUN"
     },
     {
@@ -808,7 +808,7 @@
       ],
       "redistribution": "local_only",
       "run_animation": "c13_run",
-      "source_path_id": "7365918473955128911",
+      "source_path_id": "-5789537212752867460",
       "status": "INTEGRATED_IDLE_RUN"
     },
     {
@@ -2427,9 +2427,16 @@
     "bullet_0",
     "bullet_1",
     "bullet_100",
+    "bullet_101",
+    "bullet_104",
+    "bullet_107",
     "bullet_11",
+    "bullet_113",
+    "bullet_114",
+    "bullet_114xx",
     "bullet_116",
     "bullet_119",
+    "bullet_11_xx",
     "bullet_12",
     "bullet_13",
     "bullet_14",
@@ -2517,10 +2524,12 @@
     "bullet_golden_sniper",
     "bullet_hat",
     "bullet_mouse_gun!",
+    "bullet_necromancer",
     "bullet_pill",
     "shield",
     "shot_gun_bullet",
     "spear_0_8",
+    "spear_0_8_hsv_red",
     "spear_1_5",
     "spear_2.5",
     "spear_3",
@@ -2542,7 +2551,8 @@
     "sword_2_ice",
     "sword_2_poison",
     "sword_2_red",
-    "sword_5"
+    "sword_5",
+    "sword_init_assassin"
   ],
   "redistribution_policy": {
     "allowed": "project-authored source/configuration and generated developer font placeholder",
@@ -2551,7 +2561,7 @@
     "unknown": "unreviewed recovered content"
   },
   "scene": "analysis/assets/scenes/r1_1_visual.json",
-  "scene_sha256": "a53c69d750a3c77c590d474b1f746602b9c538a256be1999f5a28d06623fb0fd",
+  "scene_sha256": "839eeb484c1ba73a91d4bf51b58429c96a5ec3c60dd30230891b78643bf995f1",
   "schema": 1,
   "summary": {
     "animations_integrated": 45,
@@ -2561,8 +2571,8 @@
     "hub_scene": "analysis/assets/scenes/hero_room.json",
     "hub_scene_collision_solids": 732,
     "hub_scene_instances": 9036,
-    "hub_scene_interaction_markers": 5,
-    "hub_scene_sprites": 875,
+    "hub_scene_interaction_markers": 23,
+    "hub_scene_sprites": 985,
     "lifecycle_statuses": [
       "DISCOVERED",
       "EXTRACTED",
@@ -2584,10 +2594,10 @@
       "weapon_ids": 365
     },
     "reference_catalogue": "analysis/assets/reference_catalogue.json",
-    "sprites_integrated": 697,
-    "textures_integrated": 27,
-    "unique_projectiles_integrated": 125,
-    "weapons_integrated": 210
+    "sprites_integrated": 803,
+    "textures_integrated": 30,
+    "unique_projectiles_integrated": 135,
+    "weapons_integrated": 227
   },
   "textures": [
     {
@@ -2778,7 +2788,7 @@
           1024,
           512
         ],
-        "sprite_count": 72
+        "sprite_count": 79
       },
       "dimensions": [
         1024,
@@ -2803,10 +2813,11 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
       "source_path_id": "-304717225150204165",
-      "sprite_count": 72,
+      "sprite_count": 79,
       "sprite_ids": [
         "texiao_01_787116191094815950",
         "bullet_5_-4268214305387315619",
+        "bullet_4_-4757035361917617899",
         "bullet_34_-4649028297119661206",
         "bullet_9_4070292242272158738",
         "bullet_36_4595297079794702158",
@@ -2825,6 +2836,7 @@
         "bullet_10_5350058755578832789",
         "bullet_74_8427756760541470519",
         "bullet_39_-6431972078249221899",
+        "nothing_-3916338455696095381",
         "bullet_72_-2340828468289669635",
         "bullet_2_-9148537784211894478",
         "bullet_31_5264552128644489582",
@@ -2842,9 +2854,9 @@
         "bullet_76_-9030137288829753493",
         "bullet_77_3357013338397413935",
         "bullet_7_-9113404983744651964",
+        "bullet_94_-1444795226872264014",
         "bullet_98_2369174333760045707",
         "bullet_99_5192308961883759228",
-        "nothing_-3916338455696095381",
         "bullet_112_-1308927539208815686",
         "bullet_111_3664961312659413416",
         "effect_08_31_-7524528572635230680",
@@ -2863,6 +2875,11 @@
         "bullet2_59_2232386725088686150",
         "bullet2_67_1094551923856510445",
         "bullet2_64_6023641853019147494",
+        "bullet2_29_-1183222446361968956",
+        "bullet2_35_1271739920577498345",
+        "bullet_126_-2806164879602474152",
+        "bullet2_30_-5398112845245177003",
+        "bullet_85_-2846660411385211273",
         "bullet_87_8057191759279053040",
         "bullet_29_-1150908520057953841",
         "bullet_26_5088758692506102188",
@@ -2888,7 +2905,7 @@
           512,
           512
         ],
-        "sprite_count": 227
+        "sprite_count": 249
       },
       "dimensions": [
         512,
@@ -2913,7 +2930,7 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-weapon (Group 0)-512x512-fmt13",
       "source_path_id": "-7138671102567859681",
-      "sprite_count": 227,
+      "sprite_count": 249,
       "sprite_ids": [
         "weapons_19_-4519551836381203921",
         "weapons_107_-6777473861087044728",
@@ -3141,7 +3158,29 @@
         "weapons2_90_5796428167252141893",
         "weapons2_93_386500239221313333",
         "weapons2_87_5321352487583419022",
-        "weapons2_86_-5160752783170099990"
+        "weapons2_86_-5160752783170099990",
+        "weapons3_63_-6831809889584492666",
+        "weapons3_39_3413122183484861760",
+        "weapons3_57_-7232119498801179723",
+        "weapons3_37_7406064335290227033",
+        "weapons3_75_5519549832876861473",
+        "weapons3_76_4468652493152244942",
+        "weapons3_58_-4560093820691732725",
+        "weapons3_47_4775575898786707055",
+        "weapons3_64_6316776964112681424",
+        "weapons3_41_-4300994094896020064",
+        "weapons3_67_-6663707652018217334",
+        "weapons3_50_2116201690578422737",
+        "weapons3_72_5591927596500019274",
+        "weapons3_54_8283060527125366938",
+        "weapons3_62_4081822940650708461",
+        "weapons3_97_-8157691021017875835",
+        "weapons3_36_1696032096758110322",
+        "weapons3_98_2606619781448220464",
+        "weapons3_60_5280940165510499606",
+        "weapons3_38_5976492320468990211",
+        "weapons3_126_-621446551741520076",
+        "weapons3_127_7568765821536972130"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -3231,7 +3270,7 @@
           256,
           256
         ],
-        "sprite_count": 20
+        "sprite_count": 35
       },
       "dimensions": [
         256,
@@ -3256,7 +3295,7 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-weapon (Group 1)-256x256-fmt4",
       "source_path_id": "6364077752768854847",
-      "sprite_count": 20,
+      "sprite_count": 35,
       "sprite_ids": [
         "weapons4_7_-4482746796944925004",
         "weapons4_0_-3285786152069901032",
@@ -3277,7 +3316,22 @@
         "weapons4_71_-2827557509289219483",
         "weapons4_72_3845303260987804634",
         "weapons4_73_7815769896728704317",
-        "weapons4_77_-3646888054916899081"
+        "weapons4_77_-3646888054916899081",
+        "weapons4_29_8372834073492273390",
+        "weapons4_30_6788049032564883208",
+        "weapons4_32_-3803410214668493133",
+        "weapons4_31_7716712654845365522",
+        "weapons4_44_-4209417265756254450",
+        "weapons4_43_-8416963780825831845",
+        "weapons4_48_1349581306094325866",
+        "weapons4_20_126422199719527966",
+        "weapons4_16_3517773441130089947",
+        "weapons4_17_5708643495580026155",
+        "weapons4_38_5513074526522361957",
+        "weapons4_23_-3251284910416285188",
+        "weapons4_28_2241778816165820075",
+        "weapons4_33_-4000984691978715072",
+        "weapons4_47_-3560308371758672994"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -3418,7 +3472,7 @@
           256,
           256
         ],
-        "sprite_count": 23
+        "sprite_count": 27
       },
       "dimensions": [
         256,
@@ -3443,7 +3497,7 @@
       "source_bundle": "res/charactor_common",
       "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
       "source_path_id": "2755411589560438748",
-      "sprite_count": 23,
+      "sprite_count": 27,
       "sprite_ids": [
         "enemy18_12_2727118031561288257",
         "enemy18_13_-7371385304393196932",
@@ -3467,7 +3521,11 @@
         "enemy01_6_3055012132422103371",
         "enemy46_4_-8252437253266407641",
         "enemy46_5_-6552490607634069198",
-        "enemy46_6_-5223881341977335385"
+        "enemy46_6_-5223881341977335385",
+        "enemy46_0_-3109744835621148927",
+        "enemy46_1_4905233888606914304",
+        "enemy46_2_8668965439217412179",
+        "enemy46_3_6744337178246991267"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -4076,6 +4134,178 @@
         "worm_0_-4367086905937385810",
         "worm_1_276657210480154430",
         "worm_12_-4622439288367772151"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          512,
+          512
+        ],
+        "sprite_count": 42
+      },
+      "dimensions": [
+        512,
+        512
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m3669458403664876157.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m3669458403664876157",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m3669458403664876157.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "114a4e0def55a9eb117c46f69d9eac9014e345a150b4c7eef12b963d4c550648",
+      "redistribution": "local_only",
+      "rgba8_sha256": "aaaabd4a0348f765cd9bed5e38ca9f5c3f201d743b1f50ab674a5cf24828a787",
+      "source_asset": "common:-3669458403664876157",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-character01 (Group 1)-512x512-fmt13",
+      "source_path_id": "-3669458403664876157",
+      "sprite_count": 42,
+      "sprite_ids": [
+        "pet00_s1_4_9008018620013671286",
+        "pet00_s1_5_-307036765841805978",
+        "pet00_s1_0_-3336393826094343378",
+        "pet00_s1_1_-8963756788343027520",
+        "pet00_s1_2_-2444310192479850160",
+        "pet00_s1_3_-6303083639571656207",
+        "pet00_4_2506273103514169914",
+        "pet00_5_-7058763974204868898",
+        "pet00_6_-2053011895249672687",
+        "pet00_7_2354649384311063396",
+        "pet00_0_-5822644560855107098",
+        "pet00_1_2776275427274630501",
+        "pet00_2_-8830094507258752627",
+        "pet00_3_1758209959467169560",
+        "pet_datura_0_6768514335476093270",
+        "pet_eater_0_-7677257116517049626",
+        "pet_eater_1_-7887860460701181801",
+        "pet_eater_2_-7232980581735848006",
+        "pet_eater_3_-803594670640661171",
+        "pet_eater_4_3957286992778474375",
+        "pet_eater_5_5824428836431806509",
+        "pet_eater_6_1006005038767257005",
+        "pet_eater_7_-7872842696253624668",
+        "pet_eater_8_-7165357335384497808",
+        "pet_eater_9_-2321586240072495532",
+        "pet_eater_10_5668890859384566829",
+        "pet_eater_11_-1966329466357059474",
+        "pet_eater_12_241988703588428852",
+        "pet_eater_13_5406566623437795062",
+        "pet_eater_14_-8753966889514200137",
+        "pet_eater_15_-4745547345004909452",
+        "pet_eater_16_3668622174875380642",
+        "pet08_s0_5_8268571953540685547",
+        "pet08_s0_4_-7117541218572365289",
+        "pet08_s0_0_-4739693358667178287",
+        "pet08_s0_1_-7344970774838283153",
+        "pet08_s0_2_472507621048746766",
+        "pet08_s0_3_-6100199358441242486",
+        "pet08_s0_6_5456418766079047880",
+        "pet08_s0_7_7079749542183406626",
+        "pet08_s0_8_7572702886637724114",
+        "pet08_s0_9_5277702560993966677"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          136,
+          56
+        ],
+        "sprite_count": 8
+      },
+      "dimensions": [
+        136,
+        56
+      ],
+      "filter_mode": "point",
+      "format": "RGBA32",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_3348473360455424262.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_3348473360455424262",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_3348473360455424262.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "3f9e37177add360c13de8e0dafc1c926a63103709140150184ba85ec355b8a89",
+      "redistribution": "local_only",
+      "rgba8_sha256": "eca8861a7b0acb2d98f58d1beb39a2e45005d151098b0f1661bf3996dd12653d",
+      "source_asset": "common:3348473360455424262",
+      "source_bundle": "common",
+      "source_name": "c12_s7_wolf",
+      "source_path_id": "3348473360455424262",
+      "sprite_count": 8,
+      "sprite_ids": [
+        "c12_s7_wolf_0_-5039944072471611889",
+        "c12_s7_wolf_1_702943890234941892",
+        "c12_s7_wolf_2_6165799765111077500",
+        "c12_s7_wolf_3_4446266826069787825",
+        "c12_s7_wolf_4_-2590261458684373843",
+        "c12_s7_wolf_5_-4272776521292664124",
+        "c12_s7_wolf_6_3643617157856327992",
+        "c12_s7_wolf_7_-4689480715024228786"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          136,
+          56
+        ],
+        "sprite_count": 8
+      },
+      "dimensions": [
+        136,
+        56
+      ],
+      "filter_mode": "point",
+      "format": "RGBA32",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_619897042069292086.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_619897042069292086",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_619897042069292086.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "faf389d2d63c3f42f9db67cbf6a303d9bd28a1e5cbfa4bb53c1715a8a60a4e6f",
+      "redistribution": "local_only",
+      "rgba8_sha256": "a61365bb54f6a93a6247b1caf0f12fdf9a19d85743c8a13c668c35d0ead9a737",
+      "source_asset": "common:619897042069292086",
+      "source_bundle": "common",
+      "source_name": "c12_s7_wolf2",
+      "source_path_id": "619897042069292086",
+      "sprite_count": 8,
+      "sprite_ids": [
+        "c12_s7_wolf2_0_-5371438289419012374",
+        "c12_s7_wolf2_1_1380037414152898589",
+        "c12_s7_wolf2_2_-2673506664523346830",
+        "c12_s7_wolf2_3_8786085183578633471",
+        "c12_s7_wolf2_4_-3506228878994680021",
+        "c12_s7_wolf2_5_3426889457903106559",
+        "c12_s7_wolf2_6_2283373061416553390",
+        "c12_s7_wolf2_7_-1898802475944891655"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -8325,6 +8555,329 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_86_-5160752783170099990"
+    },
+    {
+      "attack_cycle_seconds": 0.6249999906867744,
+      "bullet_speed": 12.0,
+      "consume": 2,
+      "damage": 2,
+      "id": "weapon_init_alchemist",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_104",
+      "projectile_sprite": "bullet2_29_-1183222446361968956",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_63_-6831809889584492666"
+    },
+    {
+      "attack_cycle_seconds": 0.6249999906867744,
+      "bullet_speed": 12.0,
+      "consume": 2,
+      "damage": 2,
+      "id": "weapon_init_alchemistx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_104",
+      "projectile_sprite": "bullet2_29_-1183222446361968956",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_39_3413122183484861760"
+    },
+    {
+      "attack_cycle_seconds": 0.4545454446934474,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 6,
+      "id": "weapon_init_assassin",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "sword_init_assassin",
+      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_57_-7232119498801179723"
+    },
+    {
+      "attack_cycle_seconds": 0.4545454446934474,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 8,
+      "id": "weapon_init_assassinx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "sword_init_assassin",
+      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_37_7406064335290227033"
+    },
+    {
+      "attack_cycle_seconds": 0.4000000059604645,
+      "bullet_speed": 18.0,
+      "consume": 1,
+      "damage": 6,
+      "id": "weapon_init_druid",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_101",
+      "projectile_sprite": "weapons3_75_5519549832876861473",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_75_5519549832876861473"
+    },
+    {
+      "attack_cycle_seconds": 0.36363636117336184,
+      "bullet_speed": 18.0,
+      "consume": 1,
+      "damage": 8,
+      "id": "weapon_init_druidx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_113",
+      "projectile_sprite": "weapons3_76_4468652493152244942",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_76_4468652493152244942"
+    },
+    {
+      "attack_cycle_seconds": 0.6249999906867744,
+      "bullet_speed": 36.0,
+      "consume": 0,
+      "damage": 2,
+      "id": "weapon_init_engineer",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_11",
+      "projectile_sprite": "bullet_33_-5031097994251344653",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_64_6316776964112681424"
+    },
+    {
+      "attack_cycle_seconds": 0.6249999906867744,
+      "bullet_speed": 36.0,
+      "consume": 0,
+      "damage": 2,
+      "id": "weapon_init_engineerx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_11",
+      "projectile_sprite": "bullet_33_-5031097994251344653",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_41_-4300994094896020064"
+    },
+    {
+      "attack_cycle_seconds": 0.6249999906867744,
+      "bullet_speed": 36.0,
+      "consume": 0,
+      "damage": 2,
+      "id": "weapon_init_engineerxx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_11_xx",
+      "projectile_sprite": "bullet_33_-5031097994251344653",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_48_1349581306094325866"
+    },
+    {
+      "attack_cycle_seconds": 0.6666666865348816,
+      "bullet_speed": 30.0,
+      "consume": 1,
+      "damage": 1,
+      "id": "weapon_init_necromancer",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_necromancer",
+      "projectile_sprite": "nothing_-3916338455696095381",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_16_3517773441130089947"
+    },
+    {
+      "attack_cycle_seconds": 0.6666666865348816,
+      "bullet_speed": 30.0,
+      "consume": 2,
+      "damage": 1,
+      "id": "weapon_init_necromancerx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_necromancer",
+      "projectile_sprite": "nothing_-3916338455696095381",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_17_5708643495580026155"
+    },
+    {
+      "attack_cycle_seconds": 0.3124999953433872,
+      "bullet_speed": 36.0,
+      "consume": 1,
+      "damage": 4,
+      "id": "weapon_init_ranger",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_107",
+      "projectile_sprite": "weapons3_62_4081822940650708461",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_97_-8157691021017875835"
+    },
+    {
+      "attack_cycle_seconds": 0.3124999953433872,
+      "bullet_speed": 36.0,
+      "consume": 1,
+      "damage": 5,
+      "id": "weapon_init_rangerx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_114",
+      "projectile_sprite": "weapons3_36_1696032096758110322",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_98_2606619781448220464"
+    },
+    {
+      "attack_cycle_seconds": 0.3124999953433872,
+      "bullet_speed": 36.0,
+      "consume": 1,
+      "damage": 5,
+      "id": "weapon_init_rangerxx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_114xx",
+      "projectile_sprite": "weapons4_23_-3251284910416285188",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_28_2241778816165820075"
+    },
+    {
+      "attack_cycle_seconds": 0.2777777851363761,
+      "bullet_speed": 24.0,
+      "consume": 0,
+      "damage": 5,
+      "id": "weapon_init_viking",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "spear_0_8",
+      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_126_-621446551741520076"
+    },
+    {
+      "attack_cycle_seconds": 0.2777777851363761,
+      "bullet_speed": 24.0,
+      "consume": 0,
+      "damage": 6,
+      "id": "weapon_init_vikingx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "spear_0_8",
+      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_127_7568765821536972130"
+    },
+    {
+      "attack_cycle_seconds": 0.2777777851363761,
+      "bullet_speed": 24.0,
+      "consume": 0,
+      "damage": 6,
+      "id": "weapon_init_vikingxx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "spear_0_8_hsv_red",
+      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_47_-3560308371758672994"
     }
   ]
 }

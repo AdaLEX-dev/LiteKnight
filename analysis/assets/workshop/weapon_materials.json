@@ -1,0 +1,5570 @@
+{
+  "schema_version": 1,
+  "source": {
+    "common_bundle": "analysis/apktool_out/assets/AssetBundles/common",
+    "material_config": "analysis/apktool_out/assets/bin/Data/ab5420ac0fce9e34f99d079b6d8501b1",
+    "weapon_catalogue": "analysis/assets/weapon_catalogue.json",
+    "unitypy_version": "1.25.4",
+    "common_sha256": "4f49c9d3aa24f5f6b9771125245f9a1dd5ea5e3718d2864b50f3b60e8df511cb",
+    "material_config_sha256": "2fddb5c3190e13834835e016aa6f329827719e862a650f146df49c3685512717",
+    "weapon_catalogue_sha256": "2c3261518ee167158ab1ebb2b24254b96c44e57c6f174a80039d9ca7d95af066"
+  },
+  "formula": {
+    "explicit": "per=max(1,int(materialFactor*ceil((baseMaterialNumber[item_level]*meterialFactor[weapon_type]+round(item_value/10))/len(materials))))",
+    "default": "per=ceil((baseMaterialNumber[item_level]*meterialFactor[weapon_type]+round(item_value/10))/len(defaultMaterial[weapon_type]))",
+    "custom_additive": "default recipe + CustomWeaponMaterial dictionary counts"
+  },
+  "default_material_config": {
+    "base_material_number": [
+      2,
+      4,
+      6,
+      10,
+      12,
+      15
+    ],
+    "extra_material_number": [
+      0,
+      0,
+      0,
+      1,
+      2,
+      3
+    ],
+    "meterial_factor": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 1.25,
+      "3": 1.0,
+      "4": 1.0,
+      "5": 0.75,
+      "6": 1.0,
+      "7": 1.0,
+      "8": 1.0,
+      "9": 1.0,
+      "10": 1.0,
+      "11": 1.0,
+      "12": 1.25,
+      "13": 1.25,
+      "14": 0.75,
+      "15": 1.0
+    },
+    "extra_meterial_factor": {
+      "0": 1.0,
+      "1": 1.0,
+      "2": 1.0,
+      "3": 1.25,
+      "4": 1.0,
+      "5": 1.0,
+      "6": 1.25,
+      "7": 1.5,
+      "8": 1.5,
+      "9": 1.0,
+      "10": 1.25,
+      "11": 1.0,
+      "12": 1.25,
+      "13": 1.0,
+      "14": 0.75,
+      "15": 1.5
+    },
+    "default_material": {
+      "0": [
+        "material_iron"
+      ],
+      "1": [
+        "material_iron",
+        "material_gear"
+      ],
+      "2": [
+        "material_iron",
+        "material_gear"
+      ],
+      "3": [
+        "material_iron",
+        "material_iron",
+        "material_iron",
+        "material_wood"
+      ],
+      "4": [
+        "material_iron",
+        "material_iron",
+        "material_iron",
+        "material_wood",
+        "material_wood"
+      ],
+      "5": [
+        "material_wood",
+        "material_wood",
+        "material_wood",
+        "material_iron"
+      ],
+      "6": [
+        "material_wood",
+        "material_wood",
+        "material_iron"
+      ],
+      "7": [
+        "material_wood"
+      ],
+      "8": [
+        "material_battery",
+        "material_battery",
+        "material_gear",
+        "material_iron"
+      ],
+      "9": [
+        "material_iron",
+        "material_gear",
+        "material_battery"
+      ],
+      "10": [
+        "material_iron",
+        "material_gear",
+        "material_battery",
+        "material_battery"
+      ],
+      "11": [
+        "material_cell",
+        "material_wood",
+        "material_gem"
+      ],
+      "12": [
+        "material_wood",
+        "material_gear",
+        "material_iron"
+      ],
+      "13": [
+        "material_iron"
+      ],
+      "14": [
+        "material_wood",
+        "material_iron"
+      ],
+      "15": [
+        "material_iron",
+        "material_iron",
+        "material_gear",
+        "material_gear",
+        "material_battery"
+      ]
+    },
+    "referenced_material_names": [
+      "material_iron",
+      "material_gear",
+      "material_battery",
+      "material_wood",
+      "material_cell",
+      "material_gem"
+    ]
+  },
+  "forgeable_count": 266,
+  "recovered_count": 266,
+  "unrecoverable_count": 0,
+  "weapon_material_default_fallback": 18,
+  "totals": {
+    "forgeable": 266,
+    "explicit": 89,
+    "custom": 26,
+    "additive": 47,
+    "default": 104,
+    "unrecoverable": 0,
+    "material_count": 36
+  },
+  "source_counts": {
+    "WeaponMaterial": 89,
+    "CustomWeaponMaterial": 26,
+    "CustomWeaponMaterialAdditive": 47,
+    "DefaultWeaponMaterial": 104,
+    "unrecoverable": 0
+  },
+  "weapons": [
+    {
+      "weapon_id": "weapon_000",
+      "name": "Bad Pistol",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 14,
+      "item_value": 4
+    },
+    {
+      "weapon_id": "weapon_001",
+      "name": "P250 Pistol",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 14,
+      "item_value": 10
+    },
+    {
+      "weapon_id": "weapon_002",
+      "name": "AK-47",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 21
+    },
+    {
+      "weapon_id": "weapon_003",
+      "name": "Shotgun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 2,
+      "item_value": 15
+    },
+    {
+      "weapon_id": "weapon_004",
+      "name": "Shotgun Pro",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 2,
+      "item_value": 23
+    },
+    {
+      "weapon_id": "weapon_005",
+      "name": "UZI",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 16
+    },
+    {
+      "weapon_id": "weapon_006",
+      "name": "Splitter Cannon",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_007",
+      "name": "Snow Fox L",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 15
+    },
+    {
+      "weapon_id": "weapon_008",
+      "name": "Snow Fox XL",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_009",
+      "name": "Snow Fox XXL",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 1,
+      "item_value": 31
+    },
+    {
+      "weapon_id": "weapon_010",
+      "name": "Desert Eagle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 14,
+      "item_value": 12
+    },
+    {
+      "weapon_id": "weapon_011",
+      "name": "Alien Eagle",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 14,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_012",
+      "name": "Frost Eagle",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 14,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_013",
+      "name": "Flame Eagle",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 14,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_014",
+      "name": "Plasma Eagle",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 14,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_015",
+      "name": "Revolver",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 14,
+      "item_value": 16
+    },
+    {
+      "weapon_id": "weapon_016",
+      "name": "Twin-barrel Pistol",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 14,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_017",
+      "name": "Assault Rifle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_018",
+      "name": "Assault Rocket",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 1,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_019",
+      "name": "Assault Rifle Pro",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 1,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_020",
+      "name": "Shaky Blaster",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 2,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_021",
+      "name": "Blaster",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_022",
+      "name": "Twin-barrel Rifle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 2,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_023",
+      "name": "Splitter Gun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_024",
+      "name": "Volcanic Blaster",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_025",
+      "name": "M4",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 28,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_026",
+      "name": "Improved SMG",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 23,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_027",
+      "name": "MP5",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_028",
+      "name": "Snow Fox Vintage",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 12
+        },
+        {
+          "id": "material_iron",
+          "count": 12
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 4,
+      "weapon_type": 1,
+      "item_value": 36,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_029",
+      "name": "Shotgun Galaxy",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 2,
+      "item_value": 24,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_030",
+      "name": "Sidewinder Red",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 2,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_031",
+      "name": "Sidewinder Green",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 2,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_032",
+      "name": "Sniper Rifle",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 1
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 15,
+      "item_value": 16
+    },
+    {
+      "weapon_id": "weapon_033",
+      "name": "Soul Calibre",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 4
+        },
+        {
+          "id": "material_gear",
+          "count": 8
+        },
+        {
+          "id": "material_iron",
+          "count": 8
+        },
+        {
+          "id": "material_magic_red",
+          "count": 3
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 15,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_034",
+      "name": "Glacier",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 2,
+      "weapon_type": 15,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_035",
+      "name": "Aurora",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 15,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_036",
+      "name": "Furnace",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 1,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_037",
+      "name": "Fine Machine Gun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 28,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_038",
+      "name": "Knight's Fist",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 2,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_039",
+      "name": "Gas Blaster",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_040",
+      "name": "Flame Blaster",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 1,
+      "weapon_type": 2,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_041",
+      "name": "Gatling Gun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 9
+        },
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 2,
+      "item_value": 44
+    },
+    {
+      "weapon_id": "weapon_042",
+      "name": "Fusion Drill",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 6
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 8,
+      "item_value": 42,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_043",
+      "name": "Rocket Gun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 12,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_044",
+      "name": "Implosion",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 7
+        },
+        {
+          "id": "material_iron",
+          "count": 7
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 12,
+      "item_value": 52
+    },
+    {
+      "weapon_id": "weapon_045",
+      "name": "Ion Railgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 4
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 10,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_046",
+      "name": "Ion Laser",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 8
+        },
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 8,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_047",
+      "name": "Missile Battery",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 7
+        },
+        {
+          "id": "material_iron",
+          "count": 7
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 12,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_048",
+      "name": "Next-gen SMG",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_049",
+      "name": "Next-next-gen SMG",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 1,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_050",
+      "name": "Guardian Rifle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_051",
+      "name": "Guardian Railgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_gear",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 10,
+      "item_value": 16
+    },
+    {
+      "weapon_id": "weapon_052",
+      "name": "Shotgun M1",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 2,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_053",
+      "name": "Shotgun M2",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 2,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_054",
+      "name": "Shotgun M3",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 2,
+      "item_value": 34
+    },
+    {
+      "weapon_id": "weapon_055",
+      "name": "SMG M2",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 23
+    },
+    {
+      "weapon_id": "weapon_056",
+      "name": "Rocket Gun M1",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 7
+        },
+        {
+          "id": "material_iron",
+          "count": 7
+        },
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 4,
+      "weapon_type": 12,
+      "item_value": 48
+    },
+    {
+      "weapon_id": "weapon_057",
+      "name": "SMG M1",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_058",
+      "name": "SMG Helix",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_059",
+      "name": "Prototype Railgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 4
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 10,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_060",
+      "name": "Pioneer",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 14,
+      "item_value": 12
+    },
+    {
+      "weapon_id": "weapon_061",
+      "name": "Blind Missile Battery",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 12,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_062",
+      "name": "Machete",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 10
+    },
+    {
+      "weapon_id": "weapon_063",
+      "name": "Broadsword",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_064",
+      "name": "Katana",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_065",
+      "name": "Pirate Saber",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 12
+    },
+    {
+      "weapon_id": "weapon_066",
+      "name": "Double Blade Sword",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 15
+    },
+    {
+      "weapon_id": "weapon_067",
+      "name": "Rapier",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 13
+    },
+    {
+      "weapon_id": "weapon_068",
+      "name": "Axe",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 4,
+      "item_value": 12
+    },
+    {
+      "weapon_id": "weapon_069",
+      "name": "Battle Axe",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 4,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_070",
+      "name": "Flame Axe",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 4,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_071",
+      "name": "Mace",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 4,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_072",
+      "name": "Pitchfork",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 5,
+      "item_value": 10
+    },
+    {
+      "weapon_id": "weapon_073",
+      "name": "Spear",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 5,
+      "item_value": 13
+    },
+    {
+      "weapon_id": "weapon_074",
+      "name": "Laser Sword Blue",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 1
+        },
+        {
+          "id": "material_gear",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 3,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_075",
+      "name": "Laser Sword Red",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 1
+        },
+        {
+          "id": "material_gear",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 3,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_076",
+      "name": "Trident",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 5,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_077",
+      "name": "Grand Knight's Sword",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 15
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 5
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 3,
+      "item_value": 35
+    },
+    {
+      "weapon_id": "weapon_078",
+      "name": "Flame Sword",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 12
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 3,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_079",
+      "name": "Frost Sword",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 12
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 3,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_080",
+      "name": "Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 6,
+      "item_value": 10
+    },
+    {
+      "weapon_id": "weapon_081",
+      "name": "Strong Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 6,
+      "item_value": 15
+    },
+    {
+      "weapon_id": "weapon_082",
+      "name": "Composite Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 6,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_083",
+      "name": "Hunter Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 6,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_084",
+      "name": "Crystal Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 8
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 6,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_085",
+      "name": "Frost Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 8
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 6,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_086",
+      "name": "Flame Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 8
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 6,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_087",
+      "name": "Jade Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 8
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 6,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_088",
+      "name": "Hero bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 7
+        },
+        {
+          "id": "material_wood",
+          "count": 14
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 6,
+      "item_value": 52,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_089",
+      "name": "Magic Bow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 12
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 6,
+      "item_value": 52
+    },
+    {
+      "weapon_id": "weapon_090",
+      "name": "Plunger",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_091",
+      "name": "Broom",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_092",
+      "name": "Laser Shotgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 5
+        },
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 9,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_093",
+      "name": "Fish",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 8
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_094",
+      "name": "Laser Fish",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 15
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 4,
+      "weapon_type": 11,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_095",
+      "name": "Shield",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 20
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_096",
+      "name": "Basketball",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_097",
+      "name": "Football",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_098",
+      "name": "Green Onions",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_099",
+      "name": "Meat",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_100",
+      "name": "Badminton Racket",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 9
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 11,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_101",
+      "name": "Ice Breaker",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 2,
+      "weapon_type": 9,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_102",
+      "name": "Nasty Laser",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 9,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_103",
+      "name": "Arbitrator",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 10
+    },
+    {
+      "weapon_id": "weapon_104",
+      "name": "The Judge",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 9,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_105",
+      "name": "Triple Crossbow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 6,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_106",
+      "name": "Crossbow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 6,
+      "item_value": 12
+    },
+    {
+      "weapon_id": "weapon_107",
+      "name": "Crossbow Plus",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_wood",
+          "count": 12
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 6,
+      "item_value": 40,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_108",
+      "name": "Illusion",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 10
+        },
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 8,
+      "item_value": 64
+    },
+    {
+      "weapon_id": "weapon_109",
+      "name": "Horn",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_110",
+      "name": "Grenade SMG",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 8
+        },
+        {
+          "id": "material_iron",
+          "count": 8
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 1,
+      "item_value": 45
+    },
+    {
+      "weapon_id": "weapon_111",
+      "name": "Bazooka",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 12,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_112",
+      "name": "Magic Staff",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 7,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_113",
+      "name": "Fine Magic Staff",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 16
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 7,
+      "item_value": 38
+    },
+    {
+      "weapon_id": "weapon_114",
+      "name": "Staff Of Thunder",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 13
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 7,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_115",
+      "name": "Staff Of Nature",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 7,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_116",
+      "name": "Staff of Skeleton",
+      "materials": [
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 18
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 7,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_117",
+      "name": "Staff Of Frost",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 9
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 2,
+      "weapon_type": 7,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_118",
+      "name": "Staff Of Flame",
+      "materials": [
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 9
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 2,
+      "weapon_type": 7,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_119",
+      "name": "Staff Of Light",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 7,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_120",
+      "name": "Caliburn",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 15
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 5
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 3,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_121",
+      "name": "Electric Therapy",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 6
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 8,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_122",
+      "name": "Snow Ape's Longbow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 7
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 14
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 6,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_123",
+      "name": "Staff of Shooting Stars",
+      "materials": [
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 22
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 7,
+      "item_value": 70
+    },
+    {
+      "weapon_id": "weapon_124",
+      "name": "TNT",
+      "materials": [
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_125",
+      "name": "Blowpipe",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 5
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_126",
+      "name": "Feathered Crossbow",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 6,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_127",
+      "name": "Crystal Crab's Katana",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 18
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 3,
+      "item_value": 60
+    },
+    {
+      "weapon_id": "weapon_128",
+      "name": "Dragon Bros' Sniper Rifle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 10
+        },
+        {
+          "id": "material_iron",
+          "count": 10
+        },
+        {
+          "id": "material_magic_orange",
+          "count": 2
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 1,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_129",
+      "name": "Red Dragon",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_130",
+      "name": "Bleach",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_131",
+      "name": "Sandworm",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 12
+        },
+        {
+          "id": "material_iron",
+          "count": 12
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 2,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_132",
+      "name": "Varkolyn Assault Rifle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 10
+        },
+        {
+          "id": "material_iron",
+          "count": 10
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 1,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_133",
+      "name": "Goblin Spear",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 5,
+      "item_value": 15
+    },
+    {
+      "weapon_id": "weapon_134",
+      "name": "Cannibal Plant",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 12
+        },
+        {
+          "id": "material_iron",
+          "count": 12
+        },
+        {
+          "id": "material_magic_green",
+          "count": 4
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 2,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_135",
+      "name": "One Punch",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 2
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 99
+    },
+    {
+      "weapon_id": "weapon_136",
+      "name": "PKP",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_137",
+      "name": "Floating Gun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_fragment_zulan",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_138",
+      "name": "Floating Laser",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_fragment_zulan",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_139",
+      "name": "Assault Shotgun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 2,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_140",
+      "name": "Cherry Blossom",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 2,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_141",
+      "name": "Bomber",
+      "materials": [
+        {
+          "id": "material_fragment_c6h8o6",
+          "count": 2
+        },
+        {
+          "id": "material_gear",
+          "count": 8
+        },
+        {
+          "id": "material_iron",
+          "count": 8
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 8
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 12,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_142",
+      "name": "Bouncing Sniper Rifle",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 15,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_143",
+      "name": "Bouncing Assault Rifle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 23
+    },
+    {
+      "weapon_id": "weapon_144",
+      "name": "Knight Spear",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 5,
+      "item_value": 23
+    },
+    {
+      "weapon_id": "weapon_145",
+      "name": "Staff Of Wizard",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 19
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 5,
+      "weapon_type": 7,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_146",
+      "name": "Plunger Plus",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 5
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 10
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 11,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_147",
+      "name": "Charged Railgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 8
+        },
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 10,
+      "item_value": 41,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_148",
+      "name": "Splash Railgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 6
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 2,
+      "weapon_type": 10,
+      "item_value": 35
+    },
+    {
+      "weapon_id": "weapon_149",
+      "name": "Laser Sword Green",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 1
+        },
+        {
+          "id": "material_gear",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 3,
+      "item_value": 29
+    },
+    {
+      "weapon_id": "weapon_150",
+      "name": "Umbrella",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 16
+    },
+    {
+      "weapon_id": "weapon_151",
+      "name": "M14",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 15,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_152",
+      "name": "Old Sniper Rifle",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 1
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 15,
+      "item_value": 14,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_153",
+      "name": "Old Rocket Launcher",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 12,
+      "item_value": 16,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_154",
+      "name": "Jumper",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 9,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_155",
+      "name": "Cleaner",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 5
+        },
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 9,
+      "item_value": 43
+    },
+    {
+      "weapon_id": "weapon_156",
+      "name": "Webber",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 4
+        },
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 9,
+      "item_value": 35
+    },
+    {
+      "weapon_id": "weapon_157",
+      "name": "Laser",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 5,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_158",
+      "name": "Wizard's Staff",
+      "materials": [
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 10
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 2,
+      "weapon_type": 7,
+      "item_value": 35
+    },
+    {
+      "weapon_id": "weapon_159",
+      "name": "Cluster Missile",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 12,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_160",
+      "name": "Black Hole Missile",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_magic_black",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 12,
+      "item_value": 44
+    },
+    {
+      "weapon_id": "weapon_161",
+      "name": "Heavenly Sword",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 19
+    },
+    {
+      "weapon_id": "weapon_162",
+      "name": "Ninja Stars",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 13,
+      "item_value": 14
+    },
+    {
+      "weapon_id": "weapon_163",
+      "name": "Wrenches",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 7
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 13,
+      "item_value": 21
+    },
+    {
+      "weapon_id": "weapon_164",
+      "name": "Spike Knives",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 8
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 13,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_165",
+      "name": "Ice Spikes",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 13,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_166",
+      "name": "Boomerang",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 13,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_167",
+      "name": "Hand Grenade",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 13,
+      "item_value": 35
+    },
+    {
+      "weapon_id": "weapon_168",
+      "name": "Molotov Cocktail",
+      "materials": [
+        {
+          "id": "material_magic_red",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 13,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_169",
+      "name": "Butcher's Knife",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_170",
+      "name": "Eagle of Ice and Fire",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 5
+        },
+        {
+          "id": "material_wood",
+          "count": 5
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 14,
+      "item_value": 30,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_171",
+      "name": "Paper Slip",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 5
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 13,
+      "item_value": 16
+    },
+    {
+      "weapon_id": "weapon_172",
+      "name": "Windforce",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 8
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 2,
+      "weapon_type": 6,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_173",
+      "name": "Rainbow",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 2,
+      "item_value": 33
+    },
+    {
+      "weapon_id": "weapon_174",
+      "name": "Staff of Illusion",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 16
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 7,
+      "item_value": 42
+    },
+    {
+      "weapon_id": "weapon_175",
+      "name": "Snowman Eagle",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 9
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 14,
+      "item_value": 46,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_176",
+      "name": "Agitated Trunk",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 7
+        },
+        {
+          "id": "material_magic_green",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 5,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_177",
+      "name": "Carrot",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 9
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 11,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_178",
+      "name": "Mini UZI",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 16
+    },
+    {
+      "weapon_id": "weapon_179",
+      "name": "SMG M3",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 36
+    },
+    {
+      "weapon_id": "weapon_180",
+      "name": "RYB Assault Rifle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_181",
+      "name": "Assault Rifle Pro+",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 7
+        },
+        {
+          "id": "material_iron",
+          "count": 7
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 1,
+      "item_value": 38
+    },
+    {
+      "weapon_id": "weapon_182",
+      "name": "Poison Eagle",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 14,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_183",
+      "name": "Grenade Pistol",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 14,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_184",
+      "name": "Next-next-next-gen SMG",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 7
+        },
+        {
+          "id": "material_iron",
+          "count": 7
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 1,
+      "item_value": 37
+    },
+    {
+      "weapon_id": "weapon_185",
+      "name": "Bouncing Railgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 4
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 10,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_186",
+      "name": "Bassball Bat",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 9
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 11,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_187",
+      "name": "Ninja Stars Plus",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 16
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 13,
+      "item_value": 28,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_188",
+      "name": "Buckler",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 9
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 11,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_189",
+      "name": "Iron Claw",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_190",
+      "name": "Sickle",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 4,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_191",
+      "name": "Hammer",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 4,
+      "item_value": 14
+    },
+    {
+      "weapon_id": "weapon_192",
+      "name": "Wooden Hammer",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 4,
+      "item_value": 19
+    },
+    {
+      "weapon_id": "weapon_193",
+      "name": "Stone Hammer",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 4,
+      "item_value": 28,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_194",
+      "name": "Bow Plus",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_wood",
+          "count": 12
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 6,
+      "item_value": 35,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_195",
+      "name": "Trekking Pole",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_196",
+      "name": "Void Sword",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 3,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_197",
+      "name": "Long-handled Axe",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 4,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_198",
+      "name": "Meat Grinder",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 4,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_199",
+      "name": "Executioner",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 4,
+      "item_value": 33
+    },
+    {
+      "weapon_id": "weapon_200",
+      "name": "Laser Therapy",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 6
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 8,
+      "item_value": 32
+    },
+    {
+      "weapon_id": "weapon_201",
+      "name": "Halberd",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 9
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 5,
+      "item_value": 28,
+      "fallback": "DefaultWeaponMaterial.defaultMaterial"
+    },
+    {
+      "weapon_id": "weapon_202",
+      "name": "Woodstick",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 5,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_203",
+      "name": "Bamboo",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 13,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_204",
+      "name": "Javelin",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 13,
+      "item_value": 18
+    },
+    {
+      "weapon_id": "weapon_205",
+      "name": "Frost Spear",
+      "materials": [
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 13,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_206",
+      "name": "Throwing Axe",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 13,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_207",
+      "name": "Heavy Hunter Axe",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 11
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 13,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_208",
+      "name": "Vine",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 21
+    },
+    {
+      "weapon_id": "weapon_209",
+      "name": "Crossbow Air",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 6,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_210",
+      "name": "Tidal Staff",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 7,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_211",
+      "name": "Reusable Health Pot",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 8
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_212",
+      "name": "Reusable Energy Pot",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 8
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 35
+    },
+    {
+      "weapon_id": "weapon_213",
+      "name": "Reusable Restoration Potion",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 11
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 11,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_214",
+      "name": "Extra Crown",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 10
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_215",
+      "name": "The Emperor's New Gun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 10
+        },
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_216",
+      "name": "Bayonet Rifle",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 15,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_217",
+      "name": "Money Gun",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 5
+        },
+        {
+          "id": "material_gem",
+          "count": 233
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 3
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 1,
+      "item_value": 0
+    },
+    {
+      "weapon_id": "weapon_218",
+      "name": "Assault Sniper Rifle",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 15,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_219",
+      "name": "EM Sniper Rifle",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 4
+        },
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 8
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 15,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_220",
+      "name": "Explosive Crossbow",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 5
+        },
+        {
+          "id": "material_cell",
+          "count": 5
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 5
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 4,
+      "weapon_type": 6,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_221",
+      "name": "Explosive Warhammer",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 4,
+      "item_value": 40
+    },
+    {
+      "weapon_id": "weapon_222",
+      "name": "Thunder Warhammer",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 9
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 4,
+      "item_value": 35
+    },
+    {
+      "weapon_id": "weapon_223",
+      "name": "Green Basin",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 11,
+      "item_value": 23
+    },
+    {
+      "weapon_id": "weapon_224",
+      "name": "Electric Ninja Stars",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 12
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 13,
+      "item_value": 35
+    },
+    {
+      "weapon_id": "weapon_230",
+      "name": "Sawed-off Shotgun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 2,
+      "item_value": 16
+    },
+    {
+      "weapon_id": "weapon_231",
+      "name": "Groundwater",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 18
+        },
+        {
+          "id": "material_wood",
+          "count": 18
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 14,
+      "item_value": 328
+    },
+    {
+      "weapon_id": "weapon_233",
+      "name": "Rainbow Horse",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 15
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 4,
+      "weapon_type": 11,
+      "item_value": 30
+    },
+    {
+      "weapon_id": "weapon_234",
+      "name": "Meteo Laser Gun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 6
+        },
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 4,
+      "weapon_type": 9,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_235",
+      "name": "Green Essence",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 5
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 13,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_236",
+      "name": "Deadly Frisbee",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_237",
+      "name": "Advanced Scientific Calculator",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 12
+    },
+    {
+      "weapon_id": "weapon_238",
+      "name": "Retouch-free Camera",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 1
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 10
+    },
+    {
+      "weapon_id": "weapon_239",
+      "name": "Burp Gun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_240",
+      "name": "Fantastic Gun",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 1
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 1
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 14,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_241",
+      "name": "40m Long Blade",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 8
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_242",
+      "name": "Box",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_243",
+      "name": "Grand Wizard's Old Staff",
+      "materials": [
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 7,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_244",
+      "name": "Nirvana Cross",
+      "materials": [
+        {
+          "id": "material_gem",
+          "count": 1000
+        },
+        {
+          "id": "material_magic_orange",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_251",
+      "name": "Nunchaku",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_wood",
+          "count": 6
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 3,
+      "item_value": 22
+    },
+    {
+      "weapon_id": "weapon_252",
+      "name": "Super Buddy",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 8
+        },
+        {
+          "id": "material_gear",
+          "count": 8
+        },
+        {
+          "id": "material_iron",
+          "count": 8
+        },
+        {
+          "id": "material_magic_orange",
+          "count": 2
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 12,
+      "item_value": 50
+    },
+    {
+      "weapon_id": "weapon_253",
+      "name": "Magic Gloves",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 8
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_254",
+      "name": "Staff of Anubis",
+      "materials": [
+        {
+          "id": "material_magic_orange",
+          "count": 3
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 16
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 7,
+      "item_value": 45
+    },
+    {
+      "weapon_id": "weapon_255",
+      "name": "Dead Star Laser Gun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 6
+        },
+        {
+          "id": "material_magic_black",
+          "count": 1
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_magic_green",
+          "count": 1
+        },
+        {
+          "id": "material_magic_orange",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 9,
+      "item_value": 60
+    },
+    {
+      "weapon_id": "weapon_256",
+      "name": "AK47 Gold",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 1,
+      "item_value": 42
+    },
+    {
+      "weapon_id": "weapon_257",
+      "name": "Desert Eagle Gold",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 14,
+      "item_value": 24
+    },
+    {
+      "weapon_id": "weapon_258",
+      "name": "Blue Fire Gatling",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 10
+        },
+        {
+          "id": "material_iron",
+          "count": 10
+        },
+        {
+          "id": "material_magic_black",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 2,
+      "item_value": 66
+    },
+    {
+      "weapon_id": "weapon_259",
+      "name": "Coilgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 2
+        },
+        {
+          "id": "material_gear",
+          "count": 1
+        },
+        {
+          "id": "material_iron",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 10,
+      "item_value": 17
+    },
+    {
+      "weapon_id": "weapon_260",
+      "name": "Brownian Coilgun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 6
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 2,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_261",
+      "name": "Ion Coilgun",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 4
+        },
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 2
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 10,
+      "item_value": 26
+    },
+    {
+      "weapon_id": "weapon_264",
+      "name": "Bubble Gun",
+      "materials": [
+        {
+          "id": "material_fertilize",
+          "count": 1
+        },
+        {
+          "id": "material_gear",
+          "count": 8
+        },
+        {
+          "id": "material_iron",
+          "count": 8
+        }
+      ],
+      "source": "CustomWeaponMaterialAdditive",
+      "item_level": 3,
+      "weapon_type": 2,
+      "item_value": 25
+    },
+    {
+      "weapon_id": "weapon_265",
+      "name": "Lasso Gun",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 1,
+      "weapon_type": 1,
+      "item_value": 15
+    },
+    {
+      "weapon_id": "weapon_266",
+      "name": "Broken Hilt",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 1
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 3,
+      "item_value": 15
+    },
+    {
+      "weapon_id": "weapon_267",
+      "name": "Damaged Blade",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 4
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 13,
+      "item_value": 13
+    },
+    {
+      "weapon_id": "weapon_270",
+      "name": "Bayonet in a Gourd",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 10
+        },
+        {
+          "id": "material_magic_red",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 5
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 3,
+      "item_value": 33
+    },
+    {
+      "weapon_id": "weapon_273",
+      "name": "Trumpet",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 2
+        },
+        {
+          "id": "material_magic_black",
+          "count": 1
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_275",
+      "name": "Sweet Talk",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 5
+        },
+        {
+          "id": "material_iron",
+          "count": 5
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 1,
+      "item_value": 29
+    },
+    {
+      "weapon_id": "weapon_276",
+      "name": "Death Note",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 7
+        },
+        {
+          "id": "material_gem",
+          "count": 7
+        },
+        {
+          "id": "material_magic_black",
+          "count": 3
+        },
+        {
+          "id": "material_wood",
+          "count": 7
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 44
+    },
+    {
+      "weapon_id": "weapon_277",
+      "name": "Firebolt",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 7
+        },
+        {
+          "id": "material_iron",
+          "count": 7
+        }
+      ],
+      "source": "DefaultWeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 1,
+      "item_value": 33
+    },
+    {
+      "weapon_id": "weapon_291",
+      "name": "Fist Bump",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_magic_green",
+          "count": 2
+        },
+        {
+          "id": "material_magic_orange",
+          "count": 2
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_292",
+      "name": "Pill",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_magic_orange",
+          "count": 4
+        },
+        {
+          "id": "material_magic_red",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 11,
+      "item_value": 28
+    },
+    {
+      "weapon_id": "weapon_293",
+      "name": "Happy New Year",
+      "materials": [
+        {
+          "id": "material_battery",
+          "count": 3
+        },
+        {
+          "id": "material_cell",
+          "count": 3
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 0,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_294",
+      "name": "Ranger's Revolver",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 2
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_magic_blue",
+          "count": 2
+        },
+        {
+          "id": "material_magic_purple",
+          "count": 2
+        },
+        {
+          "id": "material_wood",
+          "count": 2
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 4,
+      "weapon_type": 14,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_299",
+      "name": "Giant Axe",
+      "materials": [
+        {
+          "id": "material_gear",
+          "count": 4
+        },
+        {
+          "id": "material_iron",
+          "count": 4
+        },
+        {
+          "id": "material_wood",
+          "count": 4
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 2,
+      "weapon_type": 13,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_300",
+      "name": "Verbal Fire",
+      "materials": [
+        {
+          "id": "material_cell",
+          "count": 3
+        },
+        {
+          "id": "material_gear",
+          "count": 3
+        },
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_magic_red",
+          "count": 3
+        }
+      ],
+      "source": "WeaponMaterial",
+      "item_level": 3,
+      "weapon_type": 11,
+      "item_value": 20
+    },
+    {
+      "weapon_id": "weapon_301",
+      "name": "Golden Cudgel",
+      "materials": [
+        {
+          "id": "material_iron",
+          "count": 3
+        },
+        {
+          "id": "material_magic_black",
+          "count": 1
+        },
+        {
+          "id": "material_magic_orange",
+          "count": 2
+        },
+        {
+          "id": "material_magic_red",
+          "count": 1
+        },
+        {
+          "id": "material_wood",
+          "count": 3
+        }
+      ],
+      "source": "CustomWeaponMaterial",
+      "item_level": 5,
+      "weapon_type": 5,
+      "item_value": 66
+    }
+  ],
+  "unrecoverable": [],
+  "material_count": 36
+}

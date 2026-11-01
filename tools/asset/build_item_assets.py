@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import math
 import shutil
 from pathlib import Path
@@ -105,8 +106,13 @@ def main() -> int:
         except Exception:
             continue
         name = str(getattr(data, "m_Name", ""))
-        if name in {"chest00", "chest01", "chest02",
-                    "coin_0", "coin_1", "coin_2"}:
+        if name in {"chest00", "chest01", "chest02", "chest03",
+                    "chest_big", "chest_boss", "chest_room_reward",
+                    "chest_single_big", "chest_gold_single_big",
+                    "coin_0", "coin_1", "coin_2", "energy"}:
+            game_objects.setdefault(name, data)
+        elif re.fullmatch(r"material_[a-z0-9_]+", name) and \
+                name not in {"material_panel", "material_proto"}:
             game_objects.setdefault(name, data)
 
     textures = {}
@@ -149,7 +155,9 @@ def main() -> int:
 
     chest_defs = []
     coin_defs = []
-    for chest_name in ["chest00", "chest01", "chest02"]:
+    for chest_name in ["chest00", "chest01", "chest02", "chest03",
+                       "chest_big", "chest_boss", "chest_room_reward",
+                       "chest_single_big", "chest_gold_single_big"]:
         go = game_objects.get(chest_name)
         if go is None:
             continue
@@ -179,10 +187,38 @@ def main() -> int:
                     "sorting_layer": int(renderer.m_SortingLayer),
                     "sorting_order": int(renderer.m_SortingOrder),
                 })
-        level = 0 if chest_name == "chest00" else int(chest_name[-1])
+        level = 0
+        weapon_count = 1
+        has_coin = False
+        material_chest = False
+        class_name = ""
+        for component in go.m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            try:
+                candidate = component.component.read()
+                script = (candidate.m_Script.read()
+                          if getattr(candidate, "m_Script", None) and
+                          candidate.m_Script.path_id else None)
+                candidate_class = getattr(script, "m_ClassName", "")
+            except Exception:
+                continue
+            if not candidate_class:
+                continue
+            class_name = candidate_class
+            level = int(getattr(candidate, "level", 0) or 0)
+            weapon_count = int(getattr(candidate, "count", 0) or
+                               getattr(candidate, "award_count", 0) or 1)
+            has_coin = bool(getattr(candidate, "has_coin", 0))
+            material_chest = "Material" in candidate_class
+            break
         chest_defs.append({
             "id": chest_name,
             "level": level,
+            "class_name": class_name,
+            "weapon_count": weapon_count,
+            "has_coin": has_coin,
+            "material_chest": material_chest,
             "visuals": visual_specs,
             "collider_half_extents": [0.5, 0.35],
             "collider_offset": [0.0, 0.35],
@@ -190,7 +226,9 @@ def main() -> int:
             "loot_coin": "",
             "loot_count": 0,
             "appointed_weapon": "weapon_021" if chest_name == "chest00" else "",
-            "weapon_drop_level": level if chest_name != "chest00" else -1,
+            "weapon_drop_level": (
+                -2 if chest_name == "chest_room_reward" else
+                (level if chest_name != "chest00" else -1)),
             "evidence": (
                 "actual RGChestAppoint chest00 variant; one recovered appointed "
                 "object_list entry is weapon_021" if chest_name == "chest00" else
@@ -315,6 +353,118 @@ def main() -> int:
             })
         break
 
+    material_defs = []
+    for material_name in sorted(name for name in game_objects
+                                if name.startswith("material_")):
+        go = game_objects[material_name]
+        root = next((c.component.read() for c in go.m_Component
+                     if c.component.type.name == "Transform"), None)
+        if root is None:
+            continue
+        icon_sprite = None
+        icon_offset = [0.0, 0.0]
+        for child_ptr in getattr(root, "m_Children", []) or []:
+            child = child_ptr.read()
+            child_go = child.m_GameObject.read()
+            if child_go.m_Name != "i":
+                continue
+            for component in child_go.m_Component:
+                if component.component.type.name != "SpriteRenderer":
+                    continue
+                renderer = component.component.read()
+                if renderer.m_Sprite and renderer.m_Sprite.path_id != 0:
+                    icon_sprite = ensure_sprite(renderer.m_Sprite,
+                                                f"{material_name}_icon")
+                    icon_offset = [float(child.m_LocalPosition.x),
+                                   float(child.m_LocalPosition.y)]
+                break
+            break
+        if icon_sprite is None:
+            continue
+        price = 0
+        item_type = 3
+        for component in go.m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            try:
+                candidate = component.component.read()
+            except Exception:
+                continue
+            if hasattr(candidate, "itemType"):
+                price = int(getattr(candidate, "item_value", 0) or 0)
+                item_type = int(getattr(candidate, "itemType", 3) or 3)
+                break
+        material_defs.append({
+            "id": material_name,
+            "sprite": icon_sprite,
+            "offset": icon_offset,
+            "price": price,
+            "item_type": item_type,
+            "classification": (
+                "CONFIRMED ItemPickable material prefab with child i "
+                "SpriteRenderer; price from serialized item_value"),
+        })
+
+    energy_def = None
+    energy_go = game_objects.get("energy")
+    if energy_go is not None:
+        root = next((c.component.read() for c in energy_go.m_Component
+                     if c.component.type.name == "Transform"), None)
+        energy_sprite = None
+        energy_offset = [0.0, 0.0]
+        if root is not None:
+            for component in energy_go.m_Component:
+                if component.component.type.name != "SpriteRenderer":
+                    continue
+                renderer = component.component.read()
+                if renderer.m_Sprite and renderer.m_Sprite.path_id != 0:
+                    energy_sprite = ensure_sprite(renderer.m_Sprite,
+                                                  "energy_pickup")
+                break
+            if energy_sprite is None:
+                for child_ptr in getattr(root, "m_Children", []) or []:
+                    child = child_ptr.read()
+                    child_go = child.m_GameObject.read()
+                    for component in child_go.m_Component:
+                        if component.component.type.name != "SpriteRenderer":
+                            continue
+                        renderer = component.component.read()
+                        if renderer.m_Sprite and renderer.m_Sprite.path_id != 0:
+                            energy_sprite = ensure_sprite(
+                                renderer.m_Sprite, "energy_pickup")
+                            energy_offset = [float(child.m_LocalPosition.x),
+                                             float(child.m_LocalPosition.y)]
+                        break
+                    if energy_sprite:
+                        break
+        value = 8
+        speed = 14.0
+        pickup_range = 6.0
+        for component in energy_go.m_Component:
+            if component.component.type.name != "MonoBehaviour":
+                continue
+            try:
+                candidate = component.component.read()
+            except Exception:
+                continue
+            if hasattr(candidate, "value") and hasattr(candidate, "range"):
+                value = int(getattr(candidate, "value", 8) or 8)
+                speed = float(getattr(candidate, "speed", 14.0) or 14.0)
+                pickup_range = float(getattr(candidate, "range", 6.0) or 6.0)
+                break
+        if energy_sprite:
+            energy_def = {
+                "id": "energy",
+                "sprite": energy_sprite,
+                "offset": energy_offset,
+                "value": value,
+                "speed": speed,
+                "range": pickup_range,
+                "classification": (
+                    "CONFIRMED RGEnergy prefab; serialized value/speed/range "
+                    "and actual bullet_16 pickup sprite"),
+            }
+
     document = {
         "schema": 1,
         "tool": "tools/asset/build_item_assets.py",
@@ -328,6 +478,8 @@ def main() -> int:
         "chests": chest_defs,
         "coins": coin_defs,
         "portals": portal_defs,
+        "materials": material_defs,
+        "energy": energy_def,
         "weapon_drops": weapon_drops,
         "notes": "Chest00/RGCoin prefab metadata/sprites plus the actual transfer_gate_02 portal sprite clip. Chest coin loot and lid animation are native test behavior; RGChest weapon selection and WeaponDropInfo are recovered in the 0.5.3 chest pipeline.",
     }
@@ -344,6 +496,8 @@ def main() -> int:
         "chest_count": len(chest_defs),
         "coin_count": len(coin_defs),
         "portal_count": len(portal_defs),
+        "material_count": len(material_defs),
+        "energy_pickup": energy_def is not None,
         "weapon_drop_levels": len(weapon_drops),
         "textures": [entry["id"] for entry in texture_records],
     }
@@ -351,7 +505,8 @@ def main() -> int:
     args.manifest.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n",
                              encoding="utf-8")
     print(f"Wrote {args.meta.relative_to(ROOT)}: {len(sprites)} sprites, "
-          f"{len(chest_defs)} chests, {len(coin_defs)} coins")
+          f"{len(chest_defs)} chests, {len(coin_defs)} coins, "
+          f"{len(material_defs)} materials")
     return 0
 
 

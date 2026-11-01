@@ -47,8 +47,11 @@ def main()->int:
            counts["tier_c_unique_or_catalogue_only"])
     if counts["catalogue_entries"] != 302 or total != 302:
         errors.append(f"weapon tier partition invalid: {counts}")
-    if audio["counts"]["exported"] != 11:
-        errors.append("expected 11 reference audio exports")
+    if audio["counts"]["exported"] < 72:
+        errors.append("expected the full per-weapon audio export set")
+    if not any(sound["id"].startswith("weapon_fx_gun_")
+               for sound in audio["sounds"]):
+        errors.append("per-weapon fx_gun audio exports missing")
     if errors:
         for error in errors:
             print("ERROR:",error)
