@@ -337,6 +337,7 @@ struct EnemyDefinition {
     int32_t death_explosion_damage = 0;
     bool stationary = false;
     bool mimic = false;
+    bool invulnerable_while_attacking = false;
     int32_t body_sorting_layer = 5;
     int32_t body_sorting_order = 1;
     int32_t shadow_sorting_layer = 3;

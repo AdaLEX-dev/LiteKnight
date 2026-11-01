@@ -121,6 +121,28 @@ TEST_CASE("EnemyAI13 death explosion applies its recovered area damage" *
     CHECK(player.hp == 95);
 }
 
+TEST_CASE("EnemyAI16 attack window is invulnerable" *
+          doctest::test_suite("unit")) {
+    EnemyDefinition definition = BaseEnemy();
+    definition.ranged = true;
+    definition.stationary = true;
+    definition.invulnerable_while_attacking = true;
+    definition.shoot_cooldown = 3.0f;
+    EnemySystem enemies = Configured(definition, Vec2{});
+    ProjectileSystem projectiles;
+    HealthState player;
+    player.Reset(100);
+    player.camp = 1;
+    (void)enemies.FixedUpdate(0.02f, Vec2{5.0f, 0.0f}, player, nullptr,
+                              &projectiles);
+    CHECK_FALSE(enemies.ApplyDamage(0, 5, 1));
+    for (int tick = 0; tick < 100; ++tick) {
+        (void)enemies.FixedUpdate(0.02f, Vec2{5.0f, 0.0f}, player, nullptr,
+                                  &projectiles);
+    }
+    CHECK(enemies.ApplyDamage(0, 5, 1));
+}
+
 TEST_CASE("Stationary controllers do not chase but still fire" *
           doctest::test_suite("unit")) {
     EnemyDefinition definition = BaseEnemy();

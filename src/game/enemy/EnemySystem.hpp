@@ -23,6 +23,7 @@ struct EnemyInstance {
     float shoot_timer = 0.0f;
     // BuffDeadNote: after the recovered 6 s timer the marked enemy is killed.
     float death_mark_timer = 0.0f;
+    float invincible_timer = 0.0f;
     float burst_timer = 0.0f;
     int burst_remaining = 0;
     bool dashing = false;

@@ -1475,6 +1475,8 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 item.value("death_explosion_damage", 0);
             enemy.stationary = item.value("stationary", false);
             enemy.mimic = item.value("mimic", false);
+            enemy.invulnerable_while_attacking =
+                item.value("invulnerable_while_attacking", false);
             if (enemy.ranged && item.contains("projectile") &&
                 item["projectile"].is_object()) {
                 const Json& projectile = item["projectile"];

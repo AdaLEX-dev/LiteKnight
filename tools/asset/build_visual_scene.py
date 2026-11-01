@@ -1097,6 +1097,7 @@ class SceneBuilder:
         death_damage = 0
         stationary = False
         mimic = False
+        invulnerable_while_attacking = False
         if controller_class == "EnemyAI01" and has_h2:
             projectile_count = 2
         elif controller_class == "EnemyAI20":
@@ -1138,6 +1139,8 @@ class SceneBuilder:
             stationary = True
         elif controller_class == "EnemyAI18":
             stationary = True
+        elif controller_class == "EnemyAI16":
+            invulnerable_while_attacking = True
         elif controller_class == "EnemyAI08":
             mimic = True
         return {
@@ -1154,6 +1157,7 @@ class SceneBuilder:
             "death_explosion_damage": death_damage,
             "stationary": stationary,
             "mimic": mimic,
+            "invulnerable_while_attacking": invulnerable_while_attacking,
             "stand_in_shooting": bool(
                 getattr(controller, "stand_in_shooting", False)),
             "lock_in_shooting": bool(

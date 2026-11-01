@@ -157,6 +157,8 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
             continue;
         }
 
+        enemy.invincible_timer =
+            std::max(0.0f, enemy.invincible_timer - delta_seconds);
         if (enemy.death_mark_timer > 0.0f) {
             enemy.death_mark_timer =
                 std::max(0.0f, enemy.death_mark_timer - delta_seconds);
@@ -251,6 +253,9 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
                         ? definition.burst_interval : 0.2f;
                 }
             } else if (enemy.shoot_timer <= 0.0f) {
+                if (definition.invulnerable_while_attacking) {
+                    enemy.invincible_timer = 1.562f;
+                }
                 FireVolley(definition, spawn, direction, this, projectiles);
                 enemy.burst_remaining =
                     std::max(0, definition.burst_count - 1);
@@ -442,7 +447,7 @@ int EnemySystem::ApplyPull(const engine::Vec2& center, float radius,
 bool EnemySystem::ApplyDamage(std::size_t index, int damage, int source_camp) {
     if (index >= enemies_.size()) return false;
     EnemyInstance& enemy = enemies_[index];
-    if (!enemy.active) return false;
+    if (!enemy.active || enemy.invincible_timer > 0.0f) return false;
     combat::DamageEvent event;
     event.damage = damage;
     event.camp = source_camp;

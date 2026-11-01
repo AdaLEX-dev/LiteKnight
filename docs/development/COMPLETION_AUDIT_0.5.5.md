@@ -35,7 +35,7 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 | 108 PatternRooms | **IMPLEMENTED** | All 108 `room/r1_N` bundles built by `build_pattern_rooms.py`; runtime auto-discovers every `r1_*_visual` scene. Sizes 15×15, 15×21, 21×15 and 21×21 are preserved by the builder. `LITEKNIGHT_ALL_ROOMS=1 ./scripts/prepare-assets.sh` regenerates the full set. |
 | Special rooms | **IMPLEMENTED (native reconstruction)** | Statue two-press purchase, mineral 40 HP/10 drops, mercenary hire/trainer and mount purchase/dismount are wired using recovered fields and deterministic reconstructed placement. Water/bar remain recovered-only. See `SPECIAL_ROOM_INTERACTIONS.md`. |
 | Biome system | **IMPLEMENTED** | 16 campaign levels loaded with map_long/chest_level/enemy weights. Default branch A/G1 floor/wall themes are extracted from the actual MapManagerLevel assets and applied to every PatternRoom at runtime with the recovered CreateFloor/CreateWall algorithm. Geometry/collision stay from the PatternRoom. Obstacle-prefab theme switching remains a documented limitation. See `LEVEL_VISUALS.md`. |
-| Enemy runtime | **IMPLEMENTED core / PARTIAL presentation** | 101 definitions with biome-weighted spawning, chase/contact, ranged projectiles, AI20 fan, AI11/14 and AI03/18/19 timed bursts, AI09/Frog/Witch dashes, AI13/Frog death blasts and stationary controllers. AI07 attack selection, AI12 fireball arc, AI16 invulnerability window and AI08 loot UI remain data/presentation gaps. See `ENEMY_CONTROLLER_RECOVERY.md`. |
+| Enemy runtime | **IMPLEMENTED core / PARTIAL presentation** | 101 definitions with biome-weighted spawning, chase/contact, ranged projectiles, AI20 fan, AI11/14 and AI03/18/19 timed bursts, AI09/Frog/Witch dashes, AI13/Frog death blasts and stationary controllers. AI07 attack selection, AI12 fireball arc, AIGhost fade and AI08 loot UI remain presentation gaps; AI16's recovered invulnerability window is implemented. See `ENEMY_CONTROLLER_RECOVERY.md`. |
 | Dungeon progression | **IMPLEMENTED** | Start → normal → end/transfer gate → next level. Boss stages (`*-5`, `3-6`) select recovered 21x21 boss rooms (`r1_boss1`, `r2_boss1`, `r3_boss2`) with BossCreator fixtures; clearing spawns the recovered boss chest. The remaining 19 boss-room prefabs are not yet built, so the three chosen rooms are representative native reconstructions, not full boss-roster coverage. |
 | Room dimensions | **IMPLEMENTED** | Builder derives interior bounds from `RGRoomX.room_width/height` and keeps 11/15/21 sizes; 41-unit cell pitch and 18..22 door gaps preserved. |
 
@@ -91,8 +91,7 @@ UIMap.ShowMap/UpdateMap, UIMessageBar.ShowSignpost, UICanvas.ShowSignpost
 localization I2Languages (2,088 terms extracted)
 ```
 
-Remaining PARTIAL layers are explicit: AI07/AI12/AI14/AI16/AIGhost/AI08
-presentation, 6 localization-only weapons, water/bar special-room objects,
+Remaining PARTIAL layers are explicit: AI07/AI12/AI14/AIGhost/AI08 presentation, 6 localization-only weapons, water/bar special-room objects,
 statue buff stat values and mount riding animation, the Unity Animator
 `reload_clip` state machine (charge timing/segments are implemented), and the
 19 unbuilt boss-room prefabs beyond the three representative integrated rooms.

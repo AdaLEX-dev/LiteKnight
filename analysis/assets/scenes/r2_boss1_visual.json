@@ -1931,6 +1931,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-2819226334871103305",
@@ -1987,6 +1988,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "7667914916795349883",
@@ -2060,6 +2062,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "4286053269762484978",
@@ -2129,6 +2132,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "7659049612167977937",
@@ -2206,6 +2210,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-1605107766631148678",
@@ -2266,6 +2271,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-8586897031053171531",
@@ -2322,6 +2328,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": true,
       "path_id": "-6027292718440309830",
@@ -2395,6 +2402,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": true,
       "path_id": "-5556454494065708302",
@@ -2468,6 +2476,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "6459881311434891702",
@@ -2549,6 +2558,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "8466318765870862066",
@@ -2601,6 +2611,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-5456799002198042515",
@@ -2674,6 +2685,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "9217626380867902172",
@@ -2747,6 +2759,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-4852261146463426333",
@@ -2828,6 +2841,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-6538451799065281266",
@@ -2909,6 +2923,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-493430170851064797",
@@ -2978,6 +2993,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-5616576027869221863",
@@ -3046,6 +3062,7 @@
           "time": 0.5
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "2237081195278513550",
@@ -3131,6 +3148,7 @@
           "time": 0.5
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-273714849037375640",
@@ -3204,6 +3222,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "-2336340693253850199",
@@ -3260,6 +3279,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "7723261503762323643",
@@ -3333,6 +3353,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-3675383099486639238",
@@ -3414,6 +3435,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "8946094595913508902",
@@ -3487,6 +3509,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-4581282527620579552",
@@ -3560,6 +3583,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "8614804391684614103",
@@ -3633,6 +3657,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "3960711694660206620",
@@ -3706,6 +3731,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-4034004968150568860",
@@ -3779,6 +3805,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-6436565890360269743",
@@ -3852,6 +3879,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "3419995874048432785",
@@ -3921,6 +3949,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": true,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "1250720596177794552",
@@ -3973,6 +4002,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": true,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-3041795989124079337",
@@ -4025,6 +4055,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "2952704795149111216",
@@ -4094,6 +4125,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "6571657546889346398",
@@ -4163,6 +4195,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "2671002087718849987",
@@ -4232,6 +4265,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-3437187171248255484",
@@ -4301,6 +4335,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-7771760812434257427",
@@ -4374,6 +4409,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-6476330152139950827",
@@ -4447,6 +4483,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "4073761262861425238",
@@ -4520,6 +4557,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-4859842836228273595",
@@ -4593,6 +4631,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "747432743396759309",
@@ -4666,6 +4705,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "1371646319266828176",
@@ -4739,6 +4779,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-8830543417114206410",
@@ -4812,6 +4853,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-3987576690700671513",
@@ -4885,6 +4927,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "3903362489785456593",
@@ -4958,6 +5001,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-5370856684553367077",
@@ -5031,6 +5075,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "1612313635936782967",
@@ -5104,6 +5149,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "6529682703243341591",
@@ -5185,6 +5231,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "3113155932263883668",
@@ -5258,6 +5305,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "1546565546579717095",
@@ -5331,6 +5379,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "7776996191520816812",
@@ -5404,6 +5453,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-1433018092434726298",
@@ -5477,6 +5527,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-2912505407603611770",
@@ -5533,6 +5584,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-4532234153639355668",
@@ -5589,6 +5641,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "1107854734558629828",
@@ -5645,6 +5698,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-8945896385760482080",
@@ -5701,6 +5755,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "-2434291193889826331",
@@ -5774,6 +5829,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "-237507076265166319",
@@ -5855,6 +5911,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-453852443907808306",
@@ -5936,6 +5993,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-6044831352677839019",
@@ -6017,6 +6075,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "-5855692896734277429",
@@ -6098,6 +6157,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "343110576119374139",
@@ -6179,6 +6239,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-7909613102223382720",
@@ -6260,6 +6321,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "7977677083007054226",
@@ -6341,6 +6403,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-2568271380770986270",
@@ -6405,6 +6468,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-8546510775671535109",
@@ -6486,6 +6550,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "2348614785072973179",
@@ -6567,6 +6632,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "1970482503026255393",
@@ -6648,6 +6714,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "4415410059608428170",
@@ -6729,6 +6796,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-5338002238286805868",
@@ -6810,6 +6878,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "4626624511403184699",
@@ -6891,6 +6960,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "-17384037403021449",
@@ -6972,6 +7042,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "1891519102879094993",
@@ -7045,6 +7116,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-5250152189670479522",
@@ -7118,6 +7190,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "4177173857292818675",
@@ -7191,6 +7264,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-6317610853930162232",
@@ -7255,6 +7329,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "6905335041094273527",
@@ -7307,6 +7382,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "6798416961621568862",
@@ -7371,6 +7447,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-5858639355066359839",
@@ -7452,6 +7529,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "9119999287018886078",
@@ -7533,6 +7611,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "1241272608242521773",
@@ -7614,6 +7693,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "6150879586180476437",
@@ -7695,6 +7775,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-6270046428575575392",
@@ -7776,6 +7857,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-8672476950491566192",
@@ -7857,6 +7939,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": true,
       "mimic": false,
       "path_id": "-2629918502414966471",
@@ -7930,6 +8013,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-7421755869818940729",
@@ -7986,6 +8070,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-1233327222569338768",
@@ -8042,6 +8127,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-8174087129554920607",
@@ -8102,6 +8188,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "8537388417913559816",
@@ -8162,6 +8249,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "4213479335950744313",
@@ -8218,6 +8306,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "6549722314992366852",
@@ -8274,6 +8363,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-2938473679115549626",
@@ -8338,6 +8428,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-4828116390668937582",
@@ -8398,6 +8489,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-586080017450448801",
@@ -8467,6 +8559,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-7636158329920851929",
@@ -8536,6 +8629,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-7716637915226699985",
@@ -8609,6 +8703,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "932004609719734594",
@@ -8661,6 +8756,7 @@
           "time": 0.0
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-186337455808312520",
@@ -8742,6 +8838,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-2510809040314978118",
@@ -8798,6 +8895,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "202631707936457016",
@@ -8854,6 +8952,7 @@
           "time": 0.25
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "7956253658826865017",
@@ -8918,6 +9017,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-4621548062129638530",
@@ -8982,6 +9082,7 @@
           "time": 0.375
         }
       ],
+      "invulnerable_while_attacking": false,
       "lock_in_shooting": false,
       "mimic": false,
       "path_id": "-2197948064534748381",

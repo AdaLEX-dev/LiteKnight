@@ -34,6 +34,9 @@ data lives in `analysis/assets/enemies/enemy_catalogue.json` and each scene's
 - `death_explosion_radius`, `death_explosion_damage` — AI13 and AIFrog apply
   their recovered death blast.
 - `stationary` — AI06/AI18 do not chase; AI18 keeps its rotating-hand attack.
+- `invulnerable_while_attacking` — AI16 receives its recovered ~1.562 s
+  invulnerable window at the start of its burst; damage is rejected for the
+  window and then accepted again.
 - `mimic` — AI08 is classified as an item container rather than a generic
   combat chaser.
 - `stand_in_shooting`, `lock_in_shooting`, `shoot_time` remain parsed and are
@@ -55,11 +58,11 @@ recovered room world. Contact damage keeps the recovered 1.5 s cooldown.
 ## Remaining limitations
 
 - AI07's three random attacks, AI12's lobbed fireball arc, AI14's exact laser
-  tick visual, AI16's invulnerable attack window, AI13's armed idle animation,
-  AIGhost fade timing and AI08's loot UI are not fully reproduced. The shared
-  runtime uses the strongest serialized value available (burst/fan/dash/death
-  fields); these remaining pieces are data-limited presentation/state details,
-  not invented alternative mechanics.
+  visual, AI13's armed idle animation, AIGhost fade timing and AI08's loot UI
+  are not fully reproduced. The shared runtime uses the strongest serialized
+  value available (burst/fan/dash/death/invulnerability fields); these
+  remaining pieces are data-limited presentation/state details, not invented
+  alternative mechanics.
 - `shoot_time` continuous fire uses a native 0.2 s cadence because the
   hand-weapon projectile interval is not serialized on the controller; this is
   documented as a native timing policy, not a prefab value.

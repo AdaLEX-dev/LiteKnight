@@ -1,7 +1,7 @@
 {
   "note": "Metadata/provenance only. No proprietary pixels are stored here.",
   "scene": "analysis/assets/scenes/r1_1_visual.json",
-  "scene_sha256": "c0afaaba4e7cd192461de105b90ac7c250bc76794bba20f87fa8a0639480b2a7",
+  "scene_sha256": "96265f3c9e9c48edefa138e754ac1a34a8ff8588a04f5c60c527b75df9486a20",
   "schema": 1,
   "summary": {
     "redistribution_allowed": 0,
