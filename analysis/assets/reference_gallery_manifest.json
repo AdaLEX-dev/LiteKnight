@@ -3,10 +3,10 @@
   "tool": "tools/asset/build_gallery_manifest.py",
   "asset_root": "/home/jules/Documents/Programming/SoulKnight-Linux/build/assets",
   "counts": {
-    "textures": 74,
-    "sprites": 1672,
-    "prefabs": 2409,
-    "entries": 4155,
+    "textures": 93,
+    "sprites": 1802,
+    "prefabs": 2452,
+    "entries": 4347,
     "broken": 0,
     "scenes": 117
   },
@@ -36,6 +36,18 @@
       "status": "included"
     },
     {
+      "key": "tex:-1602162045706824359",
+      "name": "f901",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m1602162045706824359.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
       "key": "tex:-1938234304403636959",
       "name": "SpriteAtlasTexture-halloween-512x512-fmt13",
       "source": "scene",
@@ -43,6 +55,18 @@
       "path": "scenes/hero_room/textures/auto_atlas_m1938234304403636959.png",
       "width": 512,
       "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-2170710575051527366",
+      "name": "w906",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m2170710575051527366.png",
+      "width": 16,
+      "height": 24,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -84,6 +108,18 @@
       "status": "included"
     },
     {
+      "key": "tex:-302813689397231781",
+      "name": "f909",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m302813689397231781.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
       "key": "tex:-304717225150204165",
       "name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
       "source": "scene",
@@ -96,6 +132,30 @@
       "status": "included"
     },
     {
+      "key": "tex:-3440195024763777050",
+      "name": "w905",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m3440195024763777050.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-345151061168037000",
+      "name": "w903",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m345151061168037000.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
       "key": "tex:-3669458403664876157",
       "name": "SpriteAtlasTexture-character01 (Group 1)-512x512-fmt13",
       "source": "scene",
@@ -103,6 +163,18 @@
       "path": "scenes/hero_room/textures/auto_atlas_m3669458403664876157.png",
       "width": 512,
       "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-3929889443782955400",
+      "name": "f907",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m3929889443782955400.png",
+      "width": 16,
+      "height": 24,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -127,6 +199,30 @@
       "path": "scenes/hero_room/textures/auto_atlas_m5982969649399678507.png",
       "width": 272,
       "height": 96,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-6539033376025204084",
+      "name": "f908",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m6539033376025204084.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-7018625042715222577",
+      "name": "w904",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m7018625042715222577.png",
+      "width": 16,
+      "height": 24,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -175,6 +271,42 @@
       "path": "scenes/hero_room/textures/auto_atlas_m7412614709012982549.png",
       "width": 256,
       "height": 256,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-8582120698074145341",
+      "name": "w902",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m8582120698074145341.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-8989119030688471403",
+      "name": "f903",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m8989119030688471403.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:-953977218417075232",
+      "name": "f904",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_m953977218417075232.png",
+      "width": 16,
+      "height": 24,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -240,6 +372,18 @@
       "status": "included"
     },
     {
+      "key": "tex:1557915781112756586",
+      "name": "f902",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_1557915781112756586.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
       "key": "tex:16",
       "name": "SpriteAtlasTexture-object_common (Group 0)-256x256-fmt13",
       "source": "scene",
@@ -295,6 +439,18 @@
       "path": "scenes/hero_room/textures/hub_tex_8922cb3bfb69.png",
       "width": 512,
       "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:2420541330578861774",
+      "name": "f914",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_2420541330578861774.png",
+      "width": 16,
+      "height": 24,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -408,6 +564,18 @@
       "status": "included"
     },
     {
+      "key": "tex:5344871218917797024",
+      "name": "w901",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_5344871218917797024.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
       "key": "tex:5467841708608453938",
       "name": "SpriteAtlasTexture-floor-256x256-fmt4",
       "source": "scene",
@@ -492,6 +660,42 @@
       "status": "included"
     },
     {
+      "key": "tex:7178151260153528060",
+      "name": "f910",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_7178151260153528060.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:7666789504187446014",
+      "name": "s04",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_7666789504187446014.png",
+      "width": 290,
+      "height": 163,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:7714474747321316396",
+      "name": "f911",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_7714474747321316396.png",
+      "width": 16,
+      "height": 24,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
       "key": "tex:8",
       "name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
       "source": "scene",
@@ -499,6 +703,18 @@
       "path": "scenes/hero_room/textures/hub_tex_1c4167ee8ebb.png",
       "width": 256,
       "height": 256,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:8059798833594109419",
+      "name": "f913",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_8059798833594109419.png",
+      "width": 16,
+      "height": 24,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -547,6 +763,18 @@
       "path": "scenes/hero_room/textures/auto_atlas_8962901803230974230.png",
       "width": 256,
       "height": 256,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:9031724067842302086",
+      "name": "f912",
+      "source": "scene",
+      "scene": "r1_100_visual",
+      "path": "scenes/r1_100_visual/textures/auto_atlas_9031724067842302086.png",
+      "width": 16,
+      "height": 24,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -921,6 +1149,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-1005744849121952254",
+      "name": "w906",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-2170710575051527366",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w906",
+      "status": "included"
+    },
+    {
       "key": "spr:-1022181027650812698",
       "name": "enemy04_5",
       "scene": "hero_room",
@@ -937,6 +1184,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy04_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:-1060307829499205394",
+      "name": "weapons_47",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        250.0,
+        493.0,
+        19.0,
+        19.0
+      ],
+      "pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_47",
       "status": "included"
     },
     {
@@ -975,6 +1241,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons2_91",
+      "status": "included"
+    },
+    {
+      "key": "spr:-1133220103865637307",
+      "name": "f604",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        108.0,
+        48.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f604",
       "status": "included"
     },
     {
@@ -1149,6 +1434,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-1377640897971879428",
+      "name": "w405",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        180.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w405",
+      "status": "included"
+    },
+    {
       "key": "spr:-1387928549833920094",
       "name": "ghost_13",
       "scene": "hero_room",
@@ -1282,6 +1586,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-1474590268710633907",
+      "name": "w902",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-8582120698074145341",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w902",
+      "status": "included"
+    },
+    {
       "key": "spr:-1476652640769925930",
       "name": "weapons2_120",
       "scene": "hero_room",
@@ -1396,6 +1719,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-1568460151805061768",
+      "name": "f605",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        0.0,
+        32.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f605",
+      "status": "included"
+    },
+    {
       "key": "spr:-1573113019942558356",
       "name": "weapons_35",
       "scene": "hero_room",
@@ -1436,7 +1778,7 @@
     {
       "key": "spr:-1600854717670335293",
       "name": "effect_shock2_0",
-      "scene": "r1_2_visual",
+      "scene": "r1_100_visual",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         798.0761108398438,
@@ -1469,6 +1811,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:-1655432974440070075",
+      "name": "weapons3_159",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        29.0,
+        90.0,
+        23.0,
+        7.0
+      ],
+      "pivot": [
+        0.190948486328125,
+        0.48627758026123047
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons3_159",
       "status": "included"
     },
     {
@@ -1529,6 +1890,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-1752443113587306337",
+      "name": "f913",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8059798833594109419",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f913",
+      "status": "included"
+    },
+    {
       "key": "spr:-1774128283114242566",
       "name": "enemy12_6",
       "scene": "hero_room",
@@ -1545,6 +1925,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy12_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:-1780151796208010285",
+      "name": "weapons2_100",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        0.0,
+        289.0,
+        23.0,
+        23.0
+      ],
+      "pivot": [
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_100",
       "status": "included"
     },
     {
@@ -1700,6 +2099,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-1972522602380544658",
+      "name": "f302",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        198.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f302",
+      "status": "included"
+    },
+    {
       "key": "spr:-197988845165067184",
       "name": "weapons_31",
       "scene": "hero_room",
@@ -1776,6 +2194,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-2139726002991079450",
+      "name": "f907",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-3929889443782955400",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f907",
+      "status": "included"
+    },
+    {
       "key": "spr:-2142466113711890821",
       "name": "weapons3_22",
       "scene": "hero_room",
@@ -1833,6 +2270,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-2173573826949816771",
+      "name": "f305",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        180.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f305",
+      "status": "included"
+    },
+    {
       "key": "spr:-2201761302901802718",
       "name": "weapons_96",
       "scene": "hero_room",
@@ -1868,6 +2324,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons3_26",
+      "status": "included"
+    },
+    {
+      "key": "spr:-2267287047924293391",
+      "name": "w803",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        126.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w803",
       "status": "included"
     },
     {
@@ -2384,6 +2859,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-2782993607230366640",
+      "name": "effect_sting_ice_0",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:1541943556708260529",
+      "rect": [
+        186.0,
+        485.0,
+        51.0,
+        20.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "effect_sting_ice_0",
+      "status": "included"
+    },
+    {
       "key": "spr:-2784705857456391554",
       "name": "engineer_battery_0_4",
       "scene": "r_mount_visual",
@@ -2438,6 +2932,25 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet_126",
+      "status": "included"
+    },
+    {
+      "key": "spr:-2820244999280725722",
+      "name": "f106",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        76.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f106",
       "status": "included"
     },
     {
@@ -2650,6 +3163,44 @@
       "status": "included"
     },
     {
+      "key": "spr:-3018665151999596131",
+      "name": "f802",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        234.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f802",
+      "status": "included"
+    },
+    {
+      "key": "spr:-3030343999828311819",
+      "name": "weapons_66",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        235.0,
+        285.0,
+        19.0,
+        19.0
+      ],
+      "pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_66",
+      "status": "included"
+    },
+    {
       "key": "spr:-3039800074881492949",
       "name": "enemy26_6",
       "scene": "hero_room",
@@ -2723,6 +3274,25 @@
       ],
       "ppu": 16.0,
       "source_name": "pet00_s1_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:-3085745885772110447",
+      "name": "weapons_82",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        207.0,
+        348.0,
+        19.0,
+        19.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_82",
       "status": "included"
     },
     {
@@ -2899,7 +3469,7 @@
     {
       "key": "spr:-324751829545396524",
       "name": "effect_shock2_0",
-      "scene": "r1_2_visual",
+      "scene": "r1_100_visual",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         914.0761108398438,
@@ -3027,6 +3597,25 @@
       ],
       "ppu": 16.0,
       "source_name": "ghost_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:-3327416185598454869",
+      "name": "f303",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        198.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f303",
       "status": "included"
     },
     {
@@ -3160,6 +3749,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_9",
+      "status": "included"
+    },
+    {
+      "key": "spr:-3464145543017901190",
+      "name": "objects2_50",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        345.0,
+        166.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_50",
       "status": "included"
     },
     {
@@ -3524,6 +4132,44 @@
       "status": "included"
     },
     {
+      "key": "spr:-3951964049186097519",
+      "name": "weapons_72",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        95.0,
+        468.0,
+        21.0,
+        21.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_72",
+      "status": "included"
+    },
+    {
+      "key": "spr:-395590326788805571",
+      "name": "w806",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w806",
+      "status": "included"
+    },
+    {
       "key": "spr:-3975174193321666585",
       "name": "c01_3",
       "scene": "hero_room",
@@ -3695,6 +4341,44 @@
       "status": "included"
     },
     {
+      "key": "spr:-4026845969186315002",
+      "name": "weapons_68",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        229.0,
+        478.0,
+        19.0,
+        19.0
+      ],
+      "pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_68",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4026891874612251165",
+      "name": "f406",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        144.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f406",
+      "status": "included"
+    },
+    {
       "key": "spr:-4037101786330167136",
       "name": "weapons_86",
       "scene": "hero_room",
@@ -3752,6 +4436,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-409769835749502993",
+      "name": "f101",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        108.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f101",
+      "status": "included"
+    },
+    {
       "key": "spr:-411312201785844153",
       "name": "skill_effect_2",
       "scene": "hero_room",
@@ -3768,6 +4471,25 @@
       ],
       "ppu": 16.0,
       "source_name": "skill_effect_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4123834045765551331",
+      "name": "w101",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        90.0,
+        76.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w101",
       "status": "included"
     },
     {
@@ -3849,7 +4571,7 @@
     {
       "key": "spr:-4216249976315222940",
       "name": "weapons3_130",
-      "scene": "r1_2_visual",
+      "scene": "r1_100_visual",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         174.0,
@@ -3958,6 +4680,25 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet_109",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4285590127852892573",
+      "name": "w905",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-3440195024763777050",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w905",
       "status": "included"
     },
     {
@@ -4132,6 +4873,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-4437092918687491732",
+      "name": "f805",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f805",
+      "status": "included"
+    },
+    {
       "key": "spr:-444393786074465749",
       "name": "enemy28_6",
       "scene": "hero_room",
@@ -4208,6 +4968,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-4491990415302402847",
+      "name": "f801",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        72.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f801",
+      "status": "included"
+    },
+    {
       "key": "spr:-4519551836381203921",
       "name": "weapons_19",
       "scene": "hero_room",
@@ -4281,6 +5060,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c03_s9_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4556755533558583593",
+      "name": "f902",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:1557915781112756586",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f902",
       "status": "included"
     },
     {
@@ -4740,6 +5538,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-4933302840652645391",
+      "name": "w505",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        126.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w505",
+      "status": "included"
+    },
+    {
       "key": "spr:-4944635985672205833",
       "name": "effect_shotgun_0",
       "scene": "hero_room",
@@ -4756,6 +5573,44 @@
       ],
       "ppu": 16.0,
       "source_name": "effect_shotgun_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:-5002748173265394618",
+      "name": "f203",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        90.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f203",
+      "status": "included"
+    },
+    {
+      "key": "spr:-5017444875075331850",
+      "name": "weapons3_140",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        41.0,
+        443.0,
+        25.0,
+        25.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons3_140",
       "status": "included"
     },
     {
@@ -4778,6 +5633,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-5030370901376139580",
+      "name": "bullet_49",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-304717225150204165",
+      "rect": [
+        0.0,
+        3.0,
+        15.0,
+        10.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "bullet_49",
+      "status": "included"
+    },
+    {
       "key": "spr:-5031097994251344653",
       "name": "bullet_33",
       "scene": "hero_room",
@@ -4794,6 +5668,44 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet_33",
+      "status": "included"
+    },
+    {
+      "key": "spr:-5034211534238411150",
+      "name": "f503",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        0.0,
+        50.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f503",
+      "status": "included"
+    },
+    {
+      "key": "spr:-5038618021756370057",
+      "name": "w302",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        0.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w302",
       "status": "included"
     },
     {
@@ -5177,6 +6089,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-5336891632797937806",
+      "name": "weapons2_106",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        58.0,
+        416.0,
+        25.0,
+        25.0
+      ],
+      "pivot": [
+        0.3987274169921875,
+        0.41461730003356934
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_106",
+      "status": "included"
+    },
+    {
       "key": "spr:-5364352244584346401",
       "name": "enemy35_7",
       "scene": "hero_room",
@@ -5307,6 +6238,25 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet2_30",
+      "status": "included"
+    },
+    {
+      "key": "spr:-5407054835454108212",
+      "name": "f704",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        108.0,
+        66.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f704",
       "status": "included"
     },
     {
@@ -5443,6 +6393,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-5543071371819145316",
+      "name": "f606",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        198.0,
+        92.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f606",
+      "status": "included"
+    },
+    {
       "key": "spr:-5555206284385454333",
       "name": "weapons_2",
       "scene": "hero_room",
@@ -5573,6 +6542,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons3_158",
+      "status": "included"
+    },
+    {
+      "key": "spr:-56204154951370240",
+      "name": "w703",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        144.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w703",
       "status": "included"
     },
     {
@@ -5728,6 +6716,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-5758671853983266651",
+      "name": "thunder 1_0",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:1541943556708260529",
+      "rect": [
+        928.0267333984375,
+        955.0129089355469,
+        54.897125244140625,
+        68.98709106445312
+      ],
+      "pivot": [
+        0.47312584844977595,
+        0.5218367587983379
+      ],
+      "ppu": 16.0,
+      "source_name": "thunder 1_0",
+      "status": "included"
+    },
+    {
       "key": "spr:-5778955740878678045",
       "name": "weapons_92",
       "scene": "hero_room",
@@ -5744,6 +6751,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_92",
+      "status": "included"
+    },
+    {
+      "key": "spr:-5821060473788040197",
+      "name": "bullet_48",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-304717225150204165",
+      "rect": [
+        945.0,
+        40.0,
+        8.0,
+        11.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "bullet_48",
       "status": "included"
     },
     {
@@ -5880,6 +6906,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-594635548390245920",
+      "name": "w508",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        108.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w508",
+      "status": "included"
+    },
+    {
       "key": "spr:-6021413072959553983",
       "name": "weapons3_110",
       "scene": "hero_room",
@@ -5896,6 +6941,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons3_110",
+      "status": "included"
+    },
+    {
+      "key": "spr:-6041975321720655122",
+      "name": "f103",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        72.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f103",
       "status": "included"
     },
     {
@@ -6262,7 +7326,7 @@
     {
       "key": "spr:-632470869537630125",
       "name": "bullet_110",
-      "scene": "r1_2_visual",
+      "scene": "r1_100_visual",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         993.0,
@@ -6390,6 +7454,25 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet_39",
+      "status": "included"
+    },
+    {
+      "key": "spr:-6434726107710190402",
+      "name": "f912",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:9031724067842302086",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f912",
       "status": "included"
     },
     {
@@ -6640,6 +7723,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-6723707316812851996",
+      "name": "weapons2_75",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        141.0,
+        480.0,
+        32.0,
+        13.0
+      ],
+      "pivot": [
+        0.4315934181213379,
+        0.33161455392837524
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_75",
+      "status": "included"
+    },
+    {
       "key": "spr:-6734355049551297333",
       "name": "weapons_128",
       "scene": "hero_room",
@@ -6656,6 +7758,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_128",
+      "status": "included"
+    },
+    {
+      "key": "spr:-6762363580858094647",
+      "name": "w804",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        144.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w804",
       "status": "included"
     },
     {
@@ -6830,6 +7951,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-6870648939686488986",
+      "name": "weapons_70",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        200.0,
+        399.0,
+        19.0,
+        19.0
+      ],
+      "pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_70",
+      "status": "included"
+    },
+    {
       "key": "spr:-6883980747526274050",
       "name": "c06_0",
       "scene": "hero_room",
@@ -6846,6 +7986,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c06_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:-689953986391264733",
+      "name": "f301",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        198.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f301",
       "status": "included"
     },
     {
@@ -7096,6 +8255,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-7063179354741401074",
+      "name": "f701",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        32.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f701",
+      "status": "included"
+    },
+    {
       "key": "spr:-7091323428554347148",
       "name": "enemy06_6",
       "scene": "hero_room",
@@ -7340,6 +8518,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy11_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:-7320847303155099842",
+      "name": "f306",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        54.0,
+        76.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f306",
       "status": "included"
     },
     {
@@ -7647,6 +8844,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-7561562784330837055",
+      "name": "w903",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-345151061168037000",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w903",
+      "status": "included"
+    },
+    {
       "key": "spr:-7577831652462395721",
       "name": "weapons3_174",
       "scene": "hero_room",
@@ -7701,6 +8917,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c11_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:-7632914224821609592",
+      "name": "w805",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        0.0,
+        76.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w805",
       "status": "included"
     },
     {
@@ -7777,6 +9012,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy14_11",
+      "status": "included"
+    },
+    {
+      "key": "spr:-7731046724419048978",
+      "name": "f601",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        144.0,
+        84.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f601",
       "status": "included"
     },
     {
@@ -7875,6 +9129,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-7825350143676816038",
+      "name": "w404",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        0.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w404",
+      "status": "included"
+    },
+    {
       "key": "spr:-7832585593938164910",
       "name": "enemy10_4",
       "scene": "hero_room",
@@ -7891,6 +9164,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy10_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:-7865627508184139142",
+      "name": "w802",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        108.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w802",
       "status": "included"
     },
     {
@@ -8065,6 +9357,44 @@
       "status": "included"
     },
     {
+      "key": "spr:-8002062403298337838",
+      "name": "w801",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        162.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w801",
+      "status": "included"
+    },
+    {
+      "key": "spr:-800674459989925609",
+      "name": "w301",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        72.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w301",
+      "status": "included"
+    },
+    {
       "key": "spr:-803594670640661171",
       "name": "pet_eater_3",
       "scene": "hero_room",
@@ -8119,6 +9449,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c04_1",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8056323760431854029",
+      "name": "f505",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        18.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f505",
       "status": "included"
     },
     {
@@ -8350,6 +9699,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-8345606996420190267",
+      "name": "f204",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        54.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f204",
+      "status": "included"
+    },
+    {
       "key": "spr:-8358307210672171688",
       "name": "weapons2_82",
       "scene": "hero_room",
@@ -8385,6 +9753,44 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons4_43",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8434174113933781564",
+      "name": "weapons3_108",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        344.0,
+        224.0,
+        12.0,
+        10.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons3_108",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8437295402188293449",
+      "name": "f904",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-953977218417075232",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f904",
       "status": "included"
     },
     {
@@ -8461,6 +9867,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons3_66",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8477392390629352525",
+      "name": "f201",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f201",
       "status": "included"
     },
     {
@@ -8654,6 +10079,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-8715371025247810958",
+      "name": "f705",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        198.0,
+        110.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f705",
+      "status": "included"
+    },
+    {
       "key": "spr:-8725504821765607768",
       "name": "c11_2",
       "scene": "hero_room",
@@ -8746,6 +10190,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons2_121",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8773247012343305203",
+      "name": "w406",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        126.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w406",
       "status": "included"
     },
     {
@@ -8863,6 +10326,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-885745039736529902",
+      "name": "objects2_55",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        460.0,
+        240.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_55",
+      "status": "included"
+    },
+    {
       "key": "spr:-8875241082061838089",
       "name": "enemy33_2",
       "scene": "hero_room",
@@ -8917,6 +10399,44 @@
       ],
       "ppu": 16.0,
       "source_name": "pet00_s1_1",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8981098658749187836",
+      "name": "f602",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        126.0,
+        48.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f602",
+      "status": "included"
+    },
+    {
+      "key": "spr:-8988389368477032822",
+      "name": "w201",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        54.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w201",
       "status": "included"
     },
     {
@@ -9186,6 +10706,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-930133120529433484",
+      "name": "f403",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        162.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f403",
+      "status": "included"
+    },
+    {
       "key": "spr:-96893481038241902",
       "name": "enemy26_8",
       "scene": "hero_room",
@@ -9338,6 +10877,25 @@
       "status": "included"
     },
     {
+      "key": "spr:1105488208627959286",
+      "name": "bullet2_2",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-304717225150204165",
+      "rect": [
+        507.0,
+        275.0,
+        28.0,
+        96.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "bullet2_2",
+      "status": "included"
+    },
+    {
       "key": "spr:1107201873911917550",
       "name": "c05_s7_5",
       "scene": "hero_room",
@@ -9433,6 +10991,25 @@
       "status": "included"
     },
     {
+      "key": "spr:1230212141245168480",
+      "name": "weapons4_42",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:6364077752768854847",
+      "rect": [
+        108.0,
+        235.0,
+        21.0,
+        21.0
+      ],
+      "pivot": [
+        0.3095238208770752,
+        0.4047619104385376
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons4_42",
+      "status": "included"
+    },
+    {
       "key": "spr:126422199719527966",
       "name": "weapons4_20",
       "scene": "hero_room",
@@ -9487,6 +11064,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy25_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:1305614445132837451",
+      "name": "w304",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        72.0,
+        50.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w304",
       "status": "included"
     },
     {
@@ -9756,6 +11352,25 @@
       "status": "included"
     },
     {
+      "key": "spr:1621586793649580605",
+      "name": "f903",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-8989119030688471403",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f903",
+      "status": "included"
+    },
+    {
       "key": "spr:163702086264988280",
       "name": "enemy02_2",
       "scene": "hero_room",
@@ -9984,6 +11599,25 @@
       "status": "included"
     },
     {
+      "key": "spr:1786193344351348751",
+      "name": "f501",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        108.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f501",
+      "status": "included"
+    },
+    {
       "key": "spr:1820202638074115274",
       "name": "enemy20_5",
       "scene": "hero_room",
@@ -10000,6 +11634,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy20_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:1827681857348604616",
+      "name": "w403",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        216.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w403",
       "status": "included"
     },
     {
@@ -10098,6 +11751,25 @@
       "status": "included"
     },
     {
+      "key": "spr:1982830449717332343",
+      "name": "bullet2_18",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-304717225150204165",
+      "rect": [
+        115.0,
+        290.0,
+        10.0,
+        8.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "bullet2_18",
+      "status": "included"
+    },
+    {
       "key": "spr:2010956447018350721",
       "name": "c02_2",
       "scene": "hero_room",
@@ -10152,6 +11824,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy22_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:2069232415831379212",
+      "name": "c02_9",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:6092784074628815488",
+      "rect": [
+        807.0267333984375,
+        123.02673149108887,
+        30.973249435424805,
+        27.911134719848633
+      ],
+      "pivot": [
+        0.4834251426959075,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "c02_9",
       "status": "included"
     },
     {
@@ -10228,6 +11919,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_23",
+      "status": "included"
+    },
+    {
+      "key": "spr:2145013445196991046",
+      "name": "f504",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        126.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f504",
       "status": "included"
     },
     {
@@ -10497,6 +12207,25 @@
       "status": "included"
     },
     {
+      "key": "spr:2458183083839137439",
+      "name": "w408",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        234.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w408",
+      "status": "included"
+    },
+    {
       "key": "spr:2476742112687823573",
       "name": "weapons_33",
       "scene": "hero_room",
@@ -10608,6 +12337,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c02_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:2559372283693603799",
+      "name": "w407",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        144.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w407",
       "status": "included"
     },
     {
@@ -10839,6 +12587,25 @@
       "status": "included"
     },
     {
+      "key": "spr:2766157651717930402",
+      "name": "s04",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:7666789504187446014",
+      "rect": [
+        60.01291275024414,
+        24.01290512084961,
+        169.97418212890625,
+        109.97418212890625
+      ],
+      "pivot": [
+        0.49999997755719594,
+        0.4772673570623432
+      ],
+      "ppu": 16.0,
+      "source_name": "s04",
+      "status": "included"
+    },
+    {
       "key": "spr:276657210480154430",
       "name": "worm_1",
       "scene": "hero_room",
@@ -11029,6 +12796,25 @@
       "status": "included"
     },
     {
+      "key": "spr:2899547509042081084",
+      "name": "f908",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-6539033376025204084",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f908",
+      "status": "included"
+    },
+    {
       "key": "spr:2923610979167481672",
       "name": "enemy15_6",
       "scene": "hero_room",
@@ -11200,6 +12986,25 @@
       "status": "included"
     },
     {
+      "key": "spr:302051421176468016",
+      "name": "bullet2_27",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-304717225150204165",
+      "rect": [
+        982.0,
+        105.0,
+        5.0,
+        5.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "bullet2_27",
+      "status": "included"
+    },
+    {
       "key": "spr:3024559421814570791",
       "name": "weapons3_78",
       "scene": "hero_room",
@@ -11295,6 +13100,25 @@
       "status": "included"
     },
     {
+      "key": "spr:3103474514659586691",
+      "name": "f502",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        0.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f502",
+      "status": "included"
+    },
+    {
       "key": "spr:312541399705294040",
       "name": "weapons2_66",
       "scene": "hero_room",
@@ -11311,6 +13135,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons2_66",
+      "status": "included"
+    },
+    {
+      "key": "spr:3126070859855049294",
+      "name": "weapons3_162",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        367.0,
+        239.0,
+        14.0,
+        11.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons3_162",
       "status": "included"
     },
     {
@@ -11406,6 +13249,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons3_116",
+      "status": "included"
+    },
+    {
+      "key": "spr:3223000434918385684",
+      "name": "w402",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        54.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w402",
       "status": "included"
     },
     {
@@ -11770,6 +13632,25 @@
       "status": "included"
     },
     {
+      "key": "spr:3547123057356087647",
+      "name": "f304",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f304",
+      "status": "included"
+    },
+    {
       "key": "spr:3605869746160451173",
       "name": "objects4_3",
       "scene": "hero_room",
@@ -11843,6 +13724,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_51",
+      "status": "included"
+    },
+    {
+      "key": "spr:3638993070498056944",
+      "name": "weapons2_14",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        118.0,
+        468.0,
+        21.0,
+        21.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_14",
       "status": "included"
     },
     {
@@ -11957,6 +13857,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c09_s7_1",
+      "status": "included"
+    },
+    {
+      "key": "spr:3706973875199817049",
+      "name": "weapons_74",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        94.0,
+        491.0,
+        21.0,
+        21.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_74",
       "status": "included"
     },
     {
@@ -12416,6 +14335,25 @@
       "status": "included"
     },
     {
+      "key": "spr:3999857037097653446",
+      "name": "f914",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:2420541330578861774",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f914",
+      "status": "included"
+    },
+    {
       "key": "spr:4027882667722796231",
       "name": "weapons_99",
       "scene": "hero_room",
@@ -12508,6 +14446,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons3_62",
+      "status": "included"
+    },
+    {
+      "key": "spr:4082226680943326570",
+      "name": "f402",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        90.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f402",
       "status": "included"
     },
     {
@@ -12625,6 +14582,25 @@
       "status": "included"
     },
     {
+      "key": "spr:4278788510787372188",
+      "name": "f706",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        54.0,
+        32.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f706",
+      "status": "included"
+    },
+    {
       "key": "spr:4303278633442381286",
       "name": "weapons2_95",
       "scene": "hero_room",
@@ -12682,6 +14658,25 @@
       "status": "included"
     },
     {
+      "key": "spr:4326109709560414507",
+      "name": "w704",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        18.0,
+        50.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w704",
+      "status": "included"
+    },
+    {
       "key": "spr:4388280621297116870",
       "name": "weapons2_53",
       "scene": "hero_room",
@@ -12717,6 +14712,25 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet2_36",
+      "status": "included"
+    },
+    {
+      "key": "spr:4435750390355162858",
+      "name": "f910",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:7178151260153528060",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f910",
       "status": "included"
     },
     {
@@ -13024,6 +15038,25 @@
       "status": "included"
     },
     {
+      "key": "spr:4731965086381496325",
+      "name": "f506",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        144.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f506",
+      "status": "included"
+    },
+    {
       "key": "spr:4775575898786707055",
       "name": "weapons3_47",
       "scene": "hero_room",
@@ -13233,6 +15266,44 @@
       "status": "included"
     },
     {
+      "key": "spr:5061056566123933055",
+      "name": "f205",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        162.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f205",
+      "status": "included"
+    },
+    {
+      "key": "spr:5068983567063010848",
+      "name": "f804",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        18.0,
+        76.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f804",
+      "status": "included"
+    },
+    {
       "key": "spr:5088758692506102188",
       "name": "bullet_26",
       "scene": "hero_room",
@@ -13306,6 +15377,25 @@
       ],
       "ppu": 16.0,
       "source_name": "objects1_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:5141757433022444577",
+      "name": "f202",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        180.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f202",
       "status": "included"
     },
     {
@@ -13803,6 +15893,25 @@
       "status": "included"
     },
     {
+      "key": "spr:5474678946748341709",
+      "name": "w103",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        162.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w103",
+      "status": "included"
+    },
+    {
       "key": "spr:5487774679915106114",
       "name": "c08_5",
       "scene": "hero_room",
@@ -14009,6 +16118,44 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy31_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:5655872073454642837",
+      "name": "weapons3_48",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        92.0,
+        265.0,
+        21.0,
+        21.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons3_48",
+      "status": "included"
+    },
+    {
+      "key": "spr:5656402357190427458",
+      "name": "f102",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        90.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f102",
       "status": "included"
     },
     {
@@ -14351,6 +16498,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c11_1",
+      "status": "included"
+    },
+    {
+      "key": "spr:5853217288378244950",
+      "name": "weapons_80",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        214.0,
+        275.0,
+        19.0,
+        19.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_80",
       "status": "included"
     },
     {
@@ -14753,6 +16919,25 @@
       "status": "included"
     },
     {
+      "key": "spr:6297618066067390927",
+      "name": "w507",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        18.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w507",
+      "status": "included"
+    },
+    {
       "key": "spr:6304227208629449443",
       "name": "bullet2_25",
       "scene": "hero_room",
@@ -14848,6 +17033,25 @@
       "status": "included"
     },
     {
+      "key": "spr:6366337276132665279",
+      "name": "w303",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        180.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w303",
+      "status": "included"
+    },
+    {
       "key": "spr:6373640396413189611",
       "name": "weapons_36",
       "scene": "hero_room",
@@ -14883,6 +17087,25 @@
       ],
       "ppu": 16.0,
       "source_name": "c06_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:6396439606166069223",
+      "name": "w604",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        90.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w604",
       "status": "included"
     },
     {
@@ -15095,6 +17318,25 @@
       "status": "included"
     },
     {
+      "key": "spr:6570335470785523057",
+      "name": "f909",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-302813689397231781",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f909",
+      "status": "included"
+    },
+    {
       "key": "spr:6588291393885017482",
       "name": "enemy44_5",
       "scene": "hero_room",
@@ -15130,6 +17372,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_118",
+      "status": "included"
+    },
+    {
+      "key": "spr:6613594676473980411",
+      "name": "w901",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5344871218917797024",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w901",
       "status": "included"
     },
     {
@@ -15171,6 +17432,44 @@
       "status": "included"
     },
     {
+      "key": "spr:667643445799344204",
+      "name": "f104",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        180.0,
+        128.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f104",
+      "status": "included"
+    },
+    {
+      "key": "spr:6719916285699066084",
+      "name": "f911",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:7714474747321316396",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f911",
+      "status": "included"
+    },
+    {
       "key": "spr:6744337178246991267",
       "name": "enemy46_3",
       "scene": "hero_room",
@@ -15206,6 +17505,25 @@
       ],
       "ppu": 16.0,
       "source_name": "pet_datura_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:6781355902440180674",
+      "name": "w702",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        72.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w702",
       "status": "included"
     },
     {
@@ -15339,6 +17657,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy01_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:692634308014998532",
+      "name": "f405",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f405",
       "status": "included"
     },
     {
@@ -15551,6 +17888,25 @@
       "status": "included"
     },
     {
+      "key": "spr:7131617246352333207",
+      "name": "f603",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        144.0,
+        48.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f603",
+      "status": "included"
+    },
+    {
       "key": "spr:7135133746416857063",
       "name": "c03_s9_6",
       "scene": "hero_room",
@@ -15719,6 +18075,25 @@
       ],
       "ppu": 16.0,
       "source_name": "malphite_9",
+      "status": "included"
+    },
+    {
+      "key": "spr:7370095397462445743",
+      "name": "f702",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        162.0,
+        84.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f702",
       "status": "included"
     },
     {
@@ -15969,6 +18344,25 @@
       "status": "included"
     },
     {
+      "key": "spr:7568511455405619873",
+      "name": "f105",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        18.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f105",
+      "status": "included"
+    },
+    {
       "key": "spr:7568765821536972130",
       "name": "weapons3_127",
       "scene": "hero_room",
@@ -16102,6 +18496,25 @@
       "status": "included"
     },
     {
+      "key": "spr:7715290467381574327",
+      "name": "f803",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        234.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f803",
+      "status": "included"
+    },
+    {
       "key": "spr:7716712654845365522",
       "name": "weapons4_31",
       "scene": "hero_room",
@@ -16159,6 +18572,44 @@
       "status": "included"
     },
     {
+      "key": "spr:7761694316470033303",
+      "name": "w506",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        72.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w506",
+      "status": "included"
+    },
+    {
+      "key": "spr:7804809456702493239",
+      "name": "bullet_104",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-304717225150204165",
+      "rect": [
+        536.0,
+        211.0,
+        13.0,
+        13.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "bullet_104",
+      "status": "included"
+    },
+    {
       "key": "spr:7815769896728704317",
       "name": "weapons4_73",
       "scene": "hero_room",
@@ -16175,6 +18626,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons4_73",
+      "status": "included"
+    },
+    {
+      "key": "spr:7833083595477992631",
+      "name": "w904",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7018625042715222577",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w904",
       "status": "included"
     },
     {
@@ -16311,6 +18781,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8008280191642915535",
+      "name": "bullet2_19",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-304717225150204165",
+      "rect": [
+        341.0,
+        432.0,
+        7.0,
+        4.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "bullet2_19",
+      "status": "included"
+    },
+    {
       "key": "spr:803155463919768346",
       "name": "enemy42_5",
       "scene": "hero_room",
@@ -16330,6 +18819,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8045471146565222075",
+      "name": "w202",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        216.0,
+        180.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w202",
+      "status": "included"
+    },
+    {
       "key": "spr:8057191759279053040",
       "name": "bullet_87",
       "scene": "hero_room",
@@ -16346,6 +18854,25 @@
       ],
       "ppu": 16.0,
       "source_name": "bullet_87",
+      "status": "included"
+    },
+    {
+      "key": "spr:8063297996184458436",
+      "name": "w102",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        180.0,
+        102.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w102",
       "status": "included"
     },
     {
@@ -16387,6 +18914,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8127141082885164778",
+      "name": "f206",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        126.0,
+        232.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f206",
+      "status": "included"
+    },
+    {
       "key": "spr:8133011132629398473",
       "name": "weapons2_30",
       "scene": "hero_room",
@@ -16406,6 +18952,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8134989482122046704",
+      "name": "f901",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-1602162045706824359",
+      "rect": [
+        0.0,
+        0.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f901",
+      "status": "included"
+    },
+    {
       "key": "spr:814091641446753764",
       "name": "weapons4_56",
       "scene": "hero_room",
@@ -16422,6 +18987,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons4_56",
+      "status": "included"
+    },
+    {
+      "key": "spr:8152942427751999663",
+      "name": "f703",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        90.0,
+        58.0,
+        16.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f703",
       "status": "included"
     },
     {
@@ -16517,6 +19101,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy25_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:8250095503982608753",
+      "name": "weapons3_59",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:-7138671102567859681",
+      "rect": [
+        416.0,
+        445.0,
+        17.0,
+        17.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons3_59",
       "status": "included"
     },
     {
@@ -16710,6 +19313,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8384987052813598432",
+      "name": "f404",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        126.0,
+        206.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f404",
+      "status": "included"
+    },
+    {
       "key": "spr:839507013449282567",
       "name": "c07_s8_1",
       "scene": "hero_room",
@@ -16767,6 +19389,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8437221800164395787",
+      "name": "w203",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        54.0,
+        50.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w203",
+      "status": "included"
+    },
+    {
       "key": "spr:8455323988830007940",
       "name": "weapons_125",
       "scene": "hero_room",
@@ -16783,6 +19424,25 @@
       ],
       "ppu": 16.0,
       "source_name": "weapons_125",
+      "status": "included"
+    },
+    {
+      "key": "spr:850745456718645216",
+      "name": "w603",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        0.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w603",
       "status": "included"
     },
     {
@@ -17185,6 +19845,25 @@
       "status": "included"
     },
     {
+      "key": "spr:8909231305608317842",
+      "name": "w701",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        36.0,
+        50.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "w701",
+      "status": "included"
+    },
+    {
       "key": "spr:8968635588032863682",
       "name": "weapons3_153",
       "scene": "hero_room",
@@ -17353,6 +20032,25 @@
       ],
       "ppu": 16.0,
       "source_name": "enemy09_12",
+      "status": "included"
+    },
+    {
+      "key": "spr:9100809873536872325",
+      "name": "f401",
+      "scene": "r1_100_visual",
+      "texture_key": "tex:5467841708608453938",
+      "rect": [
+        198.0,
+        154.0,
+        16.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "f401",
       "status": "included"
     },
     {
@@ -33789,6 +36487,906 @@
       "type": "chest",
       "scene": "items",
       "source": "actual chest_boss RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss01",
+      "name": "chest_boss01",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss01 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss02",
+      "name": "chest_boss02",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss02 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss03",
+      "name": "chest_boss03",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss03 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss04",
+      "name": "chest_boss04",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss04 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss07",
+      "name": "chest_boss07",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss07 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss08",
+      "name": "chest_boss08",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss08 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss09",
+      "name": "chest_boss09",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss09 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss10",
+      "name": "chest_boss10",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss10 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss13",
+      "name": "chest_boss13",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss13 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "parts": [
+        {
+          "sprite_key": "spr:item:chest02_box06",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box05",
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box04",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest02_box03",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        },
+        {
+          "sprite_key": "spr:item:chest00_shadow",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:chest:chest_boss14",
+      "name": "chest_boss14",
+      "type": "chest",
+      "scene": "items",
+      "source": "actual chest_boss14 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
       "parts": [
         {
           "sprite_key": "spr:item:chest02_box06",
@@ -94914,6 +98512,32 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_116",
+      "name": "weapon_116",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:94997790089170065",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_117",
       "name": "weapon_117",
       "type": "weapon",
@@ -96032,6 +99656,32 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_160",
+      "name": "weapon_160",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-6723707316812851996",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_161",
       "name": "weapon_161",
       "type": "weapon",
@@ -96337,6 +99987,58 @@
           "rotation": 0.3826834559440613,
           "sorting_layer": 5,
           "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_173",
+      "name": "weapon_173",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:4303278633442381286",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_174",
+      "name": "weapon_174",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:5925918542724459309",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 2,
           "flip_x": false,
           "flip_y": false
         }
@@ -96864,6 +100566,32 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_195",
+      "name": "weapon_195",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:825706526372903544",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_196",
       "name": "weapon_196",
       "type": "weapon",
@@ -97332,6 +101060,32 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_214",
+      "name": "weapon_214",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:297893709183035890",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_215",
       "name": "weapon_215",
       "type": "weapon",
@@ -97358,6 +101112,32 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_216",
+      "name": "weapon_216",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-2471004349283935015",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_217",
       "name": "weapon_217",
       "type": "weapon",
@@ -97377,6 +101157,32 @@
           "rotation": 0.0,
           "sorting_layer": 5,
           "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_218",
+      "name": "weapon_218",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-1598511658263422377",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
           "flip_x": false,
           "flip_y": false
         }
@@ -97748,6 +101554,32 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_238",
+      "name": "weapon_238",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-8434174113933781564",
+          "offset": [
+            -0.11999999731779099,
+            0.6499999761581421
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_239",
       "name": "weapon_239",
       "type": "weapon",
@@ -97826,6 +101658,32 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_242",
+      "name": "weapon_242",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-873926479477793125",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_243",
       "name": "weapon_243",
       "type": "weapon",
@@ -97843,6 +101701,32 @@
             1.0
           ],
           "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_244",
+      "name": "weapon_244",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:1151153830320298083",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.3826834261417389,
           "sorting_layer": 5,
           "sorting_order": 2,
           "flip_x": false,
@@ -98079,6 +101963,32 @@
           "rotation": 0.0,
           "sorting_layer": 5,
           "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_254",
+      "name": "weapon_254",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-2629886498233803973",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 2,
           "flip_x": false,
           "flip_y": false
         }
@@ -98398,6 +102308,58 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_270",
+      "name": "weapon_270",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-5617502327126747028",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_273",
+      "name": "weapon_273",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-8257932203175006373",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_274",
       "name": "weapon_274",
       "type": "weapon",
@@ -98406,6 +102368,58 @@
       "parts": [
         {
           "sprite_key": "spr:7565285980113592416",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_275",
+      "name": "weapon_275",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:3126070859855049294",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_276",
+      "name": "weapon_276",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-1440407108933319996",
           "offset": [
             0.0,
             0.0
@@ -98840,6 +102854,58 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_293",
+      "name": "weapon_293",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:1979701570371527359",
+          "offset": [
+            0.19999998807907104,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": -0.0,
+          "sorting_layer": 5,
+          "sorting_order": 6,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_294",
+      "name": "weapon_294",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-8065581265588641549",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_295",
       "name": "weapon_295",
       "type": "weapon",
@@ -99178,6 +103244,32 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_init_alchemistxx",
+      "name": "weapon_init_alchemistxx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:8372834073492273390",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_init_assassin",
       "name": "weapon_init_assassin",
       "type": "weapon",
@@ -99212,6 +103304,32 @@
       "parts": [
         {
           "sprite_key": "spr:7406064335290227033",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_assassinxx",
+      "name": "weapon_init_assassinxx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:6788049032564883208",
           "offset": [
             0.0,
             0.0
@@ -99273,6 +103391,32 @@
             1.0
           ],
           "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_druidxx",
+      "name": "weapon_init_druidxx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:7716712654845365522",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": -0.13052624464035034,
           "sorting_layer": 5,
           "sorting_order": 7,
           "flip_x": false,
@@ -99438,6 +103582,84 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_init_mage",
+      "name": "weapon_init_mage",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-6663707652018217334",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_magex",
+      "name": "weapon_init_magex",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:2116201690578422737",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_magexx",
+      "name": "weapon_init_magexx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:126422199719527966",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_init_necromancer",
       "name": "weapon_init_necromancer",
       "type": "weapon",
@@ -99509,6 +103731,136 @@
           "rotation": 0.7071068286895752,
           "sorting_layer": 5,
           "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_paladinx",
+      "name": "weapon_init_paladinx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:8576646867905794454",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_paladinxx",
+      "name": "weapon_init_paladinxx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:814091641446753764",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 2,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_priest",
+      "name": "weapon_init_priest",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:5591927596500019274",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_priestx",
+      "name": "weapon_init_priestx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:8283060527125366938",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_priestxx",
+      "name": "weapon_init_priestxx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:5513074526522361957",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.7071068286895752,
+          "sorting_layer": 5,
+          "sorting_order": 1,
           "flip_x": false,
           "flip_y": false
         }
@@ -99672,6 +104024,84 @@
       "status": "included"
     },
     {
+      "key": "prefab:weapon:weapon_init_vampire",
+      "name": "weapon_init_vampire",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:5280940165510499606",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_vampirex",
+      "name": "weapon_init_vampirex",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:5976492320468990211",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_vampirexx",
+      "name": "weapon_init_vampirexx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-4000984691978715072",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:weapon:weapon_init_viking",
       "name": "weapon_init_viking",
       "type": "weapon",
@@ -99800,6 +104230,32 @@
         }
       ],
       "status": "included"
+    },
+    {
+      "key": "prefab:weapon:weapon_init_werewolfxx",
+      "name": "weapon_init_werewolfxx",
+      "type": "weapon",
+      "scene": "r1_1_visual",
+      "source": "RGWeapon prefab",
+      "parts": [
+        {
+          "sprite_key": "spr:-3113682391251421347",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.3826834261417389,
+          "sorting_layer": 5,
+          "sorting_order": 7,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
     }
   ],
   "entries": [
@@ -99813,7 +104269,15 @@
     },
     {
       "type": "texture",
+      "key": "tex:-1602162045706824359"
+    },
+    {
+      "type": "texture",
       "key": "tex:-1938234304403636959"
+    },
+    {
+      "type": "texture",
+      "key": "tex:-2170710575051527366"
     },
     {
       "type": "texture",
@@ -99829,11 +104293,27 @@
     },
     {
       "type": "texture",
+      "key": "tex:-302813689397231781"
+    },
+    {
+      "type": "texture",
       "key": "tex:-304717225150204165"
     },
     {
       "type": "texture",
+      "key": "tex:-3440195024763777050"
+    },
+    {
+      "type": "texture",
+      "key": "tex:-345151061168037000"
+    },
+    {
+      "type": "texture",
       "key": "tex:-3669458403664876157"
+    },
+    {
+      "type": "texture",
+      "key": "tex:-3929889443782955400"
     },
     {
       "type": "texture",
@@ -99842,6 +104322,14 @@
     {
       "type": "texture",
       "key": "tex:-5982969649399678507"
+    },
+    {
+      "type": "texture",
+      "key": "tex:-6539033376025204084"
+    },
+    {
+      "type": "texture",
+      "key": "tex:-7018625042715222577"
     },
     {
       "type": "texture",
@@ -99858,6 +104346,18 @@
     {
       "type": "texture",
       "key": "tex:-7412614709012982549"
+    },
+    {
+      "type": "texture",
+      "key": "tex:-8582120698074145341"
+    },
+    {
+      "type": "texture",
+      "key": "tex:-8989119030688471403"
+    },
+    {
+      "type": "texture",
+      "key": "tex:-953977218417075232"
     },
     {
       "type": "texture",
@@ -99881,6 +104381,10 @@
     },
     {
       "type": "texture",
+      "key": "tex:1557915781112756586"
+    },
+    {
+      "type": "texture",
       "key": "tex:16"
     },
     {
@@ -99898,6 +104402,10 @@
     {
       "type": "texture",
       "key": "tex:2"
+    },
+    {
+      "type": "texture",
+      "key": "tex:2420541330578861774"
     },
     {
       "type": "texture",
@@ -99937,6 +104445,10 @@
     },
     {
       "type": "texture",
+      "key": "tex:5344871218917797024"
+    },
+    {
+      "type": "texture",
       "key": "tex:5467841708608453938"
     },
     {
@@ -99965,7 +104477,23 @@
     },
     {
       "type": "texture",
+      "key": "tex:7178151260153528060"
+    },
+    {
+      "type": "texture",
+      "key": "tex:7666789504187446014"
+    },
+    {
+      "type": "texture",
+      "key": "tex:7714474747321316396"
+    },
+    {
+      "type": "texture",
       "key": "tex:8"
+    },
+    {
+      "type": "texture",
+      "key": "tex:8059798833594109419"
     },
     {
       "type": "texture",
@@ -99982,6 +104510,10 @@
     {
       "type": "texture",
       "key": "tex:8962901803230974230"
+    },
+    {
+      "type": "texture",
+      "key": "tex:9031724067842302086"
     },
     {
       "type": "texture",
@@ -100105,7 +104637,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-1005744849121952254"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-1022181027650812698"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-1060307829499205394"
     },
     {
       "type": "sprite",
@@ -100114,6 +104654,10 @@
     {
       "type": "sprite",
       "key": "spr:-1123604336014429527"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-1133220103865637307"
     },
     {
       "type": "sprite",
@@ -100153,6 +104697,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-1377640897971879428"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-1387928549833920094"
     },
     {
@@ -100181,6 +104729,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-1474590268710633907"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-1476652640769925930"
     },
     {
@@ -100205,6 +104757,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-1568460151805061768"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-1573113019942558356"
     },
     {
@@ -100221,6 +104777,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-1655432974440070075"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-1683717760028122008"
     },
     {
@@ -100233,7 +104793,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-1752443113587306337"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-1774128283114242566"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-1780151796208010285"
     },
     {
       "type": "sprite",
@@ -100269,6 +104837,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-1972522602380544658"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-197988845165067184"
     },
     {
@@ -100285,6 +104857,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-2139726002991079450"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-2142466113711890821"
     },
     {
@@ -100297,11 +104873,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-2173573826949816771"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-2201761302901802718"
     },
     {
       "type": "sprite",
       "key": "spr:-2248623047531563503"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-2267287047924293391"
     },
     {
       "type": "sprite",
@@ -100413,6 +104997,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-2782993607230366640"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-2784705857456391554"
     },
     {
@@ -100422,6 +105010,10 @@
     {
       "type": "sprite",
       "key": "spr:-2806164879602474152"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-2820244999280725722"
     },
     {
       "type": "sprite",
@@ -100469,6 +105061,14 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-3018665151999596131"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-3030343999828311819"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-3039800074881492949"
     },
     {
@@ -100482,6 +105082,10 @@
     {
       "type": "sprite",
       "key": "spr:-307036765841805978"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-3085745885772110447"
     },
     {
       "type": "sprite",
@@ -100549,6 +105153,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-3327416185598454869"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-3336393826094343378"
     },
     {
@@ -100574,6 +105182,10 @@
     {
       "type": "sprite",
       "key": "spr:-344626192807290558"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-3464145543017901190"
     },
     {
       "type": "sprite",
@@ -100653,6 +105265,14 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-3951964049186097519"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-395590326788805571"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-3975174193321666585"
     },
     {
@@ -100689,6 +105309,14 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4026845969186315002"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4026891874612251165"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-4037101786330167136"
     },
     {
@@ -100701,7 +105329,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-409769835749502993"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-411312201785844153"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4123834045765551331"
     },
     {
       "type": "sprite",
@@ -100745,6 +105381,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4285590127852892573"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-42999903250018685"
     },
     {
@@ -100781,6 +105421,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4437092918687491732"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-444393786074465749"
     },
     {
@@ -100797,6 +105441,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4491990415302402847"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-4519551836381203921"
     },
     {
@@ -100810,6 +105458,10 @@
     {
       "type": "sprite",
       "key": "spr:-455333781217731078"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4556755533558583593"
     },
     {
       "type": "sprite",
@@ -100909,7 +105561,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4933302840652645391"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-4944635985672205833"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-5002748173265394618"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-5017444875075331850"
     },
     {
       "type": "sprite",
@@ -100917,7 +105581,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-5030370901376139580"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-5031097994251344653"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-5034211534238411150"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-5038618021756370057"
     },
     {
       "type": "sprite",
@@ -101001,6 +105677,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-5336891632797937806"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-5364352244584346401"
     },
     {
@@ -101026,6 +105706,10 @@
     {
       "type": "sprite",
       "key": "spr:-5398112845245177003"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-5407054835454108212"
     },
     {
       "type": "sprite",
@@ -101057,6 +105741,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-5543071371819145316"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-5555206284385454333"
     },
     {
@@ -101082,6 +105770,10 @@
     {
       "type": "sprite",
       "key": "spr:-5617502327126747028"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-56204154951370240"
     },
     {
       "type": "sprite",
@@ -101117,7 +105809,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-5758671853983266651"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-5778955740878678045"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-5821060473788040197"
     },
     {
       "type": "sprite",
@@ -101149,7 +105849,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-594635548390245920"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-6021413072959553983"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-6041975321720655122"
     },
     {
       "type": "sprite",
@@ -101257,6 +105965,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-6434726107710190402"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-6471115228310169729"
     },
     {
@@ -101309,7 +106021,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-6723707316812851996"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-6734355049551297333"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-6762363580858094647"
     },
     {
       "type": "sprite",
@@ -101349,7 +106069,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-6870648939686488986"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-6883980747526274050"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-689953986391264733"
     },
     {
       "type": "sprite",
@@ -101405,6 +106133,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-7063179354741401074"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-7091323428554347148"
     },
     {
@@ -101454,6 +106186,10 @@
     {
       "type": "sprite",
       "key": "spr:-7311158229632797446"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-7320847303155099842"
     },
     {
       "type": "sprite",
@@ -101521,6 +106257,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-7561562784330837055"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-7577831652462395721"
     },
     {
@@ -101530,6 +106270,10 @@
     {
       "type": "sprite",
       "key": "spr:-7632416657381207261"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-7632914224821609592"
     },
     {
       "type": "sprite",
@@ -101546,6 +106290,10 @@
     {
       "type": "sprite",
       "key": "spr:-7684529805516041998"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-7731046724419048978"
     },
     {
       "type": "sprite",
@@ -101569,7 +106317,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-7825350143676816038"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-7832585593938164910"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-7865627508184139142"
     },
     {
       "type": "sprite",
@@ -101609,6 +106365,14 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-8002062403298337838"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-800674459989925609"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-803594670640661171"
     },
     {
@@ -101618,6 +106382,10 @@
     {
       "type": "sprite",
       "key": "spr:-8050334239033503536"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8056323760431854029"
     },
     {
       "type": "sprite",
@@ -101669,11 +106437,23 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-8345606996420190267"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-8358307210672171688"
     },
     {
       "type": "sprite",
       "key": "spr:-8416963780825831845"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8434174113933781564"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8437295402188293449"
     },
     {
       "type": "sprite",
@@ -101690,6 +106470,10 @@
     {
       "type": "sprite",
       "key": "spr:-84763577360282232"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8477392390629352525"
     },
     {
       "type": "sprite",
@@ -101733,6 +106517,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-8715371025247810958"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-8725504821765607768"
     },
     {
@@ -101750,6 +106538,10 @@
     {
       "type": "sprite",
       "key": "spr:-8768563039876672579"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8773247012343305203"
     },
     {
       "type": "sprite",
@@ -101777,6 +106569,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-885745039736529902"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-8875241082061838089"
     },
     {
@@ -101786,6 +106582,14 @@
     {
       "type": "sprite",
       "key": "spr:-8963756788343027520"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8981098658749187836"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-8988389368477032822"
     },
     {
       "type": "sprite",
@@ -101845,6 +106649,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-930133120529433484"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-96893481038241902"
     },
     {
@@ -101877,6 +106685,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:1105488208627959286"
+    },
+    {
+      "type": "sprite",
       "key": "spr:1107201873911917550"
     },
     {
@@ -101897,6 +106709,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:1230212141245168480"
+    },
+    {
+      "type": "sprite",
       "key": "spr:126422199719527966"
     },
     {
@@ -101906,6 +106722,10 @@
     {
       "type": "sprite",
       "key": "spr:1289861332422596688"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:1305614445132837451"
     },
     {
       "type": "sprite",
@@ -101965,6 +106785,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:1621586793649580605"
+    },
+    {
+      "type": "sprite",
       "key": "spr:163702086264988280"
     },
     {
@@ -102013,7 +106837,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:1786193344351348751"
+    },
+    {
+      "type": "sprite",
       "key": "spr:1820202638074115274"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:1827681857348604616"
     },
     {
       "type": "sprite",
@@ -102037,6 +106869,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:1982830449717332343"
+    },
+    {
+      "type": "sprite",
       "key": "spr:2010956447018350721"
     },
     {
@@ -102046,6 +106882,10 @@
     {
       "type": "sprite",
       "key": "spr:2055455367021425188"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:2069232415831379212"
     },
     {
       "type": "sprite",
@@ -102062,6 +106902,10 @@
     {
       "type": "sprite",
       "key": "spr:2140902389170920830"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:2145013445196991046"
     },
     {
       "type": "sprite",
@@ -102121,6 +106965,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:2458183083839137439"
+    },
+    {
+      "type": "sprite",
       "key": "spr:2476742112687823573"
     },
     {
@@ -102142,6 +106990,10 @@
     {
       "type": "sprite",
       "key": "spr:2533696368722729423"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:2559372283693603799"
     },
     {
       "type": "sprite",
@@ -102193,6 +107045,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:2766157651717930402"
+    },
+    {
+      "type": "sprite",
       "key": "spr:276657210480154430"
     },
     {
@@ -102233,6 +107089,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:2899547509042081084"
+    },
+    {
+      "type": "sprite",
       "key": "spr:2923610979167481672"
     },
     {
@@ -102269,6 +107129,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:302051421176468016"
+    },
+    {
+      "type": "sprite",
       "key": "spr:3024559421814570791"
     },
     {
@@ -102289,7 +107153,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:3103474514659586691"
+    },
+    {
+      "type": "sprite",
       "key": "spr:312541399705294040"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:3126070859855049294"
     },
     {
       "type": "sprite",
@@ -102310,6 +107182,10 @@
     {
       "type": "sprite",
       "key": "spr:3202557068459442063"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:3223000434918385684"
     },
     {
       "type": "sprite",
@@ -102389,6 +107265,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:3547123057356087647"
+    },
+    {
+      "type": "sprite",
       "key": "spr:3605869746160451173"
     },
     {
@@ -102402,6 +107282,10 @@
     {
       "type": "sprite",
       "key": "spr:3638030854885757565"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:3638993070498056944"
     },
     {
       "type": "sprite",
@@ -102426,6 +107310,10 @@
     {
       "type": "sprite",
       "key": "spr:3690248929442222009"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:3706973875199817049"
     },
     {
       "type": "sprite",
@@ -102525,6 +107413,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:3999857037097653446"
+    },
+    {
+      "type": "sprite",
       "key": "spr:4027882667722796231"
     },
     {
@@ -102542,6 +107434,10 @@
     {
       "type": "sprite",
       "key": "spr:4081822940650708461"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:4082226680943326570"
     },
     {
       "type": "sprite",
@@ -102569,6 +107465,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:4278788510787372188"
+    },
+    {
+      "type": "sprite",
       "key": "spr:4303278633442381286"
     },
     {
@@ -102581,11 +107481,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:4326109709560414507"
+    },
+    {
+      "type": "sprite",
       "key": "spr:4388280621297116870"
     },
     {
       "type": "sprite",
       "key": "spr:4404324192500334889"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:4435750390355162858"
     },
     {
       "type": "sprite",
@@ -102653,6 +107561,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:4731965086381496325"
+    },
+    {
+      "type": "sprite",
       "key": "spr:4775575898786707055"
     },
     {
@@ -102697,6 +107609,14 @@
     },
     {
       "type": "sprite",
+      "key": "spr:5061056566123933055"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:5068983567063010848"
+    },
+    {
+      "type": "sprite",
       "key": "spr:5088758692506102188"
     },
     {
@@ -102710,6 +107630,10 @@
     {
       "type": "sprite",
       "key": "spr:513105489409692129"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:5141757433022444577"
     },
     {
       "type": "sprite",
@@ -102817,6 +107741,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:5474678946748341709"
+    },
+    {
+      "type": "sprite",
       "key": "spr:5487774679915106114"
     },
     {
@@ -102858,6 +107786,14 @@
     {
       "type": "sprite",
       "key": "spr:562555180400755744"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:5655872073454642837"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:5656402357190427458"
     },
     {
       "type": "sprite",
@@ -102930,6 +107866,10 @@
     {
       "type": "sprite",
       "key": "spr:5847524191929716369"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:5853217288378244950"
     },
     {
       "type": "sprite",
@@ -103017,6 +107957,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:6297618066067390927"
+    },
+    {
+      "type": "sprite",
       "key": "spr:6304227208629449443"
     },
     {
@@ -103037,11 +107981,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:6366337276132665279"
+    },
+    {
+      "type": "sprite",
       "key": "spr:6373640396413189611"
     },
     {
       "type": "sprite",
       "key": "spr:6375079549934620099"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:6396439606166069223"
     },
     {
       "type": "sprite",
@@ -103089,11 +108041,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:6570335470785523057"
+    },
+    {
+      "type": "sprite",
       "key": "spr:6588291393885017482"
     },
     {
       "type": "sprite",
       "key": "spr:6608017045634309432"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:6613594676473980411"
     },
     {
       "type": "sprite",
@@ -103105,11 +108065,23 @@
     },
     {
       "type": "sprite",
+      "key": "spr:667643445799344204"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:6719916285699066084"
+    },
+    {
+      "type": "sprite",
       "key": "spr:6744337178246991267"
     },
     {
       "type": "sprite",
       "key": "spr:6768514335476093270"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:6781355902440180674"
     },
     {
       "type": "sprite",
@@ -103138,6 +108110,10 @@
     {
       "type": "sprite",
       "key": "spr:6916287646018367429"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:692634308014998532"
     },
     {
       "type": "sprite",
@@ -103185,6 +108161,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:7131617246352333207"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7135133746416857063"
     },
     {
@@ -103218,6 +108198,10 @@
     {
       "type": "sprite",
       "key": "spr:7348145749460961006"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:7370095397462445743"
     },
     {
       "type": "sprite",
@@ -103273,6 +108257,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:7568511455405619873"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7568765821536972130"
     },
     {
@@ -103301,6 +108289,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:7715290467381574327"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7716712654845365522"
     },
     {
@@ -103313,7 +108305,19 @@
     },
     {
       "type": "sprite",
+      "key": "spr:7761694316470033303"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:7804809456702493239"
+    },
+    {
+      "type": "sprite",
       "key": "spr:7815769896728704317"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:7833083595477992631"
     },
     {
       "type": "sprite",
@@ -103345,11 +108349,23 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8008280191642915535"
+    },
+    {
+      "type": "sprite",
       "key": "spr:803155463919768346"
     },
     {
       "type": "sprite",
+      "key": "spr:8045471146565222075"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8057191759279053040"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:8063297996184458436"
     },
     {
       "type": "sprite",
@@ -103361,11 +108377,23 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8127141082885164778"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8133011132629398473"
     },
     {
       "type": "sprite",
+      "key": "spr:8134989482122046704"
+    },
+    {
+      "type": "sprite",
       "key": "spr:814091641446753764"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:8152942427751999663"
     },
     {
       "type": "sprite",
@@ -103386,6 +108414,10 @@
     {
       "type": "sprite",
       "key": "spr:8244049753473028510"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:8250095503982608753"
     },
     {
       "type": "sprite",
@@ -103429,6 +108461,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8384987052813598432"
+    },
+    {
+      "type": "sprite",
       "key": "spr:839507013449282567"
     },
     {
@@ -103441,7 +108477,15 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8437221800164395787"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8455323988830007940"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:850745456718645216"
     },
     {
       "type": "sprite",
@@ -103529,6 +108573,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:8909231305608317842"
+    },
+    {
+      "type": "sprite",
       "key": "spr:8968635588032863682"
     },
     {
@@ -103562,6 +108610,10 @@
     {
       "type": "sprite",
       "key": "spr:9084173463489968385"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:9100809873536872325"
     },
     {
       "type": "sprite",
@@ -106870,6 +111922,46 @@
     {
       "type": "prefab",
       "key": "prefab:chest:chest_boss"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss01"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss02"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss03"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss04"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss07"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss08"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss09"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss10"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss13"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:chest:chest_boss14"
     },
     {
       "type": "prefab",
@@ -115673,6 +120765,10 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_116"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_117"
     },
     {
@@ -115845,6 +120941,10 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_160"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_161"
     },
     {
@@ -115890,6 +120990,14 @@
     {
       "type": "prefab",
       "key": "prefab:weapon:weapon_172"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_173"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_174"
     },
     {
       "type": "prefab",
@@ -115973,6 +121081,10 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_195"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_196"
     },
     {
@@ -116045,11 +121157,23 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_214"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_215"
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_216"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_217"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_218"
     },
     {
       "type": "prefab",
@@ -116109,6 +121233,10 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_238"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_239"
     },
     {
@@ -116121,7 +121249,15 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_242"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_243"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_244"
     },
     {
       "type": "prefab",
@@ -116158,6 +121294,10 @@
     {
       "type": "prefab",
       "key": "prefab:weapon:weapon_253"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_254"
     },
     {
       "type": "prefab",
@@ -116209,7 +121349,23 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_270"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_273"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_274"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_275"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_276"
     },
     {
       "type": "prefab",
@@ -116277,6 +121433,14 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_293"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_294"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_295"
     },
     {
@@ -116329,6 +121493,10 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_init_alchemistxx"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_init_assassin"
     },
     {
@@ -116337,11 +121505,19 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_init_assassinxx"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_init_druid"
     },
     {
       "type": "prefab",
       "key": "prefab:weapon:weapon_init_druidx"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_druidxx"
     },
     {
       "type": "prefab",
@@ -116369,6 +121545,18 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_init_mage"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_magex"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_magexx"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_init_necromancer"
     },
     {
@@ -116378,6 +121566,26 @@
     {
       "type": "prefab",
       "key": "prefab:weapon:weapon_init_paladin"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_paladinx"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_paladinxx"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_priest"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_priestx"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_priestxx"
     },
     {
       "type": "prefab",
@@ -116405,6 +121613,18 @@
     },
     {
       "type": "prefab",
+      "key": "prefab:weapon:weapon_init_vampire"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_vampirex"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_vampirexx"
+    },
+    {
+      "type": "prefab",
       "key": "prefab:weapon:weapon_init_viking"
     },
     {
@@ -116422,6 +121642,10 @@
     {
       "type": "prefab",
       "key": "prefab:weapon:weapon_init_werewolfx"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:weapon:weapon_init_werewolfxx"
     }
   ],
   "broken": []

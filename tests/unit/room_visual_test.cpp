@@ -338,11 +338,12 @@ TEST_CASE("Every generated PatternRoom scene loads with recovered dimensions" *
         CHECK((width == 15.0f || width == 21.0f));
         CHECK((height == 15.0f || height == 21.0f));
         CHECK(scene.characters.size() == 15);
-        CHECK(scene.weapons.size() >= 200);
-        CHECK(scene.enemy_definitions.size() >= 88);
+        CHECK(scene.weapons.size() == 337);
+        CHECK(scene.enemy_definitions.size() == 101);
+        CHECK(scene.level_themes.size() >= 16);
         ++loaded;
     }
-    CHECK(loaded >= 1);
+    CHECK(loaded == 108);
 }
 
 TEST_CASE("Living Room staircase removal is repaired with default wall/floor tiles" *

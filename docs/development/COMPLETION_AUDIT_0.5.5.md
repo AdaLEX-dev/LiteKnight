@@ -64,8 +64,8 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 
 ## Texture gallery
 
-The separate `liteknight-texture-gallery` executable enumerates 4155 prepared
-visual entries (74 textures, 1672 sprites, 2409 prefabs) with 0 broken assets.
+The separate `liteknight-texture-gallery` executable enumerates 4347 prepared
+visual entries (93 textures, 1802 sprites, 2452 prefabs) with 0 broken assets.
 `--validate-all` runs headlessly; see `REFERENCE_TEXTURE_GALLERY.md`.
 
 ## Gameplay-loop validation
