@@ -1,9 +1,9 @@
 # Living Room Topology Audit
 
 - floor cells: **2896**
-- walkable cells: **2409**
-- reachable from spawn: **2296** (95.3%)
-- collision solids: **733**
+- walkable cells: **2221**
+- reachable from spawn: **2102** (94.6%)
+- collision solids: **1107**
 - baked event instances: **0**
 - requested removals still present: **0**
 - central table collision: **True**
@@ -18,7 +18,8 @@
 | `weapon_station` | weapon_station | [44, -7] | True |
 | `material_chest` | material_chest | [48, 0] | True |
 | `garden_station` | garden | [-26, 0] | True |
-| `trader_station` | trader | [27, 3] | True |
+| `trader_station` | trader | [27, 4] | True |
+| `mech_station` | mech | [43, 6] | True |
 | `hub_door` | door | [0, 7] | True |
 | `npc_c00` | npc | [7, 6] | True |
 | `npc_c01` | npc | [9, -2] | True |

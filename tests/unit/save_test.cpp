@@ -51,7 +51,10 @@ SaveData MakeSave() {
     data.dead = false;
     data.playtime_seconds = 42;
     data.unlocked_characters = {"c00", "c01", "c02"};
-    data.plants = {"carrot_dev"};
+    data.plants = {"plant_carrot"};
+    data.plant_states = {
+        "garden_0|plant_carrot|1|12.5|1|0|30|4|weapon_177|1"};
+    data.seed_stock = {"plant_carrot|3", "plant_cactus|1"};
     data.fullscreen = true;
     data.hub_visited = true;
     data.auto_aim = true;
@@ -123,6 +126,10 @@ TEST_CASE("Save round-trips through atomic slot file" *
     CHECK(loaded.playtime_seconds == 42);
     CHECK(loaded.unlocked_characters.size() == 3);
     CHECK(loaded.plants.size() == 1);
+    CHECK(loaded.plants.front() == "plant_carrot");
+    CHECK(loaded.plant_states.size() == 1);
+    CHECK(loaded.plant_states.front().find("garden_0|plant_carrot") == 0);
+    CHECK(loaded.seed_stock.size() == 2);
     CHECK(loaded.fullscreen);
     CHECK(loaded.hub_visited);
     CHECK(loaded.auto_aim);

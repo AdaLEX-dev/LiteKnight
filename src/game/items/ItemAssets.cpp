@@ -33,6 +33,8 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
     coins_.clear();
     portals_.clear();
     materials_.clear();
+    plants_.clear();
+    seller_visual_ = {};
     energy_loaded_ = false;
     weapon_drops_.clear();
     if (error != nullptr) error->clear();
@@ -218,6 +220,53 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
             if (!level.entries.empty()) weapon_drops_.push_back(std::move(level));
         }
     }
+    if (document.contains("seller_visual") &&
+        document["seller_visual"].is_object()) {
+        const Json& item = document["seller_visual"];
+        seller_visual_.npc_body = item.value("npc_body", std::string{});
+        seller_visual_.npc_shadow = item.value("npc_shadow", std::string{});
+        seller_visual_.pedestal = item.value("pedestal", std::string{});
+        seller_visual_.counter = item.value("counter", std::string{});
+    }
+    if (document.contains("plants") && document["plants"].is_array()) {
+        for (const Json& item : document["plants"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string()) {
+                SetError(error, "item plant definition is invalid");
+                return false;
+            }
+            PlantDefinition plant;
+            plant.id = item["id"].get<std::string>();
+            plant.display_name = item.value("display_name", plant.id);
+            plant.seed_sprite = item.value("seed_sprite", std::string{});
+            plant.kind = item.value("kind", std::string{});
+            plant.item_id = item.value("item_id", std::string{});
+            plant.item_value = item.value("item_value", 0);
+            plant.harvest_count = std::max(1, item.value("harvest_count", 1));
+            plant.growth_seconds = item.value("growth_seconds", 30.0f);
+            if (item.contains("states") && item["states"].is_array()) {
+                for (const Json& state_item : item["states"]) {
+                    if (!state_item.is_object() ||
+                        !state_item.contains("sprite") ||
+                        !state_item["sprite"].is_string()) {
+                        continue;
+                    }
+                    PlantStateVisual visual;
+                    visual.state = state_item.value("state", 0);
+                    visual.sprite = state_item["sprite"].get<std::string>();
+                    visual.offset = ReadVec2(
+                        state_item.value("offset", Json::array()),
+                        visual.offset);
+                    visual.sorting_layer =
+                        state_item.value("sorting_layer", 6);
+                    visual.sorting_order =
+                        state_item.value("sorting_order", 0);
+                    plant.states.push_back(std::move(visual));
+                }
+            }
+            if (!plant.states.empty()) plants_.push_back(std::move(plant));
+        }
+    }
     if (document.contains("portals")) {
         for (const Json& item : document["portals"]) {
             if (!item.is_object() || !item.contains("id") ||
@@ -274,6 +323,13 @@ const ShopItemDefinition* ItemAssets::FindShopItem(const std::string& id) const 
 const MaterialDefinition* ItemAssets::FindMaterial(const std::string& id) const {
     for (const MaterialDefinition& material : materials_) {
         if (material.id == id) return &material;
+    }
+    return nullptr;
+}
+
+const PlantDefinition* ItemAssets::FindPlant(const std::string& id) const {
+    for (const PlantDefinition& plant : plants_) {
+        if (plant.id == id) return &plant;
     }
     return nullptr;
 }

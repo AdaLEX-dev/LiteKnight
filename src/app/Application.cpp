@@ -16,12 +16,19 @@
 #include <SDL3/SDL_vulkan.h>
 
 #include <algorithm>
+#include <functional>
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
 #include <string_view>
 #include <utility>
+#include <fstream>
+
+#ifndef JSON_NOEXCEPTION
+#define JSON_NOEXCEPTION
+#endif
+#include <nlohmann/json.hpp>
 
 namespace soulknight::app {
 
@@ -55,6 +62,41 @@ engine::rendering::SortLayer MapSortingLayer(int32_t unity_sorting_layer) {
         case 8: return engine::rendering::SortLayer::UI;
         default: return engine::rendering::SortLayer::BackGround;
     }
+}
+
+namespace {
+struct MechOffer {
+    const char* id;
+    const char* name;
+    int cost;
+    int defence;
+    float speed_rate;
+    const char* unlock_key;
+};
+// CONFIRMED MonoBehaviour fields on the recovered m_mech_0..m_mech_5 mount
+// prefabs (itemValue/defence/speedRate/unlock_key). Names come from the exact
+// m_mech_* localization terms. The authoritative MechInfos material table is
+// not present in the extracted Resources data, so locked blueprints remain
+// locked and no material cost is invented.
+constexpr MechOffer kMechOffers[] = {
+    {"m_mech_0", "Prototype Armor", 12, 1, -0.20f, ""},
+    {"m_mech_1", "Iron Fist", 12, 1, -0.20f, ""},
+    {"m_mech_2", "Apocalypse", 20, 1, -0.20f, "blueprint_m_mech_2"},
+    {"m_mech_3", "C5H6O5", 40, 2, -0.20f, "blueprint_m_mech_3"},
+    {"m_mech_4", "WiFi Booster", 40, 0, 0.00f, "blueprint_m_mech_4"},
+    {"m_mech_5", "Dragon Dance Armor", 20, 1, -0.20f,
+     "blueprint_m_mech_5"},
+};
+} // namespace
+
+constexpr const char* kSuggestionTypes[] = {
+    "wall", "remove-wall", "collision", "clipping", "depth",
+    "missing-prop", "wrong-prop", "floor-boundary", "garden-boundary",
+    "dark", "note"};
+
+double UnixSeconds() {
+    using namespace std::chrono;
+    return duration<double>(system_clock::now().time_since_epoch()).count();
 }
 
 engine::collision::Aabb MakeFallbackCollisionBounds(const engine::Vec2& center) {
@@ -334,6 +376,10 @@ bool Application::Initialize() {
         camera_.orthographic_size = scene_.camera.orthographic_size;
         camera_.viewport_width = scene_.camera.viewport_width;
         camera_.viewport_height = scene_.camera.viewport_height;
+        ConfigureCameraBounds();
+        if (camera_bounds_valid_) {
+            camera_.ClampToRect(camera_bounds_.min, camera_bounds_.max);
+        }
         LOG_INFO_APP("Scene loaded: {} ({} textures, {} sprites, {} instances, {} animations)",
                      scene_.id, scene_.textures.size(), scene_.sprites.size(),
                      scene_.instances.size(), scene_.animations.size());
@@ -445,13 +491,7 @@ bool Application::Initialize() {
                      player_health_.hp, player_health_.armor,
                      player_health_.camp, enemies_.Enemies().size(),
                      enemies_.Definitions().size());
-        if (scene_.is_hub) {
-            plant_system_.Clear();
-            plant_system_.AddPlot("garden_1", {-27.0f, -2.5f}, 5.0f);
-            plant_system_.AddPlot("garden_2", {-25.0f, -2.5f}, 5.0f);
-            plant_system_.AddPlot("garden_3", {-27.0f, 0.0f}, 5.0f);
-            plant_system_.AddPlot("garden_4", {-25.0f, 0.0f}, 5.0f);
-        }
+        if (scene_.is_hub) ConfigureHubGarden();
         if (config_.asset_lab) {
             asset_lab_.Open();
         }
@@ -485,6 +525,22 @@ bool Application::Initialize() {
         }
         RebuildCollisionWorld();
         PopulateBiomeEnemies();
+        room_entry_position_ = player_.Position();
+        room_activation_timer_ = 0.0f;
+        if (scene_.is_hub) {
+            room_activation_state_ =
+                soulknight::game::room::RoomActivationState::Inactive;
+        } else if (enemies_.AliveCount() > 0 &&
+                   !cleared_rooms_.contains(scene_.id)) {
+            room_activation_state_ =
+                soulknight::game::room::RoomActivationState::Entered;
+        } else {
+            room_activation_state_ =
+                soulknight::game::room::RoomActivationState::Cleared;
+        }
+        LOG_INFO_APP("Room activation: {} state={}", scene_.id,
+                     soulknight::game::room::RoomActivationName(
+                         room_activation_state_));
         LOG_INFO_APP("Doors: {} recovered (open/close clips), initial target {}",
                      room_doors_.Count(),
                      room_doors_.TargetOpen() ? "open" : "closed");
@@ -499,6 +555,7 @@ bool Application::Initialize() {
                          door.Data().close_animation.duration,
                          soulknight::game::room::DoorStateName(door.State()));
         }
+        LoadHubSuggestions();
         LOG_INFO_APP("Locomotion: spawn ({:.2f},{:.2f}), effective speed {:.2f}, "
                      "character={}, idle={}, run={}",
                      scene_.spawn.x, scene_.spawn.y, player_.Config().EffectiveSpeed(),
@@ -636,15 +693,16 @@ bool Application::Initialize() {
 }
 
 void Application::RefreshLevelSurfaces() {
-    level_surfaces_.clear();
     const soulknight::game::room::BiomeLevel* level = biome_.Current();
     if (level == nullptr) {
+        level_surfaces_.clear();
         level_surface_key_.clear();
         return;
     }
     std::string key = scene_.id + "|" + level->id + "|" +
                       std::to_string(map_seed_);
-    if (key == level_surface_key_) return;
+    if (key == level_surface_key_ && !level_surfaces_.empty()) return;
+    level_surfaces_.clear();
     level_surface_key_ = key;
     const engine::assets::LevelTheme* theme =
         soulknight::game::room::LevelSurfaceBuilder::Find(
@@ -661,6 +719,8 @@ void Application::RefreshLevelSurfaces() {
     LOG_INFO_APP("Level surfaces: {} theme={} cells floor={} walls={}",
                  level->id, theme->manager, scene_.floor_cells.size(),
                  scene_.wall_cells.size() + scene_.corridor_wall_cells.size());
+    if (!level_surfaces_.empty()) {
+    }
 }
 
 void Application::BuildRenderBatch() {
@@ -733,6 +793,44 @@ void Application::BuildRenderBatch() {
                     static_cast<std::size_t>(stake_sprite)];
             }
         }
+        if (!is_player_body &&
+            instance.path.rfind("characters/", 0) == 0 &&
+            instance.path.find("/img/body") != std::string::npos) {
+            const std::size_t slash = instance.path.find('/', 11);
+            if (slash != std::string::npos) {
+                const std::string character_id =
+                    instance.path.substr(11, slash - 11);
+                const std::string clip_id = character_id + "_idle";
+                for (const engine::animation::AnimationClip& clip :
+                     scene_.animations) {
+                    if (clip.id != clip_id) continue;
+                    const engine::animation::SpriteTrack* track =
+                        clip.FindTrack(instance.path);
+                    if (track == nullptr) break;
+                    const float offset = static_cast<float>(
+                        std::hash<std::string>{}(character_id) % 1000) * 0.001f;
+                    const float time = clip.duration > 0.0f
+                        ? static_cast<float>(std::fmod(
+                              simulation_time_ + offset,
+                              static_cast<double>(clip.duration)))
+                        : 0.0f;
+                    const engine::animation::SpriteKeyframe* key =
+                        track->Evaluate(time);
+                    if (key != nullptr) {
+                        const int32_t animated_index =
+                            scene_.FindSpriteIndex(key->sprite_id);
+                        if (animated_index >= 0 &&
+                            static_cast<std::size_t>(animated_index) <
+                                scene_.sprites.size()) {
+                            sprite = &scene_.sprites[
+                                static_cast<std::size_t>(animated_index)];
+                        }
+                    }
+                    break;
+                }
+            }
+        }
+
         if (is_player_body && player_characters_.Count() > 0) {
             const engine::assets::SceneCharacter& character =
                 player_characters_.Active();
@@ -793,11 +891,13 @@ void Application::BuildRenderBatch() {
         };
         draw.uv = sprite->UvRect();
         draw.color = instance.color;
+        const float foot_y = engine::rendering::SpriteFootY(
+            draw.position.y, draw.size.y, sprite->pivot.y);
         if (engine::rendering::IsCharacterSortedUnityLayer(
-                instance.sorting_layer)) {
+                instance.sorting_layer) || instance.ground_depth) {
             draw.layer = engine::rendering::SortLayer::Character;
             draw.sorting_order = engine::rendering::WorldDepthOrder(
-                draw.position.y, is_player_body ? 20 : 0);
+                foot_y, is_player_body ? 20 : 0);
         } else {
             draw.layer = MapSortingLayer(instance.sorting_layer);
             draw.sorting_order = instance.sorting_order;
@@ -820,6 +920,12 @@ void Application::BuildRenderBatch() {
         if (is_player_body) {
             draw.flip_x = engine::rendering::ResolvePlayerBodyFlipX(
                 instance.flip_x, facing_);
+        } else if (instance.path.rfind("characters/", 0) == 0 &&
+                   instance.path.find("/img/body") != std::string::npos &&
+                   (player_.Position() - instance.position)
+                           .LengthSquared() <= 16.0f) {
+            draw.flip_x = instance.flip_x !=
+                (player_.Position().x < instance.position.x);
         }
         draw.flip_y = instance.flip_y;
         (void)sprite_batch_.DrawSprite(draw);
@@ -1060,10 +1166,111 @@ void Application::BuildRenderBatch() {
                                  visual.sorting_layer, visual.sorting_order, 4);
             }
         }
+        if (scene_.is_hub) {
+            // Recovered Living Room seed stock: the initial seed is a marked
+            // native grant, but every plant sprite/state comes from the
+            // recovered plant_* prefabs.
+            for (const auto& plot : plant_system_.Plots()) {
+                if (plot.state == game::hub::PlantGrowthState::Empty ||
+                    plot.species.empty()) {
+                    continue;
+                }
+                const auto* definition = item_assets_.FindPlant(plot.species);
+                if (definition == nullptr || definition->states.empty()) {
+                    continue;
+                }
+                std::size_t visual_index = definition->states.size() - 1;
+                if (plot.state == game::hub::PlantGrowthState::Growing) {
+                    const float progress = plot.growth_time > 0.0f
+                        ? std::clamp(plot.elapsed / plot.growth_time,
+                                     0.0f, 1.0f)
+                        : 1.0f;
+                    visual_index = static_cast<std::size_t>(
+                        progress * static_cast<float>(
+                            definition->states.size() - 1));
+                    visual_index = std::min(
+                        visual_index, definition->states.size() - 2);
+                }
+                const auto& visual = definition->states[visual_index];
+                const int32_t sprite_index =
+                    scene_.FindSpriteIndex(visual.sprite);
+                if (sprite_index < 0 ||
+                    static_cast<std::size_t>(sprite_index) >=
+                        scene_.sprites.size()) {
+                    continue;
+                }
+                const auto& sprite = scene_.sprites[
+                    static_cast<std::size_t>(sprite_index)];
+                engine::rendering::SpriteDraw draw;
+                draw.position = plot.position + visual.offset;
+                draw.size = sprite.WorldSize();
+                draw.uv = sprite.UvRect();
+                draw.color = engine::Color::White();
+                draw.layer = engine::rendering::SortLayer::Character;
+                // Plants grow out of the soil above the planter's front lip.
+                // Sort from the planter face, not the root, so the lip does
+                // not hide the whole recovered plant prefab.
+                draw.sorting_order = engine::rendering::WorldDepthOrder(
+                    plot.position.y - 2.3f, 9);
+                draw.texture_id = sprite.texture_id;
+                draw.pivot = sprite.pivot;
+                (void)sprite_batch_.DrawSprite(draw);
+            }
+            // The three recovered seller display cases in front of the trader
+            // show the actual weapon sprites. A sold offer leaves its case
+            // empty, which is the visible sold state.
+            const engine::Vec2 case_positions[] = {
+                {24.6f, 5.95f}, {27.6f, 5.95f}, {30.6f, 5.95f}};
+            for (std::size_t i = 0; i < trader_offers_.size() &&
+                                    i < std::size(case_positions); ++i) {
+                const auto& offer = trader_offers_[i];
+                if (offer.sold || offer.sprite_index < 0 ||
+                    static_cast<std::size_t>(offer.sprite_index) >=
+                        scene_.sprites.size()) {
+                    continue;
+                }
+                const auto& sprite = scene_.sprites[
+                    static_cast<std::size_t>(offer.sprite_index)];
+                engine::rendering::SpriteDraw draw;
+                draw.position = case_positions[i];
+                draw.size = sprite.WorldSize();
+                draw.uv = sprite.UvRect();
+                draw.color = engine::Color::White();
+                draw.layer = engine::rendering::SortLayer::Character;
+                draw.sorting_order = engine::rendering::WorldDepthOrder(
+                    case_positions[i].y, 11);
+                draw.texture_id = sprite.texture_id;
+                draw.pivot = sprite.pivot;
+                (void)sprite_batch_.DrawSprite(draw);
+            }
+        }
+        if (scene_.id == "r_sell_visual" && seller_.Configured()) {
+            const auto& visuals = item_assets_.SellerVisuals();
+            const engine::Vec2 base = scene_.spawn;
+            if (!visuals.counter.empty()) {
+                draw_item_sprite(visuals.counter,
+                                 base + engine::Vec2{0.0f, 3.05f}, 4, 2, 2);
+            }
+            if (!visuals.npc_shadow.empty()) {
+                draw_item_sprite(visuals.npc_shadow,
+                                 base + engine::Vec2{0.0f, 3.15f}, 3, 0, 1);
+            }
+            if (!visuals.npc_body.empty()) {
+                draw_item_sprite(visuals.npc_body,
+                                 base + engine::Vec2{0.0f, 3.45f}, 5, 1, 3);
+            }
+            if (!visuals.pedestal.empty()) {
+                for (const auto& offer : seller_.Offers()) {
+                    draw_item_sprite(visuals.pedestal,
+                                     offer.position + engine::Vec2{0.0f, -0.35f},
+                                     4, 0, 2);
+                }
+            }
+        }
         for (const auto& offer : seller_.Offers()) {
             if (offer.sold || offer.sprite.empty()) continue;
             draw_item_sprite(offer.sprite,
-                             offer.position + engine::Vec2{0.0f, 0.9f},
+                             offer.position + engine::Vec2{0.0f, 0.62f},
                              5, 5, 7);
         }
         for (const auto& object : special_objects_) {
@@ -1207,6 +1414,56 @@ void Application::BuildRenderBatch() {
         (void)sprite_batch_.DrawSprite(draw);
     }
 
+    if (mech_station_open_) {
+        auto& text = dev_ui_.Text();
+        const engine::Vec2 panel_size{12.0f, 7.6f};
+        const engine::Vec2 origin{
+            camera_.position.x - panel_size.x * 0.5f,
+            camera_.position.y + 4.85f};
+        text.DrawPanelBorder(sprite_batch_, origin, panel_size,
+                             {18, 24, 36, 238}, {188, 150, 74, 255},
+                             0.035f, 1500);
+        text.DrawText(sprite_batch_, "ROBOTICS FACILITY",
+                      origin + engine::Vec2{0.55f, -0.45f}, 0.011f,
+                      {255, 220, 145, 255}, 1502);
+        text.DrawText(sprite_batch_,
+                      "ORBS: " + std::to_string(player_orbs_) +
+                          "   ACTIVE: " +
+                          (active_mount_id_.empty() ? "NONE" : active_mount_id_),
+                      origin + engine::Vec2{0.55f, -1.05f}, 0.0075f,
+                      {225, 235, 245, 255}, 1502);
+        for (std::size_t i = 0; i < std::size(kMechOffers); ++i) {
+            const MechOffer& offer = kMechOffers[i];
+            const bool selected = static_cast<int>(i) == mech_selected_;
+            const bool active = active_mount_id_ == offer.id;
+            const bool locked = offer.unlock_key[0] != '\0';
+            std::string line = std::string(selected ? "> " : "  ") + offer.name;
+            line += "   " + std::to_string(offer.cost) + " ORBS";
+            line += "  DEF " + std::to_string(offer.defence);
+            if (locked) line += "  BLUEPRINT";
+            if (active) line += "  [ACTIVE]";
+            text.DrawText(sprite_batch_, line,
+                          origin + engine::Vec2{0.55f,
+                              -1.65f - static_cast<float>(i) * 0.58f},
+                          0.0085f,
+                          selected ? engine::Color{255, 220, 145, 255}
+                                   : engine::Color{190, 205, 220, 255},
+                          1502);
+        }
+        if (!mech_status_.empty()) {
+            text.DrawText(sprite_batch_, mech_status_,
+                          origin + engine::Vec2{0.55f, -5.25f}, 0.0095f,
+                          {150, 235, 185, 255}, 1502);
+        }
+        text.DrawText(sprite_batch_,
+                      "UP/DOWN SELECT   ENTER BUILD/STORE   ESC CLOSE",
+                      origin + engine::Vec2{0.55f, -5.95f}, 0.0072f,
+                      {200, 210, 225, 255}, 1502);
+    }
+
+    DrawHubSuggestionOverlay();
+    if (calibration_mode_) DrawCalibrationOverlay();
+
     if (collision_debug_) DrawCollisionDebug();
 
     if (weapon_.IsConfigured()) {
@@ -1214,7 +1471,8 @@ void Application::BuildRenderBatch() {
             sprite_batch_, scene_, weapon_.Definition(), player_.Position(),
             render_aim_direction_,
             facing_ == engine::locomotion::FacingDirection::Left,
-            player_dead_, weapon_.VisualTime(), weapon_.IsAttacking());
+            player_dead_, weapon_.VisualTime(), weapon_.IsAttacking(),
+            reduced_weapon_effects_ ? 0.22f : 1.0f);
         const bool dual_active = abilities_.Count() > 0 &&
             abilities_.Abilities()[0].state ==
                 soulknight::game::player::AbilityState::Active;
@@ -1227,7 +1485,8 @@ void Application::BuildRenderBatch() {
                 player_.Position(), render_aim_direction_,
                 {0.55f * mirror, 0.6f}, player_dead_,
                 secondary_weapon_.VisualTime(),
-                secondary_weapon_.IsAttacking());
+                secondary_weapon_.IsAttacking(),
+                reduced_weapon_effects_ ? 0.22f : 1.0f);
         }
     }
 
@@ -1449,6 +1708,32 @@ void Application::BuildSyntheticBatch() {
 void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                                    SDL_Keymod modifiers) {
     if (ui_design_mode_) return;
+    if (mech_station_open_) {
+        if (scancode == SDL_SCANCODE_ESCAPE) {
+            mech_station_open_ = false;
+            PlayEffect("ui_click", 0.3f);
+        } else if (scancode == SDL_SCANCODE_UP ||
+                   scancode == SDL_SCANCODE_W) {
+            CycleMechSelection(-1);
+        } else if (scancode == SDL_SCANCODE_DOWN ||
+                   scancode == SDL_SCANCODE_S) {
+            CycleMechSelection(1);
+        } else if (scancode == SDL_SCANCODE_RETURN ||
+                   scancode == SDL_SCANCODE_KP_ENTER ||
+                   scancode == SDL_SCANCODE_E) {
+            BuildMech();
+        }
+        return;
+    }
+    if (living_room_suggestions_ && scene_.is_hub &&
+        scancode == SDL_SCANCODE_G) {
+        suggestion_edit_mode_ = !suggestion_edit_mode_;
+        suggestion_dragging_ = false;
+        LOG_INFO_APP("Living Room QA mode: {}",
+                     suggestion_edit_mode_ ? "ON" : "OFF");
+        PlayEffect("ui_click", 0.35f);
+        return;
+    }
     if (interactive_test_.Active() && replay_ == nullptr) {
         interactive_test_.RecordCommand(
             simulation_ticks_ + 1, static_cast<int>(scancode),
@@ -1725,10 +2010,47 @@ void Application::ProcessUIAction() {
             if (scene_mode_) SaveGameToDisk();
             game_ui_.OpenMainMenu();
             break;
-        case UIAction::NewGame:
+        case UIAction::NewGame: {
+            // New Game always begins at the first recovered MapManagerLevel
+            // (1-1), never at a random biome or the previous run's level.
+            biome_.Reset();
+            map_seed_ = config_.map_seed;
+            cleared_rooms_.clear();
+            chest_spawned_rooms_.clear();
+            room_enemy_snapshots_.clear();
+            visited_rooms_.clear();
+            sold_shop_items_.clear();
+            active_statue_id_.clear();
+            active_mercenary_id_.clear();
+            active_mount_id_.clear();
+            mount_speed_bonus_ = 0.0f;
+            mercenary_level_ = 1;
+            player_coins_ = 0;
+            player_orbs_ = 0;
+            plant_system_.Clear();
+            selected_plant_seed_.clear();
+            if (multi_room_world_) {
+                if (scene_.id != world_hub_id_) {
+                    (void)ActivateRoom(world_hub_id_, "");
+                }
+                stored_rooms_.erase(
+                    std::remove_if(stored_rooms_.begin(), stored_rooms_.end(),
+                                   [&](const StoredRoom& room) {
+                                       return room.id != world_hub_id_;
+                                   }),
+                    stored_rooms_.end());
+                multi_room_world_ = false;
+                (void)LoadWorldRooms();
+            }
             ResetCombat();
+            if (scene_.is_hub) ConfigureHubGarden();
             game_ui_.OpenGameplay();
+            LOG_INFO_APP("New Game: level={} seed={} scene={}",
+                         biome_.Current() != nullptr
+                             ? biome_.Current()->id : "none",
+                         map_seed_, scene_.id);
             break;
+        }
         case UIAction::ContinueGame:
             if (save_manager_ != nullptr && save_manager_->Exists()) {
                 LoadGameFromDisk();
@@ -1808,6 +2130,22 @@ void Application::ProcessUIAction() {
             }
             break;
         }
+        case UIAction::ToggleReducedWeaponEffects:
+            reduced_weapon_effects_ = !reduced_weapon_effects_;
+            LOG_INFO_APP("Weapon effects: {}",
+                         reduced_weapon_effects_ ? "SUBTLE" : "FULL");
+            if (scene_mode_) SaveGameToDisk();
+            break;
+        case UIAction::ToggleLivingRoomSuggestions:
+            if (!scene_.is_hub) {
+                ShowDialogue("", "LIVING ROOM ONLY", 1.5f);
+                break;
+            }
+            living_room_suggestions_ = !living_room_suggestions_;
+            LOG_INFO_APP("Living Room QA suggestions: {}",
+                         BooleanText(living_room_suggestions_));
+            if (scene_mode_) SaveGameToDisk();
+            break;
         case UIAction::ToggleAimMode:
             aim_mode_ = aim_mode_ == soulknight::game::player::AimMode::Manual
                 ? soulknight::game::player::AimMode::Auto
@@ -2011,7 +2349,10 @@ void Application::TeleportForReview(const engine::Vec2& position) {
     previous_player_position_ = position;
     render_player_position_ = position;
     camera_.position = position;
-    previous_camera_position_ = position;
+    if (camera_bounds_valid_) {
+        camera_.ClampToRect(camera_bounds_.min, camera_bounds_.max);
+    }
+    previous_camera_position_ = camera_.position;
     render_camera_ = camera_;
     LOG_INFO_APP("Review teleport: ({:.2f},{:.2f})", position.x, position.y);
 }
@@ -2038,27 +2379,91 @@ void Application::ConfigureReviewMode() {
     } else if (config_.review_area == "workshop" ||
                config_.review_area == "garden" ||
                config_.review_area == "cellar" ||
-               config_.review_area == "trader") {
+               config_.review_area == "trader" ||
+               config_.review_area == "trader-world" ||
+               config_.review_area == "mech" ||
+               config_.review_area == "reforging" ||
+               config_.review_area == "planting" ||
+               config_.review_area == "mech-ui" ||
+               config_.review_area == "suggestions") {
         game_ui_.OpenGameplay();
-        engine::Vec2 target = config_.review_area == "cellar"
-            ? engine::Vec2{-10.5f, -10.0f}
-            : (config_.review_area == "trader"
-                ? engine::Vec2{27.6f, 2.2f} : scene_.spawn);
-        for (const auto& marker : scene_.interaction_markers) {
-            if ((config_.review_area == "workshop" &&
-                 marker.kind == "forge") ||
-                (config_.review_area == "garden" &&
-                 marker.kind == "garden") ||
-                (config_.review_area == "cellar" &&
-                 marker.kind == "cellar")) {
-                target = marker.position + engine::Vec2{0.0f, -2.0f};
+        engine::Vec2 target = scene_.spawn;
+        if (config_.review_area == "cellar") {
+            target = {-10.5f, -10.0f};
+        } else if (config_.review_area == "trader" ||
+                   config_.review_area == "trader-world") {
+            target = {27.6f, 2.2f};
+        } else if (config_.review_area == "mech" ||
+                   config_.review_area == "mech-ui") {
+            target = {43.0f, 3.4f};
+        } else if (config_.review_area == "reforging") {
+            target = {35.9f, -2.2f};
+        } else if (config_.review_area == "planting") {
+            target = {-25.77f, -0.4f};
+        }
+        const char* marker_kind = config_.review_area == "workshop"
+            ? "forge"
+            : config_.review_area == "garden" ||
+                      config_.review_area == "planting"
+            ? "garden"
+            : config_.review_area == "mech"
+            ? "mech"
+            : config_.review_area == "reforging"
+            ? "forge"
+            : config_.review_area == "cellar" ? "cellar" : nullptr;
+        if (marker_kind != nullptr) {
+            for (const auto& marker : scene_.interaction_markers) {
+                if (marker.kind != marker_kind) continue;
+                target = marker.position + engine::Vec2{0.0f, -2.2f};
+                if (config_.review_area == "planting") target.y = -0.4f;
+                if (config_.review_area == "mech" ||
+                    config_.review_area == "mech-ui") {
+                    target.y = 3.4f;
+                }
+                if (config_.review_area == "reforging" ||
+                    config_.review_area == "workshop") {
+                    target.y = -1.9f;
+                }
                 break;
             }
         }
         TeleportForReview(target);
         if (config_.review_area == "trader") {
             game_ui_.OpenTrader();
+        } else if (config_.review_area == "mech-ui") {
+            OpenMechStation();
+        } else if (config_.review_area == "suggestions") {
+            living_room_suggestions_ = true;
+            suggestion_edit_mode_ = true;
+            suggestion_list_visible_ = true;
+            TeleportForReview({-26.0f, -0.5f});
+        } else if (config_.review_area == "planting") {
+            // QA-only inspection state: plant one recovered carrot so the
+            // generated prefab stages can be visually checked. This never
+            // runs in normal gameplay.
+            if (!plant_system_.Plots().empty()) {
+                plant_system_.AddSeed("plant_carrot", 1);
+                const auto* plant = item_assets_.FindPlant("plant_carrot");
+                (void)plant_system_.Interact(
+                    0, "plant_carrot",
+                    plant != nullptr ? plant->growth_seconds : 30.0f,
+                    plant != nullptr
+                        ? static_cast<int>(plant->states.size()) : 2,
+                    plant != nullptr ? plant->item_id : std::string{},
+                    plant != nullptr ? plant->harvest_count : 1);
+            }
         }
+    } else if (config_.review_area == "calibration") {
+        game_ui_.OpenGameplay();
+        calibration_mode_ = true;
+        TeleportForReview({-40.0f, 0.0f});
+        LOG_INFO_APP("Calibration: player={} collider={:.2f}x{:.2f} "
+                     "camera_ortho={:.2f} view={:.2f}x{:.2f}",
+                     player_characters_.Active().id,
+                     player_.Config().collider_half_extents.x * 2.0f,
+                     player_.Config().collider_half_extents.y * 2.0f,
+                     camera_.orthographic_size, camera_.HalfWidth() * 2.0f,
+                     camera_.HalfHeight() * 2.0f);
     } else if (config_.review_area == "weapons") {
         game_ui_.OpenGameplay();
         game_ui_.OpenWeaponSelect(0);
@@ -2124,6 +2529,9 @@ void Application::DrawGameUI() {
     data.debug_overlay = dev_ui_.OverlayVisible();
     data.has_pixel_font = dev_ui_.HasPixelFont();
     data.auto_aim = aim_mode_ == soulknight::game::player::AimMode::Auto;
+    data.reduced_weapon_effects = reduced_weapon_effects_;
+    data.living_room_suggestions = living_room_suggestions_;
+    data.is_hub = scene_.is_hub;
     if (abilities_.Count() > 0) {
         const auto& ability = abilities_.Abilities()[0];
         data.ability_state = static_cast<int>(ability.state);
@@ -2212,6 +2620,11 @@ void Application::DrawGameUI() {
         }
         data.interaction_screen = render_camera_.WorldToScreen(marker->position);
     }
+    if (mech_station_open_ || suggestion_edit_mode_ || calibration_mode_) {
+        data.chest_nearby = false;
+        data.pickup_nearby = false;
+        data.interaction_nearby = false;
+    }
     data.dialogue_speaker = dialogue_speaker_;
     data.dialogue_text = dialogue_text_;
     data.dialogue_timer = dialogue_timer_;
@@ -2277,6 +2690,11 @@ void Application::PollEvents() {
         }
 
         if (HandleUiDesignEvent(event)) {
+            window_.HandleEvent(event);
+            input_manager_.ProcessEvent(event);
+            continue;
+        }
+        if (HandleHubSuggestionEvent(event)) {
             window_.HandleEvent(event);
             input_manager_.ProcessEvent(event);
             continue;
@@ -2380,6 +2798,17 @@ void Application::RebuildCollisionWorld() {
     }
     obstacles_.AddColliders(collision_world_);
     boxes_.AddColliders(collision_world_);
+    if (scene_.id == "r_sell_visual" && seller_.Configured()) {
+        for (const auto& offer : seller_.Offers()) {
+            collision_world_.AddSolid({
+                {offer.position.x - 0.72f, offer.position.y - 0.72f},
+                {offer.position.x + 0.72f, offer.position.y + 0.28f}});
+        }
+        const engine::Vec2 base = scene_.spawn;
+        collision_world_.AddSolid({
+            {base.x - 1.35f, base.y + 2.75f},
+            {base.x + 1.35f, base.y + 4.05f}});
+    }
     for (const auto& chest : item_world_.Chests()) {
         const auto* definition = item_assets_.FindChest(chest.definition);
         if (definition == nullptr) continue;
@@ -2670,7 +3099,11 @@ void Application::SaveGameToDisk() {
     data.fullscreen = window_.IsFullscreen();
     data.hub_visited = scene_.is_hub;
     data.auto_aim = aim_mode_ == soulknight::game::player::AimMode::Auto;
+    data.reduced_weapon_effects = reduced_weapon_effects_;
+    data.living_room_suggestions = living_room_suggestions_;
     data.map_seed = map_seed_;
+    data.campaign_level = biome_.Current() != nullptr
+        ? biome_.Current()->id : std::string("1-1");
     data.pet_id = active_pet_id_;
     data.cleared_rooms.assign(cleared_rooms_.begin(), cleared_rooms_.end());
     data.chest_spawned_rooms.assign(chest_spawned_rooms_.begin(),
@@ -2689,6 +3122,8 @@ void Application::SaveGameToDisk() {
     for (const auto& plot : plant_system_.Plots()) {
         if (!plot.species.empty()) data.plants.push_back(plot.species);
     }
+    data.plant_states = plant_system_.SerializePlots();
+    data.seed_stock = plant_system_.SerializeSeeds();
     for (const auto& snapshot : item_world_.SnapshotRooms()) {
         soulknight::game::save::SaveRoomItems room;
         room.id = snapshot.id;
@@ -2812,9 +3247,21 @@ void Application::LoadGameFromDisk() {
         LOG_WARN_APP("Load recovered with warning: {}", error);
     }
     if (multi_room_world_) {
-        if (data.map_seed != map_seed_) {
-            map_seed_ = data.map_seed;
-            ConfigureWorldGraph();
+        const std::string saved_level =
+            data.campaign_level.empty() ? "1-1" : data.campaign_level;
+        const bool level_changed =
+            biome_.Current() == nullptr || biome_.Current()->id != saved_level;
+        if (level_changed) {
+            if (!biome_.Select(saved_level)) {
+                LOG_WARN_APP("Save references unknown campaign level: {}",
+                             saved_level);
+            }
+        }
+        if (level_changed || data.map_seed != map_seed_) {
+            if (!LoadWorldRooms(data.map_seed)) {
+                LOG_WARN_APP("Save world rebuild failed for level {} seed {}",
+                             saved_level, data.map_seed);
+            }
         }
         if (data.scene_id != scene_.id &&
             room_manager_.Find(data.scene_id) != nullptr) {
@@ -2876,6 +3323,11 @@ void Application::LoadGameFromDisk() {
         materials.push_back({material.id, material.count});
     }
     workshop_.RestoreMaterials(materials);
+    if (!plant_system_.Plots().empty()) {
+        (void)plant_system_.RestorePlots(data.plant_states);
+        (void)plant_system_.RestoreSeeds(data.seed_stock);
+        selected_plant_seed_ = plant_system_.FirstAvailableSeed();
+    }
     cleared_rooms_.clear();
     cleared_rooms_.insert(data.cleared_rooms.begin(), data.cleared_rooms.end());
     chest_spawned_rooms_.clear();
@@ -2890,6 +3342,8 @@ void Application::LoadGameFromDisk() {
     active_mount_id_ = data.active_mount;
     mount_speed_bonus_ = active_mount_id_.empty() ? 0.0f : 0.35f;
     pot_empty_state_ = data.pot_empty;
+    reduced_weapon_effects_ = data.reduced_weapon_effects;
+    living_room_suggestions_ = data.living_room_suggestions;
     mercenary_spawned_ = false;
     std::vector<soulknight::game::items::RoomItemSnapshot> room_items;
     for (const auto& room : data.rooms) {
@@ -3045,6 +3499,19 @@ void Application::ConfigureRoomItems() {
             marker.price = offer.price;
             marker.item_id = offer.item_id;
             scene_.interaction_markers.push_back(std::move(marker));
+        }
+        for (auto& offer : seller_.OffersMutable()) {
+            if (!offer.sprite.empty() || offer.weapon_id.empty()) continue;
+            for (const auto& definition : weapons_.Definitions()) {
+                if (definition.id != offer.weapon_id) continue;
+                if (definition.visual_sprite_index >= 0 &&
+                    static_cast<std::size_t>(definition.visual_sprite_index) <
+                        scene_.sprites.size()) {
+                    offer.sprite = scene_.sprites[static_cast<std::size_t>(
+                        definition.visual_sprite_index)].id;
+                }
+                break;
+            }
         }
         LOG_INFO_APP("Seller: {} recovered offers in {}", seller_.Offers().size(),
                      scene_.id);
@@ -3245,11 +3712,8 @@ void Application::ConfigureRoomItems() {
     // The reference transfer_gate_02 is the actual portal object. The native
     // room scenes do not serialize a return gate, so place the recovered asset
     // at a deterministic clear floor position and expose the normal E prompt.
-    if (scene_.is_hub && item_assets_.IsLoaded() &&
-        !chest_spawned_rooms_.contains(scene_.id + ":material")) {
-        item_world_.AddChest("chest03", {48.93f, 0.81f});
-        chest_spawned_rooms_.insert(scene_.id + ":material");
-    }
+    // The Living Room material chest is the recovered static chest_material
+    // prefab already present in HeroRoom. Do not overlay a generic chest03.
     if (dungeon && scene_.room.type == 2) {
         const bool has_portal = std::any_of(
             scene_.interaction_markers.begin(), scene_.interaction_markers.end(),
@@ -3268,6 +3732,565 @@ void Application::ConfigureRoomItems() {
     }
 }
 
+void Application::OpenMechStation() {
+    mech_station_open_ = true;
+    mech_selected_ = 0;
+    if (!active_mount_id_.empty()) {
+        for (std::size_t i = 0; i < std::size(kMechOffers); ++i) {
+            if (active_mount_id_ == kMechOffers[i].id) {
+                mech_selected_ = static_cast<int>(i);
+                break;
+            }
+        }
+    }
+    mech_status_.clear();
+    PlayEffect("ui_click", 0.4f);
+    LOG_INFO_APP("Mech station: opened (orbs={}, active={})",
+                 player_orbs_,
+                 active_mount_id_.empty() ? "none" : active_mount_id_);
+}
+
+void Application::CycleMechSelection(int delta) {
+    if (!mech_station_open_) return;
+    const int count = static_cast<int>(std::size(kMechOffers));
+    mech_selected_ = (mech_selected_ + delta + count) % count;
+    mech_status_.clear();
+    PlayEffect("ui_click", 0.3f);
+}
+
+void Application::BuildMech() {
+    if (!mech_station_open_) return;
+    if (mech_selected_ < 0 ||
+        static_cast<std::size_t>(mech_selected_) >= std::size(kMechOffers)) {
+        return;
+    }
+    const MechOffer& offer = kMechOffers[mech_selected_];
+    if (!active_mount_id_.empty()) {
+        if (active_mount_id_ == offer.id) {
+            active_mount_id_.clear();
+            mount_speed_bonus_ = 0.0f;
+            mech_status_ = "MECH STORED";
+            PlayEffect("ui_click", 0.5f);
+            LOG_INFO_APP("Mech station: stored {}", offer.id);
+        } else {
+            mech_status_ = "UNEQUIP CURRENT MECH";
+        }
+        return;
+    }
+    if (offer.unlock_key[0] != '\0') {
+        mech_status_ = "BLUEPRINT REQUIRED";
+        PlayEffect("ui_click", 0.35f);
+        return;
+    }
+    if (player_orbs_ < offer.cost) {
+        mech_status_ = "NEED " + std::to_string(offer.cost - player_orbs_) +
+            " ORBS";
+        PlayEffect("ui_click", 0.35f);
+        return;
+    }
+    player_orbs_ -= offer.cost;
+    active_mount_id_ = offer.id;
+    mount_speed_bonus_ = offer.speed_rate;
+    mech_status_ = "BUILT  " + std::string(offer.name);
+    PlayEffect("weapon_fx_buy", 0.6f);
+    ShowDialogue("ROBOTICS FACILITY", offer.name, 2.0f);
+    LOG_INFO_APP("Mech station: built {} for {} orbs (remaining {}, "
+                 "defence {} speedRate {:.2f})",
+                 offer.id, offer.cost, player_orbs_, offer.defence,
+                 offer.speed_rate);
+}
+
+void Application::SaveHubSuggestions() const {
+    std::error_code error;
+    const std::filesystem::path directory = project_root_ / "analysis";
+    std::filesystem::create_directories(directory, error);
+    const std::filesystem::path path = directory / "hub_suggestions.json";
+    nlohmann::json document;
+    document["schema"] = 1;
+    document["build"] = "0.5.5-dev";
+    document["area"] = "living-room";
+    document["suggestions"] = nlohmann::json::array();
+    for (const HubSuggestion& suggestion : hub_suggestions_) {
+        nlohmann::json item;
+        item["type"] = suggestion.type;
+        item["position"] = {suggestion.position.x, suggestion.position.y};
+        item["size"] = {suggestion.size.x, suggestion.size.y};
+        item["note"] = suggestion.note;
+        item["object_id"] = suggestion.object_id;
+        item["timestamp"] = suggestion.timestamp;
+        item["area"] = "living-room";
+        document["suggestions"].push_back(std::move(item));
+    }
+    std::ofstream stream(path, std::ios::binary | std::ios::trunc);
+    if (!stream) {
+        LOG_WARN_APP("Hub suggestions: cannot write {}", path.string());
+        return;
+    }
+    stream << document.dump(2) << "\n";
+    LOG_INFO_APP("Hub suggestions: wrote {} entr{} to {}",
+                 hub_suggestions_.size(),
+                 hub_suggestions_.size() == 1 ? "y" : "ies",
+                 path.string());
+}
+
+void Application::LoadHubSuggestions() {
+    hub_suggestions_.clear();
+    const std::filesystem::path path =
+        project_root_ / "analysis" / "hub_suggestions.json";
+    std::ifstream stream(path, std::ios::binary);
+    if (!stream) return;
+    nlohmann::json document = nlohmann::json::parse(
+        stream, nullptr, false);
+    if (document.is_discarded() || !document.is_object() ||
+        !document.contains("suggestions") ||
+        !document["suggestions"].is_array()) {
+        LOG_WARN_APP("Hub suggestions: malformed {}", path.string());
+        return;
+    }
+    for (const auto& item : document["suggestions"]) {
+        if (!item.is_object()) continue;
+        HubSuggestion suggestion;
+        suggestion.type = item.value("type", std::string("note"));
+        if (item.contains("position") && item["position"].is_array() &&
+            item["position"].size() == 2) {
+            suggestion.position = {item["position"][0].get<float>(),
+                                   item["position"][1].get<float>()};
+        }
+        if (item.contains("size") && item["size"].is_array() &&
+            item["size"].size() == 2) {
+            suggestion.size = {item["size"][0].get<float>(),
+                               item["size"][1].get<float>()};
+        }
+        suggestion.note = item.value("note", std::string{});
+        suggestion.object_id = item.value("object_id", std::string{});
+        suggestion.timestamp = item.value("timestamp", 0.0);
+        hub_suggestions_.push_back(std::move(suggestion));
+    }
+    LOG_INFO_APP("Hub suggestions: loaded {} from {}",
+                 hub_suggestions_.size(), path.string());
+}
+
+bool Application::HandleHubSuggestionEvent(const SDL_Event& event) {
+    if (!living_room_suggestions_ || !scene_.is_hub ||
+        !suggestion_edit_mode_) {
+        return false;
+    }
+    if (event.type == SDL_EVENT_TEXT_INPUT) {
+        if (suggestion_note_entry_) {
+            suggestion_note_buffer_ += event.text.text;
+            return true;
+        }
+        return false;
+    }
+    if (event.type == SDL_EVENT_KEY_DOWN && !event.key.repeat) {
+        const SDL_Scancode code = event.key.scancode;
+        const bool ctrl =
+            (event.key.mod & SDL_KMOD_CTRL) != 0;
+        if (suggestion_note_entry_) {
+            if (code == SDL_SCANCODE_BACKSPACE &&
+                !suggestion_note_buffer_.empty()) {
+                suggestion_note_buffer_.pop_back();
+            } else if (code == SDL_SCANCODE_ESCAPE) {
+                suggestion_note_entry_ = false;
+                suggestion_note_buffer_.clear();
+                suggestion_note_index_ = -1;
+                SDL_StopTextInput(window_.GetSDLWindow());
+            } else if (code == SDL_SCANCODE_RETURN ||
+                       code == SDL_SCANCODE_KP_ENTER) {
+                if (suggestion_note_index_ >= 0 &&
+                    static_cast<std::size_t>(suggestion_note_index_) <
+                        hub_suggestions_.size()) {
+                    hub_suggestions_[static_cast<std::size_t>(
+                        suggestion_note_index_)].note =
+                        suggestion_note_buffer_;
+                    SaveHubSuggestions();
+                }
+                suggestion_note_entry_ = false;
+                suggestion_note_buffer_.clear();
+                suggestion_note_index_ = -1;
+                SDL_StopTextInput(window_.GetSDLWindow());
+            }
+            return true;
+        }
+        if (code == SDL_SCANCODE_ESCAPE) {
+            suggestion_edit_mode_ = false;
+            suggestion_dragging_ = false;
+            PlayEffect("ui_click", 0.3f);
+            return true;
+        }
+        if (code == SDL_SCANCODE_T) {
+            suggestion_type_index_ = (suggestion_type_index_ + 1) %
+                static_cast<int>(std::size(kSuggestionTypes));
+            LOG_INFO_APP("Hub suggestion type: {}",
+                         kSuggestionTypes[suggestion_type_index_]);
+            return true;
+        }
+        if (code == SDL_SCANCODE_L) {
+            suggestion_list_visible_ = !suggestion_list_visible_;
+            return true;
+        }
+        if (code == SDL_SCANCODE_BACKSPACE ||
+            code == SDL_SCANCODE_DELETE) {
+            if (!hub_suggestions_.empty()) {
+                hub_suggestions_.pop_back();
+                SaveHubSuggestions();
+            }
+            return true;
+        }
+        if (ctrl && code == SDL_SCANCODE_X) {
+            hub_suggestions_.clear();
+            SaveHubSuggestions();
+            LOG_INFO_APP("Hub suggestions: cleared");
+            return true;
+        }
+        if (ctrl && code == SDL_SCANCODE_E) {
+            SaveHubSuggestions();
+            return true;
+        }
+        return true;
+    }
+    if (event.type != SDL_EVENT_MOUSE_MOTION &&
+        event.type != SDL_EVENT_MOUSE_BUTTON_DOWN &&
+        event.type != SDL_EVENT_MOUSE_BUTTON_UP) {
+        return false;
+    }
+    const engine::Vec2 logical = logical_viewport_.WindowPointToLogical(
+        {event.type == SDL_EVENT_MOUSE_MOTION
+             ? event.motion.x : event.button.x,
+         event.type == SDL_EVENT_MOUSE_MOTION
+             ? event.motion.y : event.button.y});
+    last_mouse_logical_ = logical;
+    last_mouse_world_ = render_camera_.ScreenToWorld(logical);
+    if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN &&
+        event.button.button == SDL_BUTTON_LEFT) {
+        suggestion_dragging_ = true;
+        suggestion_drag_start_ = last_mouse_world_;
+        return true;
+    }
+    if (event.type == SDL_EVENT_MOUSE_BUTTON_UP &&
+        event.button.button == SDL_BUTTON_LEFT && suggestion_dragging_) {
+        suggestion_dragging_ = false;
+        HubSuggestion suggestion;
+        suggestion.type = kSuggestionTypes[suggestion_type_index_];
+        const engine::Vec2 min{
+            std::min(suggestion_drag_start_.x, last_mouse_world_.x),
+            std::min(suggestion_drag_start_.y, last_mouse_world_.y)};
+        const engine::Vec2 max{
+            std::max(suggestion_drag_start_.x, last_mouse_world_.x),
+            std::max(suggestion_drag_start_.y, last_mouse_world_.y)};
+        suggestion.position = min;
+        suggestion.size = {std::max(0.5f, max.x - min.x),
+                           std::max(0.5f, max.y - min.y)};
+        suggestion.timestamp = UnixSeconds();
+        hub_suggestions_.push_back(std::move(suggestion));
+        SaveHubSuggestions();
+        if (std::string(kSuggestionTypes[suggestion_type_index_]) == "note") {
+            suggestion_note_entry_ = true;
+            suggestion_note_buffer_.clear();
+            suggestion_note_index_ =
+                static_cast<int>(hub_suggestions_.size()) - 1;
+            SDL_StartTextInput(window_.GetSDLWindow());
+        }
+        PlayEffect("pickup", 0.35f);
+        return true;
+    }
+    if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN &&
+        event.button.button == SDL_BUTTON_RIGHT) {
+        int nearest = -1;
+        float best = 1.5f * 1.5f;
+        for (std::size_t i = 0; i < hub_suggestions_.size(); ++i) {
+            const engine::Vec2 center = hub_suggestions_[i].position +
+                hub_suggestions_[i].size * 0.5f;
+            const float distance =
+                (center - last_mouse_world_).LengthSquared();
+            if (distance <= best) {
+                best = distance;
+                nearest = static_cast<int>(i);
+            }
+        }
+        if (nearest >= 0) {
+            hub_suggestions_.erase(hub_suggestions_.begin() + nearest);
+            SaveHubSuggestions();
+            PlayEffect("ui_click", 0.3f);
+        }
+        return true;
+    }
+    return true;
+}
+
+void Application::DrawHubSuggestionOverlay() {
+    if (!living_room_suggestions_ || !scene_.is_hub) return;
+    auto& text = dev_ui_.Text();
+    const float half_w = camera_.HalfWidth();
+    const float half_h = camera_.HalfHeight();
+    const engine::Vec2 origin{camera_.position.x - half_w + 0.35f,
+                              camera_.position.y + half_h - 4.2f};
+    if (!suggestion_edit_mode_) {
+        text.DrawText(sprite_batch_, "QA: G SUGGESTIONS",
+                      origin, 0.0065f, {170, 205, 235, 220}, 1505);
+        return;
+    }
+    const float scale = 0.0065f;
+    text.DrawPanel(sprite_batch_,
+                   origin + engine::Vec2{0.0f, 0.15f},
+                   {5.4f, 0.5f}, {15, 20, 30, 210}, 1504);
+    const std::string header =
+        std::string("QA MARK MODE  TYPE: ") +
+        kSuggestionTypes[suggestion_type_index_] +
+        "  [T] NEXT  [L] LIST  RMB DELETE  [ESC] EXIT";
+    text.DrawText(sprite_batch_, header, origin, scale,
+                  {255, 220, 145, 255}, 1505);
+    if (suggestion_note_entry_) {
+        text.DrawText(sprite_batch_,
+                      "NOTE: " + suggestion_note_buffer_ +
+                          "   [ENTER] SAVE  [ESC] CANCEL",
+                      origin + engine::Vec2{0.0f, -0.42f}, scale,
+                      {150, 235, 185, 255}, 1505);
+    }
+    // Crosshair at the exact cursor world position.
+    text.DrawLine(sprite_batch_, last_mouse_world_ + engine::Vec2{-0.35f, 0},
+                  last_mouse_world_ + engine::Vec2{0.35f, 0}, 0.03f,
+                  {255, 220, 80, 235}, 1506);
+    text.DrawLine(sprite_batch_, last_mouse_world_ + engine::Vec2{0, -0.35f},
+                  last_mouse_world_ + engine::Vec2{0, 0.35f}, 0.03f,
+                  {255, 220, 80, 235}, 1506);
+    for (const HubSuggestion& suggestion : hub_suggestions_) {
+        const engine::Color color = suggestion.type == "wall"
+            ? engine::Color{255, 145, 90, 210}
+            : suggestion.type == "collision" ||
+                      suggestion.type == "clipping"
+            ? engine::Color{255, 80, 80, 210}
+            : suggestion.type == "depth"
+            ? engine::Color{160, 130, 255, 210}
+            : engine::Color{90, 220, 180, 210};
+        text.DrawPanelBorder(sprite_batch_, suggestion.position,
+                             suggestion.size, {color.r, color.g, color.b, 35},
+                             color, 0.05f, 1505);
+    }
+    if (suggestion_list_visible_) {
+        engine::Vec2 list_origin{camera_.position.x + half_w - 12.6f,
+                                 camera_.position.y + half_h - 5.0f};
+        text.DrawPanelBorder(sprite_batch_, list_origin,
+                             {5.4f, 3.8f}, {15, 20, 30, 235},
+                             {188, 150, 74, 255}, 0.03f, 1506);
+        text.DrawText(sprite_batch_,
+                      "SUGGESTIONS  " +
+                          std::to_string(hub_suggestions_.size()),
+                      list_origin + engine::Vec2{0.2f, -0.35f}, scale,
+                      {255, 220, 145, 255}, 1507);
+        for (std::size_t i = 0; i < hub_suggestions_.size() && i < 7; ++i) {
+            const auto& suggestion = hub_suggestions_[i];
+            char line[160];
+            std::snprintf(line, sizeof(line), "%zu  %-12s (%.1f, %.1f) %s",
+                          i + 1, suggestion.type.c_str(),
+                          suggestion.position.x, suggestion.position.y,
+                          suggestion.note.c_str());
+            text.DrawText(sprite_batch_, line,
+                          list_origin + engine::Vec2{0.2f,
+                              -0.8f - static_cast<float>(i) * 0.42f},
+                          scale, {205, 220, 235, 255}, 1507);
+        }
+    }
+}
+
+void Application::DrawCalibrationOverlay() {
+    auto& text = dev_ui_.Text();
+    const float half_w = camera_.HalfWidth();
+    const float half_h = camera_.HalfHeight();
+    // Cover the normal world completely; this is a development-only view.
+    text.DrawPanel(sprite_batch_,
+                   {camera_.position.x - half_w,
+                    camera_.position.y + half_h},
+                   {half_w * 2.0f, half_h * 2.0f}, {4, 6, 10, 248}, 1450);
+    struct RoomSpec { const char* label; int width; int height; };
+    const RoomSpec specs[] = {
+        {"11x11", 11, 11}, {"15x15", 15, 15}, {"15x21", 15, 21},
+        {"21x15", 21, 15}, {"21x21", 21, 21}};
+    const float cell = std::min(0.30f,
+        (half_w * 1.78f) / 103.0f);
+    const float gap = cell * 1.6f;
+    float total_units = 0.0f;
+    for (const RoomSpec& spec : specs) {
+        total_units += static_cast<float>(spec.width);
+    }
+    const float total = total_units * cell + gap * 4.0f;
+    float cursor = camera_.position.x - total * 0.5f;
+    const float top = camera_.position.y + half_h * 0.58f;
+    const int32_t player_sprite = player_render_.body_instance >= 0
+        ? static_cast<int32_t>(scene_.instances[static_cast<std::size_t>(
+              player_render_.body_instance)].sprite_index) : -1;
+    int32_t enemy_sprite = -1;
+    if (!scene_.enemy_definitions.empty() &&
+        scene_.enemy_definitions.front().body_sprite_index >= 0) {
+        enemy_sprite = scene_.enemy_definitions.front().body_sprite_index;
+    }
+    int32_t chest_sprite = -1;
+    if (item_assets_.IsLoaded()) {
+        if (const auto* chest = item_assets_.FindChest("chest01");
+            chest != nullptr && !chest->visuals.empty()) {
+            chest_sprite = scene_.FindSpriteIndex(chest->visuals[0].sprite);
+        }
+    }
+    const auto draw_sprite = [&](int32_t index, const engine::Vec2& at,
+                                 float scale) {
+        if (index < 0 ||
+            static_cast<std::size_t>(index) >= scene_.sprites.size()) {
+            return;
+        }
+        const auto& sprite = scene_.sprites[static_cast<std::size_t>(index)];
+        engine::rendering::SpriteDraw draw;
+        draw.position = at;
+        draw.size = sprite.WorldSize() * scale;
+        draw.uv = sprite.UvRect();
+        draw.color = engine::Color::White();
+        draw.layer = engine::rendering::SortLayer::Character;
+        draw.sorting_order = 200000;
+        draw.texture_id = sprite.texture_id;
+        draw.pivot = sprite.pivot;
+        (void)sprite_batch_.DrawSprite(draw);
+    };
+    for (const RoomSpec& spec : specs) {
+        const float width = static_cast<float>(spec.width) * cell;
+        const float height = static_cast<float>(spec.height) * cell;
+        const engine::Vec2 origin{cursor, top};
+        const float edge = 0.03f;
+        const engine::Color outline{220, 225, 235, 255};
+        text.DrawPanel(sprite_batch_, origin,
+                       {width, edge}, outline, 1452);
+        text.DrawPanel(sprite_batch_, {origin.x, origin.y - height},
+                       {width, edge}, outline, 1452);
+        text.DrawPanel(sprite_batch_, origin,
+                       {edge, height}, outline, 1452);
+        text.DrawPanel(sprite_batch_, {origin.x + width - edge, origin.y},
+                       {edge, height}, outline, 1452);
+        for (int x = 1; x < spec.width; ++x) {
+            const float gx = origin.x + static_cast<float>(x) * cell;
+            text.DrawLine(sprite_batch_, {gx, origin.y},
+                          {gx, origin.y - height}, 0.012f,
+                          {65, 75, 90, 190}, 1452);
+        }
+        for (int y = 1; y < spec.height; ++y) {
+            const float gy = origin.y - static_cast<float>(y) * cell;
+            text.DrawLine(sprite_batch_, {origin.x, gy},
+                          {origin.x + width, gy}, 0.012f,
+                          {65, 75, 90, 190}, 1452);
+        }
+        text.DrawText(sprite_batch_, spec.label,
+                      {origin.x, origin.y + 0.55f}, 0.009f,
+                      {255, 220, 145, 255}, 1454);
+        char measurement[96];
+        std::snprintf(measurement, sizeof(measurement),
+                      "%dx%d units  cell=%.2f", spec.width, spec.height,
+                      cell);
+        text.DrawText(sprite_batch_, measurement,
+                      {origin.x, origin.y + 0.30f}, 0.0056f,
+                      {190, 205, 220, 255}, 1454);
+        draw_sprite(player_sprite,
+                    {origin.x + width * 0.50f, origin.y - height * 0.56f},
+                    0.72f);
+        draw_sprite(enemy_sprite,
+                    {origin.x + width * 0.72f, origin.y - height * 0.56f},
+                    0.72f);
+        draw_sprite(chest_sprite,
+                    {origin.x + width * 0.28f, origin.y - height * 0.48f},
+                    0.55f);
+        // One wall segment (north), one door (south) and the room outline.
+        text.DrawPanel(sprite_batch_,
+                       {origin.x + cell, origin.y - cell},
+                       {width - cell * 2.0f, cell * 0.30f},
+                       {95, 105, 120, 255}, 1453);
+        text.DrawPanel(sprite_batch_,
+                       {origin.x + width * 0.5f - cell, origin.y - height},
+                       {cell * 2.0f, cell * 0.24f},
+                       {155, 120, 70, 255}, 1453);
+        cursor += width + gap;
+    }
+    text.DrawText(sprite_batch_,
+        "CALIBRATION  player collider 0.80x0.80  sprite 1.62x1.87  "
+        "camera ortho " + std::to_string(camera_.orthographic_size),
+        {camera_.position.x - half_w + 0.3f,
+         camera_.position.y - half_h + 0.3f},
+        0.0075f, {225, 235, 245, 255}, 1455);
+}
+
+void Application::ConfigureHubGarden() {
+    if (!scene_.is_hub) return;
+    if (!plant_system_.Plots().empty()) {
+        // Returning to the Living Room must not reset growing plots.
+        if (selected_plant_seed_.empty()) {
+            selected_plant_seed_ = plant_system_.FirstAvailableSeed();
+        }
+        return;
+    }
+    plant_system_.Clear();
+    // Recovered land_root positions and serialized lock sprites. Growth uses
+    // the documented native reconstruction timer (30 s) because the
+    // authoritative PlantInfo/Resources table is absent from the APK assets.
+    for (const engine::assets::GardenPlot& plot : scene_.garden_plots) {
+        plant_system_.AddPlot(plot.id, plot.position, 30.0f, plot.locked, 4);
+    }
+    if (plant_system_.Seeds().empty()) {
+        // Starter carrot seed: the seed economy is not present in the
+        // extracted save data, so one recovered seed is available for the
+        // native planting loop. Everything grown/harvested is real prefab data.
+        plant_system_.AddSeed("plant_carrot", 4);
+    }
+    selected_plant_seed_ = plant_system_.FirstAvailableSeed();
+    LOG_INFO_APP("Garden: {} recovered plots ({} unlocked), selected seed={}",
+                 plant_system_.Plots().size(),
+                 static_cast<int>(std::count_if(
+                     plant_system_.Plots().begin(), plant_system_.Plots().end(),
+                     [](const auto& plot) { return !plot.locked; })),
+                 selected_plant_seed_);
+}
+
+void Application::ConfigureCameraBounds() {
+    camera_bounds_valid_ = false;
+    if (scene_.interior_bounds.w > 0.0f && scene_.interior_bounds.h > 0.0f) {
+        camera_bounds_ = {
+            {scene_.interior_bounds.x, scene_.interior_bounds.y},
+            {scene_.interior_bounds.x + scene_.interior_bounds.w,
+             scene_.interior_bounds.y + scene_.interior_bounds.h}};
+        camera_bounds_valid_ = true;
+        return;
+    }
+    float min_x = 1e9f;
+    float min_y = 1e9f;
+    float max_x = -1e9f;
+    float max_y = -1e9f;
+    for (const engine::assets::SpriteInstance& instance : scene_.instances) {
+        if (instance.path.find("room_tilemap/floor_") == std::string::npos) {
+            continue;
+        }
+        min_x = std::min(min_x, instance.position.x - 0.5f);
+        min_y = std::min(min_y, instance.position.y - 0.5f);
+        max_x = std::max(max_x, instance.position.x + 0.5f);
+        max_y = std::max(max_y, instance.position.y + 0.5f);
+    }
+    if (max_x > min_x && max_y > min_y) {
+        camera_bounds_ = {{min_x, min_y}, {max_x, max_y}};
+        camera_bounds_valid_ = true;
+        return;
+    }
+    if (!scene_.floor_cells.empty()) {
+        float cell_min_x = 1e9f;
+        float cell_min_y = 1e9f;
+        float cell_max_x = -1e9f;
+        float cell_max_y = -1e9f;
+        for (const engine::Vec2& cell : scene_.floor_cells) {
+            cell_min_x = std::min(cell_min_x, cell.x);
+            cell_min_y = std::min(cell_min_y, cell.y);
+            cell_max_x = std::max(cell_max_x, cell.x + 1.0f);
+            cell_max_y = std::max(cell_max_y, cell.y + 1.0f);
+        }
+        if (cell_max_x > cell_min_x && cell_max_y > cell_min_y) {
+            camera_bounds_ = {{cell_min_x, cell_min_y},
+                              {cell_max_x, cell_max_y}};
+            camera_bounds_valid_ = true;
+        }
+    }
+}
+
 void Application::ShowDialogue(const std::string& speaker,
                                const std::string& text, float seconds) {
     dialogue_speaker_ = speaker;
@@ -3282,16 +4305,24 @@ void Application::TryInteract() {
         return;
     }
     if (marker->kind == "npc") {
-        // Recovered TalkCharNpc/TalkTrigger: choose one of the two localized
-        // lines deterministically, show the speech panel and play the item
-        // trigger effect. The simulation is not paused.
-        const bool alternate = marker->text_alt.size() > 0 &&
-            (npc_talk_counter_++ % 2u) == 1u;
-        ShowDialogue(marker->speaker, alternate ? marker->text_alt
-                                                : marker->text, 2.5f);
+        // Recovered TalkCharNpc/TalkTrigger lines. Every CharacterN_talk*
+        // localization term is wired; the conversation advances on each
+        // deliberate interaction rather than auto-chattering.
+        std::vector<std::string> lines = marker->talk_lines;
+        if (lines.empty()) {
+            if (!marker->text.empty()) lines.push_back(marker->text);
+            if (!marker->text_alt.empty()) lines.push_back(marker->text_alt);
+        }
+        if (lines.empty()) {
+            ShowDialogue(marker->speaker, "...", 1.5f);
+            return;
+        }
+        const std::size_t line_index =
+            npc_talk_line_[marker->id]++ % lines.size();
+        ShowDialogue(marker->speaker, lines[line_index], 2.5f);
         PlayEffect("pickup", 0.55f);
-        LOG_INFO_APP("NPC talk: {} ({})", marker->speaker,
-                     marker->dialogue_term);
+        LOG_INFO_APP("NPC talk: {} line {}/{} ({})", marker->speaker,
+                     line_index + 1, lines.size(), marker->dialogue_term);
     } else if (marker->kind == "pet") {
         std::vector<std::string> names;
         std::vector<int> sprites;
@@ -3320,21 +4351,98 @@ void Application::TryInteract() {
         workshop_status_ = "MATERIAL INVENTORY";
         LOG_INFO_APP("Living Room: material chest inventory opened");
     } else if (marker->kind == "garden") {
-        const int plot = plant_system_.NearestPlot(player_.Position(), 4.0f);
-        if (plot >= 0) {
-            const auto result = plant_system_.Interact(plot, "carrot_dev");
-            if (result == game::hub::PlantInteraction::Planted) {
-                LOG_INFO_APP("Garden: planted seed in plot {} (5 s dev timer)",
-                             plot);
-            } else if (result == game::hub::PlantInteraction::Harvested) {
-                LOG_INFO_APP("Garden: harvested plot {} (harvested={})",
-                             plot, plant_system_.HarvestedCount());
-            } else if (result == game::hub::PlantInteraction::NotReady) {
-                LOG_INFO_APP("Garden: plot {} is still growing", plot);
-            }
-        } else {
-            LOG_INFO_APP("Living Room: garden station (walk closer to a plot)");
+        const int plot_index =
+            plant_system_.NearestPlot(player_.Position(), 5.0f);
+        if (plot_index < 0) {
+            ShowDialogue("GARDEN", "WALK TO A RECOVERED PLOT", 1.5f);
+            return;
         }
+        auto& plot = const_cast<game::hub::PlantPlot&>(
+            plant_system_.Plots()[static_cast<std::size_t>(plot_index)]);
+        if (plot.locked) {
+            ShowDialogue("GARDEN", "PLOT LOCKED", 1.5f);
+            return;
+        }
+        if (plot.state == game::hub::PlantGrowthState::Empty) {
+            std::string seed = selected_plant_seed_.empty()
+                ? plant_system_.FirstAvailableSeed()
+                : selected_plant_seed_;
+            if (seed.empty()) {
+                ShowDialogue("GARDEN", "NO SEEDS", 1.5f);
+                return;
+            }
+            const auto* definition = item_assets_.FindPlant(seed);
+            if (definition == nullptr || definition->states.empty()) {
+                ShowDialogue("GARDEN", "SEED DATA UNAVAILABLE", 1.5f);
+                return;
+            }
+            const auto result = plant_system_.Interact(
+                plot_index, seed, definition->growth_seconds,
+                static_cast<int>(definition->states.size()),
+                definition->item_id, definition->harvest_count);
+            if (result == game::hub::PlantInteraction::Planted) {
+                PlayEffect("pickup", 0.55f);
+                ShowDialogue("GARDEN",
+                             definition->display_name + " PLANTED", 1.5f);
+                LOG_INFO_APP("Garden: planted {} in {} ({:.0f}s)",
+                             seed, plot.id, definition->growth_seconds);
+            } else if (result == game::hub::PlantInteraction::NoSeed) {
+                ShowDialogue("GARDEN", "NO SEEDS", 1.5f);
+            }
+            return;
+        }
+        if (plot.state == game::hub::PlantGrowthState::Growing) {
+            const auto result = plant_system_.Interact(plot_index, {});
+            if (result == game::hub::PlantInteraction::Watered) {
+                PlayEffect("pickup", 0.45f);
+                ShowDialogue("GARDEN", "WATERED", 1.2f);
+                LOG_INFO_APP("Garden: watered {}", plot.id);
+            } else {
+                const int remaining = std::max(
+                    0, static_cast<int>(std::ceil(
+                        plot.growth_time - plot.elapsed)));
+                ShowDialogue("GARDEN",
+                             "GROWING  " + std::to_string(remaining) + "S",
+                             1.2f);
+            }
+            return;
+        }
+        const std::string species = plot.species;
+        const std::string harvest_item = plot.harvest_item;
+        const int yield_count = plot.yield_count;
+        const auto result = plant_system_.Interact(plot_index, {});
+        if (result != game::hub::PlantInteraction::Harvested) return;
+        const auto* definition = item_assets_.FindPlant(species);
+        const std::string display_name =
+            definition != nullptr ? definition->display_name : species;
+        if (harvest_item.rfind("weapon_", 0) == 0) {
+            std::size_t weapon_index = weapons_.Count();
+            for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+                if (weapons_.Definitions()[i].id == harvest_item) {
+                    weapon_index = i;
+                    break;
+                }
+            }
+            if (weapon_index < weapons_.Count()) {
+                SpawnWeaponPickupAt(weapon_index,
+                                    player_.Position() + engine::Vec2{0.0f, 1.2f});
+                ShowDialogue("GARDEN", display_name + " HARVESTED", 1.5f);
+            } else {
+                ShowDialogue("GARDEN", "WEAPON HARVESTED", 1.5f);
+            }
+        } else if (harvest_item.rfind("material_", 0) == 0) {
+            workshop_.AddMaterial(harvest_item, std::max(1, yield_count));
+            ShowDialogue("GARDEN",
+                         "+" + std::to_string(std::max(1, yield_count)) +
+                         " " + display_name, 1.5f);
+        } else {
+            ShowDialogue("GARDEN", display_name + " HARVESTED", 1.5f);
+        }
+        PlayEffect("pickup", 0.65f);
+        LOG_INFO_APP("Garden: harvested {} from {} (total {})", species,
+                     plot.id, plant_system_.HarvestedCount());
+    } else if (marker->kind == "mech") {
+        OpenMechStation();
     } else if (marker->kind == "statue") {
         const auto object = std::find_if(
             special_objects_.begin(), special_objects_.end(),
@@ -3879,6 +4987,19 @@ void Application::ResetCombat() {
     ApplyActiveCharacterStats();
     ConfigureAbilities();
     room_clear_pending_ = false;
+    mech_station_open_ = false;
+    room_entry_position_ = player_.Position();
+    room_activation_timer_ = 0.0f;
+    if (scene_.is_hub) {
+        room_activation_state_ =
+            soulknight::game::room::RoomActivationState::Inactive;
+    } else if (!scene_.doors.empty() && enemies_.AliveCount() > 0) {
+        room_activation_state_ =
+            soulknight::game::room::RoomActivationState::Entered;
+    } else {
+        room_activation_state_ =
+            soulknight::game::room::RoomActivationState::Cleared;
+    }
     BeginRoomTitle(3.0f);
     if (!scene_.is_hub && !scene_.doors.empty() &&
         enemies_.AliveCount() > 0) {
@@ -3890,6 +5011,10 @@ void Application::ResetCombat() {
     door_trigger_inside_.assign(room_doors_.Count(), false);
     RebuildCollisionWorld();
     camera_.position = scene_.spawn;
+    ConfigureCameraBounds();
+    if (camera_bounds_valid_) {
+        camera_.ClampToRect(camera_bounds_.min, camera_bounds_.max);
+    }
     locomotion_animator_.Configure(player_characters_.IdleClip(),
                                    player_characters_.RunClip(),
                                    player_characters_.DeathClip(),
@@ -4113,7 +5238,120 @@ void Application::RunGameplaySmokeStep() {
                          active_pet_id_, workshop_.SnapshotMaterials().size());
             break;
         }
-        case 1:
+        case 1: {
+            if (plant_system_.Plots().empty()) {
+                LOG_ERROR_APP("Gameplay smoke: garden plots missing");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            std::string seed = plant_system_.FirstAvailableSeed();
+            if (seed.empty()) {
+                seed = "plant_carrot";
+                plant_system_.AddSeed(seed, 1);
+            }
+            const auto* plant = item_assets_.FindPlant(seed);
+            const int plot_index = plant_system_.NearestPlot(
+                plant_system_.Plots().front().position, 0.1f);
+            const auto planted = plant_system_.Interact(
+                plot_index, seed,
+                plant != nullptr ? plant->growth_seconds : 30.0f,
+                plant != nullptr
+                    ? static_cast<int>(plant->states.size()) : 2,
+                plant != nullptr ? plant->item_id : std::string{},
+                plant != nullptr ? plant->harvest_count : 1);
+            plant_system_.Update(60.0f);
+            const auto harvested = plant_system_.Interact(plot_index, {});
+            LOG_INFO_APP("Gameplay smoke garden: seed={} planted={} "
+                         "harvested={} count={}",
+                         seed,
+                         planted == game::hub::PlantInteraction::Planted
+                             ? "yes" : "no",
+                         harvested == game::hub::PlantInteraction::Harvested
+                             ? "yes" : "no",
+                         plant_system_.HarvestedCount());
+            if (planted != game::hub::PlantInteraction::Planted ||
+                harvested != game::hub::PlantInteraction::Harvested) {
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            break;
+        }
+        case 2: {
+            const engine::assets::InteractionMarker* npc = nullptr;
+            const std::string active_character =
+                player_characters_.Count() > 0
+                    ? player_characters_.Active().id : std::string{};
+            for (const auto& marker : scene_.interaction_markers) {
+                if (marker.kind == "npc" &&
+                    marker.character_id != active_character) {
+                    npc = &marker;
+                    break;
+                }
+            }
+            if (npc == nullptr) {
+                LOG_ERROR_APP("Gameplay smoke: no Living Room NPC");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            TeleportForReview(npc->position + engine::Vec2{0.0f, -0.6f});
+            TryInteract();
+            const bool talked = dialogue_timer_ > 0.0f &&
+                !dialogue_text_.empty();
+            LOG_INFO_APP("Gameplay smoke NPC: {} line={} talked={}",
+                         npc->speaker, dialogue_text_, BooleanText(talked));
+            if (!talked) {
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            dialogue_timer_ = 0.0f;
+            break;
+        }
+        case 3: {
+            if (trader_offers_.empty()) {
+                LOG_ERROR_APP("Gameplay smoke: trader has no offers");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            player_orbs_ = std::max(player_orbs_, 999);
+            game_ui_.OpenTrader();
+            BuyTraderItem();
+            const bool sold = trader_offers_.front().sold;
+            game_ui_.OpenGameplay();
+            LOG_INFO_APP("Gameplay smoke trader: offers={} first_sold={} "
+                         "orbs={}", trader_offers_.size(),
+                         BooleanText(sold), player_orbs_);
+            if (!sold) {
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            break;
+        }
+        case 4: {
+            player_orbs_ = std::max(player_orbs_, 999);
+            active_mount_id_.clear();
+            OpenMechStation();
+            CycleMechSelection(0);
+            BuildMech();
+            mech_station_open_ = false;
+            const bool built = !active_mount_id_.empty();
+            LOG_INFO_APP("Gameplay smoke mech: active={} orbs={} status={}",
+                         active_mount_id_, player_orbs_, mech_status_);
+            if (!built) {
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            active_mount_id_.clear();
+            mount_speed_bonus_ = 0.0f;
+            break;
+        }
+        case 5:
             if (!SwitchRoom("hub_door")) {
                 LOG_ERROR_APP("Gameplay smoke: hub door transition failed");
                 exit_code_ = 1;
@@ -4121,23 +5359,127 @@ void Application::RunGameplaySmokeStep() {
                 return;
             }
             break;
-        case 2: {
-            LOG_INFO_APP("Gameplay smoke dungeon: room={} type={} enemies={}",
-                         scene_.id, scene_.room.type, enemies_.AliveCount());
-            if (scene_.is_hub) {
-                LOG_ERROR_APP("Gameplay smoke: still in hub");
+        case 6: {
+            int floor_surfaces = 0;
+            for (const auto& surface : level_surfaces_) {
+                if (surface.sorting_layer == 2) ++floor_surfaces;
+            }
+            const std::string level = biome_.Current() != nullptr
+                ? biome_.Current()->id : std::string{};
+            const auto stage_label = room_stage_labels_.find(scene_.id);
+            const bool start_message = room_title_timer_ > 0.0f &&
+                stage_label != room_stage_labels_.end() &&
+                stage_label->second == "1-1";
+            LOG_INFO_APP("Gameplay smoke dungeon: room={} type={} enemies={} "
+                         "floor_surfaces={} level={} activation={} "
+                         "start_message={} label={}",
+                         scene_.id, scene_.room.type, enemies_.AliveCount(),
+                         floor_surfaces, level,
+                         soulknight::game::room::RoomActivationName(
+                             room_activation_state_),
+                         BooleanText(start_message),
+                         stage_label != room_stage_labels_.end()
+                             ? stage_label->second : "none");
+            if (floor_surfaces == 0 || scene_.is_hub || level != "1-1" ||
+                !start_message) {
+                LOG_ERROR_APP("Gameplay smoke: dungeon 1-1 initialization "
+                              "failed");
                 exit_code_ = 1;
                 running_ = false;
                 return;
             }
-            // Clear the current battle room and exercise the actual clear path.
-            enemies_.ClearEnemies();
-            UpdateRoomClear();
-            room_clear_pending_ = false;
-            cleared_rooms_.insert(scene_.id);
+            if (enemies_.AliveCount() > 0) {
+                room_activation_state_ = soulknight::game::room::
+                    RoomActivationState::Combat;
+                room_doors_.CloseAll();
+                room_clear_pending_ = true;
+                RebuildCollisionWorld();
+                enemies_.ClearEnemies();
+                room_activation_state_ = soulknight::game::room::
+                    RoomActivationState::Cleared;
+                UpdateRoomClear();
+                room_clear_pending_ = false;
+                cleared_rooms_.insert(scene_.id);
+            } else {
+                UpdateRoomClear();
+                room_clear_pending_ = false;
+                cleared_rooms_.insert(scene_.id);
+            }
             break;
         }
-        case 3: {
+        case 7: {
+            const Room* combat_room = nullptr;
+            for (const Room& room : room_manager_.Rooms()) {
+                if (room.type != 1 || room.id == scene_.id ||
+                    room.id == world_hub_id_) {
+                    continue;
+                }
+                combat_room = &room;
+                break;
+            }
+            if (combat_room == nullptr) {
+                LOG_ERROR_APP("Gameplay smoke: no combat room in 1-1 graph");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            if (!ActivateRoom(combat_room->id, "")) {
+                LOG_ERROR_APP("Gameplay smoke: combat room activation failed");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            LOG_INFO_APP("Gameplay smoke combat entry: room={} state={} "
+                         "doors_open={} enemies={}",
+                         scene_.id,
+                         soulknight::game::room::RoomActivationName(
+                             room_activation_state_),
+                         BooleanText(room_doors_.TargetOpen()),
+                         enemies_.AliveCount());
+            if (enemies_.AliveCount() == 0 ||
+                room_doors_.TargetOpen() ||
+                room_activation_state_ !=
+                    soulknight::game::room::RoomActivationState::Entered) {
+                LOG_ERROR_APP("Gameplay smoke: combat room did not start "
+                              "closed with dormant enemies");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            break;
+        }
+        case 8: {
+            const bool combat = room_activation_state_ ==
+                soulknight::game::room::RoomActivationState::Combat;
+            const int enemies_before =
+                static_cast<int>(enemies_.AliveCount());
+            LOG_INFO_APP("Gameplay smoke combat active: state={} enemies={} "
+                         "doors_open={}", soulknight::game::room::
+                         RoomActivationName(room_activation_state_),
+                         enemies_before, BooleanText(room_doors_.TargetOpen()));
+            if (!combat || enemies_before == 0 ||
+                room_doors_.TargetOpen()) {
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            enemies_.ClearEnemies();
+            UpdateRoomClear();
+            const bool opened = room_doors_.TargetOpen();
+            LOG_INFO_APP("Gameplay smoke combat clear: doors_open={} "
+                         "state={} chests={}", BooleanText(opened),
+                         soulknight::game::room::RoomActivationName(
+                             room_activation_state_),
+                         item_world_.Chests().size());
+            if (!opened || room_activation_state_ !=
+                    soulknight::game::room::RoomActivationState::Cleared) {
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            break;
+        }
+        case 9: {
             if (item_assets_.IsLoaded()) {
                 item_world_.AddChest("chest01",
                                      scene_.spawn + engine::Vec2{0.0f, 2.0f});
@@ -4150,8 +5492,7 @@ void Application::RunGameplaySmokeStep() {
             }
             break;
         }
-        case 4: {
-            // Pick the recovered end/transfer room and advance a level.
+        case 10: {
             const Room* end_room = nullptr;
             for (const Room& room : room_manager_.Rooms()) {
                 if (room.type == 2) {
@@ -4160,9 +5501,10 @@ void Application::RunGameplaySmokeStep() {
                 }
             }
             if (end_room == nullptr) {
-                LOG_WARN_APP("Gameplay smoke: no end room in graph");
-                gameplay_smoke_stage_ = 6;
-                break;
+                LOG_ERROR_APP("Gameplay smoke: no end room in graph");
+                exit_code_ = 1;
+                running_ = false;
+                return;
             }
             gameplay_smoke_level_before_ = biome_.Current() != nullptr
                 ? biome_.Current()->id : std::string{};
@@ -4175,24 +5517,50 @@ void Application::RunGameplaySmokeStep() {
             LOG_INFO_APP("Gameplay smoke end room: {}", scene_.id);
             break;
         }
-        case 5: {
+        case 11: {
             const bool advanced = AdvanceDungeonLevel();
             const std::string level_after = biome_.Current() != nullptr
                 ? biome_.Current()->id : std::string{};
             LOG_INFO_APP("Gameplay smoke progression: {} -> {} ({})",
                          gameplay_smoke_level_before_, level_after,
                          advanced ? "advanced" : "final");
+            if (!advanced || level_after != "1-2") {
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
             break;
         }
-        case 6: {
+        case 12: {
             SaveGameToDisk();
             const std::string scene_before = scene_.id;
+            const std::string level_before = biome_.Current() != nullptr
+                ? biome_.Current()->id : std::string{};
+            // Simulate a fresh process: reset the in-memory campaign before
+            // loading so the save must restore the level itself.
+            biome_.Reset();
             LoadGameFromDisk();
             const bool ok = scene_.id == scene_before &&
-                !save_slot_summary_.empty();
-            LOG_INFO_APP("Gameplay smoke save/load: scene={} ok={}",
-                         scene_.id, ok ? "yes" : "no");
+                !save_slot_summary_.empty() &&
+                biome_.Current() != nullptr &&
+                biome_.Current()->id == level_before;
+            LOG_INFO_APP("Gameplay smoke save/load: scene={} ok={} level={}",
+                         scene_.id, ok ? "yes" : "no",
+                         biome_.Current() != nullptr
+                             ? biome_.Current()->id : "none");
             if (!ok) exit_code_ = 1;
+            break;
+        }
+        case 13: {
+            const bool returned = ActivateRoom(world_hub_id_, "");
+            LOG_INFO_APP("Gameplay smoke return hub: ok={} scene={} "
+                         "garden_plots={}",
+                         BooleanText(returned), scene_.id,
+                         plant_system_.Plots().size());
+            if (!returned || !scene_.is_hub ||
+                plant_system_.Plots().empty()) {
+                exit_code_ = 1;
+            }
             break;
         }
         default:
@@ -4231,6 +5599,23 @@ void Application::FixedUpdate(double dt) {
     stake_damage_timer_ =
         std::max(0.0f, stake_damage_timer_ - static_cast<float>(dt));
 
+    room_activation_timer_ += static_cast<float>(dt);
+    const auto previous_activation = room_activation_state_;
+    room_activation_state_ = soulknight::game::room::AdvanceRoomActivation(
+        room_activation_state_, room_activation_timer_,
+        room_entry_position_, player_.Position(),
+        enemies_.AliveCount() > 0, enemies_.AliveCount() == 0);
+    if (previous_activation ==
+            soulknight::game::room::RoomActivationState::Entered &&
+        room_activation_state_ ==
+            soulknight::game::room::RoomActivationState::Combat) {
+        room_doors_.CloseAll();
+        room_clear_pending_ = true;
+        RebuildCollisionWorld();
+        PlayEffect("ui_click", 0.35f);
+        LOG_INFO_APP("Room activation: {} combat begins, doors closed",
+                     scene_.id);
+    }
     if (room_doors_.Update(static_cast<float>(dt))) {
         RebuildCollisionWorld();
         if (config_.locomotion_debug) {
@@ -4444,7 +5829,11 @@ void Application::FixedUpdate(double dt) {
         locomotion_animator_.Update(false, static_cast<float>(dt));
     }
 
-    camera_.Follow(player_.Position(), static_cast<float>(dt));
+    camera_.Follow(player_.Position() + engine::Vec2{0.0f, 0.55f},
+                   static_cast<float>(dt));
+    if (camera_bounds_valid_) {
+        camera_.ClampToRect(camera_bounds_.min, camera_bounds_.max);
+    }
 
     projectiles_.FixedUpdate(static_cast<float>(dt), collision_world_);
     if (config_.locomotion_debug &&
@@ -4455,13 +5844,23 @@ void Application::FixedUpdate(double dt) {
                      projectiles_.LifetimeExpirationsThisStep(),
                      projectiles_.ActiveCount());
     }
-    enemies_.ResolveProjectileHits(projectiles_);
-    bool player_damaged = enemies_.FixedUpdate(
-        static_cast<float>(dt), player_.Position(), player_health_,
-        &collision_world_, &projectiles_, stealth_timer_ <= 0.0f);
-    player_damaged = projectiles_.ResolvePlayerHits(
-        player_.Position(), player_health_) || player_damaged;
-    if (pet_.Count() > 0) {
+    const bool combat_active =
+        room_activation_state_ ==
+            soulknight::game::room::RoomActivationState::Combat ||
+        room_activation_state_ ==
+            soulknight::game::room::RoomActivationState::Cleared ||
+        room_activation_state_ ==
+            soulknight::game::room::RoomActivationState::Inactive;
+    bool player_damaged = false;
+    if (combat_active) {
+        enemies_.ResolveProjectileHits(projectiles_);
+        player_damaged = enemies_.FixedUpdate(
+            static_cast<float>(dt), player_.Position(), player_health_,
+            &collision_world_, &projectiles_, stealth_timer_ <= 0.0f);
+        player_damaged = projectiles_.ResolvePlayerHits(
+            player_.Position(), player_health_) || player_damaged;
+    }
+    if (pet_.Count() > 0 && combat_active) {
         const std::size_t pet_target = pet_.Update(
             static_cast<float>(dt), player_.Position(),
             facing_ == engine::locomotion::FacingDirection::Left, enemies_,
@@ -4845,7 +6244,8 @@ bool Application::ApplyReplayInputForNextTick() {
 
 void Application::ApplyInputSnapshot(const platform::InputSnapshot& snapshot) {
     movement_input_ = scene_mode_ && !dev_ui_.MenuOpen() &&
-                     !asset_lab_.IsOpen()
+                     !asset_lab_.IsOpen() && !mech_station_open_ &&
+                     !suggestion_edit_mode_ && !calibration_mode_
         ? platform::ReadDigitalMovement(snapshot)
         : platform::MovementInput{};
     if (!scene_mode_) return;
@@ -4853,6 +6253,8 @@ void Application::ApplyInputSnapshot(const platform::InputSnapshot& snapshot) {
     // (RGJoyControl.UpdateBtnAtkClick -> RGController.BtnAtkClick).
     // Keyboard Space/J and left mouse are the native dev equivalents.
     attack_held_ = !dev_ui_.MenuOpen() && !asset_lab_.IsOpen() &&
+                   !mech_station_open_ && !suggestion_edit_mode_ &&
+                   !calibration_mode_ &&
                    (snapshot.IsHeld(platform::Action::Attack) ||
                     snapshot.mouse_pressed[0]);
     UpdateAimInput(&snapshot);
@@ -4922,7 +6324,7 @@ bool Application::AdvanceDungeonLevel() {
     return true;
 }
 
-bool Application::LoadWorldRooms() {
+bool Application::LoadWorldRooms(std::int32_t seed_override) {
     world_templates_ = {};
     // Every generated recovered PatternRoom present in the asset tree joins
     // the normal-room pool. MapManagerLevel.GetRandomRoomIndex draws unique
@@ -4981,7 +6383,8 @@ bool Application::LoadWorldRooms() {
         LOG_INFO_APP("Custom scene mode: multi-room world disabled");
         return false;
     }
-    map_seed_ = config_.map_seed;
+    map_seed_ = seed_override == (-2147483647 - 1)
+        ? config_.map_seed : seed_override;
     soulknight::game::room::DungeonTemplateSet plan_templates =
         world_templates_;
     const std::string level_id =
@@ -5201,6 +6604,8 @@ void Application::UpdateRoomClear() {
     if (enemies_.AliveCount() != 0) return;
     room_clear_pending_ = false;
     cleared_rooms_.insert(scene_.id);
+    room_activation_state_ =
+        soulknight::game::room::RoomActivationState::Cleared;
     room_clear_timer_ = 1.5f;
     room_doors_.OpenAll();
     if (!scene_.is_hub && !chest_spawned_rooms_.contains(scene_.id)) {
@@ -5363,6 +6768,10 @@ bool Application::ActivateRoom(const std::string& room_id,
     camera_.position = spawn;
     camera_.orthographic_size = scene_.camera.orthographic_size > 0.0f
         ? scene_.camera.orthographic_size : 10.0f;
+    ConfigureCameraBounds();
+    if (camera_bounds_valid_) {
+        camera_.ClampToRect(camera_bounds_.min, camera_bounds_.max);
+    }
     previous_camera_position_ = camera_.position;
     render_camera_ = camera_;
     player_health_.Reset(
@@ -5440,15 +6849,26 @@ bool Application::ActivateRoom(const std::string& room_id,
     }
     RebuildCollisionWorld();
     if (!had_enemy_snapshot && !scene_.is_hub) PopulateBiomeEnemies();
+    room_entry_position_ = player_.Position();
+    room_activation_timer_ = 0.0f;
+    mech_station_open_ = false;
+    if (scene_.is_hub) {
+        room_activation_state_ =
+            soulknight::game::room::RoomActivationState::Inactive;
+    } else if (!cleared_rooms_.contains(scene_.id) &&
+               enemies_.AliveCount() > 0) {
+        room_activation_state_ =
+            soulknight::game::room::RoomActivationState::Entered;
+    } else {
+        room_activation_state_ =
+            soulknight::game::room::RoomActivationState::Cleared;
+    }
+    LOG_INFO_APP("Room activation: {} state={}", scene_.id,
+                 soulknight::game::room::RoomActivationName(
+                     room_activation_state_));
     projectiles_.Clear();
     weapon_pickups_.Clear();
-    if (scene_.is_hub) {
-        plant_system_.Clear();
-        plant_system_.AddPlot("garden_1", {-27.0f, -2.5f}, 5.0f);
-        plant_system_.AddPlot("garden_2", {-25.0f, -2.5f}, 5.0f);
-        plant_system_.AddPlot("garden_3", {-27.0f, 0.0f}, 5.0f);
-        plant_system_.AddPlot("garden_4", {-25.0f, 0.0f}, 5.0f);
-    }
+    if (scene_.is_hub) ConfigureHubGarden();
     window_.SetTitle(scene_.is_hub
         ? "LiteKnight Living Room"
         : std::string("LiteKnight Devroom - ") + scene_.id);

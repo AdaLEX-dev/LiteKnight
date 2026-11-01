@@ -40,10 +40,12 @@ void WeaponRenderer::Draw(engine::rendering::SpriteBatch& batch,
                           const engine::Vec2& player_position,
                           const engine::Vec2& aim_direction,
                           bool facing_left, bool player_dead,
-                          float visual_time, bool visual_attack_active) {
+                          float visual_time, bool visual_attack_active,
+                          float effect_scale) {
     (void)facing_left;
     DrawAt(batch, scene, weapon, player_position, aim_direction,
-           {0.0f, 0.5f}, player_dead, visual_time, visual_attack_active);
+           {0.0f, 0.5f}, player_dead, visual_time, visual_attack_active,
+           effect_scale);
 }
 
 void WeaponRenderer::DrawAt(engine::rendering::SpriteBatch& batch,
@@ -53,7 +55,7 @@ void WeaponRenderer::DrawAt(engine::rendering::SpriteBatch& batch,
                             const engine::Vec2& aim_direction,
                             const engine::Vec2& hand_offset,
                             bool player_dead, float visual_time,
-                            bool visual_attack_active) {
+                            bool visual_attack_active, float effect_scale) {
     if (player_dead || weapon.visual_sprite_index < 0 ||
         static_cast<std::size_t>(weapon.visual_sprite_index) >=
             scene.sprites.size()) {
@@ -67,9 +69,13 @@ void WeaponRenderer::DrawAt(engine::rendering::SpriteBatch& batch,
     // The caller supplies the mount; the grip receives no guessed sideways
     // offset. Rotate around the sprite pivot near the handle.
     const float recoil_x = visual_attack_active
-        ? SampleCurve(weapon.visual_position_x, visual_time, 0.0f) : 0.0f;
+        ? SampleCurve(weapon.visual_position_x, visual_time, 0.0f) *
+              effect_scale
+        : 0.0f;
     const float recoil_angle = visual_attack_active
-        ? SampleCurve(weapon.visual_rotation_z, visual_time, 0.0f) : 0.0f;
+        ? SampleCurve(weapon.visual_rotation_z, visual_time, 0.0f) *
+              effect_scale
+        : 0.0f;
     engine::rendering::SpriteDraw draw;
     draw.position = player_position + hand_offset + weapon.visual_offset +
         Rotate({recoil_x, 0.0f}, aim_angle);
@@ -109,7 +115,8 @@ void WeaponRenderer::DrawAt(engine::rendering::SpriteBatch& batch,
                 Rotate(weapon.muzzle_offset * weapon.visual_scale,
                        draw.rotation * 180.0f /
                            3.14159265358979323846f);
-            flash.size = muzzle.WorldSize() * weapon.visual_scale;
+            flash.size = muzzle.WorldSize() * weapon.visual_scale *
+                         effect_scale;
             flash.uv = muzzle.UvRect();
             flash.color = engine::Color::White();
             flash.layer = engine::rendering::SortLayer::Character;

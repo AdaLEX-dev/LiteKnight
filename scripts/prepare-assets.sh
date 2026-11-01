@@ -177,6 +177,20 @@ if [[ ${FORCE_BUILD} -eq 1 || ! -f "${ROOT}/analysis/assets/items/item_assets.js
     echo "Generating chest/coin item pack..."
     "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_item_assets.py"
 fi
+# Recovered plant prefabs/seed icons are appended to the same item pack.
+if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
+    if [[ -x "${ROOT}/tools/asset/.venv/bin/python" && -f "${BUNDLE_ROOT}/common" ]]; then
+        echo "Generating recovered plant asset pack..."
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_plant_assets.py"
+    fi
+fi
+# Recovered seller NPC/pedestal sprites for the reconstructed r_sell room.
+if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
+    if [[ -x "${ROOT}/tools/asset/.venv/bin/python" ]]; then
+        echo "Generating recovered seller visuals..."
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_seller_assets.py"
+    fi
+fi
 if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
     mkdir -p "${ITEM_TARGET}"
     if command -v rsync >/dev/null 2>&1; then
@@ -251,6 +265,36 @@ if [[ -f "${HUB_SOURCE_DIR}/scene.json" ]]; then
         cp -a "${HUB_SOURCE_DIR}" "${HUB_SCENE_DIR}"
     fi
     echo "Runtime Living Room scene: FOUND (${HUB_SCENE_DIR}/scene.json)"
+fi
+
+# 3c. Seller visuals copy pixels from the generated HeroRoom atlas. Re-run the
+# idempotent plant/seller append and refresh the runtime item pack now that the
+# Living Room textures exist. This keeps fresh checkouts self-contained even
+# when the metadata file was committed before the generated pixels.
+if [[ -x "${ROOT}/tools/asset/.venv/bin/python" && -f "${BUNDLE_ROOT}/common" ]]; then
+    "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_plant_assets.py" >/dev/null
+    "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_seller_assets.py" >/dev/null
+fi
+if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
+    mkdir -p "${ITEM_TARGET}/textures"
+    if command -v rsync >/dev/null 2>&1; then
+        rsync -a --delete "${ROOT}/analysis/assets/items/" "${ITEM_TARGET}/"
+        rsync -a "${ITEM_SOURCE}/textures/" "${ITEM_TARGET}/textures/"
+    else
+        cp -a "${ROOT}/analysis/assets/items/." "${ITEM_TARGET}/"
+        cp -a "${ITEM_SOURCE}/textures/." "${ITEM_TARGET}/textures/"
+    fi
+    cp -f "${ROOT}/analysis/assets/items/item_assets.json" "${ITEM_TARGET}/items.json"
+    cp -f "${ROOT}/analysis/assets/map_catalogue.json" "${BUILD_DIR}/assets/scenes/biomes.json"
+    if [[ -f "${ROOT}/analysis/assets/workshop/weapon_materials.json" ]]; then
+        cp -f "${ROOT}/analysis/assets/workshop/weapon_materials.json" "${ITEM_TARGET}/weapon_materials.json"
+    fi
+    if [[ -f "${ROOT}/analysis/assets/workshop/materials.json" ]]; then
+        cp -f "${ROOT}/analysis/assets/workshop/materials.json" "${ITEM_TARGET}/workshop_materials.json"
+    fi
+    if [[ -f "${ROOT}/analysis/assets/weapon_catalogue.json" ]]; then
+        cp -f "${ROOT}/analysis/assets/weapon_catalogue.json" "${ITEM_TARGET}/weapon_catalogue.json"
+    fi
 fi
 
 # 4. Reference catalogue/discovery. The full scan is slower, so run it only when

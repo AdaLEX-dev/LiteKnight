@@ -33,6 +33,9 @@ struct Camera2D {
 
     Mat4 ViewProjection() const;
     void Follow(const Vec2& target, float delta_seconds);
+    // Keeps the view inside a recovered room/hub rectangle. Rectangles
+    // smaller than the viewport are centred; larger ones clamp each axis.
+    void ClampToRect(const Vec2& minimum, const Vec2& maximum);
     Vec2 WorldToScreen(const Vec2& world) const;
     Vec2 ScreenToWorld(const Vec2& screen) const;
 };

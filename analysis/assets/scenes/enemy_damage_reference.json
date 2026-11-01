@@ -1,0 +1,920 @@
+{
+  "classification": "CONFIRMED serialized enemy weapon_atk/controller damage values from the recovered APK prefabs, cross-checked against RoleAttribute HP and RGEController class in enemy_catalogue.json.",
+  "enemy_count": 101,
+  "entries": [
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 25,
+      "id": "e_alien01",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 25,
+      "id": "e_alien02",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 5,
+      "death_explosion_damage": 0,
+      "hp": 30,
+      "id": "e_alien03",
+      "projectile_damage": 5
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 5,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_battery01",
+      "projectile_damage": 5
+    },
+    {
+      "class_name": "EnemyAI04",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_boar01",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI09",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 10,
+      "id": "e_boar02",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI08",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 30,
+      "id": "e_chest1",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI08",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 40,
+      "id": "e_chest2",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_creeper",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_creeper_fly",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI11",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_crystal",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 36,
+      "id": "e_fireknight01",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 36,
+      "id": "e_fireknight02",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI15",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 70,
+      "id": "e_fireknight03",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI15",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 50,
+      "id": "e_frankenstein",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAIFrog",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 10,
+      "hp": 9,
+      "id": "e_frog",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAIGhost",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 9,
+      "id": "e_ghost",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAIGhost",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 9,
+      "id": "e_ghost_temp",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 60,
+      "id": "e_giant",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 28,
+      "id": "e_golem01",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 28,
+      "id": "e_golem02",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI07",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 50,
+      "id": "e_hammer",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_knight01",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_knight02",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_knight03",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 24,
+      "id": "e_knight04",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 24,
+      "id": "e_knight05",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 24,
+      "id": "e_knight06",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI16",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_malphite01",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI16",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 7,
+      "id": "e_malphite01_temp",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI19",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 13,
+      "id": "e_malphite02",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI19",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 10,
+      "id": "e_malphite02_temp",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI18",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 30,
+      "id": "e_malphite03",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI18",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 999999,
+      "id": "e_malphite03_temp",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI18",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 999999,
+      "id": "e_malphite03_temp2",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_miner01",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_miner02",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_miner03",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_miner04",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_miner05",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_miner06",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 14,
+      "id": "e_monkey01",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 9,
+      "id": "e_monkey02",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 14,
+      "id": "e_monkey03",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 14,
+      "id": "e_monkey04",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_monkey05",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 18,
+      "id": "e_mosquito",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 16,
+      "id": "e_mummy01",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 1,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_mummy01_sheep_temp",
+      "projectile_damage": 1
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 26,
+      "id": "e_mummy02",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI13",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 10,
+      "hp": 10,
+      "id": "e_mummy03",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI13",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 10,
+      "hp": 10,
+      "id": "e_mummy03_temp",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 25,
+      "id": "e_mummy04",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 18,
+      "id": "e_mummy04_temp",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 32,
+      "id": "e_mummy05",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_mummy05_temp",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_orc01",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_orc02",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_orc03",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_orc04",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_orc05",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_orc06",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 15,
+      "id": "e_orc07",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 40,
+      "id": "e_orc08",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 9,
+      "id": "e_phantom",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_pumpkin01",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 9,
+      "id": "e_pumpkin02",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 9,
+      "id": "e_pumpkin03",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 22,
+      "id": "e_pumpkin04",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_pumpkin05",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 18,
+      "id": "e_pumpkin06",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI20",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 22,
+      "id": "e_rockcrab",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI20",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 10,
+      "id": "e_ruinsworm",
+      "projectile_damage": 2
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_shaman",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAIWitch",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 100,
+      "id": "e_shark",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAIFrog",
+      "contact_cooldown": 1.5,
+      "contact_damage": 1,
+      "death_explosion_damage": 10,
+      "hp": 8,
+      "id": "e_sheep_temp",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 10,
+      "id": "e_skeleton01",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 10,
+      "id": "e_skeleton02",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 10,
+      "id": "e_skeleton02_temp",
+      "projectile_damage": 4
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 5,
+      "death_explosion_damage": 0,
+      "hp": 10,
+      "id": "e_skeleton03",
+      "projectile_damage": 5
+    },
+    {
+      "class_name": "EnemyAI02",
+      "contact_cooldown": 1.5,
+      "contact_damage": 5,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_skeleton04",
+      "projectile_damage": 5
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_skeleton05",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_skeleton06",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI04",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_slime01",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI04",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_slime01_temp",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI10",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 9,
+      "id": "e_snowman_temp",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI04",
+      "contact_cooldown": 0.800000011920929,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_spider01",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI04",
+      "contact_cooldown": 0.800000011920929,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_spider02",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI04",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_spider03",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI04",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_spider04",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI14",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 24,
+      "id": "e_spider05",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI06",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 8,
+      "id": "e_succulent",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI06",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 40,
+      "id": "e_tentacle",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI06",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_tentacle_temp",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAI12",
+      "contact_cooldown": 1.5,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 30,
+      "id": "e_tortoise",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI03",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 24,
+      "id": "e_ufo",
+      "projectile_damage": 3
+    },
+    {
+      "class_name": "EnemyAIWitch",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "death_explosion_damage": 0,
+      "hp": 18,
+      "id": "e_witch",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI01",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 20,
+      "id": "e_wizard01",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI04",
+      "contact_cooldown": 0.800000011920929,
+      "contact_damage": 4,
+      "death_explosion_damage": 0,
+      "hp": 12,
+      "id": "e_worm01",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI10",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 9,
+      "id": "e_yeti01",
+      "projectile_damage": 0
+    },
+    {
+      "class_name": "EnemyAI10",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "death_explosion_damage": 0,
+      "hp": 28,
+      "id": "e_yeti02",
+      "projectile_damage": 0
+    }
+  ],
+  "schema": 1,
+  "source_catalogue_sha256": "0b8d82ed0dd886ce333e19a1560d41096378bcb258209e7f7e52df4ba3beabbf",
+  "source_scene": "analysis/assets/scenes/r1_1_visual.json",
+  "source_scene_sha256": "96265f3c9e9c48edefa138e754ac1a34a8ff8588a04f5c60c527b75df9486a20",
+  "tool": "tools/asset/audit_enemy_damage.py"
+}

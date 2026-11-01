@@ -427,3 +427,23 @@ TEST_CASE("Enemy melee arc damages only targets in front" *
     CHECK(enemies.Enemies()[0].health.hp < 12);
     CHECK(enemies.Enemies()[1].health.hp == 12);
 }
+
+TEST_CASE("Weapon presentation has no locomotion-driven animation" *
+          doctest::test_suite("unit")) {
+    Weapon weapon;
+    CHECK(weapon.Configure(MakeWeapon()));
+    ProjectileSystem projectiles;
+    const Vec2 owner{0.0f, 0.0f};
+    // Walking without holding attack must leave the weapon in its stable
+    // presentation transform; only the player locomotion clip animates.
+    for (int i = 0; i < 25; ++i) {
+        (void)weapon.Update(0.02f, false, owner, {1.0f, 0.0f}, projectiles);
+        CHECK_FALSE(weapon.IsAttacking());
+        CHECK(weapon.VisualTime() == doctest::Approx(0.0f));
+    }
+    // Holding attack starts the recovered attack clip; its visual time is
+    // then driven by the attack cycle, independent of walk state.
+    (void)weapon.Update(0.02f, true, owner, {1.0f, 0.0f}, projectiles);
+    CHECK(weapon.IsAttacking());
+    CHECK(weapon.VisualTime() > 0.0f);
+}

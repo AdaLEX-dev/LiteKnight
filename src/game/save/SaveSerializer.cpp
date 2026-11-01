@@ -172,10 +172,13 @@ Json Serialize(const SaveData& data) {
     document["playtime_seconds"] = data.playtime_seconds;
     document["unlocked_characters"] = data.unlocked_characters;
     document["plants"] = data.plants;
+    document["plant_states"] = data.plant_states;
+    document["seed_stock"] = data.seed_stock;
     document["fullscreen"] = data.fullscreen;
     document["hub_visited"] = data.hub_visited;
     document["auto_aim"] = data.auto_aim;
     document["map_seed"] = data.map_seed;
+    document["campaign_level"] = data.campaign_level;
     document["pet_id"] = data.pet_id;
     Json materials = Json::array();
     for (const SaveMaterial& material : data.materials) {
@@ -190,6 +193,8 @@ Json Serialize(const SaveData& data) {
     document["active_mercenary"] = data.active_mercenary;
     document["mercenary_level"] = data.mercenary_level;
     document["active_mount"] = data.active_mount;
+    document["reduced_weapon_effects"] = data.reduced_weapon_effects;
+    document["living_room_suggestions"] = data.living_room_suggestions;
     document["pot_empty"] = Json::array({data.pot_empty[0], data.pot_empty[1]});
 
     Json player = Json::object();
@@ -318,6 +323,22 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
             if (item.is_string()) loaded.plants.push_back(item.get<std::string>());
         }
     }
+    if (document.contains("plant_states") &&
+        document["plant_states"].is_array()) {
+        for (const Json& item : document["plant_states"]) {
+            if (item.is_string()) {
+                loaded.plant_states.push_back(item.get<std::string>());
+            }
+        }
+    }
+    if (document.contains("seed_stock") &&
+        document["seed_stock"].is_array()) {
+        for (const Json& item : document["seed_stock"]) {
+            if (item.is_string()) {
+                loaded.seed_stock.push_back(item.get<std::string>());
+            }
+        }
+    }
     if (document.contains("fullscreen") && document["fullscreen"].is_boolean()) {
         loaded.fullscreen = document["fullscreen"].get<bool>();
     }
@@ -331,10 +352,19 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
         document["map_seed"].is_number_integer()) {
         loaded.map_seed = document["map_seed"].get<std::int32_t>();
     }
+    if (document.contains("campaign_level") &&
+        document["campaign_level"].is_string()) {
+        loaded.campaign_level =
+            document["campaign_level"].get<std::string>();
+    }
     loaded.active_statue = document.value("active_statue", std::string{});
     loaded.active_mercenary = document.value("active_mercenary", std::string{});
     loaded.mercenary_level = document.value("mercenary_level", 0);
     loaded.active_mount = document.value("active_mount", std::string{});
+    loaded.reduced_weapon_effects =
+        document.value("reduced_weapon_effects", true);
+    loaded.living_room_suggestions =
+        document.value("living_room_suggestions", false);
     if (document.contains("pot_empty") && document["pot_empty"].is_array() &&
         document["pot_empty"].size() == 2) {
         loaded.pot_empty[0] = document["pot_empty"][0].get<bool>();

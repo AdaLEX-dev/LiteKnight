@@ -1,10 +1,10 @@
 {
   "classification": "CONFIRMED HeroRoom tilemaps/SpriteRenderers/default active state and wall-tile collision; spawn, interaction markers and progression-lock removal are native development choices",
-  "collision_solids": 733,
-  "instances": 4618,
+  "collision_solids": 1107,
+  "instances": 4057,
   "scene": "/home/jules/Documents/Programming/SoulKnight-Linux/assets/generated/visual/hero_room/scene.json",
   "schema": 1,
-  "sprites": 1045,
-  "textures": 52,
-  "tile_instances": 3849
+  "sprites": 1272,
+  "textures": 72,
+  "tile_instances": 3846
 }

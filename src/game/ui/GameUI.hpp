@@ -65,6 +65,8 @@ enum class UIAction {
     SelectCharacter,
     SelectWeapon,
     ToggleAimMode,
+    ToggleReducedWeaponEffects,
+    ToggleLivingRoomSuggestions,
     OpenUiDesignMode,
     OpenDevroom,
     OpenSaveLoad,
@@ -111,6 +113,9 @@ struct GameUIData {
     bool debug_overlay = false;
     bool has_pixel_font = false;
     bool auto_aim = true;
+    bool reduced_weapon_effects = true;
+    bool living_room_suggestions = false;
+    bool is_hub = false;
     int coins = 0;
     int orbs = 0;
     bool show_orbs = false;

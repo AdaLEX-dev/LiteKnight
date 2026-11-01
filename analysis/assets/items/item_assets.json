@@ -1840,7 +1840,1206 @@
       "sprite": "material_wood_icon"
     }
   ],
-  "notes": "Chest00/RGCoin prefab metadata/sprites plus the actual transfer_gate_02 portal sprite clip. Chest coin loot and lid animation are native test behavior; RGChest weapon selection and WeaponDropInfo are recovered in the 0.5.3 chest pipeline.",
+  "notes": "Chest00/RGCoin prefab metadata/sprites plus the actual transfer_gate_02 portal sprite clip. Chest coin loot and lid animation are native test behavior; RGChest weapon selection and WeaponDropInfo are recovered in the 0.5.3 chest pipeline. Plant prefab state sprites and seed icons are recovered from the common bundle; growth duration is a marked native reconstruction.",
+  "plants": [
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Bamboo",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_banboo",
+      "item_id": "weapon_203",
+      "item_value": 0,
+      "kind": "PlantWeapon",
+      "seed_sprite": "plant_banboo_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_banboo_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            -0.6000000238418579,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_banboo_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            -0.10000000149011612,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_banboo_state_2",
+          "state": 2
+        },
+        {
+          "offset": [
+            0.4000000059604645,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_banboo_state_3",
+          "state": 3
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Binary Tree",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_binary_tree",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_binary_tree_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_binary_tree_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_binary_tree_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Cactus",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_cactus",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_cactus_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_cactus_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_cactus_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_cactus_state_2",
+          "state": 2
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_cactus_state_3",
+          "state": 3
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Carrot",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_carrot",
+      "item_id": "weapon_177",
+      "item_value": 0,
+      "kind": "PlantWeapon",
+      "seed_sprite": "plant_carrot_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_carrot_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.20999999344348907,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_carrot_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Devil's Snare",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_datura",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantPet",
+      "seed_sprite": "plant_datura_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_datura_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_datura_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_datura_state_2",
+          "state": 2
+        },
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_datura_state_3",
+          "state": 3
+        },
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_datura_state_4",
+          "state": 4
+        },
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_datura_state_5",
+          "state": 5
+        },
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_datura_state_6",
+          "state": 6
+        },
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 5,
+          "sorting_order": 1,
+          "sprite": "plant_datura_state_7",
+          "state": 7
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Guardian Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_defend_flower",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_defend_flower_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_defend_flower_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_defend_flower_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Dragon Fruit Tree",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_dragon_tree",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_dragon_tree_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_dragon_tree_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_dragon_tree_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_dragon_tree_state_2",
+          "state": 2
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_dragon_tree_state_3",
+          "state": 3
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_dragon_tree_state_4",
+          "state": 4
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Titan arum",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_eator",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantPet",
+      "seed_sprite": "plant_eator_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.25
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_eator_state_0",
+          "state": 0
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Fantastic Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_fantastic_flower",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_fantastic_flower_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_fantastic_flower_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_fantastic_flower_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "plant_fertilizer",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_fertilizer",
+      "item_id": "weapon_fertilizer",
+      "item_value": 0,
+      "kind": "PlantWeapon",
+      "seed_sprite": "plant_fertilizer_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_fertilizer_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            -0.22499999403953552
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_fertilizer_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Gear Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 4,
+      "id": "plant_gear_flower",
+      "item_id": "material_gear",
+      "item_value": 100,
+      "kind": "PlantMaterial",
+      "seed_sprite": "plant_gear_flower_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gear_flower_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            -0.22499999403953552
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gear_flower_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Gem Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 288,
+      "id": "plant_gem_flower",
+      "item_id": "material_gem",
+      "item_value": 0,
+      "kind": "PlantMaterial",
+      "seed_sprite": "plant_gem_flower_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gem_flower_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            -0.22499999403953552
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gem_flower_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Gem Tree",
+      "growth_seconds": 30.0,
+      "harvest_count": 222,
+      "id": "plant_gem_tree",
+      "item_id": "material_gem",
+      "item_value": 0,
+      "kind": "PlantMaterial",
+      "seed_sprite": "plant_gem_tree_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gem_tree_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gem_tree_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gem_tree_state_2",
+          "state": 2
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gem_tree_state_3",
+          "state": 3
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_gem_tree_state_4",
+          "state": 4
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Heptacolor Viola",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_heptacolor",
+      "item_id": "plant_heptacolor",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_heptacolor_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_heptacolor_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_heptacolor_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Ironwood",
+      "growth_seconds": 30.0,
+      "harvest_count": 4,
+      "id": "plant_iron_tree",
+      "item_id": "material_iron",
+      "item_value": 0,
+      "kind": "PlantMaterial",
+      "seed_sprite": "plant_iron_tree_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_iron_tree_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            -0.22499999403953552
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_iron_tree_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Magic Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_magic_flower",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_magic_flower_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_magic_flower_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_magic_flower_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_magic_flower_state_2",
+          "state": 2
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_magic_flower_state_3",
+          "state": 3
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Mandrake",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_mandrake",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_mandrake_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_mandrake_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_mandrake_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_mandrake_state_2",
+          "state": 2
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Mirror Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_mirror_plane_flower",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_mirror_plane_flower_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_mirror_plane_flower_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_mirror_plane_flower_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Crystal Mushroom",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_mushroom",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_mushroom_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_mushroom_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_mushroom_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_mushroom_state_2",
+          "state": 2
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Pumpkin",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_pumpkin",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantGrowItem",
+      "seed_sprite": "plant_pumpkin_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_pumpkin_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_pumpkin_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Radar Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_radar",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_radar_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_radar_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.008999999612569809,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_radar_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Green Onions",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_shallot",
+      "item_id": "weapon_098",
+      "item_value": 0,
+      "kind": "PlantWeapon",
+      "seed_sprite": "plant_shallot_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_shallot_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            -0.20000000298023224,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_shallot_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Strange Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_strange_flower",
+      "item_id": "material_gear",
+      "item_value": 100,
+      "kind": "PlantMaterial",
+      "seed_sprite": "plant_strange_flower_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_strange_flower_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_strange_flower_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Oak Tree",
+      "growth_seconds": 30.0,
+      "harvest_count": 10,
+      "id": "plant_tree",
+      "item_id": "material_wood",
+      "item_value": 0,
+      "kind": "PlantMaterial",
+      "seed_sprite": "plant_tree_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_tree_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_tree_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_tree_state_2",
+          "state": 2
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_tree_state_3",
+          "state": 3
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Trumpet Flower",
+      "growth_seconds": 30.0,
+      "harvest_count": 4,
+      "id": "plant_trumpet",
+      "item_id": "material_cell",
+      "item_value": 0,
+      "kind": "PlantMaterial",
+      "seed_sprite": "plant_trumpet_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_trumpet_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            -0.22499999403953552
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_trumpet_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Vine",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_vine",
+      "item_id": "weapon_208",
+      "item_value": 0,
+      "kind": "PlantWeapon",
+      "seed_sprite": "plant_vine_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_vine_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.4000000059604645,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_vine_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Watermelon",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_watermelon",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_watermelon_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_watermelon_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_watermelon_state_1",
+          "state": 1
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Caterpillar fungus",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_worm",
+      "item_id": "",
+      "item_value": 0,
+      "kind": "PlantBuff",
+      "seed_sprite": "plant_worm_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_worm_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_worm_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_worm_state_2",
+          "state": 2
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_worm_state_3",
+          "state": 3
+        }
+      ]
+    },
+    {
+      "classification": "CONFIRMED plant_* prefab state_img sprites, seed ItemPickable icon, PlantWeapon/PlantMaterial fields; growth duration is a native reconstruction because PlantInfo/Resources data is not present in the extracted APK assets.",
+      "display_name": "Xmas Tree",
+      "growth_seconds": 30.0,
+      "harvest_count": 1,
+      "id": "plant_xmas",
+      "item_id": "weapon_176",
+      "item_value": 0,
+      "kind": "PlantWeapon",
+      "seed_sprite": "plant_xmas_seed_icon",
+      "states": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_xmas_state_0",
+          "state": 0
+        },
+        {
+          "offset": [
+            0.10000000149011612,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_xmas_state_1",
+          "state": 1
+        },
+        {
+          "offset": [
+            0.4000000059604645,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "plant_xmas_state_2",
+          "state": 2
+        }
+      ]
+    }
+  ],
   "portals": [
     {
       "duration": 0.5,
@@ -1859,6 +3058,13 @@
     }
   ],
   "schema": 1,
+  "seller_visual": {
+    "classification": "CONFIRMED recovered room_seller npc01 body/shadow and display-case sprites copied from the HeroRoom extraction for the reconstructed r_sell seller placement.",
+    "counter": "seller_counter",
+    "npc_body": "seller_npc_body",
+    "npc_shadow": "seller_npc_shadow",
+    "pedestal": "seller_pedestal"
+  },
   "shop_items": [
     {
       "classification": "CONFIRMED serialized shop item prefab fields; native seller placement is reconstructed from the recovered item pool",
@@ -7034,6 +8240,5006 @@
       ],
       "texture": "item_m304717225150204165",
       "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_banboo_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_banboo_state_1",
+      "pivot": [
+        0.25,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        64.0,
+        101.0,
+        33.0,
+        4.0
+      ],
+      "source_name": "weapons2_112",
+      "source_pivot": [
+        0.25,
+        0.5
+      ],
+      "source_rect": [
+        107.0,
+        19.0,
+        33.0,
+        4.0
+      ],
+      "source_texture_rect": [
+        64.0,
+        407.0,
+        33.0,
+        4.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_banboo_state_2",
+      "pivot": [
+        0.25,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        64.0,
+        101.0,
+        33.0,
+        4.0
+      ],
+      "source_name": "weapons2_112",
+      "source_pivot": [
+        0.25,
+        0.5
+      ],
+      "source_rect": [
+        107.0,
+        19.0,
+        33.0,
+        4.0
+      ],
+      "source_texture_rect": [
+        64.0,
+        407.0,
+        33.0,
+        4.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_banboo_state_3",
+      "pivot": [
+        0.25,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        64.0,
+        101.0,
+        33.0,
+        4.0
+      ],
+      "source_name": "weapons2_112",
+      "source_pivot": [
+        0.25,
+        0.5
+      ],
+      "source_rect": [
+        107.0,
+        19.0,
+        33.0,
+        4.0
+      ],
+      "source_texture_rect": [
+        64.0,
+        407.0,
+        33.0,
+        4.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_banboo_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_binary_tree_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_binary_tree_state_1",
+      "pivot": [
+        0.4832000732421875,
+        0.012812064960598946
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        215.0,
+        114.0,
+        29.0,
+        33.0
+      ],
+      "source_name": "objects_plants_28",
+      "source_pivot": [
+        0.4832000732421875,
+        0.012812064960598946
+      ],
+      "source_rect": [
+        215.0,
+        109.0,
+        29.0,
+        33.0
+      ],
+      "source_texture_rect": [
+        215.0,
+        109.0,
+        29.0,
+        33.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_binary_tree_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_cactus_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_cactus_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        130.0,
+        30.0,
+        15.0,
+        23.0
+      ],
+      "source_name": "objects_plants_4",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        130.0,
+        203.0,
+        15.0,
+        23.0
+      ],
+      "source_texture_rect": [
+        130.0,
+        203.0,
+        15.0,
+        23.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_cactus_state_2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        130.0,
+        30.0,
+        15.0,
+        23.0
+      ],
+      "source_name": "objects_plants_4",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        130.0,
+        203.0,
+        15.0,
+        23.0
+      ],
+      "source_texture_rect": [
+        130.0,
+        203.0,
+        15.0,
+        23.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_cactus_state_3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        152.0,
+        25.0,
+        15.0,
+        28.0
+      ],
+      "source_name": "objects_plants_5",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        152.0,
+        203.0,
+        15.0,
+        28.0
+      ],
+      "source_texture_rect": [
+        152.0,
+        203.0,
+        15.0,
+        28.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_cactus_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_carrot_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_carrot_state_1",
+      "pivot": [
+        0.23999999463558197,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        139.0,
+        255.0,
+        19.0,
+        11.0
+      ],
+      "source_name": "weapons2_101",
+      "source_pivot": [
+        0.23999999463558197,
+        0.5
+      ],
+      "source_rect": [
+        156.0,
+        52.0,
+        19.0,
+        11.0
+      ],
+      "source_texture_rect": [
+        139.0,
+        246.0,
+        19.0,
+        11.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_carrot_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_state_1",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "source_name": "objects_plants_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_state_2",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "source_name": "objects_plants_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_state_3",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "source_name": "objects_plants_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_state_4",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "source_name": "objects_plants_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_state_5",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "source_name": "objects_plants_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_state_6",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "source_name": "objects_plants_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_state_7",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "source_name": "objects_plants_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect": [
+        1.0,
+        205.0,
+        31.0,
+        26.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_datura_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_defend_flower_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_defend_flower_state_1",
+      "pivot": [
+        0.5,
+        0.006794738583266735
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        159.0,
+        117.0,
+        15.0,
+        20.0
+      ],
+      "source_name": "objects_plants_25",
+      "source_pivot": [
+        0.5,
+        0.006794738583266735
+      ],
+      "source_rect": [
+        159.0,
+        119.0,
+        15.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        159.0,
+        119.0,
+        15.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_defend_flower_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_dragon_tree_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_dragon_tree_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        177.0,
+        13.0,
+        31.0,
+        42.0
+      ],
+      "source_name": "objects_plants_6",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        177.0,
+        201.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect": [
+        177.0,
+        201.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_dragon_tree_state_2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        177.0,
+        13.0,
+        31.0,
+        42.0
+      ],
+      "source_name": "objects_plants_6",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        177.0,
+        201.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect": [
+        177.0,
+        201.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_dragon_tree_state_3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        177.0,
+        13.0,
+        31.0,
+        42.0
+      ],
+      "source_name": "objects_plants_6",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        177.0,
+        201.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect": [
+        177.0,
+        201.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_dragon_tree_state_4",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        210.0,
+        11.0,
+        37.0,
+        45.0
+      ],
+      "source_name": "objects_plants_7",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        210.0,
+        200.0,
+        37.0,
+        45.0
+      ],
+      "source_texture_rect": [
+        210.0,
+        200.0,
+        37.0,
+        45.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_dragon_tree_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_eator_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_eator_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_fantastic_flower_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_fantastic_flower_state_1",
+      "pivot": [
+        0.36439988017082214,
+        0.06356413662433624
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        179.0,
+        114.0,
+        29.0,
+        23.0
+      ],
+      "source_name": "objects_plants_26",
+      "source_pivot": [
+        0.36439988017082214,
+        0.06356413662433624
+      ],
+      "source_rect": [
+        179.0,
+        119.0,
+        29.0,
+        23.0
+      ],
+      "source_texture_rect": [
+        179.0,
+        119.0,
+        29.0,
+        23.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_fantastic_flower_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_fertilizer_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_fertilizer_state_1",
+      "pivot": [
+        0.5210740361837413,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        453.0267639160156,
+        282.0761203765869,
+        24.89712905883789,
+        23.923879623413086
+      ],
+      "source_name": "enemy20_5",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        32.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        453.0267639160156,
+        206.0,
+        24.89712905883789,
+        23.923879623413086
+      ],
+      "source_texture_rect_offset": [
+        3.026752471923828,
+        0.0
+      ],
+      "texture": "item_m4620619860993591283",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_fertilizer_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gear_flower_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gear_flower_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        80.0,
+        81.0,
+        18.0,
+        26.0
+      ],
+      "source_name": "objects_plants_11",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        80.0,
+        149.0,
+        18.0,
+        26.0
+      ],
+      "source_texture_rect": [
+        80.0,
+        149.0,
+        18.0,
+        26.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gear_flower_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_flower_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_flower_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        50.0,
+        80.0,
+        18.0,
+        27.0
+      ],
+      "source_name": "objects_plants_10",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        50.0,
+        149.0,
+        18.0,
+        27.0
+      ],
+      "source_texture_rect": [
+        50.0,
+        149.0,
+        18.0,
+        27.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_flower_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_tree_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_tree_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        107.0,
+        67.0,
+        31.0,
+        42.0
+      ],
+      "source_name": "objects_plants_12",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        107.0,
+        147.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect": [
+        107.0,
+        147.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_tree_state_2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        107.0,
+        67.0,
+        31.0,
+        42.0
+      ],
+      "source_name": "objects_plants_12",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        107.0,
+        147.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect": [
+        107.0,
+        147.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_tree_state_3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        107.0,
+        67.0,
+        31.0,
+        42.0
+      ],
+      "source_name": "objects_plants_12",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        107.0,
+        147.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect": [
+        107.0,
+        147.0,
+        31.0,
+        42.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_tree_state_4",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        144.0,
+        63.0,
+        39.0,
+        46.0
+      ],
+      "source_name": "objects_plants_13",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        144.0,
+        147.0,
+        39.0,
+        46.0
+      ],
+      "source_texture_rect": [
+        144.0,
+        147.0,
+        39.0,
+        46.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_gem_tree_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_heptacolor_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_heptacolor_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        28.0,
+        86.0,
+        12.0,
+        16.0
+      ],
+      "source_name": "objects_plants_9",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        28.0,
+        154.0,
+        12.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        28.0,
+        154.0,
+        12.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_heptacolor_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_iron_tree_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_iron_tree_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        7.0,
+        120.0,
+        18.0,
+        42.0
+      ],
+      "source_name": "objects_plants_16",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        7.0,
+        94.0,
+        18.0,
+        42.0
+      ],
+      "source_texture_rect": [
+        7.0,
+        94.0,
+        18.0,
+        42.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_iron_tree_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_magic_flower_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_magic_flower_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        219.0,
+        84.0,
+        15.0,
+        24.0
+      ],
+      "source_name": "objects_plants_15",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        219.0,
+        148.0,
+        15.0,
+        24.0
+      ],
+      "source_texture_rect": [
+        219.0,
+        148.0,
+        15.0,
+        24.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_magic_flower_state_2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        219.0,
+        84.0,
+        15.0,
+        24.0
+      ],
+      "source_name": "objects_plants_15",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        219.0,
+        148.0,
+        15.0,
+        24.0
+      ],
+      "source_texture_rect": [
+        219.0,
+        148.0,
+        15.0,
+        24.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_magic_flower_state_3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        191.0,
+        84.0,
+        20.0,
+        24.0
+      ],
+      "source_name": "objects_plants_14",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        191.0,
+        148.0,
+        20.0,
+        24.0
+      ],
+      "source_texture_rect": [
+        191.0,
+        148.0,
+        20.0,
+        24.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_magic_flower_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mandrake_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mandrake_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        4.0,
+        72.0,
+        15.0,
+        9.0
+      ],
+      "source_name": "objects_plants_18",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        4.0,
+        175.0,
+        15.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        4.0,
+        175.0,
+        15.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mandrake_state_2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        3.0,
+        84.0,
+        15.0,
+        20.0
+      ],
+      "source_name": "objects_plants_8",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        3.0,
+        152.0,
+        15.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        3.0,
+        152.0,
+        15.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mandrake_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mirror_plane_flower_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mirror_plane_flower_state_1",
+      "pivot": [
+        0.5309915542602539,
+        0.059230804443359375
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        135.0,
+        119.0,
+        16.0,
+        18.0
+      ],
+      "source_name": "objects_plants_24",
+      "source_pivot": [
+        0.5309915542602539,
+        0.059230804443359375
+      ],
+      "source_rect": [
+        135.0,
+        119.0,
+        16.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        135.0,
+        119.0,
+        16.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mirror_plane_flower_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mushroom_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mushroom_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        86.0,
+        153.0,
+        25.0,
+        9.0
+      ],
+      "source_name": "objects_plants_22",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        86.0,
+        94.0,
+        25.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        86.0,
+        94.0,
+        25.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mushroom_state_2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        86.0,
+        119.0,
+        25.0,
+        18.0
+      ],
+      "source_name": "objects_plants_21",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        86.0,
+        119.0,
+        25.0,
+        18.0
+      ],
+      "source_texture_rect": [
+        86.0,
+        119.0,
+        25.0,
+        18.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_mushroom_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_pumpkin_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_pumpkin_state_1",
+      "pivot": [
+        0.5161569483700863,
+        0.1605788013373962
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        16.026750564575195,
+        29.076122283935547,
+        30.946496963500977,
+        27.880970001220703
+      ],
+      "source_name": "pumpkin_0",
+      "source_pivot": [
+        0.5,
+        0.18000000715255737
+      ],
+      "source_rect": [
+        0.0,
+        64.0,
+        64.0,
+        64.0
+      ],
+      "source_texture_rect": [
+        16.026750564575195,
+        71.04290771484375,
+        30.946496963500977,
+        27.880970001220703
+      ],
+      "source_texture_rect_offset": [
+        16.026750564575195,
+        7.04290771484375
+      ],
+      "texture": "item_m4820807134199446665",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_pumpkin_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_radar_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_radar_state_1",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        2.0,
+        35.0,
+        12.0,
+        12.0
+      ],
+      "source_name": "radar16x16_8",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        2.0,
+        17.0,
+        12.0,
+        12.0
+      ],
+      "source_texture_rect": [
+        2.0,
+        17.0,
+        12.0,
+        12.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m5174023652194094582",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_radar_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_shallot_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_shallot_state_1",
+      "pivot": [
+        0.20000000298023224,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        235.0,
+        173.0,
+        23.0,
+        5.0
+      ],
+      "source_name": "weapons_97",
+      "source_pivot": [
+        0.20000000298023224,
+        0.5
+      ],
+      "source_rect": [
+        159.0,
+        93.0,
+        23.0,
+        5.0
+      ],
+      "source_texture_rect": [
+        235.0,
+        334.0,
+        23.0,
+        5.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_shallot_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_strange_flower_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_strange_flower_state_1",
+      "pivot": [
+        0.4793391227722168,
+        0.021533764898777008
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        114.0,
+        118.0,
+        16.0,
+        19.0
+      ],
+      "source_name": "objects_plants_23",
+      "source_pivot": [
+        0.4793391227722168,
+        0.021533764898777008
+      ],
+      "source_rect": [
+        114.0,
+        119.0,
+        16.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        114.0,
+        119.0,
+        16.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_strange_flower_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_tree_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_tree_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        35.0,
+        119.0,
+        16.0,
+        45.0
+      ],
+      "source_name": "objects_plants_17",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        35.0,
+        92.0,
+        16.0,
+        45.0
+      ],
+      "source_texture_rect": [
+        35.0,
+        92.0,
+        16.0,
+        45.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_tree_state_2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        35.0,
+        119.0,
+        16.0,
+        45.0
+      ],
+      "source_name": "objects_plants_17",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        35.0,
+        92.0,
+        16.0,
+        45.0
+      ],
+      "source_texture_rect": [
+        35.0,
+        92.0,
+        16.0,
+        45.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_tree_state_3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        35.0,
+        119.0,
+        16.0,
+        45.0
+      ],
+      "source_name": "objects_plants_17",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        35.0,
+        92.0,
+        16.0,
+        45.0
+      ],
+      "source_texture_rect": [
+        35.0,
+        92.0,
+        16.0,
+        45.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_tree_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_trumpet_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_trumpet_state_1",
+      "pivot": [
+        0.5210740361837413,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        453.0267639160156,
+        282.0761203765869,
+        24.89712905883789,
+        23.923879623413086
+      ],
+      "source_name": "enemy20_5",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        32.0,
+        64.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        453.0267639160156,
+        206.0,
+        24.89712905883789,
+        23.923879623413086
+      ],
+      "source_texture_rect_offset": [
+        3.026752471923828,
+        0.0
+      ],
+      "texture": "item_m4620619860993591283",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_trumpet_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_vine_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_vine_state_1",
+      "pivot": [
+        0.20000000298023224,
+        0.3499999940395355
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        390.0,
+        433.0,
+        28.0,
+        10.0
+      ],
+      "source_name": "weapons2_109",
+      "source_pivot": [
+        0.20000000298023224,
+        0.3499999940395355
+      ],
+      "source_rect": [
+        142.0,
+        26.0,
+        28.0,
+        10.0
+      ],
+      "source_texture_rect": [
+        390.0,
+        69.0,
+        28.0,
+        10.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_vine_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_watermelon_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_watermelon_state_1",
+      "pivot": [
+        0.4974099397659302,
+        0.02323293685913086
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        114.0,
+        144.0,
+        31.0,
+        16.0
+      ],
+      "source_name": "objects_plants_27",
+      "source_pivot": [
+        0.4974099397659302,
+        0.02323293685913086
+      ],
+      "source_rect": [
+        114.0,
+        96.0,
+        31.0,
+        16.0
+      ],
+      "source_texture_rect": [
+        114.0,
+        96.0,
+        31.0,
+        16.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_watermelon_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_worm_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_worm_state_1",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        58.0,
+        151.0,
+        24.0,
+        10.0
+      ],
+      "source_name": "objects_plants_20",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        58.0,
+        95.0,
+        24.0,
+        10.0
+      ],
+      "source_texture_rect": [
+        58.0,
+        95.0,
+        24.0,
+        10.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_worm_state_2",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        58.0,
+        151.0,
+        24.0,
+        10.0
+      ],
+      "source_name": "objects_plants_20",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        58.0,
+        95.0,
+        24.0,
+        10.0
+      ],
+      "source_texture_rect": [
+        58.0,
+        95.0,
+        24.0,
+        10.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_worm_state_3",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        58.0,
+        118.0,
+        24.0,
+        19.0
+      ],
+      "source_name": "objects_plants_19",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        58.0,
+        119.0,
+        24.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        58.0,
+        119.0,
+        24.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_worm_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_xmas_state_0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "source_name": "objects_plants_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        11.0,
+        245.0,
+        16.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_2711485867076183493",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_xmas_state_1",
+      "pivot": [
+        0.30000001192092896,
+        0.4699999988079071
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        58.0,
+        299.0,
+        31.0,
+        15.0
+      ],
+      "source_name": "weapons2_82",
+      "source_pivot": [
+        0.30000001192092896,
+        0.4699999988079071
+      ],
+      "source_rect": [
+        81.0,
+        68.0,
+        31.0,
+        15.0
+      ],
+      "source_texture_rect": [
+        58.0,
+        198.0,
+        31.0,
+        15.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_xmas_state_2",
+      "pivot": [
+        0.30000001192092896,
+        0.4699999988079071
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        58.0,
+        299.0,
+        31.0,
+        15.0
+      ],
+      "source_name": "weapons2_82",
+      "source_pivot": [
+        0.30000001192092896,
+        0.4699999988079071
+      ],
+      "source_rect": [
+        81.0,
+        68.0,
+        31.0,
+        15.0
+      ],
+      "source_texture_rect": [
+        58.0,
+        198.0,
+        31.0,
+        15.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "plant_xmas_seed_icon",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "source_name": "objects_pickable_6",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        155.0,
+        237.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        181.0,
+        106.0,
+        16.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "seller_npc_body",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        226.02674865722656,
+        480.0761203765869,
+        29.93696403503418,
+        31.923879623413086
+      ],
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "texture": "item_seller_npc_body",
+      "texture_height": 512,
+      "texture_width": 1024,
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "seller_npc_shadow",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.07612037658691406,
+        15.026751041412354,
+        23.847759246826172,
+        6.9732489585876465
+      ],
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "texture": "item_seller_npc_shadow",
+      "texture_height": 32,
+      "texture_width": 32,
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "seller_pedestal",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        46.0,
+        29.0,
+        25.0
+      ],
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "texture": "item_seller_pedestal",
+      "texture_height": 1024,
+      "texture_width": 512,
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "seller_counter",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        92.0,
+        18.0,
+        15.0
+      ],
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "texture": "item_seller_counter",
+      "texture_height": 256,
+      "texture_width": 256,
+      "wrap": "clamp"
     }
   ],
   "textures": [
@@ -7095,6 +13301,54 @@
       "filter": "point",
       "id": "item_m304717225150204165",
       "png": "textures/item_m304717225150204165.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_2711485867076183493",
+      "png": "textures/item_2711485867076183493.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_m4620619860993591283",
+      "png": "textures/item_m4620619860993591283.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_m4820807134199446665",
+      "png": "textures/item_m4820807134199446665.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_m5174023652194094582",
+      "png": "textures/item_m5174023652194094582.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_seller_npc_body",
+      "png": "textures/seller_npc_body.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_seller_npc_shadow",
+      "png": "textures/seller_npc_shadow.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_seller_pedestal",
+      "png": "textures/seller_pedestal.png",
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_seller_counter",
+      "png": "textures/seller_counter.png",
       "wrap": "clamp"
     }
   ],

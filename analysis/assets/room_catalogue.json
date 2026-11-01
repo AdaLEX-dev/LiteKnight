@@ -1,7 +1,7 @@
 {
   "counts": {
     "discovered_pattern_rooms": 108,
-    "integrated_pattern_rooms": 3
+    "integrated_pattern_rooms": 6
   },
   "hub": {
     "id": "hero_room",
@@ -35,7 +35,7 @@
       "room_type": 1,
       "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
       "source_path": "Assets/RGPrefab/Room/PatternRoom/r1_1.prefab",
-      "sprites": 481,
+      "sprites": 1096,
       "width": 15
     },
     {
@@ -63,7 +63,7 @@
       "room_type": 1,
       "scene_metadata": "analysis/assets/scenes/r1_2_visual.json",
       "source_path": "Assets/RGPrefab/Room/PatternRoom/r1_2.prefab",
-      "sprites": 481,
+      "sprites": 1096,
       "width": 15
     },
     {
@@ -91,12 +91,14 @@
       "room_type": 1,
       "scene_metadata": "analysis/assets/scenes/r1_3_visual.json",
       "source_path": "Assets/RGPrefab/Room/PatternRoom/r1_3.prefab",
-      "sprites": 481,
+      "sprites": 1096,
       "width": 15
     },
     {
+      "collision_solids": 140,
       "create_with_close_state": false,
       "door_open": true,
+      "doors": 4,
       "entrance": [
         0,
         0,
@@ -105,20 +107,26 @@
       ],
       "height": 15,
       "id": "r1_4",
-      "integrated": false,
+      "instances": 482,
+      "integrated": true,
       "need_cage": false,
       "number": 4,
+      "obstacle_markers": 100,
       "offset_x": 0,
       "offset_y": 0,
       "process": 0,
       "random_room": false,
       "room_type": 1,
+      "scene_metadata": "analysis/assets/scenes/r1_4_visual.json",
       "source_path": "Assets/RGPrefab/Room/PatternRoom/r1_4.prefab",
+      "sprites": 1096,
       "width": 15
     },
     {
+      "collision_solids": 140,
       "create_with_close_state": false,
       "door_open": true,
+      "doors": 4,
       "entrance": [
         0,
         0,
@@ -127,20 +135,26 @@
       ],
       "height": 15,
       "id": "r1_5",
-      "integrated": false,
+      "instances": 482,
+      "integrated": true,
       "need_cage": false,
       "number": 5,
+      "obstacle_markers": 56,
       "offset_x": 0,
       "offset_y": 0,
       "process": 0,
       "random_room": false,
       "room_type": 1,
+      "scene_metadata": "analysis/assets/scenes/r1_5_visual.json",
       "source_path": "Assets/RGPrefab/Room/PatternRoom/r1_5.prefab",
+      "sprites": 1096,
       "width": 15
     },
     {
+      "collision_solids": 140,
       "create_with_close_state": false,
       "door_open": true,
+      "doors": 4,
       "entrance": [
         0,
         0,
@@ -149,15 +163,19 @@
       ],
       "height": 15,
       "id": "r1_6",
-      "integrated": false,
+      "instances": 482,
+      "integrated": true,
       "need_cage": false,
       "number": 6,
+      "obstacle_markers": 56,
       "offset_x": 0,
       "offset_y": 0,
       "process": 0,
       "random_room": false,
       "room_type": 1,
+      "scene_metadata": "analysis/assets/scenes/r1_6_visual.json",
       "source_path": "Assets/RGPrefab/Room/PatternRoom/r1_6.prefab",
+      "sprites": 1096,
       "width": 15
     },
     {

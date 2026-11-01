@@ -1,15 +1,15 @@
 {
   "scene": "assets/generated/visual/hero_room/scene.json",
   "floor_cells": 2896,
-  "walkable_cells": 2409,
-  "reachable_cells": 2296,
-  "reachable_ratio": 0.9530925695309257,
+  "walkable_cells": 2221,
+  "reachable_cells": 2102,
+  "reachable_ratio": 0.9464205312922107,
   "spawn": [
     0,
     -10
   ],
   "spawn_reachable": true,
-  "collision_solids": 733,
+  "collision_solids": 1107,
   "event_instances": 0,
   "removed_present": [],
   "table_collision": true,
@@ -58,7 +58,15 @@
       "kind": "trader",
       "cell": [
         27,
-        3
+        4
+      ],
+      "reachable": true
+    },
+    "mech_station": {
+      "kind": "mech",
+      "cell": [
+        43,
+        6
       ],
       "reachable": true
     },

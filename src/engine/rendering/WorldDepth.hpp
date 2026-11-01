@@ -24,6 +24,18 @@ inline int32_t WorldDepthOrder(float base_y, int32_t tie_break = 0) {
            tie_break;
 }
 
+// Ground props and characters use the sprite's physical foot (bottom) rather
+// than the serialized transform Y, because centre-pivoted furniture would
+// otherwise sort half a sprite too high. Tilemaps, lights and UI overlays keep
+// their authored sorting.
+inline float SpriteFootY(float position_y, float world_height, float pivot_y) {
+    if (!std::isfinite(position_y) || !std::isfinite(world_height) ||
+        !std::isfinite(pivot_y)) {
+        return position_y;
+    }
+    return position_y - world_height * pivot_y;
+}
+
 inline bool IsCharacterSortedUnityLayer(int32_t unity_layer) {
     // Character (5) and WallFont (6): bodies, NPCs, doors, wall fronts and
     // obstacle tops. Recover layer values themselves are unchanged in scene JSON.

@@ -80,9 +80,9 @@ float ClearTextAlpha(float elapsed) {
 
 const std::array<const char*, 3> kPauseItems{"HOME", "RESUME", "SETTINGS"};
 const std::array<const char*, 4> kMainItems{"NEW GAME", "CONTINUE", "SETTINGS", "QUIT"};
-const std::array<const char*, 6> kSettingsItems{
+const std::array<const char*, 8> kSettingsItems{
     "AIM MODE", "FULLSCREEN", "DEBUG OVERLAY", "UI DESIGN MODE",
-    "RESET SAVE", "BACK"};
+    "REDUCED WEAPON FX", "LIVING ROOM QA", "RESET SAVE", "BACK"};
 
 // One authoritative main-menu layout. Drawing and pointer hit-testing both use
 // these helpers so a visual rect can never drift away from its click target.
@@ -237,7 +237,7 @@ void GameUI::Navigate(int delta) {
         workshop_index_ = (workshop_index_ + delta + workshop_count_) %
                           workshop_count_;
     } else if (screen_ == UIScreen::Settings) {
-        settings_index_ = (settings_index_ + delta + 6) % 6;
+        settings_index_ = (settings_index_ + delta + 8) % 8;
     } else if (screen_ == UIScreen::CharacterSelect &&
                character_select_count_ > 0) {
         character_select_index_ = (character_select_index_ + delta +
@@ -299,7 +299,11 @@ void GameUI::Confirm() {
         else if (settings_index_ == 1) action_ = UIAction::ToggleFullscreen;
         else if (settings_index_ == 2) action_ = UIAction::ToggleDebugOverlay;
         else if (settings_index_ == 3) action_ = UIAction::OpenUiDesignMode;
-        else if (settings_index_ == 4) action_ = UIAction::ResetSave;
+        else if (settings_index_ == 4)
+            action_ = UIAction::ToggleReducedWeaponEffects;
+        else if (settings_index_ == 5)
+            action_ = UIAction::ToggleLivingRoomSuggestions;
+        else if (settings_index_ == 6) action_ = UIAction::ResetSave;
         else action_ = UIAction::Back;
     }
 }
@@ -579,16 +583,20 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
         DrawMinimap(ui, data, element("minimap"), false);
     }
 
-    const Rect stage = element("stage");
-    std::string stage_text = data.room_label;
-    if (stage_text.empty()) {
-        stage_text = data.scene != nullptr ? data.scene->id : "?";
+    // The Living Room has no stage sign/label. Dungeon rooms retain the
+    // recovered stage caption used by UIMap.
+    if (!hub_scene) {
+        const Rect stage = element("stage");
+        std::string stage_text = data.room_label;
+        if (stage_text.empty()) {
+            stage_text = data.scene != nullptr ? data.scene->id : "?";
+        }
+        if (data.room_cleared) {
+            stage_text += "   clear";
+        }
+        ui.TextFitted(stage_text, stage, kMuted, 1903,
+                      engine::rendering::TextAlign::Left, 28.0f, 18.0f, true);
     }
-    if (data.room_cleared) {
-        stage_text += "   clear";
-    }
-    ui.TextFitted(stage_text, stage, kMuted, 1903,
-                  engine::rendering::TextAlign::Left, 28.0f, 18.0f, true);
 
     if (data.transition_flash > 0.0f) {
         const float alpha = std::clamp(data.transition_flash / 0.45f,
@@ -1113,19 +1121,21 @@ void GameUI::DrawSettings(UIRenderer& ui, const GameUIData& data) const {
     }
     ui.TextCentered("SETTINGS", ribbon, Color::White(), 1988, 44.0f, true);
 
-    const char* values[6] = {
+    const char* values[8] = {
         data.auto_aim ? "AUTO AIM" : "MANUAL",
         data.fullscreen ? "ON" : "OFF",
         data.debug_overlay ? "ON" : "OFF",
         "OPEN",
+        data.reduced_weapon_effects ? "SUBTLE" : "FULL",
+        data.living_room_suggestions ? "ON" : "OFF",
         "CONFIRM",
         ""
     };
     constexpr float row_height = 66.0f;
     constexpr float row_gap = 12.0f;
-    const float rows_total = 6.0f * row_height + 5.0f * row_gap;
+    const float rows_total = 8.0f * row_height + 7.0f * row_gap;
     const float row_top = panel.y + (panel.h - rows_total) * 0.5f - 10.0f;
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < 8; ++i) {
         const Rect row{panel.x + 72,
                        row_top + static_cast<float>(i) * (row_height + row_gap),
                        panel.w - 144, row_height};
@@ -1148,7 +1158,7 @@ void GameUI::DrawSettings(UIRenderer& ui, const GameUIData& data) const {
         ui.TextFitted(kSettingsItems[static_cast<std::size_t>(i)],
                       label_rect, selected ? Color::White() : kCream, 1991,
                       engine::rendering::TextAlign::Left, 30.0f, 20.0f, true);
-        if (i < 4 && values[i][0] != '\0') {
+        if (i < 6 && values[i][0] != '\0') {
             ui.TextFitted(values[i], value_rect,
                           selected ? kGold : kMuted, 1992,
                           engine::rendering::TextAlign::Right, 30.0f,

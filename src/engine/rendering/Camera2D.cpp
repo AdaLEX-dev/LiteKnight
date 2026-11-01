@@ -1,6 +1,7 @@
 // Soul Knight Linux — 2D orthographic camera implementation
 #include "Camera2D.hpp"
 
+#include <algorithm>
 #include <cmath>
 
 namespace soulknight::engine {
@@ -23,6 +24,25 @@ void Camera2D::Follow(const Vec2& target, float delta_seconds) {
     }
     const float t = 1.0f - std::exp(-follow_smoothing * delta_seconds);
     position += (target - position) * t;
+}
+
+void Camera2D::ClampToRect(const Vec2& minimum, const Vec2& maximum) {
+    const float half_w = HalfWidth();
+    const float half_h = HalfHeight();
+    const float width = maximum.x - minimum.x;
+    const float height = maximum.y - minimum.y;
+    if (width > half_w * 2.0f) {
+        position.x = std::clamp(position.x, minimum.x + half_w,
+                                maximum.x - half_w);
+    } else {
+        position.x = (minimum.x + maximum.x) * 0.5f;
+    }
+    if (height > half_h * 2.0f) {
+        position.y = std::clamp(position.y, minimum.y + half_h,
+                                maximum.y - half_h);
+    } else {
+        position.y = (minimum.y + maximum.y) * 0.5f;
+    }
 }
 
 Vec2 Camera2D::WorldToScreen(const Vec2& world) const {

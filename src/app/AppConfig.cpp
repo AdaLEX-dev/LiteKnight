@@ -40,7 +40,8 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.title = "LiteKnight Living Room";
         } else if (arg == "--fullscreen") {
             config.fullscreen = true;
-        } else if (arg == "--gameplay-smoke") {
+        } else if (arg == "--gameplay-smoke" ||
+                   arg == "--extended-gameplay") {
             config.gameplay_smoke = true;
             config.scene_path = "scenes/hero_room/scene.json";
             config.title = "LiteKnight Gameplay Smoke";
@@ -147,7 +148,11 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.scene_path = "scenes/hero_room/scene.json";
             config.title = "LiteKnight Review - Living Room";
         } else if (area == "workshop" || area == "garden" ||
-                   area == "cellar" || area == "trader") {
+                   area == "cellar" || area == "trader" ||
+                   area == "trader-world" || area == "mech" ||
+                   area == "reforging" || area == "planting" ||
+                   area == "calibration" || area == "mech-ui" ||
+                   area == "suggestions") {
             config.devroom = true;
             config.scene_path = "scenes/hero_room/scene.json";
             config.title = "LiteKnight Review - " + area;
@@ -171,10 +176,16 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.devroom = true;
             config.scene_path = "scenes/" + area + "_visual/scene.json";
             config.title = "LiteKnight Review - " + area;
-        } else if (area == "r1_1" || area == "r1_2" || area == "r1_3") {
+        } else if (area == "r1_1" || area == "r1_2" || area == "r1_3" ||
+                   area == "dungeon-1-1" || area == "dungeon-1-2") {
             config.devroom = true;
-            config.scene_path = "scenes/" + area + "_visual/scene.json";
+            const std::string room = area == "dungeon-1-2" ? "r1_2" : "r1_1";
+            config.scene_path = "scenes/" + room + "_visual/scene.json";
             config.title = "LiteKnight Review - " + area;
+        } else if (area == "boss-room") {
+            config.devroom = true;
+            config.scene_path = "scenes/r1_boss1_visual/scene.json";
+            config.title = "LiteKnight Review - boss-room";
         } else if (area == "pause") {
             config.start_gui = true;
             config.scene_path = "scenes/hero_room/scene.json";

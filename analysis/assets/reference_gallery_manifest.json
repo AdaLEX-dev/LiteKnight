@@ -3,10 +3,10 @@
   "tool": "tools/asset/build_gallery_manifest.py",
   "asset_root": "/home/jules/Documents/Programming/SoulKnight-Linux/build/assets",
   "counts": {
-    "textures": 97,
-    "sprites": 1931,
+    "textures": 104,
+    "sprites": 2045,
     "prefabs": 2500,
-    "entries": 4528,
+    "entries": 4649,
     "broken": 0,
     "scenes": 121
   },
@@ -39,8 +39,8 @@
       "key": "tex:-1602162045706824359",
       "name": "f901",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m1602162045706824359.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m1602162045706824359.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -63,8 +63,8 @@
       "key": "tex:-2170710575051527366",
       "name": "w906",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m2170710575051527366.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m2170710575051527366.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -111,8 +111,8 @@
       "key": "tex:-302813689397231781",
       "name": "f909",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m302813689397231781.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m302813689397231781.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -135,8 +135,8 @@
       "key": "tex:-3440195024763777050",
       "name": "w905",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m3440195024763777050.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m3440195024763777050.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -147,8 +147,8 @@
       "key": "tex:-345151061168037000",
       "name": "w903",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m345151061168037000.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m345151061168037000.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -171,8 +171,8 @@
       "key": "tex:-3929889443782955400",
       "name": "f907",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m3929889443782955400.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m3929889443782955400.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -207,8 +207,8 @@
       "key": "tex:-6539033376025204084",
       "name": "f908",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m6539033376025204084.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m6539033376025204084.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -219,8 +219,8 @@
       "key": "tex:-7018625042715222577",
       "name": "w904",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m7018625042715222577.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m7018625042715222577.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -279,8 +279,8 @@
       "key": "tex:-8465473729473640669",
       "name": "sandbox_objects",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m8465473729473640669.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m8465473729473640669.png",
       "width": 512,
       "height": 512,
       "filter": "point",
@@ -291,8 +291,8 @@
       "key": "tex:-8582120698074145341",
       "name": "w902",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m8582120698074145341.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m8582120698074145341.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -303,8 +303,8 @@
       "key": "tex:-8989119030688471403",
       "name": "f903",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m8989119030688471403.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m8989119030688471403.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -315,8 +315,8 @@
       "key": "tex:-953977218417075232",
       "name": "f904",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_m953977218417075232.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_m953977218417075232.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -399,8 +399,8 @@
       "key": "tex:1557915781112756586",
       "name": "f902",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_1557915781112756586.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_1557915781112756586.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -471,8 +471,8 @@
       "key": "tex:2420541330578861774",
       "name": "f914",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_2420541330578861774.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_2420541330578861774.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -567,8 +567,8 @@
       "key": "tex:4699608564152035255",
       "name": "SpriteAtlasTexture-bullet_effect (Group 2)-128x128-fmt47",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_4699608564152035255.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_4699608564152035255.png",
       "width": 128,
       "height": 128,
       "filter": "point",
@@ -591,8 +591,8 @@
       "key": "tex:5344871218917797024",
       "name": "w901",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_5344871218917797024.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_5344871218917797024.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -687,8 +687,8 @@
       "key": "tex:7178151260153528060",
       "name": "f910",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_7178151260153528060.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_7178151260153528060.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -699,8 +699,8 @@
       "key": "tex:7666789504187446014",
       "name": "s04",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_7666789504187446014.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_7666789504187446014.png",
       "width": 290,
       "height": 163,
       "filter": "point",
@@ -711,8 +711,8 @@
       "key": "tex:7714474747321316396",
       "name": "f911",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_7714474747321316396.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_7714474747321316396.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -735,8 +735,8 @@
       "key": "tex:8059798833594109419",
       "name": "f913",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_8059798833594109419.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_8059798833594109419.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -795,8 +795,8 @@
       "key": "tex:9031724067842302086",
       "name": "f912",
       "source": "scene",
-      "scene": "r1_100_visual",
-      "path": "scenes/r1_100_visual/textures/auto_atlas_9031724067842302086.png",
+      "scene": "hero_room",
+      "path": "scenes/hero_room/textures/auto_atlas_9031724067842302086.png",
       "width": 16,
       "height": 24,
       "filter": "point",
@@ -828,18 +828,6 @@
       "status": "included"
     },
     {
-      "key": "tex:hub_floor_tile4",
-      "name": "Living Room floor 4x4 repeat",
-      "source": "scene",
-      "scene": "hero_room",
-      "path": "scenes/hero_room/textures/hub_floor_tile4.png",
-      "width": 64,
-      "height": 64,
-      "filter": "point",
-      "wrap": "clamp",
-      "status": "included"
-    },
-    {
       "key": "tex:item_1152304610094628773",
       "name": "item_1152304610094628773",
       "source": "items",
@@ -859,6 +847,18 @@
       "path": "scenes/items/textures/item_2171739766242525964.png",
       "width": 1024,
       "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:item_2711485867076183493",
+      "name": "item_2711485867076183493",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/item_2711485867076183493.png",
+      "width": 256,
+      "height": 256,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -948,6 +948,42 @@
       "status": "included"
     },
     {
+      "key": "tex:item_m4620619860993591283",
+      "name": "item_m4620619860993591283",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/item_m4620619860993591283.png",
+      "width": 512,
+      "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:item_m4820807134199446665",
+      "name": "item_m4820807134199446665",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/item_m4820807134199446665.png",
+      "width": 256,
+      "height": 128,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:item_m5174023652194094582",
+      "name": "item_m5174023652194094582",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/item_m5174023652194094582.png",
+      "width": 64,
+      "height": 64,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
       "key": "tex:item_m7138671102567859681",
       "name": "item_m7138671102567859681",
       "source": "items",
@@ -955,6 +991,54 @@
       "path": "scenes/items/textures/item_m7138671102567859681.png",
       "width": 512,
       "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:item_seller_counter",
+      "name": "item_seller_counter",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/seller_counter.png",
+      "width": 256,
+      "height": 256,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:item_seller_npc_body",
+      "name": "item_seller_npc_body",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/seller_npc_body.png",
+      "width": 1024,
+      "height": 512,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:item_seller_npc_shadow",
+      "name": "item_seller_npc_shadow",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/seller_npc_shadow.png",
+      "width": 32,
+      "height": 32,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:item_seller_pedestal",
+      "name": "item_seller_pedestal",
+      "source": "items",
+      "scene": "items",
+      "path": "scenes/items/textures/seller_pedestal.png",
+      "width": 512,
+      "height": 1024,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -1199,7 +1283,7 @@
     {
       "key": "spr:-1005744849121952254",
       "name": "w906",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-2170710575051527366",
       "rect": [
         0.0,
@@ -1237,7 +1321,7 @@
     {
       "key": "spr:-1060307829499205394",
       "name": "weapons_47",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         250.0,
@@ -1294,7 +1378,7 @@
     {
       "key": "spr:-1133220103865637307",
       "name": "f604",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         108.0,
@@ -1389,7 +1473,7 @@
     {
       "key": "spr:-1204072163585814410",
       "name": "objects2_57",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         257.0,
@@ -1446,7 +1530,7 @@
     {
       "key": "spr:-1285668098131535219",
       "name": "objects2_56",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         330.0,
@@ -1522,7 +1606,7 @@
     {
       "key": "spr:-1377640897971879428",
       "name": "w405",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         180.0,
@@ -1560,7 +1644,7 @@
     {
       "key": "spr:-1393481937170166191",
       "name": "objects2_30",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         130.0,
@@ -1693,7 +1777,7 @@
     {
       "key": "spr:-1474590268710633907",
       "name": "w902",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-8582120698074145341",
       "rect": [
         0.0,
@@ -1826,7 +1910,7 @@
     {
       "key": "spr:-1568460151805061768",
       "name": "f605",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         0.0,
@@ -1883,7 +1967,7 @@
     {
       "key": "spr:-1600854717670335293",
       "name": "effect_shock2_0",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         798.0761108398438,
@@ -1921,7 +2005,7 @@
     {
       "key": "spr:-1655432974440070075",
       "name": "weapons3_159",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         29.0,
@@ -1997,7 +2081,7 @@
     {
       "key": "spr:-1752443113587306337",
       "name": "f913",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8059798833594109419",
       "rect": [
         0.0,
@@ -2035,7 +2119,7 @@
     {
       "key": "spr:-1780151796208010285",
       "name": "weapons2_100",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         0.0,
@@ -2206,7 +2290,7 @@
     {
       "key": "spr:-1972522602380544658",
       "name": "f302",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         198.0,
@@ -2301,7 +2385,7 @@
     {
       "key": "spr:-2139726002991079450",
       "name": "f907",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-3929889443782955400",
       "rect": [
         0.0,
@@ -2377,7 +2461,7 @@
     {
       "key": "spr:-2173573826949816771",
       "name": "f305",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         180.0,
@@ -2396,7 +2480,7 @@
     {
       "key": "spr:-2178665406362670037",
       "name": "objects4_45",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         313.0,
@@ -2434,7 +2518,7 @@
     {
       "key": "spr:-2211263110933309191",
       "name": "objects2_48",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         308.0,
@@ -2453,7 +2537,7 @@
     {
       "key": "spr:-2222446170123128065",
       "name": "w504",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -2491,7 +2575,7 @@
     {
       "key": "spr:-2267287047924293391",
       "name": "w803",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         126.0,
@@ -2605,7 +2689,7 @@
     {
       "key": "spr:-2424365849772219261",
       "name": "objects1_34",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         236.0,
@@ -2662,7 +2746,7 @@
     {
       "key": "spr:-2454621439306634597",
       "name": "objects1_33",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         352.0,
@@ -2681,7 +2765,7 @@
     {
       "key": "spr:-2467476437029114213",
       "name": "objects2_11",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         457.0,
@@ -2795,7 +2879,7 @@
     {
       "key": "spr:-2516655087974227743",
       "name": "objects1_20",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         363.0,
@@ -3099,7 +3183,7 @@
     {
       "key": "spr:-2782993607230366640",
       "name": "effect_sting_ice_0",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:1541943556708260529",
       "rect": [
         186.0,
@@ -3175,7 +3259,7 @@
     {
       "key": "spr:-2820244999280725722",
       "name": "f106",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -3403,7 +3487,7 @@
     {
       "key": "spr:-3018665151999596131",
       "name": "f802",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         234.0,
@@ -3422,7 +3506,7 @@
     {
       "key": "spr:-3030343999828311819",
       "name": "weapons_66",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         235.0,
@@ -3517,7 +3601,7 @@
     {
       "key": "spr:-3085745885772110447",
       "name": "weapons_82",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         207.0,
@@ -3707,7 +3791,7 @@
     {
       "key": "spr:-324751829545396524",
       "name": "effect_shock2_0",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         914.0761108398438,
@@ -3726,7 +3810,7 @@
     {
       "key": "spr:-3251284910416285188",
       "name": "weapons4_23",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:6364077752768854847",
       "rect": [
         0.0,
@@ -3840,7 +3924,7 @@
     {
       "key": "spr:-3327416185598454869",
       "name": "f303",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         198.0,
@@ -3992,7 +4076,7 @@
     {
       "key": "spr:-3464145543017901190",
       "name": "objects2_50",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         345.0,
@@ -4087,7 +4171,7 @@
     {
       "key": "spr:-3548934272818492555",
       "name": "objects4_64",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         452.0,
@@ -4106,7 +4190,7 @@
     {
       "key": "spr:-355595587883817003",
       "name": "objects2_68",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         350.0,
@@ -4239,7 +4323,7 @@
     {
       "key": "spr:-3672281484503636836",
       "name": "objects4_79",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         413.0,
@@ -4334,7 +4418,7 @@
     {
       "key": "spr:-3803410214668493133",
       "name": "weapons4_32",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:6364077752768854847",
       "rect": [
         227.0,
@@ -4410,7 +4494,7 @@
     {
       "key": "spr:-3887603759938907568",
       "name": "objects1_19",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         393.0,
@@ -4429,7 +4513,7 @@
     {
       "key": "spr:-3889430111792677644",
       "name": "objects4_84",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         474.0,
@@ -4467,7 +4551,7 @@
     {
       "key": "spr:-3951964049186097519",
       "name": "weapons_72",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         95.0,
@@ -4486,7 +4570,7 @@
     {
       "key": "spr:-395590326788805571",
       "name": "w806",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -4676,7 +4760,7 @@
     {
       "key": "spr:-4026845969186315002",
       "name": "weapons_68",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         229.0,
@@ -4695,7 +4779,7 @@
     {
       "key": "spr:-4026891874612251165",
       "name": "f406",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         144.0,
@@ -4733,7 +4817,7 @@
     {
       "key": "spr:-4043858576258045769",
       "name": "objects4_48",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         212.0,
@@ -4809,7 +4893,7 @@
     {
       "key": "spr:-409769835749502993",
       "name": "f101",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         108.0,
@@ -4847,7 +4931,7 @@
     {
       "key": "spr:-4123834045765551331",
       "name": "w101",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         90.0,
@@ -4942,7 +5026,7 @@
     {
       "key": "spr:-4216249976315222940",
       "name": "weapons3_130",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         174.0,
@@ -4961,7 +5045,7 @@
     {
       "key": "spr:-4226039366573176847",
       "name": "objects4_43",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         309.0,
@@ -5018,7 +5102,7 @@
     {
       "key": "spr:-4246948832959033868",
       "name": "objects2_0",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         366.0,
@@ -5094,7 +5178,7 @@
     {
       "key": "spr:-4285590127852892573",
       "name": "w905",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-3440195024763777050",
       "rect": [
         0.0,
@@ -5303,7 +5387,7 @@
     {
       "key": "spr:-4437092918687491732",
       "name": "f805",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -5398,7 +5482,7 @@
     {
       "key": "spr:-4491990415302402847",
       "name": "f801",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         72.0,
@@ -5417,7 +5501,7 @@
     {
       "key": "spr:-4495553419235307133",
       "name": "objects4_77",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         280.0,
@@ -5474,7 +5558,7 @@
     {
       "key": "spr:-4525023969216960",
       "name": "objects4_47",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         287.0,
@@ -5531,7 +5615,7 @@
     {
       "key": "spr:-4556755533558583593",
       "name": "f902",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:1557915781112756586",
       "rect": [
         0.0,
@@ -5664,7 +5748,7 @@
     {
       "key": "spr:-4617219179629165920",
       "name": "objects2_12",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         272.0,
@@ -5987,7 +6071,7 @@
     {
       "key": "spr:-4829964726074813781",
       "name": "objects4_56",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         300.0,
@@ -6063,7 +6147,7 @@
     {
       "key": "spr:-4933302840652645391",
       "name": "w505",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         126.0,
@@ -6101,7 +6185,7 @@
     {
       "key": "spr:-4970262015484161421",
       "name": "objects4_29",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         212.0,
@@ -6120,7 +6204,7 @@
     {
       "key": "spr:-5002748173265394618",
       "name": "f203",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         90.0,
@@ -6139,7 +6223,7 @@
     {
       "key": "spr:-5017444875075331850",
       "name": "weapons3_140",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         41.0,
@@ -6177,7 +6261,7 @@
     {
       "key": "spr:-5030370901376139580",
       "name": "bullet_49",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         0.0,
@@ -6215,7 +6299,7 @@
     {
       "key": "spr:-5034211534238411150",
       "name": "f503",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         0.0,
@@ -6234,7 +6318,7 @@
     {
       "key": "spr:-5038618021756370057",
       "name": "w302",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         0.0,
@@ -6386,7 +6470,7 @@
     {
       "key": "spr:-5132746274202686867",
       "name": "objects4_10",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         416.0,
@@ -6519,7 +6603,7 @@
     {
       "key": "spr:-521942579647225706",
       "name": "objects4_80",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         478.0,
@@ -6671,7 +6755,7 @@
     {
       "key": "spr:-5336891632797937806",
       "name": "weapons2_106",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         58.0,
@@ -6823,7 +6907,7 @@
     {
       "key": "spr:-5407054835454108212",
       "name": "f704",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         108.0,
@@ -6975,7 +7059,7 @@
     {
       "key": "spr:-5543071371819145316",
       "name": "f606",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         198.0,
@@ -7127,7 +7211,7 @@
     {
       "key": "spr:-56204154951370240",
       "name": "w703",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         144.0,
@@ -7260,7 +7344,7 @@
     {
       "key": "spr:-5723607748549985485",
       "name": "w503",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         90.0,
@@ -7317,7 +7401,7 @@
     {
       "key": "spr:-5758671853983266651",
       "name": "thunder 1_0",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:1541943556708260529",
       "rect": [
         928.0267333984375,
@@ -7355,7 +7439,7 @@
     {
       "key": "spr:-5821060473788040197",
       "name": "bullet_48",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         945.0,
@@ -7450,7 +7534,7 @@
     {
       "key": "spr:-587600210770038131",
       "name": "objects4_58",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         0.0,
@@ -7488,7 +7572,7 @@
     {
       "key": "spr:-5912487356167894583",
       "name": "w807",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         72.0,
@@ -7545,7 +7629,7 @@
     {
       "key": "spr:-594635548390245920",
       "name": "w508",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         108.0,
@@ -7564,7 +7648,7 @@
     {
       "key": "spr:-5982950721296172035",
       "name": "objects2_1",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         69.0,
@@ -7602,7 +7686,7 @@
     {
       "key": "spr:-6041975321720655122",
       "name": "f103",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         72.0,
@@ -7697,7 +7781,7 @@
     {
       "key": "spr:-610643274832187158",
       "name": "objects1_35",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         195.0,
@@ -8001,7 +8085,7 @@
     {
       "key": "spr:-632470869537630125",
       "name": "bullet_110",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         993.0,
@@ -8134,7 +8218,7 @@
     {
       "key": "spr:-6434726107710190402",
       "name": "f912",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:9031724067842302086",
       "rect": [
         0.0,
@@ -8267,7 +8351,7 @@
     {
       "key": "spr:-6605824960345776390",
       "name": "objects4_44",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         402.0,
@@ -8419,7 +8503,7 @@
     {
       "key": "spr:-6723707316812851996",
       "name": "weapons2_75",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         141.0,
@@ -8457,7 +8541,7 @@
     {
       "key": "spr:-6762363580858094647",
       "name": "w804",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         144.0,
@@ -8552,7 +8636,7 @@
     {
       "key": "spr:-68017957643712955",
       "name": "objects4_78",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         290.0,
@@ -8666,7 +8750,7 @@
     {
       "key": "spr:-6870648939686488986",
       "name": "weapons_70",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         200.0,
@@ -8704,7 +8788,7 @@
     {
       "key": "spr:-689953986391264733",
       "name": "f301",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         198.0,
@@ -8856,7 +8940,7 @@
     {
       "key": "spr:-7009494588311467953",
       "name": "objects4_70",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         266.0,
@@ -8989,7 +9073,7 @@
     {
       "key": "spr:-7063179354741401074",
       "name": "f701",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -9122,7 +9206,7 @@
     {
       "key": "spr:-7202276376141507721",
       "name": "objects4_49",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         320.0,
@@ -9274,7 +9358,7 @@
     {
       "key": "spr:-7320847303155099842",
       "name": "f306",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         54.0,
@@ -9521,7 +9605,7 @@
     {
       "key": "spr:-7524528572635230680",
       "name": "effect_08_31",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         483.07611083984375,
@@ -9597,7 +9681,7 @@
     {
       "key": "spr:-7561562784330837055",
       "name": "w903",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-345151061168037000",
       "rect": [
         0.0,
@@ -9673,7 +9757,7 @@
     {
       "key": "spr:-7632914224821609592",
       "name": "w805",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         0.0,
@@ -9768,7 +9852,7 @@
     {
       "key": "spr:-7731046724419048978",
       "name": "f601",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         144.0,
@@ -9901,7 +9985,7 @@
     {
       "key": "spr:-7825350143676816038",
       "name": "w404",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         0.0,
@@ -9939,7 +10023,7 @@
     {
       "key": "spr:-7865627508184139142",
       "name": "w802",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         108.0,
@@ -10110,7 +10194,7 @@
     {
       "key": "spr:-7991901473037313641",
       "name": "objects4_72",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         295.0,
@@ -10148,7 +10232,7 @@
     {
       "key": "spr:-8002062403298337838",
       "name": "w801",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         162.0,
@@ -10167,7 +10251,7 @@
     {
       "key": "spr:-800674459989925609",
       "name": "w301",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         72.0,
@@ -10243,7 +10327,7 @@
     {
       "key": "spr:-8056323760431854029",
       "name": "f505",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         18.0,
@@ -10281,7 +10365,7 @@
     {
       "key": "spr:-8067448093080777534",
       "name": "objects1_32",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         254.0,
@@ -10376,7 +10460,7 @@
     {
       "key": "spr:-8168046925668281041",
       "name": "effect_axe_ice_2",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:4699608564152035255",
       "rect": [
         40.07611846923828,
@@ -10395,7 +10479,7 @@
     {
       "key": "spr:-8194832056667516831",
       "name": "objects4_86",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         371.0,
@@ -10433,7 +10517,7 @@
     {
       "key": "spr:-8213880749039728376",
       "name": "texture_c5",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7412614709012982549",
       "rect": [
         70.0,
@@ -10547,7 +10631,7 @@
     {
       "key": "spr:-8345606996420190267",
       "name": "f204",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         54.0,
@@ -10604,7 +10688,7 @@
     {
       "key": "spr:-8434174113933781564",
       "name": "weapons3_108",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         344.0,
@@ -10623,7 +10707,7 @@
     {
       "key": "spr:-8437295402188293449",
       "name": "f904",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-953977218417075232",
       "rect": [
         0.0,
@@ -10718,7 +10802,7 @@
     {
       "key": "spr:-8477392390629352525",
       "name": "f201",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -10775,7 +10859,7 @@
     {
       "key": "spr:-848970431230786148",
       "name": "objects4_54",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         110.0,
@@ -10946,7 +11030,7 @@
     {
       "key": "spr:-8715371025247810958",
       "name": "f705",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         198.0,
@@ -10984,7 +11068,7 @@
     {
       "key": "spr:-8735730654345214641",
       "name": "objects4_38",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         318.0,
@@ -11079,7 +11163,7 @@
     {
       "key": "spr:-8773247012343305203",
       "name": "w406",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         126.0,
@@ -11117,7 +11201,7 @@
     {
       "key": "spr:-8815696226756703393",
       "name": "bullet2_22",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         400.0,
@@ -11193,7 +11277,7 @@
     {
       "key": "spr:-8831311374045918667",
       "name": "objects4_73",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         119.0,
@@ -11231,7 +11315,7 @@
     {
       "key": "spr:-885745039736529902",
       "name": "objects2_55",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         460.0,
@@ -11250,7 +11334,7 @@
     {
       "key": "spr:-886192237305031227",
       "name": "objects1_25",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         456.0,
@@ -11326,7 +11410,7 @@
     {
       "key": "spr:-8981098658749187836",
       "name": "f602",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         126.0,
@@ -11345,7 +11429,7 @@
     {
       "key": "spr:-8988389368477032822",
       "name": "w201",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         54.0,
@@ -11497,7 +11581,7 @@
     {
       "key": "spr:-9068812245608293694",
       "name": "box01",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         54.0,
@@ -11649,7 +11733,7 @@
     {
       "key": "spr:-930133120529433484",
       "name": "f403",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         162.0,
@@ -11668,7 +11752,7 @@
     {
       "key": "spr:-93123199508496934",
       "name": "objects4_13",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         402.0,
@@ -11839,7 +11923,7 @@
     {
       "key": "spr:1105488208627959286",
       "name": "bullet2_2",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         507.0,
@@ -11953,7 +12037,7 @@
     {
       "key": "spr:1230212141245168480",
       "name": "weapons4_42",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:6364077752768854847",
       "rect": [
         108.0,
@@ -11972,7 +12056,7 @@
     {
       "key": "spr:1255752870506251281",
       "name": "objects5_25",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         18.0,
@@ -12048,7 +12132,7 @@
     {
       "key": "spr:1305614445132837451",
       "name": "w304",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         72.0,
@@ -12181,7 +12265,7 @@
     {
       "key": "spr:1449842174399554820",
       "name": "w808",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         198.0,
@@ -12333,7 +12417,7 @@
     {
       "key": "spr:1573965675458367639",
       "name": "objects4_81",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         393.0,
@@ -12371,7 +12455,7 @@
     {
       "key": "spr:1621586793649580605",
       "name": "f903",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-8989119030688471403",
       "rect": [
         0.0,
@@ -12485,7 +12569,7 @@
     {
       "key": "spr:1696032096758110322",
       "name": "weapons3_36",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         0.0,
@@ -12618,7 +12702,7 @@
     {
       "key": "spr:1786193344351348751",
       "name": "f501",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         108.0,
@@ -12637,7 +12721,7 @@
     {
       "key": "spr:1786722115203236477",
       "name": "objects4_55",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         366.0,
@@ -12675,7 +12759,7 @@
     {
       "key": "spr:1827681857348604616",
       "name": "w403",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         216.0,
@@ -12694,7 +12778,7 @@
     {
       "key": "spr:1863173223853418318",
       "name": "objects4_76",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         363.0,
@@ -12808,7 +12892,7 @@
     {
       "key": "spr:1982830449717332343",
       "name": "bullet2_18",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         115.0,
@@ -12884,7 +12968,7 @@
     {
       "key": "spr:2069232415831379212",
       "name": "c02_9",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:6092784074628815488",
       "rect": [
         807.0267333984375,
@@ -12960,7 +13044,7 @@
     {
       "key": "spr:2139257096082568237",
       "name": "sandbox_objects_8",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-8465473729473640669",
       "rect": [
         69.0,
@@ -12998,7 +13082,7 @@
     {
       "key": "spr:2145013445196991046",
       "name": "f504",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         126.0,
@@ -13017,7 +13101,7 @@
     {
       "key": "spr:2146049364543751087",
       "name": "objects1_30",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         148.0,
@@ -13321,7 +13405,7 @@
     {
       "key": "spr:2458183083839137439",
       "name": "w408",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         234.0,
@@ -13454,7 +13538,7 @@
     {
       "key": "spr:2559372283693603799",
       "name": "w407",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         144.0,
@@ -13511,7 +13595,7 @@
     {
       "key": "spr:2603485249211759521",
       "name": "objects4_9",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         416.0,
@@ -13720,7 +13804,7 @@
     {
       "key": "spr:2766157651717930402",
       "name": "s04",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:7666789504187446014",
       "rect": [
         60.01291275024414,
@@ -13929,7 +14013,7 @@
     {
       "key": "spr:2899547509042081084",
       "name": "f908",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-6539033376025204084",
       "rect": [
         0.0,
@@ -14081,7 +14165,7 @@
     {
       "key": "spr:2988620280429377804",
       "name": "objects2_34",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         202.0,
@@ -14138,7 +14222,7 @@
     {
       "key": "spr:302051421176468016",
       "name": "bullet2_27",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         982.0,
@@ -14252,7 +14336,7 @@
     {
       "key": "spr:3103474514659586691",
       "name": "f502",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         0.0,
@@ -14290,7 +14374,7 @@
     {
       "key": "spr:3126070859855049294",
       "name": "weapons3_162",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         367.0,
@@ -14328,7 +14412,7 @@
     {
       "key": "spr:312888755048254352",
       "name": "objects4_39",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         254.0,
@@ -14423,7 +14507,7 @@
     {
       "key": "spr:3223000434918385684",
       "name": "w402",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         54.0,
@@ -14518,7 +14602,7 @@
     {
       "key": "spr:3290983099118619754",
       "name": "objects4_83",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         395.0,
@@ -14822,7 +14906,7 @@
     {
       "key": "spr:3547123057356087647",
       "name": "f304",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -14917,7 +15001,7 @@
     {
       "key": "spr:3638993070498056944",
       "name": "weapons2_14",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         118.0,
@@ -15050,7 +15134,7 @@
     {
       "key": "spr:3706973875199817049",
       "name": "weapons_74",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         94.0,
@@ -15544,7 +15628,7 @@
     {
       "key": "spr:3999857037097653446",
       "name": "f914",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:2420541330578861774",
       "rect": [
         0.0,
@@ -15639,7 +15723,7 @@
     {
       "key": "spr:4081822940650708461",
       "name": "weapons3_62",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         314.0,
@@ -15658,7 +15742,7 @@
     {
       "key": "spr:4082226680943326570",
       "name": "f402",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         90.0,
@@ -15734,7 +15818,7 @@
     {
       "key": "spr:4184573884255743047",
       "name": "objects4_89",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         320.0,
@@ -15791,7 +15875,7 @@
     {
       "key": "spr:4258674030755791572",
       "name": "objects1_31",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         298.0,
@@ -15829,7 +15913,7 @@
     {
       "key": "spr:4278788510787372188",
       "name": "f706",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         54.0,
@@ -15905,7 +15989,7 @@
     {
       "key": "spr:4326109709560414507",
       "name": "w704",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         18.0,
@@ -15924,7 +16008,7 @@
     {
       "key": "spr:4357977433643142121",
       "name": "objects2_69",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         118.0,
@@ -15943,7 +16027,7 @@
     {
       "key": "spr:4381636857265109862",
       "name": "objects4_30",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         69.0,
@@ -16000,7 +16084,7 @@
     {
       "key": "spr:4435750390355162858",
       "name": "f910",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:7178151260153528060",
       "rect": [
         0.0,
@@ -16152,7 +16236,7 @@
     {
       "key": "spr:4590472448002379470",
       "name": "objects4_85",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         130.0,
@@ -16247,7 +16331,7 @@
     {
       "key": "spr:4668594951341927071",
       "name": "box02",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         108.0,
@@ -16285,7 +16369,7 @@
     {
       "key": "spr:4705366188981859163",
       "name": "objects5_31",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         56.0,
@@ -16380,7 +16464,7 @@
     {
       "key": "spr:4731965086381496325",
       "name": "f506",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         144.0,
@@ -16513,7 +16597,7 @@
     {
       "key": "spr:4931188858857698146",
       "name": "objects2_62",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         280.0,
@@ -16627,7 +16711,7 @@
     {
       "key": "spr:5061056566123933055",
       "name": "f205",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         162.0,
@@ -16646,7 +16730,7 @@
     {
       "key": "spr:5063219723633813926",
       "name": "objects2_39",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         149.0,
@@ -16665,7 +16749,7 @@
     {
       "key": "spr:5068983567063010848",
       "name": "f804",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         18.0,
@@ -16722,7 +16806,7 @@
     {
       "key": "spr:5107610290217013516",
       "name": "objects4_42",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         88.0,
@@ -16779,7 +16863,7 @@
     {
       "key": "spr:5141757433022444577",
       "name": "f202",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         180.0,
@@ -17311,7 +17395,7 @@
     {
       "key": "spr:5474678946748341709",
       "name": "w103",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         162.0,
@@ -17349,7 +17433,7 @@
     {
       "key": "spr:5492153448223306408",
       "name": "objects1_27",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         423.0,
@@ -17444,7 +17528,7 @@
     {
       "key": "spr:5543585938873427757",
       "name": "objects4_47_2",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         235.0,
@@ -17577,7 +17661,7 @@
     {
       "key": "spr:5655872073454642837",
       "name": "weapons3_48",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         92.0,
@@ -17596,7 +17680,7 @@
     {
       "key": "spr:5656402357190427458",
       "name": "f102",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         90.0,
@@ -17615,7 +17699,7 @@
     {
       "key": "spr:56590294994459998",
       "name": "objects4_50",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         378.0,
@@ -17767,7 +17851,7 @@
     {
       "key": "spr:5739322844774051543",
       "name": "effect_axe_2",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         764.0761108398438,
@@ -17976,7 +18060,7 @@
     {
       "key": "spr:5853217288378244950",
       "name": "weapons_80",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         214.0,
@@ -18166,7 +18250,7 @@
     {
       "key": "spr:6019585493145319311",
       "name": "objects1_85",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         148.0,
@@ -18432,7 +18516,7 @@
     {
       "key": "spr:6297618066067390927",
       "name": "w507",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         18.0,
@@ -18546,7 +18630,7 @@
     {
       "key": "spr:6366337276132665279",
       "name": "w303",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         180.0,
@@ -18603,7 +18687,7 @@
     {
       "key": "spr:6396439606166069223",
       "name": "w604",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         90.0,
@@ -18850,7 +18934,7 @@
     {
       "key": "spr:6570335470785523057",
       "name": "f909",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-302813689397231781",
       "rect": [
         0.0,
@@ -18907,7 +18991,7 @@
     {
       "key": "spr:6613594676473980411",
       "name": "w901",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5344871218917797024",
       "rect": [
         0.0,
@@ -18964,7 +19048,7 @@
     {
       "key": "spr:667643445799344204",
       "name": "f104",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         180.0,
@@ -19002,7 +19086,7 @@
     {
       "key": "spr:6719916285699066084",
       "name": "f911",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:7714474747321316396",
       "rect": [
         0.0,
@@ -19059,7 +19143,7 @@
     {
       "key": "spr:6779088818188914228",
       "name": "objects4_57",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         424.0,
@@ -19078,7 +19162,7 @@
     {
       "key": "spr:6781355902440180674",
       "name": "w702",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         72.0,
@@ -19192,7 +19276,7 @@
     {
       "key": "spr:6866018284932723691",
       "name": "objects2_49",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         336.0,
@@ -19249,7 +19333,7 @@
     {
       "key": "spr:692634308014998532",
       "name": "f405",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -19306,7 +19390,7 @@
     {
       "key": "spr:696339930474159695",
       "name": "objects1_86",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         123.0,
@@ -19401,7 +19485,7 @@
     {
       "key": "spr:7049640333416247019",
       "name": "objects4_26",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         156.0,
@@ -19439,7 +19523,7 @@
     {
       "key": "spr:7074230475735139295",
       "name": "objects2_32",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         332.0,
@@ -19477,7 +19561,7 @@
     {
       "key": "spr:7090173671643476970",
       "name": "objects2_63",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         114.0,
@@ -19553,7 +19637,7 @@
     {
       "key": "spr:7131617246352333207",
       "name": "f603",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         144.0,
@@ -19686,7 +19770,7 @@
     {
       "key": "spr:732966090086080213",
       "name": "objects1_14",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         472.0,
@@ -19762,7 +19846,7 @@
     {
       "key": "spr:7370095397462445743",
       "name": "f702",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         162.0,
@@ -19838,7 +19922,7 @@
     {
       "key": "spr:742454887917159332",
       "name": "objects4_49_2",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         407.0,
@@ -19952,7 +20036,7 @@
     {
       "key": "spr:7504353924892807493",
       "name": "sandbox_objects_1",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-8465473729473640669",
       "rect": [
         1.0,
@@ -20066,7 +20150,7 @@
     {
       "key": "spr:7568511455405619873",
       "name": "f105",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         18.0,
@@ -20218,7 +20302,7 @@
     {
       "key": "spr:7715290467381574327",
       "name": "f803",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         234.0,
@@ -20294,7 +20378,7 @@
     {
       "key": "spr:7761694316470033303",
       "name": "w506",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         72.0,
@@ -20313,7 +20397,7 @@
     {
       "key": "spr:7804809456702493239",
       "name": "bullet_104",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         536.0,
@@ -20351,7 +20435,7 @@
     {
       "key": "spr:7833083595477992631",
       "name": "w904",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7018625042715222577",
       "rect": [
         0.0,
@@ -20370,7 +20454,7 @@
     {
       "key": "spr:78513698090495338",
       "name": "objects4_52",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         355.0,
@@ -20427,7 +20511,7 @@
     {
       "key": "spr:7864725018584453806",
       "name": "objects4_74",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         272.0,
@@ -20503,7 +20587,7 @@
     {
       "key": "spr:7913242108194984845",
       "name": "objects4_87",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         373.0,
@@ -20522,7 +20606,7 @@
     {
       "key": "spr:7939234780596279434",
       "name": "objects4_62",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         166.0,
@@ -20579,7 +20663,7 @@
     {
       "key": "spr:8008280191642915535",
       "name": "bullet2_19",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-304717225150204165",
       "rect": [
         341.0,
@@ -20617,7 +20701,7 @@
     {
       "key": "spr:8045471146565222075",
       "name": "w202",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         216.0,
@@ -20655,7 +20739,7 @@
     {
       "key": "spr:8063297996184458436",
       "name": "w102",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         180.0,
@@ -20712,7 +20796,7 @@
     {
       "key": "spr:8127141082885164778",
       "name": "f206",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         126.0,
@@ -20750,7 +20834,7 @@
     {
       "key": "spr:8134989482122046704",
       "name": "f901",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-1602162045706824359",
       "rect": [
         0.0,
@@ -20788,7 +20872,7 @@
     {
       "key": "spr:8150545166496184133",
       "name": "objects4_59",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         425.0,
@@ -20807,7 +20891,7 @@
     {
       "key": "spr:8152942427751999663",
       "name": "f703",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         90.0,
@@ -20921,7 +21005,7 @@
     {
       "key": "spr:8246557519485186545",
       "name": "objects1_28",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         330.0,
@@ -20940,7 +21024,7 @@
     {
       "key": "spr:8250095503982608753",
       "name": "weapons3_59",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:-7138671102567859681",
       "rect": [
         416.0,
@@ -21035,7 +21119,7 @@
     {
       "key": "spr:830087357337855015",
       "name": "objects4_88",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         225.0,
@@ -21111,7 +21195,7 @@
     {
       "key": "spr:8352870227497738062",
       "name": "objects1_26",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         326.0,
@@ -21130,7 +21214,7 @@
     {
       "key": "spr:835845866584496707",
       "name": "objects4_48_2",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         31.0,
@@ -21206,7 +21290,7 @@
     {
       "key": "spr:8384987052813598432",
       "name": "f404",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         126.0,
@@ -21282,7 +21366,7 @@
     {
       "key": "spr:8437221800164395787",
       "name": "w203",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         54.0,
@@ -21301,7 +21385,7 @@
     {
       "key": "spr:8441396244303079331",
       "name": "objects4_63",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         238.0,
@@ -21339,7 +21423,7 @@
     {
       "key": "spr:850745456718645216",
       "name": "w603",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         0.0,
@@ -21358,7 +21442,7 @@
     {
       "key": "spr:8533014963534542141",
       "name": "objects1_9",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         477.0,
@@ -21624,7 +21708,7 @@
     {
       "key": "spr:8792852382479474563",
       "name": "objects4_75",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         64.0,
@@ -21795,7 +21879,7 @@
     {
       "key": "spr:8909231305608317842",
       "name": "w701",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         36.0,
@@ -21814,7 +21898,7 @@
     {
       "key": "spr:8911617222072829089",
       "name": "objects2_38",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         230.0,
@@ -22004,7 +22088,7 @@
     {
       "key": "spr:9100809873536872325",
       "name": "f401",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:5467841708608453938",
       "rect": [
         198.0,
@@ -22232,7 +22316,7 @@
     {
       "key": "spr:990812075264473175",
       "name": "objects4_82",
-      "scene": "r1_100_visual",
+      "scene": "hero_room",
       "texture_key": "tex:8607965889740011037",
       "rect": [
         447.0,
@@ -22283,25 +22367,6 @@
         0.5
       ],
       "ppu": 1.0,
-      "source_name": "",
-      "status": "included"
-    },
-    {
-      "key": "spr:hero_room:hub_floor_tile4_sprite",
-      "name": "hub_floor_tile4_sprite",
-      "scene": "hero_room",
-      "texture_key": "tex:hub_floor_tile4",
-      "rect": [
-        0.0,
-        0.0,
-        64.0,
-        64.0
-      ],
-      "pivot": [
-        0.5,
-        0.5
-      ],
-      "ppu": 15.800000190734863,
       "source_name": "",
       "status": "included"
     },
@@ -27626,6 +27691,2115 @@
       "status": "included"
     },
     {
+      "key": "spr:item:plant_banboo_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_banboo_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_banboo_state_1",
+      "name": "weapons2_112",
+      "scene": "items",
+      "texture_key": "tex:item_m7138671102567859681",
+      "rect": [
+        64.0,
+        101.0,
+        33.0,
+        4.0
+      ],
+      "pivot": [
+        0.25,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_112",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_banboo_state_2",
+      "name": "weapons2_112",
+      "scene": "items",
+      "texture_key": "tex:item_m7138671102567859681",
+      "rect": [
+        64.0,
+        101.0,
+        33.0,
+        4.0
+      ],
+      "pivot": [
+        0.25,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_112",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_banboo_state_3",
+      "name": "weapons2_112",
+      "scene": "items",
+      "texture_key": "tex:item_m7138671102567859681",
+      "rect": [
+        64.0,
+        101.0,
+        33.0,
+        4.0
+      ],
+      "pivot": [
+        0.25,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_112",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_binary_tree_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_binary_tree_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_binary_tree_state_1",
+      "name": "objects_plants_28",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        215.0,
+        114.0,
+        29.0,
+        33.0
+      ],
+      "pivot": [
+        0.4832000732421875,
+        0.012812064960598946
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_28",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_cactus_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_cactus_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_cactus_state_1",
+      "name": "objects_plants_4",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        130.0,
+        30.0,
+        15.0,
+        23.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_cactus_state_2",
+      "name": "objects_plants_4",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        130.0,
+        30.0,
+        15.0,
+        23.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_4",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_cactus_state_3",
+      "name": "objects_plants_5",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        152.0,
+        25.0,
+        15.0,
+        28.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_carrot_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_carrot_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_carrot_state_1",
+      "name": "weapons2_101",
+      "scene": "items",
+      "texture_key": "tex:item_m7138671102567859681",
+      "rect": [
+        139.0,
+        255.0,
+        19.0,
+        11.0
+      ],
+      "pivot": [
+        0.23999999463558197,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_101",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_state_1",
+      "name": "objects_plants_2",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_state_2",
+      "name": "objects_plants_2",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_state_3",
+      "name": "objects_plants_2",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_state_4",
+      "name": "objects_plants_2",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_state_5",
+      "name": "objects_plants_2",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_state_6",
+      "name": "objects_plants_2",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_datura_state_7",
+      "name": "objects_plants_2",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        1.0,
+        25.0,
+        31.0,
+        26.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_2",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_defend_flower_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_defend_flower_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_defend_flower_state_1",
+      "name": "objects_plants_25",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        159.0,
+        117.0,
+        15.0,
+        20.0
+      ],
+      "pivot": [
+        0.5,
+        0.006794738583266735
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_25",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_dragon_tree_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_dragon_tree_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_dragon_tree_state_1",
+      "name": "objects_plants_6",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        177.0,
+        13.0,
+        31.0,
+        42.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_dragon_tree_state_2",
+      "name": "objects_plants_6",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        177.0,
+        13.0,
+        31.0,
+        42.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_dragon_tree_state_3",
+      "name": "objects_plants_6",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        177.0,
+        13.0,
+        31.0,
+        42.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_dragon_tree_state_4",
+      "name": "objects_plants_7",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        210.0,
+        11.0,
+        37.0,
+        45.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_7",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_eator_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_eator_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_fantastic_flower_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_fantastic_flower_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_fantastic_flower_state_1",
+      "name": "objects_plants_26",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        179.0,
+        114.0,
+        29.0,
+        23.0
+      ],
+      "pivot": [
+        0.36439988017082214,
+        0.06356413662433624
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_26",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_fertilizer_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_fertilizer_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_fertilizer_state_1",
+      "name": "enemy20_5",
+      "scene": "items",
+      "texture_key": "tex:item_m4620619860993591283",
+      "rect": [
+        453.0267639160156,
+        282.0761203765869,
+        24.89712905883789,
+        23.923879623413086
+      ],
+      "pivot": [
+        0.5210740361837413,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "enemy20_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gear_flower_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gear_flower_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gear_flower_state_1",
+      "name": "objects_plants_11",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        80.0,
+        81.0,
+        18.0,
+        26.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_11",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_flower_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_flower_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_flower_state_1",
+      "name": "objects_plants_10",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        50.0,
+        80.0,
+        18.0,
+        27.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_10",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_tree_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_tree_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_tree_state_1",
+      "name": "objects_plants_12",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        107.0,
+        67.0,
+        31.0,
+        42.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_12",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_tree_state_2",
+      "name": "objects_plants_12",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        107.0,
+        67.0,
+        31.0,
+        42.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_12",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_tree_state_3",
+      "name": "objects_plants_12",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        107.0,
+        67.0,
+        31.0,
+        42.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_12",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_gem_tree_state_4",
+      "name": "objects_plants_13",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        144.0,
+        63.0,
+        39.0,
+        46.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_13",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_heptacolor_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_heptacolor_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_heptacolor_state_1",
+      "name": "objects_plants_9",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        28.0,
+        86.0,
+        12.0,
+        16.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_9",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_iron_tree_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_iron_tree_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_iron_tree_state_1",
+      "name": "objects_plants_16",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        7.0,
+        120.0,
+        18.0,
+        42.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_16",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_magic_flower_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_magic_flower_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_magic_flower_state_1",
+      "name": "objects_plants_15",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        219.0,
+        84.0,
+        15.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_15",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_magic_flower_state_2",
+      "name": "objects_plants_15",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        219.0,
+        84.0,
+        15.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_15",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_magic_flower_state_3",
+      "name": "objects_plants_14",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        191.0,
+        84.0,
+        20.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_14",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mandrake_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mandrake_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mandrake_state_1",
+      "name": "objects_plants_18",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        4.0,
+        72.0,
+        15.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_18",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mandrake_state_2",
+      "name": "objects_plants_8",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        3.0,
+        84.0,
+        15.0,
+        20.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_8",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mirror_plane_flower_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mirror_plane_flower_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mirror_plane_flower_state_1",
+      "name": "objects_plants_24",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        135.0,
+        119.0,
+        16.0,
+        18.0
+      ],
+      "pivot": [
+        0.5309915542602539,
+        0.059230804443359375
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_24",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mushroom_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mushroom_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mushroom_state_1",
+      "name": "objects_plants_22",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        86.0,
+        153.0,
+        25.0,
+        9.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_22",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_mushroom_state_2",
+      "name": "objects_plants_21",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        86.0,
+        119.0,
+        25.0,
+        18.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_21",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_pumpkin_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_pumpkin_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_pumpkin_state_1",
+      "name": "pumpkin_0",
+      "scene": "items",
+      "texture_key": "tex:item_m4820807134199446665",
+      "rect": [
+        16.026750564575195,
+        29.076122283935547,
+        30.946496963500977,
+        27.880970001220703
+      ],
+      "pivot": [
+        0.5161569483700863,
+        0.1605788013373962
+      ],
+      "ppu": 16.0,
+      "source_name": "pumpkin_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_radar_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_radar_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_radar_state_1",
+      "name": "radar16x16_8",
+      "scene": "items",
+      "texture_key": "tex:item_m5174023652194094582",
+      "rect": [
+        2.0,
+        35.0,
+        12.0,
+        12.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "radar16x16_8",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_shallot_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_shallot_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_shallot_state_1",
+      "name": "weapons_97",
+      "scene": "items",
+      "texture_key": "tex:item_m7138671102567859681",
+      "rect": [
+        235.0,
+        173.0,
+        23.0,
+        5.0
+      ],
+      "pivot": [
+        0.20000000298023224,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons_97",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_strange_flower_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_strange_flower_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_strange_flower_state_1",
+      "name": "objects_plants_23",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        114.0,
+        118.0,
+        16.0,
+        19.0
+      ],
+      "pivot": [
+        0.4793391227722168,
+        0.021533764898777008
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_23",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_tree_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_tree_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_tree_state_1",
+      "name": "objects_plants_17",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        35.0,
+        119.0,
+        16.0,
+        45.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_17",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_tree_state_2",
+      "name": "objects_plants_17",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        35.0,
+        119.0,
+        16.0,
+        45.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_17",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_tree_state_3",
+      "name": "objects_plants_17",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        35.0,
+        119.0,
+        16.0,
+        45.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_17",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_trumpet_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_trumpet_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_trumpet_state_1",
+      "name": "enemy20_5",
+      "scene": "items",
+      "texture_key": "tex:item_m4620619860993591283",
+      "rect": [
+        453.0267639160156,
+        282.0761203765869,
+        24.89712905883789,
+        23.923879623413086
+      ],
+      "pivot": [
+        0.5210740361837413,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "enemy20_5",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_vine_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_vine_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_vine_state_1",
+      "name": "weapons2_109",
+      "scene": "items",
+      "texture_key": "tex:item_m7138671102567859681",
+      "rect": [
+        390.0,
+        433.0,
+        28.0,
+        10.0
+      ],
+      "pivot": [
+        0.20000000298023224,
+        0.3499999940395355
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_109",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_watermelon_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_watermelon_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_watermelon_state_1",
+      "name": "objects_plants_27",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        114.0,
+        144.0,
+        31.0,
+        16.0
+      ],
+      "pivot": [
+        0.4974099397659302,
+        0.02323293685913086
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_27",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_worm_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_worm_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_worm_state_1",
+      "name": "objects_plants_20",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        58.0,
+        151.0,
+        24.0,
+        10.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_20",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_worm_state_2",
+      "name": "objects_plants_20",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        58.0,
+        151.0,
+        24.0,
+        10.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_20",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_worm_state_3",
+      "name": "objects_plants_19",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        58.0,
+        118.0,
+        24.0,
+        19.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_19",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_xmas_seed_icon",
+      "name": "objects_pickable_6",
+      "scene": "items",
+      "texture_key": "tex:item_m1240183975920528313",
+      "rect": [
+        181.0,
+        133.0,
+        16.0,
+        17.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_pickable_6",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_xmas_state_0",
+      "name": "objects_plants_0",
+      "scene": "items",
+      "texture_key": "tex:item_2711485867076183493",
+      "rect": [
+        11.0,
+        4.0,
+        16.0,
+        7.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects_plants_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_xmas_state_1",
+      "name": "weapons2_82",
+      "scene": "items",
+      "texture_key": "tex:item_m7138671102567859681",
+      "rect": [
+        58.0,
+        299.0,
+        31.0,
+        15.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.4699999988079071
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_82",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:plant_xmas_state_2",
+      "name": "weapons2_82",
+      "scene": "items",
+      "texture_key": "tex:item_m7138671102567859681",
+      "rect": [
+        58.0,
+        299.0,
+        31.0,
+        15.0
+      ],
+      "pivot": [
+        0.30000001192092896,
+        0.4699999988079071
+      ],
+      "ppu": 16.0,
+      "source_name": "weapons2_82",
+      "status": "included"
+    },
+    {
       "key": "spr:item:portal_frame0",
       "name": "gate_02_0",
       "scene": "items",
@@ -27775,6 +29949,82 @@
       ],
       "ppu": 16.0,
       "source_name": "objects_common_37",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:seller_counter",
+      "name": "seller_counter",
+      "scene": "items",
+      "texture_key": "tex:item_seller_counter",
+      "rect": [
+        0.0,
+        92.0,
+        18.0,
+        15.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:seller_npc_body",
+      "name": "seller_npc_body",
+      "scene": "items",
+      "texture_key": "tex:item_seller_npc_body",
+      "rect": [
+        226.02674865722656,
+        480.0761203765869,
+        29.93696403503418,
+        31.923879623413086
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:seller_npc_shadow",
+      "name": "seller_npc_shadow",
+      "scene": "items",
+      "texture_key": "tex:item_seller_npc_shadow",
+      "rect": [
+        0.07612037658691406,
+        15.026751041412354,
+        23.847759246826172,
+        6.9732489585876465
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "",
+      "status": "included"
+    },
+    {
+      "key": "spr:item:seller_pedestal",
+      "name": "seller_pedestal",
+      "scene": "items",
+      "texture_key": "tex:item_seller_pedestal",
+      "rect": [
+        0.0,
+        46.0,
+        29.0,
+        25.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "",
       "status": "included"
     },
     {
@@ -108280,15 +110530,15 @@
     },
     {
       "type": "texture",
-      "key": "tex:hub_floor_tile4"
-    },
-    {
-      "type": "texture",
       "key": "tex:item_1152304610094628773"
     },
     {
       "type": "texture",
       "key": "tex:item_2171739766242525964"
+    },
+    {
+      "type": "texture",
+      "key": "tex:item_2711485867076183493"
     },
     {
       "type": "texture",
@@ -108320,7 +110570,35 @@
     },
     {
       "type": "texture",
+      "key": "tex:item_m4620619860993591283"
+    },
+    {
+      "type": "texture",
+      "key": "tex:item_m4820807134199446665"
+    },
+    {
+      "type": "texture",
+      "key": "tex:item_m5174023652194094582"
+    },
+    {
+      "type": "texture",
       "key": "tex:item_m7138671102567859681"
+    },
+    {
+      "type": "texture",
+      "key": "tex:item_seller_counter"
+    },
+    {
+      "type": "texture",
+      "key": "tex:item_seller_npc_body"
+    },
+    {
+      "type": "texture",
+      "key": "tex:item_seller_npc_shadow"
+    },
+    {
+      "type": "texture",
+      "key": "tex:item_seller_pedestal"
     },
     {
       "type": "texture",
@@ -112840,10 +115118,6 @@
     },
     {
       "type": "sprite",
-      "key": "spr:hero_room:hub_floor_tile4_sprite"
-    },
-    {
-      "type": "sprite",
       "key": "spr:hero_room:hub_spr_1"
     },
     {
@@ -113964,6 +116238,450 @@
     },
     {
       "type": "sprite",
+      "key": "spr:item:plant_banboo_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_banboo_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_banboo_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_banboo_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_banboo_state_3"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_binary_tree_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_binary_tree_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_binary_tree_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_cactus_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_cactus_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_cactus_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_cactus_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_cactus_state_3"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_carrot_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_carrot_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_carrot_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_state_3"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_state_4"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_state_5"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_state_6"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_datura_state_7"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_defend_flower_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_defend_flower_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_defend_flower_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_dragon_tree_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_dragon_tree_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_dragon_tree_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_dragon_tree_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_dragon_tree_state_3"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_dragon_tree_state_4"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_eator_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_eator_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_fantastic_flower_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_fantastic_flower_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_fantastic_flower_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_fertilizer_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_fertilizer_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_fertilizer_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gear_flower_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gear_flower_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gear_flower_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_flower_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_flower_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_flower_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_tree_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_tree_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_tree_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_tree_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_tree_state_3"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_gem_tree_state_4"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_heptacolor_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_heptacolor_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_heptacolor_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_iron_tree_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_iron_tree_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_iron_tree_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_magic_flower_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_magic_flower_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_magic_flower_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_magic_flower_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_magic_flower_state_3"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mandrake_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mandrake_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mandrake_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mandrake_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mirror_plane_flower_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mirror_plane_flower_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mirror_plane_flower_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mushroom_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mushroom_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mushroom_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_mushroom_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_pumpkin_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_pumpkin_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_pumpkin_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_radar_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_radar_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_radar_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_shallot_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_shallot_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_shallot_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_strange_flower_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_strange_flower_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_strange_flower_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_tree_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_tree_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_tree_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_tree_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_tree_state_3"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_trumpet_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_trumpet_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_trumpet_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_vine_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_vine_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_vine_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_watermelon_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_watermelon_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_watermelon_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_worm_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_worm_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_worm_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_worm_state_2"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_worm_state_3"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_xmas_seed_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_xmas_state_0"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_xmas_state_1"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:plant_xmas_state_2"
+    },
+    {
+      "type": "sprite",
       "key": "spr:item:portal_frame0"
     },
     {
@@ -113993,6 +116711,22 @@
     {
       "type": "sprite",
       "key": "spr:item:restore_pot_icon"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:seller_counter"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:seller_npc_body"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:seller_npc_shadow"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:item:seller_pedestal"
     },
     {
       "type": "sprite",

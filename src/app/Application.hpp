@@ -53,6 +53,7 @@
 #include "game/weapons/WeaponRegistry.hpp"
 #include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
+#include "game/room/RoomActivation.hpp"
 #include "game/room/DungeonPlan.hpp"
 #include "game/room/BiomeSystem.hpp"
 #include "game/room/LevelSurface.hpp"
@@ -107,7 +108,7 @@ private:
     void LogViewportContract();
     void ConfigureReviewMode();
     void TeleportForReview(const engine::Vec2& position);
-    bool LoadWorldRooms();
+    bool LoadWorldRooms(std::int32_t seed_override = -2147483647 - 1);
     bool AdvanceDungeonLevel();
     void ConfigureWorldGraph();
     bool SwitchRoom(const std::string& door_id = {});
@@ -165,6 +166,17 @@ private:
     bool TryOpenChest();
     void TryInteract();
     void ConfigureRoomItems();
+    void ConfigureHubGarden();
+    void ConfigureCameraBounds();
+    void DrawPlants();
+    void SaveHubSuggestions() const;
+    void LoadHubSuggestions();
+    bool HandleHubSuggestionEvent(const SDL_Event& event);
+    void DrawHubSuggestionOverlay();
+    void DrawCalibrationOverlay();
+    void OpenMechStation();
+    void CycleMechSelection(int delta);
+    void BuildMech();
     const engine::assets::InteractionMarker* NearbyInteraction() const;
     void SaveGameToDisk();
     void RefreshSaveSummary();
@@ -247,6 +259,40 @@ private:
     float attack_speed_multiplier_ = 1.0f;
     float camera_flash_timer_ = 0.0f;
     bool revive_used_ = false;
+    bool reduced_weapon_effects_ = true;
+    bool living_room_suggestions_ = false;
+
+    soulknight::game::room::RoomActivationState room_activation_state_ =
+        soulknight::game::room::RoomActivationState::Inactive;
+    float room_activation_timer_ = 0.0f;
+    engine::Vec2 room_entry_position_{0.0f, 0.0f};
+
+    struct HubSuggestion {
+        std::string type;
+        engine::Vec2 position{0.0f, 0.0f};
+        engine::Vec2 size{1.0f, 1.0f};
+        std::string note;
+        std::string object_id;
+        double timestamp = 0.0;
+    };
+    std::vector<HubSuggestion> hub_suggestions_;
+    bool suggestion_edit_mode_ = false;
+    bool suggestion_list_visible_ = false;
+    bool suggestion_dragging_ = false;
+    engine::Vec2 suggestion_drag_start_{0.0f, 0.0f};
+    int suggestion_type_index_ = 0;
+    bool suggestion_note_entry_ = false;
+    std::string suggestion_note_buffer_;
+    int suggestion_note_index_ = -1;
+
+    std::string selected_plant_seed_;
+    std::string mech_status_;
+    int mech_selected_ = 0;
+    bool mech_station_open_ = false;
+
+    engine::collision::Aabb camera_bounds_{};
+    bool camera_bounds_valid_ = false;
+    bool calibration_mode_ = false;
     struct BlackHoleState {
         engine::Vec2 position{0.0f, 0.0f};
         float age = 0.0f;
@@ -353,6 +399,7 @@ private:
     engine::Vec2 stake_damage_screen_{0.0f, 0.0f};
     float stake_damage_timer_ = 0.0f;
     unsigned int npc_talk_counter_ = 0;
+    std::unordered_map<std::string, std::size_t> npc_talk_line_;
     std::chrono::steady_clock::time_point last_present_time_{};
     double present_window_sum_ms_ = 0.0;
     double present_window_min_ms_ = 0.0;

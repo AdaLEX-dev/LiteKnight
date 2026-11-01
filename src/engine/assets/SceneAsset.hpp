@@ -33,6 +33,9 @@ struct SpriteInstance {
     bool flip_y = false;
     int32_t sorting_layer = 0;
     int32_t sorting_order = 0;
+    // SpriteRenderer objects authored on ground planes (props/characters)
+    // resolve order from their foot Y. Tilemaps/lights keep static sorting.
+    bool ground_depth = false;
     std::string path; // source hierarchy path, evidence only
     std::string door; // optional recovered door side this leaf belongs to
     std::string door_role; // leaf / shadow / ornament
@@ -420,12 +423,21 @@ struct InteractionMarker {
     std::string speaker;
     std::string text;
     std::string text_alt;
+    std::vector<std::string> talk_lines;
     std::string dialogue_term;
     std::string character_id;
     std::string pet_id;
     int seller_index = -1;
     int price = 0;
     std::string item_id;
+};
+
+// Recovered garden planter slot. Positions come from the HeroRoom land_root
+// transforms; locked is derived from the serialized land lock sprite.
+struct GardenPlot {
+    std::string id;
+    Vec2 position{0.0f, 0.0f};
+    bool locked = false;
 };
 
 // Recovered EnemyAIStake (room/objects/stake): 40 HP, stake_hit_l 0.375 s,
@@ -474,6 +486,7 @@ struct SceneAsset {
     std::vector<EnemyFixture> enemy_fixtures;
     std::vector<SceneDoor> doors;
     std::vector<InteractionMarker> interaction_markers;
+    std::vector<GardenPlot> garden_plots;
     std::vector<PetDefinition> pet_definitions;
     bool has_training_stake = false;
     TrainingStake training_stake;

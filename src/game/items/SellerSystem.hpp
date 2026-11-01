@@ -43,6 +43,7 @@ public:
     bool Configured() const { return configured_; }
 
     const std::vector<SellerOffer>& Offers() const { return offers_; }
+    std::vector<SellerOffer>& OffersMutable() { return offers_; }
     const SellerOffer* FindNearby(const engine::Vec2& player_position,
                                   float radius) const;
     const SellerOffer* FindByIndex(std::size_t index) const;

@@ -637,6 +637,8 @@ add_executable(soul-knight-test
     tests/unit/unique_weapon_test.cpp
     tests/unit/level_surface_test.cpp
     tests/unit/enemy_family_test.cpp
+    tests/unit/enemy_damage_reference_test.cpp
+    tests/unit/hub_geometry_test.cpp
     tests/unit/seller_test.cpp
     tests/unit/save_test.cpp
     tests/unit/replay_test.cpp
@@ -644,6 +646,9 @@ add_executable(soul-knight-test
     tests/unit/plant_test.cpp
     tests/unit/hub_systems_test.cpp
     tests/unit/room_manager_test.cpp
+    tests/unit/room_activation_test.cpp
+    tests/unit/dungeon_start_test.cpp
+    tests/unit/camera_bounds_test.cpp
     tests/unit/ability_test.cpp
     tests/unit/ui_assets_test.cpp
     tests/unit/ui_test.cpp
@@ -675,6 +680,17 @@ target_link_libraries(soul-knight-test PRIVATE
     platform
     doctest::doctest
 )
+
+add_executable(soul-knight-geometry
+    tests/tools/hub_area_probe.cpp
+)
+target_link_libraries(soul-knight-geometry PRIVATE
+    engine
+    platform
+    core
+    nlohmann_json::nlohmann_json
+)
+target_include_directories(soul-knight-geometry PRIVATE src)
 
 add_dependencies(soul-knight-test soul-knight-assets)
 
@@ -744,6 +760,26 @@ if(PYTHON3_EXECUTABLE)
                 "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_hub_topology.py"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
+    foreach(area living-room garden trader mech reforging weapon-station
+            material-chest workshop planting
+            dungeon-1-1 dungeon-1-2 dungeon-room-15x15 dungeon-room-15x21
+            dungeon-room-21x15 dungeon-room-21x21 boss-room boss-room-r2
+            boss-room-r3 special-sell special-statue special-mineral
+            special-mercenary special-mount special-chest)
+        add_test(NAME liteknight-area-${area}
+            COMMAND soul-knight-geometry --area ${area}
+            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+        )
+    endforeach()
+    add_test(NAME liteknight-area-coordinate
+        COMMAND soul-knight-geometry --area=-20,-2,4,4
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
+    add_test(NAME liteknight-gameplay-smoke
+        COMMAND soul-knight --gameplay-smoke --smoke-seconds 20
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
+    set_tests_properties(liteknight-gameplay-smoke PROPERTIES TIMEOUT 180)
     add_test(NAME liteknight-weapon-runtime-audit
         COMMAND "${PYTHON3_EXECUTABLE}"
                 "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_weapon_runtime.py"

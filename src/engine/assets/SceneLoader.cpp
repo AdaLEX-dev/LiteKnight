@@ -388,6 +388,15 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 marker.speaker = item.value("speaker", std::string{});
                 marker.text = item.value("text", std::string{});
                 marker.text_alt = item.value("text_alt", std::string{});
+                if (item.contains("talk_lines") &&
+                    item["talk_lines"].is_array()) {
+                    for (const Json& line : item["talk_lines"]) {
+                        if (line.is_string()) {
+                            marker.talk_lines.push_back(
+                                line.get<std::string>());
+                        }
+                    }
+                }
                 marker.dialogue_term =
                     item.value("dialogue_term", std::string{});
                 marker.character_id =
@@ -397,6 +406,27 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 marker.price = item.value("price", 0);
                 marker.item_id = item.value("item_id", std::string{});
                 loaded.interaction_markers.push_back(std::move(marker));
+            }
+        }
+        if (document.contains("garden_plots")) {
+            if (!document["garden_plots"].is_array()) {
+                SetError(error, "scene garden_plots is not an array");
+                return false;
+            }
+            for (const Json& item : document["garden_plots"]) {
+                if (!item.is_object() || !item.contains("id") ||
+                    !item["id"].is_string() || !item.contains("position")) {
+                    SetError(error, "scene garden plot is invalid");
+                    return false;
+                }
+                GardenPlot plot;
+                plot.id = item["id"].get<std::string>();
+                if (!ReadVec2(item["position"], plot.position)) {
+                    SetError(error, "scene garden plot position is invalid");
+                    return false;
+                }
+                plot.locked = item.value("locked", false);
+                loaded.garden_plots.push_back(std::move(plot));
             }
         }
         loaded.has_room_topology =
@@ -845,6 +875,7 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         }
         instance.sorting_layer = item["sorting_layer"].get<int32_t>();
         instance.sorting_order = item["sorting_order"].get<int32_t>();
+        instance.ground_depth = item.value("ground_depth", false);
         if (item.contains("flip_x") && item["flip_x"].is_boolean()) {
             instance.flip_x = item["flip_x"].get<bool>();
         }

@@ -959,9 +959,11 @@ FrameStatus VulkanContext::BeginFrame() {
     }
 
     VkClearValue clear_value{};
-    clear_value.color.float32[0] = 0.035f;
-    clear_value.color.float32[1] = 0.045f;
-    clear_value.color.float32[2] = 0.075f;
+    // Outside recovered room geometry is a clean dark void, never a biome
+    // texture or a stretched floor fragment.
+    clear_value.color.float32[0] = 0.0f;
+    clear_value.color.float32[1] = 0.0f;
+    clear_value.color.float32[2] = 0.0f;
     clear_value.color.float32[3] = 1.0f;
 
     VkRenderPassBeginInfo render_pass_info{};

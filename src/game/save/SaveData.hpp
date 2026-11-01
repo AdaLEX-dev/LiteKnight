@@ -64,10 +64,15 @@ struct SaveData {
     std::int64_t playtime_seconds = 0;
     std::vector<std::string> unlocked_characters;
     std::vector<std::string> plants;
+    std::vector<std::string> plant_states;
+    std::vector<std::string> seed_stock;
     bool fullscreen = false;
     bool hub_visited = false;
     bool auto_aim = true;
+    bool reduced_weapon_effects = true;
+    bool living_room_suggestions = false;
     std::int32_t map_seed = 0;
+    std::string campaign_level = "1-1";
     std::string pet_id;
     std::vector<SaveMaterial> materials;
     std::vector<std::string> cleared_rooms;

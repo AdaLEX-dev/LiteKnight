@@ -74,6 +74,33 @@ struct EnergyPickupDefinition {
     float range = 6.0f;
 };
 
+struct SellerVisual {
+    std::string npc_body;
+    std::string npc_shadow;
+    std::string pedestal;
+    std::string counter;
+};
+
+struct PlantStateVisual {
+    int state = 0;
+    std::string sprite;
+    engine::Vec2 offset{0.0f, 0.0f};
+    int32_t sorting_layer = 6;
+    int32_t sorting_order = 0;
+};
+
+struct PlantDefinition {
+    std::string id;
+    std::string display_name;
+    std::string seed_sprite;
+    std::vector<PlantStateVisual> states;
+    std::string kind;
+    std::string item_id;
+    int item_value = 0;
+    int harvest_count = 1;
+    float growth_seconds = 30.0f;
+};
+
 struct ShopItemDefinition {
     std::string id;
     std::string item_name;
@@ -122,6 +149,9 @@ public:
     const std::vector<MaterialDefinition>& Materials() const {
         return materials_;
     }
+    const std::vector<PlantDefinition>& Plants() const { return plants_; }
+    const SellerVisual& SellerVisuals() const { return seller_visual_; }
+    const PlantDefinition* FindPlant(const std::string& id) const;
     const MaterialDefinition* FindMaterial(const std::string& id) const;
     const std::vector<ShopItemDefinition>& ShopItems() const {
         return shop_items_;
@@ -150,6 +180,8 @@ private:
     std::vector<CoinDefinition> coins_;
     std::vector<PortalDefinition> portals_;
     std::vector<MaterialDefinition> materials_;
+    std::vector<PlantDefinition> plants_;
+    SellerVisual seller_visual_;
     std::vector<ShopItemDefinition> shop_items_;
     std::vector<SpecialObjectDefinition> special_objects_;
     EnergyPickupDefinition energy_;

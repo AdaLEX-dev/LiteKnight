@@ -304,6 +304,14 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             continue
         if not active_chain(pid) or event_path(p) or removed_path(p):
             continue
+        # The Living Room must contain no decorative signboards. The hire and
+        # task boards are unreferenced decoration in the native reconstruction,
+        # so their sprites and collider volumes are removed with the notice
+        # boards.
+        if any(token in p for token in (
+                "room/objects/task/board", "room/objects/hire_board",
+                "hireroom/hire_board")):
+            continue
         data = g["game_object"].read()
         pos, rot, scale = world_transform(pid, gos, tr_to_go)
         for comp in data.m_Component:
@@ -330,6 +338,11 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                 "sorting_order": int(sr.m_SortingOrder),
                 "flip_x": bool(sr.m_FlipX),
                 "flip_y": bool(sr.m_FlipY),
+                "ground_depth": bool(
+                    not p.startswith("room_tilemap") and
+                    "/lights/" not in p and
+                    not p.endswith("/light") and
+                    not p.startswith("room_tilemap_lights")),
                 "path": p + "/SpriteRenderer",
             })
             break
@@ -338,6 +351,8 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
     # recovered floor/wall/garden/light tile layout, not a painted mockup.
     tile_count = 0
     floor_tile_sprite = None
+    floor_cells_by_group = {}
+    floor_sprite_by_group = {}
     wall_cell_solids = []
     for obj in objects:
         if obj.type.name != "Tilemap":
@@ -385,8 +400,18 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             sid = ensure_sprite(ref.m_Data)
             if sid is None:
                 continue
+            # HeroRoom contains three decorative notice-board "signs" on the
+            # research-facing wall (sprite hub_spr_2241). They are not gameplay
+            # objects and the Living Room must contain no signs; skip both the
+            # visual and its object_portal solid so no orphan collision remains.
+            if sid == "hub_spr_2241":
+                continue
             if floor_tile_sprite is None and layer in (2, 3) and "/floor_" in p:
                 floor_tile_sprite = sid
+            if layer in (2, 3) and "/floor_" in p:
+                floor_cells_by_group.setdefault(p, set()).add(
+                    (int(math.floor(tile_x)), int(math.floor(tile_y))))
+                floor_sprite_by_group.setdefault(p, sid)
             bx = float(tile_pos.x) + 0.5
             by = float(tile_pos.y) + 0.5
             tile_x = pos[0] + bx * scale[0]
@@ -402,18 +427,97 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                 "sorting_order": order,
                 "flip_x": False,
                 "flip_y": False,
+                "ground_depth": False,
                 "path": p + "/tile",
             })
             # Wall tilemaps are the actual physical wall layout. Convert each
             # wall cell into a solid so openings in the reference tile map are
             # traversable without the giant polygon-AABB blockers that made the
             # garden/workshop/cellar unreachable.
-            if "/wall" in p or "gate_lobby" in p:
+            if ("/wall" in p or "gate_lobby" in p or
+                    "/object_portal" in p):
                 half_x = abs(float(scale[0])) * 0.5
                 half_y = abs(float(scale[1])) * 0.5
                 wall_cell_solids.append([tile_x - half_x, tile_y - half_y,
                                          tile_x + half_x, tile_y + half_y])
             tile_count += 1
+
+    # Fill only enclosed holes inside each recovered floor footprint. This is
+    # deliberately not a bounding-box fill: the garden and outer void must keep
+    # their actual recovered silhouette, while genuine atlas/mask holes inside
+    # a room are closed with the same floor sprite family.
+    hole_fill_count = 0
+    for group, cells in sorted(floor_cells_by_group.items()):
+        if not cells:
+            continue
+        sprite = floor_sprite_by_group.get(group)
+        if sprite is None:
+            continue
+        min_x = min(c[0] for c in cells) - 1
+        max_x = max(c[0] for c in cells) + 1
+        min_y = min(c[1] for c in cells) - 1
+        max_y = max(c[1] for c in cells) + 1
+        outside = set()
+        stack = [(min_x, min_y)]
+        while stack:
+            cell = stack.pop()
+            if cell in outside or cell in cells:
+                continue
+            if (cell[0] < min_x or cell[0] > max_x or
+                    cell[1] < min_y or cell[1] > max_y):
+                continue
+            outside.add(cell)
+            stack.extend(((cell[0] + 1, cell[1]),
+                          (cell[0] - 1, cell[1]),
+                          (cell[0], cell[1] + 1),
+                          (cell[0], cell[1] - 1)))
+        for x in range(min_x + 1, max_x):
+            for y in range(min_y + 1, max_y):
+                cell = (x, y)
+                if cell in cells or cell in outside:
+                    continue
+                instances.append({
+                    "sprite": sprite,
+                    "position": [float(x) + 0.5, float(y) + 0.5],
+                    "rotation": 0.0,
+                    "scale": [1.0, 1.0],
+                    "color": [255, 255, 255, 255],
+                    "sorting_layer": 2,
+                    "sorting_layer_name": "Floor",
+                    "sorting_order": -50,
+                    "flip_x": False,
+                    "flip_y": False,
+                    "ground_depth": False,
+                    "path": "hub/floor_hole_fill",
+                })
+                hole_fill_count += 1
+    print("enclosed floor hole fill instances:", hole_fill_count)
+
+    # The recovered floor union is the actual playable hub footprint. Add thin
+    # boundary solids on every floor edge that has no adjacent walkable floor
+    # cell. This seals tree/void edges (including the garden tree line and the
+    # old mech opening) without painting a rectangular collider over the room.
+    walkable_cells = set()
+    for cells in floor_cells_by_group.values():
+        walkable_cells.update(cells)
+    floor_edge_solids = []
+    seen_edges = set()
+    for (x, y) in sorted(walkable_cells):
+        edges = []
+        if (x - 1, y) not in walkable_cells:
+            edges.append((x, y, x + 0.02, y + 1))
+        if (x + 1, y) not in walkable_cells:
+            edges.append((x + 0.98, y, x + 1, y + 1))
+        if (x, y - 1) not in walkable_cells:
+            edges.append((x, y, x + 1, y + 0.02))
+        if (x, y + 1) not in walkable_cells:
+            edges.append((x, y + 0.98, x + 1, y + 1))
+        for edge in edges:
+            key = tuple(round(v, 3) for v in edge)
+            if key in seen_edges:
+                continue
+            seen_edges.add(key)
+            floor_edge_solids.append(list(edge))
 
     # The removed cellar stair occupied the south-wall opening beside the
     # recycling bin. The surrounding default wall line uses wall_u as its top
@@ -446,11 +550,13 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             "sorting_order": 20,
             "flip_x": False,
             "flip_y": False,
+            "ground_depth": False,
             "path": "hub/stair_wall_repair",
         })
         tile_count += 1
 
     colliders = list(wall_cell_solids)
+    colliders.extend(floor_edge_solids)
     # Exact 3x3 wall footprint replacing the removed stair opening.
     colliders.append([-12.0, -12.0, -9.0, -9.0])
     for pid, g in gos.items():
@@ -460,6 +566,10 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         if "/Canvas" in p or "/masks/" in p:
             continue
         if not active_chain(pid) or event_path(p) or removed_path(p):
+            continue
+        if any(token in p for token in (
+                "room/objects/task/board", "room/objects/hire_board",
+                "hireroom/hire_board")):
             continue
         # Progression locks and portal triggers are intentionally open in the
         # explorable hub; their visual objects remain rendered.
@@ -487,7 +597,21 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             if not bool(getattr(col, "m_Enabled", True)):
                 continue
             if bool(getattr(col, "m_IsTrigger", False)):
-                continue
+                # Interactive static props (planter beds, forge, mech,
+                # material chest, weapon station, seller containers, boards)
+                # are serialized as trigger volumes in the reference prefabs.
+                # They still need physical collision in the native scene; the
+                # trigger flag describes their interaction probe, not their
+                # walkability. Keep NPC talk/character probes and door/portal
+                # transition volumes non-solid.
+                solid_trigger = False
+                if "/static/" in p and not any(token in p for token in (
+                        "/npc", "/talk", "/door", "/light")):
+                    solid_trigger = True
+                if "/room/objects/chest/" in p and "/ring" not in p:
+                    solid_trigger = True
+                if not solid_trigger:
+                    continue
             if t == "BoxCollider2D":
                 sx = float(col.m_Size.x) * abs(scale[0])
                 sy = float(col.m_Size.y) * abs(scale[1])
@@ -513,6 +637,77 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                     ys = [pos[1] + float(pt.y) * scale[1] for pt in pts]
                     if max(xs) - min(xs) > 0.05 and max(ys) - min(ys) > 0.05:
                         colliders.append([min(xs), min(ys), max(xs), max(ys)])
+
+    # The seller's display cases and the bookshelf behind the trader are
+    # visual-only children in the reference prefab. Give them the physical
+    # footprint implied by their recovered sprite bounds so the player cannot
+    # stand inside the pedestals or slip behind the trader.
+    for instance in instances:
+        ipath = instance.get("path", "")
+        if not (ipath.endswith("/container0/c1/SpriteRenderer") or
+                ipath.endswith("/container1/c1/SpriteRenderer") or
+                ipath.endswith("/container2/c1/SpriteRenderer") or
+                ipath.endswith("/research/bookshelf/SpriteRenderer")):
+            continue
+        sprite = sprite_ids.get(instance["sprite"])
+        if sprite is None:
+            continue
+        rect = sprite.get("rect", [0, 0, 1, 1])
+        ppu = float(sprite.get("pixels_per_unit", 16.0) or 16.0)
+        width = float(rect[2]) / ppu
+        height = float(rect[3]) / ppu
+        px, py = instance["position"]
+        pivot = sprite.get("pivot", [0.5, 0.5])
+        foot = py - height * (1.0 - pivot[1])
+        if ipath.endswith("/research/bookshelf/SpriteRenderer"):
+            # Back plane of the alcove: seal the wall-to-shelf gap.
+            colliders.append([px - width * 0.5, foot - 0.15,
+                              px + width * 0.5, foot + height])
+        else:
+            # Display case: block the lower cabinet, leave the glass top open.
+            colliders.append([px - width * 0.5, foot - 0.1,
+                              px + width * 0.5, foot + height * 0.55])
+    # Reforging furnace backdrop. The recovered HeroRoom wall line ends at
+    # x=30.5; the furnace row continues south of the research floor with no
+    # serialized wall body in front of the void. Reconstruct that missing
+    # boundary with the exact neighboring wall_u/wall_m tiles and cells.
+    forge_wall_sprite = "hub_spr_2098"
+    forge_cap_sprite = "hub_spr_2093"
+    if forge_wall_sprite in sprite_ids:
+        for cell_x in range(31, 41):
+            tile_x = float(cell_x) + 0.5
+            if forge_cap_sprite in sprite_ids:
+                instances.append({
+                    "sprite": forge_cap_sprite,
+                    "position": [tile_x, -6.5],
+                    "rotation": 0.0,
+                    "scale": [1.0, 1.0],
+                    "color": [255, 255, 255, 255],
+                    "sorting_layer": 4,
+                    "sorting_layer_name": "4",
+                    "sorting_order": 21,
+                    "flip_x": False,
+                    "flip_y": False,
+                    "ground_depth": False,
+                    "path": "hub/forge_wall_cap_repair",
+                })
+            tile_y = -7.5
+            instances.append({
+                "sprite": forge_wall_sprite,
+                "position": [tile_x, tile_y],
+                "rotation": 0.0,
+                "scale": [1.0, 1.0],
+                "color": [255, 255, 255, 255],
+                "sorting_layer": 4,
+                "sorting_layer_name": "4",
+                "sorting_order": 20,
+                "flip_x": False,
+                "flip_y": False,
+                "ground_depth": False,
+                "path": "hub/forge_wall_repair",
+            })
+            colliders.append([tile_x - 0.5, tile_y - 0.5,
+                              tile_x + 0.5, tile_y + 0.5])
 
     # Spawn in the lower living-room floor, clear of the central table.
     spawn = [0.0, -10.0]
@@ -552,9 +747,11 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
     else:
         minx, maxx, miny, maxy = -60.0, 60.0, -40.0, 40.0
 
-    # Fill only cells that have no recovered floor tile with the recovered
-    # cellar floor sprite. This closes unrecoverable mask/atlas holes without
-    # painting over recovered tiles.
+    # Never paint a rectangular floor outside the recovered tilemaps. The
+    # previous 4x4 fill covered the whole hub bounding box and exposed
+    # untextured garden/void rectangles. Genuine room floors are the recovered
+    # tilemaps; outside them the renderer stays dark.
+    floor_tile_sprite = None
     if floor_tile_sprite is not None:
         occupied = set()
         for instance in instances:
@@ -677,16 +874,8 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             "source_pivot": [0.5, 0.5], "pixels_per_unit": 1.0,
             "border": [0.0, 0.0, 0.0, 0.0], "filter": "point", "wrap": "clamp",
         })
-        instances.append({
-            "sprite": fill_sprite,
-            "position": [(minx + maxx) * 0.5, (miny + maxy) * 0.5],
-            "rotation": 0.0,
-            "scale": [maxx - minx, maxy - miny],
-            "color": [255, 255, 255, 255],
-            "sorting_layer": 2, "sorting_layer_name": "Floor",
-            "sorting_order": -100, "flip_x": False, "flip_y": False,
-            "path": "hub/floor_fill",
-        })
+        # Intentionally no giant rectangular fallback quad. Outside recovered
+        # tilemaps must remain the dark renderer clear color.
     except Exception as exc:
         print("floor fill skipped:", exc)
 
@@ -702,7 +891,9 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         {"id": "garden_station", "kind": "garden", "label": "PLANTER GARDEN",
          "position": [-26.0, 0.0], "radius": 4.0},
         {"id": "trader_station", "kind": "trader", "label": "ORB WEAPON TRADER",
-         "position": [27.6, 3.7], "radius": 4.0},
+         "position": [27.6, 4.4], "radius": 4.0},
+        {"id": "mech_station", "kind": "mech", "label": "ROBOTICS FACILITY",
+         "position": [43.0, 6.9], "radius": 4.0},
         {"id": "hub_door", "kind": "door", "label": "DUNGEON",
          "position": [0.0, 7.5], "radius": 3.0},
     ]
@@ -721,6 +912,12 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         speaker = localized.get(term, character_id)
         talk1 = localized.get(f"Character{index}_talk1", "")
         talk2 = localized.get(f"Character{index}_talk2", "")
+        talk_lines = []
+        for line_index in range(1, 9):
+            line = localized.get(
+                f"Character{index}_talk{line_index}", "")
+            if line:
+                talk_lines.append(line)
         markers.append({
             "id": f"npc_{character_id}",
             "kind": "npc",
@@ -728,6 +925,7 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             "speaker": speaker,
             "text": talk1,
             "text_alt": talk2,
+            "talk_lines": talk_lines,
             "dialogue_term": f"Character{index}_talk1",
             "character_id": character_id,
             "position": position,
@@ -861,6 +1059,24 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             "doors": [],
         },
         "interaction_markers": markers,
+        "garden_plots": [
+            {"id": "garden_0", "land": "land_0", "position": [-25.77, 2.85],
+             "locked": False},
+            {"id": "garden_1", "land": "land_1", "position": [-25.77, -4.60],
+             "locked": False},
+            {"id": "garden_2", "land": "land_2", "position": [-33.77, 2.85],
+             "locked": False},
+            {"id": "garden_3", "land": "land_3", "position": [-33.77, -4.60],
+             "locked": True},
+            {"id": "garden_4", "land": "land_4", "position": [-41.77, 2.85],
+             "locked": True},
+            {"id": "garden_5", "land": "land_5", "position": [-41.77, -4.60],
+             "locked": True},
+            {"id": "garden_6", "land": "land_6", "position": [-49.77, 2.85],
+             "locked": True},
+            {"id": "garden_7", "land": "land_7", "position": [-49.77, -4.60],
+             "locked": True},
+        ],
         "hub": True,
         "source": {
             "scene": "Assets/_RGScene/HeroRoom.unity",
