@@ -32,6 +32,9 @@ struct ChestDefinition {
     int weapon_count = 1;
     bool has_coin = false;
     bool material_chest = false;
+    bool boss = false;
+    bool big = false;
+    std::vector<std::string> object_list;
 };
 
 struct WeaponDropEntry {

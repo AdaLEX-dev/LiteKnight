@@ -16,6 +16,34 @@ bool Overlaps(const engine::collision::Aabb& a,
            a.min.y < b.max.y && a.max.y > b.min.y;
 }
 
+void FireVolley(const engine::assets::EnemyDefinition& definition,
+                const engine::Vec2& origin, const engine::Vec2& direction,
+                enemy::EnemySystem* system,
+                combat::ProjectileSystem* projectiles) {
+    (void)system;
+    if (projectiles == nullptr || definition.projectile.sprite_index < 0) return;
+    const int count = std::max(1, definition.projectile_count);
+    const float fan = definition.fan_angle;
+    for (int i = 0; i < count; ++i) {
+        float offset = 0.0f;
+        if (count > 1 && fan > 0.0f) {
+            offset = (static_cast<float>(i) -
+                      static_cast<float>(count) * 0.5f) * fan;
+        }
+        const float radians = offset * 3.14159265358979323846f / 180.0f;
+        const float c = std::cos(radians);
+        const float s = std::sin(radians);
+        const engine::Vec2 rotated{direction.x * c - direction.y * s,
+                                   direction.x * s + direction.y * c};
+        projectiles->Spawn(
+            definition.projectile, origin, rotated,
+            definition.projectile_speed > 0.0f
+                ? definition.projectile_speed
+                : definition.projectile.prefab_speed,
+            definition.projectile_damage, definition.camp, 0, 0);
+    }
+}
+
 } // namespace
 
 bool EnemySystem::Configure(const engine::assets::SceneAsset& scene,
@@ -111,6 +139,19 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
         enemy.idle_time += delta_seconds;
 
         if (enemy.health.dead) {
+            if (!enemy.death_exploded &&
+                definition.death_explosion_radius > 0.0f &&
+                definition.death_explosion_damage > 0) {
+                enemy.death_exploded = true;
+                const float distance =
+                    (player_position - enemy.position).Length();
+                if (distance <= definition.death_explosion_radius) {
+                    combat::DamageEvent event;
+                    event.damage = definition.death_explosion_damage;
+                    event.camp = definition.camp;
+                    if (player_health.ApplyDamage(event)) player_damaged = true;
+                }
+            }
             enemy.death_timer = std::max(0.0f, enemy.death_timer - delta_seconds);
             if (enemy.death_timer <= 0.0f) enemy.active = false;
             continue;
@@ -148,46 +189,98 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
         constexpr float kContactRange = 0.75f;
         const bool in_ranged_band = definition.ranged &&
             distance <= definition.attack_range && distance > 0.0001f;
-        if (definition.ranged && projectiles != nullptr &&
-            in_ranged_band && enemy.shoot_timer <= 0.0f &&
-            definition.projectile.sprite_index >= 0) {
-            const engine::Vec2 direction = to_player * (1.0f / distance);
-            const engine::Vec2 center_offset{
-                (definition.collider.min.x + definition.collider.max.x) * 0.5f,
-                (definition.collider.min.y + definition.collider.max.y) * 0.5f};
-            const engine::Vec2 spawn = enemy.position + center_offset +
-                direction * 0.45f;
-            projectiles->Spawn(
-                definition.projectile, spawn, direction,
-                definition.projectile_speed > 0.0f
-                    ? definition.projectile_speed
-                    : definition.projectile.prefab_speed,
-                definition.projectile_damage, definition.camp, 0, 0);
+        const engine::Vec2 direction = distance > 0.0001f
+            ? to_player * (1.0f / distance) : engine::Vec2{1.0f, 0.0f};
+        const engine::Vec2 center_offset{
+            (definition.collider.min.x + definition.collider.max.x) * 0.5f,
+            (definition.collider.min.y + definition.collider.max.y) * 0.5f};
+        const engine::Vec2 spawn = enemy.position + center_offset +
+            direction * 0.45f;
+
+        // Dash/jump family: AI09, AIWitch and AIFrog use a directed high-speed
+        // movement window (EnemyAI09 8.0/1.5 s; AIWitch 10.0/1.5 s;
+        // AIFrog 0.5 s). Contact still uses the recovered damage/cooldown.
+        if (definition.dash_speed > 0.0f && !enemy.dashing &&
+            distance <= std::max(definition.attack_range, 6.0f) &&
+            distance > kContactRange && enemy.shoot_timer <= 0.0f &&
+            distance > 0.0001f) {
+            enemy.dashing = true;
+            enemy.dash_timer = std::max(0.1f, definition.dash_duration);
+            enemy.dash_direction = direction;
             enemy.shoot_timer = std::max(0.1f, definition.shoot_cooldown);
+            enemy.facing_left = direction.x < 0.0f;
+            if (definition.projectile.sprite_index >= 0 &&
+                projectiles != nullptr) {
+                enemy.burst_remaining = std::max(1, definition.burst_count);
+                enemy.burst_timer = 0.0f;
+            }
         }
-        const bool hold_position = definition.ranged &&
-            (definition.stand_in_shooting || definition.lock_in_shooting) &&
-            in_ranged_band;
-        if (!hold_position && !in_ranged_band && distance > kContactRange &&
-            distance < kAggroRadius && distance > 0.0001f) {
-            const engine::Vec2 direction = to_player * (1.0f / distance);
+        if (enemy.dashing) {
+            enemy.dash_timer -= delta_seconds;
+            const engine::Vec2 step = enemy.dash_direction *
+                (definition.dash_speed * delta_seconds);
+            if (world != nullptr) {
+                engine::Vec2 resolved = enemy.position;
+                (void)world->Move(enemy.position, {0.30f, 0.30f}, step,
+                                  resolved);
+                enemy.position = resolved;
+            } else {
+                enemy.position += step;
+            }
+            if (definition.projectile.sprite_index >= 0 &&
+                projectiles != nullptr && enemy.burst_remaining > 0) {
+                enemy.burst_timer -= delta_seconds;
+                if (enemy.burst_timer <= 0.0f) {
+                    FireVolley(definition, enemy.position, direction, this,
+                               projectiles);
+                    --enemy.burst_remaining;
+                    enemy.burst_timer = definition.burst_interval > 0.0f
+                        ? definition.burst_interval : 0.2f;
+                }
+            }
+            if (enemy.dash_timer <= 0.0f) enemy.dashing = false;
+        } else if (definition.ranged && projectiles != nullptr &&
+                   in_ranged_band &&
+                   definition.projectile.sprite_index >= 0) {
+            if (enemy.burst_remaining > 0) {
+                enemy.burst_timer -= delta_seconds;
+                if (enemy.burst_timer <= 0.0f) {
+                    FireVolley(definition, spawn, direction, this, projectiles);
+                    --enemy.burst_remaining;
+                    enemy.burst_timer = definition.burst_interval > 0.0f
+                        ? definition.burst_interval : 0.2f;
+                }
+            } else if (enemy.shoot_timer <= 0.0f) {
+                FireVolley(definition, spawn, direction, this, projectiles);
+                enemy.burst_remaining =
+                    std::max(0, definition.burst_count - 1);
+                enemy.burst_timer = definition.burst_interval > 0.0f
+                    ? definition.burst_interval : 0.2f;
+                enemy.shoot_timer =
+                    std::max(0.1f, definition.shoot_cooldown);
+            }
+        }
+        const bool hold_position = definition.stationary ||
+            (definition.ranged &&
+             (definition.stand_in_shooting || definition.lock_in_shooting) &&
+             in_ranged_band);
+        if (!enemy.dashing && !hold_position && !in_ranged_band &&
+            distance > kContactRange && distance < kAggroRadius &&
+            distance > 0.0001f) {
             enemy.facing_left = direction.x < 0.0f;
             const float speed = static_cast<float>(std::max(0, definition.speed));
             if (speed > 0.0f) {
-                const engine::Vec2 delta = direction * (speed * delta_seconds);
+                const engine::Vec2 step = direction * (speed * delta_seconds);
                 if (world != nullptr) {
-                    const engine::Vec2 center_offset{
-                        (definition.collider.min.x + definition.collider.max.x) * 0.5f,
-                        (definition.collider.min.y + definition.collider.max.y) * 0.5f};
                     const engine::Vec2 half_extents{
                         (definition.collider.max.x - definition.collider.min.x) * 0.5f,
                         (definition.collider.max.y - definition.collider.min.y) * 0.5f};
                     engine::Vec2 resolved = enemy.position + center_offset;
                     (void)world->Move(enemy.position + center_offset,
-                                      half_extents, delta, resolved);
+                                      half_extents, step, resolved);
                     enemy.position = resolved - center_offset;
                 } else {
-                    enemy.position += delta;
+                    enemy.position += step;
                 }
             }
         } else if (distance > 0.0001f) {

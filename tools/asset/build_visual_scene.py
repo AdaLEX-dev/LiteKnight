@@ -1008,6 +1008,18 @@ class SceneBuilder:
             for child in getattr(tf, "m_Children", []) or []:
                 find_weapon(child.read(), depth + 1)
         find_weapon(enemy_transform)
+        def has_child_named(tf, name, depth=0):
+            if depth > 5:
+                return False
+            for child in getattr(tf, "m_Children", []) or []:
+                child_tf = child.read()
+                child_go = child_tf.m_GameObject.read()
+                if child_go.m_Name == name:
+                    return True
+                if has_child_named(child_tf, name, depth + 1):
+                    return True
+            return False
+        has_h2 = has_child_named(enemy_transform, "h2")
         projectile = None
         projectile_speed = 0.0
         projectile_damage = 0
@@ -1075,10 +1087,73 @@ class SceneBuilder:
                 controller_class = str(getattr(script, "m_ClassName", ""))
             except Exception:
                 controller_class = ""
+        projectile_count = 1
+        fan_angle = 0.0
+        burst_count = 1
+        burst_interval = 0.0
+        dash_speed = 0.0
+        dash_duration = 0.0
+        death_radius = 0.0
+        death_damage = 0
+        stationary = False
+        mimic = False
+        if controller_class == "EnemyAI01" and has_h2:
+            projectile_count = 2
+        elif controller_class == "EnemyAI20":
+            bullet_count = int(getattr(controller, "bullet_count", 0) or 0)
+            projectile_count = 2 * bullet_count + 1
+            fan_angle = float(getattr(controller, "angle", 0.0) or 0.0)
+        elif controller_class in ("EnemyAI11",):
+            projectile_count = 2
+            fan_angle = 30.0
+            burst_count = 5
+            burst_interval = 0.15
+        elif controller_class == "EnemyAI14":
+            burst_count = 32
+            burst_interval = 0.05
+        elif controller_class == "EnemyAI10":
+            secondary = getattr(controller, "bullet02", None)
+            projectile_count = 2 if secondary is not None and getattr(
+                secondary, "path_id", 0) != 0 else 1
+        elif controller_class in ("EnemyAI03", "EnemyAI18", "EnemyAI19"):
+            shoot_time = float(getattr(controller, "shoot_time", 0.0) or 0.0)
+            burst_count = max(1, int(shoot_time / 0.2) + 1) if shoot_time > 0.0 else 1
+            burst_interval = 0.2
+        elif controller_class in ("EnemyAI09", "EnemyAIFrog",
+                                  "EnemyAIWitch"):
+            dash_speed = 10.0 if controller_class == "EnemyAIWitch" else 8.0
+            dash_duration = 1.5 if controller_class == "EnemyAIWitch" else (
+                0.5 if controller_class == "EnemyAIFrog" else 1.5)
+            if controller_class == "EnemyAIWitch":
+                projectile_count = 2
+                burst_count = 7
+                burst_interval = 0.225
+            if controller_class == "EnemyAIFrog":
+                death_radius = 2.5
+                death_damage = 10
+        elif controller_class == "EnemyAI13":
+            death_radius = 6.0
+            death_damage = 10
+        elif controller_class == "EnemyAI06":
+            stationary = True
+        elif controller_class == "EnemyAI18":
+            stationary = True
+        elif controller_class == "EnemyAI08":
+            mimic = True
         return {
             "id": enemy_id,
             "path_id": str(enemy_go.path_id),
             "class_name": controller_class,
+            "projectile_count": projectile_count,
+            "fan_angle": fan_angle,
+            "burst_count": burst_count,
+            "burst_interval": burst_interval,
+            "dash_speed": dash_speed,
+            "dash_duration": dash_duration,
+            "death_explosion_radius": death_radius,
+            "death_explosion_damage": death_damage,
+            "stationary": stationary,
+            "mimic": mimic,
             "stand_in_shooting": bool(
                 getattr(controller, "stand_in_shooting", False)),
             "lock_in_shooting": bool(

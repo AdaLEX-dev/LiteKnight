@@ -13,6 +13,8 @@
   "chests": [
     {
       "appointed_weapon": "weapon_021",
+      "big": false,
+      "boss": false,
       "class_name": "RGChest",
       "collider_half_extents": [
         0.5,
@@ -29,6 +31,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": false,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -82,6 +85,8 @@
     },
     {
       "appointed_weapon": "",
+      "big": false,
+      "boss": false,
       "class_name": "RGChest",
       "collider_half_extents": [
         0.5,
@@ -98,6 +103,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": false,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -151,6 +157,8 @@
     },
     {
       "appointed_weapon": "",
+      "big": false,
+      "boss": false,
       "class_name": "RGChest",
       "collider_half_extents": [
         0.5,
@@ -167,6 +175,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": false,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -220,6 +229,8 @@
     },
     {
       "appointed_weapon": "",
+      "big": false,
+      "boss": false,
       "class_name": "RGChestMaterial",
       "collider_half_extents": [
         0.5,
@@ -236,6 +247,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": true,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -289,6 +301,8 @@
     },
     {
       "appointed_weapon": "",
+      "big": true,
+      "boss": false,
       "class_name": "RGChestBig",
       "collider_half_extents": [
         0.5,
@@ -305,6 +319,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": false,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -376,6 +391,8 @@
     },
     {
       "appointed_weapon": "",
+      "big": false,
+      "boss": true,
       "class_name": "RGChestBoss",
       "collider_half_extents": [
         0.5,
@@ -392,6 +409,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": false,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -445,6 +463,8 @@
     },
     {
       "appointed_weapon": "",
+      "big": false,
+      "boss": false,
       "class_name": "RGChestRoomReward",
       "collider_half_extents": [
         0.5,
@@ -461,6 +481,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": false,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -514,6 +535,8 @@
     },
     {
       "appointed_weapon": "",
+      "big": true,
+      "boss": false,
       "class_name": "ItemChestBig",
       "collider_half_extents": [
         0.5,
@@ -530,6 +553,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": false,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -583,6 +607,8 @@
     },
     {
       "appointed_weapon": "",
+      "big": true,
+      "boss": false,
       "class_name": "ItemChestBig",
       "collider_half_extents": [
         0.5,
@@ -599,6 +625,7 @@
       "loot_coin": "",
       "loot_count": 0,
       "material_chest": false,
+      "object_list": [],
       "open_time": 1.0,
       "visuals": [
         {
@@ -649,6 +676,746 @@
       ],
       "weapon_count": 2,
       "weapon_drop_level": 1
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss01 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss01",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_077"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss02 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss02",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_145"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss03 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss03",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_116"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss04 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss04",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_141"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss07 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss07",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_134"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss08 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss08",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_123"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss09 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss09",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_122"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss10 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss10",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_127"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss13 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss13",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_175"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
+    },
+    {
+      "appointed_weapon": "",
+      "big": false,
+      "boss": true,
+      "class_name": "RGChestBoss",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest_boss14 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "has_coin": false,
+      "id": "chest_boss14",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "material_chest": false,
+      "object_list": [
+        "weapon_176"
+      ],
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_count": 1,
+      "weapon_drop_level": 2
     }
   ],
   "coins": [

@@ -40,13 +40,28 @@ public:
                          "sorting_layer":5,"sorting_order":1}]},
             {"id":"chest01","level":1,"open_time":1.0,"weapon_drop_level":1,
              "visuals":[{"sprite":"sprite","offset":[0,0],
+                         "sorting_layer":5,"sorting_order":1}]},
+            {"id":"chest_boss01","level":2,"open_time":1.0,"boss":true,"object_list":["weapon_fixed"],"weapon_drop_level":2,
+             "visuals":[{"sprite":"sprite","offset":[0,0],
+                         "sorting_layer":5,"sorting_order":1}]},
+            {"id":"chest_big","level":1,"open_time":1.0,"big":true,
+             "weapon_count":2,"weapon_drop_level":1,
+             "visuals":[{"sprite":"sprite","offset":[0,0],
                          "sorting_layer":5,"sorting_order":1}]}
           ],
           "coins": [{"id":"coin_0","type":0,"value":5,"speed":20,"range":7,
                      "frames":["sprite"]}],
-          "weapon_drops": [{"level":1,"entries":[
-            {"weapon":"weapon_000","weight":1,"title":"Bad Pistol"},
-            {"weapon":"weapon_001","weight":1,"title":"P250 Pistol"}]}]
+          "weapon_drops": [
+            {"level":1,"entries":[
+              {"weapon":"weapon_000","weight":1,"title":"Bad Pistol"},
+              {"weapon":"weapon_001","weight":1,"title":"P250 Pistol"}]},
+            {"level":2,"entries":[
+              {"weapon":"weapon_002","weight":1,"title":"Chest A"}]},
+            {"level":5,"entries":[
+              {"weapon":"weapon_005","weight":1,"title":"Boss A"}]},
+            {"level":6,"entries":[
+              {"weapon":"weapon_006","weight":1,"title":"Boss B"}]}
+          ]
         })";
     }
     ~TempItemDirectory() {
@@ -92,9 +107,9 @@ TEST_CASE("RGChest weapon loot uses the recovered drop table deterministically" 
     ItemAssets assets;
     std::string error;
     CHECK(assets.Load(filesystem, temp.Path() / "items.json", &error));
-    CHECK(assets.WeaponDrops().size() == 1);
+    CHECK(assets.WeaponDrops().size() == 4);
     ItemWorld world;
-    world.SetAvailableWeapons({"weapon_000", "weapon_001"});
+    world.SetAvailableWeapons({"weapon_005"});
     world.EnterRoom("r1_2_visual", false, {0.0f, 0.0f});
     world.AddChest("chest01", {4.0f, 4.0f});
     CHECK(world.OpenNearestChest({4.0f, 4.0f}, 2.0f));
@@ -104,11 +119,48 @@ TEST_CASE("RGChest weapon loot uses the recovered drop table deterministically" 
     const auto drops = world.TakePendingWeaponDrops();
     CHECK(drops.size() == 1);
     if (drops.size() == 1) {
-        CHECK((drops[0].weapon == "weapon_000" ||
-               drops[0].weapon == "weapon_001"));
+        CHECK(drops[0].weapon == "weapon_005");
         CHECK(drops[0].position.x == doctest::Approx(4.0f));
     }
     CHECK(world.TakePendingWeaponDrops().empty());
+}
+
+TEST_CASE("RGChestBoss uses its fixed object_list or the level-5/6 pool" *
+          doctest::test_suite("unit")) {
+    TempItemDirectory temp;
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    ItemAssets assets;
+    std::string error;
+    CHECK(assets.Load(filesystem, temp.Path() / "items.json", &error));
+    ItemWorld world;
+    world.EnterRoom("r1_2_visual", false, {0.0f, 0.0f});
+    world.AddChest("chest_boss01", {4.0f, 4.0f});
+    CHECK(world.OpenNearestChest({4.0f, 4.0f}, 2.0f));
+    world.Update(1.01f, {4.0f, 4.0f}, assets);
+    const auto drops = world.TakePendingWeaponDrops();
+    CHECK(drops.size() == 1);
+    if (drops.size() == 1) {
+        CHECK((drops[0].weapon == "weapon_fixed" ||
+               drops[0].weapon == "weapon_005" ||
+               drops[0].weapon == "weapon_006"));
+    }
+}
+
+TEST_CASE("RGChestBig rolls its recovered two-item count" *
+          doctest::test_suite("unit")) {
+    TempItemDirectory temp;
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    ItemAssets assets;
+    std::string error;
+    CHECK(assets.Load(filesystem, temp.Path() / "items.json", &error));
+    ItemWorld world;
+    world.EnterRoom("r1_2_visual", false, {0.0f, 0.0f});
+    world.AddChest("chest_big", {4.0f, 4.0f});
+    CHECK(world.OpenNearestChest({4.0f, 4.0f}, 2.0f));
+    world.Update(1.01f, {4.0f, 4.0f}, assets);
+    CHECK(world.TakePendingWeaponDrops().size() == 2);
 }
 
 TEST_CASE("Room transitions preserve opened chest state" *

@@ -76,6 +76,15 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
             chest.weapon_count = std::max(1, item.value("weapon_count", 1));
             chest.has_coin = item.value("has_coin", false);
             chest.material_chest = item.value("material_chest", false);
+            chest.boss = item.value("boss", false);
+            chest.big = item.value("big", false);
+            if (item.contains("object_list") && item["object_list"].is_array()) {
+                for (const Json& weapon : item["object_list"]) {
+                    if (weapon.is_string()) {
+                        chest.object_list.push_back(weapon.get<std::string>());
+                    }
+                }
+            }
             if (item.contains("visuals")) {
                 for (const Json& visual_item : item["visuals"]) {
                     if (!visual_item.is_object() ||

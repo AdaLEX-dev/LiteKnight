@@ -77,13 +77,15 @@ void ItemWorld::Update(float delta_seconds, const engine::Vec2& player_position,
         if (chest.loot_spawned) continue;
         chest.loot_spawned = true;
         if (definition == nullptr) continue;
-        // RGChestAppoint has a fixed object_list entry. RGChest uses
-        // WeaponDropInfo.GetWeaponWithDropLevel(level, rg_random).
-        if (!definition->appointed_weapon.empty()) {
-            chest.pending_weapons.push_back(definition->appointed_weapon);
-        } else if (definition->weapon_drop_level >= -2) {
-            int drop_level = definition->weapon_drop_level;
-            if (drop_level == -2) drop_level = chest_level_;
+        std::uint32_t hash = 2166136261u;
+        for (char c : room_id_) {
+            hash ^= static_cast<unsigned char>(c);
+            hash *= 16777619u;
+        }
+        hash ^= static_cast<std::uint32_t>(chest_index) * 0x9E3779B9u;
+        engine::RGRandomStream random;
+        random.SetRandomSeed(static_cast<int32_t>(hash & 0x7FFFFFFFu));
+        const auto roll_weapon = [&](int drop_level) {
             const WeaponDropLevel* drop = nullptr;
             for (const WeaponDropLevel& candidate : assets.WeaponDrops()) {
                 if (candidate.level == drop_level) {
@@ -91,41 +93,67 @@ void ItemWorld::Update(float delta_seconds, const engine::Vec2& player_position,
                     break;
                 }
             }
-            if (drop != nullptr) {
-                std::vector<const WeaponDropEntry*> candidates;
-                int total_weight = 0;
-                for (const WeaponDropEntry& entry : drop->entries) {
-                    if (!available_weapons_.empty() &&
-                        std::find(available_weapons_.begin(),
-                                  available_weapons_.end(),
-                                  entry.weapon) == available_weapons_.end()) {
-                        continue;
-                    }
-                    candidates.push_back(&entry);
-                    total_weight += entry.weight;
+            if (drop == nullptr) return;
+            std::vector<const WeaponDropEntry*> candidates;
+            int total_weight = 0;
+            for (const WeaponDropEntry& entry : drop->entries) {
+                if (!available_weapons_.empty() &&
+                    std::find(available_weapons_.begin(),
+                              available_weapons_.end(),
+                              entry.weapon) == available_weapons_.end()) {
+                    continue;
                 }
-                if (!candidates.empty() && total_weight > 0) {
-                    std::uint32_t hash = 2166136261u;
-                    for (char c : room_id_) {
-                        hash ^= static_cast<unsigned char>(c);
-                        hash *= 16777619u;
-                    }
-                    hash ^= static_cast<std::uint32_t>(chest_index) *
-                            0x9E3779B9u;
-                    engine::RGRandomStream random;
-                    random.SetRandomSeed(static_cast<int32_t>(hash & 0x7FFFFFFFu));
-                    for (int roll_index = 0;
-                         roll_index < definition->weapon_count; ++roll_index) {
-                        int roll = random.Range(0, total_weight);
-                        for (const WeaponDropEntry* entry : candidates) {
-                            if (roll < entry->weight) {
-                                chest.pending_weapons.push_back(entry->weapon);
-                                break;
-                            }
-                            roll -= entry->weight;
-                        }
-                    }
+                candidates.push_back(&entry);
+                total_weight += entry.weight;
+            }
+            if (candidates.empty() || total_weight <= 0) return;
+            int roll = random.Range(0, total_weight);
+            for (const WeaponDropEntry* entry : candidates) {
+                if (roll < entry->weight) {
+                    chest.pending_weapons.push_back(entry->weapon);
+                    return;
                 }
+                roll -= entry->weight;
+            }
+        };
+
+        // RGChestAppoint has a fixed object_list entry.
+        if (!definition->appointed_weapon.empty()) {
+            chest.pending_weapons.push_back(definition->appointed_weapon);
+        } else if (definition->boss) {
+            // RGChestBoss.Start: finalLevel = max(5, level + chest_level).
+            // OpenChest: 25% fixed boss weapon, otherwise one sample weapon.
+            const int final_level = std::max(
+                5, definition->level + chest_level_);
+            if (!definition->object_list.empty() &&
+                random.Range(0, 100) <= 24) {
+                const int index = random.Range(
+                    0, static_cast<int>(definition->object_list.size()));
+                chest.pending_weapons.push_back(
+                    definition->object_list[static_cast<std::size_t>(index)]);
+            } else {
+                roll_weapon(final_level);
+            }
+        } else if (definition->big) {
+            // RGChestBig.Start: finalLevel = level + chest_level. Each item has
+            // a 50% chance to be one drop level lower (clamped 0..5).
+            const int final_level = definition->level + chest_level_;
+            for (int i = 0; i < definition->weapon_count; ++i) {
+                const int reduce = random.Range(0, 100) < 50 ? 1 : 0;
+                roll_weapon(std::clamp(final_level - reduce, 0, 5));
+            }
+        } else if (definition->weapon_drop_level >= -2) {
+            // RGChest.Start: level >= 6 clamps to 6; otherwise
+            // max(5, level + MapManagerLevel.chest_level).
+            int drop_level = definition->weapon_drop_level;
+            if (drop_level == -2) {
+                drop_level = chest_level_;
+            } else {
+                drop_level = definition->level >= 6
+                    ? 6 : std::max(5, definition->level + chest_level_);
+            }
+            for (int i = 0; i < definition->weapon_count; ++i) {
+                roll_weapon(drop_level);
             }
         }
         const CoinDefinition* coin = assets.FindCoin(definition->loot_coin);

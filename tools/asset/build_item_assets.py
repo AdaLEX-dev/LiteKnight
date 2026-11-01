@@ -111,6 +111,8 @@ def main() -> int:
                     "chest_single_big", "chest_gold_single_big",
                     "coin_0", "coin_1", "coin_2", "energy"}:
             game_objects.setdefault(name, data)
+        elif re.fullmatch(r"chest_boss\d{2}", name):
+            game_objects.setdefault(name, data)
         elif re.fullmatch(r"material_[a-z0-9_]+", name) and \
                 name not in {"material_panel", "material_proto"}:
             game_objects.setdefault(name, data)
@@ -155,9 +157,11 @@ def main() -> int:
 
     chest_defs = []
     coin_defs = []
-    for chest_name in ["chest00", "chest01", "chest02", "chest03",
-                       "chest_big", "chest_boss", "chest_room_reward",
-                       "chest_single_big", "chest_gold_single_big"]:
+    boss_chests = [f"chest_boss{index:02d}" for index in range(1, 15)]
+    for chest_name in (["chest00", "chest01", "chest02", "chest03",
+                        "chest_big", "chest_boss", "chest_room_reward",
+                        "chest_single_big", "chest_gold_single_big"] +
+                       boss_chests):
         go = game_objects.get(chest_name)
         if go is None:
             continue
@@ -191,6 +195,9 @@ def main() -> int:
         weapon_count = 1
         has_coin = False
         material_chest = False
+        boss = False
+        big = False
+        object_list = []
         class_name = ""
         for component in go.m_Component:
             if component.component.type.name != "MonoBehaviour":
@@ -211,6 +218,17 @@ def main() -> int:
                                getattr(candidate, "award_count", 0) or 1)
             has_coin = bool(getattr(candidate, "has_coin", 0))
             material_chest = "Material" in candidate_class
+            boss = candidate_class == "RGChestBoss"
+            big = candidate_class in ("RGChestBig", "ItemChestBig")
+            if hasattr(candidate, "object_list"):
+                for pointer in list(getattr(candidate, "object_list", []) or []):
+                    try:
+                        obj = pointer.read()
+                        name = str(getattr(obj, "m_Name", ""))
+                        if name:
+                            object_list.append(name)
+                    except Exception:
+                        continue
             break
         chest_defs.append({
             "id": chest_name,
@@ -219,6 +237,9 @@ def main() -> int:
             "weapon_count": weapon_count,
             "has_coin": has_coin,
             "material_chest": material_chest,
+            "boss": boss,
+            "big": big,
+            "object_list": object_list,
             "visuals": visual_specs,
             "collider_half_extents": [0.5, 0.35],
             "collider_offset": [0.0, 0.35],

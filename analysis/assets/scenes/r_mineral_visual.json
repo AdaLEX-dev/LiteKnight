@@ -1897,7 +1897,10 @@
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy10_4_-7832585593938164910",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_alien01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -1909,8 +1912,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy10_6_6502305029938491659",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 25,
       "id": "e_alien01",
       "idle_sprites": [
@@ -1923,8 +1931,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-2819226334871103305",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -1932,14 +1943,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.5,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy10_4_-7832585593938164910",
+      "burst_count": 3,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_alien02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -1951,8 +1968,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy10_6_6502305029938491659",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 25,
       "id": "e_alien02",
       "idle_sprites": [
@@ -1965,6 +1987,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "7667914916795349883",
       "projectile": {
         "camp": 0,
@@ -1984,6 +2008,7 @@
         "sorting_order": 0,
         "sprite": "bullet_87_8057191759279053040"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -1991,14 +2016,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 0.5,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 5.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy10_4_-7832585593938164910",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_alien03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2010,8 +2041,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 5,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy10_6_6502305029938491659",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 30,
       "id": "e_alien03",
       "idle_sprites": [
@@ -2024,6 +2060,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "4286053269762484978",
       "projectile": {
         "camp": 0,
@@ -2043,6 +2081,7 @@
         "sorting_order": 0,
         "sprite": "bullet_44_-8478285347761796709"
       },
+      "projectile_count": 1,
       "projectile_damage": 5,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2050,14 +2089,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy02_1_4720681468609544066",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_battery01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         -0.10000000149011612,
@@ -2069,8 +2114,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 5,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy02_2_163702086264988280",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_battery01",
       "idle_sprites": [
@@ -2079,6 +2129,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "7659049612167977937",
       "projectile": {
         "camp": 0,
@@ -2098,6 +2150,7 @@
         "sorting_order": 0,
         "sprite": "bullet_30_-5415474201970131449"
       },
+      "projectile_count": 1,
       "projectile_damage": 5,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -2105,14 +2158,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 0
+      "shoot_time": 0.0,
+      "speed": 0,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy27_4_9213098885762567913",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI04",
       "classification": "CONFIRMED e_boar01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2124,8 +2183,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy27_6_-4623876815043400514",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_boar01",
       "idle_sprites": [
@@ -2142,8 +2206,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-1605107766631148678",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -2151,14 +2218,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy28_4_-3305561435254288134",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI09",
       "classification": "CONFIRMED e_boar02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2170,8 +2243,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 1.5,
+      "dash_speed": 8.0,
       "dead_sprite": "enemy28_6_-444393786074465749",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 10,
       "id": "e_boar02",
       "idle_sprites": [
@@ -2188,8 +2266,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-8586897031053171531",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -2197,14 +2278,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy18_12_2727118031561288257",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI08",
       "classification": "CONFIRMED e_chest1 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2216,8 +2303,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy18_14_-3111647489577013791",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 30,
       "id": "e_chest1",
       "idle_sprites": [
@@ -2230,6 +2322,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": true,
       "path_id": "-6027292718440309830",
       "projectile": {
         "camp": 0,
@@ -2249,6 +2343,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -2256,14 +2351,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow1_-7299202903062884867",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy18_4_394675555605301851",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI08",
       "classification": "CONFIRMED e_chest2 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2275,8 +2376,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy18_6_4730491178211365453",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 40,
       "id": "e_chest2",
       "idle_sprites": [
@@ -2289,6 +2395,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": true,
       "path_id": "-5556454494065708302",
       "projectile": {
         "camp": 0,
@@ -2308,6 +2416,7 @@
         "sorting_order": 0,
         "sprite": "bullet_87_8057191759279053040"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -2315,14 +2424,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow1_-7299202903062884867",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy13_4_1098077968153724728",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_creeper RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2334,8 +2449,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy13_6_7374347261037926872",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_creeper",
       "idle_sprites": [
@@ -2348,6 +2468,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "6459881311434891702",
       "projectile": {
         "camp": 0,
@@ -2367,6 +2489,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2374,14 +2497,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy14_3_7693149725977360060",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_creeper_fly RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2393,8 +2522,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy14_4_-1845499496564736763",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_creeper_fly",
       "idle_sprites": [
@@ -2415,8 +2549,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "8466318765870862066",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -2424,14 +2561,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy36_0_-2473660822205649465",
+      "burst_count": 5,
+      "burst_interval": 0.15,
       "camp": 0,
+      "class_name": "EnemyAI11",
       "classification": "CONFIRMED e_crystal RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2443,8 +2586,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy36_2_-4646578112713101507",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 30.0,
       "hp": 12,
       "id": "e_crystal",
       "idle_sprites": [
@@ -2453,6 +2601,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-5456799002198042515",
       "projectile": {
         "camp": 0,
@@ -2472,6 +2622,7 @@
         "sorting_order": 0,
         "sprite": "bullet_108_-6768193395203945551"
       },
+      "projectile_count": 2,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2479,14 +2630,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy43_4_5097965456664978042",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_fireknight01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2498,8 +2655,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy43_6_-1968513100081339627",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 36,
       "id": "e_fireknight01",
       "idle_sprites": [
@@ -2512,6 +2674,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "9217626380867902172",
       "projectile": {
         "camp": 0,
@@ -2531,6 +2695,7 @@
         "sorting_order": 0,
         "sprite": "effect_sting_0_3963580343320252787"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2538,14 +2703,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy43_4_5097965456664978042",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_fireknight02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2557,8 +2728,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy43_6_-1968513100081339627",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 36,
       "id": "e_fireknight02",
       "idle_sprites": [
@@ -2571,6 +2747,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-4852261146463426333",
       "projectile": {
         "camp": 0,
@@ -2590,6 +2768,7 @@
         "sorting_order": 0,
         "sprite": "bullet_44_-8478285347761796709"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2597,14 +2776,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy44_4_-6716713817578992078",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI15",
       "classification": "CONFIRMED e_fireknight03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2616,8 +2801,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy44_8_-9127706755932537270",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 70,
       "id": "e_fireknight03",
       "idle_sprites": [
@@ -2638,6 +2828,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-6538451799065281266",
       "projectile": {
         "camp": 0,
@@ -2657,6 +2849,7 @@
         "sorting_order": 0,
         "sprite": "bullet_26_5088758692506102188"
       },
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2664,14 +2857,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "frankenstein_4_2435700586161863704",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI15",
       "classification": "CONFIRMED e_frankenstein RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2683,8 +2882,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "frankenstein_8_-8329885949967970496",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 50,
       "id": "e_frankenstein",
       "idle_sprites": [
@@ -2705,6 +2909,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-493430170851064797",
       "projectile": {
         "camp": 0,
@@ -2724,6 +2930,7 @@
         "sorting_order": 0,
         "sprite": "bullet_30_-5415474201970131449"
       },
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2731,14 +2938,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "toad_0_5273092113952080702",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAIFrog",
       "classification": "CONFIRMED e_frog RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2750,8 +2963,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.5,
+      "dash_speed": 8.0,
       "dead_sprite": "toad_4_941991122446077855",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 10,
+      "death_explosion_radius": 2.5,
+      "fan_angle": 0.0,
       "hp": 9,
       "id": "e_frog",
       "idle_sprites": [
@@ -2760,8 +2978,11 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-5616576027869221863",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -2769,14 +2990,190 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
+    },
+    {
+      "attack_range": 8.0,
+      "body_sorting_layer": 5,
+      "body_sorting_order": 1,
+      "body_sprite": "ghost_9_-6564998230889218661",
+      "burst_count": 1,
+      "burst_interval": 0.0,
+      "camp": 0,
+      "class_name": "EnemyAIGhost",
+      "classification": "CONFIRMED e_ghost RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
+      "dead_sprite": "ghost_13_-1387928549833920094",
+      "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
+      "hp": 9,
+      "id": "e_ghost",
+      "idle_sprites": [
+        {
+          "sprite": "ghost_9_-6564998230889218661",
+          "time": 0.0
+        },
+        {
+          "sprite": "ghost_10_8760344798644624507",
+          "time": 0.125
+        },
+        {
+          "sprite": "ghost_11_748051833085617788",
+          "time": 0.25
+        },
+        {
+          "sprite": "ghost_12_-5587566258771709115",
+          "time": 0.375
+        },
+        {
+          "sprite": "ghost_13_-1387928549833920094",
+          "time": 0.5
+        }
+      ],
+      "lock_in_shooting": false,
+      "mimic": false,
+      "path_id": "2237081195278513550",
+      "projectile": {
+        "camp": 0,
+        "can_rebound": true,
+        "collider_offset": [
+          0.0,
+          0.0
+        ],
+        "collider_size": [
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "id": "bullet_e_1",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_29_-1150908520057953841"
+      },
+      "projectile_count": 1,
+      "projectile_damage": 3,
+      "projectile_speed": 10.0,
+      "ranged": true,
+      "shadow_sorting_layer": 3,
+      "shadow_sorting_order": 0,
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "shoot_cooldown": 3.0,
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
+    },
+    {
+      "attack_range": 8.0,
+      "body_sorting_layer": 5,
+      "body_sorting_order": 1,
+      "body_sprite": "ghost_9_-6564998230889218661",
+      "burst_count": 1,
+      "burst_interval": 0.0,
+      "camp": 0,
+      "class_name": "EnemyAIGhost",
+      "classification": "CONFIRMED e_ghost_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
+      "collider_offset": [
+        0.0,
+        0.5
+      ],
+      "collider_size": [
+        1.0,
+        1.0
+      ],
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
+      "dead_sprite": "ghost_13_-1387928549833920094",
+      "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
+      "hp": 9,
+      "id": "e_ghost_temp",
+      "idle_sprites": [
+        {
+          "sprite": "ghost_9_-6564998230889218661",
+          "time": 0.0
+        },
+        {
+          "sprite": "ghost_10_8760344798644624507",
+          "time": 0.125
+        },
+        {
+          "sprite": "ghost_11_748051833085617788",
+          "time": 0.25
+        },
+        {
+          "sprite": "ghost_12_-5587566258771709115",
+          "time": 0.375
+        },
+        {
+          "sprite": "ghost_13_-1387928549833920094",
+          "time": 0.5
+        }
+      ],
+      "lock_in_shooting": false,
+      "mimic": false,
+      "path_id": "-273714849037375640",
+      "projectile": {
+        "camp": 0,
+        "can_rebound": true,
+        "collider_offset": [
+          0.0,
+          0.0
+        ],
+        "collider_size": [
+          0.30000001192092896,
+          0.30000001192092896
+        ],
+        "id": "bullet_e_1",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_29_-1150908520057953841"
+      },
+      "projectile_count": 1,
+      "projectile_damage": 3,
+      "projectile_speed": 10.0,
+      "ranged": true,
+      "shadow_sorting_layer": 3,
+      "shadow_sorting_order": 0,
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "shoot_cooldown": 3.0,
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy06_4_-5452261228356149839",
+      "burst_count": 16,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_giant RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2788,8 +3185,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy06_6_-7091323428554347148",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 60,
       "id": "e_giant",
       "idle_sprites": [
@@ -2802,8 +3204,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "-2336340693253850199",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -2811,14 +3216,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 5.0,
-      "speed": 3
+      "shoot_time": 3.0,
+      "speed": 3,
+      "stand_in_shooting": true,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy11_4_-4792385863816387415",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_golem01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2830,8 +3241,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy11_6_-8830746776420048394",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 28,
       "id": "e_golem01",
       "idle_sprites": [
@@ -2844,6 +3260,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "7723261503762323643",
       "projectile": {
         "camp": 0,
@@ -2863,6 +3281,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 16.0,
       "ranged": true,
@@ -2870,14 +3289,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy11_4_-4792385863816387415",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_golem02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2889,8 +3314,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy11_6_-8830746776420048394",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 28,
       "id": "e_golem02",
       "idle_sprites": [
@@ -2903,6 +3333,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-3675383099486639238",
       "projectile": {
         "camp": 0,
@@ -2922,6 +3354,7 @@
         "sorting_order": 0,
         "sprite": "bullet_92_5116854865751873143"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2929,14 +3362,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy16_4_-859097902442596637",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI07",
       "classification": "CONFIRMED e_hammer RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -2948,8 +3387,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy16_8_5345959178515889471",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 50,
       "id": "e_hammer",
       "idle_sprites": [
@@ -2970,6 +3414,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "8946094595913508902",
       "projectile": {
         "camp": 0,
@@ -2989,6 +3435,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -2996,14 +3443,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy03_4_2668544751360401854",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_knight01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3015,8 +3468,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy03_6_7542111201028531483",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_knight01",
       "idle_sprites": [
@@ -3029,6 +3487,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-4581282527620579552",
       "projectile": {
         "camp": 0,
@@ -3048,6 +3508,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3055,14 +3516,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy03_4_2668544751360401854",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_knight02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3074,8 +3541,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy03_6_7542111201028531483",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_knight02",
       "idle_sprites": [
@@ -3088,6 +3560,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "8614804391684614103",
       "projectile": {
         "camp": 0,
@@ -3107,6 +3581,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3114,14 +3589,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy03_4_2668544751360401854",
+      "burst_count": 8,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_knight03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3133,8 +3614,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy03_6_7542111201028531483",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_knight03",
       "idle_sprites": [
@@ -3147,6 +3633,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "3960711694660206620",
       "projectile": {
         "camp": 0,
@@ -3166,6 +3654,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3173,14 +3662,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 1.5,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy04_4_-9063741577113046773",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_knight04 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3192,8 +3687,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy04_6_-2650596259708101528",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 24,
       "id": "e_knight04",
       "idle_sprites": [
@@ -3206,6 +3706,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-4034004968150568860",
       "projectile": {
         "camp": 0,
@@ -3225,6 +3727,7 @@
         "sorting_order": 0,
         "sprite": "bullet_86_-4576818979175312745"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3232,14 +3735,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy04_4_-9063741577113046773",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_knight05 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3251,8 +3760,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy04_6_-2650596259708101528",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 24,
       "id": "e_knight05",
       "idle_sprites": [
@@ -3265,6 +3779,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-6436565890360269743",
       "projectile": {
         "camp": 0,
@@ -3284,6 +3800,7 @@
         "sorting_order": 0,
         "sprite": "bullet_109_-4277160047592126525"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 16.0,
       "ranged": true,
@@ -3291,14 +3808,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy04_4_-9063741577113046773",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_knight06 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3310,8 +3833,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy04_6_-2650596259708101528",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 24,
       "id": "e_knight06",
       "idle_sprites": [
@@ -3324,6 +3852,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "3419995874048432785",
       "projectile": {
         "camp": 0,
@@ -3343,6 +3873,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3350,14 +3881,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "malphite_1_-2528020073697056597",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI16",
       "classification": "CONFIRMED e_malphite01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3369,8 +3906,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "malphite_12_2977925650931360050",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_malphite01",
       "idle_sprites": [
@@ -3379,8 +3921,11 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "1250720596177794552",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -3388,14 +3933,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "malphite_1_-2528020073697056597",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI16",
       "classification": "CONFIRMED e_malphite01_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3407,8 +3958,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "malphite_12_2977925650931360050",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 7,
       "id": "e_malphite01_temp",
       "idle_sprites": [
@@ -3417,8 +3973,11 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-3041795989124079337",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -3426,14 +3985,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "malphite_5_-5859613737353558106",
+      "burst_count": 2,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI19",
       "classification": "CONFIRMED e_malphite02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3445,8 +4010,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "malphite_13_84242129807343689",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 13,
       "id": "e_malphite02",
       "idle_sprites": [
@@ -3455,6 +4025,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "2952704795149111216",
       "projectile": {
         "camp": 0,
@@ -3474,6 +4046,7 @@
         "sorting_order": 0,
         "sprite": "bullet_87_8057191759279053040"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3481,14 +4054,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 0.30000001192092896,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "malphite_5_-5859613737353558106",
+      "burst_count": 2,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI19",
       "classification": "CONFIRMED e_malphite02_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3500,8 +4079,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "malphite_13_84242129807343689",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 10,
       "id": "e_malphite02_temp",
       "idle_sprites": [
@@ -3510,6 +4094,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "6571657546889346398",
       "projectile": {
         "camp": 0,
@@ -3529,6 +4115,7 @@
         "sorting_order": 0,
         "sprite": "bullet_87_8057191759279053040"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3536,14 +4123,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 0.30000001192092896,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "malphite_9_7348145749460961006",
+      "burst_count": 6,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI18",
       "classification": "CONFIRMED e_malphite03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3555,8 +4148,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "malphite_14_-3352836650106033632",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 30,
       "id": "e_malphite03",
       "idle_sprites": [
@@ -3565,6 +4163,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "2671002087718849987",
       "projectile": {
         "camp": 0,
@@ -3584,6 +4184,7 @@
         "sorting_order": 10,
         "sprite": "malphite_8_1522057459310312477"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3591,14 +4192,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 8
+      "shoot_time": 1.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "malphite_9_7348145749460961006",
+      "burst_count": 6,
+      "burst_interval": 0.2,
       "camp": 1,
+      "class_name": "EnemyAI18",
       "classification": "CONFIRMED e_malphite03_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3610,8 +4217,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "malphite_14_-3352836650106033632",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 999999,
       "id": "e_malphite03_temp",
       "idle_sprites": [
@@ -3620,6 +4232,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-3437187171248255484",
       "projectile": {
         "camp": 0,
@@ -3639,6 +4253,7 @@
         "sorting_order": 10,
         "sprite": "malphite_8_1522057459310312477"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3646,14 +4261,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.5,
-      "speed": 8
+      "shoot_time": 1.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "malphite_9_7348145749460961006",
+      "burst_count": 6,
+      "burst_interval": 0.2,
       "camp": 1,
+      "class_name": "EnemyAI18",
       "classification": "CONFIRMED e_malphite03_temp2 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3665,8 +4286,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "malphite_14_-3352836650106033632",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 999999,
       "id": "e_malphite03_temp2",
       "idle_sprites": [
@@ -3675,6 +4301,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-7771760812434257427",
       "projectile": {
         "camp": 0,
@@ -3694,6 +4322,7 @@
         "sorting_order": 10,
         "sprite": "malphite_8_1522057459310312477"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3701,14 +4330,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.5,
-      "speed": 8
+      "shoot_time": 1.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy31_4_562555180400755744",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_miner01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3720,8 +4355,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy31_6_-676574902640322933",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_miner01",
       "idle_sprites": [
@@ -3734,6 +4374,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-6476330152139950827",
       "projectile": {
         "camp": 0,
@@ -3753,6 +4395,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3760,14 +4403,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy31_4_562555180400755744",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_miner02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3779,8 +4428,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy31_6_-676574902640322933",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_miner02",
       "idle_sprites": [
@@ -3793,6 +4447,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "4073761262861425238",
       "projectile": {
         "camp": 0,
@@ -3812,6 +4468,7 @@
         "sorting_order": 0,
         "sprite": "effect_sting_0_3963580343320252787"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3819,14 +4476,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy33_4_5904063541693301164",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_miner03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3838,8 +4501,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy33_7_3635683360046273626",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_miner03",
       "idle_sprites": [
@@ -3852,6 +4520,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-4859842836228273595",
       "projectile": {
         "camp": 0,
@@ -3871,6 +4541,7 @@
         "sorting_order": 0,
         "sprite": "bullet_30_-5415474201970131449"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -3878,14 +4549,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy32_4_423907734515690887",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_miner04 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3897,8 +4574,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy32_6_3882899714150132031",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_miner04",
       "idle_sprites": [
@@ -3911,6 +4593,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "747432743396759309",
       "projectile": {
         "camp": 0,
@@ -3930,6 +4614,7 @@
         "sorting_order": 0,
         "sprite": "bullet_107_379688652040156559"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -3937,14 +4622,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy32_4_423907734515690887",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_miner05 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -3956,8 +4647,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy32_6_3882899714150132031",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_miner05",
       "idle_sprites": [
@@ -3970,6 +4666,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "1371646319266828176",
       "projectile": {
         "camp": 0,
@@ -3989,6 +4687,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 15.0,
       "ranged": true,
@@ -3996,14 +4695,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy33_1_-6112482284692365185",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_miner06 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4015,8 +4720,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy33_0_3492560557206801008",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_miner06",
       "idle_sprites": [
@@ -4029,6 +4739,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-8830543417114206410",
       "projectile": {
         "camp": 0,
@@ -4048,6 +4760,7 @@
         "sorting_order": 0,
         "sprite": "bullet_73_6078605703465127867"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -4055,14 +4768,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "monkey02_0_1368665863629702637",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_monkey01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4074,8 +4793,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "monkey02_9_243407811131137558",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 14,
       "id": "e_monkey01",
       "idle_sprites": [
@@ -4088,6 +4812,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-3987576690700671513",
       "projectile": {
         "camp": 0,
@@ -4107,6 +4833,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -4114,14 +4841,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "monkey_0_5963842402454125458",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_monkey02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4133,8 +4866,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "monkey_9_1657503633836609429",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 9,
       "id": "e_monkey02",
       "idle_sprites": [
@@ -4147,6 +4885,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "3903362489785456593",
       "projectile": {
         "camp": 0,
@@ -4166,6 +4906,7 @@
         "sorting_order": 0,
         "sprite": "bullet_81_4446531155479153048"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 15.0,
       "ranged": true,
@@ -4173,14 +4914,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "monkey_0_5963842402454125458",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_monkey03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4192,8 +4939,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "monkey_9_1657503633836609429",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 14,
       "id": "e_monkey03",
       "idle_sprites": [
@@ -4206,6 +4958,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-5370856684553367077",
       "projectile": {
         "camp": 0,
@@ -4225,6 +4979,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -4232,14 +4987,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "monkey_0_5963842402454125458",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_monkey04 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4251,8 +5012,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "monkey_9_1657503633836609429",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 14,
       "id": "e_monkey04",
       "idle_sprites": [
@@ -4265,6 +5031,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "1612313635936782967",
       "projectile": {
         "camp": 0,
@@ -4284,6 +5052,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -4291,14 +5060,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "monkey02_0_1368665863629702637",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_monkey05 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4310,8 +5085,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "monkey02_9_243407811131137558",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_monkey05",
       "idle_sprites": [
@@ -4324,6 +5104,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "6529682703243341591",
       "projectile": {
         "camp": 0,
@@ -4343,6 +5125,7 @@
         "sorting_order": 0,
         "sprite": "weapons2_86_-5160752783170099990"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 8.0,
       "ranged": true,
@@ -4350,14 +5133,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 4.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy38_0_-4323333181637200514",
+      "burst_count": 8,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_mosquito RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4369,8 +5158,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy38_4_4992089121954751162",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 18,
       "id": "e_mosquito",
       "idle_sprites": [
@@ -4391,6 +5185,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "3113155932263883668",
       "projectile": {
         "camp": 0,
@@ -4410,6 +5206,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -4417,14 +5214,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 12
+      "shoot_time": 1.5,
+      "speed": 12,
+      "stand_in_shooting": true,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy42_4_-311590113211951608",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_mummy01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4436,8 +5239,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy42_6_-3341183138650856011",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 16,
       "id": "e_mummy01",
       "idle_sprites": [
@@ -4450,6 +5258,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "1546565546579717095",
       "projectile": {
         "camp": 0,
@@ -4469,6 +5279,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -4476,14 +5287,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy42_4_-311590113211951608",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_mummy01_sheep_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4495,8 +5312,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 1,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy42_6_-3341183138650856011",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_mummy01_sheep_temp",
       "idle_sprites": [
@@ -4509,6 +5331,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "7776996191520816812",
       "projectile": {
         "camp": 0,
@@ -4528,6 +5352,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 1,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -4535,14 +5360,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy42_4_-311590113211951608",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_mummy02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4554,8 +5385,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy42_6_-3341183138650856011",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 26,
       "id": "e_mummy02",
       "idle_sprites": [
@@ -4568,6 +5404,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-1433018092434726298",
       "projectile": {
         "camp": 0,
@@ -4587,6 +5425,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -4594,14 +5433,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy42_4_-311590113211951608",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI13",
       "classification": "CONFIRMED e_mummy03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4613,8 +5458,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy42_6_-3341183138650856011",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 10,
+      "death_explosion_radius": 6.0,
+      "fan_angle": 0.0,
       "hp": 10,
       "id": "e_mummy03",
       "idle_sprites": [
@@ -4627,8 +5477,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-2912505407603611770",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -4636,14 +5489,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 7
+      "shoot_time": 0.0,
+      "speed": 7,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy42_4_-311590113211951608",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI13",
       "classification": "CONFIRMED e_mummy03_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4655,8 +5514,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy42_6_-3341183138650856011",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 10,
+      "death_explosion_radius": 6.0,
+      "fan_angle": 0.0,
       "hp": 10,
       "id": "e_mummy03_temp",
       "idle_sprites": [
@@ -4669,8 +5533,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-4532234153639355668",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -4678,14 +5545,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 7
+      "shoot_time": 0.0,
+      "speed": 7,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy40_4_-310476078835806237",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_mummy04 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4697,8 +5570,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy40_6_2199766394365282888",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 25,
       "id": "e_mummy04",
       "idle_sprites": [
@@ -4711,8 +5589,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "1107854734558629828",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -4720,14 +5601,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy40_4_-310476078835806237",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_mummy04_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4739,8 +5626,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy40_6_2199766394365282888",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 18,
       "id": "e_mummy04_temp",
       "idle_sprites": [
@@ -4753,8 +5645,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-8945896385760482080",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -4762,14 +5657,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy40_4_-310476078835806237",
+      "burst_count": 8,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_mummy05 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4781,8 +5682,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy40_6_2199766394365282888",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 32,
       "id": "e_mummy05",
       "idle_sprites": [
@@ -4795,6 +5701,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "-2434291193889826331",
       "projectile": {
         "camp": 0,
@@ -4814,6 +5722,7 @@
         "sorting_order": 0,
         "sprite": "bullet_108_-6768193395203945551"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -4821,14 +5730,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 1.5,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy40_4_-310476078835806237",
+      "burst_count": 8,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_mummy05_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4840,8 +5755,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy40_6_2199766394365282888",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_mummy05_temp",
       "idle_sprites": [
@@ -4854,6 +5774,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "-237507076265166319",
       "projectile": {
         "camp": 0,
@@ -4873,6 +5795,7 @@
         "sorting_order": 0,
         "sprite": "bullet_108_-6768193395203945551"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -4880,14 +5803,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 1.5,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy22_4_-5612168292755025344",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_orc01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4899,8 +5828,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy22_8_3857677662782699514",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_orc01",
       "idle_sprites": [
@@ -4921,6 +5855,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-453852443907808306",
       "projectile": {
         "camp": 0,
@@ -4940,6 +5876,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -4947,14 +5884,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy22_4_-5612168292755025344",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_orc02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -4966,8 +5909,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy22_8_3857677662782699514",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_orc02",
       "idle_sprites": [
@@ -4988,6 +5936,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-6044831352677839019",
       "projectile": {
         "camp": 0,
@@ -5007,6 +5957,7 @@
         "sorting_order": 0,
         "sprite": "effect_sting_0_3963580343320252787"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5014,14 +5965,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy22_4_-5612168292755025344",
+      "burst_count": 8,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_orc03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5033,8 +5990,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy22_8_3857677662782699514",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_orc03",
       "idle_sprites": [
@@ -5055,6 +6017,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "-5855692896734277429",
       "projectile": {
         "camp": 0,
@@ -5074,6 +6038,7 @@
         "sorting_order": 10,
         "sprite": "bullet_40_-8998262216965228552"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 24.0,
       "ranged": true,
@@ -5081,14 +6046,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 1.5,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy23_4_3523777764864382876",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_orc04 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5100,8 +6071,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy23_8_-7880863789291139540",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_orc04",
       "idle_sprites": [
@@ -5122,6 +6098,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "343110576119374139",
       "projectile": {
         "camp": 0,
@@ -5141,6 +6119,7 @@
         "sorting_order": 0,
         "sprite": "bullet_86_-4576818979175312745"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5148,14 +6127,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy23_4_3523777764864382876",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_orc05 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5167,8 +6152,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy23_8_-7880863789291139540",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_orc05",
       "idle_sprites": [
@@ -5189,6 +6179,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-7909613102223382720",
       "projectile": {
         "camp": 0,
@@ -5208,6 +6200,7 @@
         "sorting_order": 0,
         "sprite": "bullet_87_8057191759279053040"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 16.0,
       "ranged": true,
@@ -5215,14 +6208,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy23_4_3523777764864382876",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_orc06 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5234,8 +6233,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy23_8_-7880863789291139540",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_orc06",
       "idle_sprites": [
@@ -5256,6 +6260,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "7977677083007054226",
       "projectile": {
         "camp": 0,
@@ -5275,6 +6281,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5282,14 +6289,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy26_4_483565686019463280",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_orc07 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5301,8 +6314,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy26_8_-96893481038241902",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 15,
       "id": "e_orc07",
       "idle_sprites": [
@@ -5323,8 +6341,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-2568271380770986270",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -5332,14 +6353,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy25_4_1289861332422596688",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_orc08 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5351,8 +6378,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy25_8_861262705822692352",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 40,
       "id": "e_orc08",
       "idle_sprites": [
@@ -5373,6 +6405,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-8546510775671535109",
       "projectile": {
         "camp": 0,
@@ -5392,6 +6426,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5399,14 +6434,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "c01_4_-5734303052896741615",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_phantom RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5418,8 +6459,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "c01_8_-3060927491772971668",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 9,
       "id": "e_phantom",
       "idle_sprites": [
@@ -5440,6 +6486,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "2348614785072973179",
       "projectile": {
         "camp": 0,
@@ -5459,6 +6507,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5466,14 +6515,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "pumpkin_4_-2501083579335484354",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_pumpkin01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5485,8 +6540,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "pumpkin_8_7489681065513136924",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_pumpkin01",
       "idle_sprites": [
@@ -5507,6 +6567,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "1970482503026255393",
       "projectile": {
         "camp": 0,
@@ -5526,6 +6588,7 @@
         "sorting_order": 10,
         "sprite": "bullet2_28_-1683717760028122008"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 18.0,
       "ranged": true,
@@ -5533,14 +6596,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "pumpkin_4_-2501083579335484354",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_pumpkin02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5552,8 +6621,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "pumpkin_8_7489681065513136924",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 9,
       "id": "e_pumpkin02",
       "idle_sprites": [
@@ -5574,6 +6648,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "4415410059608428170",
       "projectile": {
         "camp": 0,
@@ -5593,6 +6669,7 @@
         "sorting_order": 0,
         "sprite": "bullet_44_-8478285347761796709"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5600,14 +6677,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "pumpkin_4_-2501083579335484354",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_pumpkin03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5619,8 +6702,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "pumpkin_8_7489681065513136924",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 9,
       "id": "e_pumpkin03",
       "idle_sprites": [
@@ -5641,6 +6729,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-5338002238286805868",
       "projectile": {
         "camp": 0,
@@ -5660,6 +6750,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5667,14 +6758,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "squash_4_-6767797141342980449",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_pumpkin04 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5686,8 +6783,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "squash_8_411029446714162669",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 22,
       "id": "e_pumpkin04",
       "idle_sprites": [
@@ -5708,6 +6810,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "4626624511403184699",
       "projectile": {
         "camp": 0,
@@ -5727,6 +6831,7 @@
         "sorting_order": 0,
         "sprite": "bullet_44_-8478285347761796709"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5734,14 +6839,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "squash_4_-6767797141342980449",
+      "burst_count": 6,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_pumpkin05 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5753,8 +6864,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "squash_8_411029446714162669",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_pumpkin05",
       "idle_sprites": [
@@ -5775,6 +6891,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "-17384037403021449",
       "projectile": {
         "camp": 0,
@@ -5794,6 +6912,7 @@
         "sorting_order": 0,
         "sprite": "bullet_86_-4576818979175312745"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -5801,14 +6920,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 1.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "squash_4_-6767797141342980449",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_pumpkin06 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5820,8 +6945,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "squash_8_411029446714162669",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 18,
       "id": "e_pumpkin06",
       "idle_sprites": [
@@ -5842,6 +6972,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "1891519102879094993",
       "projectile": {
         "camp": 0,
@@ -5861,6 +6993,7 @@
         "sorting_order": 0,
         "sprite": "bullet_35_-2845535166081378133"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 12.0,
       "ranged": true,
@@ -5868,14 +7001,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "RockCrab_0_-7099041357471603183",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI20",
       "classification": "CONFIRMED e_rockcrab RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -5887,8 +7026,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "rockcrab_0_-590366675519413317",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 15.0,
       "hp": 22,
       "id": "e_rockcrab",
       "idle_sprites": [
@@ -5901,6 +7045,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-5250152189670479522",
       "projectile": {
         "camp": 0,
@@ -5920,6 +7066,7 @@
         "sorting_order": 0,
         "sprite": "nothing_-3916338455696095381"
       },
+      "projectile_count": 1,
       "projectile_damage": 2,
       "projectile_speed": 8.0,
       "ranged": true,
@@ -5927,14 +7074,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 4.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "worm_0_-4367086905937385810",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI20",
       "classification": "CONFIRMED e_ruinsworm RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.05000000074505806,
@@ -5946,8 +7099,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "worm_12_-4622439288367772151",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 15.0,
       "hp": 10,
       "id": "e_ruinsworm",
       "idle_sprites": [
@@ -5960,6 +7118,8 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "4177173857292818675",
       "projectile": {
         "camp": 0,
@@ -5979,6 +7139,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 5,
       "projectile_damage": 2,
       "projectile_speed": 14.0,
       "ranged": true,
@@ -5986,14 +7147,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 4.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy15_4_1351194683047570976",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_shaman RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6005,8 +7172,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy15_6_2923610979167481672",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_shaman",
       "idle_sprites": [
@@ -6019,8 +7191,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-6317610853930162232",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6028,14 +7203,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy45_0_4116131004537220247",
+      "burst_count": 7,
+      "burst_interval": 0.225,
       "camp": 0,
+      "class_name": "EnemyAIWitch",
       "classification": "CONFIRMED e_shark RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6047,8 +7228,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 1.5,
+      "dash_speed": 10.0,
       "dead_sprite": "enemy45_8_7863392078566352694",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 100,
       "id": "e_shark",
       "idle_sprites": [
@@ -6069,8 +7255,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "6905335041094273527",
       "projectile": {},
+      "projectile_count": 2,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6078,14 +7267,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "toad_0_5273092113952080702",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAIFrog",
       "classification": "CONFIRMED e_sheep_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6097,8 +7292,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 1,
+      "dash_duration": 0.5,
+      "dash_speed": 8.0,
       "dead_sprite": "toad_4_941991122446077855",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 10,
+      "death_explosion_radius": 2.5,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_sheep_temp",
       "idle_sprites": [
@@ -6107,8 +7307,11 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "6798416961621568862",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6116,14 +7319,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy07_4_-4021784309723157647",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_skeleton01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6135,8 +7344,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy07_8_4587246480505806618",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 10,
       "id": "e_skeleton01",
       "idle_sprites": [
@@ -6157,6 +7371,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-5858639355066359839",
       "projectile": {
         "camp": 0,
@@ -6176,6 +7392,7 @@
         "sorting_order": 0,
         "sprite": "bullet_90_-1473150274129725448"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -6183,14 +7400,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy07_4_-4021784309723157647",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_skeleton02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6202,8 +7425,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy07_8_4587246480505806618",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 10,
       "id": "e_skeleton02",
       "idle_sprites": [
@@ -6224,6 +7452,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "9119999287018886078",
       "projectile": {
         "camp": 0,
@@ -6243,6 +7473,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -6250,14 +7481,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy07_4_-4021784309723157647",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_skeleton02_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6269,8 +7506,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy07_8_4587246480505806618",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 10,
       "id": "e_skeleton02_temp",
       "idle_sprites": [
@@ -6291,6 +7533,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "1241272608242521773",
       "projectile": {
         "camp": 0,
@@ -6310,6 +7554,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 4,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -6317,14 +7562,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy07_4_-4021784309723157647",
+      "burst_count": 6,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_skeleton03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6336,8 +7587,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 5,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy07_8_4587246480505806618",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 10,
       "id": "e_skeleton03",
       "idle_sprites": [
@@ -6358,6 +7614,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "6150879586180476437",
       "projectile": {
         "camp": 0,
@@ -6377,6 +7635,7 @@
         "sorting_order": 10,
         "sprite": "bullet_40_-8998262216965228552"
       },
+      "projectile_count": 1,
       "projectile_damage": 5,
       "projectile_speed": 24.0,
       "ranged": true,
@@ -6384,14 +7643,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 1.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 3.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy08_4_4445955680621455382",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI02",
       "classification": "CONFIRMED e_skeleton04 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6403,8 +7668,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 5,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy08_8_3795104344207669410",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_skeleton04",
       "idle_sprites": [
@@ -6425,6 +7695,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-6270046428575575392",
       "projectile": {
         "camp": 0,
@@ -6444,6 +7716,7 @@
         "sorting_order": 0,
         "sprite": "bullet_54_785546683114399763"
       },
+      "projectile_count": 1,
       "projectile_damage": 5,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -6451,14 +7724,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy08_4_4445955680621455382",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_skeleton05 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6470,8 +7749,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy08_8_3795104344207669410",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_skeleton05",
       "idle_sprites": [
@@ -6492,6 +7776,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-8672476950491566192",
       "projectile": {
         "camp": 0,
@@ -6511,6 +7797,7 @@
         "sorting_order": 0,
         "sprite": "bullet_86_-4576818979175312745"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -6518,14 +7805,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy08_4_4445955680621455382",
+      "burst_count": 8,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_skeleton06 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6537,8 +7830,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy08_8_3795104344207669410",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_skeleton06",
       "idle_sprites": [
@@ -6559,6 +7857,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": true,
+      "mimic": false,
       "path_id": "-2629918502414966471",
       "projectile": {
         "camp": 0,
@@ -6578,6 +7878,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -6585,14 +7886,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 6
+      "shoot_time": 1.5,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy01_4_6916287646018367429",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI04",
       "classification": "CONFIRMED e_slime01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6604,8 +7911,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy01_6_3055012132422103371",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_slime01",
       "idle_sprites": [
@@ -6618,8 +7930,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-7421755869818940729",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6627,14 +7942,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy01_4_6916287646018367429",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI04",
       "classification": "CONFIRMED e_slime01_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6646,8 +7967,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy01_6_3055012132422103371",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_slime01_temp",
       "idle_sprites": [
@@ -6660,8 +7986,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-1233327222569338768",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6669,14 +7998,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy46_4_-8252437253266407641",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI10",
       "classification": "CONFIRMED e_snowman_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6688,8 +8023,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy46_6_-5223881341977335385",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 9,
       "id": "e_snowman_temp",
       "idle_sprites": [
@@ -6702,8 +8042,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-8174087129554920607",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6711,14 +8054,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.75,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy09_4_5263788924661217054",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI04",
       "classification": "CONFIRMED e_spider01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6730,8 +8079,13 @@
       ],
       "contact_cooldown": 0.800000011920929,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy09_6_-7195689907842277511",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_spider01",
       "idle_sprites": [
@@ -6748,8 +8102,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "8537388417913559816",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6757,14 +8114,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy09_11_-5186585515938658221",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI04",
       "classification": "CONFIRMED e_spider02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6776,8 +8139,13 @@
       ],
       "contact_cooldown": 0.800000011920929,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy09_13_-724545776998453010",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_spider02",
       "idle_sprites": [
@@ -6794,8 +8162,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "4213479335950744313",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6803,14 +8174,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy30_4_-4082194007791575256",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI04",
       "classification": "CONFIRMED e_spider03 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6822,8 +8199,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy30_6_282794084620601314",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_spider03",
       "idle_sprites": [
@@ -6836,8 +8218,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "6549722314992366852",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6845,14 +8230,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy37_4_-3145299270635757948",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI04",
       "classification": "CONFIRMED e_spider04 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6864,8 +8255,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 2,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy37_6_-2923568128037604707",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_spider04",
       "idle_sprites": [
@@ -6878,8 +8274,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-2938473679115549626",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6887,14 +8286,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 5
+      "shoot_time": 0.0,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy41_4_-2655550700596256860",
+      "burst_count": 32,
+      "burst_interval": 0.05,
       "camp": 0,
+      "class_name": "EnemyAI14",
       "classification": "CONFIRMED e_spider05 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6906,8 +8311,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy41_8_5172269599136357608",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 24,
       "id": "e_spider05",
       "idle_sprites": [
@@ -6928,8 +8338,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-4828116390668937582",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -6937,14 +8350,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy20_4_5991314767215976177",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI06",
       "classification": "CONFIRMED e_succulent RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -6956,8 +8375,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy20_6_-5183133880637268060",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 8,
       "id": "e_succulent",
       "idle_sprites": [
@@ -6974,6 +8398,8 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-586080017450448801",
       "projectile": {
         "camp": 0,
@@ -6993,6 +8419,7 @@
         "sorting_order": 0,
         "sprite": "bullet_107_379688652040156559"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -7000,14 +8427,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 5.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": true
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy14_11_-7684529805516041998",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI06",
       "classification": "CONFIRMED e_tentacle RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -7019,8 +8452,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy14_11_-7684529805516041998",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 40,
       "id": "e_tentacle",
       "idle_sprites": [
@@ -7029,6 +8467,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-7636158329920851929",
       "projectile": {
         "camp": 0,
@@ -7048,6 +8488,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -7055,14 +8496,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 5.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": true
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy14_11_-7684529805516041998",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI06",
       "classification": "CONFIRMED e_tentacle_temp RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -7074,8 +8521,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy14_11_-7684529805516041998",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_tentacle_temp",
       "idle_sprites": [
@@ -7084,6 +8536,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-7716637915226699985",
       "projectile": {
         "camp": 0,
@@ -7103,6 +8557,7 @@
         "sorting_order": 0,
         "sprite": "bullet_29_-1150908520057953841"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 10.0,
       "ranged": true,
@@ -7110,14 +8565,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 5.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": true
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy39_4_8986692536698775007",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI12",
       "classification": "CONFIRMED e_tortoise RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -7129,8 +8590,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy39_8_7707493735348928384",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 30,
       "id": "e_tortoise",
       "idle_sprites": [
@@ -7143,8 +8609,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "932004609719734594",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -7152,14 +8621,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy10_7_-7628047848055159221",
+      "burst_count": 3,
+      "burst_interval": 0.2,
       "camp": 0,
+      "class_name": "EnemyAI03",
       "classification": "CONFIRMED e_ufo RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -7171,8 +8646,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy10_8_2846604252161107839",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 24,
       "id": "e_ufo",
       "idle_sprites": [
@@ -7181,6 +8661,8 @@
           "time": 0.0
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-186337455808312520",
       "projectile": {
         "camp": 0,
@@ -7200,6 +8682,7 @@
         "sorting_order": 0,
         "sprite": "bullet_87_8057191759279053040"
       },
+      "projectile_count": 1,
       "projectile_damage": 3,
       "projectile_speed": 20.0,
       "ranged": true,
@@ -7207,14 +8690,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 5
+      "shoot_time": 0.5,
+      "speed": 5,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "witch_0_5224695899419919542",
+      "burst_count": 7,
+      "burst_interval": 0.225,
       "camp": 0,
+      "class_name": "EnemyAIWitch",
       "classification": "CONFIRMED e_witch RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.20000000298023224,
@@ -7226,8 +8715,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 3,
+      "dash_duration": 1.5,
+      "dash_speed": 10.0,
       "dead_sprite": "witch_4_-7547999108539893143",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 18,
       "id": "e_witch",
       "idle_sprites": [
@@ -7248,8 +8742,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-2510809040314978118",
       "projectile": {},
+      "projectile_count": 2,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -7257,14 +8754,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 3
+      "shoot_time": 0.0,
+      "speed": 3,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy05_0_7344282957721930590",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI01",
       "classification": "CONFIRMED e_wizard01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -7276,8 +8779,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy05_6_-5048791180402786390",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 20,
       "id": "e_wizard01",
       "idle_sprites": [
@@ -7290,8 +8798,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "202631707936457016",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -7299,14 +8810,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 2.0,
-      "speed": 4
+      "shoot_time": 0.0,
+      "speed": 4,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy12_4_-8270700861436172822",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI04",
       "classification": "CONFIRMED e_worm01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -7318,8 +8835,13 @@
       ],
       "contact_cooldown": 0.800000011920929,
       "contact_damage": 4,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy12_6_-1774128283114242566",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 12,
       "id": "e_worm01",
       "idle_sprites": [
@@ -7332,8 +8854,11 @@
           "time": 0.25
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "7956253658826865017",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -7341,14 +8866,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 1.0,
-      "speed": 6
+      "shoot_time": 0.0,
+      "speed": 6,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy34_4_3195783896634053125",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI10",
       "classification": "CONFIRMED e_yeti01 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -7360,8 +8891,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy34_8_5625166621723404504",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 9,
       "id": "e_yeti01",
       "idle_sprites": [
@@ -7382,8 +8918,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-4621548062129638530",
       "projectile": {},
+      "projectile_count": 1,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -7391,14 +8930,20 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     },
     {
       "attack_range": 8.0,
       "body_sorting_layer": 5,
       "body_sorting_order": 1,
       "body_sprite": "enemy35_4_-8939945009654931854",
+      "burst_count": 1,
+      "burst_interval": 0.0,
       "camp": 0,
+      "class_name": "EnemyAI10",
       "classification": "CONFIRMED e_yeti02 RoleAttribute/Animator; controller; generic chase/contact and optional ranged bullet fields",
       "collider_offset": [
         0.0,
@@ -7410,8 +8955,13 @@
       ],
       "contact_cooldown": 1.5,
       "contact_damage": 0,
+      "dash_duration": 0.0,
+      "dash_speed": 0.0,
       "dead_sprite": "enemy35_8_-442557422106568930",
       "death_despawn_delay": 4.0,
+      "death_explosion_damage": 0,
+      "death_explosion_radius": 0.0,
+      "fan_angle": 0.0,
       "hp": 28,
       "id": "e_yeti02",
       "idle_sprites": [
@@ -7432,8 +8982,11 @@
           "time": 0.375
         }
       ],
+      "lock_in_shooting": false,
+      "mimic": false,
       "path_id": "-2197948064534748381",
       "projectile": {},
+      "projectile_count": 2,
       "projectile_damage": 0,
       "projectile_speed": 0.0,
       "ranged": false,
@@ -7441,7 +8994,10 @@
       "shadow_sorting_order": 0,
       "shadow_sprite": "shadow3_-8753147750278292345",
       "shoot_cooldown": 3.0,
-      "speed": 8
+      "shoot_time": 0.0,
+      "speed": 8,
+      "stand_in_shooting": false,
+      "stationary": false
     }
   ],
   "enemy_fixtures": [

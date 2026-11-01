@@ -23,6 +23,12 @@ struct EnemyInstance {
     float shoot_timer = 0.0f;
     // BuffDeadNote: after the recovered 6 s timer the marked enemy is killed.
     float death_mark_timer = 0.0f;
+    float burst_timer = 0.0f;
+    int burst_remaining = 0;
+    bool dashing = false;
+    float dash_timer = 0.0f;
+    engine::Vec2 dash_direction{1.0f, 0.0f};
+    bool death_exploded = false;
     bool facing_left = false;
     bool active = true;
 };

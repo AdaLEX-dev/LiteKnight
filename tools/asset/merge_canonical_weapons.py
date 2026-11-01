@@ -77,6 +77,8 @@ def merge_room(canonical: dict, canonical_dir: Path, scene_path: Path,
     scene["sprites"].sort(key=lambda item: item["id"])
     if canonical.get("level_themes"):
         scene["level_themes"] = canonical["level_themes"]
+    if canonical.get("enemy_definitions"):
+        scene["enemy_definitions"] = canonical["enemy_definitions"]
     scene_path.write_text(json.dumps(scene, indent=2, sort_keys=True) + "\n",
                           encoding="utf-8")
     return added_textures, added_sprites, replaced

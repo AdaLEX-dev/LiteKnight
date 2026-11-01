@@ -634,6 +634,7 @@ add_executable(soul-knight-test
     tests/unit/weapon_pickup_test.cpp
     tests/unit/unique_weapon_test.cpp
     tests/unit/level_surface_test.cpp
+    tests/unit/enemy_family_test.cpp
     tests/unit/save_test.cpp
     tests/unit/replay_test.cpp
     tests/unit/foundation_test.cpp

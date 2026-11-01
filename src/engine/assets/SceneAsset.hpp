@@ -325,6 +325,16 @@ struct EnemyDefinition {
     bool stand_in_shooting = false;
     bool lock_in_shooting = false;
     float shoot_time = 0.0f;
+    int32_t projectile_count = 1;
+    float fan_angle = 0.0f;
+    int32_t burst_count = 1;
+    float burst_interval = 0.0f;
+    float dash_speed = 0.0f;
+    float dash_duration = 0.0f;
+    float death_explosion_radius = 0.0f;
+    int32_t death_explosion_damage = 0;
+    bool stationary = false;
+    bool mimic = false;
     int32_t body_sorting_layer = 5;
     int32_t body_sorting_order = 1;
     int32_t shadow_sorting_layer = 3;

@@ -1454,6 +1454,20 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             enemy.projectile_damage = item.value("projectile_damage", 0);
             enemy.shoot_cooldown = item.value("shoot_cooldown", 2.0f);
             enemy.attack_range = item.value("attack_range", 8.0f);
+            enemy.projectile_count = std::max(
+                1, item.value("projectile_count", 1));
+            enemy.fan_angle = item.value("fan_angle", 0.0f);
+            enemy.burst_count = std::max(
+                1, item.value("burst_count", 1));
+            enemy.burst_interval = item.value("burst_interval", 0.0f);
+            enemy.dash_speed = item.value("dash_speed", 0.0f);
+            enemy.dash_duration = item.value("dash_duration", 0.0f);
+            enemy.death_explosion_radius =
+                item.value("death_explosion_radius", 0.0f);
+            enemy.death_explosion_damage =
+                item.value("death_explosion_damage", 0);
+            enemy.stationary = item.value("stationary", false);
+            enemy.mimic = item.value("mimic", false);
             if (enemy.ranged && item.contains("projectile") &&
                 item["projectile"].is_object()) {
                 const Json& projectile = item["projectile"];
