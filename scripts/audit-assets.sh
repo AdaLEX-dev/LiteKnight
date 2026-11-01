@@ -7,6 +7,9 @@ python3 "${ROOT}/tools/asset/audit_ui_assets.py"
 python3 "${ROOT}/tools/asset/audit_weapon_energy.py"
 python3 "${ROOT}/tools/asset/audit_item_assets.py"
 "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/audit_room_catalogue.py"
+"${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/audit_chest_catalogue.py"
+python3 "${ROOT}/tools/asset/audit_weapon_runtime.py"
+python3 "${ROOT}/tools/asset/audit_hub_topology.py"
 if [[ -f "${ROOT}/analysis/assets/scenes/hero_room.json" ]]; then
     python3 "${ROOT}/tools/asset/audit_assets.py" \
         --scene "${ROOT}/analysis/assets/scenes/hero_room.json" \

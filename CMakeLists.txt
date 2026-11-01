@@ -369,6 +369,8 @@ add_library(game STATIC
     src/game/combat/Weapon.hpp
     src/game/weapons/WeaponRegistry.cpp
     src/game/weapons/WeaponRegistry.hpp
+    src/game/weapons/WeaponCatalogue.cpp
+    src/game/weapons/WeaponCatalogue.hpp
     src/game/weapons/WeaponRenderer.cpp
     src/game/weapons/WeaponRenderer.hpp
     src/game/weapons/WeaponInventory.cpp
@@ -610,6 +612,7 @@ add_executable(soul-knight-test
     tests/unit/ui_layout_test.cpp
     tests/unit/world_depth_test.cpp
     tests/unit/item_test.cpp
+    tests/unit/weapon_catalogue_test.cpp
     # Integration tests
     # tests/integration/asset_loading_test.cpp
     # tests/integration/save_load_test.cpp
@@ -696,6 +699,16 @@ if(PYTHON3_EXECUTABLE)
                 --inventory "${CMAKE_CURRENT_SOURCE_DIR}/analysis/assets/asset_inventory.json"
                 --generated-root "${CMAKE_CURRENT_SOURCE_DIR}/assets/generated/visual/hero_room"
                 --report-dir "${CMAKE_CURRENT_BINARY_DIR}/hero-room-audit"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
+    add_test(NAME liteknight-hub-topology
+        COMMAND "${PYTHON3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_hub_topology.py"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
+    add_test(NAME liteknight-weapon-runtime-audit
+        COMMAND "${PYTHON3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_weapon_runtime.py"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
 endif()

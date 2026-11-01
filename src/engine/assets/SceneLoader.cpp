@@ -201,6 +201,31 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
 
     SceneAsset loaded;
     loaded.id = document.value("id", "scene");
+    if (document.contains("room") && document["room"].is_object()) {
+        const Json& room = document["room"];
+        loaded.room.type = room.value("type", loaded.room.type);
+        loaded.room.type_name = room.value("type_name", loaded.room.type_name);
+        loaded.room.stage = room.value("stage", loaded.room.stage);
+        loaded.room.number = room.value("number", loaded.room.number);
+        loaded.room.label = room.value("label", loaded.room.label);
+        loaded.room.clear_label = room.value("clear_label", loaded.room.clear_label);
+    }
+    if (loaded.room.label.empty()) {
+        if (loaded.id == "hero_room") {
+            loaded.room.type = -1;
+            loaded.room.type_name = "hub";
+            loaded.room.label = "LIVING ROOM";
+            loaded.room.clear_label.clear();
+        } else if (loaded.id.size() >= 4 && loaded.id[0] == 'r' &&
+                   loaded.id[2] == '_') {
+            loaded.room.type = 1;
+            loaded.room.type_name = "battle";
+            loaded.room.stage = loaded.id[1] - '0';
+            loaded.room.number = loaded.id[3] - '0';
+            loaded.room.label = std::string(1, loaded.id[1]) + "-" +
+                                std::string(1, loaded.id[3]);
+        }
+    }
 
     if (!document.contains("camera") || !document["camera"].is_object()) {
         SetError(error, "scene JSON has no camera object");
@@ -354,6 +379,7 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 InteractionMarker marker;
                 marker.id = item["id"].get<std::string>();
                 marker.kind = item["kind"].get<std::string>();
+                marker.label = item.value("label", std::string{});
                 if (!ReadVec2(item["position"], marker.position)) {
                     SetError(error, "scene interaction marker position is invalid");
                     return false;

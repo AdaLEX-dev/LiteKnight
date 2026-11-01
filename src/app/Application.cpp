@@ -78,6 +78,21 @@ Application::~Application() {
     Shutdown();
 }
 
+void Application::AssignUniqueTextureIds(engine::assets::SceneAsset& scene,
+                                         uint32_t base) {
+    // SceneLoader assigns texture ids from zero in every scene. Rooms share one
+    // renderer texture bank, so ids must be unique before uploads; otherwise a
+    // transition renders the new room with the previous room's atlas.
+    for (std::size_t i = 0; i < scene.textures.size(); ++i) {
+        scene.textures[i].id = base + static_cast<uint32_t>(i);
+    }
+    for (engine::assets::SpriteData& sprite : scene.sprites) {
+        if (sprite.texture_id < scene.textures.size()) {
+            sprite.texture_id = scene.textures[sprite.texture_id].id;
+        }
+    }
+}
+
 bool Application::Initialize() {
     if (initialized_) return true;
 
@@ -186,6 +201,8 @@ bool Application::Initialize() {
     aim_direction_ = {1.0f, 0.0f};
     mouse_aim_valid_ = true;
     facing_ = engine::locomotion::FacingDirection::Right;
+    previous_aim_direction_ = aim_direction_;
+    render_aim_direction_ = aim_direction_;
     player_dead_ = false;
     attack_held_ = false;
     movement_input_ = {};
@@ -208,6 +225,16 @@ bool Application::Initialize() {
             return false;
         }
         LoadWorldRooms();
+        std::string catalogue_error;
+        if (weapon_catalogue_.Load(filesystem_,
+                                   "scenes/items/weapon_catalogue.json",
+                                   &catalogue_error)) {
+            LOG_INFO_APP("Weapon catalogue: {} recovered entries",
+                         weapon_catalogue_.Count());
+        } else {
+            LOG_WARN_APP("Weapon catalogue unavailable ({}); scene weapons only",
+                         catalogue_error);
+        }
         std::string item_error;
         if (item_assets_.Load(filesystem_, "scenes/items/items.json",
                               &item_error)) {
@@ -222,6 +249,12 @@ bool Application::Initialize() {
         } else {
             LOG_WARN_APP("Item assets unavailable ({}); chests/coins disabled",
                          item_error);
+        }
+        AssignUniqueTextureIds(scene_, 0x01000000u);
+        for (std::size_t i = 0; i < stored_rooms_.size(); ++i) {
+            AssignUniqueTextureIds(stored_rooms_[i].scene,
+                                   0x01010000u +
+                                   static_cast<uint32_t>(i) * 0x10000u);
         }
         std::vector<uint32_t> uploaded_ids;
         for (const engine::assets::TextureAsset& texture : scene_.textures) {
@@ -289,6 +322,8 @@ bool Application::Initialize() {
                                        player_characters_.RunClip(),
                                        player_characters_.DeathClip());
         player_ = engine::locomotion::PlayerLocomotion(scene_.spawn);
+        game_ui_.SetCharacterCount(
+            static_cast<int>(player_characters_.Count()));
         previous_player_position_ = player_.Position();
         render_player_position_ = player_.Position();
         render_camera_ = camera_;
@@ -353,6 +388,10 @@ bool Application::Initialize() {
         if (!weapons_.Configure(scene_)) {
             LOG_ERROR_APP("No recovered weapon definition; attack disabled");
         } else {
+            game_ui_.SetWeaponCount(static_cast<int>(weapons_.Count()));
+            for (const auto& definition : weapons_.Definitions()) {
+                weapon_catalogue_.MarkRuntimeIntegrated(definition.id);
+            }
             weapon_inventory_.Configure(weapons_.Count());
             ConfigureActiveWeapon();
             ConfigureSecondaryWeapon();
@@ -381,6 +420,7 @@ bool Application::Initialize() {
             LOG_FATAL_APP("Room door configuration failed: {}", door_error);
             return false;
         }
+        SealUnconnectedDoors();
         door_trigger_inside_.assign(room_doors_.Count(), false);
         if (!scene_.is_hub && !scene_.doors.empty() &&
             enemies_.AliveCount() > 0) {
@@ -870,7 +910,51 @@ void Application::BuildRenderBatch() {
     if (weapon_.IsConfigured()) {
         soulknight::game::weapons::WeaponRenderer::Draw(
             sprite_batch_, scene_, weapon_.Definition(), player_.Position(),
-            aim_direction_, player_dead_);
+            render_aim_direction_,
+            facing_ == engine::locomotion::FacingDirection::Left,
+            player_dead_);
+    }
+
+    // Actual transfer_gate_02 sprite clip. The portal definition is appended to
+    // every scene by the item pack, so dungeon rooms can show the reference
+    // return gate without inventing a rectangle or a new texture.
+    if (item_assets_.IsLoaded()) {
+        const soulknight::game::items::PortalDefinition* portal =
+            item_assets_.FindPortal("transfer_gate_02");
+        if (portal != nullptr && !portal->frames.empty()) {
+            const auto marker = std::find_if(
+                scene_.interaction_markers.begin(),
+                scene_.interaction_markers.end(),
+                [](const engine::assets::InteractionMarker& candidate) {
+                    return candidate.kind == "portal";
+                });
+            if (marker != scene_.interaction_markers.end()) {
+                const float fps = portal->fps > 0.0f ? portal->fps : 12.0f;
+                const std::size_t frame_index = portal->loop
+                    ? static_cast<std::size_t>(simulation_time_ * fps) %
+                          portal->frames.size()
+                    : std::min(portal->frames.size() - 1,
+                               static_cast<std::size_t>(simulation_time_ * fps));
+                const int32_t sprite_index = scene_.FindSpriteIndex(
+                    portal->frames[frame_index]);
+                if (sprite_index >= 0 &&
+                    static_cast<std::size_t>(sprite_index) < scene_.sprites.size()) {
+                    const engine::assets::SpriteData& sprite =
+                        scene_.sprites[static_cast<std::size_t>(sprite_index)];
+                    engine::rendering::SpriteDraw draw;
+                    draw.position = marker->position;
+                    draw.size = sprite.WorldSize();
+                    draw.uv = sprite.UvRect();
+                    draw.color = engine::Color::White();
+                    draw.layer = engine::rendering::SortLayer::Character;
+                    draw.sorting_order = engine::rendering::WorldDepthOrder(
+                        marker->position.y, 5);
+                    draw.texture_id = sprite.texture_id;
+                    draw.pivot = {0.5f, 0.0f};
+                    (void)sprite_batch_.DrawSprite(draw);
+                }
+            }
+        }
     }
 
     soulknight::game::ui::DevOverlayContext ui_context;
@@ -1436,6 +1520,16 @@ void Application::HandleMainMenuPointer(const SDL_Event& event) {
     if (game_ui_.HandlePointerClick(logical)) ProcessUIAction();
 }
 
+void Application::TeleportForReview(const engine::Vec2& position) {
+    player_.SetPosition(position);
+    previous_player_position_ = position;
+    render_player_position_ = position;
+    camera_.position = position;
+    previous_camera_position_ = position;
+    render_camera_ = camera_;
+    LOG_INFO_APP("Review teleport: ({:.2f},{:.2f})", position.x, position.y);
+}
+
 void Application::ConfigureReviewMode() {
     review_mode_ = config_.review_mode;
     review_duration_seconds_ = config_.review_seconds;
@@ -1450,8 +1544,31 @@ void Application::ConfigureReviewMode() {
         LOG_INFO_APP("Review mode: settings screen={}",
                      static_cast<int>(game_ui_.Screen()));
     } else if (config_.review_area == "living_room" ||
-               config_.review_area.rfind("r1_", 0) == 0) {
+               config_.review_area.rfind("r1_", 0) == 0 ||
+               config_.review_area == "devroom" ||
+               config_.review_area == "chest") {
         game_ui_.OpenGameplay();
+    } else if (config_.review_area == "workshop" ||
+               config_.review_area == "garden" ||
+               config_.review_area == "cellar") {
+        game_ui_.OpenGameplay();
+        engine::Vec2 target = config_.review_area == "cellar"
+            ? engine::Vec2{10.0f, -24.0f} : scene_.spawn;
+        for (const auto& marker : scene_.interaction_markers) {
+            if ((config_.review_area == "workshop" &&
+                 marker.kind == "forge") ||
+                (config_.review_area == "garden" &&
+                 marker.kind == "garden") ||
+                (config_.review_area == "cellar" &&
+                 marker.kind == "cellar")) {
+                target = marker.position + engine::Vec2{0.0f, -2.0f};
+                break;
+            }
+        }
+        TeleportForReview(target);
+    } else if (config_.review_area == "weapons") {
+        game_ui_.OpenGameplay();
+        game_ui_.OpenWeaponSelect(0);
     } else if (config_.review_area == "pause") {
         game_ui_.OpenGameplay();
         game_ui_.OpenPause();
@@ -1544,20 +1661,58 @@ void Application::DrawGameUI() {
     data.map_rooms.clear();
     data.map_links.clear();
     std::string devroom_room;
+    const auto room_scene_for = [&](const std::string& id)
+        -> const engine::assets::SceneAsset* {
+        if (id == scene_.id) return &scene_;
+        for (const StoredRoom& stored : stored_rooms_) {
+            if (stored.id == id) return &stored.scene;
+        }
+        return nullptr;
+    };
     for (const auto& room : room_manager_.Rooms()) {
         if (devroom_room.empty() && room.id.rfind("r1_", 0) == 0) {
             devroom_room = room.id;
+        }
+        std::string icon;
+        if (room.id == "hero_room") {
+            icon = "home";
+        } else if (const engine::assets::SceneAsset* room_scene =
+                       room_scene_for(room.id); room_scene != nullptr) {
+            switch (room_scene->room.type) {
+                case 2: icon = "boss"; break;
+                case 3: icon = "special"; break;
+                case 4: icon = "chest"; break;
+                case 5: icon = "special"; break;
+                default: break;
+            }
         }
         data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
             room.id, room.map_x, room.map_y, room.id == scene_.id,
             std::find(visited_rooms_.begin(), visited_rooms_.end(), room.id) !=
                 visited_rooms_.end(),
-            false,
-            room.id == "hero_room" ? "home" : std::string{}});
+            false, icon});
     }
     if (scene_.id.rfind("r1_", 0) == 0) devroom_room = scene_.id;
     for (auto& room : data.map_rooms) room.devroom = room.id == devroom_room;
     data.devroom_room_id = devroom_room;
+    data.room_label = scene_.room.label;
+    data.room_clear_label = scene_.room.clear_label;
+    data.room_cleared = cleared_rooms_.contains(scene_.id);
+    data.room_title_timer = room_title_timer_;
+    if (scene_.is_hub) {
+        // Native conceptual nodes for the physically accessible hub areas. The
+        // reference is one HeroRoom scene, so these map cells are an explicit
+        // visualization of the native subareas, not separate MapManager rooms.
+        data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
+            "hub_garden", -1, 1, false, true, false, "special"});
+        data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
+            "hub_workshop", 1, 1, false, true, false, "special"});
+        data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
+            "hub_cellar", 0, 0, false, true, false, "chest"});
+        data.map_links.push_back(soulknight::game::ui::MapLinkView{0, 1, -1, 1});
+        data.map_links.push_back(soulknight::game::ui::MapLinkView{0, 1, 1, 1});
+        data.map_links.push_back(soulknight::game::ui::MapLinkView{0, 1, 0, 0});
+    }
     for (const auto& connection : room_manager_.Connections()) {
         const auto* from = room_manager_.Find(connection.from);
         const auto* to = room_manager_.Find(connection.to);
@@ -1582,7 +1737,13 @@ void Application::DrawGameUI() {
         data.pickup_screen = render_camera_.WorldToScreen(pickup->position);
     } else if (const auto* marker = NearbyInteraction(); marker != nullptr) {
         data.interaction_nearby = true;
-        data.interaction_label = marker->id;
+        data.interaction_label = marker->label.empty() ? marker->id
+                                                       : marker->label;
+        if (marker->kind == "portal" &&
+            return_portal_confirm_seconds_ >= 0.0 &&
+            NowSeconds() - return_portal_confirm_seconds_ <= 3.0) {
+            data.interaction_label = "RETURN TO LIVING ROOM? E AGAIN";
+        }
         data.interaction_screen = render_camera_.WorldToScreen(marker->position);
     }
     soulknight::game::ui::UIRenderContext context;
@@ -2085,17 +2246,20 @@ void Application::LoadGameFromDisk() {
                  data.active_slot + 1);
 }
 
-void Application::SpawnWeaponPickup(std::size_t weapon_index) {
+void Application::SpawnWeaponPickupAt(std::size_t weapon_index,
+                                      const engine::Vec2& position) {
     if (weapon_index >= weapons_.Count()) return;
-    const engine::Vec2 position{
-        player_.Position().x + 1.4f,
-        player_.Position().y - 0.1f
-    };
     if (weapon_pickups_.Spawn(weapon_index, position)) {
         LOG_INFO_APP("Weapon pickup spawned: {} at ({:.2f},{:.2f}) [E to take]",
                      weapons_.Definitions()[weapon_index].id, position.x,
                      position.y);
     }
+}
+
+void Application::SpawnWeaponPickup(std::size_t weapon_index) {
+    SpawnWeaponPickupAt(weapon_index,
+                        {player_.Position().x + 1.4f,
+                         player_.Position().y - 0.1f});
 }
 
 const engine::assets::InteractionMarker* Application::NearbyInteraction() const {
@@ -2125,10 +2289,48 @@ bool Application::TryOpenChest() {
 
 void Application::ConfigureRoomItems() {
     if (!scene_mode_ || !item_assets_.IsLoaded()) return;
+    std::vector<std::string> available;
+    available.reserve(weapons_.Definitions().size());
+    for (const auto& definition : weapons_.Definitions()) {
+        available.push_back(definition.id);
+    }
+    item_world_.SetAvailableWeapons(std::move(available));
     const bool dungeon = !scene_.is_hub &&
                          scene_.id.rfind("r1_", 0) == 0;
+    std::string chest_definition = "chest00";
+    if (scene_.id.find("r1_2") != std::string::npos) {
+        chest_definition = "chest01";
+    } else if (scene_.id.find("r1_3") != std::string::npos) {
+        chest_definition = "chest02";
+    }
     item_world_.EnterRoom(scene_.id, dungeon,
-                          scene_.spawn + engine::Vec2{0.0f, 2.4f});
+                          scene_.spawn + engine::Vec2{0.0f, 2.4f},
+                          chest_definition);
+    if (config_.review_mode && config_.review_area == "chest" && dungeon) {
+        // Chest review row: show the three recovered types together.
+        item_world_.AddChest("chest00", scene_.spawn + engine::Vec2{-4.0f, 2.0f});
+        item_world_.AddChest("chest01", scene_.spawn + engine::Vec2{0.0f, 3.5f});
+        item_world_.AddChest("chest02", scene_.spawn + engine::Vec2{4.0f, 2.0f});
+    }
+    // The reference transfer_gate_02 is the actual portal object. The native
+    // room scenes do not serialize a return gate, so place the recovered asset
+    // at a deterministic clear floor position and expose the normal E prompt.
+    if (dungeon) {
+        const bool has_portal = std::any_of(
+            scene_.interaction_markers.begin(), scene_.interaction_markers.end(),
+            [](const engine::assets::InteractionMarker& marker) {
+                return marker.kind == "portal";
+            });
+        if (!has_portal) {
+            engine::assets::InteractionMarker portal;
+            portal.id = "return_portal";
+            portal.kind = "portal";
+            portal.label = "RETURN TO LIVING ROOM";
+            portal.position = scene_.spawn + engine::Vec2{4.5f, 3.0f};
+            portal.radius = 3.2f;
+            scene_.interaction_markers.push_back(std::move(portal));
+        }
+    }
 }
 
 void Application::TryInteract() {
@@ -2160,6 +2362,19 @@ void Application::TryInteract() {
             }
         } else {
             LOG_INFO_APP("Living Room: garden station (walk closer to a plot)");
+        }
+    } else if (marker->kind == "portal") {
+        const double now = NowSeconds();
+        if (return_portal_confirm_seconds_ >= 0.0 &&
+            now - return_portal_confirm_seconds_ <= 3.0) {
+            CaptureCurrentRoomState();
+            return_portal_confirm_seconds_ = -1.0;
+            if (ActivateRoom(world_hub_id_, "")) {
+                LOG_INFO_APP("Portal: returned to Living Room");
+            }
+        } else {
+            return_portal_confirm_seconds_ = now;
+            LOG_INFO_APP("Portal: E again within 3 s to confirm return");
         }
     } else if (marker->kind == "door") {
         SwitchRoom();
@@ -2369,6 +2584,9 @@ void Application::ResetCombat() {
     aim_mode_ = soulknight::game::player::AimMode::Auto;
     mouse_aim_valid_ = true;
     facing_ = engine::locomotion::FacingDirection::Right;
+    aim_direction_ = {1.0f, 0.0f};
+    previous_aim_direction_ = aim_direction_;
+    render_aim_direction_ = aim_direction_;
     projectiles_.Clear();
     enemies_.Reset();
     cleared_rooms_.erase(scene_.id);
@@ -2387,6 +2605,7 @@ void Application::ResetCombat() {
     ApplyActiveCharacterStats();
     ConfigureAbilities();
     room_clear_pending_ = false;
+    BeginRoomTitle(3.0f);
     if (!scene_.is_hub && !scene_.doors.empty() &&
         enemies_.AliveCount() > 0) {
         room_doors_.CloseAll();
@@ -2467,6 +2686,7 @@ void Application::FixedUpdate(double dt) {
 
     if (!scene_mode_) return;
     hit_flash_timer_ = std::max(0.0f, hit_flash_timer_ - static_cast<float>(dt));
+    room_title_timer_ = std::max(0.0f, room_title_timer_ - static_cast<float>(dt));
     player_energy_.Update(static_cast<float>(dt));
     asset_lab_.Update(static_cast<float>(dt));
     weapon_pickups_.Update(static_cast<float>(dt));
@@ -2490,13 +2710,20 @@ void Application::FixedUpdate(double dt) {
     previous_player_position_ = player_.Position();
     previous_camera_position_ = camera_.position;
     abilities_.Update(static_cast<float>(dt));
+    previous_aim_direction_ = aim_direction_;
     UpdateAutoAim();
-    facing_ = engine::locomotion::ResolveAimFacing(facing_, aim_direction_);
     if (!player_dead_) {
         player_.SetSpeedRateBonus(
             attack_held_ ? weapon_.Definition().atk_move_speed : 0.0f);
         player_.FixedUpdate(movement_input_.direction, movement_input_.weight,
                             static_cast<float>(dt), collision_world_);
+        // Body orientation follows movement while moving; aim only chooses the
+        // idle facing. Weapon aim remains independent. The recovered c00
+        // controller contains only side-view idle/run/dead/hit clips, so the
+        // body uses horizontal mirroring rather than invented up/down clips.
+        facing_ = engine::locomotion::ResolveBodyFacing(
+            facing_, movement_input_.direction, aim_direction_,
+            player_.IsMoving());
         locomotion_animator_.Update(player_.IsMoving(), static_cast<float>(dt));
         const int shots = weapon_.Update(static_cast<float>(dt), attack_held_,
                                          player_.Position(), aim_direction_,
@@ -2562,6 +2789,25 @@ void Application::FixedUpdate(double dt) {
             player_coins_ += collected;
             LOG_INFO_APP("Coin collected: +{} total={}", collected,
                          player_coins_);
+        }
+        for (const soulknight::game::items::WeaponLootDrop& drop :
+             item_world_.TakePendingWeaponDrops()) {
+            std::size_t weapon_index = weapons_.Count();
+            for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+                if (weapons_.Definitions()[i].id == drop.weapon) {
+                    weapon_index = i;
+                    break;
+                }
+            }
+            if (weapon_index < weapons_.Count()) {
+                SpawnWeaponPickupAt(weapon_index, drop.position);
+                LOG_INFO_APP("Chest loot: spawned actual weapon {} ({})",
+                             drop.weapon,
+                             weapons_.Definitions()[weapon_index].display_name);
+            } else {
+                LOG_WARN_APP("Chest loot: {} is catalogue-only in this build",
+                             drop.weapon);
+            }
         }
     }
     UpdateRoomClear();
@@ -2992,12 +3238,29 @@ std::string Application::FirstConnectedDoor() const {
     return {};
 }
 
+void Application::BeginRoomTitle(float seconds) {
+    room_title_timer_ = std::max(0.0f, seconds);
+}
+
+void Application::SealUnconnectedDoors() {
+    if (!multi_room_world_ || room_manager_.Current() == nullptr) return;
+    for (std::size_t i = 0; i < room_doors_.Count(); ++i) {
+        const std::string& id = room_doors_.At(i).Data().id;
+        if (room_manager_.ConnectionFromDoor(id) == nullptr) {
+            room_doors_.SealDoor(i);
+            LOG_INFO_APP("Door sealed (no map edge): {}", id);
+        }
+    }
+}
+
 void Application::UpdateRoomClear() {
     if (!room_clear_pending_ || scene_.is_hub) return;
     if (enemies_.AliveCount() != 0) return;
     room_clear_pending_ = false;
+    cleared_rooms_.insert(scene_.id);
     room_doors_.OpenAll();
     RebuildCollisionWorld();
+    BeginRoomTitle(3.0f);
     LOG_INFO_APP("Room clear: all enemies defeated; doors opened");
 }
 
@@ -3101,10 +3364,12 @@ bool Application::ActivateRoom(const std::string& room_id,
         }
     }
     player_characters_.Select(character_index);
+    game_ui_.SetCharacterCount(static_cast<int>(player_characters_.Count()));
     if (!weapons_.Configure(scene_)) {
         LOG_ERROR_APP("Room switch weapon setup failed");
         return false;
     }
+    game_ui_.SetWeaponCount(static_cast<int>(weapons_.Count()));
     weapon_inventory_.Configure(weapons_.Count());
     const auto equip_by_id = [&](std::size_t slot, const std::string& id) {
         if (id.empty()) return;
@@ -3140,12 +3405,17 @@ bool Application::ActivateRoom(const std::string& room_id,
             ? player_characters_.Active().max_armor : 5, 0);
     player_health_.hp = std::min(hp, player_health_.max_hp);
     player_health_.armor = std::min(armor, player_health_.max_armor);
+    if (scene_.is_hub) {
+        player_health_.hp = player_health_.max_hp;
+        player_health_.armor = player_health_.max_armor;
+    }
     player_health_.dead = dead || player_health_.hp <= 0;
     player_health_.can_hurt = !player_health_.dead;
     player_energy_.Reset(
         player_characters_.Active().max_energy > 0
             ? player_characters_.Active().max_energy : 180);
     player_energy_.energy = std::min(energy, player_energy_.max_energy);
+    if (scene_.is_hub) player_energy_.energy = player_energy_.max_energy;
     player_dead_ = player_health_.dead;
     player_.SetSpeedProfile(
         player_characters_.Active().speed > 0.0f
@@ -3171,10 +3441,12 @@ bool Application::ActivateRoom(const std::string& room_id,
     RestoreCurrentRoomState();
     (void)obstacles_.Configure(scene_, &error);
     ConfigureRoomItems();
+    BeginRoomTitle(3.0f);
     if (!room_doors_.Configure(scene_, &error)) {
         LOG_ERROR_APP("Room switch door setup failed: {}", error);
         return false;
     }
+    SealUnconnectedDoors();
     door_trigger_inside_.assign(room_doors_.Count(), false);
     room_clear_pending_ = false;
     if (!scene_.is_hub && !scene_.doors.empty()) {
@@ -3387,6 +3659,13 @@ int Application::Run() {
             render_camera_ = camera_;
             render_camera_.position = previous_camera_position_ +
                 (camera_.position - previous_camera_position_) * alpha;
+            render_aim_direction_ = previous_aim_direction_ +
+                (aim_direction_ - previous_aim_direction_) * alpha;
+            if (render_aim_direction_.LengthSquared() > 1e-6f) {
+                render_aim_direction_ = render_aim_direction_.Normalized();
+            } else {
+                render_aim_direction_ = aim_direction_;
+            }
             if (!scene_mode_) {
                 render_camera_.position = camera_.position;
                 render_player_position_ = player_.Position();

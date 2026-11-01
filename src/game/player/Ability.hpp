@@ -33,6 +33,18 @@ struct AbilityRuntime {
     float timer = 0.0f;
 };
 
+// UICanvas.UpdateSkillMask fills skill_icon_mask with thisSkillTime/cd and
+// enables skill_mask_ready at 1.0. Cooldown fraction is remaining/definition.
+inline float AbilityChargeFraction(AbilityState state, float cooldown_fraction) {
+    if (state == AbilityState::Ready || state == AbilityState::Active) {
+        return 1.0f;
+    }
+    if (state == AbilityState::Cooldown) {
+        return std::clamp(1.0f - cooldown_fraction, 0.0f, 1.0f);
+    }
+    return 0.0f;
+}
+
 class AbilityController {
 public:
     void Clear() { abilities_.clear(); }

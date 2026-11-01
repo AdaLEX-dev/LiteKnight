@@ -19,7 +19,7 @@ public:
                      const engine::assets::WeaponDefinition& weapon,
                      const engine::Vec2& player_position,
                      const engine::Vec2& aim_direction,
-                     bool player_dead);
+                     bool facing_left, bool player_dead);
 };
 
 } // namespace soulknight::game::weapons

@@ -11,6 +11,7 @@
 #include "game/weapons/WeaponInventory.hpp"
 #include "game/weapons/WeaponRegistry.hpp"
 
+#include <algorithm>
 #include <cstddef>
 #include <string>
 #include <vector>
@@ -88,6 +89,10 @@ struct GameUIData {
     std::vector<MapRoomView> map_rooms;
     std::vector<MapLinkView> map_links;
     std::string devroom_room_id;
+    std::string room_label;
+    std::string room_clear_label;
+    bool room_cleared = false;
+    float room_title_timer = 0.0f;
     const UIAssets* ui_assets = nullptr;
     bool chest_nearby = false;
     std::string chest_label;
@@ -110,6 +115,8 @@ public:
     void OpenSettings();
     void OpenCharacterSelect(int initial_index = 0);
     void OpenWeaponSelect(int initial_index = 0);
+    void SetWeaponCount(int count) { weapon_select_count_ = std::max(0, count); }
+    void SetCharacterCount(int count) { character_select_count_ = std::max(0, count); }
     void CloseSelection();
     int CharacterSelection() const { return character_select_index_; }
     int WeaponSelection() const { return weapon_select_index_; }
@@ -165,6 +172,8 @@ private:
     int settings_index_ = 0;
     int character_select_index_ = 0;
     int weapon_select_index_ = 0;
+    int weapon_select_count_ = 0;
+    int character_select_count_ = 0;
     UIAction action_ = UIAction::None;
 };
 

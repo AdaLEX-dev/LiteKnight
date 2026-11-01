@@ -41,6 +41,7 @@
 #include "game/save/SaveManager.hpp"
 #include "game/weapons/WeaponInventory.hpp"
 #include "game/weapons/WeaponPickup.hpp"
+#include "game/weapons/WeaponCatalogue.hpp"
 #include "game/weapons/WeaponRegistry.hpp"
 #include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
@@ -95,6 +96,7 @@ private:
     void HandleMainMenuPointer(const SDL_Event& event);
     void LogViewportContract();
     void ConfigureReviewMode();
+    void TeleportForReview(const engine::Vec2& position);
     void PrintReviewRequired();
     bool LoadWorldRooms();
     void ConfigureWorldGraph();
@@ -104,6 +106,8 @@ private:
     void CaptureCurrentRoomState();
     void RestoreCurrentRoomState();
     void UpdateRoomClear();
+    void BeginRoomTitle(float seconds);
+    void SealUnconnectedDoors();
     bool NearOpenDoor() const;
     const engine::assets::SceneDoor* NearbyOpenDoor() const;
     engine::Vec2 DoorEntrancePosition(
@@ -115,6 +119,8 @@ private:
     void ExerciseWindowIfRequested();
     void BuildRenderBatch();
     void BuildSyntheticBatch();
+    static void AssignUniqueTextureIds(engine::assets::SceneAsset& scene,
+                                       uint32_t base);
     void RebuildCollisionWorld();
     void ToggleAllDoors();
     void CloseAllDoors();
@@ -135,6 +141,8 @@ private:
     void UpdateAutoAim();
     float AimAngleDegrees() const;
     void SpawnWeaponPickup(std::size_t weapon_index);
+    void SpawnWeaponPickupAt(std::size_t weapon_index,
+                             const engine::Vec2& position);
     bool TryPickupWeapon();
     bool TryOpenChest();
     void TryInteract();
@@ -173,6 +181,7 @@ private:
     soulknight::game::room::ObstacleField obstacles_;
     soulknight::game::player::PlayerCharacterSet player_characters_;
     soulknight::game::weapons::WeaponRegistry weapons_;
+    soulknight::game::weapons::WeaponCatalogue weapon_catalogue_;
     soulknight::game::weapons::WeaponInventory weapon_inventory_;
     soulknight::game::weapons::WeaponPickupSystem weapon_pickups_;
     std::unique_ptr<soulknight::game::save::SaveManager> save_manager_;
@@ -197,6 +206,8 @@ private:
     soulknight::game::items::ItemWorld item_world_;
     soulknight::game::hub::PlantSystem plant_system_;
     engine::Vec2 aim_direction_{1.0f, 0.0f};
+    engine::Vec2 previous_aim_direction_{1.0f, 0.0f};
+    engine::Vec2 render_aim_direction_{1.0f, 0.0f};
     engine::Vec2 previous_player_position_{0.0f, 0.0f};
     engine::Vec2 last_mouse_logical_{0.0f, 0.0f};
     engine::Vec2 last_mouse_world_{0.0f, 0.0f};
@@ -241,6 +252,8 @@ private:
     bool ui_design_mode_ = false;
     bool review_mode_ = false;
     bool review_frozen_ = false;
+    double return_portal_confirm_seconds_ = -1.0;
+    float room_title_timer_ = 0.0f;
     double review_start_seconds_ = -1.0;
     double review_duration_seconds_ = 30.0;
     std::chrono::steady_clock::time_point last_present_time_{};

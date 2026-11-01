@@ -33,6 +33,19 @@ inline FacingDirection ResolveAimFacing(FacingDirection current, const Vec2& aim
     return current;
 }
 
+// CONFIRMED from the recovered c00 controller: char_1_skin_0_ide,
+// char_1_skin_0_run, char_1_skin_0_dead and char_hit are the only clips. There
+// are no separate up/down/diagonal clips. Body orientation therefore follows
+// horizontal movement while moving, and falls back to aim only while idle.
+inline FacingDirection ResolveBodyFacing(FacingDirection current,
+                                         const Vec2& movement,
+                                         const Vec2& aim, bool moving) {
+    if (movement.x > 0.01f) return FacingDirection::Right;
+    if (movement.x < -0.01f) return FacingDirection::Left;
+    if (!moving) return ResolveAimFacing(current, aim);
+    return current;
+}
+
 inline const char* FacingDirectionName(FacingDirection facing) {
     return facing == FacingDirection::Left ? "left" : "right";
 }

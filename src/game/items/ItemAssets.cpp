@@ -31,6 +31,8 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
     loaded_ = false;
     chests_.clear();
     coins_.clear();
+    portals_.clear();
+    weapon_drops_.clear();
     if (error != nullptr) error->clear();
     std::string scene_error;
     if (!engine::assets::SceneLoader::Load(filesystem, path, assets_,
@@ -64,8 +66,11 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
             chest.collider_offset = ReadVec2(
                 item.value("collider_offset", Json::array()),
                 chest.collider_offset);
+            chest.open_time = item.value("open_time", 1.0f);
             chest.loot_coin = item.value("loot_coin", std::string{});
-            chest.loot_count = item.value("loot_count", 1);
+            chest.loot_count = item.value("loot_count", 0);
+            chest.appointed_weapon = item.value("appointed_weapon", std::string{});
+            chest.weapon_drop_level = item.value("weapon_drop_level", -1);
             if (item.contains("visuals")) {
                 for (const Json& visual_item : item["visuals"]) {
                     if (!visual_item.is_object() ||
@@ -108,6 +113,48 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
             coins_.push_back(std::move(coin));
         }
     }
+    if (document.contains("weapon_drops")) {
+        for (const Json& item : document["weapon_drops"]) {
+            if (!item.is_object()) continue;
+            WeaponDropLevel level;
+            level.level = item.value("level", 0);
+            if (item.contains("entries")) {
+                for (const Json& entry_item : item["entries"]) {
+                    if (!entry_item.is_object()) continue;
+                    WeaponDropEntry entry;
+                    entry.weapon = entry_item.value("weapon", std::string{});
+                    entry.weight = entry_item.value("weight", 0);
+                    entry.title = entry_item.value("title", std::string{});
+                    if (!entry.weapon.empty() && entry.weight > 0) {
+                        level.entries.push_back(std::move(entry));
+                    }
+                }
+            }
+            if (!level.entries.empty()) weapon_drops_.push_back(std::move(level));
+        }
+    }
+    if (document.contains("portals")) {
+        for (const Json& item : document["portals"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string()) {
+                SetError(error, "item portal definition is invalid");
+                return false;
+            }
+            PortalDefinition portal;
+            portal.id = item["id"].get<std::string>();
+            portal.fps = item.value("fps", 12.0f);
+            portal.duration = item.value("duration", 0.5f);
+            portal.loop = item.value("loop", true);
+            if (item.contains("frames")) {
+                for (const Json& frame : item["frames"]) {
+                    if (frame.is_string()) {
+                        portal.frames.push_back(frame.get<std::string>());
+                    }
+                }
+            }
+            if (!portal.frames.empty()) portals_.push_back(std::move(portal));
+        }
+    }
     loaded_ = !assets_.textures.empty() && !assets_.sprites.empty() &&
               !chests_.empty() && !coins_.empty();
     if (!loaded_) {
@@ -120,6 +167,13 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
 const ChestDefinition* ItemAssets::FindChest(const std::string& id) const {
     for (const ChestDefinition& chest : chests_) {
         if (chest.id == id) return &chest;
+    }
+    return nullptr;
+}
+
+const PortalDefinition* ItemAssets::FindPortal(const std::string& id) const {
+    for (const PortalDefinition& portal : portals_) {
+        if (portal.id == id) return &portal;
     }
     return nullptr;
 }

@@ -144,6 +144,23 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.devroom = true;
             config.scene_path = "scenes/hero_room/scene.json";
             config.title = "LiteKnight Review - Living Room";
+        } else if (area == "workshop" || area == "garden" ||
+                   area == "cellar") {
+            config.devroom = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Review - " + area;
+        } else if (area == "devroom") {
+            config.devroom = true;
+            config.scene_path = "scenes/r1_1_visual/scene.json";
+            config.title = "LiteKnight Review - Devroom";
+        } else if (area == "chest") {
+            config.devroom = true;
+            config.scene_path = "scenes/r1_1_visual/scene.json";
+            config.title = "LiteKnight Review - Chest Catalogue";
+        } else if (area == "weapons") {
+            config.devroom = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Review - Weapon Catalogue";
         } else if (area == "r1_1" || area == "r1_2" || area == "r1_3") {
             config.devroom = true;
             config.scene_path = "scenes/" + area + "_visual/scene.json";

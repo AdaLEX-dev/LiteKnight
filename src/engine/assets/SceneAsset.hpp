@@ -248,12 +248,23 @@ struct SceneCamera {
 struct InteractionMarker {
     std::string id;
     std::string kind;
+    std::string label;
     Vec2 position{0.0f, 0.0f};
     float radius = 2.0f;
 };
 
+struct RoomMetadata {
+    int type = 0;
+    std::string type_name = "normal";
+    int stage = 0;
+    int number = 0;
+    std::string label;
+    std::string clear_label = "CLEARED";
+};
+
 struct SceneAsset {
     std::string id;
+    RoomMetadata room;
     std::vector<TextureAsset> textures;
     std::vector<SpriteData> sprites;
     std::vector<SpriteInstance> instances;

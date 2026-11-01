@@ -1,7 +1,10 @@
 #include "ItemWorld.hpp"
 
+#include "engine/math/UnityRandom.hpp"
+
 #include <algorithm>
 #include <cmath>
+#include <cstdint>
 
 namespace soulknight::game::items {
 
@@ -17,35 +20,96 @@ ItemWorld::RoomState& ItemWorld::Current(const std::string& room_id,
 }
 
 void ItemWorld::EnterRoom(const std::string& room_id, bool spawn_chest,
-                          const engine::Vec2& chest_position) {
+                          const engine::Vec2& chest_position,
+                          const std::string& chest_definition) {
     room_id_ = room_id;
     RoomState& room = rooms_[room_id];
     if (room.configured) return;
     room.configured = true;
     if (spawn_chest) {
         ChestInstance chest;
-        chest.definition = "chest00";
+        chest.definition = chest_definition;
         chest.position = chest_position;
         room.chests.push_back(std::move(chest));
     }
+}
+
+void ItemWorld::AddChest(const std::string& definition,
+                         const engine::Vec2& position) {
+    RoomState& room = Current(room_id_);
+    room.configured = true;
+    ChestInstance chest;
+    chest.definition = definition;
+    chest.position = position;
+    room.chests.push_back(std::move(chest));
 }
 
 void ItemWorld::Update(float delta_seconds, const engine::Vec2& player_position,
                        const ItemAssets& assets) {
     if (delta_seconds <= 0.0f) return;
     RoomState& room = Current(room_id_);
-    for (ChestInstance& chest : room.chests) {
+    for (std::size_t chest_index = 0; chest_index < room.chests.size();
+         ++chest_index) {
+        ChestInstance& chest = room.chests[chest_index];
         if (chest.state != ChestState::Opening) continue;
         chest.timer += delta_seconds;
-        if (chest.timer < 0.45f) continue;
+        const ChestDefinition* definition = assets.FindChest(chest.definition);
+        const float open_time = definition != nullptr
+            ? std::max(0.01f, definition->open_time) : 1.0f;
+        if (chest.timer < open_time) continue;
         chest.state = ChestState::Open;
         if (chest.loot_spawned) continue;
         chest.loot_spawned = true;
-        const ChestDefinition* definition = assets.FindChest(chest.definition);
         if (definition == nullptr) continue;
+        // RGChestAppoint has a fixed object_list entry. RGChest uses
+        // WeaponDropInfo.GetWeaponWithDropLevel(level, rg_random).
+        if (!definition->appointed_weapon.empty()) {
+            chest.pending_weapon = definition->appointed_weapon;
+        } else if (definition->weapon_drop_level >= 0) {
+            const WeaponDropLevel* drop = nullptr;
+            for (const WeaponDropLevel& candidate : assets.WeaponDrops()) {
+                if (candidate.level == definition->weapon_drop_level) {
+                    drop = &candidate;
+                    break;
+                }
+            }
+            if (drop != nullptr) {
+                std::vector<const WeaponDropEntry*> candidates;
+                int total_weight = 0;
+                for (const WeaponDropEntry& entry : drop->entries) {
+                    if (!available_weapons_.empty() &&
+                        std::find(available_weapons_.begin(),
+                                  available_weapons_.end(),
+                                  entry.weapon) == available_weapons_.end()) {
+                        continue;
+                    }
+                    candidates.push_back(&entry);
+                    total_weight += entry.weight;
+                }
+                if (!candidates.empty() && total_weight > 0) {
+                    std::uint32_t hash = 2166136261u;
+                    for (char c : room_id_) {
+                        hash ^= static_cast<unsigned char>(c);
+                        hash *= 16777619u;
+                    }
+                    hash ^= static_cast<std::uint32_t>(chest_index) *
+                            0x9E3779B9u;
+                    engine::RGRandomStream random;
+                    random.SetRandomSeed(static_cast<int32_t>(hash & 0x7FFFFFFFu));
+                    int roll = random.Range(0, total_weight);
+                    for (const WeaponDropEntry* entry : candidates) {
+                        if (roll < entry->weight) {
+                            chest.pending_weapon = entry->weapon;
+                            break;
+                        }
+                        roll -= entry->weight;
+                    }
+                }
+            }
+        }
         const CoinDefinition* coin = assets.FindCoin(definition->loot_coin);
         if (coin == nullptr) continue;
-        const int count = std::max(1, definition->loot_count);
+        const int count = std::max(0, definition->loot_count);
         for (int i = 0; i < count; ++i) {
             CoinInstance spawned;
             spawned.definition = coin->id;
@@ -74,6 +138,21 @@ void ItemWorld::Update(float delta_seconds, const engine::Vec2& player_position,
         }
         coin.position += coin.velocity * delta_seconds;
     }
+}
+
+void ItemWorld::SetAvailableWeapons(std::vector<std::string> weapon_ids) {
+    available_weapons_ = std::move(weapon_ids);
+}
+
+std::vector<WeaponLootDrop> ItemWorld::TakePendingWeaponDrops() {
+    std::vector<WeaponLootDrop> drops;
+    RoomState& room = Current(room_id_);
+    for (ChestInstance& chest : room.chests) {
+        if (chest.pending_weapon.empty()) continue;
+        drops.push_back({chest.pending_weapon, chest.position});
+        chest.pending_weapon.clear();
+    }
+    return drops;
 }
 
 int ItemWorld::CollectCoins(const engine::Vec2& player_position, float radius,

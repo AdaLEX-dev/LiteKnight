@@ -24,8 +24,22 @@ struct ChestDefinition {
     std::vector<ItemVisual> visuals;
     engine::Vec2 collider_half_extents{0.5f, 0.35f};
     engine::Vec2 collider_offset{0.0f, 0.35f};
+    float open_time = 1.0f;
     std::string loot_coin;
-    int loot_count = 1;
+    int loot_count = 0;
+    std::string appointed_weapon;
+    int weapon_drop_level = -1;
+};
+
+struct WeaponDropEntry {
+    std::string weapon;
+    int weight = 0;
+    std::string title;
+};
+
+struct WeaponDropLevel {
+    int level = 0;
+    std::vector<WeaponDropEntry> entries;
 };
 
 struct CoinDefinition {
@@ -35,6 +49,14 @@ struct CoinDefinition {
     float speed = 20.0f;
     float range = 7.0f;
     std::vector<std::string> frames;
+};
+
+struct PortalDefinition {
+    std::string id;
+    std::vector<std::string> frames;
+    float fps = 12.0f;
+    float duration = 0.5f;
+    bool loop = true;
 };
 
 // Owns the actual chest00/RGCoin sprite atlases and definitions. The pack is
@@ -51,6 +73,10 @@ public:
     const std::vector<CoinDefinition>& Coins() const { return coins_; }
     const ChestDefinition* FindChest(const std::string& id) const;
     const CoinDefinition* FindCoin(const std::string& id) const;
+    const PortalDefinition* FindPortal(const std::string& id) const;
+    const std::vector<WeaponDropLevel>& WeaponDrops() const {
+        return weapon_drops_;
+    }
 
     // Appends textures/sprites and remaps texture ids. Definitions keep using
     // symbolic sprite ids because each room has independent sprite indices.
@@ -61,6 +87,8 @@ private:
     engine::assets::SceneAsset assets_;
     std::vector<ChestDefinition> chests_;
     std::vector<CoinDefinition> coins_;
+    std::vector<PortalDefinition> portals_;
+    std::vector<WeaponDropLevel> weapon_drops_;
 };
 
 } // namespace soulknight::game::items

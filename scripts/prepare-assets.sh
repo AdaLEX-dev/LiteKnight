@@ -143,7 +143,9 @@ done
 # 3a. Actual chest00/RGCoin item pack (prefab sprites + coin values).
 ITEM_SOURCE="${ROOT}/assets/generated/items"
 ITEM_TARGET="${BUILD_DIR}/assets/scenes/items"
-if [[ ${FORCE_BUILD} -eq 1 || ! -f "${ROOT}/analysis/assets/items/item_assets.json" || ! -d "${ITEM_SOURCE}/textures" ]]; then
+if [[ ${FORCE_BUILD} -eq 1 || ! -f "${ROOT}/analysis/assets/items/item_assets.json" || ! -d "${ITEM_SOURCE}/textures" ]] || \
+   ! grep -q '"portals"' "${ROOT}/analysis/assets/items/item_assets.json" || \
+   ! grep -q '"weapon_drops"' "${ROOT}/analysis/assets/items/item_assets.json"; then
     if [[ ! -x "${ROOT}/tools/asset/.venv/bin/python" || ! -f "${BUNDLE_ROOT}/common" ]]; then
         echo "ERROR: cannot generate chest/coin item pack without UnityPy venv + common bundle." >&2
         exit 2
@@ -163,6 +165,9 @@ if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
         cp -a "${ITEM_SOURCE}/textures/." "${ITEM_TARGET}/textures/"
     fi
     cp -f "${ROOT}/analysis/assets/items/item_assets.json" "${ITEM_TARGET}/items.json"
+    if [[ -f "${ROOT}/analysis/assets/weapon_catalogue.json" ]]; then
+        cp -f "${ROOT}/analysis/assets/weapon_catalogue.json" "${ITEM_TARGET}/weapon_catalogue.json"
+    fi
     echo "Runtime item pack: FOUND (${ITEM_TARGET}/items.json)"
 fi
 

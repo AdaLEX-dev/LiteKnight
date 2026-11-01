@@ -8,6 +8,7 @@ namespace soulknight::game::room {
 bool RoomDoorController::Configure(const engine::assets::SceneAsset& scene,
                                    std::string* error) {
     doors_.clear();
+    sealed_.clear();
     configured_ = false;
     target_open_ = true;
     if (error != nullptr) error->clear();
@@ -28,6 +29,7 @@ bool RoomDoorController::Configure(const engine::assets::SceneAsset& scene,
         }
         doors_.push_back(std::move(door));
     }
+    sealed_.assign(doors_.size(), false);
     target_open_ = !scene.doors.empty() && scene.doors.front().open;
     for (const engine::assets::SceneDoor& data : scene.doors) {
         if (data.enabled) {
@@ -41,7 +43,9 @@ bool RoomDoorController::Configure(const engine::assets::SceneAsset& scene,
 
 void RoomDoorController::OpenAll() {
     target_open_ = true;
-    for (Door& door : doors_) door.Open();
+    for (std::size_t i = 0; i < doors_.size(); ++i) {
+        if (!sealed_[i]) doors_[i].Open();
+    }
 }
 
 void RoomDoorController::CloseAll() {
@@ -55,6 +59,16 @@ void RoomDoorController::ToggleAll() {
     } else {
         OpenAll();
     }
+}
+
+void RoomDoorController::SealDoor(std::size_t index) {
+    if (index >= doors_.size()) return;
+    sealed_[index] = true;
+    doors_[index].Close();
+}
+
+bool RoomDoorController::IsSealed(std::size_t index) const {
+    return index < sealed_.size() && sealed_[index];
 }
 
 bool RoomDoorController::Update(float delta_seconds) {

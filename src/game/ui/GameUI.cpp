@@ -1,5 +1,7 @@
 #include "GameUI.hpp"
 
+#include "game/player/Ability.hpp"
+
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -133,6 +135,16 @@ void GameUI::Navigate(int delta) {
         main_index_ = (main_index_ + delta + 5) % 5;
     } else if (screen_ == UIScreen::Settings) {
         settings_index_ = (settings_index_ + delta + 6) % 6;
+    } else if (screen_ == UIScreen::CharacterSelect &&
+               character_select_count_ > 0) {
+        character_select_index_ = (character_select_index_ + delta +
+                                   character_select_count_) %
+                                  character_select_count_;
+    } else if (screen_ == UIScreen::WeaponSelect &&
+               weapon_select_count_ > 0) {
+        weapon_select_index_ = (weapon_select_index_ + delta +
+                                weapon_select_count_) %
+                               weapon_select_count_;
     }
 }
 
@@ -291,10 +303,8 @@ void GameUI::DrawButton(UIRenderer& ui, const GameUIData& data,
     // All button labels use the same centered content rectangle. The optional
     // icon is painted independently at the left edge and never shifts text.
     const Rect text_rect = rect;
-    const bool ink_text = label == "NEW GAME";
     const Color text_color = !enabled ? Color{142, 130, 112, 255}
-        : ink_text ? Color{43, 29, 18, 255}
-        : (selected ? Color::White() : kCream);
+        : (selected || label == "NEW GAME" ? Color::White() : kCream);
     ui.TextCentered(label, text_rect, text_color, 2013, size, true);
 }
 
@@ -418,10 +428,31 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
     DrawMinimap(ui, data, element("minimap"), false);
 
     const Rect stage = element("stage");
-    ui.TextFitted(std::string("ROOM ") + (data.scene != nullptr
-                      ? data.scene->id : std::string("?")),
-                  stage, kMuted, 1903,
+    std::string stage_text = data.room_label;
+    if (stage_text.empty()) {
+        stage_text = data.scene != nullptr ? data.scene->id : "?";
+    }
+    if (data.room_cleared && !data.room_clear_label.empty()) {
+        stage_text += "   " + data.room_clear_label;
+    }
+    ui.TextFitted(stage_text, stage, kMuted, 1903,
                   engine::rendering::TextAlign::Left, 28.0f, 18.0f, true);
+
+    // Room-enter / clear title. The reference label animation is not yet
+    // recovered; this is a data-driven fade/slide using the recovered font.
+    if (data.room_title_timer > 0.0f) {
+        const float t = std::clamp(data.room_title_timer / 3.0f, 0.0f, 1.0f);
+        const int alpha = static_cast<int>(255.0f * t);
+        const std::string title = data.room_cleared &&
+            !data.room_clear_label.empty() ? data.room_clear_label : data.room_label;
+        if (!title.empty()) {
+            const float slide = (1.0f - t) * 14.0f;
+            ui.TextCentered(title, {760, 92 - slide, 400, 46},
+                            Color{255, 245, 220,
+                                  static_cast<unsigned char>(alpha)},
+                            1920, 38.0f, true);
+        }
+    }
 
     // Character power, deliberately larger than a weapon slot. ui_joy_0 is the
     // recovered joystick base and ui_joy_3 is the actual white lightning icon
@@ -430,20 +461,39 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
     const bool power_asset = has_asset("ui_joy_0") && has_asset("ui_joy_3");
     if (power_asset) {
         DrawAsset(ui, data, "ui_joy_0", power, Color::White(), 1900);
-        const Color icon_tint = data.ability_state == 0
-            ? Color{90, 90, 90, 255}
-            : data.ability_state == 2 ? kGold : Color::White();
         const float icon_h = power.h * 0.54f;
         const float icon_w = icon_h * (53.0f / 91.0f);
-        DrawAsset(ui, data, "ui_joy_3",
-                  {power.x + (power.w - icon_w) * 0.5f,
-                   power.y + (power.h - icon_h) * 0.5f - 4.0f,
-                   icon_w, icon_h}, icon_tint, 1905);
-        if (data.ability_state == 3) {
-            const float fill = std::clamp(data.ability_cooldown, 0.0f, 1.0f);
-            ui.Rect({power.x + 16, power.y + power.h - 26,
-                     (power.w - 32) * fill, 10},
-                    {5, 8, 16, 190}, 1906);
+        const Rect icon_rect{power.x + (power.w - icon_w) * 0.5f,
+                             power.y + (power.h - icon_h) * 0.5f - 4.0f,
+                             icon_w, icon_h};
+        // Reference UICanvas.UpdateSkillMask uses Image.fillAmount on
+        // skill_icon_mask and enables skill_mask_ready at 100%. Reproduce the
+        // same vertical fill with the actual dark/white lightning sprites.
+        const auto ability_state = static_cast<
+            soulknight::game::player::AbilityState>(data.ability_state);
+        const float charge = soulknight::game::player::AbilityChargeFraction(
+            ability_state, data.ability_cooldown);
+        DrawAsset(ui, data, "ui_joy_2", icon_rect,
+                  data.ability_state == 0 ? Color{100, 100, 100, 255}
+                                         : Color{45, 52, 60, 255}, 1904);
+        const UIAssetSprite* lightning =
+            data.ui_assets != nullptr ? data.ui_assets->Find("ui_joy_3")
+                                      : nullptr;
+        if (lightning != nullptr && charge > 0.0f) {
+            const float clipped_h = icon_h * charge;
+            const Rect uv{lightning->uv.x,
+                          lightning->uv.y + lightning->uv.h * (1.0f - charge),
+                          lightning->uv.w, lightning->uv.h * charge};
+            ui.Image(lightning->texture_id, uv,
+                     {icon_rect.x, icon_rect.y + (icon_h - clipped_h),
+                      icon_w, clipped_h},
+                     data.ability_state == 2 ? Color{120, 205, 255, 255}
+                                             : Color{55, 155, 255, 255},
+                     1905);
+        }
+        if (data.ability_state == 1) {
+            // Ready glow: a subtle blue ring around the recovered base.
+            ui.Panel(power, {0, 0, 0, 0}, {78, 174, 255, 230}, 3.0f, 1903);
         }
     } else {
         ui.Panel(power, {32, 29, 40, 235},
@@ -995,32 +1045,50 @@ void GameUI::DrawWeaponSelect(UIRenderer& ui, const GameUIData& data) const {
                     Color::White(), 1990, 36.0f, true);
     const int count = static_cast<int>(data.weapons->Count());
     const int selected = std::clamp(weapon_select_index_, 0, count - 1);
-    for (int i = 0; i < count; ++i) {
-        const Rect row{panel.x + 70, panel.y + 110 + static_cast<float>(i) * 108,
-                       panel.w - 140, 92};
+    constexpr int visible_rows = 5;
+    const int first = std::clamp(selected - visible_rows / 2, 0,
+                                 std::max(0, count - visible_rows));
+    constexpr float row_h = 88.0f;
+    constexpr float row_gap = 10.0f;
+    for (int slot = 0; slot < visible_rows; ++slot) {
+        const int i = first + slot;
+        if (i >= count) break;
+        const Rect row{panel.x + 70,
+                       panel.y + 106 + static_cast<float>(slot) *
+                                          (row_h + row_gap),
+                       panel.w - 140, row_h};
         const bool active = i == selected;
         ui.Panel(row, active ? Color{82, 68, 48, 255}
                              : Color{35, 40, 53, 255},
                  active ? kFrameLight : Color{68, 76, 93, 255},
                  active ? 3.0f : 2.0f, 1990);
-        const auto& weapon = data.weapons->Definitions()[static_cast<std::size_t>(i)];
+        const auto& weapon =
+            data.weapons->Definitions()[static_cast<std::size_t>(i)];
         if (weapon.visual_sprite_index >= 0) {
             ui.SceneSprite(weapon.visual_sprite_index,
-                           {row.x + 16, row.y + 12, 104, 64}, Color::White(),
+                           {row.x + 16, row.y + 12, 100, 60}, Color::White(),
                            1991);
         }
-        char info[160];
+        char info[192];
         std::snprintf(info, sizeof(info),
                       "%s   DMG %d   COST %d   CYCLE %.3f",
                       weapon.display_name.empty() ? weapon.id.c_str()
                                                    : weapon.display_name.c_str(),
                       weapon.damage, weapon.EnergyCost(),
                       weapon.attack_cycle_seconds);
-        ui.Text(info, {row.x + 142, row.y + 22},
-                active ? Color::White() : kCream, 1992, true, false, 20.0f);
-        ui.Text(std::string("PROJECTILE ") + weapon.projectile.id,
-                {row.x + 142, row.y + 50}, kMuted, 1992, false, false, 15.0f);
+        ui.TextFitted(info, {row.x + 132, row.y + 12, row.w - 150, 30},
+                      active ? Color::White() : kCream, 1992,
+                      engine::rendering::TextAlign::Left, 22.0f, 16.0f, true);
+        ui.TextFitted(std::string("PROJECTILE ") + weapon.projectile.id,
+                      {row.x + 132, row.y + 46, row.w - 150, 24},
+                      kMuted, 1992, engine::rendering::TextAlign::Left,
+                      16.0f, 12.0f, false);
     }
+    char page[64];
+    std::snprintf(page, sizeof(page), "%d / %d", selected + 1, count);
+    ui.TextFitted(page, {panel.x + panel.w - 220, panel.y + 26, 180, 30},
+                  kGold, 1993, engine::rendering::TextAlign::Right, 24.0f,
+                  16.0f, true);
     ui.TextCentered("UP/DOWN SELECT   ENTER EQUIP ACTIVE SLOT   ESC BACK",
                     {panel.x, panel.y + 630, panel.w, 24}, kMuted, 1994,
                     15.0f);
