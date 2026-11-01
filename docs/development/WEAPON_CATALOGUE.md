@@ -1,6 +1,6 @@
 # Weapon Catalogue and Runtime Integration
 
-**Status:** full reference catalogue recovered; 168 standard projectile weapons
+**Status:** full reference catalogue recovered; 210 standard projectile/melee weapons
 are loaded by the native runtime, with the remainder explicitly classified as
 Tier B/C. See `WEAPON_SYSTEM.md` for the pipeline and rarity finding.
 
@@ -23,9 +23,9 @@ Tier B/C. See `WEAPON_SYSTEM.md` for the pipeline and rarity finding.
 
 ```text
 Catalogue entries discovered:              302
-Weapons with complete standard runtime:    168  (Tier A)
-Recovered melee weapons pending hitbox:     49  (Tier B)
-Unique / catalogue-only weapons:            85  (Tier C)
+Weapons with complete standard/melee runtime: 210  (Tier A)
+Melee prefab extraction pending:              14  (Tier B)
+Unique / catalogue-only:                      78  (Tier C)
 ```
 
 Tier A is generated automatically from every serializable projectile prefab

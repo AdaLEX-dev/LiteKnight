@@ -94,7 +94,8 @@ engine::collision::Aabb EnemySystem::WorldCollider(
 bool EnemySystem::FixedUpdate(float delta_seconds,
                               const engine::Vec2& player_position,
                               combat::HealthState& player_health,
-                              const engine::collision::AabbCollisionWorld* world) {
+                              const engine::collision::AabbCollisionWorld* world,
+                              combat::ProjectileSystem* projectiles) {
     if (delta_seconds <= 0.0f) return false;
     bool player_damaged = false;
     const engine::collision::Aabb player_box{
@@ -115,6 +116,7 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
         }
 
         enemy.contact_timer = std::max(0.0f, enemy.contact_timer - delta_seconds);
+        enemy.shoot_timer = std::max(0.0f, enemy.shoot_timer - delta_seconds);
 
         // Chase slice: approach the player when outside contact distance and
         // inside the aggro radius. The speed is the recovered RoleAttribute
@@ -127,8 +129,27 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
         // deliberate; full EnemyAI04 scouting/pathfinding remains UNKNOWN.
         constexpr float kAggroRadius = 5.0f;
         constexpr float kContactRange = 0.75f;
-        if (distance > kContactRange && distance < kAggroRadius &&
-            distance > 0.0001f) {
+        const bool in_ranged_band = definition.ranged &&
+            distance <= definition.attack_range && distance > 0.0001f;
+        if (definition.ranged && projectiles != nullptr &&
+            in_ranged_band && enemy.shoot_timer <= 0.0f &&
+            definition.projectile.sprite_index >= 0) {
+            const engine::Vec2 direction = to_player * (1.0f / distance);
+            const engine::Vec2 center_offset{
+                (definition.collider.min.x + definition.collider.max.x) * 0.5f,
+                (definition.collider.min.y + definition.collider.max.y) * 0.5f};
+            const engine::Vec2 spawn = enemy.position + center_offset +
+                direction * 0.45f;
+            projectiles->Spawn(
+                definition.projectile, spawn, direction,
+                definition.projectile_speed > 0.0f
+                    ? definition.projectile_speed
+                    : definition.projectile.prefab_speed,
+                definition.projectile_damage, definition.camp, 0, 0);
+            enemy.shoot_timer = std::max(0.1f, definition.shoot_cooldown);
+        }
+        if (!in_ranged_band && distance > kContactRange &&
+            distance < kAggroRadius && distance > 0.0001f) {
             const engine::Vec2 direction = to_player * (1.0f / distance);
             enemy.facing_left = direction.x < 0.0f;
             const float speed = static_cast<float>(std::max(0, definition.speed));
@@ -224,6 +245,33 @@ void EnemySystem::ResolveProjectileHits(combat::ProjectileSystem& projectiles) {
             projectile.active = false;
         }
     }
+}
+
+int EnemySystem::ApplyMelee(const engine::Vec2& origin,
+                            const engine::Vec2& direction,
+                            float range, float arc_degrees,
+                            int damage, int source_camp) {
+    constexpr float kPi = 3.14159265358979323846f;
+    const engine::Vec2 aim = direction.LengthSquared() > 1e-8f
+        ? direction.Normalized() : engine::Vec2{1.0f, 0.0f};
+    const float half_arc = std::clamp(arc_degrees, 1.0f, 360.0f) * 0.5f;
+    int hits = 0;
+    for (std::size_t i = 0; i < enemies_.size(); ++i) {
+        EnemyInstance& enemy = enemies_[i];
+        if (!enemy.active || enemy.health.dead) continue;
+        const engine::Vec2 offset = enemy.position - origin;
+        const float distance = offset.Length();
+        if (distance > range + 0.8f) continue;
+        if (distance > 1e-4f) {
+            const float angle = std::atan2(offset.y, offset.x) * 180.0f / kPi;
+            const float aim_angle = std::atan2(aim.y, aim.x) * 180.0f / kPi;
+            float delta = std::fabs(angle - aim_angle);
+            if (delta > 180.0f) delta = 360.0f - delta;
+            if (delta > half_arc) continue;
+        }
+        if (ApplyDamage(i, damage, source_camp)) ++hits;
+    }
+    return hits;
 }
 
 bool EnemySystem::ApplyDamage(std::size_t index, int damage, int source_camp) {

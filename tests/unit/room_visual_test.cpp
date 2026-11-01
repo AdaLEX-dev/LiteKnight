@@ -284,13 +284,17 @@ TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *
     CHECK(projectile.value("prefab_speed", 0.0) == doctest::Approx(10.0));
     CHECK(projectile.value("lifetime", 0.0) == doctest::Approx(5.0));
 
-    CHECK(scene["enemy_definitions"].size() == 1);
-    const Json& enemy = scene["enemy_definitions"].at(0);
-    CHECK(enemy.value("id", "") == "e_slime01");
-    CHECK(enemy.value("hp", 0) == 12);
-    CHECK(enemy.value("camp", 0) == 0);
-    CHECK(enemy.value("contact_damage", 0) == 3);
-    CHECK(enemy.value("contact_cooldown", 0.0) == doctest::Approx(1.5));
-    CHECK(enemy.value("death_despawn_delay", 0.0) == doctest::Approx(4.0));
+    CHECK(scene["enemy_definitions"].size() >= 80);
+    bool found_slime = false;
+    for (const Json& enemy : scene["enemy_definitions"]) {
+        if (enemy.value("id", "") != "e_slime01") continue;
+        found_slime = true;
+        CHECK(enemy.value("hp", 0) == 12);
+        CHECK(enemy.value("camp", 0) == 0);
+        CHECK(enemy.value("contact_damage", 0) == 3);
+        CHECK(enemy.value("contact_cooldown", 0.0) == doctest::Approx(1.5));
+        CHECK(enemy.value("death_despawn_delay", 0.0) == doctest::Approx(4.0));
+    }
+    CHECK(found_slime);
     CHECK(scene["enemy_fixtures"].size() == 2);
 }

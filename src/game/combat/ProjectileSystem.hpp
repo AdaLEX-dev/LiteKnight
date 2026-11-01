@@ -4,6 +4,7 @@
 #include "engine/assets/SceneAsset.hpp"
 #include "engine/collision/AabbCollision.hpp"
 #include "engine/math/Vec2.hpp"
+#include "game/combat/Damage.hpp"
 
 #include <cstddef>
 #include <vector>
@@ -56,6 +57,8 @@ public:
 
     std::size_t ActiveCount() const;
     void Deactivate(std::size_t index);
+    // Enemy bullets (camp 0) damage the player. Returns true on a hit.
+    bool ResolvePlayerHits(const Vec2& player_position, HealthState& health);
     int WorldHitsThisStep() const { return world_hits_this_step_; }
     int LifetimeExpirationsThisStep() const {
         return lifetime_expirations_this_step_;

@@ -147,6 +147,44 @@ std::size_t ProjectileSystem::ActiveCount() const {
     return count;
 }
 
+bool ProjectileSystem::ResolvePlayerHits(const Vec2& player_position,
+                                         HealthState& health) {
+    bool damaged = false;
+    const engine::collision::Aabb body{
+        {player_position.x - 0.4f, player_position.y + 0.1f},
+        {player_position.x + 0.4f, player_position.y + 0.9f}
+    };
+    for (std::size_t i = 0; i < projectiles_.size(); ++i) {
+        Projectile& projectile = projectiles_[i];
+        if (!projectile.active || projectile.camp == health.camp ||
+            projectile.damage <= 0) {
+            continue;
+        }
+        const engine::Vec2 offset = projectile.position +
+            RotatedColliderOffset(projectile);
+        const engine::collision::Aabb box{
+            {offset.x - projectile.collider_half_extents.x,
+             offset.y - projectile.collider_half_extents.y},
+            {offset.x + projectile.collider_half_extents.x,
+             offset.y + projectile.collider_half_extents.y}
+        };
+        if (box.max.x < body.min.x || box.min.x > body.max.x ||
+            box.max.y < body.min.y || box.min.y > body.max.y) {
+            continue;
+        }
+        DamageEvent event;
+        event.damage = projectile.damage;
+        event.camp = projectile.camp;
+        event.through = projectile.through;
+        event.repel = projectile.repel;
+        if (health.ApplyDamage(event)) {
+            damaged = true;
+            projectile.active = false;
+        }
+    }
+    return damaged;
+}
+
 void ProjectileSystem::Deactivate(std::size_t index) {
     if (index < projectiles_.size()) projectiles_[index].active = false;
 }

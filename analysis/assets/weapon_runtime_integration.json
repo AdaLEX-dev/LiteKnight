@@ -1,9 +1,9 @@
 {
   "counts": {
     "catalogue_entries": 302,
-    "tier_a_fully_integrated": 168,
-    "tier_b_melee_pending": 49,
-    "tier_c_unique_or_catalogue_only": 85
+    "tier_a_fully_integrated": 210,
+    "tier_b_melee_pending": 14,
+    "tier_c_unique_or_catalogue_only": 78
   },
   "note": "Tier A means the weapon is loaded by the native WeaponRegistry and can spawn, fire, be picked up and appear in the weapon station.",
   "scene": "analysis/assets/scenes/r1_1_visual.json",
@@ -16,7 +16,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_000",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -25,7 +25,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_001",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -34,7 +34,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_002",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -43,7 +43,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_003",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -52,7 +52,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_004",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -61,7 +61,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_005",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -70,7 +70,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_006",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -79,7 +79,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_007",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -88,7 +88,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_008",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -97,7 +97,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_009",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -106,7 +106,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_010",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -115,7 +115,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_011",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -124,7 +124,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_012",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -133,7 +133,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_013",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -142,7 +142,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_014",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -151,7 +151,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_015",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -160,7 +160,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_016",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -169,7 +169,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_017",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -178,7 +178,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_018",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -187,7 +187,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_019",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -196,7 +196,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_020",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -205,7 +205,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_021",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -214,7 +214,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_022",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -223,7 +223,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_023",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -232,7 +232,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_024",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -241,7 +241,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_025",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -250,7 +250,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_026",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -259,7 +259,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_027",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -268,7 +268,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_028",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -277,7 +277,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_029",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -286,7 +286,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_030",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -295,7 +295,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_031",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -304,7 +304,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_032",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -313,7 +313,7 @@
       "energy_cost": 9,
       "has_stats": true,
       "id": "weapon_033",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -322,7 +322,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_034",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -331,7 +331,7 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_035",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -340,7 +340,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_036",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -349,7 +349,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_037",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -358,7 +358,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_038",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -376,7 +376,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_040",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -403,7 +403,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_043",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -412,7 +412,7 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_044",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -439,7 +439,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_047",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -448,7 +448,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_048",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -457,7 +457,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_049",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -466,7 +466,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_050",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -484,7 +484,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_052",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -493,7 +493,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_053",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -520,7 +520,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_056",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -529,7 +529,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_057",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -538,7 +538,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_058",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -556,7 +556,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_060",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -565,7 +565,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_061",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -574,8 +574,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_062",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -583,8 +583,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_063",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -592,8 +592,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_064",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 7,
@@ -601,8 +601,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_065",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -610,8 +610,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_066",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -619,8 +619,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_067",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -628,8 +628,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_068",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -637,8 +637,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_069",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -646,7 +646,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_070",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -655,7 +655,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_071",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -664,8 +664,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_072",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -673,8 +673,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_073",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -682,8 +682,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_074",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -691,8 +691,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_075",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -700,7 +700,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_076",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -709,7 +709,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_077",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -718,7 +718,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_078",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -727,7 +727,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_079",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -826,7 +826,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_090",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -835,7 +835,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_091",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -871,7 +871,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_095",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -880,7 +880,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_096",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -889,7 +889,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_097",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -898,7 +898,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_098",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -907,8 +907,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_099",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -916,7 +916,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_100",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -943,7 +943,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_103",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -961,7 +961,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_105",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -970,7 +970,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_106",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -979,7 +979,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_107",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -997,7 +997,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_109",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1006,7 +1006,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_110",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1015,7 +1015,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_111",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1024,8 +1024,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_112",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1033,8 +1033,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_113",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1042,7 +1042,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_114",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1051,7 +1051,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_115",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1069,7 +1069,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_117",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1078,7 +1078,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_118",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1087,7 +1087,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_119",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1096,7 +1096,7 @@
       "energy_cost": 20,
       "has_stats": true,
       "id": "weapon_120",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1132,7 +1132,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_124",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -1141,7 +1141,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_125",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1150,7 +1150,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_126",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1159,8 +1159,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_127",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1168,7 +1168,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_128",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1177,7 +1177,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_129",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1186,7 +1186,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_130",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1195,7 +1195,7 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_131",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1204,7 +1204,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_132",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1213,8 +1213,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_133",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -1222,7 +1222,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_134",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1231,8 +1231,8 @@
       "energy_cost": 99,
       "has_stats": true,
       "id": "weapon_135",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1240,7 +1240,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_136",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1249,7 +1249,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_137",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1258,7 +1258,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_138",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1267,7 +1267,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_139",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1276,7 +1276,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_140",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1285,7 +1285,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_141",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1294,7 +1294,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_142",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1303,7 +1303,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_143",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1312,8 +1312,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_144",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1321,7 +1321,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_145",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1330,7 +1330,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_146",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1357,8 +1357,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_149",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1366,7 +1366,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_150",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1375,7 +1375,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_151",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1384,7 +1384,7 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_152",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1393,7 +1393,7 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_153",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1429,7 +1429,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_157",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1438,7 +1438,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_158",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1447,7 +1447,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_159",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1465,8 +1465,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_161",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1474,7 +1474,7 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_162",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1483,7 +1483,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_163",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1492,7 +1492,7 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_164",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1501,7 +1501,7 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_165",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1510,7 +1510,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_166",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1519,7 +1519,7 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_167",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1528,7 +1528,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_168",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1537,8 +1537,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_169",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1546,7 +1546,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_170",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1555,7 +1555,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_171",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1591,7 +1591,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_175",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1600,8 +1600,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_176",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1609,7 +1609,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_177",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1636,7 +1636,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_180",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1645,7 +1645,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_181",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1654,7 +1654,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_182",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1663,7 +1663,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_183",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1672,7 +1672,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_184",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1690,7 +1690,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_186",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1699,7 +1699,7 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_187",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1708,7 +1708,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_188",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1717,8 +1717,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_189",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 9,
@@ -1726,8 +1726,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_190",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1735,7 +1735,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_191",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -1744,7 +1744,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_192",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -1753,7 +1753,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_193",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -1780,8 +1780,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_196",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1789,8 +1789,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_197",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -1798,8 +1798,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_198",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 13,
@@ -1807,8 +1807,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_199",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 1,
@@ -1825,7 +1825,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_201",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -1834,7 +1834,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_202",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -1843,7 +1843,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_203",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1852,7 +1852,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_204",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1861,7 +1861,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_205",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1870,7 +1870,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_206",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1879,7 +1879,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_207",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1888,8 +1888,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_208",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -1897,7 +1897,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_209",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1906,7 +1906,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_210",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1915,7 +1915,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_211",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1924,7 +1924,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_212",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1933,7 +1933,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_213",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1942,7 +1942,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_214",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -1951,7 +1951,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_215",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1960,7 +1960,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_216",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -1969,7 +1969,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_217",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1987,7 +1987,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_219",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -1996,7 +1996,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_220",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2005,7 +2005,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_221",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -2014,7 +2014,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_222",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -2023,7 +2023,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_223",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2032,7 +2032,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_224",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2041,8 +2041,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_225",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -2050,8 +2050,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_230",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2059,7 +2059,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_231",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2095,7 +2095,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_235",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2104,7 +2104,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_236",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2113,7 +2113,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_237",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2140,7 +2140,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_240",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2149,8 +2149,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_241",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 0,
@@ -2158,7 +2158,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_242",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -2167,7 +2167,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_243",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2185,7 +2185,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_245",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -2194,8 +2194,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_246",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -2212,7 +2212,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_248",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2230,7 +2230,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_250",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2239,8 +2239,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_251",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 500,
@@ -2257,7 +2257,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_253",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2284,7 +2284,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_256",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2293,7 +2293,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_257",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2311,7 +2311,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_259",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2320,7 +2320,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_260",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2329,7 +2329,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_261",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2356,7 +2356,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_264",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2365,7 +2365,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_265",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2374,8 +2374,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_266",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -2383,7 +2383,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_267",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2392,7 +2392,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_268",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2509,7 +2509,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_281",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2518,8 +2518,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_282",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -2527,8 +2527,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_283",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -2536,7 +2536,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_284",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2545,8 +2545,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_285",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -2554,8 +2554,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_286",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -2563,7 +2563,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_287",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2572,7 +2572,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_288",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2581,7 +2581,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_289",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2599,8 +2599,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_291",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2608,7 +2608,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_292",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2644,7 +2644,7 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_296",
-      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
       "tier": "B"
     },
     {
@@ -2671,8 +2671,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_299",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2680,7 +2680,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_300",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2689,7 +2689,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_301",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2698,7 +2698,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_900",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2707,7 +2707,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_901",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2716,7 +2716,7 @@
       "energy_cost": 10,
       "has_stats": true,
       "id": "weapon_902",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2725,7 +2725,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_903",
-      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     }
   ]

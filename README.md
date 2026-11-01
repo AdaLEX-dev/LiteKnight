@@ -145,9 +145,9 @@ source-controlled. Generated pixels remain gitignored. See
 - Recovered UI construction: main-menu `biaoti 01/02` backdrop/swirl, actual
   button/panel/ribbon frames, `ui_15` HUD plate and `ui_12` bar fills, actual
   skill lightning (`ui_joy_3`), pickup card (`ui_191`), pause/settings assets
-- Weapon catalogue: 302 entries loaded at runtime, with 168 Tier A projectile
-  weapons fully spawnable/fireable and 49 melee / 85 unique entries explicitly
-  classified
+- Weapon catalogue: 302 entries loaded at runtime, with 210 Tier A
+  projectile/melee weapons fully spawnable and 14 melee / 78 unique entries
+  explicitly classified
 - Chest catalogue: 13 reference classes / 86 GameObjects audited; chest00/01/02
   integrated with actual visuals, 1.0 s open animation and reference-derived
   weapon loot

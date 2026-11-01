@@ -966,6 +966,11 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             const int multi_count = item.value("multi_count", 0);
             weapon.bullet_count = std::max(1, item.value("bullet_count", multi_count));
             weapon.spread_degrees = item.value("spread_angle", 0);
+            weapon.is_melee = item.contains("is_melee") &&
+                item["is_melee"].is_boolean() &&
+                item["is_melee"].get<bool>();
+            weapon.melee_range = item.value("melee_range", 1.8f);
+            weapon.melee_arc_degrees = item.value("melee_arc", 110.0f);
             weapon.owner_deviation = item.value("owner_deviation", 0);
             weapon.consume = item.value("consume", 0);
         weapon.energy_cost = item.value("energy_cost", weapon.consume);
@@ -1066,6 +1071,48 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             enemy.contact_cooldown = item.value("contact_cooldown", 1.5f);
             enemy.death_despawn_delay =
                 item.value("death_despawn_delay", 4.0f);
+            enemy.ranged = item.value("ranged", false);
+            enemy.projectile_speed = item.value("projectile_speed", 0.0f);
+            enemy.projectile_damage = item.value("projectile_damage", 0);
+            enemy.shoot_cooldown = item.value("shoot_cooldown", 2.0f);
+            enemy.attack_range = item.value("attack_range", 8.0f);
+            if (enemy.ranged && item.contains("projectile") &&
+                item["projectile"].is_object()) {
+                const Json& projectile = item["projectile"];
+                if (projectile.contains("id") &&
+                    projectile["id"].is_string() &&
+                    projectile.contains("sprite") &&
+                    projectile["sprite"].is_string()) {
+                    enemy.projectile.id =
+                        projectile["id"].get<std::string>();
+                    const auto sprite_it = sprite_ids.find(
+                        projectile["sprite"].get<std::string>());
+                    if (sprite_it != sprite_ids.end()) {
+                        enemy.projectile.sprite_index =
+                            static_cast<int32_t>(sprite_it->second);
+                        enemy.projectile.prefab_speed =
+                            projectile.value("prefab_speed", 0.0f);
+                        enemy.projectile.lifetime =
+                            projectile.value("lifetime", 5.0f);
+                        enemy.projectile.camp = 0;
+                        if (projectile.contains("collider_size") &&
+                            projectile.contains("collider_offset")) {
+                            Vec2 size;
+                            Vec2 offset;
+                            if (ReadVec2(projectile["collider_size"], size) &&
+                                ReadVec2(projectile["collider_offset"], offset)) {
+                                enemy.projectile.collider_half_extents =
+                                    {size.x * 0.5f, size.y * 0.5f};
+                                enemy.projectile.collider_offset = offset;
+                            }
+                        }
+                        enemy.projectile.sorting_layer =
+                            projectile.value("sorting_layer", 6);
+                        enemy.projectile.sorting_order =
+                            projectile.value("sorting_order", 0);
+                    }
+                }
+            }
             enemy.body_sorting_layer = item.value("body_sorting_layer", 5);
             enemy.body_sorting_order = item.value("body_sorting_order", 1);
             enemy.shadow_sorting_layer = item.value("shadow_sorting_layer", 3);

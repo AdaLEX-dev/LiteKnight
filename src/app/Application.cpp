@@ -3037,11 +3037,29 @@ void Application::FixedUpdate(double dt) {
             if (secondary_shots > 0) {
                 LOG_INFO_APP("Dual wield: secondary fired {} shot(s)",
                              secondary_shots);
+                if (secondary_weapon_.Definition().is_melee) {
+                    (void)enemies_.ApplyMelee(
+                        player_.Position(), aim_direction_,
+                        secondary_weapon_.Definition().melee_range,
+                        secondary_weapon_.Definition().melee_arc_degrees,
+                        secondary_weapon_.Definition().damage, 1);
+                }
             }
         } else if (!dual_active) {
             secondary_weapon_.Release();
         }
         if (shots > 0) PlayEffect("weapon_fire", 0.62f);
+        if (shots > 0 && weapon_.Definition().is_melee) {
+            const int hits = enemies_.ApplyMelee(
+                player_.Position(), aim_direction_,
+                weapon_.Definition().melee_range,
+                weapon_.Definition().melee_arc_degrees,
+                weapon_.Definition().damage, 1);
+            if (hits > 0) {
+                LOG_INFO_APP("Melee: {} hit(s) range={:.2f}",
+                             hits, weapon_.Definition().melee_range);
+            }
+        }
         if (shots > 0 && config_.locomotion_debug) {
             LOG_INFO_APP("Attack: fired={} projectile={} speed={:.1f} "
                          "damage={} cycle={:.6f}s first={:.6f}s "
@@ -3074,9 +3092,11 @@ void Application::FixedUpdate(double dt) {
                      projectiles_.ActiveCount());
     }
     enemies_.ResolveProjectileHits(projectiles_);
-    const bool player_damaged = enemies_.FixedUpdate(
+    bool player_damaged = enemies_.FixedUpdate(
         static_cast<float>(dt), player_.Position(), player_health_,
-        &collision_world_);
+        &collision_world_, &projectiles_);
+    player_damaged = projectiles_.ResolvePlayerHits(
+        player_.Position(), player_health_) || player_damaged;
     if (item_assets_.IsLoaded()) {
         if (item_world_.AutoOpenNear(player_.Position(), 2.0f)) {
             LOG_INFO_APP("Chest triggered by player proximity");

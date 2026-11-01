@@ -36,15 +36,16 @@ would be `CONTRADICTED` by the recovered fields.
 
 ```text
 Catalogue entries:                 302
-Tier A standard projectile:        168
-Tier B recovered melee / pending:   49
-Tier C unique or catalogue-only:    85
+Tier A standard/melee runtime:     210
+Tier B melee prefab pending:        14
+Tier C unique or catalogue-only:    78
 ```
 
 Tier A weapons are automatically extracted; the pipeline is not a hand-written
-15-weapon list. Every accepted scene weapon carries its serialized display name,
-class, damage, energy cost, projectile, speed, cadence, visual, muzzle, spread
-and `multiCount` when present.
+list. Every accepted scene weapon carries its serialized display name, class,
+damage, energy cost, projectile, speed, cadence, visual, muzzle, spread,
+`multiCount` and melee range/arc when present. The generic melee runtime uses a
+frontal arc query and recovers `atk`/`swordScale`/`meleeDistance` where serialized.
 
 Tier B/C entries are catalogue-only until their actual mechanic is reconstructed.
 They are never substituted with `weapon_000`.
@@ -54,7 +55,8 @@ They are never substituted with `weapon_000`.
 `Weapon::Update` follows the recovered Attack-event cadence. `multiCount` is
 used as the native bullet count; the serialized `angle`/`deviation` supplies the
 spread for multi-shot weapons. Shotgun extraction therefore produces five/six
-actual bullets rather than a single rifle bullet.
+actual bullets rather than a single rifle bullet. Melee weapons use the same
+Attack events but apply a shared range/arc hit query instead of a projectile.
 
 ## Remaining
 

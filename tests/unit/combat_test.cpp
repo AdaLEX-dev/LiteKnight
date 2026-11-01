@@ -397,3 +397,33 @@ TEST_CASE("Recovered multiCount weapons spawn multiple projectiles per Attack" *
         CHECK(projectile.repel == definition.repel);
     }
 }
+
+TEST_CASE("Generic melee weapon uses frontal arc without spawning bullets" *
+          doctest::test_suite("unit")) {
+    auto definition = MakeWeapon(0.5f, 0.0f);
+    definition.is_melee = true;
+    definition.bullet_speed = 0.0f;
+    definition.melee_range = 2.0f;
+    definition.melee_arc_degrees = 120.0f;
+    Weapon weapon;
+    CHECK(weapon.Configure(definition));
+    ProjectileSystem projectiles;
+    CHECK(weapon.Update(0.01f, true, {0.0f, 0.0f}, {1.0f, 0.0f},
+                        projectiles) == 1);
+    CHECK(projectiles.Projectiles().empty());
+}
+
+TEST_CASE("Enemy melee arc damages only targets in front" *
+          doctest::test_suite("unit")) {
+    SceneAsset scene = MakeEnemyScene();
+    EnemySystem enemies;
+    std::string error;
+    CHECK(enemies.Configure(scene, &error));
+    enemies.ClearEnemies();
+    CHECK(enemies.SpawnEnemy(0, {1.0f, 0.0f}));
+    CHECK(enemies.SpawnEnemy(0, {-1.0f, 0.0f}));
+    CHECK(enemies.ApplyMelee({0.0f, 0.0f}, {1.0f, 0.0f},
+                             2.0f, 120.0f, 4, 1) == 1);
+    CHECK(enemies.Enemies()[0].health.hp < 12);
+    CHECK(enemies.Enemies()[1].health.hp == 12);
+}

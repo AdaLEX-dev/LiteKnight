@@ -28,8 +28,9 @@ bool Weapon::Configure(const engine::assets::WeaponDefinition& definition) {
     attack_time_ = 0.0f;
     next_shot_time_ = 0.0f;
     attacking_ = false;
-    configured_ = definition_.bullet_speed > 0.0f &&
-                  definition_.projectile.lifetime > 0.0f &&
+    configured_ = (definition_.is_melee ||
+                   (definition_.bullet_speed > 0.0f &&
+                    definition_.projectile.lifetime > 0.0f)) &&
                   definition_.attack_cycle_seconds > 0.0f &&
                   definition_.first_shot_delay_seconds >= 0.0f;
     // Native deterministic test seed. The reference weapon owns an RGRandom
@@ -85,7 +86,9 @@ int Weapon::Update(float delta_seconds,
             Release();
             break;
         }
-        SpawnProjectile(owner_position, aim_direction, projectiles);
+        if (!definition_.is_melee) {
+            SpawnProjectile(owner_position, aim_direction, projectiles);
+        }
         if (energy != nullptr && cost > 0) {
             (void)energy->Consume(cost);
         }

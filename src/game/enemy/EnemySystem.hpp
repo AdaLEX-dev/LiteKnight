@@ -20,6 +20,7 @@ struct EnemyInstance {
     float idle_time = 0.0f;
     float death_timer = 0.0f;
     float contact_timer = 0.0f;
+    float shoot_timer = 0.0f;
     bool facing_left = false;
     bool active = true;
 };
@@ -39,10 +40,15 @@ public:
     bool FixedUpdate(float delta_seconds,
                      const engine::Vec2& player_position,
                      combat::HealthState& player_health,
-                     const engine::collision::AabbCollisionWorld* world = nullptr);
+                     const engine::collision::AabbCollisionWorld* world = nullptr,
+                     combat::ProjectileSystem* projectiles = nullptr);
     void ResolveProjectileHits(combat::ProjectileSystem& projectiles);
 
     bool ApplyDamage(std::size_t index, int damage, int source_camp);
+    // Generic recovered melee query: range + frontal arc, shared by all
+    // sword/axe/spear families. Returns the number of enemies damaged.
+    int ApplyMelee(const engine::Vec2& origin, const engine::Vec2& direction,
+                   float range, float arc_degrees, int damage, int source_camp);
 
     // Developer spawner API. Spawned enemies are deterministic instances of a
     // recovered definition; Reset() restores only the scene fixtures.

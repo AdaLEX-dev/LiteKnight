@@ -1,15 +1,15 @@
 {
   "note": "Metadata/provenance only. No proprietary pixels are stored here.",
   "scene": "analysis/assets/scenes/r1_1_visual.json",
-  "scene_sha256": "728e7bc55f27ab46e0b177193fbd82df942e20b699bbbd857f4d3bd4fd154ca4",
+  "scene_sha256": "a53c69d750a3c77c590d474b1f746602b9c538a256be1999f5a28d06623fb0fd",
   "schema": 1,
   "summary": {
     "redistribution_allowed": 0,
-    "redistribution_local_only": 16,
+    "redistribution_local_only": 27,
     "redistribution_unknown": 0,
-    "sprites_integrated": 481,
+    "sprites_integrated": 697,
     "sprites_observed_in_reference": 6408,
-    "textures_integrated": 16,
+    "textures_integrated": 27,
     "textures_observed_in_reference": 365
   },
   "textures": [
@@ -201,7 +201,7 @@
           1024,
           512
         ],
-        "sprite_count": 59
+        "sprite_count": 72
       },
       "dimensions": [
         1024,
@@ -226,7 +226,7 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
       "source_path_id": "-304717225150204165",
-      "sprite_count": 59,
+      "sprite_count": 72,
       "sprite_ids": [
         "texiao_01_787116191094815950",
         "bullet_5_-4268214305387315619",
@@ -286,7 +286,20 @@
         "bullet2_59_2232386725088686150",
         "bullet2_67_1094551923856510445",
         "bullet2_64_6023641853019147494",
-        "biaoqing_11_6962225712603698694"
+        "bullet_87_8057191759279053040",
+        "bullet_29_-1150908520057953841",
+        "bullet_26_5088758692506102188",
+        "bullet_30_-5415474201970131449",
+        "bullet_92_5116854865751873143",
+        "bullet_86_-4576818979175312745",
+        "bullet_109_-4277160047592126525",
+        "bullet_107_379688652040156559",
+        "bullet_73_6078605703465127867",
+        "bullet_108_-6768193395203945551",
+        "biaoqing_11_6962225712603698694",
+        "bullet2_28_-1683717760028122008",
+        "bullet_35_-2845535166081378133",
+        "bullet_90_-1473150274129725448"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -697,9 +710,138 @@
         "is_atlas": true,
         "size": [
           256,
+          512
+        ],
+        "sprite_count": 19
+      },
+      "dimensions": [
+        256,
+        512
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_5794761991059932759.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_5794761991059932759",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_5794761991059932759.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "88ce117ca0538b8d729da4e7d252ed2fe1a5465c334f741a4cd273520487e50d",
+      "redistribution": "local_only",
+      "rgba8_sha256": "f321946738f0461a128a83d9ad5dc11f6c0ed53f843ae6ed8a169176526d2b6a",
+      "source_asset": "level-objects:5794761991059932759",
+      "source_bundle": "level-objects",
+      "source_name": "SpriteAtlasTexture-alien (Group 0)-256x512-fmt13",
+      "source_path_id": "5794761991059932759",
+      "sprite_count": 19,
+      "sprite_ids": [
+        "enemy10_4_-7832585593938164910",
+        "enemy10_5_3926050159437465095",
+        "enemy10_6_6502305029938491659",
+        "enemy13_4_1098077968153724728",
+        "enemy13_5_2999717533694587267",
+        "enemy13_6_7374347261037926872",
+        "enemy14_3_7693149725977360060",
+        "enemy14_0_7191193942777361165",
+        "enemy14_1_-329604192693998640",
+        "enemy14_2_-2595714407821147885",
+        "enemy14_4_-1845499496564736763",
+        "enemy11_4_-4792385863816387415",
+        "enemy11_5_-7311158229632797446",
+        "enemy11_6_-8830746776420048394",
+        "enemy10_7_-7628047848055159221",
+        "enemy10_8_2846604252161107839",
+        "enemy12_4_-8270700861436172822",
+        "enemy12_5_1641287125836734213",
+        "enemy12_6_-1774128283114242566"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          512,
+          512
+        ],
+        "sprite_count": 34
+      },
+      "dimensions": [
+        512,
+        512
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m4620619860993591283.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m4620619860993591283",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m4620619860993591283.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "de14cd8631e091dacdf3ea827dd4eab02e95a3eb463cbb9d8e74e95ac455e433",
+      "redistribution": "local_only",
+      "rgba8_sha256": "3f2c3827db74e4926ca73a3906b793605845e6949b907cafa5291856f1e553b4",
+      "source_asset": "level-objects:-4620619860993591283",
+      "source_bundle": "level-objects",
+      "source_name": "SpriteAtlasTexture-forest-512x512-fmt13",
+      "source_path_id": "-4620619860993591283",
+      "sprite_count": 34,
+      "sprite_ids": [
+        "enemy27_4_9213098885762567913",
+        "enemy27_5_-5377955017383195243",
+        "enemy27_6_-4623876815043400514",
+        "enemy28_4_-3305561435254288134",
+        "enemy28_5_312820836101661922",
+        "enemy28_6_-444393786074465749",
+        "enemy22_4_-5612168292755025344",
+        "enemy22_5_-6172028016062012841",
+        "enemy22_6_7380206677685443495",
+        "enemy22_7_2055455367021425188",
+        "enemy22_8_3857677662782699514",
+        "enemy23_4_3523777764864382876",
+        "enemy23_5_3853298787836221084",
+        "enemy23_6_-4053710326255510269",
+        "enemy23_7_2861045859131790422",
+        "enemy23_8_-7880863789291139540",
+        "enemy26_4_483565686019463280",
+        "enemy26_5_327012115718120037",
+        "enemy26_6_-3039800074881492949",
+        "enemy26_7_-6968198305557615504",
+        "enemy26_8_-96893481038241902",
+        "enemy25_4_1289861332422596688",
+        "enemy25_5_8244049753473028510",
+        "enemy25_6_-7962269922868452688",
+        "enemy25_7_-3857395746455346620",
+        "enemy25_8_861262705822692352",
+        "enemy45_0_4116131004537220247",
+        "enemy45_1_-8458299932262287211",
+        "enemy45_2_-5703632152617774236",
+        "enemy45_3_7940809195881547756",
+        "enemy45_8_7863392078566352694",
+        "enemy20_4_5991314767215976177",
+        "enemy20_5_1820202638074115274",
+        "enemy20_6_-5183133880637268060"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          256,
           256
         ],
-        "sprite_count": 3
+        "sprite_count": 23
       },
       "dimensions": [
         256,
@@ -724,11 +866,423 @@
       "source_bundle": "res/charactor_common",
       "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
       "source_path_id": "2755411589560438748",
-      "sprite_count": 3,
+      "sprite_count": 23,
       "sprite_ids": [
+        "enemy18_12_2727118031561288257",
+        "enemy18_13_-7371385304393196932",
+        "enemy18_14_-3111647489577013791",
+        "enemy18_4_394675555605301851",
+        "enemy18_5_4863821685076533705",
+        "enemy18_6_4730491178211365453",
+        "enemy03_4_2668544751360401854",
+        "enemy03_5_6416014661632518903",
+        "enemy03_6_7542111201028531483",
+        "enemy04_4_-9063741577113046773",
+        "enemy04_5_-1022181027650812698",
+        "enemy04_6_-2650596259708101528",
+        "enemy07_4_-4021784309723157647",
+        "enemy07_5_-6258627404682098643",
+        "enemy07_6_-439168092598180686",
+        "enemy07_7_-4025047033490599640",
+        "enemy07_8_4587246480505806618",
         "enemy01_4_6916287646018367429",
         "enemy01_5_6021534728871174347",
-        "enemy01_6_3055012132422103371"
+        "enemy01_6_3055012132422103371",
+        "enemy46_4_-8252437253266407641",
+        "enemy46_5_-6552490607634069198",
+        "enemy46_6_-5223881341977335385"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          512,
+          512
+        ],
+        "sprite_count": 27
+      },
+      "dimensions": [
+        512,
+        512
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m7366345217103647811.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m7366345217103647811",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m7366345217103647811.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "8834a6f791080982f4926bf7405ce1825a479526be6d924870ad5a08fe6b7894",
+      "redistribution": "local_only",
+      "rgba8_sha256": "c37ca4fbb7f4db2d0b59ce737acab73ae7c0d82de1024fc4dd3cf1e375836d4f",
+      "source_asset": "level-objects:-7366345217103647811",
+      "source_bundle": "level-objects",
+      "source_name": "SpriteAtlasTexture-volcano (Group 0)-512x512-fmt13",
+      "source_path_id": "-7366345217103647811",
+      "sprite_count": 27,
+      "sprite_ids": [
+        "enemy43_4_5097965456664978042",
+        "enemy43_5_-3355539596600609118",
+        "enemy43_6_-1968513100081339627",
+        "enemy44_4_-6716713817578992078",
+        "enemy44_5_6588291393885017482",
+        "enemy44_6_7722378623240642421",
+        "enemy44_7_4625527017406893747",
+        "enemy44_8_-9127706755932537270",
+        "enemy38_0_-4323333181637200514",
+        "enemy38_1_8313479921691387144",
+        "enemy38_2_3500774511881465776",
+        "enemy38_3_-7310606399550541149",
+        "enemy38_4_4992089121954751162",
+        "enemy42_4_-311590113211951608",
+        "enemy42_5_803155463919768346",
+        "enemy42_6_-3341183138650856011",
+        "enemy40_4_-310476078835806237",
+        "enemy40_5_-7044548303961349465",
+        "enemy40_6_2199766394365282888",
+        "enemy41_4_-2655550700596256860",
+        "enemy41_5_1455232726792941302",
+        "enemy41_6_-612872654421498182",
+        "enemy41_7_-4416855597991891308",
+        "enemy41_8_5172269599136357608",
+        "enemy39_4_8986692536698775007",
+        "enemy39_7_-6190683498303208974",
+        "enemy39_8_7707493735348928384"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          512,
+          512
+        ],
+        "sprite_count": 32
+      },
+      "dimensions": [
+        512,
+        512
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m1938234304403636959.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m1938234304403636959",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m1938234304403636959.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0,
+        18.0,
+        20.0
+      ],
+      "png_sha256": "a50b61898a2486ee8ffa4f1b09bc05680c51cb2a22594d9f7328af3aabcf4b44",
+      "redistribution": "local_only",
+      "rgba8_sha256": "1d3dec554b3fd26b1114ea73d1a69633b2f7e88a599f0a6aeaeed8ba864c4094",
+      "source_asset": "level-objects:-1938234304403636959",
+      "source_bundle": "level-objects",
+      "source_name": "SpriteAtlasTexture-halloween-512x512-fmt13",
+      "source_path_id": "-1938234304403636959",
+      "sprite_count": 32,
+      "sprite_ids": [
+        "frankenstein_4_2435700586161863704",
+        "frankenstein_5_2156670290249487758",
+        "frankenstein_6_-6160490883540891374",
+        "frankenstein_7_1049099281224842386",
+        "frankenstein_8_-8329885949967970496",
+        "toad_0_5273092113952080702",
+        "toad_4_941991122446077855",
+        "ghost_9_-6564998230889218661",
+        "ghost_10_8760344798644624507",
+        "ghost_11_748051833085617788",
+        "ghost_12_-5587566258771709115",
+        "ghost_13_-1387928549833920094",
+        "ghost_4_-8552297759256105170",
+        "ghost_5_-3323862142604844501",
+        "ghost_6_-6637501097075663937",
+        "ghost_7_2172477215278050205",
+        "ghost_8_3058951849541411058",
+        "pumpkin_4_-2501083579335484354",
+        "pumpkin_5_3364870237621770244",
+        "pumpkin_6_4453568227398182705",
+        "pumpkin_7_5757556873338910671",
+        "pumpkin_8_7489681065513136924",
+        "squash_4_-6767797141342980449",
+        "squash_5_5537301905545960370",
+        "squash_6_1932624878226400003",
+        "squash_7_-6842676377392844264",
+        "squash_8_411029446714162669",
+        "witch_0_5224695899419919542",
+        "witch_1_8864950979291330828",
+        "witch_2_-6162766288000970015",
+        "witch_3_6165449850488120748",
+        "witch_4_-7547999108539893143"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          256,
+          256
+        ],
+        "sprite_count": 6
+      },
+      "dimensions": [
+        256,
+        256
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_8962901803230974230.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_8962901803230974230",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_8962901803230974230.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "3c451aa7864cb868aa517557ac4b4fa4d0219973a05a6f945cac68b5b65a6ab2",
+      "redistribution": "local_only",
+      "rgba8_sha256": "d1914bad066f3f8b6452a0509c3043a35affc663faf8131e354b99bdde56ee77",
+      "source_asset": "level-objects:8962901803230974230",
+      "source_bundle": "level-objects",
+      "source_name": "SpriteAtlasTexture-castle (Group 0)-256x256-fmt13",
+      "source_path_id": "8962901803230974230",
+      "sprite_count": 6,
+      "sprite_ids": [
+        "enemy06_4_-5452261228356149839",
+        "enemy06_5_2184665641847194913",
+        "enemy06_6_-7091323428554347148",
+        "enemy05_0_7344282957721930590",
+        "enemy05_5_3003945340116634801",
+        "enemy05_6_-5048791180402786390"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          256,
+          512
+        ],
+        "sprite_count": 19
+      },
+      "dimensions": [
+        256,
+        512
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m7326627136675459153.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m7326627136675459153",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m7326627136675459153.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "ef4a7b982fa82c005663e1501c031ede7b4f81199d3de39635db6291983b7aea",
+      "redistribution": "local_only",
+      "rgba8_sha256": "e216c1661c6499da106712b6531db9acd46fb7f5accec1c7b64d554daed4e979",
+      "source_asset": "level-objects:-7326627136675459153",
+      "source_bundle": "level-objects",
+      "source_name": "SpriteAtlasTexture-graveyard-256x512-fmt13",
+      "source_path_id": "-7326627136675459153",
+      "sprite_count": 19,
+      "sprite_ids": [
+        "enemy16_4_-859097902442596637",
+        "enemy16_5_-5651019822797391832",
+        "enemy16_6_9126946651291300442",
+        "enemy16_7_3031690192050926288",
+        "enemy16_8_5345959178515889471",
+        "enemy15_4_1351194683047570976",
+        "enemy15_5_3758219926575459017",
+        "enemy15_6_2923610979167481672",
+        "enemy08_4_4445955680621455382",
+        "enemy08_5_-7346347911945577096",
+        "enemy08_6_7698961997014473656",
+        "enemy08_7_-5614339376475394496",
+        "enemy08_8_3795104344207669410",
+        "enemy09_4_5263788924661217054",
+        "enemy09_5_8374622290174288794",
+        "enemy09_6_-7195689907842277511",
+        "enemy09_11_-5186585515938658221",
+        "enemy09_12_9084173463489968385",
+        "enemy09_13_-724545776998453010"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          512,
+          256
+        ],
+        "sprite_count": 28
+      },
+      "dimensions": [
+        512,
+        256
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_4696160052770242414.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_4696160052770242414",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_4696160052770242414.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "cba10752e0988c64ee985687f9c9fbe8c62e6b0f8d4ffcbbc211985306b75007",
+      "redistribution": "local_only",
+      "rgba8_sha256": "829ffa2a4ff1bc3a156eab47a1d9dbc2eedac08931895ed0aebd20e76771fea2",
+      "source_asset": "level-objects:4696160052770242414",
+      "source_bundle": "level-objects",
+      "source_name": "SpriteAtlasTexture-ice (Group 0)-512x256-fmt13",
+      "source_path_id": "4696160052770242414",
+      "sprite_count": 28,
+      "sprite_ids": [
+        "enemy31_4_562555180400755744",
+        "enemy31_5_5977024407774464569",
+        "enemy31_6_-676574902640322933",
+        "enemy33_4_5904063541693301164",
+        "enemy33_5_4050155687760762630",
+        "enemy33_7_3635683360046273626",
+        "enemy32_4_423907734515690887",
+        "enemy32_5_-698304253701632352",
+        "enemy32_6_3882899714150132031",
+        "enemy33_1_-6112482284692365185",
+        "enemy33_2_-8875241082061838089",
+        "enemy33_0_3492560557206801008",
+        "enemy30_4_-4082194007791575256",
+        "enemy30_5_6334464831088825572",
+        "enemy30_6_282794084620601314",
+        "enemy37_4_-3145299270635757948",
+        "enemy37_5_-1000575202912651710",
+        "enemy37_6_-2923568128037604707",
+        "enemy34_4_3195783896634053125",
+        "enemy34_5_-5280255800584256479",
+        "enemy34_6_8872878592958451054",
+        "enemy34_7_-6801904712685681867",
+        "enemy34_8_5625166621723404504",
+        "enemy35_4_-8939945009654931854",
+        "enemy35_5_2575131044882734657",
+        "enemy35_6_4306863054704696863",
+        "enemy35_7_-5364352244584346401",
+        "enemy35_8_-442557422106568930"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          128,
+          128
+        ],
+        "sprite_count": 6
+      },
+      "dimensions": [
+        128,
+        128
+      ],
+      "filter_mode": "point",
+      "format": "RGBA32",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m2206555142136125336.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m2206555142136125336",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m2206555142136125336.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "ab035e56627c332f48a659bba88c7a471c052f2333a3eed2e982eb086bc16a70",
+      "redistribution": "local_only",
+      "rgba8_sha256": "74f86dcf8ad3f5d6e10159c00cec26de499a72151830991345c9a1158111abe8",
+      "source_asset": "level-objects:-2206555142136125336",
+      "source_bundle": "level-objects",
+      "source_name": "monkey02",
+      "source_path_id": "-2206555142136125336",
+      "sprite_count": 6,
+      "sprite_ids": [
+        "monkey02_0_1368665863629702637",
+        "monkey02_1_-5366469148049884275",
+        "monkey02_6_-7973156324701418486",
+        "monkey02_7_7903194949819974171",
+        "monkey02_8_7056646525692367748",
+        "monkey02_9_243407811131137558"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          128,
+          128
+        ],
+        "sprite_count": 6
+      },
+      "dimensions": [
+        128,
+        128
+      ],
+      "filter_mode": "point",
+      "format": "RGBA32",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_6447829687605450135.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_6447829687605450135",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_6447829687605450135.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "47202d573012993dcda82d3156812153fadbe73de9801c7c616e8b045138202d",
+      "redistribution": "local_only",
+      "rgba8_sha256": "7aa93b6a527928323238c39af634cb2e9d13d85d6d2fb4e558b3ec0f483849c6",
+      "source_asset": "level-objects:6447829687605450135",
+      "source_bundle": "level-objects",
+      "source_name": "monkey01",
+      "source_path_id": "6447829687605450135",
+      "sprite_count": 6,
+      "sprite_ids": [
+        "monkey_0_5963842402454125458",
+        "monkey_1_-2399559834979052522",
+        "monkey_6_2586913414433868505",
+        "monkey_7_5590064744660218916",
+        "monkey_8_2517620593901296310",
+        "monkey_9_1657503633836609429"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -767,15 +1321,15 @@
       "source_path_id": "6092784074628815488",
       "sprite_count": 96,
       "sprite_ids": [
-        "c01_5_6827566613129973144",
         "c01_4_-5734303052896741615",
+        "c01_5_6827566613129973144",
         "c01_6_8630870737493093490",
         "c01_7_9175778662407141084",
+        "c01_8_-3060927491772971668",
         "c01_0_-4648659440509418814",
         "c01_1_-4226452341420905142",
         "c01_2_645446436195162188",
         "c01_3_-3975174193321666585",
-        "c01_8_-3060927491772971668",
         "c02_4_2533696368722729423",
         "c02_5_3469701969437907486",
         "c02_6_-8036838906074253128",
@@ -863,6 +1417,88 @@
         "c15_s0_2_2820472031853442958",
         "c15_s0_3_8189770355392506394",
         "c15_s0_8_-6836897207488494262"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          128,
+          128
+        ],
+        "sprite_count": 3
+      },
+      "dimensions": [
+        128,
+        128
+      ],
+      "filter_mode": "point",
+      "format": "RGBA32",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_1810316220125469071.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_1810316220125469071",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_1810316220125469071.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "4fb701458bf3d490134685d281f8fd0f636b950c054b73650a1f4e1f632f6895",
+      "redistribution": "local_only",
+      "rgba8_sha256": "3d90cb42842d3834f4c23e41b76561a5fa4cad9608afb3055eb57a178b966a5e",
+      "source_asset": "level-objects:1810316220125469071",
+      "source_bundle": "level-objects",
+      "source_name": "rockcrab",
+      "source_path_id": "1810316220125469071",
+      "sprite_count": 3,
+      "sprite_ids": [
+        "RockCrab_0_-7099041357471603183",
+        "RockCrab_1_3439816380173458188",
+        "rockcrab_0_-590366675519413317"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          128,
+          64
+        ],
+        "sprite_count": 3
+      },
+      "dimensions": [
+        128,
+        64
+      ],
+      "filter_mode": "point",
+      "format": "RGBA32",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m2599456171831714710.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m2599456171831714710",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m2599456171831714710.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "8d8adbcbecebc2bacaad927552b12c84d5adc130834c0c3d0d1a0159df0c9542",
+      "redistribution": "local_only",
+      "rgba8_sha256": "5afc05b1398566166389cd180f6b0831e9eabe6def6631fd988946cd8ad6ff61",
+      "source_asset": "level-objects:-2599456171831714710",
+      "source_bundle": "level-objects",
+      "source_name": "worm",
+      "source_path_id": "-2599456171831714710",
+      "sprite_count": 3,
+      "sprite_ids": [
+        "worm_0_-4367086905937385810",
+        "worm_1_276657210480154430",
+        "worm_12_-4622439288367772151"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"

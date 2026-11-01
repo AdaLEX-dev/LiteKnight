@@ -160,6 +160,9 @@ struct WeaponDefinition {
     int32_t deviation = 0;
     int32_t bullet_count = 1;
     int32_t spread_degrees = 0;
+    bool is_melee = false;
+    float melee_range = 1.8f;
+    float melee_arc_degrees = 110.0f;
     // RoleAttribute.deviation for the owning character. c00 does not serialize
     // this field and RoleAttribute's constructor leaves it at 0.
     int32_t owner_deviation = 0;
@@ -211,6 +214,12 @@ struct EnemyDefinition {
     // RGEController ctor default dead_destory_delay_time = 4.0 s. The 0.95
     // float written on hurt is `friction`, not a death delay.
     float death_despawn_delay = 4.0f;
+    bool ranged = false;
+    ProjectileDefinition projectile;
+    float projectile_speed = 0.0f;
+    int32_t projectile_damage = 0;
+    float shoot_cooldown = 2.0f;
+    float attack_range = 8.0f;
     int32_t body_sorting_layer = 5;
     int32_t body_sorting_order = 1;
     int32_t shadow_sorting_layer = 3;

@@ -21,12 +21,12 @@ def main() -> int:
         weapon_id = weapon["id"]
         if weapon_id in integrated:
             tier = "A"
-            note = ("catalogue stats, visual, projectile, bullet count, spread "
-                    "and attack cadence in native scene")
+            note = ("catalogue stats, visual, projectile/melee, bullet count, "
+                    "spread and attack cadence in native scene")
         elif weapon.get("is_melee"):
             tier = "B"
-            note = ("serialized melee stats/name recovered; visual and melee "
-                    "hitbox runtime pending")
+            note = ("serialized melee stats/name recovered; prefab extraction "
+                    "or attack event still pending")
         elif "damage" in weapon and "energy_cost" in weapon:
             tier = "C"
             note = ("stats recovered; unique, charge, throw or non-standard "
@@ -66,7 +66,7 @@ def main() -> int:
         "",
         f"- catalogue entries: **{counts['catalogue_entries']}**",
         f"- Tier A (fully integrated): **{counts['tier_a_fully_integrated']}**",
-        f"- Tier B (melee stats recovered, melee hitbox pending): **{counts['tier_b_melee_pending']}**",
+        f"- Tier B (melee prefab/attack event pending): **{counts['tier_b_melee_pending']}**",
         f"- Tier C (unique mechanic or catalogue-only): **{counts['tier_c_unique_or_catalogue_only']}**",
         "",
         "## Tier A",
