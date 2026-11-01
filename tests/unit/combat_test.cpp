@@ -377,3 +377,23 @@ TEST_CASE("Projectile collider offset rotates with velocity" *
     CHECK(offset.x == doctest::Approx(0.0f));
     CHECK(offset.y == doctest::Approx(0.25f));
 }
+
+TEST_CASE("Recovered multiCount weapons spawn multiple projectiles per Attack" *
+          doctest::test_suite("unit")) {
+    auto definition = MakeWeapon();
+    definition.bullet_count = 5;
+    definition.spread_degrees = 20;
+    definition.attack_cycle_seconds = 0.8f;
+    definition.first_shot_delay_seconds = 0.0f;
+    Weapon weapon;
+    CHECK(weapon.Configure(definition));
+    ProjectileSystem projectiles;
+    CHECK(weapon.Update(0.01f, true, {0.0f, 0.0f}, {1.0f, 0.0f},
+                        projectiles) == 1);
+    CHECK(projectiles.Projectiles().size() == 5);
+    for (const auto& projectile : projectiles.Projectiles()) {
+        CHECK(projectile.damage == definition.damage);
+        CHECK(projectile.through == definition.through);
+        CHECK(projectile.repel == definition.repel);
+    }
+}

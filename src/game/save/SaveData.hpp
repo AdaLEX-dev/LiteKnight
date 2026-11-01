@@ -13,7 +13,7 @@
 namespace soulknight::game::save {
 
 struct SaveData {
-    static constexpr int kCurrentVersion = 2;
+    static constexpr int kCurrentVersion = 3;
 
     int save_version = kCurrentVersion;
     std::string game_version;
@@ -30,6 +30,7 @@ struct SaveData {
     int energy = 0;
     int max_energy = 0;
     int coins = 0;
+    int orbs = 0;
     bool dead = false;
     std::int64_t playtime_seconds = 0;
     std::vector<std::string> unlocked_characters;

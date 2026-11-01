@@ -898,6 +898,25 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             WeaponDefinition weapon;
             weapon.id = item["id"].get<std::string>();
             weapon.display_name = item.value("display_name", weapon.id);
+            weapon.class_name = item.contains("class_name") &&
+                item["class_name"].is_string()
+                ? item["class_name"].get<std::string>() : std::string{};
+            weapon.weapon_type_name =
+                item.contains("weapon_type_name") &&
+                item["weapon_type_name"].is_string()
+                ? item["weapon_type_name"].get<std::string>() : std::string{};
+            weapon.rarity = item.contains("rarity") &&
+                item["rarity"].is_number_integer()
+                ? item["rarity"].get<int>() : -1;
+            weapon.drop_level = item.contains("drop_level") &&
+                item["drop_level"].is_number_integer()
+                ? item["drop_level"].get<int>() : -1;
+            weapon.forgeable = item.contains("forgeable") &&
+                item["forgeable"].is_boolean()
+                ? item["forgeable"].get<bool>() : false;
+            weapon.item_value = item.contains("item_value") &&
+                item["item_value"].is_number_integer()
+                ? item["item_value"].get<int>() : 0;
             const Json& projectile = item["projectile"];
             if (!projectile.contains("id") || !projectile["id"].is_string() ||
                 !projectile.contains("sprite") || !projectile["sprite"].is_string()) {
@@ -942,7 +961,11 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             weapon.bullet_speed = item.value("bullet_speed", 0.0f);
             weapon.size = item.value("size", 1.0f);
             weapon.damage = item.value("damage", 0);
+            weapon.critic = item.value("critic", 0);
             weapon.deviation = item.value("deviation", 0);
+            const int multi_count = item.value("multi_count", 0);
+            weapon.bullet_count = std::max(1, item.value("bullet_count", multi_count));
+            weapon.spread_degrees = item.value("spread_angle", 0);
             weapon.owner_deviation = item.value("owner_deviation", 0);
             weapon.consume = item.value("consume", 0);
         weapon.energy_cost = item.value("energy_cost", weapon.consume);

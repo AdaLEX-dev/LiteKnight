@@ -43,6 +43,9 @@ public:
                    const engine::Vec2& chest_position,
                    const std::string& chest_definition = "chest00");
     void AddChest(const std::string& definition, const engine::Vec2& position);
+    // RGChest opens on trigger/proximity; the reference normal-room silver
+    // chest does not require an E button.
+    bool AutoOpenNear(const engine::Vec2& player_position, float radius);
     void Update(float delta_seconds, const engine::Vec2& player_position,
                 const ItemAssets& assets);
     void SetAvailableWeapons(std::vector<std::string> weapon_ids);

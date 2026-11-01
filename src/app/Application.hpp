@@ -9,6 +9,7 @@
 #include "platform/filesystem/FileSystem.hpp"
 #include "platform/input/InputManager.hpp"
 #include "platform/input/MovementInput.hpp"
+#include "platform/audio/AudioEngine.hpp"
 #include "engine/animation/LocomotionAnimator.hpp"
 #include "engine/assets/SceneAsset.hpp"
 #include "engine/collision/AabbCollision.hpp"
@@ -97,7 +98,6 @@ private:
     void LogViewportContract();
     void ConfigureReviewMode();
     void TeleportForReview(const engine::Vec2& position);
-    void PrintReviewRequired();
     bool LoadWorldRooms();
     void ConfigureWorldGraph();
     bool SwitchRoom(const std::string& door_id = {});
@@ -134,6 +134,8 @@ private:
     void SwitchWeaponSlot(std::size_t slot);
     void ApplyActiveCharacterStats();
     void ConfigureSecondaryWeapon();
+    void ConfigureTraderOffers();
+    void BuyTraderItem();
     void ConfigureAbilities();
     void ActivateKnightPower();
     engine::Vec2 AimOrigin() const;
@@ -149,6 +151,11 @@ private:
     void ConfigureRoomItems();
     const engine::assets::InteractionMarker* NearbyInteraction() const;
     void SaveGameToDisk();
+    void RefreshSaveSummary();
+    void PlayUiSound(const std::string& id);
+    void PlayEffect(const std::string& id, float volume = 1.0f);
+    void PlayMusic(const std::string& id);
+    void UpdateAudio();
     void LoadGameFromDisk();
     void SpawnSelectedEnemy(int count);
     void CycleAssetLabCategory(int delta);
@@ -185,6 +192,12 @@ private:
     soulknight::game::weapons::WeaponInventory weapon_inventory_;
     soulknight::game::weapons::WeaponPickupSystem weapon_pickups_;
     std::unique_ptr<soulknight::game::save::SaveManager> save_manager_;
+    std::string save_slot_summary_;
+    platform::AudioEngine audio_engine_;
+    bool audio_available_ = false;
+    std::vector<platform::AudioEngine::SoundHandle> audio_voices_;
+    platform::AudioEngine::SoundHandle music_;
+    std::string active_music_;
     soulknight::game::ui::DevOverlay dev_ui_;
     soulknight::game::ui::GameUI game_ui_;
     soulknight::game::ui::HudLayout hud_layout_;
@@ -243,19 +256,24 @@ private:
     bool multi_room_world_ = false;
     std::int32_t map_seed_ = 0;
     std::string room_graph_text_ = "hero_room <-> r1_1_visual";
+    std::string world_start_room_id_;
+    std::unordered_map<std::string, std::string> room_stage_labels_;
     std::unordered_map<std::string,
         std::vector<soulknight::game::enemy::EnemyInstance>>
         room_enemy_snapshots_;
     std::unordered_set<std::string> cleared_rooms_;
+    std::unordered_set<std::string> chest_spawned_rooms_;
+    std::string current_chest_definition_;
     std::vector<std::string> visited_rooms_;
     int player_coins_ = 0;
+    int player_orbs_ = 0;
+    std::vector<soulknight::game::ui::TraderOfferView> trader_offers_;
     bool ui_design_mode_ = false;
+    bool ui_design_from_main_menu_ = false;
     bool review_mode_ = false;
-    bool review_frozen_ = false;
     double return_portal_confirm_seconds_ = -1.0;
     float room_title_timer_ = 0.0f;
-    double review_start_seconds_ = -1.0;
-    double review_duration_seconds_ = 30.0;
+    float room_transition_flash_ = 0.0f;
     std::chrono::steady_clock::time_point last_present_time_{};
     double present_window_sum_ms_ = 0.0;
     double present_window_min_ms_ = 0.0;

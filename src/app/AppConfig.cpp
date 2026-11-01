@@ -83,21 +83,19 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
         } else if (arg == "--scene" && i + 1 < argc) {
             config.scene_path = argv[i + 1];
             ++i;
-        } else if (arg == "--review-area" && i + 1 < argc) {
+        } else if ((arg == "--area" || arg == "--review-area") &&
+                   i + 1 < argc) {
+            // Direct developer launch area. This is not a timed review: the
+            // application runs normally until the window is closed.
             config.review_mode = true;
             config.review_area = argv[i + 1];
             ++i;
+        } else if (arg.rfind("--area=", 0) == 0) {
+            config.review_mode = true;
+            config.review_area = std::string(arg.substr(7));
         } else if (arg.rfind("--review-area=", 0) == 0) {
             config.review_mode = true;
             config.review_area = std::string(arg.substr(14));
-        } else if (arg == "--review-seconds" && i + 1 < argc) {
-            errno = 0;
-            char* end = nullptr;
-            const double value = std::strtod(argv[i + 1], &end);
-            if (end != argv[i + 1] && *end == '\0' && errno == 0 && value > 0.0) {
-                config.review_seconds = std::min(value, 3600.0);
-            }
-            ++i;
         } else if (arg == "--map-seed" && i + 1 < argc) {
             errno = 0;
             char* end = nullptr;
@@ -145,7 +143,7 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.scene_path = "scenes/hero_room/scene.json";
             config.title = "LiteKnight Review - Living Room";
         } else if (area == "workshop" || area == "garden" ||
-                   area == "cellar") {
+                   area == "cellar" || area == "trader") {
             config.devroom = true;
             config.scene_path = "scenes/hero_room/scene.json";
             config.title = "LiteKnight Review - " + area;

@@ -8,8 +8,11 @@ python3 "${ROOT}/tools/asset/audit_weapon_energy.py"
 python3 "${ROOT}/tools/asset/audit_item_assets.py"
 "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/audit_room_catalogue.py"
 "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/audit_chest_catalogue.py"
+"${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/audit_map_catalogue.py"
+"${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/audit_enemy_catalogue.py"
 python3 "${ROOT}/tools/asset/audit_weapon_runtime.py"
 python3 "${ROOT}/tools/asset/audit_hub_topology.py"
+python3 "${ROOT}/tools/asset/audit_game_catalogues.py"
 if [[ -f "${ROOT}/analysis/assets/scenes/hero_room.json" ]]; then
     python3 "${ROOT}/tools/asset/audit_assets.py" \
         --scene "${ROOT}/analysis/assets/scenes/hero_room.json" \

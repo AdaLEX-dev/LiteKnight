@@ -24,7 +24,9 @@ enum class UIScreen {
     Settings,
     MainMenu,
     CharacterSelect,
-    WeaponSelect
+    WeaponSelect,
+    SaveLoad,
+    Trader
 };
 
 struct MapRoomView {
@@ -62,7 +64,22 @@ enum class UIAction {
     SelectWeapon,
     ToggleAimMode,
     OpenUiDesignMode,
-    OpenDevroom
+    OpenDevroom,
+    OpenSaveLoad,
+    SaveSlot,
+    LoadSlot,
+    DeleteSlot,
+    BuyTraderItem
+};
+
+struct TraderOfferView {
+    int weapon_index = -1;
+    std::string display_name;
+    int sprite_index = -1;
+    int price = 0;
+    int damage = 0;
+    int energy_cost = 0;
+    bool sold = false;
 };
 
 struct GameUIData {
@@ -75,11 +92,16 @@ struct GameUIData {
     bool paused = false;
     bool dead = false;
     bool save_exists = false;
+    std::string save_slot_summary;
     bool fullscreen = false;
     bool debug_overlay = false;
     bool has_pixel_font = false;
     bool auto_aim = true;
     int coins = 0;
+    int orbs = 0;
+    bool show_orbs = false;
+    std::vector<TraderOfferView> trader_offers;
+    int trader_selected = 0;
     int ability_state = 0; // 0 empty, 1 ready, 2 active, 3 cooldown
     float ability_cooldown = 0.0f;
     const HudLayout* layout = nullptr;
@@ -93,6 +115,7 @@ struct GameUIData {
     std::string room_clear_label;
     bool room_cleared = false;
     float room_title_timer = 0.0f;
+    float transition_flash = 0.0f;
     const UIAssets* ui_assets = nullptr;
     bool chest_nearby = false;
     std::string chest_label;
@@ -113,8 +136,12 @@ public:
     void OpenPause();
     void Resume();
     void OpenSettings();
+    UIScreen SettingsParent() const { return settings_parent_; }
     void OpenCharacterSelect(int initial_index = 0);
     void OpenWeaponSelect(int initial_index = 0);
+    void OpenSaveLoad();
+    void OpenTrader();
+    int TraderSelection() const { return trader_selected_; }
     void SetWeaponCount(int count) { weapon_select_count_ = std::max(0, count); }
     void SetCharacterCount(int count) { character_select_count_ = std::max(0, count); }
     void CloseSelection();
@@ -128,7 +155,8 @@ public:
     bool IsPaused() const {
         return screen_ == UIScreen::Pause || screen_ == UIScreen::Settings ||
                screen_ == UIScreen::CharacterSelect ||
-               screen_ == UIScreen::WeaponSelect;
+               screen_ == UIScreen::WeaponSelect ||
+               screen_ == UIScreen::Trader;
     }
     bool IsMainMenu() const { return screen_ == UIScreen::MainMenu; }
     UIScreen Screen() const { return screen_; }
@@ -138,7 +166,8 @@ public:
     UIAction TakeAction();
     // Pointer support for the main menu/devroom entry. Returns true when the
     // click changed UI state.
-    bool HandlePointerClick(const engine::Vec2& logical);
+    bool HandlePointerClick(const engine::Vec2& logical,
+                            const HudLayout* layout = nullptr);
 
     void Draw(UIRenderer& ui, const GameUIData& data) const;
 
@@ -152,6 +181,8 @@ private:
     void DrawMainMenu(UIRenderer& ui, const GameUIData& data) const;
     void DrawCharacterSelect(UIRenderer& ui, const GameUIData& data) const;
     void DrawWeaponSelect(UIRenderer& ui, const GameUIData& data) const;
+    void DrawSaveLoad(UIRenderer& ui, const GameUIData& data) const;
+    void DrawTrader(UIRenderer& ui, const GameUIData& data) const;
     void DrawButton(UIRenderer& ui, const GameUIData& data,
                     const engine::Rect& rect, const std::string& label,
                     bool selected, bool enabled, float size = 28.0f) const;
@@ -174,6 +205,8 @@ private:
     int weapon_select_index_ = 0;
     int weapon_select_count_ = 0;
     int character_select_count_ = 0;
+    int save_load_index_ = 0;
+    int trader_selected_ = 0;
     UIAction action_ = UIAction::None;
 };
 

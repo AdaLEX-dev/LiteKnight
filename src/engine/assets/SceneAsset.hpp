@@ -146,11 +146,20 @@ struct ProjectileDefinition {
 struct WeaponDefinition {
     std::string id;
     std::string display_name;
+    std::string class_name;
+    std::string weapon_type_name;
+    int32_t rarity = -1;
+    int32_t drop_level = -1;
+    bool forgeable = false;
+    int32_t item_value = 0;
     ProjectileDefinition projectile;
     float bullet_speed = 0.0f;
     float size = 1.0f;
     int32_t damage = 0;
+    int32_t critic = 0;
     int32_t deviation = 0;
+    int32_t bullet_count = 1;
+    int32_t spread_degrees = 0;
     // RoleAttribute.deviation for the owning character. c00 does not serialize
     // this field and RoleAttribute's constructor leaves it at 0.
     int32_t owner_deviation = 0;

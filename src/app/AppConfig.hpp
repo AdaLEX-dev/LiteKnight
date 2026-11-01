@@ -37,7 +37,7 @@ struct AppConfig {
     bool map_seed_set = false;
     bool review_mode = false;
     std::string review_area;
-    double review_seconds = 30.0;
+
     std::string title = "LiteKnight";
 };
 

@@ -18,6 +18,7 @@ struct WeaponCatalogueEntry {
     int damage = 0;
     int energy_cost = 0;
     int item_level = 0;
+    int item_value = 0;
     bool has_serialized_stats = false;
     std::string tier;
 };

@@ -44,6 +44,22 @@ void ItemWorld::AddChest(const std::string& definition,
     room.chests.push_back(std::move(chest));
 }
 
+bool ItemWorld::AutoOpenNear(const engine::Vec2& player_position, float radius) {
+    RoomState& room = Current(room_id_);
+    bool opened = false;
+    const float radius_squared = radius * radius;
+    for (ChestInstance& chest : room.chests) {
+        if (chest.state != ChestState::Closed) continue;
+        if ((chest.position - player_position).LengthSquared() > radius_squared) {
+            continue;
+        }
+        chest.state = ChestState::Opening;
+        chest.timer = 0.0f;
+        opened = true;
+    }
+    return opened;
+}
+
 void ItemWorld::Update(float delta_seconds, const engine::Vec2& player_position,
                        const ItemAssets& assets) {
     if (delta_seconds <= 0.0f) return;

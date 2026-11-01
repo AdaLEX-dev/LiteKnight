@@ -171,6 +171,23 @@ if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
     echo "Runtime item pack: FOUND (${ITEM_TARGET}/items.json)"
 fi
 
+# 3b. Reference audio clips. Generated WAVs are local-only; the manifest is
+# committed under analysis/.
+AUDIO_SOURCE="${ROOT}/assets/generated/audio"
+AUDIO_TARGET="${BUILD_DIR}/assets/audio"
+if [[ ${FORCE_BUILD} -eq 1 || ! -d "${AUDIO_SOURCE}" || ! -f "${AUDIO_SOURCE}/pickup.wav" ]]; then
+    if [[ -x "${ROOT}/tools/asset/.venv/bin/python" && -d "${BUNDLE_ROOT}" ]]; then
+        echo "Building reference audio set..."
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_audio_assets.py"
+    fi
+fi
+if [[ -d "${AUDIO_SOURCE}" ]]; then
+    mkdir -p "${AUDIO_TARGET}"
+    cp -a "${AUDIO_SOURCE}/." "${AUDIO_TARGET}/"
+    cp -f "${ROOT}/analysis/assets/audio/audio_catalogue.json" "${AUDIO_TARGET}/audio_catalogue.json"
+    echo "Runtime audio: FOUND (${AUDIO_TARGET})"
+fi
+
 # 3b. Living Room / HeroRoom. The builder joins the local split sharedassets
 #     chunks and extracts level2 tilemaps, sprites and colliders.
 if [[ ${FORCE_BUILD} -eq 1 || ! -f "${HUB_SOURCE_DIR}/scene.json" ]]; then

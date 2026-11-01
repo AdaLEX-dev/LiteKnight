@@ -711,6 +711,11 @@ if(PYTHON3_EXECUTABLE)
                 "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_weapon_runtime.py"
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
+    add_test(NAME liteknight-game-catalogues
+        COMMAND "${PYTHON3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tools/asset/audit_game_catalogues.py"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
 endif()
 # FAIL_REGULAR_EXPRESSION (not PASS) so a real test failure still turns CTest
 # red. This only rejects the old false-green case where the filter selected zero

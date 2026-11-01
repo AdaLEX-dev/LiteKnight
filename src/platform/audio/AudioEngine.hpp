@@ -33,6 +33,16 @@ public:
         SoundHandle(void* sound, bool streaming) : sound_(sound), streaming_(streaming) {}
         SoundHandle(const SoundHandle&) = delete;
         SoundHandle(SoundHandle&& other) noexcept : sound_(other.sound_), streaming_(other.streaming_) { other.sound_ = nullptr; }
+        SoundHandle& operator=(SoundHandle&& other) noexcept {
+            if (this != &other) {
+                if (valid()) Uninit();
+                sound_ = other.sound_;
+                streaming_ = other.streaming_;
+                other.sound_ = nullptr;
+            }
+            return *this;
+        }
+        SoundHandle& operator=(const SoundHandle&) = delete;
         ~SoundHandle() { if (valid()) Uninit(); }
 
         bool valid() const { return sound_ != nullptr; }

@@ -130,3 +130,22 @@ TEST_CASE("Room transitions preserve opened chest state" *
     CHECK(world.Chests().front().state == soulknight::game::items::ChestState::Open);
     CHECK(world.Coins().size() == 1);
 }
+
+TEST_CASE("RGChest auto-opens on player proximity without E" *
+          doctest::test_suite("unit")) {
+    TempItemDirectory temp;
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    ItemAssets assets;
+    std::string error;
+    CHECK(assets.Load(filesystem, temp.Path() / "items.json", &error));
+    ItemWorld world;
+    world.EnterRoom("r1_1_visual", false, {0.0f, 0.0f});
+    world.AddChest("chest00", {4.0f, 4.0f});
+    CHECK_FALSE(world.AutoOpenNear({0.0f, 0.0f}, 2.0f));
+    CHECK(world.AutoOpenNear({4.0f, 4.0f}, 2.0f));
+    world.Update(0.99f, {4.0f, 4.0f}, assets);
+    CHECK(world.Chests().front().state == soulknight::game::items::ChestState::Opening);
+    world.Update(0.02f, {4.0f, 4.0f}, assets);
+    CHECK(world.Chests().front().state == soulknight::game::items::ChestState::Open);
+}

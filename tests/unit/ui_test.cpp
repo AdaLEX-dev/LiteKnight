@@ -42,14 +42,17 @@ TEST_CASE("Main-menu D-ROOM pointer target is clickable" *
           doctest::test_suite("unit")) {
     GameUI ui;
     ui.OpenMainMenu();
-    CHECK(ui.HandlePointerClick({70.0f, 354.0f}));
+    // D-ROOM moved to the upper-right corner in 0.5.4.
+    CHECK(ui.HandlePointerClick({1640.0f, 70.0f}));
     CHECK(ui.TakeAction() == UIAction::OpenDevroom);
     ui.OpenMainMenu();
-    // Bottom-right corner of the drawn D-ROOM rect must hit too; this catches
-    // the stale 0.5.1 hitbox that was offset up and left from the artwork.
-    CHECK(ui.HandlePointerClick({278.0f, 394.0f}));
+    CHECK(ui.HandlePointerClick({1850.0f, 115.0f}));
     CHECK(ui.TakeAction() == UIAction::OpenDevroom);
     ui.OpenMainMenu();
+    CHECK(ui.HandlePointerClick({720.0f, 430.0f}));
+    CHECK(ui.TakeAction() == UIAction::OpenSaveLoad);
+    ui.OpenSaveLoad();
+    CHECK(ui.Screen() == UIScreen::SaveLoad);
     CHECK_FALSE(ui.HandlePointerClick({900.0f, 500.0f}));
     CHECK(ui.TakeAction() == UIAction::None);
 }
@@ -93,4 +96,22 @@ TEST_CASE("Weapon selector navigation wraps across the integrated catalogue" *
     CHECK(ui.WeaponSelection() == 1);
     ui.Confirm();
     CHECK(ui.TakeAction() == UIAction::SelectWeapon);
+}
+
+TEST_CASE("Orb trader opens, navigates and routes purchases" *
+          doctest::test_suite("unit")) {
+    GameUI ui;
+    ui.OpenGameplay();
+    ui.OpenTrader();
+    CHECK(ui.Screen() == UIScreen::Trader);
+    CHECK(ui.IsPaused());
+    CHECK(ui.TraderSelection() == 0);
+    ui.Navigate(1);
+    CHECK(ui.TraderSelection() == 1);
+    ui.Navigate(2);
+    CHECK(ui.TraderSelection() == 0);
+    ui.Confirm();
+    CHECK(ui.TakeAction() == UIAction::BuyTraderItem);
+    ui.Back();
+    CHECK(ui.Screen() == UIScreen::Gameplay);
 }

@@ -36,10 +36,18 @@ const std::array<const char*, 6> kSettingsItems{
 
 // One authoritative main-menu layout. Drawing and pointer hit-testing both use
 // these helpers so a visual rect can never drift away from its click target.
-Rect MainMenuDroomRect() { return {64.0f, 342.0f, 220.0f, 58.0f}; }
+Rect MainMenuDroomRect() { return {1636.0f, 64.0f, 220.0f, 58.0f}; }
 Rect MainMenuButtonRect(int index) {
     return {120.0f, 410.0f + static_cast<float>(index) * 162.0f,
             560.0f, 148.0f};
+}
+Rect MainMenuSaveLoadRect() { return {704.0f, 410.0f, 150.0f, 148.0f}; }
+
+Rect MenuRect(const HudLayout* layout, const char* id,
+              const Rect& fallback) {
+    if (layout == nullptr) return fallback;
+    const Rect rect = layout->RectFor(id);
+    return rect.w > 0.0f && rect.h > 0.0f ? rect : fallback;
 }
 
 void DrawBar(UIRenderer& ui, const Rect& rect, float fraction, Color fill,
@@ -91,6 +99,17 @@ void GameUI::OpenWeaponSelect(int initial_index) {
     action_ = UIAction::None;
 }
 
+void GameUI::OpenSaveLoad() {
+    screen_ = UIScreen::SaveLoad;
+    action_ = UIAction::None;
+}
+
+void GameUI::OpenTrader() {
+    screen_ = UIScreen::Trader;
+    trader_selected_ = 0;
+    action_ = UIAction::None;
+}
+
 void GameUI::CloseSelection() {
     screen_ = UIScreen::Gameplay;
     action_ = UIAction::None;
@@ -107,6 +126,10 @@ void GameUI::Back() {
         if (screen_ == UIScreen::Pause) pause_index_ = 2;
     } else if (screen_ == UIScreen::Pause) {
         Resume();
+    } else if (screen_ == UIScreen::SaveLoad) {
+        OpenMainMenu();
+    } else if (screen_ == UIScreen::Trader) {
+        OpenGameplay();
     }
     action_ = UIAction::None;
 }
@@ -132,7 +155,11 @@ void GameUI::Navigate(int delta) {
     if (screen_ == UIScreen::Pause) {
         pause_index_ = (pause_index_ + delta + 3) % 3;
     } else if (screen_ == UIScreen::MainMenu) {
-        main_index_ = (main_index_ + delta + 5) % 5;
+        main_index_ = (main_index_ + delta + 6) % 6;
+    } else if (screen_ == UIScreen::SaveLoad) {
+        save_load_index_ = (save_load_index_ + delta + 4) % 4;
+    } else if (screen_ == UIScreen::Trader) {
+        trader_selected_ = (trader_selected_ + delta + 3) % 3;
     } else if (screen_ == UIScreen::Settings) {
         settings_index_ = (settings_index_ + delta + 6) % 6;
     } else if (screen_ == UIScreen::CharacterSelect &&
@@ -160,7 +187,19 @@ void GameUI::Confirm() {
         else if (main_index_ == 1) action_ = UIAction::ContinueGame;
         else if (main_index_ == 2) action_ = UIAction::Settings;
         else if (main_index_ == 3) action_ = UIAction::Quit;
-        else action_ = UIAction::OpenDevroom;
+        else if (main_index_ == 4) action_ = UIAction::OpenDevroom;
+        else action_ = UIAction::OpenSaveLoad;
+        return;
+    }
+    if (screen_ == UIScreen::SaveLoad) {
+        if (save_load_index_ == 0) action_ = UIAction::SaveSlot;
+        else if (save_load_index_ == 1) action_ = UIAction::LoadSlot;
+        else if (save_load_index_ == 2) action_ = UIAction::DeleteSlot;
+        else action_ = UIAction::Back;
+        return;
+    }
+    if (screen_ == UIScreen::Trader) {
+        action_ = UIAction::BuyTraderItem;
         return;
     }
     if (screen_ == UIScreen::CharacterSelect) {
@@ -187,17 +226,28 @@ UIAction GameUI::TakeAction() {
     return result;
 }
 
-bool GameUI::HandlePointerClick(const engine::Vec2& logical) {
+bool GameUI::HandlePointerClick(const engine::Vec2& logical,
+                                const HudLayout* layout) {
     if (screen_ != UIScreen::MainMenu) return false;
-    const Rect droom = MainMenuDroomRect();
+    const Rect droom = MenuRect(layout, "menu_droom", MainMenuDroomRect());
     if (logical.x >= droom.x && logical.x <= droom.x + droom.w &&
         logical.y >= droom.y && logical.y <= droom.y + droom.h) {
         main_index_ = 4;
         Confirm();
         return true;
     }
+    const Rect save_load =
+        MenuRect(layout, "menu_save_load", MainMenuSaveLoadRect());
+    if (logical.x >= save_load.x && logical.x <= save_load.x + save_load.w &&
+        logical.y >= save_load.y && logical.y <= save_load.y + save_load.h) {
+        main_index_ = 5;
+        Confirm();
+        return true;
+    }
+    static const char* kIds[4] = {"menu_new_game", "menu_continue",
+                                  "menu_settings", "menu_quit"};
     for (int i = 0; i < 4; ++i) {
-        const Rect r = MainMenuButtonRect(i);
+        const Rect r = MenuRect(layout, kIds[i], MainMenuButtonRect(i));
         if (logical.x >= r.x && logical.x <= r.x + r.w &&
             logical.y >= r.y && logical.y <= r.y + r.h) {
             main_index_ = i;
@@ -275,7 +325,7 @@ void GameUI::DrawButton(UIRenderer& ui, const GameUIData& data,
         : "ui_btn1";
     const char* icon = label == "HOME" ? "ui_98"
         : label == "RESUME" ? "ui_92"
-        : label == "SETTINGS" ? "ui_93"
+        : (label == "SETTINGS" && screen_ != UIScreen::MainMenu) ? "ui_93"
         : label == "CLOUD/SAVE" ? "ui_116" : nullptr;
     const bool have_asset = data.ui_assets != nullptr &&
         data.ui_assets->Find(frame) != nullptr;
@@ -400,6 +450,18 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
 
     // Coin and pause stay together at the absolute upper-right edge, using the
     // recovered coin and pause-button art from the reference HUD.
+    if (data.show_orbs) {
+        const Rect orb = element("orb");
+        if (has_asset("ui_52")) {
+            DrawAsset(ui, data, "ui_52", {orb.x, orb.y + 6, 36, 36},
+                      Color::White(), 1905);
+        }
+        char orbs_text[32];
+        std::snprintf(orbs_text, sizeof(orbs_text), "%d", data.orbs);
+        ui.TextFitted(orbs_text, {orb.x + 44, orb.y, orb.w - 44, orb.h},
+                      kCream, 1906, engine::rendering::TextAlign::Left,
+                      30.0f, 20.0f, true);
+    }
     const Rect coin = element("coin");
     if (has_asset("ui_31")) {
         DrawAsset(ui, data, "ui_31", {coin.x, coin.y + 6, 36, 33},
@@ -421,8 +483,8 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
         ui.Panel(pause, {42, 29, 22, 235}, kFrameBrown, 2.0f, 1900);
     }
     DrawAsset(ui, data, "ui_94",
-              {pause.x + (pause.w - 42) * 0.5f, pause.y + (pause.h - 42) * 0.5f,
-               42, 42},
+              {pause.x + (pause.w - 42) * 0.5f,
+               pause.y + (pause.h - 42) * 0.5f - 4.0f, 42, 42},
               Color::White(), 1905);
 
     DrawMinimap(ui, data, element("minimap"), false);
@@ -438,6 +500,13 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
     ui.TextFitted(stage_text, stage, kMuted, 1903,
                   engine::rendering::TextAlign::Left, 28.0f, 18.0f, true);
 
+    if (data.transition_flash > 0.0f) {
+        const float alpha = std::clamp(data.transition_flash / 0.45f,
+                                       0.0f, 1.0f);
+        ui.Rect({0, 0, 1920, 1080},
+                {0, 0, 0, static_cast<unsigned char>(235.0f * alpha)},
+                2000);
+    }
     // Room-enter / clear title. The reference label animation is not yet
     // recovered; this is a data-driven fade/slide using the recovered font.
     if (data.room_title_timer > 0.0f) {
@@ -746,7 +815,7 @@ void GameUI::DrawMinimap(UIRenderer& ui, const GameUIData& data,
 void GameUI::DrawDesignOverlay(UIRenderer& ui, const GameUIData& data) const {
     if (data.layout == nullptr) return;
     ui.Rect({0, 0, 1920, 1080}, {3, 5, 10, 80}, 1960);
-    ui.TextFitted("UI DESIGN MODE  -  DRAG HUD ELEMENTS",
+    ui.TextFitted("UI DESIGN MODE  -  DRAG UI ELEMENTS",
                   {500, 18, 920, 40}, Color::White(), 1961,
                   engine::rendering::TextAlign::Center, 32.0f, 20.0f, true);
     for (const HudElement& element : data.layout->Elements()) {
@@ -953,7 +1022,8 @@ void GameUI::DrawMainMenu(UIRenderer& ui, const GameUIData& data) const {
                   {133, 201, 204, 255}, 1993,
                   engine::rendering::TextAlign::Left, 28.0f, 18.0f, false);
 
-    const Rect droom = MainMenuDroomRect();
+    const Rect droom = MenuRect(data.layout, "menu_droom",
+                                MainMenuDroomRect());
     const bool droom_selected = main_index_ == 4;
     ui.Panel(droom, {21, 57, 112, 255},
              droom_selected ? kFrameLight : Color{57, 117, 190, 255},
@@ -963,14 +1033,107 @@ void GameUI::DrawMainMenu(UIRenderer& ui, const GameUIData& data) const {
     // Four equal player-menu rows. Width/height follow the reference button
     // proportions (roughly 3.8:1); the stack itself is the requested native
     // vertical composition. Every label goes through TextCentered.
+    static const char* kIds[4] = {"menu_new_game", "menu_continue",
+                                  "menu_settings", "menu_quit"};
     for (int i = 0; i < 4; ++i) {
-        const Rect button = MainMenuButtonRect(i);
+        const Rect button = MenuRect(data.layout, kIds[i],
+                                     MainMenuButtonRect(i));
         DrawButton(ui, data, button, kMainItems[static_cast<std::size_t>(i)],
                    main_index_ == i, i != 1 || data.save_exists, 46.0f);
     }
+    const Rect save_load = MenuRect(data.layout, "menu_save_load",
+                                    MainMenuSaveLoadRect());
+    DrawButton(ui, data, save_load, "S/L", main_index_ == 5, true, 34.0f);
     ui.TextFitted("LOCAL ONLY  //  NO SOCIAL FEATURES",
                   {760, 1004, 1060, 30}, {118, 145, 148, 255}, 1995,
                   engine::rendering::TextAlign::Right, 24.0f, 16.0f, false);
+}
+
+void GameUI::DrawSaveLoad(UIRenderer& ui, const GameUIData& data) const {
+    ui.Rect({0, 0, 1920, 1080}, {4, 5, 9, 210}, 1980);
+    const Rect panel{360, 180, 1200, 720};
+    ui.Panel(panel, kPanelNavy, {76, 87, 112, 255}, 4.0f, 1982);
+    ui.Panel({panel.x + 16, panel.y + 16, panel.w - 32, panel.h - 32},
+             kPanelDark, {112, 92, 63, 255}, 3.0f, 1984);
+    ui.TextCentered("SAVE / LOAD", {panel.x, panel.y + 22, panel.w, 56},
+                    Color::White(), 1990, 36.0f, true);
+    const Rect info{panel.x + 64, panel.y + 96, panel.w - 128, 210};
+    ui.Panel(info, {16, 20, 31, 230}, {67, 77, 97, 255}, 2.0f, 1990);
+    ui.TextFitted("SLOT 0", {info.x + 24, info.y + 16, 200, 28},
+                  kGold, 1991, engine::rendering::TextAlign::Left,
+                  26.0f, 16.0f, true);
+    ui.TextFitted(data.save_slot_summary.empty()
+                      ? std::string("NO NATIVE SAVE")
+                      : data.save_slot_summary,
+                  {info.x + 24, info.y + 56, info.w - 48, info.h - 72},
+                  data.save_slot_summary.empty() ? kMuted : kCream, 1992,
+                  engine::rendering::TextAlign::Left, 22.0f, 15.0f, false);
+    static const char* kItems[4] = {"SAVE", "LOAD", "DELETE", "BACK"};
+    for (int i = 0; i < 4; ++i) {
+        const Rect button{panel.x + 64 + static_cast<float>(i) * 272.0f,
+                          panel.y + 360, 248, 104};
+        DrawButton(ui, data, button, kItems[i], save_load_index_ == i,
+                   i == 0 || data.save_exists, 30.0f);
+    }
+    ui.TextCentered("UP/DOWN SELECT   ENTER CONFIRM   ESC BACK",
+                    {panel.x, panel.y + 520, panel.w, 28}, kMuted, 1994,
+                    18.0f);
+}
+
+void GameUI::DrawTrader(UIRenderer& ui, const GameUIData& data) const {
+    ui.Rect({0, 0, 1920, 1080}, {4, 5, 9, 190}, 1980);
+    const Rect panel{220, 150, 1480, 780};
+    ui.Panel(panel, kPanelNavy, {76, 87, 112, 255}, 4.0f, 1982);
+    ui.Panel({panel.x + 16, panel.y + 16, panel.w - 32, panel.h - 32},
+             kPanelDark, {112, 92, 63, 255}, 3.0f, 1984);
+    ui.TextCentered("ORB WEAPON TRADER", {panel.x, panel.y + 22, panel.w, 52},
+                    Color::White(), 1990, 36.0f, true);
+    ui.TextFitted("PRICES ARE RECOVERED RGWeapon ITEM VALUES",
+                  {panel.x + 40, panel.y + 76, panel.w - 80, 26},
+                  kMuted, 1991, engine::rendering::TextAlign::Center,
+                  18.0f, 13.0f, false);
+    const int count = std::min(3, static_cast<int>(data.trader_offers.size()));
+    for (int i = 0; i < 3; ++i) {
+        const Rect card{panel.x + 54 + static_cast<float>(i) * 466.0f,
+                        panel.y + 130, 430, 470};
+        const bool selected = i == data.trader_selected;
+        ui.Panel(card, selected ? Color{58, 78, 111, 255}
+                                : Color{31, 37, 51, 255},
+                 selected ? kFrameLight : Color{67, 77, 97, 255},
+                 selected ? 3.0f : 2.0f, 1990);
+        if (i >= count) continue;
+        const TraderOfferView& offer = data.trader_offers[static_cast<std::size_t>(i)];
+        if (offer.sprite_index >= 0) {
+            ui.SceneSprite(offer.sprite_index,
+                           {card.x + 80, card.y + 30, 270, 160},
+                           offer.sold ? Color{90, 90, 90, 255} : Color::White(),
+                           1991);
+        }
+        ui.TextFitted(offer.display_name, {card.x + 18, card.y + 200,
+                                           card.w - 36, 52},
+                      offer.sold ? kMuted : Color::White(), 1992,
+                      engine::rendering::TextAlign::Center, 28.0f, 18.0f, true);
+        char stats[160];
+        std::snprintf(stats, sizeof(stats), "DMG %d   ENERGY %d",
+                      offer.damage, offer.energy_cost);
+        ui.TextCentered(stats, {card.x + 18, card.y + 260, card.w - 36, 28},
+                        kCream, 1992, 20.0f);
+        if (data.ui_assets != nullptr &&
+            data.ui_assets->Find("ui_52") != nullptr) {
+            DrawAsset(ui, data, "ui_52",
+                      {card.x + card.w * 0.5f - 108, card.y + 310, 34, 34},
+                      Color::White(), 1993);
+        }
+        char price[32];
+        std::snprintf(price, sizeof(price), "%d", offer.price);
+        ui.TextFitted(offer.sold ? "SOLD" : price,
+                      {card.x + card.w * 0.5f - 64, card.y + 306, 170, 36},
+                      offer.sold ? kMuted : kGold, 1994,
+                      engine::rendering::TextAlign::Left, 30.0f, 20.0f, true);
+    }
+    ui.TextCentered("LEFT/RIGHT SELECT   ENTER BUY   ESC CLOSE",
+                    {panel.x, panel.y + 640, panel.w, 30}, kMuted, 1995,
+                    20.0f);
 }
 
 void GameUI::DrawCharacterSelect(UIRenderer& ui, const GameUIData& data) const {
@@ -1104,6 +1267,8 @@ void GameUI::Draw(UIRenderer& ui, const GameUIData& data) const {
     else if (screen_ == UIScreen::Settings) DrawSettings(ui, data);
     else if (screen_ == UIScreen::CharacterSelect) DrawCharacterSelect(ui, data);
     else if (screen_ == UIScreen::WeaponSelect) DrawWeaponSelect(ui, data);
+    else if (screen_ == UIScreen::SaveLoad) DrawSaveLoad(ui, data);
+    else if (screen_ == UIScreen::Trader) DrawTrader(ui, data);
 }
 
 } // namespace soulknight::game::ui

@@ -54,6 +54,7 @@ bool WeaponCatalogue::Load(const platform::FileSystem& filesystem,
         entry.damage = int_value("damage");
         entry.energy_cost = int_value("energy_cost");
         entry.item_level = int_value("item_level");
+        entry.item_value = int_value("item_value");
         entry.has_serialized_stats = item.contains("damage") &&
                                      item["damage"].is_number_integer() &&
                                      item.contains("energy_cost") &&

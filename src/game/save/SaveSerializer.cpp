@@ -137,6 +137,13 @@ bool MigrateToCurrent(Json& document, std::string* error) {
                 document["player"]["coins"] = 0;
             }
             document["save_version"] = 2;
+        } else if (version == 2) {
+            // v2 -> v3: Living Room orb/gem currency.
+            if (document.contains("player") && document["player"].is_object() &&
+                !document["player"].contains("orbs")) {
+                document["player"]["orbs"] = 0;
+            }
+            document["save_version"] = 3;
         } else {
             if (error != nullptr) {
                 *error = "no migration path from save version " +
@@ -172,6 +179,7 @@ Json Serialize(const SaveData& data) {
     player["energy"] = data.energy;
     player["max_energy"] = data.max_energy;
     player["coins"] = data.coins;
+    player["orbs"] = data.orbs;
     player["dead"] = data.dead;
     document["player"] = std::move(player);
 
@@ -240,6 +248,7 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
         !ReadInt(player, "energy", &loaded.energy, error) ||
         !ReadInt(player, "max_energy", &loaded.max_energy, error) ||
         !ReadInt(player, "coins", &loaded.coins, error, false) ||
+        !ReadInt(player, "orbs", &loaded.orbs, error, false) ||
         !ReadBool(player, "dead", &loaded.dead, error)) {
         return false;
     }

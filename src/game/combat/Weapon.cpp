@@ -121,21 +121,25 @@ void Weapon::SpawnProjectile(const Vec2& owner_position,
     // spread is 0 degrees in the current dev-room player case.
     const float spread = static_cast<float>(definition_.owner_deviation) *
                          (static_cast<float>(definition_.deviation) + 1.0f);
-    const float offset_degrees = spread > 0.0f
-        ? random_.Range(-spread, spread)
-        : 0.0f;
-    const Vec2 direction = RotateDegrees(aim, offset_degrees);
-
+    const int count = std::max(1, definition_.bullet_count);
+    const float multi_spread = definition_.spread_degrees > 0
+        ? static_cast<float>(definition_.spread_degrees)
+        : (count > 1 ? static_cast<float>(definition_.deviation) : 0.0f);
     // APPROXIMATION: the recovered muzzle is composed through the player hand
     // and weapon gun_point transforms. c00 exposes hand `h1` local (0, 0.5);
     // each weapon exposes its serialized gun_point local offset. The exact
     // animator-driven hand transform is not modeled.
     const Vec2 muzzle = MuzzlePosition(owner_position, aim);
-
-    projectiles.Spawn(definition_.projectile, muzzle, direction,
-                      definition_.bullet_speed, definition_.damage,
-                      definition_.projectile.camp, definition_.through,
-                      definition_.repel);
+    for (int i = 0; i < count; ++i) {
+        const float offset_degrees = count > 1 && multi_spread > 0.0f
+            ? random_.Range(-multi_spread * 0.5f, multi_spread * 0.5f)
+            : (spread > 0.0f ? random_.Range(-spread, spread) : 0.0f);
+        const Vec2 direction = RotateDegrees(aim, offset_degrees);
+        projectiles.Spawn(definition_.projectile, muzzle, direction,
+                          definition_.bullet_speed, definition_.damage,
+                          definition_.projectile.camp, definition_.through,
+                          definition_.repel);
+    }
 }
 
 } // namespace soulknight::game::combat

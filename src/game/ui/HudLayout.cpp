@@ -27,6 +27,7 @@ std::vector<HudElement> DefaultElements() {
         {"armor",         {90.0f, 72.0f, 276.0f, 36.0f}},
         {"energy",        {90.0f, 118.0f, 276.0f, 36.0f}},
         {"coin",          {1652.0f, 20.0f, 118.0f, 44.0f}},
+        {"orb",           {1510.0f, 20.0f, 118.0f, 44.0f}},
         {"pause",         {1812.0f, 16.0f, 92.0f, 82.0f}},
         {"minimap",       {1664.0f, 112.0f, 240.0f, 196.0f}},
         {"ability",       {20.0f, 846.0f, 150.0f, 150.0f}},
@@ -34,6 +35,15 @@ std::vector<HudElement> DefaultElements() {
         {"active_weapon", {190.0f, 940.0f, 220.0f, 30.0f}},
         {"pickup_prompt", {700.0f, 886.0f, 520.0f, 148.0f}},
         {"stage",         {16.0f, 190.0f, 360.0f, 26.0f}},
+        // Main-menu elements share the same persisted layout document. The
+        // menu draws and hit-tests these rects, so UI Design Mode can move the
+        // title stack and controls without a separate layout system.
+        {"menu_droom",     {1636.0f, 64.0f, 220.0f, 58.0f}},
+        {"menu_new_game",  {120.0f, 410.0f, 560.0f, 148.0f}},
+        {"menu_continue",  {120.0f, 572.0f, 560.0f, 148.0f}},
+        {"menu_settings",  {120.0f, 734.0f, 560.0f, 148.0f}},
+        {"menu_quit",      {120.0f, 896.0f, 560.0f, 148.0f}},
+        {"menu_save_load", {704.0f, 410.0f, 150.0f, 148.0f}},
     };
 }
 

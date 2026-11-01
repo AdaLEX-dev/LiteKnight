@@ -20,6 +20,15 @@ public:
                      const engine::Vec2& player_position,
                      const engine::Vec2& aim_direction,
                      bool facing_left, bool player_dead);
+    // Draw at an explicit c00 hand mount (h1, h2, h3). The local offset is
+    // mirrored with body facing, matching the flipped img transform.
+    static void DrawAt(engine::rendering::SpriteBatch& batch,
+                       const engine::assets::SceneAsset& scene,
+                       const engine::assets::WeaponDefinition& weapon,
+                       const engine::Vec2& player_position,
+                       const engine::Vec2& aim_direction,
+                       const engine::Vec2& hand_offset,
+                       bool player_dead);
 };
 
 } // namespace soulknight::game::weapons
