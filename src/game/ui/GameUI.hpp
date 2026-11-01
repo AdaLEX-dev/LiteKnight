@@ -26,7 +26,9 @@ enum class UIScreen {
     CharacterSelect,
     WeaponSelect,
     SaveLoad,
-    Trader
+    Trader,
+    PetSelect,
+    Workshop
 };
 
 struct MapRoomView {
@@ -69,7 +71,19 @@ enum class UIAction {
     SaveSlot,
     LoadSlot,
     DeleteSlot,
-    BuyTraderItem
+    BuyTraderItem,
+    SelectPet,
+    CraftWeapon
+};
+
+struct WorkshopRecipeView {
+    std::string weapon_id;
+    std::string name;
+    int sprite_index = -1;
+    int damage = 0;
+    int energy_cost = 0;
+    bool affordable = false;
+    std::vector<std::string> materials;
 };
 
 struct TraderOfferView {
@@ -115,6 +129,8 @@ struct GameUIData {
     std::string room_clear_label;
     bool room_cleared = false;
     float room_title_timer = 0.0f;
+    // UIMessageBar show_signpost, 1.5 s recovered clip.
+    float room_clear_timer = 0.0f;
     float transition_flash = 0.0f;
     const UIAssets* ui_assets = nullptr;
     bool chest_nearby = false;
@@ -129,6 +145,22 @@ struct GameUIData {
     bool interaction_nearby = false;
     std::string interaction_label;
     engine::Vec2 interaction_screen{0.0f, 0.0f};
+    // Recovered TalkTrigger/TalkCharNpc speech overlay. The timer uses
+    // unscaled seconds; the dialogue does not pause simulation.
+    std::string dialogue_speaker;
+    std::string dialogue_text;
+    float dialogue_timer = 0.0f;
+    // EnemyAIStake floating damage number.
+    int stake_damage = 0;
+    engine::Vec2 stake_damage_screen{0.0f, 0.0f};
+    float stake_damage_timer = 0.0f;
+    // Pet selection menu (UIChoseHero.emMode == Pet).
+    std::vector<std::string> pet_names;
+    std::vector<int> pet_sprites;
+    int selected_pet = 0;
+    std::vector<WorkshopRecipeView> workshop_recipes;
+    int workshop_selected = 0;
+    std::string workshop_status;
 };
 
 class GameUI {
@@ -141,7 +173,11 @@ public:
     void OpenWeaponSelect(int initial_index = 0);
     void OpenSaveLoad();
     void OpenTrader();
+    void OpenPetSelect(int initial_index = 0, int count = 0);
+    void OpenWorkshop(int initial_index = 0, int count = 0);
+    int WorkshopSelection() const { return workshop_index_; }
     int TraderSelection() const { return trader_selected_; }
+    int PetSelection() const { return pet_select_index_; }
     void SetWeaponCount(int count) { weapon_select_count_ = std::max(0, count); }
     void SetCharacterCount(int count) { character_select_count_ = std::max(0, count); }
     void CloseSelection();
@@ -156,7 +192,9 @@ public:
         return screen_ == UIScreen::Pause || screen_ == UIScreen::Settings ||
                screen_ == UIScreen::CharacterSelect ||
                screen_ == UIScreen::WeaponSelect ||
-               screen_ == UIScreen::Trader;
+               screen_ == UIScreen::Trader ||
+               screen_ == UIScreen::PetSelect ||
+               screen_ == UIScreen::Workshop;
     }
     bool IsMainMenu() const { return screen_ == UIScreen::MainMenu; }
     UIScreen Screen() const { return screen_; }
@@ -183,6 +221,9 @@ private:
     void DrawWeaponSelect(UIRenderer& ui, const GameUIData& data) const;
     void DrawSaveLoad(UIRenderer& ui, const GameUIData& data) const;
     void DrawTrader(UIRenderer& ui, const GameUIData& data) const;
+    void DrawPetSelect(UIRenderer& ui, const GameUIData& data) const;
+    void DrawWorkshop(UIRenderer& ui, const GameUIData& data) const;
+    void DrawDialogue(UIRenderer& ui, const GameUIData& data) const;
     void DrawButton(UIRenderer& ui, const GameUIData& data,
                     const engine::Rect& rect, const std::string& label,
                     bool selected, bool enabled, float size = 28.0f) const;
@@ -207,6 +248,10 @@ private:
     int character_select_count_ = 0;
     int save_load_index_ = 0;
     int trader_selected_ = 0;
+    int pet_select_index_ = 0;
+    int pet_select_count_ = 0;
+    int workshop_index_ = 0;
+    int workshop_count_ = 0;
     UIAction action_ = UIAction::None;
 };
 

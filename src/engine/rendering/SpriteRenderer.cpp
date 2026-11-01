@@ -160,25 +160,27 @@ bool SpriteRenderer::CreateDescriptorResources(VulkanContext& context, std::size
 
     VkDescriptorPoolSize pool_size{};
     pool_size.type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
-    pool_size.descriptorCount = static_cast<uint32_t>(texture_count);
+    constexpr std::size_t kDescriptorCapacity = 2048;
+    const std::size_t capacity = std::max(texture_count, kDescriptorCapacity);
+    pool_size.descriptorCount = static_cast<uint32_t>(capacity);
 
     VkDescriptorPoolCreateInfo pool_info{};
     pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
     pool_info.poolSizeCount = 1;
     pool_info.pPoolSizes = &pool_size;
-    pool_info.maxSets = static_cast<uint32_t>(texture_count);
+    pool_info.maxSets = static_cast<uint32_t>(capacity);
     if (vkCreateDescriptorPool(context.Device(), &pool_info, nullptr,
                                &descriptor_pool_) != VK_SUCCESS) {
         LOG_ERROR_RENDER("Sprite pipeline: descriptor pool creation failed");
         return false;
     }
 
-    std::vector<VkDescriptorSetLayout> layouts(texture_count, descriptor_set_layout_);
-    descriptor_sets_.resize(texture_count, VK_NULL_HANDLE);
+    std::vector<VkDescriptorSetLayout> layouts(capacity, descriptor_set_layout_);
+    descriptor_sets_.resize(capacity, VK_NULL_HANDLE);
     VkDescriptorSetAllocateInfo allocate_info{};
     allocate_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
     allocate_info.descriptorPool = descriptor_pool_;
-    allocate_info.descriptorSetCount = static_cast<uint32_t>(texture_count);
+    allocate_info.descriptorSetCount = static_cast<uint32_t>(capacity);
     allocate_info.pSetLayouts = layouts.data();
     if (vkAllocateDescriptorSets(context.Device(), &allocate_info,
                                  descriptor_sets_.data()) != VK_SUCCESS) {
@@ -503,6 +505,42 @@ bool SpriteRenderer::CreateTextures(VulkanContext& context,
 
     for (std::size_t i = 0; i < textures_.size(); ++i) {
         if (!UpdateDescriptor(context, i)) return false;
+    }
+    return true;
+}
+
+bool SpriteRenderer::AddTextures(VulkanContext& context,
+                                 const std::vector<TextureUpload>& textures) {
+    for (const TextureUpload& upload : textures) {
+        if (upload.data == nullptr || !upload.data->IsValid()) {
+            LOG_ERROR_RENDER("Sprite renderer: invalid dynamic TextureData upload");
+            return false;
+        }
+        if (texture_indices_.find(upload.id) != texture_indices_.end()) {
+            LOG_ERROR_RENDER("Sprite renderer: duplicate dynamic texture id {}",
+                             upload.id);
+            return false;
+        }
+        if (textures_.size() >= descriptor_sets_.size()) {
+            LOG_ERROR_RENDER("Sprite renderer: dynamic descriptor capacity exhausted");
+            return false;
+        }
+        auto texture = std::make_unique<Texture2D>();
+        if (!texture->CreateFromTextureData(
+                context.Device(), context.PhysicalDevice(),
+                context.GraphicsQueue(), context.GraphicsQueueFamily(),
+                *upload.data, upload.filter, upload.wrap)) {
+            LOG_ERROR_RENDER("Sprite renderer: dynamic texture upload failed id {}",
+                             upload.id);
+            return false;
+        }
+        const std::size_t index = textures_.size();
+        texture_indices_.emplace(upload.id, index);
+        textures_.push_back(std::move(texture));
+        if (!UpdateDescriptor(context, index)) {
+            descriptor_sets_.pop_back();
+            return false;
+        }
     }
     return true;
 }

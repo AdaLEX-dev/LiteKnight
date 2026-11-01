@@ -33,6 +33,7 @@ public:
                     const std::filesystem::path& shader_dir);
     void Shutdown();
     bool Render(SpriteBatch& batch, const Camera2D& camera);
+    bool AddTextures(const std::vector<TextureUpload>& textures);
 
     const std::string& DeviceName() const { return context_.DeviceName(); }
     bool ValidationEnabled() const { return context_.ValidationEnabled(); }

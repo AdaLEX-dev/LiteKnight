@@ -6,6 +6,7 @@
 #include <array>
 #include <cmath>
 #include <cstdio>
+#include <cstdint>
 
 namespace soulknight::game::ui {
 namespace {
@@ -27,6 +28,55 @@ constexpr Color kArmor{171, 184, 194, 255};
 constexpr Color kEnergy{45, 153, 238, 255};
 constexpr Color kGold{227, 186, 83, 255};
 constexpr Color kGreen{93, 190, 107, 255};
+
+float ClearCubic(float tau, float a, float b, float c) {
+    return a * tau * tau * tau + b * tau * tau + c * tau;
+}
+
+float ClearBannerY(float elapsed) {
+    if (elapsed <= 0.5f) return 0.0f;
+    if (elapsed <= 0.833333f) {
+        const float tau = elapsed - 0.5f;
+        return -90.0f * 0.0f + 1.5f * ClearCubic(tau, 810.0f, -540.0f, -90.0f);
+    }
+    if (elapsed <= 1.166667f) {
+        const float tau = elapsed - 0.833333f;
+        return -90.0f + 1.5f * ClearCubic(tau, -810.0f, 540.0f, -90.0f);
+    }
+    return -90.0f;
+}
+
+float ClearAlpha(float elapsed, float peak) {
+    if (elapsed <= 0.0f) return 0.003f * peak;
+    if (elapsed < 0.166667f) {
+        const float t = elapsed / 0.166667f;
+        return (0.003f + (peak - 0.003f) * t);
+    }
+    if (elapsed <= 0.833333f) return peak;
+    if (elapsed <= 1.166667f) {
+        const float tau = elapsed - 0.833333f;
+        return std::clamp(peak + ClearCubic(tau, -10.588235f, 3.529412f, 0.0f),
+                          0.0f, peak);
+    }
+    if (elapsed < 1.5f) {
+        const float tau = elapsed - 1.166667f;
+        return std::clamp(peak + ClearCubic(tau, 10.588227f, -7.058823f,
+                                            -1.176471f), 0.0f, peak);
+    }
+    return 0.0f;
+}
+
+float ClearTextAlpha(float elapsed) {
+    if (elapsed <= 0.0f) return 0.0f;
+    if (elapsed < 0.166667f) return elapsed / 0.166667f;
+    if (elapsed <= 1.166667f) return 1.0f;
+    if (elapsed < 1.5f) {
+        const float tau = elapsed - 1.166667f;
+        return std::clamp(1.0f + ClearCubic(tau, 13.499995f, -8.999998f,
+                                            -1.5f), 0.0f, 1.0f);
+    }
+    return 0.0f;
+}
 
 const std::array<const char*, 3> kPauseItems{"HOME", "RESUME", "SETTINGS"};
 const std::array<const char*, 4> kMainItems{"NEW GAME", "CONTINUE", "SETTINGS", "QUIT"};
@@ -104,6 +154,24 @@ void GameUI::OpenSaveLoad() {
     action_ = UIAction::None;
 }
 
+void GameUI::OpenPetSelect(int initial_index, int count) {
+    screen_ = UIScreen::PetSelect;
+    pet_select_count_ = std::max(0, count);
+    pet_select_index_ = pet_select_count_ > 0
+        ? std::clamp(initial_index, 0, pet_select_count_ - 1)
+        : std::max(0, initial_index);
+    action_ = UIAction::None;
+}
+
+void GameUI::OpenWorkshop(int initial_index, int count) {
+    screen_ = UIScreen::Workshop;
+    workshop_count_ = std::max(0, count);
+    workshop_index_ = workshop_count_ > 0
+        ? std::clamp(initial_index, 0, workshop_count_ - 1)
+        : std::max(0, initial_index);
+    action_ = UIAction::None;
+}
+
 void GameUI::OpenTrader() {
     screen_ = UIScreen::Trader;
     trader_selected_ = 0;
@@ -117,7 +185,9 @@ void GameUI::CloseSelection() {
 
 void GameUI::Back() {
     if (screen_ == UIScreen::CharacterSelect ||
-        screen_ == UIScreen::WeaponSelect) {
+        screen_ == UIScreen::WeaponSelect ||
+        screen_ == UIScreen::PetSelect ||
+        screen_ == UIScreen::Workshop) {
         CloseSelection();
         return;
     }
@@ -160,6 +230,12 @@ void GameUI::Navigate(int delta) {
         save_load_index_ = (save_load_index_ + delta + 4) % 4;
     } else if (screen_ == UIScreen::Trader) {
         trader_selected_ = (trader_selected_ + delta + 3) % 3;
+    } else if (screen_ == UIScreen::PetSelect && pet_select_count_ > 0) {
+        pet_select_index_ = (pet_select_index_ + delta + pet_select_count_) %
+                            pet_select_count_;
+    } else if (screen_ == UIScreen::Workshop && workshop_count_ > 0) {
+        workshop_index_ = (workshop_index_ + delta + workshop_count_) %
+                          workshop_count_;
     } else if (screen_ == UIScreen::Settings) {
         settings_index_ = (settings_index_ + delta + 6) % 6;
     } else if (screen_ == UIScreen::CharacterSelect &&
@@ -208,6 +284,14 @@ void GameUI::Confirm() {
     }
     if (screen_ == UIScreen::WeaponSelect) {
         action_ = UIAction::SelectWeapon;
+        return;
+    }
+    if (screen_ == UIScreen::PetSelect) {
+        action_ = UIAction::SelectPet;
+        return;
+    }
+    if (screen_ == UIScreen::Workshop) {
+        action_ = UIAction::CraftWeapon;
         return;
     }
     if (screen_ == UIScreen::Settings) {
@@ -494,8 +578,8 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
     if (stage_text.empty()) {
         stage_text = data.scene != nullptr ? data.scene->id : "?";
     }
-    if (data.room_cleared && !data.room_clear_label.empty()) {
-        stage_text += "   " + data.room_clear_label;
+    if (data.room_cleared) {
+        stage_text += "   clear";
     }
     ui.TextFitted(stage_text, stage, kMuted, 1903,
                   engine::rendering::TextAlign::Left, 28.0f, 18.0f, true);
@@ -507,20 +591,66 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
                 {0, 0, 0, static_cast<unsigned char>(235.0f * alpha)},
                 2000);
     }
-    // Room-enter / clear title. The reference label animation is not yet
-    // recovered; this is a data-driven fade/slide using the recovered font.
-    if (data.room_title_timer > 0.0f) {
-        const float t = std::clamp(data.room_title_timer / 3.0f, 0.0f, 1.0f);
-        const int alpha = static_cast<int>(255.0f * t);
-        const std::string title = data.room_cleared &&
-            !data.room_clear_label.empty() ? data.room_clear_label : data.room_label;
-        if (!title.empty()) {
-            const float slide = (1.0f - t) * 14.0f;
-            ui.TextCentered(title, {760, 92 - slide, 400, 46},
-                            Color{255, 245, 220,
-                                  static_cast<unsigned char>(alpha)},
-                            1920, 38.0f, true);
+    // Recovered UIMap map_info: a 300 px panel sliding in from the right
+    // (Unity anchoredPosition 200 -> -20 at 1280x720, scaled to 1920x1080).
+    // The Animator transition duration is 0.2 s; the label is the current
+    // MapManager.level and the font is LockClock 32 (48 px at this scale).
+    if (data.room_title_timer > 0.0f && !data.room_label.empty()) {
+        constexpr float kShowSeconds = 3.0f;
+        constexpr float kSlideSeconds = 0.2f;
+        const float elapsed = kShowSeconds - data.room_title_timer;
+        float slide = 0.0f;
+        if (elapsed < kSlideSeconds) {
+            slide = 1.0f - std::clamp(elapsed / kSlideSeconds, 0.0f, 1.0f);
+        } else if (data.room_title_timer < kSlideSeconds) {
+            slide = 1.0f - std::clamp(data.room_title_timer / kSlideSeconds,
+                                      0.0f, 1.0f);
         }
+        const float offset = 330.0f * slide;
+        const Rect info{1590.0f + offset, 60.0f, 300.0f, 300.0f};
+        ui.Rect(info, {32, 32, 32, 64}, 1910);
+        const Rect label_rect{info.x + 30.0f, info.y + 300.0f, 240.0f, 60.0f};
+        ui.TextCentered(data.room_label, label_rect, Color::White(), 1912,
+                        48.0f, true);
+    }
+
+    // Recovered UIMessageBar show_signpost clip (1.5 s): black bar, gold
+    // ui_90 line, ui_89 banner and pixel_bold "clear" text.
+    if (data.room_clear_timer > 0.0f) {
+        const float elapsed = 1.5f - std::clamp(data.room_clear_timer, 0.0f,
+                                                1.5f);
+        const float banner_alpha = std::clamp(ClearAlpha(elapsed, 0.784314f),
+                                              0.0f, 1.0f);
+        const float text_alpha = ClearTextAlpha(elapsed);
+        const float banner_y = ClearBannerY(elapsed);
+        const float center_y = 315.0f;
+        ui.Rect({0.0f, center_y - 120.0f, 1920.0f, 240.0f},
+                {0, 0, 0, static_cast<unsigned char>(160.0f * banner_alpha)},
+                1930);
+        if (data.ui_assets != nullptr &&
+            data.ui_assets->Find("ui_90") != nullptr) {
+            ui.Image(data.ui_assets->Find("ui_90")->texture_id,
+                     data.ui_assets->Find("ui_90")->uv,
+                     {960.0f - 210.0f, center_y - 140.0f, 420.0f, 280.0f},
+                     {255, 174, 28,
+                      static_cast<unsigned char>(200.0f * banner_alpha)},
+                     1931);
+        }
+        if (data.ui_assets != nullptr &&
+            data.ui_assets->Find("ui_89") != nullptr) {
+            ui.Image(data.ui_assets->Find("ui_89")->texture_id,
+                     data.ui_assets->Find("ui_89")->uv,
+                     {960.0f - 150.0f, center_y - 110.0f + banner_y,
+                      300.0f, 220.0f},
+                     {255, 174, 28,
+                      static_cast<unsigned char>(200.0f * banner_alpha)},
+                     1932);
+        }
+        ui.TextCentered("clear",
+                        {960.0f - 250.0f, center_y - 75.0f, 500.0f, 150.0f},
+                        {255, 255, 255,
+                         static_cast<unsigned char>(255.0f * text_alpha)},
+                        1933, 144.0f, true);
     }
 
     // Character power, deliberately larger than a weapon slot. ui_joy_0 is the
@@ -688,7 +818,41 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
                         kGold, 1921, 28.0f, false);
     }
 
+    DrawDialogue(ui, data);
+    if (data.stake_damage_timer > 0.0f && data.stake_damage > 0) {
+        char damage[32];
+        std::snprintf(damage, sizeof(damage), "%d", data.stake_damage);
+        const float rise = (0.8f - data.stake_damage_timer) * 55.0f;
+        ui.TextCentered(damage,
+                        {data.stake_damage_screen.x - 90.0f,
+                         data.stake_damage_screen.y - 120.0f - rise,
+                         180.0f, 40.0f},
+                        {255, 224, 120, 255}, 1960, 34.0f, true);
+    }
     if (data.ui_design_mode) DrawDesignOverlay(ui, data);
+}
+
+void GameUI::DrawDialogue(UIRenderer& ui, const GameUIData& data) const {
+    if (data.dialogue_timer <= 0.0f || data.dialogue_text.empty()) return;
+    // Recovered UICanvas.ShowTextTalk presentation: a compact bottom speech
+    // panel with the speaker name above the localized line.
+    const float alpha = std::clamp(data.dialogue_timer, 0.0f, 1.0f);
+    const engine::Color border{198, 161, 91, static_cast<std::uint8_t>(255 * alpha)};
+    const engine::Color fill{22, 20, 26, static_cast<std::uint8_t>(232 * alpha)};
+    const Rect panel{420, 850, 1080, 156};
+    ui.Panel(panel, fill, border, 3.0f, 1950);
+    if (!data.dialogue_speaker.empty()) {
+        ui.TextFitted(data.dialogue_speaker,
+                      {panel.x + 28, panel.y + 12, panel.w - 56, 32},
+                      {226, 190, 112, static_cast<std::uint8_t>(255 * alpha)},
+                      1951, engine::rendering::TextAlign::Left,
+                      26.0f, 18.0f, true);
+    }
+    ui.TextFitted(data.dialogue_text,
+                  {panel.x + 28, panel.y + 50, panel.w - 56, 92},
+                  {245, 240, 226, static_cast<std::uint8_t>(255 * alpha)},
+                  1951, engine::rendering::TextAlign::Left,
+                  28.0f, 18.0f, false);
 }
 
 void GameUI::DrawMinimap(UIRenderer& ui, const GameUIData& data,
@@ -1136,6 +1300,139 @@ void GameUI::DrawTrader(UIRenderer& ui, const GameUIData& data) const {
                     20.0f);
 }
 
+void GameUI::DrawWorkshop(UIRenderer& ui, const GameUIData& data) const {
+    ui.Rect({0, 0, 1920, 1080}, {4, 5, 9, 200}, 1980);
+    const Rect panel{140, 90, 1640, 900};
+    ui.Panel(panel, kPanelNavy, {76, 87, 112, 255}, 4.0f, 1982);
+    ui.Panel({panel.x + 16, panel.y + 16, panel.w - 32, panel.h - 32},
+             kPanelDark, {112, 92, 63, 255}, 3.0f, 1984);
+    ui.TextCentered("WEAPON WORKSHOP", {panel.x, panel.y + 20, panel.w, 54},
+                    Color::White(), 1990, 36.0f, true);
+    ui.TextFitted("RECOVERED WEAPON MATERIAL RECIPES",
+                  {panel.x + 40, panel.y + 76, panel.w - 80, 24},
+                  kMuted, 1991, engine::rendering::TextAlign::Center,
+                  18.0f, 13.0f, false);
+    const Rect list{panel.x + 42, panel.y + 116, 760, 700};
+    ui.Panel(list, {16, 20, 31, 230}, {67, 77, 97, 255}, 2.0f, 1990);
+    const int count = static_cast<int>(data.workshop_recipes.size());
+    const int selected = std::clamp(
+        data.workshop_selected, 0,
+        count > 0 ? count - 1 : 0);
+    const int visible = 12;
+    int first = std::max(0, selected - visible / 2);
+    first = std::min(first, std::max(0, count - visible));
+    for (int row = 0; row < visible && first + row < count; ++row) {
+        const int index = first + row;
+        const WorkshopRecipeView& recipe =
+            data.workshop_recipes[static_cast<std::size_t>(index)];
+        const Rect line{list.x + 12, list.y + 12 + static_cast<float>(row) * 56,
+                        list.w - 24, 50};
+        const bool is_selected = index == selected;
+        if (is_selected) {
+            ui.Panel(line, {58, 78, 111, 255}, kFrameLight, 2.0f, 1991);
+        }
+        ui.TextFitted(recipe.name, {line.x + 12, line.y + 8, line.w - 220, 34},
+                      is_selected ? kGold : kCream, 1992,
+                      engine::rendering::TextAlign::Left, 26.0f, 16.0f,
+                      is_selected);
+        ui.TextFitted(recipe.affordable ? "READY" : "MISSING",
+                      {line.x + line.w - 200, line.y + 8, 188, 34},
+                      recipe.affordable ? kGreen : kMuted, 1992,
+                      engine::rendering::TextAlign::Right, 22.0f, 14.0f,
+                      false);
+    }
+    const Rect detail{panel.x + 830, panel.y + 116, panel.w - 872, 700};
+    ui.Panel(detail, {16, 20, 31, 230}, {67, 77, 97, 255}, 2.0f, 1990);
+    if (count > 0) {
+        const WorkshopRecipeView& recipe =
+            data.workshop_recipes[static_cast<std::size_t>(selected)];
+        if (recipe.sprite_index >= 0) {
+            ui.SceneSprite(recipe.sprite_index,
+                           {detail.x + detail.w * 0.5f - 120,
+                            detail.y + 24, 240, 150}, Color::White(), 1991);
+        }
+        ui.TextFitted(recipe.name,
+                      {detail.x + 24, detail.y + 184, detail.w - 48, 44},
+                      kGold, 1992, engine::rendering::TextAlign::Center,
+                      32.0f, 20.0f, true);
+        char stats[128];
+        std::snprintf(stats, sizeof(stats), "DMG %d   ENERGY %d",
+                      recipe.damage, recipe.energy_cost);
+        ui.TextCentered(stats,
+                        {detail.x + 24, detail.y + 232, detail.w - 48, 30},
+                        kCream, 1992, 22.0f);
+        ui.TextFitted("MATERIALS",
+                      {detail.x + 24, detail.y + 280, detail.w - 48, 26},
+                      kMuted, 1993, engine::rendering::TextAlign::Left,
+                      20.0f, 14.0f, false);
+        for (std::size_t i = 0; i < recipe.materials.size(); ++i) {
+            ui.TextFitted(recipe.materials[i],
+                          {detail.x + 40,
+                           detail.y + 314 + static_cast<float>(i) * 34,
+                           detail.w - 80, 30},
+                          kCream, 1993,
+                          engine::rendering::TextAlign::Left, 24.0f, 16.0f,
+                          false);
+        }
+    }
+    if (!data.workshop_status.empty()) {
+        ui.TextFitted(data.workshop_status,
+                      {panel.x + 40, panel.y + panel.h - 104, panel.w - 80,
+                       30},
+                      kGold, 1994, engine::rendering::TextAlign::Center,
+                      22.0f, 15.0f, false);
+    }
+    ui.TextCentered("UP/DOWN SELECT   ENTER CRAFT   D DISMANTLE ACTIVE WEAPON   ESC CLOSE",
+                    {panel.x, panel.y + panel.h - 58, panel.w, 28}, kMuted,
+                    1995, 19.0f);
+}
+
+void GameUI::DrawPetSelect(UIRenderer& ui, const GameUIData& data) const {
+    ui.Rect({0, 0, 1920, 1080}, {4, 5, 9, 190}, 1980);
+    const Rect panel{300, 150, 1320, 780};
+    ui.Panel(panel, kPanelNavy, {76, 87, 112, 255}, 4.0f, 1982);
+    ui.Panel({panel.x + 16, panel.y + 16, panel.w - 32, panel.h - 32},
+             kPanelDark, {112, 92, 63, 255}, 3.0f, 1984);
+    ui.TextCentered("PET MENU", {panel.x, panel.y + 24, panel.w, 52},
+                    Color::White(), 1990, 36.0f, true);
+    ui.TextFitted("RECOVERED RGPetController PREFABS",
+                  {panel.x + 40, panel.y + 80, panel.w - 80, 26},
+                  kMuted, 1991, engine::rendering::TextAlign::Center,
+                  18.0f, 13.0f, false);
+    const int count = static_cast<int>(data.pet_names.size());
+    if (count == 0) {
+        ui.TextCentered("NO RECOVERED PET DEFINITIONS",
+                        {panel.x, panel.y + 320, panel.w, 40}, kMuted, 1992,
+                        28.0f);
+    }
+    for (int i = 0; i < count; ++i) {
+        const int col = i % 4;
+        const int row = i / 4;
+        const Rect cell{panel.x + 42 + static_cast<float>(col) * 309.0f,
+                        panel.y + 126 + static_cast<float>(row) * 210.0f,
+                        290, 190};
+        const bool selected = i == data.selected_pet;
+        ui.Panel(cell, selected ? Color{58, 78, 111, 255}
+                                : Color{31, 37, 51, 255},
+                 selected ? kFrameLight : Color{67, 77, 97, 255},
+                 selected ? 3.0f : 2.0f, 1990);
+        if (i < static_cast<int>(data.pet_sprites.size()) &&
+            data.pet_sprites[static_cast<std::size_t>(i)] >= 0) {
+            ui.SceneSprite(data.pet_sprites[static_cast<std::size_t>(i)],
+                           {cell.x + 90, cell.y + 18, 110, 110},
+                           Color::White(), 1991);
+        }
+        ui.TextFitted(data.pet_names[static_cast<std::size_t>(i)],
+                      {cell.x + 12, cell.y + 132, cell.w - 24, 44},
+                      selected ? kGold : kCream, 1992,
+                      engine::rendering::TextAlign::Center, 28.0f, 16.0f,
+                      true);
+    }
+    ui.TextCentered("ARROWS SELECT   ENTER CHOOSE   ESC BACK",
+                    {panel.x, panel.y + panel.h - 60, panel.w, 30}, kMuted,
+                    1995, 20.0f);
+}
+
 void GameUI::DrawCharacterSelect(UIRenderer& ui, const GameUIData& data) const {
     if (data.characters == nullptr || data.scene == nullptr) return;
     ui.Rect({0, 0, 1920, 1080}, {4, 5, 9, 200}, 1980);
@@ -1269,6 +1566,8 @@ void GameUI::Draw(UIRenderer& ui, const GameUIData& data) const {
     else if (screen_ == UIScreen::WeaponSelect) DrawWeaponSelect(ui, data);
     else if (screen_ == UIScreen::SaveLoad) DrawSaveLoad(ui, data);
     else if (screen_ == UIScreen::Trader) DrawTrader(ui, data);
+    else if (screen_ == UIScreen::PetSelect) DrawPetSelect(ui, data);
+    else if (screen_ == UIScreen::Workshop) DrawWorkshop(ui, data);
 }
 
 } // namespace soulknight::game::ui

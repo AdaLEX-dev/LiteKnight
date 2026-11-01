@@ -43,12 +43,16 @@ public:
     const engine::animation::AnimationClip* DeathClip() const {
         return death_clips_[active_];
     }
+    const engine::animation::AnimationClip* HitClip() const {
+        return hit_clips_[active_];
+    }
 
 private:
     std::vector<engine::assets::SceneCharacter> characters_;
     std::vector<const engine::animation::AnimationClip*> idle_clips_;
     std::vector<const engine::animation::AnimationClip*> run_clips_;
     std::vector<const engine::animation::AnimationClip*> death_clips_;
+    std::vector<const engine::animation::AnimationClip*> hit_clips_;
     std::size_t active_ = 0;
     bool configured_ = false;
 };

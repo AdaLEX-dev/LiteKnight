@@ -29,6 +29,9 @@ struct ChestDefinition {
     int loot_count = 0;
     std::string appointed_weapon;
     int weapon_drop_level = -1;
+    int weapon_count = 1;
+    bool has_coin = false;
+    bool material_chest = false;
 };
 
 struct WeaponDropEntry {
@@ -49,6 +52,23 @@ struct CoinDefinition {
     float speed = 20.0f;
     float range = 7.0f;
     std::vector<std::string> frames;
+};
+
+struct MaterialDefinition {
+    std::string id;
+    std::string sprite;
+    engine::Vec2 offset{0.0f, 0.0f};
+    int price = 0;
+    int item_type = 3;
+};
+
+struct EnergyPickupDefinition {
+    std::string id;
+    std::string sprite;
+    engine::Vec2 offset{0.0f, 0.0f};
+    int value = 8;
+    float speed = 14.0f;
+    float range = 6.0f;
 };
 
 struct PortalDefinition {
@@ -74,6 +94,13 @@ public:
     const ChestDefinition* FindChest(const std::string& id) const;
     const CoinDefinition* FindCoin(const std::string& id) const;
     const PortalDefinition* FindPortal(const std::string& id) const;
+    const std::vector<MaterialDefinition>& Materials() const {
+        return materials_;
+    }
+    const MaterialDefinition* FindMaterial(const std::string& id) const;
+    const EnergyPickupDefinition* EnergyPickup() const {
+        return energy_loaded_ ? &energy_ : nullptr;
+    }
     const std::vector<WeaponDropLevel>& WeaponDrops() const {
         return weapon_drops_;
     }
@@ -88,6 +115,9 @@ private:
     std::vector<ChestDefinition> chests_;
     std::vector<CoinDefinition> coins_;
     std::vector<PortalDefinition> portals_;
+    std::vector<MaterialDefinition> materials_;
+    EnergyPickupDefinition energy_;
+    bool energy_loaded_ = false;
     std::vector<WeaponDropLevel> weapon_drops_;
 };
 

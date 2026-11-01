@@ -9,6 +9,7 @@ bool PlayerCharacterSet::Configure(const engine::assets::SceneAsset& scene,
     idle_clips_.clear();
     run_clips_.clear();
     death_clips_.clear();
+    hit_clips_.clear();
     active_ = 0;
     configured_ = false;
     if (error != nullptr) error->clear();
@@ -40,6 +41,9 @@ bool PlayerCharacterSet::Configure(const engine::assets::SceneAsset& scene,
             scene.FindAnimationIndex(character.death_animation_id);
         death_clips_.push_back(death >= 0
             ? &scene.animations[static_cast<std::size_t>(death)] : nullptr);
+        const int32_t hit = scene.FindAnimationIndex(character.hit_animation_id);
+        hit_clips_.push_back(hit >= 0
+            ? &scene.animations[static_cast<std::size_t>(hit)] : nullptr);
     }
     configured_ = true;
     return true;

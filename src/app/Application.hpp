@@ -34,9 +34,13 @@
 #include "game/ui/UIAssets.hpp"
 #include "game/ui/UIRenderer.hpp"
 #include "game/hub/PlantSystem.hpp"
+#include "game/hub/TrainingStake.hpp"
+#include "game/hub/Workshop.hpp"
+#include "game/pet/PetSystem.hpp"
 #include "game/player/Ability.hpp"
 #include "game/items/ItemAssets.hpp"
 #include "game/items/ItemWorld.hpp"
+#include "game/items/BoxSystem.hpp"
 #include "game/player/Aim.hpp"
 #include "game/player/Energy.hpp"
 #include "game/save/SaveManager.hpp"
@@ -47,6 +51,7 @@
 #include "game/room/ObstacleField.hpp"
 #include "game/room/RoomDoorController.hpp"
 #include "game/room/DungeonPlan.hpp"
+#include "game/room/BiomeSystem.hpp"
 #include "game/room/RoomManager.hpp"
 
 #include <cstdint>
@@ -99,6 +104,7 @@ private:
     void ConfigureReviewMode();
     void TeleportForReview(const engine::Vec2& position);
     bool LoadWorldRooms();
+    bool AdvanceDungeonLevel();
     void ConfigureWorldGraph();
     bool SwitchRoom(const std::string& door_id = {});
     bool ActivateRoom(const std::string& room_id,
@@ -135,6 +141,10 @@ private:
     void ApplyActiveCharacterStats();
     void ConfigureSecondaryWeapon();
     void ConfigureTraderOffers();
+    void PopulateBiomeEnemies();
+    void ShowDialogue(const std::string& speaker, const std::string& text,
+                      float seconds = 2.5f);
+    void UpdateTrainingStake(float delta_seconds, int melee_damage);
     void BuyTraderItem();
     void ConfigureAbilities();
     void ActivateKnightPower();
@@ -217,7 +227,13 @@ private:
     soulknight::game::player::EnergyState player_energy_;
     soulknight::game::items::ItemAssets item_assets_;
     soulknight::game::items::ItemWorld item_world_;
+    soulknight::game::items::BoxSystem boxes_;
     soulknight::game::hub::PlantSystem plant_system_;
+    soulknight::game::hub::TrainingStake training_stake_;
+    soulknight::game::hub::Workshop workshop_;
+    std::string workshop_status_;
+    soulknight::game::pet::PetSystem pet_;
+    std::string active_pet_id_;
     engine::Vec2 aim_direction_{1.0f, 0.0f};
     engine::Vec2 previous_aim_direction_{1.0f, 0.0f};
     engine::Vec2 render_aim_direction_{1.0f, 0.0f};
@@ -250,7 +266,8 @@ private:
         soulknight::engine::assets::SceneAsset scene;
     };
     std::vector<StoredRoom> stored_rooms_;
-    std::vector<soulknight::game::room::DungeonRoomTemplate> world_templates_;
+    soulknight::game::room::DungeonTemplateSet world_templates_;
+    soulknight::game::room::BiomeSystem biome_;
     std::string world_hub_id_ = "hero_room";
     std::string world_hub_path_ = "scenes/hero_room/scene.json";
     bool multi_room_world_ = false;
@@ -273,7 +290,15 @@ private:
     bool review_mode_ = false;
     double return_portal_confirm_seconds_ = -1.0;
     float room_title_timer_ = 0.0f;
+    float room_clear_timer_ = 0.0f;
     float room_transition_flash_ = 0.0f;
+    std::string dialogue_speaker_;
+    std::string dialogue_text_;
+    float dialogue_timer_ = 0.0f;
+    int stake_damage_ = 0;
+    engine::Vec2 stake_damage_screen_{0.0f, 0.0f};
+    float stake_damage_timer_ = 0.0f;
+    unsigned int npc_talk_counter_ = 0;
     std::chrono::steady_clock::time_point last_present_time_{};
     double present_window_sum_ms_ = 0.0;
     double present_window_min_ms_ = 0.0;
@@ -298,6 +323,7 @@ private:
     std::string scene_sha256_;
     std::string reference_apk_sha256_;
     std::string asset_inventory_sha256_;
+    std::uint32_t texture_generation_ = 0;
 
     bool sdl_initialized_ = false;
     bool vulkan_library_loaded_ = false;

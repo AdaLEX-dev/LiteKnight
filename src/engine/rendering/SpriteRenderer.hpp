@@ -42,6 +42,10 @@ public:
     bool Initialize(VulkanContext& context,
                     const std::vector<TextureUpload>& textures,
                     const std::filesystem::path& shader_dir);
+    // Adds textures discovered after initialization (dungeon level loading).
+    // Descriptor capacity is reserved at initialization.
+    bool AddTextures(VulkanContext& context,
+                     const std::vector<TextureUpload>& textures);
     void Shutdown(VulkanContext& context);
     bool Render(VulkanContext& context, SpriteBatch& batch, const Camera2D& camera);
 

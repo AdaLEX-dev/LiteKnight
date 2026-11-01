@@ -196,6 +196,7 @@ bool Application::Initialize() {
     projectiles_.Clear();
     stored_rooms_.clear();
     item_world_.Reset();
+    ++texture_generation_;
     room_enemy_snapshots_.clear();
     cleared_rooms_.clear();
     chest_spawned_rooms_.clear();
@@ -235,6 +236,15 @@ bool Application::Initialize() {
             LOG_FATAL_APP("Scene loaded with no textures/sprites/instances");
             return false;
         }
+        std::string biome_error;
+        if (biome_.Load(filesystem_, "scenes/biomes.json", &biome_error)) {
+            LOG_INFO_APP("Biomes: {} recovered levels, current={}",
+                         biome_.Count(),
+                         biome_.Current() != nullptr
+                             ? biome_.Current()->id : "none");
+        } else {
+            LOG_WARN_APP("Biomes: {}", biome_error);
+        }
         LoadWorldRooms();
         std::string catalogue_error;
         if (weapon_catalogue_.Load(filesystem_,
@@ -260,6 +270,14 @@ bool Application::Initialize() {
         } else {
             LOG_WARN_APP("Item assets unavailable ({}); chests/coins disabled",
                          item_error);
+        }
+        std::string workshop_error;
+        if (workshop_.Load(filesystem_, "scenes/items/weapon_materials.json",
+                           &workshop_error)) {
+            LOG_INFO_APP("Workshop: {} recovered recipes",
+                         workshop_.Recipes().size());
+        } else {
+            LOG_WARN_APP("Workshop: {}", workshop_error);
         }
         AssignUniqueTextureIds(scene_, 0x01000000u);
         for (std::size_t i = 0; i < stored_rooms_.size(); ++i) {
@@ -404,13 +422,17 @@ bool Application::Initialize() {
                 weapon_catalogue_.MarkRuntimeIntegrated(definition.id);
             }
             weapon_inventory_.Configure(weapons_.Count());
-            // CONFIRMED baseline: c00's WeaponInfo entry carries the
-            // InitWeapon tag and is weapon_000 (Bad Pistol). The reference
-            // GetInitWeaponName path installs it before the first room.
+            // CONFIRMED GetInitWeaponName baseline. Scene characters carry the
+            // recovered starting_weapon id from character_loadouts.json.
             if (player_characters_.Count() > 0 &&
-                player_characters_.Active().id == "c00" &&
-                weapons_.Count() > 0) {
-                (void)weapon_inventory_.EquipActive(0);
+                !player_characters_.Active().starting_weapon.empty()) {
+                for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+                    if (weapons_.Definitions()[i].id ==
+                        player_characters_.Active().starting_weapon) {
+                        (void)weapon_inventory_.EquipActive(i);
+                        break;
+                    }
+                }
             }
             ConfigureActiveWeapon();
             ConfigureSecondaryWeapon();
@@ -434,6 +456,21 @@ bool Application::Initialize() {
             asset_lab_.Open();
         }
         ConfigureRoomItems();
+        boxes_.Configure(scene_, obstacles_);
+        std::string pet_error;
+        if (pet_.Configure(scene_, &pet_error)) {
+            if (!active_pet_id_.empty()) pet_.SelectSaved(active_pet_id_);
+            active_pet_id_ = pet_.SelectedId();
+            LOG_INFO_APP("Pets: {} recovered, active={}", pet_.Count(),
+                         active_pet_id_);
+        } else {
+            LOG_INFO_APP("Pets: {}", pet_error);
+        }
+        if (training_stake_.Configure(scene_)) {
+            LOG_INFO_APP("Training stake: hp={} hit={:.3f}s",
+                         scene_.training_stake.hp,
+                         scene_.training_stake.hit_duration);
+        }
         std::string door_error;
         if (!room_doors_.Configure(scene_, &door_error)) {
             LOG_FATAL_APP("Room door configuration failed: {}", door_error);
@@ -447,6 +484,7 @@ bool Application::Initialize() {
             room_clear_pending_ = true;
         }
         RebuildCollisionWorld();
+        PopulateBiomeEnemies();
         LOG_INFO_APP("Doors: {} recovered (open/close clips), initial target {}",
                      room_doors_.Count(),
                      room_doors_.TargetOpen() ? "open" : "closed");
@@ -651,6 +689,16 @@ void Application::BuildRenderBatch() {
             &scene_.sprites[instance.sprite_index];
         const bool is_player_body =
             instance_index == player_render_.body_instance;
+        const bool is_stake_body = scene_.has_training_stake &&
+            instance.path == "room/objects/stake/img/body/SpriteRenderer";
+        if (is_stake_body) {
+            const int32_t stake_sprite = training_stake_.CurrentSprite();
+            if (stake_sprite >= 0 &&
+                static_cast<std::size_t>(stake_sprite) < scene_.sprites.size()) {
+                sprite = &scene_.sprites[
+                    static_cast<std::size_t>(stake_sprite)];
+            }
+        }
         if (is_player_body && player_characters_.Count() > 0) {
             const engine::assets::SceneCharacter& character =
                 player_characters_.Active();
@@ -697,6 +745,9 @@ void Application::BuildRenderBatch() {
         engine::rendering::SpriteDraw draw;
         draw.position = engine::rendering::ResolvePlayerRenderPosition(
             scene_, player_render_, instance_index, render_player_position_);
+        if (is_stake_body) {
+            draw.position += training_stake_.RenderOffset();
+        }
         if (door_visual_override && instance.door_role == "ornament") {
             // The ornament instance is authored at leaf + (0,1). The clip
             // animates the child's local y between 0.1 and 1.
@@ -721,6 +772,9 @@ void Application::BuildRenderBatch() {
         draw.pivot = sprite->pivot;
         draw.rotation = instance.rotation;
         draw.flip_x = instance.flip_x;
+        if (is_stake_body && training_stake_.HitFlash()) {
+            draw.color = engine::Color{255, 235, 215, 255};
+        }
         if (is_player_body && hit_flash_timer_ > 0.0f) {
             const bool bright = static_cast<int>(hit_flash_timer_ * 100.0f) % 2 == 0;
             draw.color = bright ? engine::Color{255, 245, 235, 255}
@@ -734,11 +788,50 @@ void Application::BuildRenderBatch() {
         (void)sprite_batch_.DrawSprite(draw);
     }
 
+    if (pet_.Count() > 0) {
+        const auto draw_pet_sprite = [&](int32_t sprite_index,
+                                          const engine::Vec2& position,
+                                          bool flip_x, int32_t tie_break) {
+            if (sprite_index < 0 ||
+                static_cast<std::size_t>(sprite_index) >= scene_.sprites.size()) {
+                return;
+            }
+            const engine::assets::SpriteData& sprite =
+                scene_.sprites[static_cast<std::size_t>(sprite_index)];
+            engine::rendering::SpriteDraw draw;
+            draw.position = position;
+            draw.size = sprite.WorldSize();
+            draw.uv = sprite.UvRect();
+            draw.color = engine::Color::White();
+            draw.layer = engine::rendering::SortLayer::Character;
+            draw.sorting_order = engine::rendering::WorldDepthOrder(
+                position.y, tie_break);
+            draw.texture_id = sprite.texture_id;
+            draw.pivot = sprite.pivot;
+            draw.flip_x = flip_x;
+            (void)sprite_batch_.DrawSprite(draw);
+        };
+        draw_pet_sprite(pet_.ShadowSprite(), pet_.Position(),
+                        pet_.FacingLeft(), 1);
+        draw_pet_sprite(pet_.CurrentSprite(), pet_.Position(),
+                        pet_.FacingLeft(), 6);
+    }
+
     if (!obstacles_.Variants().empty()) {
-        const engine::assets::ObstacleVariant& obstacle_variant =
-            obstacles_.ActiveVariant();
-        for (const engine::assets::ObstacleMarker& marker :
-             obstacles_.Markers()) {
+        for (std::size_t marker_index = 0;
+             marker_index < obstacles_.Markers().size(); ++marker_index) {
+            if (!obstacles_.MarkerAlive(marker_index)) continue;
+            const engine::assets::ObstacleMarker& marker =
+                obstacles_.Markers()[marker_index];
+            const engine::assets::ObstacleVariant& obstacle_variant =
+                obstacles_.VariantForMarker(marker);
+            bool box_hit_flash = false;
+            for (const auto& box : boxes_.Boxes()) {
+                if (box.marker_index == marker_index && box.hit_flash > 0.0f) {
+                    box_hit_flash = true;
+                    break;
+                }
+            }
             for (const engine::assets::ObstacleVisual& visual :
                  obstacle_variant.visuals) {
                 if (visual.sprite_index < 0 ||
@@ -755,7 +848,8 @@ void Application::BuildRenderBatch() {
                     sprite.WorldSize().y * visual.scale.y
                 };
                 draw.uv = sprite.UvRect();
-                draw.color = visual.color;
+                draw.color = box_hit_flash
+                    ? engine::Color{255, 235, 215, 255} : visual.color;
                 if (engine::rendering::IsCharacterSortedUnityLayer(
                         visual.sorting_layer)) {
                     draw.layer = engine::rendering::SortLayer::Character;
@@ -805,6 +899,28 @@ void Application::BuildRenderBatch() {
             }
             (void)sprite_batch_.DrawSprite(draw);
         };
+        if (const auto* energy = item_assets_.EnergyPickup(); energy != nullptr) {
+            const int32_t sprite_index = scene_.FindSpriteIndex(energy->sprite);
+            if (sprite_index >= 0 &&
+                static_cast<std::size_t>(sprite_index) < scene_.sprites.size()) {
+                const engine::assets::SpriteData& sprite =
+                    scene_.sprites[static_cast<std::size_t>(sprite_index)];
+                for (const auto& bubble : boxes_.Bubbles()) {
+                    if (!bubble.active) continue;
+                    engine::rendering::SpriteDraw draw;
+                    draw.position = bubble.position + energy->offset;
+                    draw.size = sprite.WorldSize();
+                    draw.uv = sprite.UvRect();
+                    draw.color = engine::Color::White();
+                    draw.layer = engine::rendering::SortLayer::Character;
+                    draw.sorting_order = engine::rendering::WorldDepthOrder(
+                        draw.position.y, 6);
+                    draw.texture_id = sprite.texture_id;
+                    draw.pivot = sprite.pivot;
+                    (void)sprite_batch_.DrawSprite(draw);
+                }
+            }
+        }
         for (const auto& chest : item_world_.Chests()) {
             const auto* definition = item_assets_.FindChest(chest.definition);
             if (definition == nullptr) continue;
@@ -941,7 +1057,7 @@ void Application::BuildRenderBatch() {
             sprite_batch_, scene_, weapon_.Definition(), player_.Position(),
             render_aim_direction_,
             facing_ == engine::locomotion::FacingDirection::Left,
-            player_dead_);
+            player_dead_, weapon_.VisualTime(), weapon_.IsAttacking());
         const bool dual_active = abilities_.Count() > 0 &&
             abilities_.Abilities()[0].state ==
                 soulknight::game::player::AbilityState::Active;
@@ -952,7 +1068,9 @@ void Application::BuildRenderBatch() {
             soulknight::game::weapons::WeaponRenderer::DrawAt(
                 sprite_batch_, scene_, secondary_weapon_.Definition(),
                 player_.Position(), render_aim_direction_,
-                {0.55f * mirror, 0.6f}, player_dead_);
+                {0.55f * mirror, 0.6f}, player_dead_,
+                secondary_weapon_.VisualTime(),
+                secondary_weapon_.IsAttacking());
         }
     }
 
@@ -1306,7 +1424,9 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
                 }
             } else if (scancode == SDL_SCANCODE_G) {
                 SpawnWeaponPickup(weapons_.ActiveIndex());
-            } else if (scancode == SDL_SCANCODE_O) {
+            } else if (scancode == SDL_SCANCODE_O &&
+                       (config_.devroom || config_.review_mode)) {
+                // Developer-only control; normal gameplay never requires it.
                 if (!scene_.doors.empty()) {
                     ToggleAllDoors();
                 } else {
@@ -1333,6 +1453,31 @@ void Application::HandleSceneKeyDown(SDL_Scancode scancode,
             } else if ((modifiers & SDL_KMOD_CTRL) != 0 &&
                        scancode == SDL_SCANCODE_0) {
                 SwitchCharacter(9);
+            } else if (scancode == SDL_SCANCODE_D &&
+                       game_ui_.Screen() ==
+                           soulknight::game::ui::UIScreen::Workshop) {
+                const std::size_t slot = weapon_inventory_.ActiveSlot();
+                if (weapon_inventory_.SlotOccupied(slot)) {
+                    const std::size_t index = weapon_inventory_.Slot(slot);
+                    if (index < weapons_.Count()) {
+                        const std::string weapon_id =
+                            weapons_.Definitions()[index].id;
+                        if (workshop_.AddMaterialsForDismantle(weapon_id) !=
+                            nullptr) {
+                            (void)weapon_inventory_.ClearActive();
+                            ConfigureActiveWeapon();
+                            ConfigureSecondaryWeapon();
+                            workshop_status_ =
+                                "DISMANTLED " + weapon_id;
+                            PlayEffect("pickup");
+                            LOG_INFO_APP("Workshop: dismantled {}", weapon_id);
+                            SaveGameToDisk();
+                        } else {
+                            workshop_status_ = "NO RECOVERED RECIPE";
+                        }
+                    }
+                }
+                return;
             } else if (scancode == SDL_SCANCODE_Q) {
                 ActivateKnightPower();
             } else if (scancode == SDL_SCANCODE_TAB) {
@@ -1431,6 +1576,49 @@ void Application::ProcessUIAction() {
             }
             game_ui_.CloseSelection();
             break;
+        case UIAction::CraftWeapon: {
+            const int selected = game_ui_.WorkshopSelection();
+            if (selected < 0 ||
+                static_cast<std::size_t>(selected) >= workshop_.Recipes().size()) {
+                break;
+            }
+            const auto& recipe = workshop_.Recipes()[
+                static_cast<std::size_t>(selected)];
+            std::size_t weapon_index = weapons_.Count();
+            for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+                if (weapons_.Definitions()[i].id == recipe.weapon_id) {
+                    weapon_index = i;
+                    break;
+                }
+            }
+            if (weapon_index >= weapons_.Count()) {
+                workshop_status_ = "NOT AVAILABLE IN THIS ROOM";
+                break;
+            }
+            if (!workshop_.CanCraft(recipe.weapon_id)) {
+                workshop_status_ = "MISSING MATERIALS";
+                PlayUiSound("ui_click");
+                break;
+            }
+            if (workshop_.ConsumeForCraft(recipe.weapon_id)) {
+                const std::size_t slot = weapon_inventory_.ActiveSlot();
+                if (weapon_inventory_.SlotOccupied(slot)) {
+                    const std::size_t old = weapon_inventory_.Slot(slot);
+                    if (old < weapons_.Count()) {
+                        (void)weapon_pickups_.Spawn(
+                            old, player_.Position() + engine::Vec2{1.2f, 0.0f});
+                    }
+                }
+                (void)weapon_inventory_.EquipActive(weapon_index);
+                ConfigureActiveWeapon();
+                ConfigureSecondaryWeapon();
+                workshop_status_ = "CRAFTED " + recipe.name;
+                PlayEffect("pickup");
+                LOG_INFO_APP("Workshop: crafted {}", recipe.weapon_id);
+                SaveGameToDisk();
+            }
+            break;
+        }
         case UIAction::ToggleAimMode:
             aim_mode_ = aim_mode_ == soulknight::game::player::AimMode::Manual
                 ? soulknight::game::player::AimMode::Auto
@@ -1464,6 +1652,17 @@ void Application::ProcessUIAction() {
             break;
         case UIAction::BuyTraderItem:
             BuyTraderItem();
+            break;
+        case UIAction::SelectPet:
+            if (pet_.Select(static_cast<std::size_t>(
+                    std::max(0, game_ui_.PetSelection())))) {
+                active_pet_id_ = pet_.SelectedId();
+                PlayEffect("pickup", 0.6f);
+                LOG_INFO_APP("Pet selected: {} ({})", pet_.Selected()->display_name,
+                             active_pet_id_);
+                if (scene_mode_) SaveGameToDisk();
+            }
+            game_ui_.CloseSelection();
             break;
         case UIAction::DeleteSlot:
             if (save_manager_ != nullptr) {
@@ -1767,14 +1966,23 @@ void Application::DrawGameUI() {
         std::string icon;
         if (room.id == "hero_room") {
             icon = "home";
-        } else if (const engine::assets::SceneAsset* room_scene =
-                       room_scene_for(room.id); room_scene != nullptr) {
-            switch (room_scene->room.type) {
+        } else {
+            switch (room.type) {
                 case 2: icon = "boss"; break;
-                case 3: icon = "special"; break;
-                case 4: icon = "chest"; break;
-                case 5: icon = "special"; break;
+                case 3: icon = "chest"; break;
+                case 4: icon = "special"; break;
                 default: break;
+            }
+            if (icon.empty()) {
+                if (const engine::assets::SceneAsset* room_scene =
+                        room_scene_for(room.id); room_scene != nullptr) {
+                    switch (room_scene->room.type) {
+                        case 2: icon = "boss"; break;
+                        case 3: icon = "special"; break;
+                        case 4: icon = "chest"; break;
+                        default: break;
+                    }
+                }
             }
         }
         data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
@@ -1796,6 +2004,7 @@ void Application::DrawGameUI() {
     data.room_clear_label = scene_.room.clear_label;
     data.room_cleared = cleared_rooms_.contains(scene_.id);
     data.room_title_timer = room_title_timer_;
+    data.room_clear_timer = room_clear_timer_;
     data.transition_flash = room_transition_flash_;
     if (scene_.is_hub) {
         // Native conceptual nodes for the physically accessible hub areas. The
@@ -1840,9 +2049,52 @@ void Application::DrawGameUI() {
         if (marker->kind == "portal" &&
             return_portal_confirm_seconds_ >= 0.0 &&
             NowSeconds() - return_portal_confirm_seconds_ <= 3.0) {
-            data.interaction_label = "RETURN TO LIVING ROOM? E AGAIN";
+            data.interaction_label = "NEXT LEVEL? E AGAIN";
         }
         data.interaction_screen = render_camera_.WorldToScreen(marker->position);
+    }
+    data.dialogue_speaker = dialogue_speaker_;
+    data.dialogue_text = dialogue_text_;
+    data.dialogue_timer = dialogue_timer_;
+    data.stake_damage = stake_damage_;
+    data.stake_damage_screen = stake_damage_screen_;
+    data.stake_damage_timer = stake_damage_timer_;
+    data.workshop_status = workshop_status_;
+    data.workshop_selected = game_ui_.WorkshopSelection();
+    for (const auto& recipe : workshop_.Recipes()) {
+        soulknight::game::ui::WorkshopRecipeView view;
+        view.weapon_id = recipe.weapon_id;
+        view.name = recipe.name;
+        std::size_t weapon_index = weapons_.Count();
+        for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+            if (weapons_.Definitions()[i].id == recipe.weapon_id) {
+                weapon_index = i;
+                break;
+            }
+        }
+        if (weapon_index < weapons_.Count()) {
+            const auto& definition = weapons_.Definitions()[weapon_index];
+            view.sprite_index = definition.visual_sprite_index;
+            view.damage = definition.damage;
+            view.energy_cost = definition.EnergyCost();
+            if (!definition.display_name.empty()) view.name = definition.display_name;
+        }
+        view.affordable = weapon_index < weapons_.Count() &&
+            workshop_.CanCraft(recipe.weapon_id);
+        for (const auto& material : recipe.materials) {
+            char line[160];
+            std::snprintf(line, sizeof(line), "%s  x%d  (have %d)",
+                          workshop_.MaterialName(material.id).c_str(),
+                          material.count,
+                          workshop_.MaterialCount(material.id));
+            view.materials.push_back(line);
+        }
+        data.workshop_recipes.push_back(std::move(view));
+    }
+    data.selected_pet = static_cast<int>(pet_.SelectedIndex());
+    for (const auto& definition : pet_.Definitions()) {
+        data.pet_names.push_back(definition.display_name);
+        data.pet_sprites.push_back(definition.body_sprite_index);
     }
     soulknight::game::ui::UIRenderContext context;
     context.camera = &render_camera_;
@@ -2022,13 +2274,25 @@ void Application::SwitchCharacter(std::size_t index) {
     if (!player_characters_.Select(index)) return;
     locomotion_animator_.Configure(player_characters_.IdleClip(),
                                    player_characters_.RunClip(),
-                                   player_characters_.DeathClip());
+                                   player_characters_.DeathClip(),
+                                   player_characters_.HitClip());
     last_animation_sprite_.clear();
     last_animation_state_ = engine::animation::LocomotionState::Idle;
     animation_logs_remaining_ = 8;
     ApplyActiveCharacterStats();
     ConfigureAbilities();
     const auto& character = player_characters_.Active();
+    if (!character.starting_weapon.empty() && weapons_.Count() > 0) {
+        for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+            if (weapons_.Definitions()[i].id == character.starting_weapon) {
+                weapon_inventory_.SwitchSlot(0);
+                (void)weapon_inventory_.EquipActive(i);
+                ConfigureActiveWeapon();
+                ConfigureSecondaryWeapon();
+                break;
+            }
+        }
+    }
     LOG_INFO_APP("Character switch: [{}] {} (controller {}, body={}, idle={}, run={})",
                  player_characters_.ActiveIndex() + 1, character.id,
                  character.controller_name, character.body_sprite_id,
@@ -2247,8 +2511,41 @@ void Application::SaveGameToDisk() {
     data.hub_visited = scene_.is_hub;
     data.auto_aim = aim_mode_ == soulknight::game::player::AimMode::Auto;
     data.map_seed = map_seed_;
+    data.pet_id = active_pet_id_;
+    data.cleared_rooms.assign(cleared_rooms_.begin(), cleared_rooms_.end());
+    data.chest_spawned_rooms.assign(chest_spawned_rooms_.begin(),
+                                    chest_spawned_rooms_.end());
+    data.materials.clear();
+    for (const auto& material : workshop_.SnapshotMaterials()) {
+        data.materials.push_back({material.id, material.count});
+    }
     for (const auto& plot : plant_system_.Plots()) {
         if (!plot.species.empty()) data.plants.push_back(plot.species);
+    }
+    for (const auto& snapshot : item_world_.SnapshotRooms()) {
+        soulknight::game::save::SaveRoomItems room;
+        room.id = snapshot.id;
+        for (const auto& chest : snapshot.chests) {
+            soulknight::game::save::SaveChestState saved;
+            saved.definition = chest.definition;
+            saved.x = chest.position.x;
+            saved.y = chest.position.y;
+            saved.state = static_cast<int>(chest.state);
+            saved.timer = chest.timer;
+            saved.loot_spawned = chest.loot_spawned;
+            saved.pending_weapon = chest.pending_weapon;
+            saved.pending_weapons = chest.pending_weapons;
+            room.chests.push_back(std::move(saved));
+        }
+        for (const auto& coin : snapshot.coins) {
+            soulknight::game::save::SaveCoinState saved;
+            saved.definition = coin.definition;
+            saved.x = coin.position.x;
+            saved.y = coin.position.y;
+            saved.active = coin.active;
+            room.coins.push_back(std::move(saved));
+        }
+        data.rooms.push_back(std::move(room));
     }
     std::string error;
     if (save_manager_->Save(data, &error)) {
@@ -2405,6 +2702,44 @@ void Application::LoadGameFromDisk() {
     player_energy_.Reset(data.max_energy, data.energy);
     player_coins_ = std::max(0, data.coins);
     player_orbs_ = std::max(0, data.orbs);
+    active_pet_id_ = data.pet_id;
+    if (!active_pet_id_.empty()) pet_.SelectSaved(active_pet_id_);
+    std::vector<soulknight::game::hub::CraftMaterial> materials;
+    for (const auto& material : data.materials) {
+        materials.push_back({material.id, material.count});
+    }
+    workshop_.RestoreMaterials(materials);
+    cleared_rooms_.clear();
+    cleared_rooms_.insert(data.cleared_rooms.begin(), data.cleared_rooms.end());
+    chest_spawned_rooms_.clear();
+    chest_spawned_rooms_.insert(data.chest_spawned_rooms.begin(),
+                                data.chest_spawned_rooms.end());
+    std::vector<soulknight::game::items::RoomItemSnapshot> room_items;
+    for (const auto& room : data.rooms) {
+        soulknight::game::items::RoomItemSnapshot snapshot;
+        snapshot.id = room.id;
+        for (const auto& chest : room.chests) {
+            soulknight::game::items::ChestInstance saved;
+            saved.definition = chest.definition;
+            saved.position = {chest.x, chest.y};
+            saved.state = static_cast<soulknight::game::items::ChestState>(
+                chest.state);
+            saved.timer = chest.timer;
+            saved.loot_spawned = chest.loot_spawned;
+            saved.pending_weapon = chest.pending_weapon;
+            saved.pending_weapons = chest.pending_weapons;
+            snapshot.chests.push_back(std::move(saved));
+        }
+        for (const auto& coin : room.coins) {
+            soulknight::game::items::CoinInstance saved;
+            saved.definition = coin.definition;
+            saved.position = {coin.x, coin.y};
+            saved.active = coin.active;
+            snapshot.coins.push_back(std::move(saved));
+        }
+        room_items.push_back(std::move(snapshot));
+    }
+    item_world_.RestoreRooms(room_items);
     aim_mode_ = data.auto_aim ? soulknight::game::player::AimMode::Auto
                               : soulknight::game::player::AimMode::Manual;
     if (data.fullscreen != window_.IsFullscreen()) {
@@ -2448,6 +2783,12 @@ const engine::assets::InteractionMarker* Application::NearbyInteraction() const 
     const engine::assets::InteractionMarker* best = nullptr;
     float best_distance = 0.0f;
     for (const auto& marker : scene_.interaction_markers) {
+        // The hub hides the player's duplicate hero NPC and its dialogue
+        // marker, matching the reference character occupancy.
+        if (!marker.character_id.empty() && player_characters_.Count() > 0 &&
+            marker.character_id == player_characters_.Active().id) {
+            continue;
+        }
         const float radius = marker.radius > 0.0f ? marker.radius : 2.0f;
         const float distance =
             (marker.position - player_.Position()).LengthSquared();
@@ -2479,12 +2820,13 @@ void Application::ConfigureRoomItems() {
     }
     item_world_.SetAvailableWeapons(std::move(available));
     const bool dungeon = !scene_.is_hub &&
-                         scene_.id.rfind("r1_", 0) == 0;
-    current_chest_definition_ = "chest00";
-    if (scene_.id.find("r1_2") != std::string::npos) {
-        current_chest_definition_ = "chest01";
-    } else if (scene_.id.find("r1_3") != std::string::npos) {
-        current_chest_definition_ = "chest02";
+                         scene_.id.rfind("r_", 0) == 0;
+    item_world_.SetChestLevel(
+        biome_.Current() != nullptr ? biome_.Current()->chest_level : 1);
+    current_chest_definition_ = "chest01";
+    const bool chest_room = scene_.id == "r_chest_visual";
+    if (chest_room) {
+        current_chest_definition_ = "chest_room_reward";
     }
     item_world_.EnterRoom(scene_.id, false,
                           scene_.spawn + engine::Vec2{0.0f, 2.4f},
@@ -2498,16 +2840,60 @@ void Application::ConfigureRoomItems() {
         item_world_.AddChest("chest02", scene_.spawn + engine::Vec2{4.0f, 2.0f});
         chest_spawned_rooms_.insert(scene_.id);
     } else if (dungeon && !chest_spawned_rooms_.contains(scene_.id) &&
-               (cleared_rooms_.contains(scene_.id) ||
-                enemies_.AliveCount() == 0)) {
+               ((chest_room) ||
+                (scene_.room.type == 1 &&
+                 (cleared_rooms_.contains(scene_.id) ||
+                  enemies_.AliveCount() == 0)))) {
         item_world_.AddChest(current_chest_definition_,
                              scene_.spawn + engine::Vec2{0.0f, 2.4f});
         chest_spawned_rooms_.insert(scene_.id);
     }
+    // Recovered r_weapon_provider room: offer weapons from the level's
+    // WeaponDropInfo pool. The room prefab itself contains a b_point; the
+    // native test lays the offers on free floor around the room center.
+    if (scene_.id == "r_weapon_provider_visual" &&
+        !chest_spawned_rooms_.contains(scene_.id)) {
+        int level = biome_.Current() != nullptr
+            ? biome_.Current()->chest_level : 1;
+        std::vector<const soulknight::game::items::WeaponDropEntry*> entries;
+        for (const auto& drop : item_assets_.WeaponDrops()) {
+            if (drop.level != level) continue;
+            for (const auto& entry : drop.entries) entries.push_back(&entry);
+        }
+        if (!entries.empty()) {
+            engine::RGRandomStream random;
+            random.SetRandomSeed(static_cast<std::int32_t>(
+                (static_cast<std::uint32_t>(map_seed_) ^ 0x57504E31u) &
+                0x7FFFFFFFu));
+            const engine::Vec2 offsets[] = {
+                {-2.0f, 2.0f}, {0.0f, 2.4f}, {2.0f, 2.0f}};
+            for (int offer = 0; offer < 3; ++offer) {
+                const auto* entry = entries[static_cast<std::size_t>(
+                    random.Range(0, static_cast<int>(entries.size())))];
+                std::size_t index = weapons_.Count();
+                for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+                    if (weapons_.Definitions()[i].id == entry->weapon) {
+                        index = i;
+                        break;
+                    }
+                }
+                if (index >= weapons_.Count()) continue;
+                SpawnWeaponPickupAt(index, scene_.spawn + offsets[offer]);
+            }
+            chest_spawned_rooms_.insert(scene_.id);
+            LOG_INFO_APP("Weapon provider: offered 3 level-{} weapons", level);
+        }
+    }
+
     // The reference transfer_gate_02 is the actual portal object. The native
     // room scenes do not serialize a return gate, so place the recovered asset
     // at a deterministic clear floor position and expose the normal E prompt.
-    if (dungeon) {
+    if (scene_.is_hub && item_assets_.IsLoaded() &&
+        !chest_spawned_rooms_.contains(scene_.id + ":material")) {
+        item_world_.AddChest("chest03", {48.93f, 0.81f});
+        chest_spawned_rooms_.insert(scene_.id + ":material");
+    }
+    if (dungeon && scene_.room.type == 2) {
         const bool has_portal = std::any_of(
             scene_.interaction_markers.begin(), scene_.interaction_markers.end(),
             [](const engine::assets::InteractionMarker& marker) {
@@ -2517,12 +2903,19 @@ void Application::ConfigureRoomItems() {
             engine::assets::InteractionMarker portal;
             portal.id = "return_portal";
             portal.kind = "portal";
-            portal.label = "RETURN TO LIVING ROOM";
+            portal.label = "NEXT LEVEL";
             portal.position = scene_.spawn + engine::Vec2{4.5f, 3.0f};
             portal.radius = 3.2f;
             scene_.interaction_markers.push_back(std::move(portal));
         }
     }
+}
+
+void Application::ShowDialogue(const std::string& speaker,
+                               const std::string& text, float seconds) {
+    dialogue_speaker_ = speaker;
+    dialogue_text_ = text;
+    dialogue_timer_ = std::max(0.1f, seconds);
 }
 
 void Application::TryInteract() {
@@ -2531,14 +2924,44 @@ void Application::TryInteract() {
         if (NearOpenDoor()) SwitchRoom();
         return;
     }
-    if (marker->kind == "character") {
+    if (marker->kind == "npc") {
+        // Recovered TalkCharNpc/TalkTrigger: choose one of the two localized
+        // lines deterministically, show the speech panel and play the item
+        // trigger effect. The simulation is not paused.
+        const bool alternate = marker->text_alt.size() > 0 &&
+            (npc_talk_counter_++ % 2u) == 1u;
+        ShowDialogue(marker->speaker, alternate ? marker->text_alt
+                                                : marker->text, 2.5f);
+        PlayEffect("pickup", 0.55f);
+        LOG_INFO_APP("NPC talk: {} ({})", marker->speaker,
+                     marker->dialogue_term);
+    } else if (marker->kind == "pet") {
+        std::vector<std::string> names;
+        std::vector<int> sprites;
+        for (const auto& definition : pet_.Definitions()) {
+            names.push_back(definition.display_name);
+            sprites.push_back(definition.body_sprite_index);
+        }
+        game_ui_.OpenPetSelect(static_cast<int>(pet_.SelectedIndex()),
+                               static_cast<int>(names.size()));
+        LOG_INFO_APP("Pet menu: {} recovered pet(s)", names.size());
+    } else if (marker->kind == "character") {
         game_ui_.OpenCharacterSelect(
             static_cast<int>(player_characters_.ActiveIndex()));
         LOG_INFO_APP("Living Room: character station opened");
     } else if (marker->kind == "forge") {
+        game_ui_.OpenWorkshop(0, static_cast<int>(workshop_.Recipes().size()));
+        workshop_status_.clear();
+        LOG_INFO_APP("Living Room: workshop opened ({} recipes)",
+                     workshop_.Recipes().size());
+    } else if (marker->kind == "weapon_station") {
         game_ui_.OpenWeaponSelect(
             static_cast<int>(weapon_inventory_.ActiveIndex()));
-        LOG_INFO_APP("Living Room: forge/weapon station opened (recipe system UNRECOVERED)");
+        LOG_INFO_APP("Living Room: weapon station inventory opened");
+    } else if (marker->kind == "material_chest") {
+        game_ui_.OpenWorkshop(0, static_cast<int>(workshop_.Recipes().size()));
+        workshop_status_ = "MATERIAL INVENTORY";
+        LOG_INFO_APP("Living Room: material chest inventory opened");
     } else if (marker->kind == "garden") {
         const int plot = plant_system_.NearestPlot(player_.Position(), 4.0f);
         if (plot >= 0) {
@@ -2560,17 +2983,30 @@ void Application::TryInteract() {
         LOG_INFO_APP("Trader: opened orb weapon inventory");
         PlayUiSound("ui_click");
     } else if (marker->kind == "portal") {
+        if (enemies_.AliveCount() > 0 &&
+            !cleared_rooms_.contains(scene_.id)) {
+            ShowDialogue("", "DEFEAT ALL ENEMIES FIRST", 1.5f);
+            return;
+        }
         const double now = NowSeconds();
         if (return_portal_confirm_seconds_ >= 0.0 &&
             now - return_portal_confirm_seconds_ <= 3.0) {
             CaptureCurrentRoomState();
             return_portal_confirm_seconds_ = -1.0;
-            if (ActivateRoom(world_hub_id_, "")) {
+            if (scene_.room.type == 2) {
+                if (AdvanceDungeonLevel()) {
+                    LOG_INFO_APP("Portal: advanced to {}",
+                                 biome_.Current()->id);
+                } else {
+                    ShowDialogue("", "CAMPAIGN COMPLETE", 3.0f);
+                    LOG_INFO_APP("Portal: no further recovered level");
+                }
+            } else if (ActivateRoom(world_hub_id_, "")) {
                 LOG_INFO_APP("Portal: returned to Living Room");
             }
         } else {
             return_portal_confirm_seconds_ = now;
-            LOG_INFO_APP("Portal: E again within 3 s to confirm return");
+            LOG_INFO_APP("Portal: E again within 3 s to confirm");
         }
     } else if (marker->kind == "door") {
         SwitchRoom();
@@ -2883,13 +3319,19 @@ void Application::ResetCombat() {
     render_aim_direction_ = aim_direction_;
     projectiles_.Clear();
     enemies_.Reset();
+    pet_.Reset();
+    training_stake_.Reset();
+    dialogue_timer_ = 0.0f;
+    stake_damage_timer_ = 0.0f;
     cleared_rooms_.erase(scene_.id);
     chest_spawned_rooms_.erase(scene_.id);
     room_enemy_snapshots_.erase(scene_.id);
     item_world_.Reset();
     player_coins_ = 0;
     ConfigureRoomItems();
-    obstacles_.Select(0);
+    obstacles_.ResetOverride();
+    boxes_.Reset();
+    boxes_.Configure(scene_, obstacles_);
     weapon_inventory_.Configure(weapons_.Count());
     ConfigureActiveWeapon();
     ConfigureSecondaryWeapon();
@@ -2912,7 +3354,8 @@ void Application::ResetCombat() {
     camera_.position = scene_.spawn;
     locomotion_animator_.Configure(player_characters_.IdleClip(),
                                    player_characters_.RunClip(),
-                                   player_characters_.DeathClip());
+                                   player_characters_.DeathClip(),
+                                   player_characters_.HitClip());
     last_animation_sprite_.clear();
     last_animation_state_ = engine::animation::LocomotionState::Idle;
     animation_logs_remaining_ = 8;
@@ -2974,6 +3417,121 @@ void Application::UpdateDoorTriggers() {
     }
 }
 
+void Application::UpdateTrainingStake(float delta_seconds, int melee_damage) {
+    training_stake_.Update(delta_seconds);
+    if (!training_stake_.Configured()) return;
+    const engine::Vec2 stake_position = training_stake_.Position();
+    const engine::collision::Aabb stake_box{
+        {stake_position.x - 0.45f, stake_position.y},
+        {stake_position.x + 0.45f, stake_position.y + 2.05f}};
+    const auto accept_hit = [&](int damage) {
+        bool raised = false;
+        if (!training_stake_.Hit(damage, player_.Position().x, &raised)) {
+            return;
+        }
+        stake_damage_ = std::max(1, damage);
+        stake_damage_timer_ = 0.8f;
+        stake_damage_screen_ = render_camera_.WorldToScreen(
+            stake_position + engine::Vec2{0.0f, 2.1f});
+        PlayEffect("player_hit", 0.35f);
+        if (raised) {
+            LOG_INFO_APP("Training stake: StakeHurtEvent raised (30% chance)");
+        }
+    };
+    bool hit_this_tick = false;
+    for (auto& projectile : projectiles_.Projectiles()) {
+        if (!projectile.active || projectile.camp != player_health_.camp) {
+            continue;
+        }
+        const engine::collision::Aabb box{
+            {projectile.position.x - projectile.collider_half_extents.x,
+             projectile.position.y - projectile.collider_half_extents.y},
+            {projectile.position.x + projectile.collider_half_extents.x,
+             projectile.position.y + projectile.collider_half_extents.y}};
+        if (!box.Intersects(stake_box)) continue;
+        accept_hit(projectile.damage);
+        projectile.active = false;
+        hit_this_tick = true;
+    }
+    if (!hit_this_tick && melee_damage > 0) {
+        const engine::Vec2 offset = stake_position +
+            engine::Vec2{0.0f, 1.0f} - player_.Position();
+        const float distance = offset.Length();
+        if (distance <= 2.6f && distance > 0.001f) {
+            const engine::Vec2 direction = offset * (1.0f / distance);
+            if (direction.x * aim_direction_.x +
+                direction.y * aim_direction_.y > 0.1f) {
+                accept_hit(melee_damage);
+            }
+        }
+    }
+}
+
+void Application::PopulateBiomeEnemies() {
+    if (!biome_.IsLoaded() || scene_.is_hub) return;
+    // Start/end/chest/special rooms contain their own recovered objects. The
+    // normal battle rooms use the level's serialized enemy_infos weights.
+    if (scene_.room.type != 1) {
+        enemies_.ClearEnemies();
+        return;
+    }
+    const soulknight::game::room::BiomeLevel* level = biome_.Current();
+    if (level == nullptr || level->enemies.empty()) return;
+    enemies_.ClearEnemies();
+    std::uint32_t hash = 2166136261u;
+    for (char c : scene_.id) {
+        hash ^= static_cast<unsigned char>(c);
+        hash *= 16777619u;
+    }
+    hash ^= static_cast<std::uint32_t>(map_seed_) * 0x9E3779B9u;
+    hash ^= static_cast<std::uint32_t>(biome_.CurrentIndex()) * 0x85EBCA6Bu;
+    engine::RGRandomStream random;
+    random.SetRandomSeed(static_cast<std::int32_t>(hash & 0x7FFFFFFFu));
+    const engine::Vec2 spawn = scene_.spawn;
+    const engine::Vec2 offsets[] = {
+        {-4.0f, 0.0f}, {4.0f, 0.0f}, {0.0f, 4.0f}, {0.0f, -4.0f},
+        {-5.0f, 4.0f}, {5.0f, 4.0f}, {-5.0f, -4.0f}, {5.0f, -4.0f},
+    };
+    const engine::collision::Aabb bounds{
+        {scene_.interior_bounds.x, scene_.interior_bounds.y},
+        {scene_.interior_bounds.x + scene_.interior_bounds.w,
+         scene_.interior_bounds.y + scene_.interior_bounds.h}};
+    const auto free_position = [&](const engine::Vec2& position) {
+        const engine::collision::Aabb body{
+            {position.x - 0.45f, position.y - 0.1f},
+            {position.x + 0.45f, position.y + 0.9f}};
+        if (bounds.IsValid() &&
+            (body.min.x < bounds.min.x || body.max.x > bounds.max.x ||
+             body.min.y < bounds.min.y || body.max.y > bounds.max.y)) {
+            return false;
+        }
+        for (const auto& solid : collision_world_.Solids()) {
+            if (body.Intersects(solid)) return false;
+        }
+        return true;
+    };
+    int spawned = 0;
+    for (int attempt = 0; attempt < 12 && spawned < 3; ++attempt) {
+        const std::string enemy_id =
+            biome_.PickEnemy(random.Range(0, 10000));
+        std::size_t definition = enemies_.DefinitionCount();
+        for (std::size_t i = 0; i < enemies_.DefinitionCount(); ++i) {
+            if (enemies_.DefinitionAt(i).id == enemy_id) {
+                definition = i;
+                break;
+            }
+        }
+        if (definition >= enemies_.DefinitionCount()) continue;
+        const engine::Vec2 candidate = spawn +
+            offsets[static_cast<std::size_t>(attempt) %
+                    (sizeof(offsets) / sizeof(offsets[0]))];
+        if (!free_position(candidate)) continue;
+        if (enemies_.SpawnEnemy(definition, candidate)) ++spawned;
+    }
+    LOG_INFO_APP("Biome {}: spawned {} enemies from {} weighted pool entries",
+                 level->id, spawned, level->enemies.size());
+}
+
 void Application::FixedUpdate(double dt) {
     simulation_time_ += dt;
     ++simulation_ticks_;
@@ -2981,12 +3539,16 @@ void Application::FixedUpdate(double dt) {
     if (!scene_mode_) return;
     hit_flash_timer_ = std::max(0.0f, hit_flash_timer_ - static_cast<float>(dt));
     room_title_timer_ = std::max(0.0f, room_title_timer_ - static_cast<float>(dt));
+    room_clear_timer_ = std::max(0.0f, room_clear_timer_ - static_cast<float>(dt));
     room_transition_flash_ = std::max(0.0f,
         room_transition_flash_ - static_cast<float>(dt));
     player_energy_.Update(static_cast<float>(dt));
     asset_lab_.Update(static_cast<float>(dt));
     weapon_pickups_.Update(static_cast<float>(dt));
     plant_system_.Update(static_cast<float>(dt));
+    dialogue_timer_ = std::max(0.0f, dialogue_timer_ - static_cast<float>(dt));
+    stake_damage_timer_ =
+        std::max(0.0f, stake_damage_timer_ - static_cast<float>(dt));
 
     if (room_doors_.Update(static_cast<float>(dt))) {
         RebuildCollisionWorld();
@@ -3035,6 +3597,10 @@ void Application::FixedUpdate(double dt) {
                 player_.Position() + offhand,
                 aim_direction_, projectiles_, &player_energy_);
             if (secondary_shots > 0) {
+                const std::string& clip =
+                    secondary_weapon_.Definition().audio_clip;
+                PlayEffect(clip.empty() ? "weapon_fire" : "weapon_" + clip,
+                           0.52f);
                 LOG_INFO_APP("Dual wield: secondary fired {} shot(s)",
                              secondary_shots);
                 if (secondary_weapon_.Definition().is_melee) {
@@ -3048,7 +3614,10 @@ void Application::FixedUpdate(double dt) {
         } else if (!dual_active) {
             secondary_weapon_.Release();
         }
-        if (shots > 0) PlayEffect("weapon_fire", 0.62f);
+        if (shots > 0) {
+            const std::string& clip = weapon_.Definition().audio_clip;
+            PlayEffect(clip.empty() ? "weapon_fire" : "weapon_" + clip, 0.62f);
+        }
         if (shots > 0 && weapon_.Definition().is_melee) {
             const int hits = enemies_.ApplyMelee(
                 player_.Position(), aim_direction_,
@@ -3097,6 +3666,17 @@ void Application::FixedUpdate(double dt) {
         &collision_world_, &projectiles_);
     player_damaged = projectiles_.ResolvePlayerHits(
         player_.Position(), player_health_) || player_damaged;
+    if (pet_.Count() > 0) {
+        const std::size_t pet_target = pet_.Update(
+            static_cast<float>(dt), player_.Position(),
+            facing_ == engine::locomotion::FacingDirection::Left, enemies_,
+            &collision_world_);
+        if (pet_target < enemies_.Enemies().size()) {
+            LOG_INFO_APP("Pet {} hit enemy {} for {}", pet_.SelectedId(),
+                         pet_target, pet_.Selected()->damage);
+            PlayEffect("weapon_fire", 0.35f);
+        }
+    }
     if (item_assets_.IsLoaded()) {
         if (item_world_.AutoOpenNear(player_.Position(), 2.0f)) {
             LOG_INFO_APP("Chest triggered by player proximity");
@@ -3131,11 +3711,54 @@ void Application::FixedUpdate(double dt) {
             }
         }
     }
+    bool box_destroyed = false;
+    if (!boxes_.Boxes().empty()) {
+        (void)boxes_.ApplyProjectiles(projectiles_, player_health_.camp);
+        if (!player_dead_ && attack_held_ && weapon_.IsConfigured() &&
+            weapon_.IsAttacking()) {
+            (void)boxes_.ApplyMelee(
+                player_.Position(), aim_direction_,
+                weapon_.Definition().is_melee
+                    ? weapon_.Definition().melee_range : 1.2f,
+                weapon_.Definition().is_melee
+                    ? weapon_.Definition().melee_arc_degrees : 360.0f,
+                weapon_.Definition().damage);
+        }
+        for (const auto& box : boxes_.Boxes()) {
+            if (!box.alive && obstacles_.MarkerAlive(box.marker_index)) {
+                obstacles_.DestroyMarker(box.marker_index);
+                box_destroyed = true;
+            }
+        }
+        const int absorbed = boxes_.Update(static_cast<float>(dt),
+                                           player_.Position());
+        if (absorbed > 0) {
+            player_energy_.energy = std::min(
+                player_energy_.max_energy,
+                player_energy_.energy + absorbed);
+            PlayEffect("pickup", 0.6f);
+            LOG_INFO_APP("Energy bubble absorbed: +{} (energy {}/{})",
+                         absorbed, player_energy_.energy,
+                         player_energy_.max_energy);
+        }
+        if (box_destroyed) RebuildCollisionWorld();
+    }
+    int stake_melee_damage = 0;
+    if (!player_dead_ && attack_held_ && weapon_.IsConfigured() &&
+        weapon_.IsAttacking()) {
+        const float distance =
+            (training_stake_.Position() - player_.Position()).Length();
+        if (distance <= std::max(2.0f, weapon_.Definition().melee_range + 0.6f)) {
+            stake_melee_damage = weapon_.Definition().damage;
+        }
+    }
+    UpdateTrainingStake(static_cast<float>(dt), stake_melee_damage);
     UpdateAudio();
     UpdateRoomClear();
     if (player_damaged) {
         PlayEffect("player_hit");
         hit_flash_timer_ = 0.12f;
+        (void)locomotion_animator_.PlayHit();
         LOG_INFO_APP("Player damaged: hp={} armor={} dead={}",
                      player_health_.hp, player_health_.armor,
                      BooleanText(player_health_.dead));
@@ -3404,17 +4027,117 @@ void Application::ApplyInputSnapshot(const platform::InputSnapshot& snapshot) {
     UpdateAimInput(&snapshot);
 }
 
-bool Application::LoadWorldRooms() {
-    world_templates_ = {
-        {"r1_1_visual", "scenes/r1_1_visual/scene.json"},
-        {"r1_2_visual", "scenes/r1_2_visual/scene.json"},
-        {"r1_3_visual", "scenes/r1_3_visual/scene.json"},
+bool Application::AdvanceDungeonLevel() {
+    if (!biome_.Advance()) return false;
+    // New deterministic layout per level. The base seed remains reproducible;
+    // the level index is mixed in exactly once.
+    map_seed_ = config_.map_seed * 31 +
+        static_cast<std::int32_t>(biome_.CurrentIndex()) * 7919;
+    room_enemy_snapshots_.clear();
+    cleared_rooms_.clear();
+    chest_spawned_rooms_.clear();
+    item_world_.Reset();
+    stored_rooms_.erase(
+        std::remove_if(stored_rooms_.begin(), stored_rooms_.end(),
+                       [&](const StoredRoom& room) {
+                           return room.id != world_hub_id_;
+                       }),
+        stored_rooms_.end());
+    const DungeonPlan plan = BuildDungeonPlan(
+        map_seed_, world_templates_,
+        biome_.Current() != nullptr ? biome_.Current()->map_long : 3);
+    const auto load_room = [&](const std::string& id,
+                               const std::string& path) -> bool {
+        if (id == scene_.id || path == config_.scene_path) return true;
+        for (const StoredRoom& stored : stored_rooms_) {
+            if (stored.id == id) return true;
+        }
+        StoredRoom stored;
+        std::string error;
+        if (!engine::assets::SceneLoader::Load(filesystem_, path,
+                                               stored.scene, &error)) {
+            LOG_WARN_APP("Next-level room unavailable: {} ({})", path, error);
+            return false;
+        }
+        stored.id = stored.scene.id;
+        if (item_assets_.IsLoaded()) item_assets_.AppendToScene(stored.scene);
+        stored_rooms_.push_back(std::move(stored));
+        return true;
     };
+    for (const Room& room : plan.rooms) {
+        if (!load_room(room.id, room.scene_path)) return false;
+    }
+    // Re-append item assets/unique texture ids for the freshly loaded rooms.
+    std::vector<engine::rendering::TextureUpload> uploads;
+    for (std::size_t i = 0; i < stored_rooms_.size(); ++i) {
+        AssignUniqueTextureIds(
+            stored_rooms_[i].scene,
+            0x01000000u * (texture_generation_ + 1) +
+                static_cast<std::uint32_t>(i) * 0x10000u);
+        for (const engine::assets::TextureAsset& texture :
+             stored_rooms_[i].scene.textures) {
+            uploads.push_back(engine::rendering::TextureUpload{
+                texture.id, &texture.data, texture.filter, texture.wrap});
+        }
+    }
+    if (renderer_ != nullptr && !uploads.empty() &&
+        !renderer_->AddTextures(uploads)) {
+        LOG_ERROR_APP("Next-level texture upload failed");
+        return false;
+    }
+    ConfigureWorldGraph();
+    if (!ActivateRoom(plan.start_room_id, "")) return false;
+    BeginRoomTitle(3.0f);
+    return true;
+}
+
+bool Application::LoadWorldRooms() {
+    world_templates_ = {};
+    // Every generated recovered PatternRoom present in the asset tree joins
+    // the normal-room pool. MapManagerLevel.GetRandomRoomIndex draws unique
+    // template indices; the plan keeps that no-repeat rule.
+    for (const auto& entry : filesystem_.ListDirectory("scenes")) {
+        const std::string id = entry.filename().string();
+        if (id.rfind("r1_", 0) != 0 ||
+            id.size() < 12 ||
+            id.substr(id.size() - 7) != "_visual") {
+            continue;
+        }
+        const std::string path = "scenes/" + id + "/scene.json";
+        if (filesystem_.Exists(path)) {
+            world_templates_.normals.push_back({id, path});
+        }
+    }
+    const auto add_room = [&](const char* id,
+                              std::vector<soulknight::game::room::DungeonRoomTemplate>* pool,
+                              int weight = 1) {
+        const std::string scene_id = std::string(id) + "_visual";
+        const std::string path = "scenes/" + scene_id + "/scene.json";
+        if (filesystem_.Exists(path)) {
+            pool->push_back({scene_id, path, weight});
+            return true;
+        }
+        return false;
+    };
+    add_room("r_start_no_event", &world_templates_.starts);
+    add_room("r_transgete", &world_templates_.ends);
+    add_room("r_chest", &world_templates_.chests);
+    add_room("r_weapon_provider", &world_templates_.specials, 10);
+    add_room("r_statue", &world_templates_.specials, 10);
+    add_room("r_mineral", &world_templates_.specials, 10);
+    add_room("r_mercenary", &world_templates_.specials, 10);
+    add_room("r_mount", &world_templates_.specials, 4);
     multi_room_world_ = false;
     const auto known_scene = [&](const std::string& path) {
         if (path == world_hub_path_) return true;
-        for (const auto& room : world_templates_) {
-            if (room.scene_path == path) return true;
+        for (const auto* pool : {&world_templates_.starts,
+                                 &world_templates_.normals,
+                                 &world_templates_.ends,
+                                 &world_templates_.chests,
+                                 &world_templates_.specials}) {
+            for (const auto& room : *pool) {
+                if (room.scene_path == path) return true;
+            }
         }
         return false;
     };
@@ -3423,7 +4146,9 @@ bool Application::LoadWorldRooms() {
         return false;
     }
     map_seed_ = config_.map_seed;
-    const DungeonPlan plan = BuildDungeonPlan(map_seed_, world_templates_);
+    const DungeonPlan plan = BuildDungeonPlan(
+        map_seed_, world_templates_,
+        biome_.Current() != nullptr ? biome_.Current()->map_long : 3);
 
     const auto load_room = [&](const std::string& id,
                                const std::string& path) -> bool {
@@ -3460,8 +4185,12 @@ bool Application::LoadWorldRooms() {
 }
 
 void Application::ConfigureWorldGraph() {
-    if (world_templates_.empty()) return;
-    const DungeonPlan plan = BuildDungeonPlan(map_seed_, world_templates_);
+    if (world_templates_.normals.empty() && world_templates_.starts.empty()) {
+        return;
+    }
+    const DungeonPlan plan = BuildDungeonPlan(
+        map_seed_, world_templates_,
+        biome_.Current() != nullptr ? biome_.Current()->map_long : 3);
     std::vector<Room> rooms;
     rooms.push_back(Room{world_hub_id_, world_hub_path_, 0, 1});
     for (const Room& room : plan.rooms) rooms.push_back(room);
@@ -3495,12 +4224,11 @@ void Application::ConfigureWorldGraph() {
             queue.push_back(next);
         }
     }
-    const std::string level_prefix = "1";
-    int next_code = 1;
+    const std::string level_label = biome_.Current() != nullptr
+        ? biome_.Current()->id : "1-1";
     for (const std::string& id : queue) {
         if (id == world_hub_id_) continue;
-        room_stage_labels_[id] = level_prefix + "-" +
-            std::to_string(next_code++);
+        room_stage_labels_[id] = level_label;
         LOG_INFO_APP("Room code: {} -> {}", id, room_stage_labels_[id]);
     }
     room_graph_text_.clear();
@@ -3613,6 +4341,7 @@ void Application::UpdateRoomClear() {
     if (enemies_.AliveCount() != 0) return;
     room_clear_pending_ = false;
     cleared_rooms_.insert(scene_.id);
+    room_clear_timer_ = 1.5f;
     room_doors_.OpenAll();
     if (!scene_.is_hub && !chest_spawned_rooms_.contains(scene_.id)) {
         item_world_.AddChest(current_chest_definition_,
@@ -3747,7 +4476,17 @@ bool Application::ActivateRoom(const std::string& room_id,
     equip_by_id(1, weapon1);
     if (!weapon_inventory_.SlotOccupied(0) && weapons_.Count() > 0) {
         weapon_inventory_.SwitchSlot(0);
-        (void)weapon_inventory_.EquipActive(0);
+        std::size_t baseline = 0;
+        if (player_characters_.Count() > 0) {
+            for (std::size_t i = 0; i < weapons_.Count(); ++i) {
+                if (weapons_.Definitions()[i].id ==
+                    player_characters_.Active().starting_weapon) {
+                    baseline = i;
+                    break;
+                }
+            }
+        }
+        (void)weapon_inventory_.EquipActive(baseline);
     }
     weapon_inventory_.SwitchSlot(active_slot);
     ConfigureActiveWeapon();
@@ -3789,7 +4528,8 @@ bool Application::ActivateRoom(const std::string& room_id,
         player_characters_.Active().speed_rate);
     locomotion_animator_.Configure(player_characters_.IdleClip(),
                                    player_characters_.RunClip(),
-                                   player_characters_.DeathClip());
+                                   player_characters_.DeathClip(),
+                                   player_characters_.HitClip());
     if (player_dead_) locomotion_animator_.PlayDead();
     last_animation_sprite_.clear();
     last_animation_state_ = engine::animation::LocomotionState::Idle;
@@ -3799,6 +4539,8 @@ bool Application::ActivateRoom(const std::string& room_id,
         LOG_ERROR_APP("Room switch player render binding missing");
         return false;
     }
+    const bool had_enemy_snapshot =
+        room_enemy_snapshots_.contains(scene_.id);
     std::string enemy_error;
     if (!enemies_.Configure(scene_, &enemy_error)) {
         LOG_ERROR_APP("Room switch enemy setup failed: {}", enemy_error);
@@ -3806,7 +4548,14 @@ bool Application::ActivateRoom(const std::string& room_id,
     }
     RestoreCurrentRoomState();
     (void)obstacles_.Configure(scene_, &error);
+    boxes_.Configure(scene_, obstacles_);
     ConfigureRoomItems();
+    std::string pet_error;
+    if (pet_.Configure(scene_, &pet_error)) {
+        if (!active_pet_id_.empty()) pet_.SelectSaved(active_pet_id_);
+        active_pet_id_ = pet_.SelectedId();
+    }
+    training_stake_.Configure(scene_);
     BeginRoomTitle(3.0f);
     room_transition_flash_ = 0.45f;
     if (!room_doors_.Configure(scene_, &error)) {
@@ -3828,6 +4577,7 @@ bool Application::ActivateRoom(const std::string& room_id,
         }
     }
     RebuildCollisionWorld();
+    if (!had_enemy_snapshot && !scene_.is_hub) PopulateBiomeEnemies();
     projectiles_.Clear();
     weapon_pickups_.Clear();
     if (scene_.is_hub) {

@@ -23,8 +23,17 @@ public:
 
     bool Select(std::size_t index);
     void CycleNext();
+    // Restores reference per-marker behavior after a dev override.
+    void ResetOverride() { dev_override_ = false; }
     std::size_t ActiveIndex() const { return active_; }
     const engine::assets::ObstacleVariant& ActiveVariant() const;
+    // Actual reference behavior: each RGObjectSkin marker uses its own
+    // MapManagerLevel.obstacle_list index. Dev Select/CycleNext overrides all
+    // markers with one variant for inspection.
+    const engine::assets::ObstacleVariant& VariantForMarker(
+        const engine::assets::ObstacleMarker& marker) const;
+    bool MarkerAlive(std::size_t index) const;
+    void DestroyMarker(std::size_t index);
 
     const std::vector<engine::assets::ObstacleMarker>& Markers() const {
         return markers_;
@@ -41,6 +50,8 @@ private:
     std::vector<engine::assets::ObstacleVariant> variants_;
     std::vector<engine::assets::ObstacleMarker> markers_;
     std::size_t active_ = 0;
+    std::vector<bool> alive_;
+    bool dev_override_ = false;
     bool configured_ = false;
 };
 

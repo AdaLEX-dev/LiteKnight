@@ -385,6 +385,14 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                     return false;
                 }
                 marker.radius = item.value("radius", 2.0f);
+                marker.speaker = item.value("speaker", std::string{});
+                marker.text = item.value("text", std::string{});
+                marker.text_alt = item.value("text_alt", std::string{});
+                marker.dialogue_term =
+                    item.value("dialogue_term", std::string{});
+                marker.character_id =
+                    item.value("character_id", std::string{});
+                marker.pet_id = item.value("pet_id", std::string{});
                 loaded.interaction_markers.push_back(std::move(marker));
             }
         }
@@ -513,6 +521,102 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         loaded.sprites.push_back(std::move(sprite));
     }
 
+    if (document.contains("pet_definitions")) {
+        if (!document["pet_definitions"].is_array()) {
+            SetError(error, "scene pet_definitions is not an array");
+            return false;
+        }
+        for (const Json& item : document["pet_definitions"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string()) {
+                SetError(error, "scene pet definition is invalid");
+                return false;
+            }
+            PetDefinition pet;
+            pet.id = item["id"].get<std::string>();
+            pet.display_name = item.value("display_name", pet.id);
+            pet.class_name = item.value("class_name", std::string{});
+            pet.max_hp = item.value("max_hp", 0);
+            pet.damage = item.value("damage", 0);
+            pet.speed = item.value("speed", 0.0f);
+            pet.speed_rate = item.value("speed_rate", 0.0f);
+            pet.atk_cd = item.value("atk_cd", 2.0f);
+            pet.min_follow_distance =
+                item.value("min_follow_distance", 2.0f);
+            pet.max_follow_distance =
+                item.value("max_follow_distance", 20.0f);
+            pet.scout_distance = item.value("min_distance",
+                item.value("scout_distance", 8.0f));
+            pet.atk_range = item.value("atk_range", 2.0f);
+            pet.is_melee = item.value("is_melee", true);
+            const auto read_sprite = [&](const char* key) {
+                if (!item.contains(key) || !item[key].is_string()) return -1;
+                const auto it = sprite_ids.find(item[key].get<std::string>());
+                return it == sprite_ids.end() ? -1
+                    : static_cast<int32_t>(it->second);
+            };
+            pet.body_sprite_index = read_sprite("body_sprite");
+            pet.shadow_sprite_index = read_sprite("shadow_sprite");
+            const auto read_frames = [&](const char* key,
+                                         std::vector<PetFrame>* out) {
+                if (!item.contains(key) || !item[key].is_array()) return;
+                for (const Json& frame_json : item[key]) {
+                    if (!frame_json.is_object() ||
+                        !frame_json.contains("sprite") ||
+                        !frame_json["sprite"].is_string()) {
+                        continue;
+                    }
+                    const auto it = sprite_ids.find(
+                        frame_json["sprite"].get<std::string>());
+                    if (it == sprite_ids.end()) continue;
+                    out->push_back(PetFrame{
+                        frame_json.value("time", 0.0f),
+                        static_cast<int32_t>(it->second)});
+                }
+            };
+            read_frames("idle_sprites", &pet.idle_frames);
+            read_frames("run_sprites", &pet.run_frames);
+            read_frames("attack_sprites", &pet.attack_frames);
+            read_frames("dead_sprites", &pet.dead_frames);
+            loaded.pet_definitions.push_back(std::move(pet));
+        }
+    }
+    if (document.contains("training_stake") &&
+        document["training_stake"].is_object()) {
+        const Json& item = document["training_stake"];
+        TrainingStake stake;
+        stake.id = item.value("id", "stake");
+        if (item.contains("position") && ReadVec2(item["position"], stake.position)) {
+            stake.hp = item.value("hp", 40);
+            stake.hit_duration = item.value("hit_duration", 0.375f);
+            if (item.contains("body_sprite") &&
+                item["body_sprite"].is_string()) {
+                const auto it = sprite_ids.find(
+                    item["body_sprite"].get<std::string>());
+                if (it != sprite_ids.end()) {
+                    stake.body_sprite_index =
+                        static_cast<int32_t>(it->second);
+                }
+            }
+            if (item.contains("frames") && item["frames"].is_array()) {
+                for (const Json& frame_json : item["frames"]) {
+                    if (!frame_json.is_object() ||
+                        !frame_json.contains("sprite") ||
+                        !frame_json["sprite"].is_string()) {
+                        continue;
+                    }
+                    const auto it = sprite_ids.find(
+                        frame_json["sprite"].get<std::string>());
+                    if (it == sprite_ids.end()) continue;
+                    stake.frames.push_back(PetFrame{
+                        frame_json.value("time", 0.0f),
+                        static_cast<int32_t>(it->second)});
+                }
+            }
+            loaded.training_stake = std::move(stake);
+            loaded.has_training_stake = true;
+        }
+    }
     if (document.contains("obstacles")) {
         if (!document["obstacles"].is_object()) {
             SetError(error, "scene obstacles is not an object");
@@ -535,6 +639,8 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             variant.index = item.value("index", static_cast<int32_t>(
                 loaded.obstacle_variants.size()));
             variant.path_id = item.value("path_id", std::string{});
+            variant.breakable = item.value("breakable", false);
+            variant.hp = item.value("hp", 0);
             if (item.contains("collider") && !item["collider"].is_null()) {
                 const Json& collider = item["collider"];
                 if (!collider.is_object() || !collider.contains("size") ||
@@ -845,6 +951,8 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 character.death_animation_id =
                     item["death_animation"].get<std::string>();
             }
+            character.starting_weapon =
+                item.value("starting_weapon", std::string{});
             if (loaded.FindAnimationIndex(character.idle_animation_id) < 0 ||
                 loaded.FindAnimationIndex(character.run_animation_id) < 0) {
                 SetError(error, "character references unknown animation: " +
@@ -917,6 +1025,23 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             weapon.item_value = item.contains("item_value") &&
                 item["item_value"].is_number_integer()
                 ? item["item_value"].get<int>() : 0;
+            weapon.visual_attack_time =
+                item.value("visual_attack_time", 0.0f);
+            const auto read_visual_curve = [&](const char* key,
+                                               std::vector<WeaponVisualKey>* out) {
+                if (!item.contains(key) || !item[key].is_array()) return;
+                for (const Json& pair : item[key]) {
+                    if (!pair.is_array() || pair.size() != 2 ||
+                        !pair[0].is_number() || !pair[1].is_number()) {
+                        continue;
+                    }
+                    out->push_back({pair[0].get<float>(),
+                                    pair[1].get<float>()});
+                }
+            };
+            read_visual_curve("visual_position_x", &weapon.visual_position_x);
+            read_visual_curve("visual_rotation_z", &weapon.visual_rotation_z);
+            read_visual_curve("muzzle_enabled", &weapon.muzzle_enabled);
             const Json& projectile = item["projectile"];
             if (!projectile.contains("id") || !projectile["id"].is_string() ||
                 !projectile.contains("sprite") || !projectile["sprite"].is_string()) {
@@ -1001,9 +1126,13 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                     return false;
                 }
             }
+            if (item.contains("muzzle_sprite") &&
+                item["muzzle_sprite"].is_string()) {
+                weapon.muzzle_sprite =
+                    item["muzzle_sprite"].get<std::string>();
+            }
             if (item.contains("muzzle_offset")) {
-                if (!ReadVec2(item["muzzle_offset"], weapon.muzzle_offset) ||
-                    weapon.muzzle_offset.LengthSquared() <= 0.0f) {
+                if (!ReadVec2(item["muzzle_offset"], weapon.muzzle_offset)) {
                     SetError(error, "weapon muzzle_offset is invalid: " + weapon.id);
                     return false;
                 }

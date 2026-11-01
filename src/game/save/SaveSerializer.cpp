@@ -144,6 +144,14 @@ bool MigrateToCurrent(Json& document, std::string* error) {
                 document["player"]["orbs"] = 0;
             }
             document["save_version"] = 3;
+        } else if (version == 3) {
+            // v3 -> v4: per-room chest and coin state.
+            document["rooms"] = Json::array();
+            document["save_version"] = 4;
+        } else if (version == 4) {
+            // v4 -> v5: selected pet identity.
+            document["pet_id"] = "";
+            document["save_version"] = 5;
         } else {
             if (error != nullptr) {
                 *error = "no migration path from save version " +
@@ -168,6 +176,15 @@ Json Serialize(const SaveData& data) {
     document["hub_visited"] = data.hub_visited;
     document["auto_aim"] = data.auto_aim;
     document["map_seed"] = data.map_seed;
+    document["pet_id"] = data.pet_id;
+    Json materials = Json::array();
+    for (const SaveMaterial& material : data.materials) {
+        materials.push_back(Json{{"id", material.id},
+                                 {"count", material.count}});
+    }
+    document["materials"] = std::move(materials);
+    document["cleared_rooms"] = data.cleared_rooms;
+    document["chest_spawned_rooms"] = data.chest_spawned_rooms;
 
     Json player = Json::object();
     player["character_id"] = data.character_id;
@@ -188,6 +205,36 @@ Json Serialize(const SaveData& data) {
         {data.weapon_slots[0], data.weapon_slots[1]});
     inventory["active_slot"] = data.active_slot;
     document["inventory"] = std::move(inventory);
+
+    Json rooms = Json::array();
+    for (const SaveRoomItems& room : data.rooms) {
+        Json room_json = Json::object();
+        room_json["id"] = room.id;
+        Json chests = Json::array();
+        for (const SaveChestState& chest : room.chests) {
+            chests.push_back(Json{
+                {"definition", chest.definition},
+                {"position", Json::array({chest.x, chest.y})},
+                {"state", chest.state},
+                {"timer", chest.timer},
+                {"loot_spawned", chest.loot_spawned},
+                {"pending_weapon", chest.pending_weapon},
+                {"pending_weapons", chest.pending_weapons},
+            });
+        }
+        Json coins = Json::array();
+        for (const SaveCoinState& coin : room.coins) {
+            coins.push_back(Json{
+                {"definition", coin.definition},
+                {"position", Json::array({coin.x, coin.y})},
+                {"active", coin.active},
+            });
+        }
+        room_json["chests"] = std::move(chests);
+        room_json["coins"] = std::move(coins);
+        rooms.push_back(std::move(room_json));
+    }
+    document["rooms"] = std::move(rooms);
     return document;
 }
 
@@ -277,6 +324,61 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
     if (document.contains("map_seed") &&
         document["map_seed"].is_number_integer()) {
         loaded.map_seed = document["map_seed"].get<std::int32_t>();
+    }
+    if (document.contains("rooms") && document["rooms"].is_array()) {
+        for (const Json& room_json : document["rooms"]) {
+            if (!room_json.is_object() || !room_json.contains("id") ||
+                !room_json["id"].is_string()) {
+                continue;
+            }
+            SaveRoomItems room;
+            room.id = room_json["id"].get<std::string>();
+            if (room_json.contains("chests") && room_json["chests"].is_array()) {
+                for (const Json& chest_json : room_json["chests"]) {
+                    if (!chest_json.is_object()) continue;
+                    SaveChestState chest;
+                    chest.definition = chest_json.value("definition", std::string{});
+                    if (chest_json.contains("position") &&
+                        chest_json["position"].is_array() &&
+                        chest_json["position"].size() == 2) {
+                        chest.x = chest_json["position"][0].get<float>();
+                        chest.y = chest_json["position"][1].get<float>();
+                    }
+                    chest.state = chest_json.value("state", 0);
+                    chest.timer = chest_json.value("timer", 0.0f);
+                    chest.loot_spawned = chest_json.value("loot_spawned", false);
+                    chest.pending_weapon = chest_json.value("pending_weapon", std::string{});
+                    if (chest_json.contains("pending_weapons") &&
+                        chest_json["pending_weapons"].is_array()) {
+                        for (const Json& weapon_json : chest_json["pending_weapons"]) {
+                            if (weapon_json.is_string()) {
+                                chest.pending_weapons.push_back(
+                                    weapon_json.get<std::string>());
+                            }
+                        }
+                    } else if (!chest.pending_weapon.empty()) {
+                        chest.pending_weapons.push_back(chest.pending_weapon);
+                    }
+                    room.chests.push_back(std::move(chest));
+                }
+            }
+            if (room_json.contains("coins") && room_json["coins"].is_array()) {
+                for (const Json& coin_json : room_json["coins"]) {
+                    if (!coin_json.is_object()) continue;
+                    SaveCoinState coin;
+                    coin.definition = coin_json.value("definition", std::string{});
+                    if (coin_json.contains("position") &&
+                        coin_json["position"].is_array() &&
+                        coin_json["position"].size() == 2) {
+                        coin.x = coin_json["position"][0].get<float>();
+                        coin.y = coin_json["position"][1].get<float>();
+                    }
+                    coin.active = coin_json.value("active", true);
+                    room.coins.push_back(std::move(coin));
+                }
+            }
+            loaded.rooms.push_back(std::move(room));
+        }
     }
     if (!inventory.contains("weapon_slots") ||
         !inventory["weapon_slots"].is_array() ||

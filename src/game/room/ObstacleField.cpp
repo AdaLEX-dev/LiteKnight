@@ -10,7 +10,9 @@ bool ObstacleField::Configure(const engine::assets::SceneAsset& scene,
     variants_.clear();
     markers_ = scene.obstacle_markers;
     active_ = 0;
+    dev_override_ = false;
     configured_ = false;
+    alive_.clear();
     if (error != nullptr) error->clear();
 
     if (scene.obstacle_variants.empty() && scene.obstacle_markers.empty()) {
@@ -77,6 +79,7 @@ bool ObstacleField::Configure(const engine::assets::SceneAsset& scene,
         return true;
     }
     active_ = static_cast<std::size_t>(markers_.front().variant);
+    alive_.assign(markers_.size(), true);
     configured_ = true;
     return true;
 }
@@ -84,43 +87,75 @@ bool ObstacleField::Configure(const engine::assets::SceneAsset& scene,
 bool ObstacleField::Select(std::size_t index) {
     if (index >= variants_.size()) return false;
     active_ = index;
+    dev_override_ = true;
     return true;
 }
 
 void ObstacleField::CycleNext() {
     if (variants_.empty()) return;
     active_ = (active_ + 1) % variants_.size();
+    dev_override_ = true;
 }
 
 const engine::assets::ObstacleVariant& ObstacleField::ActiveVariant() const {
     return variants_[active_];
 }
 
+const engine::assets::ObstacleVariant& ObstacleField::VariantForMarker(
+        const engine::assets::ObstacleMarker& marker) const {
+    if (dev_override_) return ActiveVariant();
+    if (marker.variant < 0 ||
+        static_cast<std::size_t>(marker.variant) >= variants_.size()) {
+        return ActiveVariant();
+    }
+    return variants_[static_cast<std::size_t>(marker.variant)];
+}
+
+bool ObstacleField::MarkerAlive(std::size_t index) const {
+    return index < alive_.size() && alive_[index];
+}
+
+void ObstacleField::DestroyMarker(std::size_t index) {
+    if (index < alive_.size()) alive_[index] = false;
+}
+
 void ObstacleField::AddColliders(
     engine::collision::AabbCollisionWorld& world) const {
     if (variants_.empty()) return;
-    const engine::assets::ObstacleVariant& variant = ActiveVariant();
-    if (!variant.has_collider || variant.collider_trigger) return;
-    for (const engine::assets::ObstacleMarker& marker : markers_) {
+    for (std::size_t i = 0; i < markers_.size(); ++i) {
+        if (!MarkerAlive(i)) continue;
+        const engine::assets::ObstacleVariant& variant =
+            VariantForMarker(markers_[i]);
+        if (!variant.has_collider || variant.collider_trigger) continue;
         world.AddSolid(engine::collision::Aabb{
-            {marker.position.x + variant.collider.min.x,
-             marker.position.y + variant.collider.min.y},
-            {marker.position.x + variant.collider.max.x,
-             marker.position.y + variant.collider.max.y}
+            {markers_[i].position.x + variant.collider.min.x,
+             markers_[i].position.y + variant.collider.min.y},
+            {markers_[i].position.x + variant.collider.max.x,
+             markers_[i].position.y + variant.collider.max.y}
         });
     }
 }
 
 std::size_t ObstacleField::ColliderCellCount() const {
     if (variants_.empty()) return 0;
-    const engine::assets::ObstacleVariant& variant = ActiveVariant();
-    if (!variant.has_collider || variant.collider_trigger) return 0;
-    return markers_.size();
+    std::size_t count = 0;
+    for (std::size_t i = 0; i < markers_.size(); ++i) {
+        if (!MarkerAlive(i)) continue;
+        const engine::assets::ObstacleVariant& variant =
+            VariantForMarker(markers_[i]);
+        if (variant.has_collider && !variant.collider_trigger) ++count;
+    }
+    return count;
 }
 
 std::size_t ObstacleField::RenderInstanceCount() const {
     if (variants_.empty()) return 0;
-    return markers_.size() * ActiveVariant().visuals.size();
+    std::size_t count = 0;
+    for (std::size_t i = 0; i < markers_.size(); ++i) {
+        if (!MarkerAlive(i)) continue;
+        count += VariantForMarker(markers_[i]).visuals.size();
+    }
+    return count;
 }
 
 } // namespace soulknight::game::room

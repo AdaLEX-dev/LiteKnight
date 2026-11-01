@@ -281,6 +281,10 @@ TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *
     }
     const Json& projectile = weapon["projectile"];
     CHECK(projectile.value("id", "") == "bullet_0");
+    CHECK(weapon.value("audio_clip", "") == "fx_gun_1");
+    CHECK_FALSE(weapon.value("muzzle_sprite", "").empty());
+    CHECK_FALSE(weapon["visual_position_x"].empty());
+    CHECK(weapon["visual_position_x"].at(1)[1].get<float>() < -0.1f);
     CHECK(projectile.value("prefab_speed", 0.0) == doctest::Approx(10.0));
     CHECK(projectile.value("lifetime", 0.0) == doctest::Approx(5.0));
 

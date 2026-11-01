@@ -42,6 +42,11 @@ void VulkanRenderer::Shutdown() {
     initialized_ = false;
 }
 
+bool VulkanRenderer::AddTextures(const std::vector<TextureUpload>& textures) {
+    if (!initialized_) return false;
+    return sprite_renderer_.AddTextures(context_, textures);
+}
+
 bool VulkanRenderer::Render(SpriteBatch& batch, const Camera2D& camera) {
     if (!initialized_) return false;
 

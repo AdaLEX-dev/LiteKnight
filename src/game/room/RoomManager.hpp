@@ -15,6 +15,9 @@ struct Room {
     // test-layout coordinates, not reference MapManager positions.
     int map_x = 0;
     int map_y = 0;
+    // Recovered MapManagerLevel slot type: 0 start, 1 normal, 2 end/boss,
+    // 3 chest, 4 special.
+    int type = 1;
 };
 
 struct RoomConnection {

@@ -359,6 +359,8 @@ add_library(game STATIC
     src/game/room/RoomDoorController.hpp
     src/game/room/RoomManager.cpp
     src/game/room/RoomManager.hpp
+    src/game/room/BiomeSystem.cpp
+    src/game/room/BiomeSystem.hpp
     src/game/room/DungeonPlan.cpp
     src/game/room/DungeonPlan.hpp
     # Combat
@@ -384,10 +386,16 @@ add_library(game STATIC
     src/game/save/SaveManager.hpp
     src/game/hub/PlantSystem.cpp
     src/game/hub/PlantSystem.hpp
+    src/game/hub/TrainingStake.cpp
+    src/game/hub/TrainingStake.hpp
+    src/game/hub/Workshop.cpp
+    src/game/hub/Workshop.hpp
     src/game/items/ItemAssets.cpp
     src/game/items/ItemAssets.hpp
     src/game/items/ItemWorld.cpp
     src/game/items/ItemWorld.hpp
+    src/game/items/BoxSystem.cpp
+    src/game/items/BoxSystem.hpp
     src/game/ui/DevOverlay.cpp
     src/game/ui/DevOverlay.hpp
     src/game/ui/AssetLab.cpp
@@ -406,6 +414,8 @@ add_library(game STATIC
     src/game/test/InteractiveReplay.hpp
     src/game/enemy/EnemySystem.cpp
     src/game/enemy/EnemySystem.hpp
+    src/game/pet/PetSystem.cpp
+    src/game/pet/PetSystem.hpp
     # Characters
     # src/game/characters/CharacterData.cpp
     # src/game/characters/CharacterData.hpp
@@ -605,6 +615,7 @@ add_executable(soul-knight-test
     tests/unit/replay_test.cpp
     tests/unit/foundation_test.cpp
     tests/unit/plant_test.cpp
+    tests/unit/hub_systems_test.cpp
     tests/unit/room_manager_test.cpp
     tests/unit/ability_test.cpp
     tests/unit/ui_assets_test.cpp

@@ -18,6 +18,17 @@ namespace soulknight::game::room {
 struct DungeonRoomTemplate {
     std::string id;
     std::string scene_path;
+    // Recovered ObjectDistribution weight (special rooms: 10/10/10/10/4 for
+    // 1-1). Unweighted normal/start/end/chest pools use 1.
+    int weight = 1;
+};
+
+struct DungeonTemplateSet {
+    std::vector<DungeonRoomTemplate> starts;
+    std::vector<DungeonRoomTemplate> normals;
+    std::vector<DungeonRoomTemplate> ends;
+    std::vector<DungeonRoomTemplate> chests;
+    std::vector<DungeonRoomTemplate> specials;
 };
 
 struct DungeonPlan {
@@ -27,15 +38,23 @@ struct DungeonPlan {
     std::string start_room_id;
 };
 
-// Fixed physical topology (native test reconstruction):
+// Reconstructed MapManagerLevel.CreateMap graph:
+// - 5x5 room_relation grid, start at (2,2)
+// - map_long main-path steps (1-1: 3)
+// - branch rooms with recovered 70/40/10% acceptance thresholds
+// - slot types 0 start, 1 normal, 2 end/boss, 3 chest, 4 special
+// - connections derive from the relation grid and physical door sides
 //
-//        second
-//          |
-//   hub -- first -- third
-//
-// Door sides are the actual recovered r1_N doors. The seed deterministically
-// assigns the supplied room templates to the second/third/first slots.
+// The supplied templates are actual recovered room scenes. When fewer templates
+// than generated slots exist, map_long and branch capacity shrink rather than
+// fabricating duplicate scene ids.
 DungeonPlan BuildDungeonPlan(std::int32_t seed,
-                             std::vector<DungeonRoomTemplate> templates);
+                             const DungeonTemplateSet& templates,
+                             int requested_map_long = 3);
+
+// Compatibility overload: every template belongs to the normal pool.
+DungeonPlan BuildDungeonPlan(std::int32_t seed,
+                             std::vector<DungeonRoomTemplate> templates,
+                             int requested_map_long = 3);
 
 } // namespace soulknight::game::room

@@ -98,7 +98,7 @@ fi
 
 # Additional actual PatternRooms r1_2/r1_3. Generate from the local room bundle
 # when absent; each has its own metadata, generated pixels and wall map.
-for room in r1_2 r1_3; do
+for room in r1_2 r1_3 r1_4 r1_5 r1_6; do
     room_source="${ROOT}/assets/generated/visual/${room}_visual"
     if [[ ${FORCE_BUILD} -eq 1 || ! -f "${room_source}/scene.json" ]]; then
         if [[ ! -x "${ROOT}/tools/asset/.venv/bin/python" || ! -d "${BUNDLE_ROOT}/room" ]]; then
@@ -116,6 +116,17 @@ for room in r1_2 r1_3; do
     fi
 done
 
+# Opt-in full PatternRoom reconstruction: 108 actual room prefabs. This is
+# intentionally opt-in because each room runs the complete reference extractor.
+if [[ ${LITEKNIGHT_ALL_ROOMS:-0} -eq 1 ]]; then
+    if [[ -x "${ROOT}/tools/asset/.venv/bin/python" && -d "${BUNDLE_ROOT}/room" ]]; then
+        echo "Building all 108 recovered PatternRooms..."
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_pattern_rooms.py"
+    else
+        echo "WARN: all-room build requested but UnityPy/room bundles are unavailable"
+    fi
+fi
+
 copy_scene() {
     local source_dir="$1"
     local scene_dir="$2"
@@ -129,13 +140,24 @@ copy_scene() {
 }
 copy_scene "${SOURCE_DIR}" "${SCENE_DIR}"
 echo "Runtime scene: FOUND (${SCENE_DIR}/scene.json)"
-for room in r1_2_visual r1_3_visual; do
+for room in r1_2_visual r1_3_visual r1_4_visual r1_5_visual r1_6_visual; do
     source_dir="${ROOT}/assets/generated/visual/${room}"
     scene_dir="${BUILD_DIR}/assets/scenes/${room}"
     if [[ ! -f "${source_dir}/scene.json" ]]; then
         echo "ERROR: generated dungeon room missing: ${source_dir}/scene.json" >&2
         exit 2
     fi
+    copy_scene "${source_dir}" "${scene_dir}"
+    echo "Runtime scene: FOUND (${scene_dir}/scene.json)"
+done
+
+# Every additional generated recovered room (all 108 PatternRooms when built,
+# plus the eight special/start/end rooms) is copied into the runtime tree.
+for source_dir in "${ROOT}"/assets/generated/visual/r1_*_visual \
+                  "${ROOT}"/assets/generated/visual/r_*_visual; do
+    [[ -f "${source_dir}/scene.json" ]] || continue
+    room="$(basename "${source_dir}")"
+    scene_dir="${BUILD_DIR}/assets/scenes/${room}"
     copy_scene "${source_dir}" "${scene_dir}"
     echo "Runtime scene: FOUND (${scene_dir}/scene.json)"
 done
@@ -165,6 +187,13 @@ if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
         cp -a "${ITEM_SOURCE}/textures/." "${ITEM_TARGET}/textures/"
     fi
     cp -f "${ROOT}/analysis/assets/items/item_assets.json" "${ITEM_TARGET}/items.json"
+    cp -f "${ROOT}/analysis/assets/map_catalogue.json" "${BUILD_DIR}/assets/scenes/biomes.json"
+    if [[ -f "${ROOT}/analysis/assets/workshop/weapon_materials.json" ]]; then
+        cp -f "${ROOT}/analysis/assets/workshop/weapon_materials.json" "${ITEM_TARGET}/weapon_materials.json"
+    fi
+    if [[ -f "${ROOT}/analysis/assets/workshop/materials.json" ]]; then
+        cp -f "${ROOT}/analysis/assets/workshop/materials.json" "${ITEM_TARGET}/workshop_materials.json"
+    fi
     if [[ -f "${ROOT}/analysis/assets/weapon_catalogue.json" ]]; then
         cp -f "${ROOT}/analysis/assets/weapon_catalogue.json" "${ITEM_TARGET}/weapon_catalogue.json"
     fi

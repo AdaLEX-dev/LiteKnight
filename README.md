@@ -14,7 +14,7 @@ auto-aim, weapon energy consumption, Knight Dual Wield and native save/load are
 part of the same executable. The asset laboratory and serialized interactive
 test harness remain available.
 
-- **Version:** `0.5.4-dev`
+- **Version:** `0.5.5-dev`
 - **Platform:** Linux, Wayland only, Vulkan 1.3+
 - **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 (local reference only)
 - **Simulation:** 50 Hz fixed step; 60 FPS render target (FIFO VSync,
@@ -115,9 +115,11 @@ source-controlled. Generated pixels remain gitignored. See
 
 - Native Wayland/Vulkan window, swapchain, resize/minimize/restore
 - 50 Hz deterministic player movement and swept AABB collision
-- Three recovered 15×15 PatternRooms (`r1_1`, `r1_2`, `r1_3`) plus the Living
-  Room hub, loaded together with unique recovered obstacle/topology layouts
-- Deterministic `--map-seed` assignment of actual rooms over a fixed physical
+- All 108 recovered PatternRooms (15×15, 15×21, 21×15, 21×21) plus eight
+  special rooms (start, transfer gate, chest, weapon provider, statue, mineral,
+  mercenary, mount) and the Living Room hub
+- Deterministic `--map-seed` assignment of actual rooms over a recovered
+  5×5 MapManagerLevel relation grid with real door entrances
   graph; same seed produces the same room graph
 - Animated doors with collision synchronization and automatic walk-through
   transitions at the matching destination entrance
@@ -148,6 +150,13 @@ source-controlled. Generated pixels remain gitignored. See
 - Weapon catalogue: 302 entries loaded at runtime, with 210 Tier A
   projectile/melee weapons fully spawnable and 14 melee / 78 unique entries
   explicitly classified
+- Recovered weapon animation curves, muzzle flash, per-weapon audio, baseline
+  loadouts for all 15 heroes, and Knight dual wield
+- Nine chest prefabs, room chest/coin persistence, breakable RGBox boxes and
+  RGEnergy bubbles
+- Recovered pets (follow/attack/menu/save), Living Room NPC speech, the
+  EnemyAIStake punching bag, workshop material recipes and crafting, and the
+  exact `map_info`/`show_signpost` room UI animations
 - Chest catalogue: 13 reference classes / 86 GameObjects audited; chest00/01/02
   integrated with actual visuals, 1.0 s open animation and reference-derived
   weapon loot

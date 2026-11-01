@@ -18,6 +18,7 @@ struct ChestInstance {
     float timer = 0.0f;
     bool loot_spawned = false;
     std::string pending_weapon;
+    std::vector<std::string> pending_weapons;
 };
 
 struct WeaponLootDrop {
@@ -33,6 +34,14 @@ struct CoinInstance {
     bool active = true;
 };
 
+struct RoomItemSnapshot {
+    std::string id;
+    std::vector<ChestInstance> chests;
+    std::vector<CoinInstance> coins;
+};
+
+
+
 // Session-scoped per-room item state. The save format is still v2; chest/coin
 // state deliberately resets deterministically on a new process, while room
 // transitions preserve it in memory. See docs/SAVE_SYSTEM.md.
@@ -42,6 +51,7 @@ public:
     void EnterRoom(const std::string& room_id, bool spawn_chest,
                    const engine::Vec2& chest_position,
                    const std::string& chest_definition = "chest00");
+    void SetChestLevel(int level) { chest_level_ = level; }
     void AddChest(const std::string& definition, const engine::Vec2& position);
     // RGChest opens on trigger/proximity; the reference normal-room silver
     // chest does not require an E button.
@@ -61,6 +71,8 @@ public:
 
     const std::vector<ChestInstance>& Chests() const;
     const std::vector<CoinInstance>& Coins() const;
+    std::vector<RoomItemSnapshot> SnapshotRooms() const;
+    void RestoreRooms(const std::vector<RoomItemSnapshot>& rooms);
 
 private:
     struct RoomState {
@@ -71,6 +83,7 @@ private:
     RoomState& Current(const std::string& room_id,
                        const engine::Vec2& fallback_position = {});
     std::string room_id_;
+    int chest_level_ = 1;
     std::unordered_map<std::string, RoomState> rooms_;
     std::vector<std::string> available_weapons_;
 };

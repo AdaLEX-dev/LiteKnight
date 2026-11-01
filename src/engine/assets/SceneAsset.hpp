@@ -82,6 +82,9 @@ struct ObstacleVariant {
     CollisionBox collider{};
     bool has_collider = false;
     bool collider_trigger = false;
+    // Recovered RGBox obstacle prefabs (box01..box07) carry serialized hp.
+    bool breakable = false;
+    int32_t hp = 0;
     std::vector<ObstacleVisual> visuals;
 };
 
@@ -105,6 +108,7 @@ struct SceneCharacter {
     std::string run_animation_id;
     std::string hit_animation_id;
     std::string death_animation_id;
+    std::string starting_weapon;
     int32_t max_hp = 0;
     int32_t max_armor = 0;
     int32_t max_energy = 0;
@@ -143,15 +147,26 @@ struct ProjectileDefinition {
     int32_t sorting_order = 0;
 };
 
+struct WeaponVisualKey {
+    float time = 0.0f;
+    float value = 0.0f;
+};
+
 struct WeaponDefinition {
     std::string id;
     std::string display_name;
     std::string class_name;
+    // Recovered RGWeapon.audio_clip name (for example fx_gun_2).
+    std::string audio_clip;
     std::string weapon_type_name;
     int32_t rarity = -1;
     int32_t drop_level = -1;
     bool forgeable = false;
     int32_t item_value = 0;
+    std::vector<WeaponVisualKey> visual_position_x;
+    std::vector<WeaponVisualKey> visual_rotation_z;
+    std::vector<WeaponVisualKey> muzzle_enabled;
+    float visual_attack_time = 0.0f;
     ProjectileDefinition projectile;
     float bullet_speed = 0.0f;
     float size = 1.0f;
@@ -195,6 +210,7 @@ struct WeaponDefinition {
     int32_t visual_sprite_index = -1;
     Vec2 visual_offset{0.0f, 0.0f};
     Vec2 muzzle_offset{0.6f, 0.15f};
+    std::string muzzle_sprite;
     float visual_rotation = 0.0f;
     int32_t sorting_layer = 5;
     int32_t sorting_order = 1;
@@ -263,12 +279,59 @@ struct SceneCamera {
     float viewport_height = 1080.0f;
 };
 
+struct PetFrame {
+    float time = 0.0f;
+    int32_t sprite_index = -1;
+};
+
+// Recovered RGPetController family definition. Follow distances, cooldown and
+// damage are serialized prefab values; sprites come from the pet Animator.
+struct PetDefinition {
+    std::string id;
+    std::string display_name;
+    std::string class_name;
+    int32_t max_hp = 0;
+    int32_t damage = 0;
+    float speed = 0.0f;
+    float speed_rate = 0.0f;
+    float atk_cd = 2.0f;
+    float min_follow_distance = 2.0f;
+    float max_follow_distance = 20.0f;
+    float scout_distance = 8.0f;
+    float atk_range = 2.0f;
+    bool is_melee = true;
+    int32_t body_sprite_index = -1;
+    int32_t shadow_sprite_index = -1;
+    std::vector<PetFrame> idle_frames;
+    std::vector<PetFrame> run_frames;
+    std::vector<PetFrame> attack_frames;
+    std::vector<PetFrame> dead_frames;
+};
+
 struct InteractionMarker {
     std::string id;
     std::string kind;
     std::string label;
     Vec2 position{0.0f, 0.0f};
     float radius = 2.0f;
+    // TalkCharNpc/TalkTrigger payload. Empty for non-NPC markers.
+    std::string speaker;
+    std::string text;
+    std::string text_alt;
+    std::string dialogue_term;
+    std::string character_id;
+    std::string pet_id;
+};
+
+// Recovered EnemyAIStake (room/objects/stake): 40 HP, stake_hit_l 0.375 s,
+// HP is restored to max on every accepted hit and the object never dies.
+struct TrainingStake {
+    std::string id;
+    Vec2 position{0.0f, 0.0f};
+    int32_t hp = 40;
+    float hit_duration = 0.375f;
+    int32_t body_sprite_index = -1;
+    std::vector<PetFrame> frames;
 };
 
 struct RoomMetadata {
@@ -277,7 +340,7 @@ struct RoomMetadata {
     int stage = 0;
     int number = 0;
     std::string label;
-    std::string clear_label = "CLEARED";
+    std::string clear_label = "clear";
 };
 
 struct SceneAsset {
@@ -301,6 +364,9 @@ struct SceneAsset {
     std::vector<EnemyFixture> enemy_fixtures;
     std::vector<SceneDoor> doors;
     std::vector<InteractionMarker> interaction_markers;
+    std::vector<PetDefinition> pet_definitions;
+    bool has_training_stake = false;
+    TrainingStake training_stake;
     bool has_room_topology = false;
     bool is_hub = false;
 

@@ -32,6 +32,8 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
     chests_.clear();
     coins_.clear();
     portals_.clear();
+    materials_.clear();
+    energy_loaded_ = false;
     weapon_drops_.clear();
     if (error != nullptr) error->clear();
     std::string scene_error;
@@ -71,6 +73,9 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
             chest.loot_count = item.value("loot_count", 0);
             chest.appointed_weapon = item.value("appointed_weapon", std::string{});
             chest.weapon_drop_level = item.value("weapon_drop_level", -1);
+            chest.weapon_count = std::max(1, item.value("weapon_count", 1));
+            chest.has_coin = item.value("has_coin", false);
+            chest.material_chest = item.value("material_chest", false);
             if (item.contains("visuals")) {
                 for (const Json& visual_item : item["visuals"]) {
                     if (!visual_item.is_object() ||
@@ -111,6 +116,36 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
                 }
             }
             coins_.push_back(std::move(coin));
+        }
+    }
+    if (document.contains("materials")) {
+        for (const Json& item : document["materials"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string() || !item.contains("sprite") ||
+                !item["sprite"].is_string()) {
+                continue;
+            }
+            MaterialDefinition material;
+            material.id = item["id"].get<std::string>();
+            material.sprite = item["sprite"].get<std::string>();
+            material.offset = ReadVec2(item.value("offset", Json::array()),
+                                       {0.0f, 0.0f});
+            material.price = item.value("price", 0);
+            material.item_type = item.value("item_type", 3);
+            materials_.push_back(std::move(material));
+        }
+    }
+    if (document.contains("energy") && document["energy"].is_object()) {
+        const Json& item = document["energy"];
+        if (item.contains("sprite") && item["sprite"].is_string()) {
+            energy_.id = item.value("id", "energy");
+            energy_.sprite = item["sprite"].get<std::string>();
+            energy_.offset = ReadVec2(item.value("offset", Json::array()),
+                                      {0.0f, 0.0f});
+            energy_.value = item.value("value", 8);
+            energy_.speed = item.value("speed", 14.0f);
+            energy_.range = item.value("range", 6.0f);
+            energy_loaded_ = true;
         }
     }
     if (document.contains("weapon_drops")) {
@@ -167,6 +202,13 @@ bool ItemAssets::Load(const platform::FileSystem& filesystem,
 const ChestDefinition* ItemAssets::FindChest(const std::string& id) const {
     for (const ChestDefinition& chest : chests_) {
         if (chest.id == id) return &chest;
+    }
+    return nullptr;
+}
+
+const MaterialDefinition* ItemAssets::FindMaterial(const std::string& id) const {
+    for (const MaterialDefinition& material : materials_) {
+        if (material.id == id) return &material;
     }
     return nullptr;
 }

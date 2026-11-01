@@ -80,11 +80,13 @@ void ItemWorld::Update(float delta_seconds, const engine::Vec2& player_position,
         // RGChestAppoint has a fixed object_list entry. RGChest uses
         // WeaponDropInfo.GetWeaponWithDropLevel(level, rg_random).
         if (!definition->appointed_weapon.empty()) {
-            chest.pending_weapon = definition->appointed_weapon;
-        } else if (definition->weapon_drop_level >= 0) {
+            chest.pending_weapons.push_back(definition->appointed_weapon);
+        } else if (definition->weapon_drop_level >= -2) {
+            int drop_level = definition->weapon_drop_level;
+            if (drop_level == -2) drop_level = chest_level_;
             const WeaponDropLevel* drop = nullptr;
             for (const WeaponDropLevel& candidate : assets.WeaponDrops()) {
-                if (candidate.level == definition->weapon_drop_level) {
+                if (candidate.level == drop_level) {
                     drop = &candidate;
                     break;
                 }
@@ -112,13 +114,16 @@ void ItemWorld::Update(float delta_seconds, const engine::Vec2& player_position,
                             0x9E3779B9u;
                     engine::RGRandomStream random;
                     random.SetRandomSeed(static_cast<int32_t>(hash & 0x7FFFFFFFu));
-                    int roll = random.Range(0, total_weight);
-                    for (const WeaponDropEntry* entry : candidates) {
-                        if (roll < entry->weight) {
-                            chest.pending_weapon = entry->weapon;
-                            break;
+                    for (int roll_index = 0;
+                         roll_index < definition->weapon_count; ++roll_index) {
+                        int roll = random.Range(0, total_weight);
+                        for (const WeaponDropEntry* entry : candidates) {
+                            if (roll < entry->weight) {
+                                chest.pending_weapons.push_back(entry->weapon);
+                                break;
+                            }
+                            roll -= entry->weight;
                         }
-                        roll -= entry->weight;
                     }
                 }
             }
@@ -164,8 +169,10 @@ std::vector<WeaponLootDrop> ItemWorld::TakePendingWeaponDrops() {
     std::vector<WeaponLootDrop> drops;
     RoomState& room = Current(room_id_);
     for (ChestInstance& chest : room.chests) {
-        if (chest.pending_weapon.empty()) continue;
-        drops.push_back({chest.pending_weapon, chest.position});
+        for (const std::string& weapon : chest.pending_weapons) {
+            drops.push_back({weapon, chest.position});
+        }
+        chest.pending_weapons.clear();
         chest.pending_weapon.clear();
     }
     return drops;
@@ -232,6 +239,33 @@ const std::vector<ChestInstance>& ItemWorld::Chests() const {
     static const std::vector<ChestInstance> empty;
     const auto it = rooms_.find(room_id_);
     return it == rooms_.end() ? empty : it->second.chests;
+}
+
+std::vector<RoomItemSnapshot> ItemWorld::SnapshotRooms() const {
+    std::vector<RoomItemSnapshot> snapshots;
+    for (const auto& [id, room] : rooms_) {
+        RoomItemSnapshot snapshot;
+        snapshot.id = id;
+        snapshot.chests = room.chests;
+        snapshot.coins = room.coins;
+        snapshots.push_back(std::move(snapshot));
+    }
+    std::sort(snapshots.begin(), snapshots.end(),
+              [](const RoomItemSnapshot& a, const RoomItemSnapshot& b) {
+                  return a.id < b.id;
+              });
+    return snapshots;
+}
+
+void ItemWorld::RestoreRooms(const std::vector<RoomItemSnapshot>& rooms) {
+    rooms_.clear();
+    for (const RoomItemSnapshot& snapshot : rooms) {
+        RoomState state;
+        state.configured = true;
+        state.chests = snapshot.chests;
+        state.coins = snapshot.coins;
+        rooms_[snapshot.id] = std::move(state);
+    }
 }
 
 const std::vector<CoinInstance>& ItemWorld::Coins() const {

@@ -12,8 +12,37 @@
 
 namespace soulknight::game::save {
 
+struct SaveChestState {
+    std::string definition;
+    float x = 0.0f;
+    float y = 0.0f;
+    int state = 0;
+    float timer = 0.0f;
+    bool loot_spawned = false;
+    std::string pending_weapon;
+    std::vector<std::string> pending_weapons;
+};
+
+struct SaveCoinState {
+    std::string definition;
+    float x = 0.0f;
+    float y = 0.0f;
+    bool active = true;
+};
+
+struct SaveMaterial {
+    std::string id;
+    int count = 0;
+};
+
+struct SaveRoomItems {
+    std::string id;
+    std::vector<SaveChestState> chests;
+    std::vector<SaveCoinState> coins;
+};
+
 struct SaveData {
-    static constexpr int kCurrentVersion = 3;
+    static constexpr int kCurrentVersion = 5;
 
     int save_version = kCurrentVersion;
     std::string game_version;
@@ -39,6 +68,11 @@ struct SaveData {
     bool hub_visited = false;
     bool auto_aim = true;
     std::int32_t map_seed = 0;
+    std::string pet_id;
+    std::vector<SaveMaterial> materials;
+    std::vector<std::string> cleared_rooms;
+    std::vector<std::string> chest_spawned_rooms;
+    std::vector<SaveRoomItems> rooms;
 };
 
 } // namespace soulknight::game::save

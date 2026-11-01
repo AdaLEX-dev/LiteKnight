@@ -8,6 +8,8 @@
 #include "game/player/Energy.hpp"
 #include "engine/math/Vec2.hpp"
 
+#include <cmath>
+
 namespace soulknight::game::combat {
 
 using engine::Vec2;
@@ -50,6 +52,10 @@ public:
                         const Vec2& aim_direction) const;
     bool IsAttacking() const { return attacking_; }
     float AttackTime() const { return attack_time_; }
+    float VisualTime() const {
+        if (!attacking_ || definition_.attack_cycle_seconds <= 0.0f) return 0.0f;
+        return std::fmod(attack_time_, definition_.attack_cycle_seconds);
+    }
 
 private:
     void SpawnProjectile(const Vec2& owner_position,

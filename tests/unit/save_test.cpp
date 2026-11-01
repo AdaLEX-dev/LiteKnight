@@ -56,6 +56,23 @@ SaveData MakeSave() {
     data.hub_visited = true;
     data.auto_aim = true;
     data.map_seed = 20261031;
+    soulknight::game::save::SaveRoomItems room;
+    room.id = "r1_1_visual";
+    soulknight::game::save::SaveChestState chest;
+    chest.definition = "chest01";
+    chest.x = 20.0f;
+    chest.y = 17.0f;
+    chest.state = 2;
+    chest.loot_spawned = true;
+    chest.pending_weapon = "weapon_021";
+    chest.pending_weapons = {"weapon_021", "weapon_002"};
+    room.chests.push_back(chest);
+    soulknight::game::save::SaveCoinState coin;
+    coin.definition = "coin_0";
+    coin.x = 19.0f;
+    coin.y = 16.0f;
+    room.coins.push_back(coin);
+    data.rooms.push_back(room);
     return data;
 }
 
@@ -104,6 +121,23 @@ TEST_CASE("Save round-trips through atomic slot file" *
     CHECK(loaded.hub_visited);
     CHECK(loaded.auto_aim);
     CHECK(loaded.map_seed == 20261031);
+    CHECK(loaded.rooms.size() == 1);
+    if (loaded.rooms.size() == 1) {
+        CHECK(loaded.rooms[0].id == "r1_1_visual");
+        CHECK(loaded.rooms[0].chests.size() == 1);
+        if (loaded.rooms[0].chests.size() == 1) {
+            CHECK(loaded.rooms[0].chests[0].definition == "chest01");
+            CHECK(loaded.rooms[0].chests[0].state == 2);
+            CHECK(loaded.rooms[0].chests[0].loot_spawned);
+            CHECK(loaded.rooms[0].chests[0].pending_weapon == "weapon_021");
+            CHECK(loaded.rooms[0].chests[0].pending_weapons.size() == 2);
+            CHECK(loaded.rooms[0].chests[0].pending_weapons[1] == "weapon_002");
+        }
+        CHECK(loaded.rooms[0].coins.size() == 1);
+        if (loaded.rooms[0].coins.size() == 1) {
+            CHECK(loaded.rooms[0].coins[0].definition == "coin_0");
+        }
+    }
 }
 
 TEST_CASE("Fresh save defaults to auto aim" * doctest::test_suite("unit")) {
