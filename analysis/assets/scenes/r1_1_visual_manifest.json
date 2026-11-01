@@ -1834,7 +1834,7 @@
   },
   "converter_version": "1.0.0",
   "door_animation_keyframe_count": 82,
-  "enemy_definition_count": 88,
+  "enemy_definition_count": 101,
   "enemy_fixture_count": 2,
   "instance_count": 482,
   "manifest_version": 1,
@@ -1857,7 +1857,7 @@
     "speed": 6.5,
     "speed_rate": 0.5
   },
-  "scene_json_sha256": "839eeb484c1ba73a91d4bf51b58429c96a5ec3c60dd30230891b78643bf995f1",
+  "scene_json_sha256": "133312c52db50ea4114abbef2ad5a672eff6a6a217ca1c62d048319f5d942c33",
   "scene_metadata": "analysis/assets/scenes/r1_1_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -1871,7 +1871,7 @@
     20.0,
     15.0
   ],
-  "sprite_count": 803,
+  "sprite_count": 862,
   "textures": [
     {
       "filter": "point",
@@ -1968,22 +1968,6 @@
     {
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
-      "format": "ETC2_RGBA8",
-      "height": 128,
-      "id": "auto_atlas_4699608564152035255",
-      "png": "textures/auto_atlas_4699608564152035255.png",
-      "png_sha256": "c57e49384cdd4ce1e26c37db7d19d3f8d5c5206726ae22a5d46a44a2061a760d",
-      "rgba8_sha256": "e6f44a311d8e5f73475ab2b320bfac0cc7dc64647d65bfc8cfc28642f6ed0862",
-      "source_bundle": "common",
-      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "source_name": "SpriteAtlasTexture-bullet_effect (Group 2)-128x128-fmt47",
-      "source_path_id": "4699608564152035255",
-      "width": 128,
-      "wrap": "clamp"
-    },
-    {
-      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
-      "filter": "point",
       "format": "RGBA32",
       "height": 1024,
       "id": "auto_atlas_1541943556708260529",
@@ -1995,6 +1979,52 @@
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 1)-1024x1024-fmt4",
       "source_path_id": "1541943556708260529",
       "width": 1024,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "ETC2_RGBA8",
+      "height": 256,
+      "id": "auto_atlas_m7412614709012982549",
+      "png": "textures/auto_atlas_m7412614709012982549.png",
+      "png_sha256": "1c22a3e43071386304216b9b4d5c8f3a22e57ddb485990af11f8e78aa7ce2a13",
+      "rgba8_sha256": "88cd2447f2569c2d0b2b9149b341647f7ab789469b44715221e06104f1512600",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-texture01 (Group 0)-256x256-fmt47",
+      "source_path_id": "-7412614709012982549",
+      "width": 256,
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 1024,
+      "id": "character_atlas",
+      "png": "textures/character_atlas.png",
+      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
+      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
+      "source_path_id": "6092784074628815488",
+      "width": 2048,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
+      "height": 512,
+      "id": "auto_atlas_m3669458403664876157",
+      "png": "textures/auto_atlas_m3669458403664876157.png",
+      "png_sha256": "114a4e0def55a9eb117c46f69d9eac9014e345a150b4c7eef12b963d4c550648",
+      "rgba8_sha256": "aaaabd4a0348f765cd9bed5e38ca9f5c3f201d743b1f50ab674a5cf24828a787",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-character01 (Group 1)-512x512-fmt13",
+      "source_path_id": "-3669458403664876157",
+      "width": 512,
       "wrap": "clamp"
     },
     {
@@ -2033,6 +2063,22 @@
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
       "format": "RGBA4444",
+      "height": 256,
+      "id": "charactor_common_atlas",
+      "png": "textures/charactor_common_atlas.png",
+      "png_sha256": "7bf47c0b2777ad3e76246a61664c31ddb4b865bc2849f57d1640d64d4e217020",
+      "rgba8_sha256": "49b3134f0efecb751e81b65b20a74785b44a107a8889206eec938dec2dace86b",
+      "source_bundle": "res/charactor_common",
+      "source_cab": "CAB-37e7335dd38fb4b2f8ffa45ac9fc3f4e",
+      "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
+      "source_path_id": "2755411589560438748",
+      "width": 256,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
       "height": 512,
       "id": "auto_atlas_m4620619860993591283",
       "png": "textures/auto_atlas_m4620619860993591283.png",
@@ -2050,15 +2096,15 @@
       "filter": "point",
       "format": "RGBA4444",
       "height": 256,
-      "id": "charactor_common_atlas",
-      "png": "textures/charactor_common_atlas.png",
-      "png_sha256": "7bf47c0b2777ad3e76246a61664c31ddb4b865bc2849f57d1640d64d4e217020",
-      "rgba8_sha256": "49b3134f0efecb751e81b65b20a74785b44a107a8889206eec938dec2dace86b",
-      "source_bundle": "res/charactor_common",
-      "source_cab": "CAB-37e7335dd38fb4b2f8ffa45ac9fc3f4e",
-      "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
-      "source_path_id": "2755411589560438748",
-      "width": 256,
+      "id": "auto_atlas_4696160052770242414",
+      "png": "textures/auto_atlas_4696160052770242414.png",
+      "png_sha256": "cba10752e0988c64ee985687f9c9fbe8c62e6b0f8d4ffcbbc211985306b75007",
+      "rgba8_sha256": "829ffa2a4ff1bc3a156eab47a1d9dbc2eedac08931895ed0aebd20e76771fea2",
+      "source_bundle": "level-objects",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "source_name": "SpriteAtlasTexture-ice (Group 0)-512x256-fmt13",
+      "source_path_id": "4696160052770242414",
+      "width": 512,
       "wrap": "clamp"
     },
     {
@@ -2128,17 +2174,17 @@
     {
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
-      "format": "RGBA4444",
-      "height": 256,
-      "id": "auto_atlas_4696160052770242414",
-      "png": "textures/auto_atlas_4696160052770242414.png",
-      "png_sha256": "cba10752e0988c64ee985687f9c9fbe8c62e6b0f8d4ffcbbc211985306b75007",
-      "rgba8_sha256": "829ffa2a4ff1bc3a156eab47a1d9dbc2eedac08931895ed0aebd20e76771fea2",
+      "format": "RGBA32",
+      "height": 128,
+      "id": "auto_atlas_2538636145188265709",
+      "png": "textures/auto_atlas_2538636145188265709.png",
+      "png_sha256": "a938dd446a3cf2509b154771218e18d25af01093423f004cb514227651ea70d0",
+      "rgba8_sha256": "59814112b068b50411c57118645310ee01c365cd4240da6cb10b78d68da72147",
       "source_bundle": "level-objects",
       "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
-      "source_name": "SpriteAtlasTexture-ice (Group 0)-512x256-fmt13",
-      "source_path_id": "4696160052770242414",
-      "width": 512,
+      "source_name": "malphite",
+      "source_path_id": "2538636145188265709",
+      "width": 128,
       "wrap": "clamp"
     },
     {
@@ -2174,20 +2220,6 @@
       "wrap": "clamp"
     },
     {
-      "filter": "point",
-      "format": "RGBA32",
-      "height": 1024,
-      "id": "character_atlas",
-      "png": "textures/character_atlas.png",
-      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
-      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
-      "source_bundle": "common",
-      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
-      "source_path_id": "6092784074628815488",
-      "width": 2048,
-      "wrap": "clamp"
-    },
-    {
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
       "format": "RGBA32",
@@ -2217,22 +2249,6 @@
       "source_name": "worm",
       "source_path_id": "-2599456171831714710",
       "width": 128,
-      "wrap": "clamp"
-    },
-    {
-      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
-      "filter": "point",
-      "format": "RGBA4444",
-      "height": 512,
-      "id": "auto_atlas_m3669458403664876157",
-      "png": "textures/auto_atlas_m3669458403664876157.png",
-      "png_sha256": "114a4e0def55a9eb117c46f69d9eac9014e345a150b4c7eef12b963d4c550648",
-      "rgba8_sha256": "aaaabd4a0348f765cd9bed5e38ca9f5c3f201d743b1f50ab674a5cf24828a787",
-      "source_bundle": "common",
-      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "source_name": "SpriteAtlasTexture-character01 (Group 1)-512x512-fmt13",
-      "source_path_id": "-3669458403664876157",
-      "width": 512,
       "wrap": "clamp"
     },
     {
@@ -2361,5 +2377,5 @@
     "wall_map_txt": "analysis/re/r1_1_wall_map.txt"
   },
   "unitypy_version": "1.25.4",
-  "weapon_count": 227
+  "weapon_count": 304
 }

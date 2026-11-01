@@ -83,6 +83,24 @@ def main()->int:
             "channels":item["channels"],
             "frequency":item["frequency"],
         })
+    # Export the same clip again under the per-weapon logical id used by
+    # RGWeapon.audio_clip (for example fx_gun_1 -> weapon_fx_gun_1.wav).
+    for clip_name in sorted(weapon_audio):
+        item=found.get(clip_name)
+        if item is None:
+            continue
+        logical=f"weapon_{clip_name}"
+        target=OUT/f"{logical}.wav"
+        target.write_bytes(item["data"])
+        entries.append({
+            "id":logical,
+            "source_clip":item["source_clip"],
+            "source_cab":item["source_cab"],
+            "file":target.name,
+            "duration":item["duration"],
+            "channels":item["channels"],
+            "frequency":item["frequency"],
+        })
     META.parent.mkdir(parents=True,exist_ok=True)
     document={
         "schema":1,
@@ -91,7 +109,7 @@ def main()->int:
             "CONFIRMED":"actual Unity AudioClip sample bytes and serialized length/channels/frequency",
             "HYPOTHESIS":"logical event mapping for the first-pass native audio wiring",
         },
-        "counts":{"logical_events":len(wanted),"exported":len(entries)},
+        "counts":{"logical_events":len(entries),"exported":len(entries)},
         "sounds":entries,
     }
     META.write_text(json.dumps(document,indent=2)+"\n",encoding="utf-8")

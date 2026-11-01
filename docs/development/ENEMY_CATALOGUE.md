@@ -19,10 +19,10 @@ enemy_id, reward data, shoot cooldown, animation clip names and the
 
 ## Runtime state
 
-The generic extractor now emits **88 enemy definitions** (from the 102 prefabs;
-17 lack a usable idle body mapping/Animator and remain catalogue-only). Of those,
-**60 have recovered ranged bullet data**. Each dungeon room fixtures two enemies
-from the current biome pool; `e_miner01/02` carry recovered child `ESword01`
+The generic extractor now emits **101 enemy definitions** (from the 102 prefabs;
+4 projectile/non-enemy prefabs lack RoleAttribute and remain catalogue-only). Of those,
+**71 have recovered ranged bullet data**. Each normal dungeon room spawns three
+weighted enemies from the current biome pool; `e_miner01/02` carry recovered child `ESword01`
 `atk`/bullet data rather than a guessed damage value. The runtime supports
 generic chase, contact damage and ranged enemy projectiles; player projectiles
 and enemy projectiles use the same recovered bullet definitions.

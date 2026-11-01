@@ -147,9 +147,9 @@ source-controlled. Generated pixels remain gitignored. See
 - Recovered UI construction: main-menu `biaoti 01/02` backdrop/swirl, actual
   button/panel/ribbon frames, `ui_15` HUD plate and `ui_12` bar fills, actual
   skill lightning (`ui_joy_3`), pickup card (`ui_191`), pause/settings assets
-- Weapon catalogue: 302 entries loaded at runtime, with 210 Tier A
-  projectile/melee weapons fully spawnable and 14 melee / 78 unique entries
-  explicitly classified
+- Weapon catalogue: 302 entries, with 278 Tier A projectile/melee weapons
+  fully spawnable (plus all 24 recovered init/skin weapon prefabs) and only
+  3 melee / 21 unique entries still classed as catalogue-only
 - Recovered weapon animation curves, muzzle flash, per-weapon audio, baseline
   loadouts for all 15 heroes, and Knight dual wield
 - Nine chest prefabs, room chest/coin persistence, breakable RGBox boxes and

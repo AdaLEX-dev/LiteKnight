@@ -919,20 +919,43 @@ class SceneBuilder:
                           if str(getattr(c, "m_Name", "")).endswith("_dead")), None)
         if idle_clip is None:
             raise RuntimeError("no idle clip")
+        enemy_transform = next(c.component.read() for c in enemy_data.m_Component
+                               if c.component.type.name == "Transform")
         idle_keys = None
         for path in ("img/body", "body", "img"):
             try:
                 idle_keys = self._clip_sprite_keys(idle_clip, path)
-            except Exception:
+            except (Exception, SystemExit):
                 idle_keys = None
             if idle_keys: break
         if not idle_keys:
-            raise RuntimeError("no idle body sprite mapping")
+            # Some enemies use a static body SpriteRenderer instead of an idle
+            # PPtr clip (battery/crystal/malphite families). Use the serialized
+            # body sprite rather than dropping the prefab.
+            def find_body(tf, depth=0):
+                if depth > 4:
+                    return None
+                go = tf.m_GameObject.read()
+                if go.m_Name == "body":
+                    for c in go.m_Component:
+                        if c.component.type.name == "SpriteRenderer":
+                            sprite_id, _ = self.ensure_sprite_asset(
+                                c.component.read().m_Sprite)
+                            return sprite_id
+                for child in getattr(tf, "m_Children", []) or []:
+                    found = find_body(child.read(), depth + 1)
+                    if found:
+                        return found
+                return None
+            static_body = find_body(enemy_transform)
+            if static_body is None:
+                raise RuntimeError("no idle body sprite mapping")
+            idle_keys = [{"time": 0.0, "sprite": static_body}]
         dead_keys = idle_keys
         if dead_clip is not None:
             for path in ("img/body", "body", "img"):
                 try: dead_keys = self._clip_sprite_keys(dead_clip, path)
-                except Exception: dead_keys = None
+                except (Exception, SystemExit): dead_keys = None
                 if dead_keys: break
             if not dead_keys: dead_keys = idle_keys
         body_sprite = idle_keys[0]["sprite"]
@@ -1045,9 +1068,22 @@ class SceneBuilder:
                     ranged = True
             except Exception:
                 projectile = None
+        controller_class = ""
+        if controller is not None:
+            try:
+                script = controller.m_Script.read()
+                controller_class = str(getattr(script, "m_ClassName", ""))
+            except Exception:
+                controller_class = ""
         return {
             "id": enemy_id,
             "path_id": str(enemy_go.path_id),
+            "class_name": controller_class,
+            "stand_in_shooting": bool(
+                getattr(controller, "stand_in_shooting", False)),
+            "lock_in_shooting": bool(
+                getattr(controller, "lock_in_shooting", False)),
+            "shoot_time": float(getattr(controller, "shoot_time", 0.0) or 0.0),
             "body_sprite": body_sprite,
             "dead_sprite": dead_sprite,
             "shadow_sprite": shadow_sprite,
@@ -1142,7 +1178,7 @@ class SceneBuilder:
                     component_type = component.component.type.name
                     if component_type == "MonoBehaviour":
                         candidate = component.component.read()
-                        if hasattr(candidate, "bulletsInfo") and candidate.bulletsInfo:
+                        if hasattr(candidate, "bulletsInfo"):
                             gun = candidate
                             try:
                                 script = candidate.m_Script.read()
@@ -1155,42 +1191,63 @@ class SceneBuilder:
                         weapon_transform = component.component.read()
                 if gun is None or weapon_animator is None or weapon_transform is None:
                     raise SystemExit(f"{weapon_id} lacks Gun001/Animator/Transform")
-                bullet_info = gun.bulletsInfo[0]
-                bullet_go = bullet_info.bulletProto.read()
+                is_melee_serialized = bool(getattr(gun, "is_melee", False))
+                bullet_info = gun.bulletsInfo[0] if gun.bulletsInfo else None
+                has_bullet = (not is_melee_serialized and
+                              bullet_info is not None and
+                              getattr(bullet_info.bulletProto, "path_id", 0) != 0)
+                bullet_go = bullet_info.bulletProto.read() if has_bullet else None
                 bullet_data = bullet_go
-                bullet_b = None
-                bullet_root_transform = next(
-                    (c.component.read() for c in bullet_data.m_Component
-                     if c.component.type.name == "Transform"), None)
-                if bullet_root_transform is not None:
-                    for child in bullet_root_transform.m_Children:
-                        transform = child.read()
-                        if transform.m_GameObject.read().m_Name == "b":
-                            bullet_b = transform
-                            break
-                if bullet_b is None:
-                    raise SystemExit(f"{weapon_id} bullet has no b renderer")
-                bullet_b_data = bullet_b.m_GameObject.read()
-                bullet_sr = next(
-                    (c.component.read() for c in bullet_b_data.m_Component
-                     if c.component.type.name == "SpriteRenderer"), None)
-                if bullet_sr is None:
-                    raise SystemExit(f"{weapon_id} bullet has no SpriteRenderer")
-                bullet_sprite, _ = self.ensure_sprite_asset(bullet_sr.m_Sprite)
-                bullet_collider = next(
-                    (c.component.read() for c in bullet_b_data.m_Component
-                     if c.component.type.name == "BoxCollider2D"), None)
-                bullet_script = next(
-                    (c.component.read() for c in bullet_data.m_Component
-                     if c.component.type.name == "MonoBehaviour" and
-                     hasattr(c.component.read(), "destroy_time")), None)
+                bullet_sr = None
                 collider_size = [0.5, 0.4]
                 collider_offset = [0.25, 0.0]
-                if bullet_collider is not None:
-                    collider_size = [float(bullet_collider.m_Size.x),
-                                     float(bullet_collider.m_Size.y)]
-                    collider_offset = [float(bullet_collider.m_Offset.x),
-                                       float(bullet_collider.m_Offset.y)]
+                bullet_script = None
+                if bullet_data is not None:
+                    # Most bullets use child b; some register bullets render on
+                    # the root. Find the first SpriteRenderer either way.
+                    bullet_sr = next(
+                        (c.component.read() for c in bullet_data.m_Component
+                         if c.component.type.name == "SpriteRenderer"), None)
+                    bullet_collider = next(
+                        (c.component.read() for c in bullet_data.m_Component
+                         if c.component.type.name == "BoxCollider2D"), None)
+                    bullet_root_transform = next(
+                        (c.component.read() for c in bullet_data.m_Component
+                         if c.component.type.name == "Transform"), None)
+                    def find_bullet_visual(transform, depth=0):
+                        if depth > 4:
+                            return None, None
+                        go = transform.m_GameObject.read()
+                        found = next(
+                            (c.component.read() for c in go.m_Component
+                             if c.component.type.name == "SpriteRenderer"), None)
+                        collider = next(
+                            (c.component.read() for c in go.m_Component
+                             if c.component.type.name == "BoxCollider2D"), None)
+                        if found is not None:
+                            return found, collider
+                        for child in getattr(transform, "m_Children", []) or []:
+                            found, collider = find_bullet_visual(
+                                child.read(), depth + 1)
+                            if found is not None:
+                                return found, collider
+                        return None, None
+                    if bullet_root_transform is not None and bullet_sr is None:
+                        bullet_sr, bullet_collider = find_bullet_visual(
+                            bullet_root_transform)
+                    if bullet_sr is None:
+                        raise SystemExit(f"{weapon_id} bullet has no SpriteRenderer")
+                    bullet_script = next(
+                        (c.component.read() for c in bullet_data.m_Component
+                         if c.component.type.name == "MonoBehaviour" and
+                         hasattr(c.component.read(), "destroy_time")), None)
+                    if bullet_collider is not None:
+                        collider_size = [float(bullet_collider.m_Size.x),
+                                         float(bullet_collider.m_Size.y)]
+                        collider_offset = [float(bullet_collider.m_Offset.x),
+                                           float(bullet_collider.m_Offset.y)]
+                bullet_sprite = (self.ensure_sprite_asset(bullet_sr.m_Sprite)[0]
+                                 if bullet_sr is not None else None)
 
                 # Read the weapon visual (`w` child) and gun_point transform.
                 visual_sprite = None
@@ -1241,32 +1298,65 @@ class SceneBuilder:
                 attack_cycle = 0.0
                 first_shot_delay = 0.0
                 attack_clip_name = ""
+                fallback_clip = None
                 attack_controller = weapon_animator.m_Controller.read()
                 attack_states = (
                     attack_controller.m_Controller.m_StateMachineArray[0].data
                     .m_StateConstantArray)
                 for state_offset in attack_states:
                     state = state_offset.data
+                    if (len(state.m_BlendTreeConstantArray) == 0 or
+                            len(state.m_BlendTreeConstantArray[0].data
+                                .m_NodeArray) == 0):
+                        continue
                     clip = attack_controller.m_AnimationClips[
                         state.m_BlendTreeConstantArray[0].data.m_NodeArray[0]
                         .data.m_ClipID].read()
+                    if getattr(clip, "m_Name", "") == "w_ide":
+                        continue
+                    speed_scale = (float(gun.weapon_speed)
+                                   if float(gun.weapon_speed) > 0.0 else 1.0)
                     events = [e for e in clip.m_Events
                               if getattr(e, "functionName", "") == "Attack"]
-                    if not events or getattr(clip, "m_Name", "") == "w_ide":
-                        continue
-                    speed_scale = float(gun.weapon_speed) if float(gun.weapon_speed) > 0.0 else 1.0
-                    attack_cycle = float(clip.m_MuscleClip.m_StopTime) / speed_scale
-                    first_shot_delay = float(events[0].time) / speed_scale
-                    attack_clip_name = getattr(clip, "m_Name", "")
-                    attack_clip = clip
-                    break
+                    if events:
+                        attack_cycle = (float(clip.m_MuscleClip.m_StopTime) /
+                                        speed_scale)
+                        first_shot_delay = float(events[0].time) / speed_scale
+                        attack_clip_name = getattr(clip, "m_Name", "")
+                        attack_clip = clip
+                        break
+                    if (fallback_clip is None or
+                            float(fallback_clip.m_MuscleClip.m_StopTime) <= 0.0):
+                        fallback_clip = clip
+                if (attack_cycle <= 0.0 and
+                        (fallback_clip is None or
+                         float(fallback_clip.m_MuscleClip.m_StopTime) <= 0.0)):
+                    for clip_ptr in attack_controller.m_AnimationClips:
+                        candidate_clip = clip_ptr.read()
+                        name = getattr(candidate_clip, "m_Name", "")
+                        if name == "w_ide" or name.startswith("hide"):
+                            continue
+                        if float(candidate_clip.m_MuscleClip.m_StopTime) > 0.0:
+                            fallback_clip = candidate_clip
+                            break
+                if attack_cycle <= 0.0 and fallback_clip is not None:
+                    # Bows and a few weapons have no AnimationEvent; the
+                    # serialized attack clip duration is still the cadence.
+                    speed_scale = (float(gun.weapon_speed)
+                                   if float(gun.weapon_speed) > 0.0 else 1.0)
+                    attack_cycle = (float(fallback_clip.m_MuscleClip.m_StopTime) /
+                                    speed_scale)
+                    first_shot_delay = 0.0
+                    attack_clip_name = getattr(fallback_clip, "m_Name", "")
+                    attack_clip = fallback_clip
                 if attack_cycle <= 0.0:
-                    raise SystemExit(f"{weapon_id} has no Attack AnimationEvent")
+                    raise SystemExit(f"{weapon_id} has no usable attack clip")
                 visual_curves = self._clip_weapon_visual_curves(
                     attack_clip, first_shot_delay)
 
+                catalogue_meta = WEAPON_CATALOGUE.get(weapon_id, {})
                 projectile = {
-                    "id": getattr(bullet_go, "m_Name", "bullet"),
+                    "id": getattr(bullet_go, "m_Name", "melee"),
                     "sprite": bullet_sprite,
                     "prefab_speed": float(getattr(bullet_script, "speed", 10.0)),
                     "lifetime": float(getattr(bullet_script, "destroy_time", 5.0)),
@@ -1274,16 +1364,22 @@ class SceneBuilder:
                     "can_rebound": bool(getattr(bullet_script, "can_rebound", False)),
                     "collider_size": collider_size,
                     "collider_offset": collider_offset,
-                    "sorting_layer": int(bullet_sr.m_SortingLayer),
-                    "sorting_order": int(bullet_sr.m_SortingOrder),
+                    "sorting_layer": int(bullet_sr.m_SortingLayer) if bullet_sr else 6,
+                    "sorting_order": int(bullet_sr.m_SortingOrder) if bullet_sr else 0,
                     "classification": (
-                        f"CONFIRMED {getattr(bullet_go, 'm_Name', 'bullet')}/Bullet01 "
-                        f"prefab; prefab speed overridden by weapon BulletInfo"),
+                        f"CONFIRMED {getattr(bullet_go, 'm_Name', 'melee')}/Bullet01 "
+                        f"prefab; prefab speed overridden by weapon BulletInfo"
+                        if has_bullet else "serialized melee weapon without bullet"),
                 }
-                if int(bullet_info.damage) <= 0:
+                damage = max(
+                    int(bullet_info.damage) if bullet_info is not None else 0,
+                    int(catalogue_meta.get("damage", 0) or 0))
+                if damage <= 0:
                     print(f"SKIP {weapon_id}: non-positive serialized damage")
                     continue
-                catalogue_meta = WEAPON_CATALOGUE.get(weapon_id, {})
+                if not has_bullet and not is_melee_serialized:
+                    print(f"SKIP {weapon_id}: no bullet and not melee")
+                    continue
                 self.weapons.append({
                     "id": weapon_id,
                     "display_name": (
@@ -1297,10 +1393,10 @@ class SceneBuilder:
                     "forgeable": catalogue_meta.get("forgeable"),
                     "item_value": int(catalogue_meta.get("item_value", 0) or 0),
                     "projectile": projectile,
-                    "bullet_speed": float(bullet_info.speed),
-                    "size": float(bullet_info.size),
-                    "damage": int(bullet_info.damage),
-                    "critic": int(bullet_info.critic),
+                    "bullet_speed": float(bullet_info.speed) if has_bullet else 0.0,
+                    "size": float(bullet_info.size) if has_bullet else 1.0,
+                    "damage": damage,
+                    "critic": int(bullet_info.critic) if has_bullet else 0,
                     "deviation": int(gun.deviation),
                     "multi_count": int(getattr(gun, "multiCount", 0) or 0),
                     "spread_angle": int(getattr(gun, "angle", 0) or 0),
@@ -1317,8 +1413,8 @@ class SceneBuilder:
                         gun.audio_clip.path_id != 0 else ""),
                     "weapon_speed": float(gun.weapon_speed),
                     "atk_move_speed": float(gun.atk_move_speed),
-                    "repel": int(bullet_info.repel),
-                    "through": int(bullet_info.throughCount),
+                    "repel": int(bullet_info.repel) if has_bullet else 0,
+                    "through": int(bullet_info.throughCount) if has_bullet else 0,
                     "attack_cycle_seconds": attack_cycle,
                     "first_shot_delay_seconds": first_shot_delay,
                     **visual_curves,

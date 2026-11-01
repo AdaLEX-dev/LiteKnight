@@ -6,19 +6,19 @@
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c00_idle.json",
       "id": "c00_idle",
       "metadata": "analysis/assets/scenes/animations/c00_idle.json",
-      "sha256": "ed7a2eea3800ee41186fb73f93936936b7e427843598f18271116434b1e0ffbb"
+      "sha256": "975f6b3dfc3f2dc6c0da69c2dc79610ca6ed95447595609939d005ac2a49de78"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c00_run.json",
       "id": "c00_run",
       "metadata": "analysis/assets/scenes/animations/c00_run.json",
-      "sha256": "b874084e07bdf2eb150efc7fd34802f64226b5403e2a62e9f530e6a65efcb46e"
+      "sha256": "7a8b6d2e4ed728cc3d34719ef8d3e4d7c577a05656712831d08af042d590c5f2"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c00_dead.json",
       "id": "c00_dead",
       "metadata": "analysis/assets/scenes/animations/c00_dead.json",
-      "sha256": "2deeb6ac0d653da5c74b7845db719590075da16dc4b84befe008351caa46af66"
+      "sha256": "1fe4ace3bfb7e9395683eb4d11685f76eb405cc5e23de0da91b7db225d2ada8a"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c01_idle.json",
@@ -42,19 +42,19 @@
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c02_idle.json",
       "id": "c02_idle",
       "metadata": "analysis/assets/scenes/animations/c02_idle.json",
-      "sha256": "3bf471b4a8b261feda5bcbf7f21a740fb2928bbe60529bab43099a73a74e286c"
+      "sha256": "75d5499fd0fd0bca6599a65d5b9313c15fb2ab5672729aa852fc7cf7dff116af"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c02_run.json",
       "id": "c02_run",
       "metadata": "analysis/assets/scenes/animations/c02_run.json",
-      "sha256": "232ab037b3b6b4a9bc67c80e4ed1d3f5e99fc0ab443deb150cd76b37487c9be1"
+      "sha256": "ac65d14fdcfc5b24be0023cb7ed9c9dbbf8b91bdff9b8f18847141d869c300ae"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c02_dead.json",
       "id": "c02_dead",
       "metadata": "analysis/assets/scenes/animations/c02_dead.json",
-      "sha256": "b80264a89a7f666cd83b513d6db73c8b9066e01ec07a4798007e7db158020fd1"
+      "sha256": "572e7c2360a9a037565a575760e10eb344117338cc2aa58ef7d2b062d4141df4"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c03_idle.json",
@@ -114,19 +114,19 @@
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c06_idle.json",
       "id": "c06_idle",
       "metadata": "analysis/assets/scenes/animations/c06_idle.json",
-      "sha256": "2917605ecba8e68f8e302fee84afe03e922bac0c52187768e52fa7453bc2866c"
+      "sha256": "5eb021eb2566afa870964fc4d9eb1865a688cd9a8e2c052c2a1fa230aae28dc2"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c06_run.json",
       "id": "c06_run",
       "metadata": "analysis/assets/scenes/animations/c06_run.json",
-      "sha256": "62f450c8e1adda916e737dfc5d54e8bf8fd5fadc55f33b8fc606a00b2cfa417e"
+      "sha256": "3155e1b8276ca57de20caf7136d55d3f881c87d4b3259a030b8d203afeb0c87e"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c06_dead.json",
       "id": "c06_dead",
       "metadata": "analysis/assets/scenes/animations/c06_dead.json",
-      "sha256": "4aa3e7e873d2674f1e76f3cb58d58cd8a8958eed47510cac8b34526f15e9523f"
+      "sha256": "7b220e787f9f5ac43ed3a9799fc7ad3aa9a568c60bd13a517be28a9ffdccd682"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c07_idle.json",
@@ -150,37 +150,37 @@
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c08_idle.json",
       "id": "c08_idle",
       "metadata": "analysis/assets/scenes/animations/c08_idle.json",
-      "sha256": "bc33612e7dbe0593873a3050eec8411ff1c2cfe281c3ef0a9493b85edca3d38c"
+      "sha256": "30167bb119fa4ef4a929efbcfb6ae28ba4d03338e1afed2cc64ec06a0251a798"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c08_run.json",
       "id": "c08_run",
       "metadata": "analysis/assets/scenes/animations/c08_run.json",
-      "sha256": "43acc5d473df4ead493104f4740ab500c4613f6badd236eff797da3b1050efae"
+      "sha256": "1b0a60a3fcdbb540b39796b45cf2ab5f03d99b7dbf8954d087edfc6fe059f196"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c08_dead.json",
       "id": "c08_dead",
       "metadata": "analysis/assets/scenes/animations/c08_dead.json",
-      "sha256": "8719a2e2f49efcbb24341f2c380fb3661553803a97b221e0a28069ee769b26d9"
+      "sha256": "7ddc15d91e251f40aa5f30572f3ddbaf744a5fa525258506622b939dd1475086"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c09_idle.json",
       "id": "c09_idle",
       "metadata": "analysis/assets/scenes/animations/c09_idle.json",
-      "sha256": "4f689c965d9aade7e2d9ab5c3a4673121401159825483807b6b64249b02adc2e"
+      "sha256": "0a77e08babd5eacc7d998f1702a1051f553e1f1d6e39fa3ed236b780b173b8dd"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c09_run.json",
       "id": "c09_run",
       "metadata": "analysis/assets/scenes/animations/c09_run.json",
-      "sha256": "5106983de63bfecfeaf93ca6b61902987105c293cbf23003d0b2b504febb6283"
+      "sha256": "89ae9809d0b6b612bd21c245851df7ed5c40956e6fa2030deedc803dde84561b"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c09_dead.json",
       "id": "c09_dead",
       "metadata": "analysis/assets/scenes/animations/c09_dead.json",
-      "sha256": "980f2bade48d31dbfba6e3e723d36c04ffd52df153b02221ef668d97d2aca4f1"
+      "sha256": "c237e5c5124f175b872002034bcfa5244e4c36f10aaba5504cccd068db79ec1f"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c10_idle.json",
@@ -222,37 +222,37 @@
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c12_idle.json",
       "id": "c12_idle",
       "metadata": "analysis/assets/scenes/animations/c12_idle.json",
-      "sha256": "ad0b6b5764038719177d38fba8dfd73fe40c353ea95675eef5d93c0b8eb97236"
+      "sha256": "dedebcd5b8cd35327ba8e73f0681b8e2ebb6c8d8d13a3c44da7007ea8c78e93c"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c12_run.json",
       "id": "c12_run",
       "metadata": "analysis/assets/scenes/animations/c12_run.json",
-      "sha256": "55cfa4661def6ffddb3b2c3519a989b0e510e2207160f03158b25585067da40f"
+      "sha256": "7d976a7c43a024275d6693894d080b139328906e8b97c4676b75c11340f7da38"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c12_dead.json",
       "id": "c12_dead",
       "metadata": "analysis/assets/scenes/animations/c12_dead.json",
-      "sha256": "e068ccb076eb2700d83d214bba6330bb6e21d61da747b08d4e551dad0d132135"
+      "sha256": "d3f63ad80a2225ed90d2b910172c5f61147e750dfd27df67feda51e6df06ec61"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c13_idle.json",
       "id": "c13_idle",
       "metadata": "analysis/assets/scenes/animations/c13_idle.json",
-      "sha256": "675636eb1b13b0a98fc170f6bdf00fe3c2a7087eef686e4445297b56787c43e8"
+      "sha256": "e6c3534940684552c0fbb01786803389375a2d3457516494c3db7218331a061f"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c13_run.json",
       "id": "c13_run",
       "metadata": "analysis/assets/scenes/animations/c13_run.json",
-      "sha256": "608323dbd4a6be91018820e4aad0504fa36524fc1170946891ad907086b6b6f7"
+      "sha256": "ff1ec62c1f3cc59df15448bc9e5e65842a4b1ca2d2b1a87df0104a24a9ac2b02"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c13_dead.json",
       "id": "c13_dead",
       "metadata": "analysis/assets/scenes/animations/c13_dead.json",
-      "sha256": "2ecba4ef1dde7b2b5e792c8ce25b33b54e3bf513313262defcffce31c3ede875"
+      "sha256": "d42a89791ea4d2e8a6cbd6ba51d16f4ae0d06f6058bf4360622bf39b25838a72"
     },
     {
       "generated": "assets/generated/visual/r_mercenary_visual/animations/c14_idle.json",
@@ -1834,7 +1834,7 @@
   },
   "converter_version": "1.0.0",
   "door_animation_keyframe_count": 82,
-  "enemy_definition_count": 88,
+  "enemy_definition_count": 101,
   "enemy_fixture_count": 2,
   "instance_count": 482,
   "manifest_version": 1,
@@ -1857,7 +1857,7 @@
     "speed": 6.5,
     "speed_rate": 0.5
   },
-  "scene_json_sha256": "bc27d240357a1f36754939625fad87a2b5f762cd7d9134e6429cdfd6a07a37e9",
+  "scene_json_sha256": "71b32cf1b9ad41ab1a8710ad9a59c28a6befff358b48b46d2d1907204c502513",
   "scene_metadata": "analysis/assets/scenes/r_mercenary_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -1870,7 +1870,7 @@
     20.0,
     15.0
   ],
-  "sprite_count": 792,
+  "sprite_count": 862,
   "textures": [
     {
       "filter": "point",
@@ -1967,22 +1967,6 @@
     {
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
-      "format": "ETC2_RGBA8",
-      "height": 128,
-      "id": "auto_atlas_4699608564152035255",
-      "png": "textures/auto_atlas_4699608564152035255.png",
-      "png_sha256": "c57e49384cdd4ce1e26c37db7d19d3f8d5c5206726ae22a5d46a44a2061a760d",
-      "rgba8_sha256": "e6f44a311d8e5f73475ab2b320bfac0cc7dc64647d65bfc8cfc28642f6ed0862",
-      "source_bundle": "common",
-      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "source_name": "SpriteAtlasTexture-bullet_effect (Group 2)-128x128-fmt47",
-      "source_path_id": "4699608564152035255",
-      "width": 128,
-      "wrap": "clamp"
-    },
-    {
-      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
-      "filter": "point",
       "format": "RGBA32",
       "height": 1024,
       "id": "auto_atlas_1541943556708260529",
@@ -1994,6 +1978,52 @@
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 1)-1024x1024-fmt4",
       "source_path_id": "1541943556708260529",
       "width": 1024,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "ETC2_RGBA8",
+      "height": 256,
+      "id": "auto_atlas_m7412614709012982549",
+      "png": "textures/auto_atlas_m7412614709012982549.png",
+      "png_sha256": "1c22a3e43071386304216b9b4d5c8f3a22e57ddb485990af11f8e78aa7ce2a13",
+      "rgba8_sha256": "88cd2447f2569c2d0b2b9149b341647f7ab789469b44715221e06104f1512600",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-texture01 (Group 0)-256x256-fmt47",
+      "source_path_id": "-7412614709012982549",
+      "width": 256,
+      "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 1024,
+      "id": "character_atlas",
+      "png": "textures/character_atlas.png",
+      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
+      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
+      "source_path_id": "6092784074628815488",
+      "width": 2048,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
+      "height": 512,
+      "id": "auto_atlas_m3669458403664876157",
+      "png": "textures/auto_atlas_m3669458403664876157.png",
+      "png_sha256": "114a4e0def55a9eb117c46f69d9eac9014e345a150b4c7eef12b963d4c550648",
+      "rgba8_sha256": "aaaabd4a0348f765cd9bed5e38ca9f5c3f201d743b1f50ab674a5cf24828a787",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-character01 (Group 1)-512x512-fmt13",
+      "source_path_id": "-3669458403664876157",
+      "width": 512,
       "wrap": "clamp"
     },
     {
@@ -2032,6 +2062,22 @@
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
       "format": "RGBA4444",
+      "height": 256,
+      "id": "charactor_common_atlas",
+      "png": "textures/charactor_common_atlas.png",
+      "png_sha256": "7bf47c0b2777ad3e76246a61664c31ddb4b865bc2849f57d1640d64d4e217020",
+      "rgba8_sha256": "49b3134f0efecb751e81b65b20a74785b44a107a8889206eec938dec2dace86b",
+      "source_bundle": "res/charactor_common",
+      "source_cab": "CAB-37e7335dd38fb4b2f8ffa45ac9fc3f4e",
+      "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
+      "source_path_id": "2755411589560438748",
+      "width": 256,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA4444",
       "height": 512,
       "id": "auto_atlas_m4620619860993591283",
       "png": "textures/auto_atlas_m4620619860993591283.png",
@@ -2049,15 +2095,15 @@
       "filter": "point",
       "format": "RGBA4444",
       "height": 256,
-      "id": "charactor_common_atlas",
-      "png": "textures/charactor_common_atlas.png",
-      "png_sha256": "7bf47c0b2777ad3e76246a61664c31ddb4b865bc2849f57d1640d64d4e217020",
-      "rgba8_sha256": "49b3134f0efecb751e81b65b20a74785b44a107a8889206eec938dec2dace86b",
-      "source_bundle": "res/charactor_common",
-      "source_cab": "CAB-37e7335dd38fb4b2f8ffa45ac9fc3f4e",
-      "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
-      "source_path_id": "2755411589560438748",
-      "width": 256,
+      "id": "auto_atlas_4696160052770242414",
+      "png": "textures/auto_atlas_4696160052770242414.png",
+      "png_sha256": "cba10752e0988c64ee985687f9c9fbe8c62e6b0f8d4ffcbbc211985306b75007",
+      "rgba8_sha256": "829ffa2a4ff1bc3a156eab47a1d9dbc2eedac08931895ed0aebd20e76771fea2",
+      "source_bundle": "level-objects",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "source_name": "SpriteAtlasTexture-ice (Group 0)-512x256-fmt13",
+      "source_path_id": "4696160052770242414",
+      "width": 512,
       "wrap": "clamp"
     },
     {
@@ -2127,17 +2173,17 @@
     {
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
-      "format": "RGBA4444",
-      "height": 256,
-      "id": "auto_atlas_4696160052770242414",
-      "png": "textures/auto_atlas_4696160052770242414.png",
-      "png_sha256": "cba10752e0988c64ee985687f9c9fbe8c62e6b0f8d4ffcbbc211985306b75007",
-      "rgba8_sha256": "829ffa2a4ff1bc3a156eab47a1d9dbc2eedac08931895ed0aebd20e76771fea2",
+      "format": "RGBA32",
+      "height": 128,
+      "id": "auto_atlas_2538636145188265709",
+      "png": "textures/auto_atlas_2538636145188265709.png",
+      "png_sha256": "a938dd446a3cf2509b154771218e18d25af01093423f004cb514227651ea70d0",
+      "rgba8_sha256": "59814112b068b50411c57118645310ee01c365cd4240da6cb10b78d68da72147",
       "source_bundle": "level-objects",
       "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
-      "source_name": "SpriteAtlasTexture-ice (Group 0)-512x256-fmt13",
-      "source_path_id": "4696160052770242414",
-      "width": 512,
+      "source_name": "malphite",
+      "source_path_id": "2538636145188265709",
+      "width": 128,
       "wrap": "clamp"
     },
     {
@@ -2173,20 +2219,6 @@
       "wrap": "clamp"
     },
     {
-      "filter": "point",
-      "format": "RGBA32",
-      "height": 1024,
-      "id": "character_atlas",
-      "png": "textures/character_atlas.png",
-      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
-      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
-      "source_bundle": "common",
-      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
-      "source_path_id": "6092784074628815488",
-      "width": 2048,
-      "wrap": "clamp"
-    },
-    {
       "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
       "filter": "point",
       "format": "RGBA32",
@@ -2216,22 +2248,6 @@
       "source_name": "worm",
       "source_path_id": "-2599456171831714710",
       "width": 128,
-      "wrap": "clamp"
-    },
-    {
-      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
-      "filter": "point",
-      "format": "RGBA4444",
-      "height": 512,
-      "id": "auto_atlas_m3669458403664876157",
-      "png": "textures/auto_atlas_m3669458403664876157.png",
-      "png_sha256": "114a4e0def55a9eb117c46f69d9eac9014e345a150b4c7eef12b963d4c550648",
-      "rgba8_sha256": "aaaabd4a0348f765cd9bed5e38ca9f5c3f201d743b1f50ab674a5cf24828a787",
-      "source_bundle": "common",
-      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
-      "source_name": "SpriteAtlasTexture-character01 (Group 1)-512x512-fmt13",
-      "source_path_id": "-3669458403664876157",
-      "width": 512,
       "wrap": "clamp"
     },
     {
@@ -2360,5 +2376,5 @@
     "wall_map_txt": "analysis/re/r_mercenary_wall_map.txt"
   },
   "unitypy_version": "1.25.4",
-  "weapon_count": 227
+  "weapon_count": 304
 }

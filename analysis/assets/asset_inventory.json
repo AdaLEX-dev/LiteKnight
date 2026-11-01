@@ -336,12 +336,12 @@
     },
     {
       "category": "weapons",
-      "integrated": 227,
+      "integrated": 304,
       "lifecycle": {
         "DEVROOM_TESTED": 4,
         "DISCOVERED": 365,
         "EXTRACTED": 4,
-        "INTEGRATED": 227,
+        "INTEGRATED": 304,
         "TRANSLATED": 4,
         "VALIDATED": 4,
         "highest": "DEVROOM_TESTED",
@@ -353,12 +353,12 @@
     },
     {
       "category": "projectiles",
-      "integrated": 135,
+      "integrated": 140,
       "lifecycle": {
         "DEVROOM_TESTED": 3,
         "DISCOVERED": 3,
         "EXTRACTED": 3,
-        "INTEGRATED": 135,
+        "INTEGRATED": 140,
         "TRANSLATED": 3,
         "VALIDATED": 3,
         "highest": "DEVROOM_TESTED",
@@ -370,12 +370,12 @@
     },
     {
       "category": "enemies",
-      "integrated": 88,
+      "integrated": 101,
       "lifecycle": {
         "DEVROOM_TESTED": 1,
         "DISCOVERED": 125,
         "EXTRACTED": 1,
-        "INTEGRATED": 88,
+        "INTEGRATED": 101,
         "TRANSLATED": 1,
         "VALIDATED": 1,
         "highest": "DEVROOM_TESTED",
@@ -529,14 +529,14 @@
     },
     {
       "category": "living_room",
-      "integrated": 9036,
+      "integrated": 4609,
       "lifecycle": {
         "DEVROOM_TESTED": 1,
-        "DISCOVERED": 9036,
-        "EXTRACTED": 9036,
-        "INTEGRATED": 9036,
-        "TRANSLATED": 9036,
-        "VALIDATED": 9036,
+        "DISCOVERED": 4609,
+        "EXTRACTED": 4609,
+        "INTEGRATED": 4609,
+        "TRANSLATED": 4609,
+        "VALIDATED": 4609,
         "highest": "DEVROOM_TESTED",
         "note": "recovered HeroRoom tilemaps/sprites/colliders"
       },
@@ -887,6 +887,24 @@
       "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
     },
     {
+      "body_sprite": "enemy02_1_4720681468609544066",
+      "contact_cooldown": 1.5,
+      "contact_damage": 5,
+      "dead_sprite": "enemy02_2_163702086264988280",
+      "hp": 15,
+      "id": "e_battery01",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
       "body_sprite": "enemy27_4_9213098885762567913",
       "contact_cooldown": 1.5,
       "contact_damage": 2,
@@ -995,6 +1013,24 @@
       "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
     },
     {
+      "body_sprite": "enemy36_0_-2473660822205649465",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "dead_sprite": "enemy36_2_-4646578112713101507",
+      "hp": 12,
+      "id": "e_crystal",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
       "body_sprite": "enemy43_4_5097965456664978042",
       "contact_cooldown": 1.5,
       "contact_damage": 4,
@@ -1073,6 +1109,42 @@
       "dead_sprite": "toad_4_941991122446077855",
       "hp": 9,
       "id": "e_frog",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "ghost_9_-6564998230889218661",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "dead_sprite": "ghost_13_-1387928549833920094",
+      "hp": 9,
+      "id": "e_ghost",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "ghost_9_-6564998230889218661",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "dead_sprite": "ghost_13_-1387928549833920094",
+      "hp": 9,
+      "id": "e_ghost_temp",
       "license_status": "UNKNOWN",
       "lifecycle_status": "DEVROOM_TESTED",
       "missing": [
@@ -1253,6 +1325,132 @@
       "dead_sprite": "enemy04_6_-2650596259708101528",
       "hp": 24,
       "id": "e_knight06",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "malphite_1_-2528020073697056597",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "dead_sprite": "malphite_12_2977925650931360050",
+      "hp": 8,
+      "id": "e_malphite01",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "malphite_1_-2528020073697056597",
+      "contact_cooldown": 1.5,
+      "contact_damage": 0,
+      "dead_sprite": "malphite_12_2977925650931360050",
+      "hp": 7,
+      "id": "e_malphite01_temp",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "malphite_5_-5859613737353558106",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "dead_sprite": "malphite_13_84242129807343689",
+      "hp": 13,
+      "id": "e_malphite02",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "malphite_5_-5859613737353558106",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "dead_sprite": "malphite_13_84242129807343689",
+      "hp": 10,
+      "id": "e_malphite02_temp",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "malphite_9_7348145749460961006",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "dead_sprite": "malphite_14_-3352836650106033632",
+      "hp": 30,
+      "id": "e_malphite03",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "malphite_9_7348145749460961006",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "dead_sprite": "malphite_14_-3352836650106033632",
+      "hp": 999999,
+      "id": "e_malphite03_temp",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "malphite_9_7348145749460961006",
+      "contact_cooldown": 1.5,
+      "contact_damage": 2,
+      "dead_sprite": "malphite_14_-3352836650106033632",
+      "hp": 999999,
+      "id": "e_malphite03_temp2",
       "license_status": "UNKNOWN",
       "lifecycle_status": "DEVROOM_TESTED",
       "missing": [
@@ -2291,6 +2489,42 @@
       "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
     },
     {
+      "body_sprite": "enemy14_11_-7684529805516041998",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "dead_sprite": "enemy14_11_-7684529805516041998",
+      "hp": 40,
+      "id": "e_tentacle",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
+      "body_sprite": "enemy14_11_-7684529805516041998",
+      "contact_cooldown": 1.5,
+      "contact_damage": 3,
+      "dead_sprite": "enemy14_11_-7684529805516041998",
+      "hp": 20,
+      "id": "e_tentacle_temp",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "full EnemyAI04 scouting/pathfinding",
+        "death effect object",
+        "room-clear lifecycle"
+      ],
+      "redistribution": "local_only",
+      "shadow_sprite": "shadow3_-8753147750278292345",
+      "status": "INTEGRATED_SPAWN_DAMAGE_DEATH"
+    },
+    {
       "body_sprite": "enemy39_4_8986692536698775007",
       "contact_cooldown": 1.5,
       "contact_damage": 4,
@@ -2419,21 +2653,15 @@
   ],
   "projectiles": [
     "_bullet_13",
-    "axe_1_5",
-    "axe_2",
-    "axe_2_5",
-    "axe_2_5_yellow",
-    "axe_2_fire",
     "bullet_0",
     "bullet_1",
+    "bullet_10",
     "bullet_100",
-    "bullet_101",
     "bullet_104",
-    "bullet_107",
+    "bullet_105",
     "bullet_11",
-    "bullet_113",
-    "bullet_114",
-    "bullet_114xx",
+    "bullet_110",
+    "bullet_110xx",
     "bullet_116",
     "bullet_119",
     "bullet_11_xx",
@@ -2442,6 +2670,7 @@
     "bullet_14",
     "bullet_15",
     "bullet_16",
+    "bullet_16_2",
     "bullet_17",
     "bullet_18",
     "bullet_18_1",
@@ -2450,12 +2679,20 @@
     "bullet_20",
     "bullet_200",
     "bullet_202",
+    "bullet_205",
     "bullet_206",
     "bullet_207",
     "bullet_21",
     "bullet_215",
     "bullet_216",
     "bullet_217",
+    "bullet_22",
+    "bullet_23",
+    "bullet_23_lightning",
+    "bullet_23_rebound",
+    "bullet_23_updated",
+    "bullet_24",
+    "bullet_24_toasted",
     "bullet_26",
     "bullet_27",
     "bullet_28",
@@ -2464,18 +2701,34 @@
     "bullet_30",
     "bullet_31",
     "bullet_32",
+    "bullet_34",
+    "bullet_35",
+    "bullet_35_hero",
+    "bullet_35_plus",
+    "bullet_36",
+    "bullet_37",
+    "bullet_38",
+    "bullet_38_star",
     "bullet_39",
     "bullet_4",
+    "bullet_40",
+    "bullet_41",
+    "bullet_42",
+    "bullet_42_poison",
+    "bullet_43",
     "bullet_44",
     "bullet_44_laser",
     "bullet_45",
     "bullet_45_laser",
     "bullet_47",
+    "bullet_48",
+    "bullet_49",
     "bullet_5",
     "bullet_50",
     "bullet_51",
     "bullet_52",
     "bullet_53",
+    "bullet_54",
     "bullet_55",
     "bullet_56",
     "bullet_57",
@@ -2483,6 +2736,7 @@
     "bullet_59",
     "bullet_6",
     "bullet_60",
+    "bullet_63",
     "bullet_64",
     "bullet_66",
     "bullet_66_heart",
@@ -2493,10 +2747,14 @@
     "bullet_70",
     "bullet_70_blue_1_5",
     "bullet_70_blue_rebound",
+    "bullet_71",
     "bullet_73",
     "bullet_74",
+    "bullet_77",
     "bullet_78",
     "bullet_79",
+    "bullet_7_2",
+    "bullet_7_3",
     "bullet_8",
     "bullet_80",
     "bullet_80_2",
@@ -2507,52 +2765,33 @@
     "bullet_83",
     "bullet_85",
     "bullet_86",
+    "bullet_87",
+    "bullet_9",
     "bullet_90",
     "bullet_91",
     "bullet_93",
+    "bullet_94",
     "bullet_95",
-    "bullet_97",
-    "bullet_97_2",
-    "bullet_98",
-    "bullet_98_2",
-    "bullet_98_3",
     "bullet_99",
+    "bullet_9_toasted",
     "bullet_arrow_explode",
     "bullet_caculator",
+    "bullet_chain",
+    "bullet_chain_2",
+    "bullet_chain_7",
     "bullet_coin_normal",
-    "bullet_drill",
     "bullet_golden_sniper",
-    "bullet_hat",
     "bullet_mouse_gun!",
     "bullet_necromancer",
     "bullet_pill",
+    "bullet_rainbow_laser",
+    "fireball",
+    "melee",
+    "nuclear_bomb",
     "shield",
     "shot_gun_bullet",
-    "spear_0_8",
-    "spear_0_8_hsv_red",
-    "spear_1_5",
-    "spear_2.5",
-    "spear_3",
     "sword_0",
-    "sword_0_orange",
-    "sword_1_75",
-    "sword_1_75_gourd",
-    "sword_1_75_orange",
-    "sword_2",
-    "sword_2_5",
-    "sword_2_5_explode",
-    "sword_2_blue",
-    "sword_2_dark",
-    "sword_2_dizzy",
-    "sword_2_dizzy_lightning",
-    "sword_2_fire",
-    "sword_2_gold",
-    "sword_2_green",
-    "sword_2_ice",
-    "sword_2_poison",
-    "sword_2_red",
-    "sword_5",
-    "sword_init_assassin"
+    "sword_1_75"
   ],
   "redistribution_policy": {
     "allowed": "project-authored source/configuration and generated developer font placeholder",
@@ -2561,18 +2800,18 @@
     "unknown": "unreviewed recovered content"
   },
   "scene": "analysis/assets/scenes/r1_1_visual.json",
-  "scene_sha256": "839eeb484c1ba73a91d4bf51b58429c96a5ec3c60dd30230891b78643bf995f1",
+  "scene_sha256": "133312c52db50ea4114abbef2ad5a672eff6a6a217ca1c62d048319f5d942c33",
   "schema": 1,
   "summary": {
     "animations_integrated": 45,
     "characters_integrated": 15,
     "doors_integrated": 4,
-    "enemies_integrated": 88,
+    "enemies_integrated": 101,
     "hub_scene": "analysis/assets/scenes/hero_room.json",
     "hub_scene_collision_solids": 732,
-    "hub_scene_instances": 9036,
+    "hub_scene_instances": 4609,
     "hub_scene_interaction_markers": 23,
-    "hub_scene_sprites": 985,
+    "hub_scene_sprites": 1045,
     "lifecycle_statuses": [
       "DISCOVERED",
       "EXTRACTED",
@@ -2594,10 +2833,10 @@
       "weapon_ids": 365
     },
     "reference_catalogue": "analysis/assets/reference_catalogue.json",
-    "sprites_integrated": 803,
-    "textures_integrated": 30,
-    "unique_projectiles_integrated": 135,
-    "weapons_integrated": 227
+    "sprites_integrated": 862,
+    "textures_integrated": 31,
+    "unique_projectiles_integrated": 140,
+    "weapons_integrated": 304
   },
   "textures": [
     {
@@ -2788,7 +3027,7 @@
           1024,
           512
         ],
-        "sprite_count": 79
+        "sprite_count": 80
       },
       "dimensions": [
         1024,
@@ -2813,7 +3052,7 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
       "source_path_id": "-304717225150204165",
-      "sprite_count": 79,
+      "sprite_count": 80,
       "sprite_ids": [
         "texiao_01_787116191094815950",
         "bullet_5_-4268214305387315619",
@@ -2833,18 +3072,14 @@
         "bullet_21_8558632015719925138",
         "bullet_105_9018471056411273276",
         "bullet_82_-508990013398334219",
+        "nothing_-3916338455696095381",
         "bullet_10_5350058755578832789",
         "bullet_74_8427756760541470519",
         "bullet_39_-6431972078249221899",
-        "nothing_-3916338455696095381",
+        "bullet_31_5264552128644489582",
         "bullet_72_-2340828468289669635",
         "bullet_2_-9148537784211894478",
-        "bullet_31_5264552128644489582",
         "bullet_71_5593238911834799176",
-        "bullet_54_785546683114399763",
-        "effect_sting_0_3963580343320252787",
-        "effect_axe_2_5739322844774051543",
-        "bullet_44_-8478285347761796709",
         "bullet_40_-8998262216965228552",
         "bullet_114_5837365638860557360",
         "bullet_121_-7438666427560070248",
@@ -2857,39 +3092,44 @@
         "bullet_94_-1444795226872264014",
         "bullet_98_2369174333760045707",
         "bullet_99_5192308961883759228",
+        "bullet2_0_519032476064739946",
         "bullet_112_-1308927539208815686",
         "bullet_111_3664961312659413416",
-        "effect_08_31_-7524528572635230680",
         "bullet_3_-3242979297639753344",
         "bullet2_23_-8575785653080723981",
-        "bullet2_22_-8815696226756703393",
+        "bullet_54_785546683114399763",
+        "bullet2_25_6304227208629449443",
         "bullet_106_-8152877728063993358",
+        "bullet_85_-2846660411385211273",
         "bullet_124_-8694131900724723142",
         "bullet2_36_4404324192500334889",
         "effect_shotgun_0_-4944635985672205833",
         "bullet2_44_-5058582410710069140",
         "bullet2_53_-1344140527549944940",
         "bullet2_51_5927297964479739428",
+        "bullet_115_303263272045277978",
         "bullet2_50_-366518409148801096",
         "bullet2_54_7529308882294659759",
         "bullet2_59_2232386725088686150",
+        "effect_08_36_7029985191670972820",
         "bullet2_67_1094551923856510445",
         "bullet2_64_6023641853019147494",
         "bullet2_29_-1183222446361968956",
         "bullet2_35_1271739920577498345",
         "bullet_126_-2806164879602474152",
+        "effect_sting_0_3963580343320252787",
         "bullet2_30_-5398112845245177003",
-        "bullet_85_-2846660411385211273",
         "bullet_87_8057191759279053040",
-        "bullet_29_-1150908520057953841",
-        "bullet_26_5088758692506102188",
+        "bullet_44_-8478285347761796709",
         "bullet_30_-5415474201970131449",
+        "bullet_29_-1150908520057953841",
+        "bullet_108_-6768193395203945551",
+        "bullet_26_5088758692506102188",
         "bullet_92_5116854865751873143",
         "bullet_86_-4576818979175312745",
         "bullet_109_-4277160047592126525",
         "bullet_107_379688652040156559",
         "bullet_73_6078605703465127867",
-        "bullet_108_-6768193395203945551",
         "biaoqing_11_6962225712603698694",
         "bullet2_28_-1683717760028122008",
         "bullet_35_-2845535166081378133",
@@ -2905,7 +3145,7 @@
           512,
           512
         ],
-        "sprite_count": 249
+        "sprite_count": 287
       },
       "dimensions": [
         512,
@@ -2930,7 +3170,7 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-weapon (Group 0)-512x512-fmt13",
       "source_path_id": "-7138671102567859681",
-      "sprite_count": 249,
+      "sprite_count": 287,
       "sprite_ids": [
         "weapons_19_-4519551836381203921",
         "weapons_107_-6777473861087044728",
@@ -2973,15 +3213,18 @@
         "weapons_7_8985869824475114378",
         "weapons_16_-5393473057485916345",
         "weapons_9_-344626192807290558",
+        "weapons_5_-1649428565388834648",
         "weapons_30_-4135823937715830628",
         "weapons_36_6373640396413189611",
         "weapons_50_-5659438073312141267",
+        "weapons_4_1696983108005335737",
         "weapons_111_-2538016725823239956",
         "weapons_120_1378400027513746796",
         "weapons_121_-515314976885372310",
         "weapons_0_-5073525610966982038",
         "weapons_116_-2361256029798615502",
         "weapons_129_3688239909407509515",
+        "weapons_128_-6734355049551297333",
         "weapons_51_3638030854885757565",
         "weapons_119_1612982894147228351",
         "weapons_118_6608017045634309432",
@@ -2998,6 +3241,7 @@
         "weapons_102_877009871919692748",
         "weapons_103_-8824388485904663539",
         "weapons_104_7295090153459644824",
+        "weapons_96_-2201761302901802718",
         "weapons_99_4027882667722796231",
         "weapons_101_6354131864473757111",
         "weapons_109_1353000735921259487",
@@ -3018,15 +3262,19 @@
         "weapons_83_-6096139653374291537",
         "weapons_94_-774806653528855146",
         "weapons_93_3231175889907398672",
+        "weapons_147_2705578368818903949",
         "weapons_95_2076256400588135316",
         "weapons_32_-9085461350947652706",
         "weapons_115_-4549380294111216152",
         "weapons_97_-4211201273853665855",
         "weapons_98_-5193792124080956641",
         "weapons_92_-5778955740878678045",
+        "weapons_127_-3689055394351603250",
+        "weapons_126_-7660008630455588519",
         "weapons_135_3259193696932844357",
         "weapons_124_884254941322956094",
         "weapons_134_-83377788486784384",
+        "weapons_137_-7428359280923727896",
         "weapons_136_-401077456072618685",
         "weapons_131_-2631823593863328656",
         "weapons_132_-1892195534371381545",
@@ -3034,11 +3282,16 @@
         "weapons_86_-4037101786330167136",
         "weapons_89_-2296641776323276539",
         "weapons_85_-7385416003199526528",
+        "weapons_60_8749051881031721298",
+        "weapons_91_94997790089170065",
         "weapons_90_-5308976345220669584",
         "weapons_88_1652070262443054187",
         "weapons_87_-4579270552766989492",
         "weapons2_27_5744935540584874786",
+        "weapons_152_-7153206487535174049",
         "weapons2_15_6855479463749958770",
+        "weapons2_0_-1468221133836190042",
+        "weapons_150_-6271747677998715771",
         "weapons2_18_-109488945482270944",
         "weapons2_7_5185657716900292945",
         "weapons2_47_5042650081746007903",
@@ -3064,6 +3317,9 @@
         "weapons2_74_6650277619666482005",
         "weapons2_63_6808724920814391563",
         "weapons2_62_-6297638451415553110",
+        "weapons2_72_-127657403021498133",
+        "weapons2_79_-5386696374869721591",
+        "weapons2_78_-6675284914127257756",
         "weapons2_77_3292400577171876972",
         "weapons2_69_-6096720836649874070",
         "weapons2_70_6247461073539789134",
@@ -3079,6 +3335,8 @@
         "weapons2_96_472986420526873167",
         "weapons2_94_3889903325058056517",
         "weapons2_99_-7995173797577875970",
+        "weapons2_95_4303278633442381286",
+        "weapons2_98_5925918542724459309",
         "weapons2_97_-7553926855588289810",
         "weapons2_82_-8358307210672171688",
         "weapons2_101_1734683566256916654",
@@ -3095,12 +3353,16 @@
         "weapons2_113_-2826032731435675373",
         "weapons2_117_-4811721032461282245",
         "weapons3_22_-2142466113711890821",
+        "weapons2_120_-1476652640769925930",
+        "weapons2_121_-8768563039876672579",
+        "weapons2_105_5056783071387949375",
         "weapons2_107_1717271900653837447",
         "weapons2_127_825706526372903544",
         "weapons2_115_5721450097951377460",
         "weapons3_1_6896487601783549936",
         "weapons3_3_1527844287404884630",
         "weapons3_4_1187530979115929593",
+        "weapons3_12_5928984959022285470",
         "weapons2_119_5729024413848824725",
         "weapons2_111_8360995474451574880",
         "weapons2_112_-6933446156341901612",
@@ -3114,17 +3376,22 @@
         "weapons3_19_-1904322803585346853",
         "weapons3_20_5571901318910588766",
         "weapons3_26_-2248623047531563503",
+        "weapons3_77_297893709183035890",
         "weapons3_55_4278706576203787103",
         "weapons3_80_-2471004349283935015",
         "weapons3_15_2708628171060123306",
         "weapons3_81_-1598511658263422377",
         "weapons3_82_-4692049075053732073",
         "weapons3_83_1527999046970687307",
+        "weapons3_78_3024559421814570791",
+        "weapons3_5_5679499761174188082",
         "weapons3_79_460799624315404389",
         "weapons3_85_7010442573258404328",
         "weapons3_89_6250388690883091133",
         "weapons3_16_-6863615454656082676",
         "weapons3_17_5918197365023559805",
+        "weapons3_99_7118299010620391789",
+        "weapons3_101_-5856556014887017588",
         "weapons3_102_-6288352678758181378",
         "weapons3_116_3202557068459442063",
         "weapons3_115_-7377748517642696386",
@@ -3132,15 +3399,19 @@
         "weapons3_121_7470997149609032544",
         "weapons3_109_-1810938144706852211",
         "weapons3_96_64283882223164446",
+        "weapons3_128_-873926479477793125",
         "weapons_s_05_3717319975245908385",
+        "weapons3_143_1151153830320298083",
         "weapons2_102_-1697437904732046637",
         "weapons3_136_-3163394056145194656",
         "weapons3_139_-5925293654653324905",
         "weapons3_134_-5533573320863587672",
+        "weapons3_133_-8847249744880482256",
         "weapons3_135_5291942722220957348",
         "weapons3_144_-5290180027748792597",
         "weapons3_152_-4178181492773450977",
         "weapons3_24_-2629886498233803973",
+        "weapons3_151_7744449793204875472",
         "weapons3_154_-4727435693811242865",
         "weapons3_153_8968635588032863682",
         "weapons3_155_8349396298206301999",
@@ -3153,7 +3424,10 @@
         "weapons3_157_6422551168783641030",
         "weapons3_164_5304325961955707899",
         "weapons3_174_-7577831652462395721",
+        "weapons3_158_-5617502327126747028",
+        "weapons3_161_-8257932203175006373",
         "weapons3_168_7565285980113592416",
+        "weapons3_138_-1440407108933319996",
         "weapons3_110_-6021413072959553983",
         "weapons2_90_5796428167252141893",
         "weapons2_93_386500239221313333",
@@ -3171,67 +3445,32 @@
         "weapons3_41_-4300994094896020064",
         "weapons3_67_-6663707652018217334",
         "weapons3_50_2116201690578422737",
+        "weapons3_71_8866677619729206179",
+        "weapons3_53_8576646867905794454",
         "weapons3_72_5591927596500019274",
         "weapons3_54_8283060527125366938",
-        "weapons3_62_4081822940650708461",
         "weapons3_97_-8157691021017875835",
-        "weapons3_36_1696032096758110322",
         "weapons3_98_2606619781448220464",
+        "weapons3_66_-84763577360282232",
+        "weapons3_33_-2930623290838834072",
         "weapons3_60_5280940165510499606",
         "weapons3_38_5976492320468990211",
         "weapons3_126_-621446551741520076",
-        "weapons3_127_7568765821536972130"
+        "weapons3_127_7568765821536972130",
+        "weapons3_56_6520289254153383783",
+        "weapons3_125_9083084837593622840"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
     },
     {
       "atlas_information": {
-        "is_atlas": false,
-        "size": [
-          128,
-          128
-        ],
-        "sprite_count": 1
-      },
-      "dimensions": [
-        128,
-        128
-      ],
-      "filter_mode": "point",
-      "format": "ETC2_RGBA8",
-      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_4699608564152035255.png",
-      "generated_png_exists": true,
-      "id": "auto_atlas_4699608564152035255",
-      "license_status": "UNKNOWN",
-      "lifecycle_status": "INTEGRATED",
-      "native_output": "textures/auto_atlas_4699608564152035255.png",
-      "note": "Reference-derived pixels are local development assets; do not redistribute.",
-      "pixels_per_unit_values": [
-        16.0
-      ],
-      "png_sha256": "c57e49384cdd4ce1e26c37db7d19d3f8d5c5206726ae22a5d46a44a2061a760d",
-      "redistribution": "local_only",
-      "rgba8_sha256": "e6f44a311d8e5f73475ab2b320bfac0cc7dc64647d65bfc8cfc28642f6ed0862",
-      "source_asset": "common:4699608564152035255",
-      "source_bundle": "common",
-      "source_name": "SpriteAtlasTexture-bullet_effect (Group 2)-128x128-fmt47",
-      "source_path_id": "4699608564152035255",
-      "sprite_count": 1,
-      "sprite_ids": [
-        "effect_axe_ice_2_-8168046925668281041"
-      ],
-      "status": "INTEGRATED",
-      "wrap_mode": "clamp"
-    },
-    {
-      "atlas_information": {
-        "is_atlas": false,
+        "is_atlas": true,
         "size": [
           1024,
           1024
         ],
-        "sprite_count": 1
+        "sprite_count": 2
       },
       "dimensions": [
         1024,
@@ -3256,9 +3495,265 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 1)-1024x1024-fmt4",
       "source_path_id": "1541943556708260529",
+      "sprite_count": 2,
+      "sprite_ids": [
+        "skill_effect_2_-411312201785844153",
+        "effect_dead_note_0_-2142509355518607259"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": false,
+        "size": [
+          256,
+          256
+        ],
+        "sprite_count": 1
+      },
+      "dimensions": [
+        256,
+        256
+      ],
+      "filter_mode": "point",
+      "format": "ETC2_RGBA8",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m7412614709012982549.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m7412614709012982549",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m7412614709012982549.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        64.0
+      ],
+      "png_sha256": "1c22a3e43071386304216b9b4d5c8f3a22e57ddb485990af11f8e78aa7ce2a13",
+      "redistribution": "local_only",
+      "rgba8_sha256": "88cd2447f2569c2d0b2b9149b341647f7ab789469b44715221e06104f1512600",
+      "source_asset": "common:-7412614709012982549",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-texture01 (Group 0)-256x256-fmt47",
+      "source_path_id": "-7412614709012982549",
       "sprite_count": 1,
       "sprite_ids": [
-        "skill_effect_2_-411312201785844153"
+        "texture_c4_6120375401193138903"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          2048,
+          1024
+        ],
+        "sprite_count": 97
+      },
+      "dimensions": [
+        2048,
+        1024
+      ],
+      "filter_mode": "point",
+      "format": "RGBA32",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/character_atlas.png",
+      "generated_png_exists": true,
+      "id": "character_atlas",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/character_atlas.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
+      "redistribution": "local_only",
+      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
+      "source_asset": "common:6092784074628815488",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
+      "source_path_id": "6092784074628815488",
+      "sprite_count": 97,
+      "sprite_ids": [
+        "c02_s2_0_-5227959155456417429",
+        "c01_4_-5734303052896741615",
+        "c01_5_6827566613129973144",
+        "c01_6_8630870737493093490",
+        "c01_7_9175778662407141084",
+        "c01_8_-3060927491772971668",
+        "c01_0_-4648659440509418814",
+        "c01_1_-4226452341420905142",
+        "c01_2_645446436195162188",
+        "c01_3_-3975174193321666585",
+        "c02_4_2533696368722729423",
+        "c02_5_3469701969437907486",
+        "c02_6_-8036838906074253128",
+        "c02_7_2934387428834832260",
+        "c02_0_7045471515131849070",
+        "c02_1_-1527313784904933911",
+        "c02_2_2010956447018350721",
+        "c02_3_5749798887316269348",
+        "c02_12_-4566108353330725342",
+        "c03_4_886919620004310966",
+        "c04_4_-7867999071091526313",
+        "c04_5_3853014356710147013",
+        "c04_6_-8453146473262592852",
+        "c04_7_-4463081516640137828",
+        "c04_0_-301400160239177722",
+        "c04_1_-8050334239033503536",
+        "c04_2_6294177384368747671",
+        "c04_3_-5597364587392989112",
+        "c04_8_2941712870547867169",
+        "c05_4_5265925524066825488",
+        "c06_4_-3777194365302842433",
+        "c06_5_7887913288281164602",
+        "c06_6_-2854968754619022233",
+        "c06_7_-5448581628555747485",
+        "c06_0_-6883980747526274050",
+        "c06_1_-547757205950180773",
+        "c06_2_6375079549934620099",
+        "c06_3_-782173388071584013",
+        "c06_8_-1544188320726130366",
+        "c07_4_1463359596663786837",
+        "c08_4_3710336989381504109",
+        "c08_5_5487774679915106114",
+        "c08_6_5674073676294482171",
+        "c08_7_-2679120597847107870",
+        "c08_0_5238237281128075768",
+        "c08_1_-642898220988702053",
+        "c08_2_6498614530538834062",
+        "c08_3_-1509495560773008250",
+        "c08_8_-6409065126302074367",
+        "c09_4_-3680572327282884399",
+        "c10_4_2246788773732299709",
+        "c10_5_-642309496517842631",
+        "c10_6_-3412312765099298705",
+        "c10_7_-8108148935947895414",
+        "c10_0_-3994934330151783980",
+        "c10_1_5762356851744802797",
+        "c10_2_-7768341534963547212",
+        "c10_3_6837120057661948668",
+        "c10_8_7440815215802235236",
+        "c11_4_1481129277041277472",
+        "c11_5_2704668021058871860",
+        "c11_6_1694080502647962498",
+        "c11_7_-6934550438102373354",
+        "c11_0_-7632416657381207261",
+        "c11_1_5847524191929716369",
+        "c11_2_-8725504821765607768",
+        "c11_3_8974636207079876836",
+        "c11_8_-2929463278745239023",
+        "c12_4_5717826693161860153",
+        "c12_s6_4_8346049544195113675",
+        "c12_s6_5_-8673197506076561345",
+        "c12_s6_6_-8480772490316305603",
+        "c12_s6_7_8118218068920635072",
+        "c12_s6_0_-25976151600848186",
+        "c12_s6_1_-5940294703727094244",
+        "c12_s6_2_-6677886521755178631",
+        "c12_s6_3_-2864262776284398628",
+        "c12_s6_8_-117899815933696297",
+        "c13_0_-5666529826470317902",
+        "c13_1_8287917003770408388",
+        "c13_2_-3693793407205749878",
+        "c13_3_4702448629543164964",
+        "c13_4_8837763641471187691",
+        "c13_5_-4017134425159218280",
+        "c13_6_3788550799040786428",
+        "c13_7_-4232664596238525539",
+        "c13_8_-5748865747657373273",
+        "c14_0_7269486461648906396",
+        "c15_s0_5_-7812027089734984391",
+        "c15_s0_6_-8813728125163246477",
+        "c15_s0_7_3352247018688618823",
+        "c15_s0_4_948557172150653007",
+        "c15_s0_0_-4522898657242282166",
+        "c15_s0_1_-4730406236361601227",
+        "c15_s0_2_2820472031853442958",
+        "c15_s0_3_8189770355392506394",
+        "c15_s0_8_-6836897207488494262"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          512,
+          512
+        ],
+        "sprite_count": 43
+      },
+      "dimensions": [
+        512,
+        512
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m3669458403664876157.png",
+      "generated_png_exists": true,
+      "id": "auto_atlas_m3669458403664876157",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/auto_atlas_m3669458403664876157.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "114a4e0def55a9eb117c46f69d9eac9014e345a150b4c7eef12b963d4c550648",
+      "redistribution": "local_only",
+      "rgba8_sha256": "aaaabd4a0348f765cd9bed5e38ca9f5c3f201d743b1f50ab674a5cf24828a787",
+      "source_asset": "common:-3669458403664876157",
+      "source_bundle": "common",
+      "source_name": "SpriteAtlasTexture-character01 (Group 1)-512x512-fmt13",
+      "source_path_id": "-3669458403664876157",
+      "sprite_count": 43,
+      "sprite_ids": [
+        "mech_21_-7040538548755256402",
+        "pet00_s1_4_9008018620013671286",
+        "pet00_s1_5_-307036765841805978",
+        "pet00_s1_0_-3336393826094343378",
+        "pet00_s1_1_-8963756788343027520",
+        "pet00_s1_2_-2444310192479850160",
+        "pet00_s1_3_-6303083639571656207",
+        "pet00_4_2506273103514169914",
+        "pet00_5_-7058763974204868898",
+        "pet00_6_-2053011895249672687",
+        "pet00_7_2354649384311063396",
+        "pet00_0_-5822644560855107098",
+        "pet00_1_2776275427274630501",
+        "pet00_2_-8830094507258752627",
+        "pet00_3_1758209959467169560",
+        "pet_datura_0_6768514335476093270",
+        "pet_eater_0_-7677257116517049626",
+        "pet_eater_1_-7887860460701181801",
+        "pet_eater_2_-7232980581735848006",
+        "pet_eater_3_-803594670640661171",
+        "pet_eater_4_3957286992778474375",
+        "pet_eater_5_5824428836431806509",
+        "pet_eater_6_1006005038767257005",
+        "pet_eater_7_-7872842696253624668",
+        "pet_eater_8_-7165357335384497808",
+        "pet_eater_9_-2321586240072495532",
+        "pet_eater_10_5668890859384566829",
+        "pet_eater_11_-1966329466357059474",
+        "pet_eater_12_241988703588428852",
+        "pet_eater_13_5406566623437795062",
+        "pet_eater_14_-8753966889514200137",
+        "pet_eater_15_-4745547345004909452",
+        "pet_eater_16_3668622174875380642",
+        "pet08_s0_5_8268571953540685547",
+        "pet08_s0_4_-7117541218572365289",
+        "pet08_s0_0_-4739693358667178287",
+        "pet08_s0_1_-7344970774838283153",
+        "pet08_s0_2_472507621048746766",
+        "pet08_s0_3_-6100199358441242486",
+        "pet08_s0_6_5456418766079047880",
+        "pet08_s0_7_7079749542183406626",
+        "pet08_s0_8_7572702886637724114",
+        "pet08_s0_9_5277702560993966677"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -3270,7 +3765,7 @@
           256,
           256
         ],
-        "sprite_count": 35
+        "sprite_count": 40
       },
       "dimensions": [
         256,
@@ -3295,10 +3790,12 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-weapon (Group 1)-256x256-fmt4",
       "source_path_id": "6364077752768854847",
-      "sprite_count": 35,
+      "sprite_count": 40,
       "sprite_ids": [
         "weapons4_7_-4482746796944925004",
+        "weapons4_6_-7363087672473406809",
         "weapons4_0_-3285786152069901032",
+        "weapons4_1_2888814338969688004",
         "weapons4_3_-8118670029382758518",
         "weapons4_4_1940136712093043108",
         "weapons4_2_-8715251059974529702",
@@ -3313,13 +3810,14 @@
         "weapons4_15_-7948136335783401997",
         "weapons4_67_1979701570371527359",
         "weapons4_68_-8065581265588641549",
+        "weapons4_69_-3525040033921444595",
+        "weapons4_70_3959605432791120621",
         "weapons4_71_-2827557509289219483",
         "weapons4_72_3845303260987804634",
         "weapons4_73_7815769896728704317",
         "weapons4_77_-3646888054916899081",
         "weapons4_29_8372834073492273390",
         "weapons4_30_6788049032564883208",
-        "weapons4_32_-3803410214668493133",
         "weapons4_31_7716712654845365522",
         "weapons4_44_-4209417265756254450",
         "weapons4_43_-8416963780825831845",
@@ -3327,11 +3825,13 @@
         "weapons4_20_126422199719527966",
         "weapons4_16_3517773441130089947",
         "weapons4_17_5708643495580026155",
+        "weapons4_56_814091641446753764",
         "weapons4_38_5513074526522361957",
-        "weapons4_23_-3251284910416285188",
         "weapons4_28_2241778816165820075",
+        "weapons4_57_-857377163856171581",
         "weapons4_33_-4000984691978715072",
-        "weapons4_47_-3560308371758672994"
+        "weapons4_47_-3560308371758672994",
+        "weapons4_41_-3113682391251421347"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -3343,7 +3843,7 @@
           256,
           512
         ],
-        "sprite_count": 19
+        "sprite_count": 20
       },
       "dimensions": [
         256,
@@ -3368,7 +3868,7 @@
       "source_bundle": "level-objects",
       "source_name": "SpriteAtlasTexture-alien (Group 0)-256x512-fmt13",
       "source_path_id": "5794761991059932759",
-      "sprite_count": 19,
+      "sprite_count": 20,
       "sprite_ids": [
         "enemy10_4_-7832585593938164910",
         "enemy10_5_3926050159437465095",
@@ -3384,11 +3884,79 @@
         "enemy11_4_-4792385863816387415",
         "enemy11_5_-7311158229632797446",
         "enemy11_6_-8830746776420048394",
+        "enemy14_11_-7684529805516041998",
         "enemy10_7_-7628047848055159221",
         "enemy10_8_2846604252161107839",
         "enemy12_4_-8270700861436172822",
         "enemy12_5_1641287125836734213",
         "enemy12_6_-1774128283114242566"
+      ],
+      "status": "INTEGRATED",
+      "wrap_mode": "clamp"
+    },
+    {
+      "atlas_information": {
+        "is_atlas": true,
+        "size": [
+          256,
+          256
+        ],
+        "sprite_count": 29
+      },
+      "dimensions": [
+        256,
+        256
+      ],
+      "filter_mode": "point",
+      "format": "RGBA4444",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/charactor_common_atlas.png",
+      "generated_png_exists": true,
+      "id": "charactor_common_atlas",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "INTEGRATED",
+      "native_output": "textures/charactor_common_atlas.png",
+      "note": "Reference-derived pixels are local development assets; do not redistribute.",
+      "pixels_per_unit_values": [
+        16.0
+      ],
+      "png_sha256": "7bf47c0b2777ad3e76246a61664c31ddb4b865bc2849f57d1640d64d4e217020",
+      "redistribution": "local_only",
+      "rgba8_sha256": "49b3134f0efecb751e81b65b20a74785b44a107a8889206eec938dec2dace86b",
+      "source_asset": "res/charactor_common:2755411589560438748",
+      "source_bundle": "res/charactor_common",
+      "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
+      "source_path_id": "2755411589560438748",
+      "sprite_count": 29,
+      "sprite_ids": [
+        "enemy02_1_4720681468609544066",
+        "enemy02_2_163702086264988280",
+        "enemy18_12_2727118031561288257",
+        "enemy18_13_-7371385304393196932",
+        "enemy18_14_-3111647489577013791",
+        "enemy18_4_394675555605301851",
+        "enemy18_5_4863821685076533705",
+        "enemy18_6_4730491178211365453",
+        "enemy03_4_2668544751360401854",
+        "enemy03_5_6416014661632518903",
+        "enemy03_6_7542111201028531483",
+        "enemy04_4_-9063741577113046773",
+        "enemy04_5_-1022181027650812698",
+        "enemy04_6_-2650596259708101528",
+        "enemy07_4_-4021784309723157647",
+        "enemy07_5_-6258627404682098643",
+        "enemy07_6_-439168092598180686",
+        "enemy07_7_-4025047033490599640",
+        "enemy07_8_4587246480505806618",
+        "enemy01_4_6916287646018367429",
+        "enemy01_5_6021534728871174347",
+        "enemy01_6_3055012132422103371",
+        "enemy46_4_-8252437253266407641",
+        "enemy46_5_-6552490607634069198",
+        "enemy46_6_-5223881341977335385",
+        "enemy46_0_-3109744835621148927",
+        "enemy46_1_4905233888606914304",
+        "enemy46_2_8668965439217412179",
+        "enemy46_3_6744337178246991267"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -3469,63 +4037,66 @@
       "atlas_information": {
         "is_atlas": true,
         "size": [
-          256,
+          512,
           256
         ],
-        "sprite_count": 27
+        "sprite_count": 30
       },
       "dimensions": [
-        256,
+        512,
         256
       ],
       "filter_mode": "point",
       "format": "RGBA4444",
-      "generated_png": "assets/generated/visual/r1_1_visual/textures/charactor_common_atlas.png",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_4696160052770242414.png",
       "generated_png_exists": true,
-      "id": "charactor_common_atlas",
+      "id": "auto_atlas_4696160052770242414",
       "license_status": "UNKNOWN",
       "lifecycle_status": "INTEGRATED",
-      "native_output": "textures/charactor_common_atlas.png",
+      "native_output": "textures/auto_atlas_4696160052770242414.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
         16.0
       ],
-      "png_sha256": "7bf47c0b2777ad3e76246a61664c31ddb4b865bc2849f57d1640d64d4e217020",
+      "png_sha256": "cba10752e0988c64ee985687f9c9fbe8c62e6b0f8d4ffcbbc211985306b75007",
       "redistribution": "local_only",
-      "rgba8_sha256": "49b3134f0efecb751e81b65b20a74785b44a107a8889206eec938dec2dace86b",
-      "source_asset": "res/charactor_common:2755411589560438748",
-      "source_bundle": "res/charactor_common",
-      "source_name": "SpriteAtlasTexture-charactor_common (Group 1)-256x256-fmt13",
-      "source_path_id": "2755411589560438748",
-      "sprite_count": 27,
+      "rgba8_sha256": "829ffa2a4ff1bc3a156eab47a1d9dbc2eedac08931895ed0aebd20e76771fea2",
+      "source_asset": "level-objects:4696160052770242414",
+      "source_bundle": "level-objects",
+      "source_name": "SpriteAtlasTexture-ice (Group 0)-512x256-fmt13",
+      "source_path_id": "4696160052770242414",
+      "sprite_count": 30,
       "sprite_ids": [
-        "enemy18_12_2727118031561288257",
-        "enemy18_13_-7371385304393196932",
-        "enemy18_14_-3111647489577013791",
-        "enemy18_4_394675555605301851",
-        "enemy18_5_4863821685076533705",
-        "enemy18_6_4730491178211365453",
-        "enemy03_4_2668544751360401854",
-        "enemy03_5_6416014661632518903",
-        "enemy03_6_7542111201028531483",
-        "enemy04_4_-9063741577113046773",
-        "enemy04_5_-1022181027650812698",
-        "enemy04_6_-2650596259708101528",
-        "enemy07_4_-4021784309723157647",
-        "enemy07_5_-6258627404682098643",
-        "enemy07_6_-439168092598180686",
-        "enemy07_7_-4025047033490599640",
-        "enemy07_8_4587246480505806618",
-        "enemy01_4_6916287646018367429",
-        "enemy01_5_6021534728871174347",
-        "enemy01_6_3055012132422103371",
-        "enemy46_4_-8252437253266407641",
-        "enemy46_5_-6552490607634069198",
-        "enemy46_6_-5223881341977335385",
-        "enemy46_0_-3109744835621148927",
-        "enemy46_1_4905233888606914304",
-        "enemy46_2_8668965439217412179",
-        "enemy46_3_6744337178246991267"
+        "enemy36_0_-2473660822205649465",
+        "enemy36_2_-4646578112713101507",
+        "enemy31_4_562555180400755744",
+        "enemy31_5_5977024407774464569",
+        "enemy31_6_-676574902640322933",
+        "enemy33_4_5904063541693301164",
+        "enemy33_5_4050155687760762630",
+        "enemy33_7_3635683360046273626",
+        "enemy32_4_423907734515690887",
+        "enemy32_5_-698304253701632352",
+        "enemy32_6_3882899714150132031",
+        "enemy33_1_-6112482284692365185",
+        "enemy33_2_-8875241082061838089",
+        "enemy33_0_3492560557206801008",
+        "enemy30_4_-4082194007791575256",
+        "enemy30_5_6334464831088825572",
+        "enemy30_6_282794084620601314",
+        "enemy37_4_-3145299270635757948",
+        "enemy37_5_-1000575202912651710",
+        "enemy37_6_-2923568128037604707",
+        "enemy34_4_3195783896634053125",
+        "enemy34_5_-5280255800584256479",
+        "enemy34_6_8872878592958451054",
+        "enemy34_7_-6801904712685681867",
+        "enemy34_8_5625166621723404504",
+        "enemy35_4_-8939945009654931854",
+        "enemy35_5_2575131044882734657",
+        "enemy35_6_4306863054704696863",
+        "enemy35_7_-5364352244584346401",
+        "enemy35_8_-442557422106568930"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -3772,64 +4343,43 @@
       "atlas_information": {
         "is_atlas": true,
         "size": [
-          512,
-          256
+          128,
+          128
         ],
-        "sprite_count": 28
+        "sprite_count": 7
       },
       "dimensions": [
-        512,
-        256
+        128,
+        128
       ],
       "filter_mode": "point",
-      "format": "RGBA4444",
-      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_4696160052770242414.png",
+      "format": "RGBA32",
+      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_2538636145188265709.png",
       "generated_png_exists": true,
-      "id": "auto_atlas_4696160052770242414",
+      "id": "auto_atlas_2538636145188265709",
       "license_status": "UNKNOWN",
       "lifecycle_status": "INTEGRATED",
-      "native_output": "textures/auto_atlas_4696160052770242414.png",
+      "native_output": "textures/auto_atlas_2538636145188265709.png",
       "note": "Reference-derived pixels are local development assets; do not redistribute.",
       "pixels_per_unit_values": [
         16.0
       ],
-      "png_sha256": "cba10752e0988c64ee985687f9c9fbe8c62e6b0f8d4ffcbbc211985306b75007",
+      "png_sha256": "a938dd446a3cf2509b154771218e18d25af01093423f004cb514227651ea70d0",
       "redistribution": "local_only",
-      "rgba8_sha256": "829ffa2a4ff1bc3a156eab47a1d9dbc2eedac08931895ed0aebd20e76771fea2",
-      "source_asset": "level-objects:4696160052770242414",
+      "rgba8_sha256": "59814112b068b50411c57118645310ee01c365cd4240da6cb10b78d68da72147",
+      "source_asset": "level-objects:2538636145188265709",
       "source_bundle": "level-objects",
-      "source_name": "SpriteAtlasTexture-ice (Group 0)-512x256-fmt13",
-      "source_path_id": "4696160052770242414",
-      "sprite_count": 28,
+      "source_name": "malphite",
+      "source_path_id": "2538636145188265709",
+      "sprite_count": 7,
       "sprite_ids": [
-        "enemy31_4_562555180400755744",
-        "enemy31_5_5977024407774464569",
-        "enemy31_6_-676574902640322933",
-        "enemy33_4_5904063541693301164",
-        "enemy33_5_4050155687760762630",
-        "enemy33_7_3635683360046273626",
-        "enemy32_4_423907734515690887",
-        "enemy32_5_-698304253701632352",
-        "enemy32_6_3882899714150132031",
-        "enemy33_1_-6112482284692365185",
-        "enemy33_2_-8875241082061838089",
-        "enemy33_0_3492560557206801008",
-        "enemy30_4_-4082194007791575256",
-        "enemy30_5_6334464831088825572",
-        "enemy30_6_282794084620601314",
-        "enemy37_4_-3145299270635757948",
-        "enemy37_5_-1000575202912651710",
-        "enemy37_6_-2923568128037604707",
-        "enemy34_4_3195783896634053125",
-        "enemy34_5_-5280255800584256479",
-        "enemy34_6_8872878592958451054",
-        "enemy34_7_-6801904712685681867",
-        "enemy34_8_5625166621723404504",
-        "enemy35_4_-8939945009654931854",
-        "enemy35_5_2575131044882734657",
-        "enemy35_6_4306863054704696863",
-        "enemy35_7_-5364352244584346401",
-        "enemy35_8_-442557422106568930"
+        "malphite_1_-2528020073697056597",
+        "malphite_12_2977925650931360050",
+        "malphite_5_-5859613737353558106",
+        "malphite_13_84242129807343689",
+        "malphite_9_7348145749460961006",
+        "malphite_14_-3352836650106033632",
+        "malphite_8_1522057459310312477"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -3926,140 +4476,6 @@
       "atlas_information": {
         "is_atlas": true,
         "size": [
-          2048,
-          1024
-        ],
-        "sprite_count": 96
-      },
-      "dimensions": [
-        2048,
-        1024
-      ],
-      "filter_mode": "point",
-      "format": "RGBA32",
-      "generated_png": "assets/generated/visual/r1_1_visual/textures/character_atlas.png",
-      "generated_png_exists": true,
-      "id": "character_atlas",
-      "license_status": "UNKNOWN",
-      "lifecycle_status": "INTEGRATED",
-      "native_output": "textures/character_atlas.png",
-      "note": "Reference-derived pixels are local development assets; do not redistribute.",
-      "pixels_per_unit_values": [
-        16.0
-      ],
-      "png_sha256": "4f5be052f7cb07e12913bbbe0945178a4f789c6aa492dbeda78becc29fec32e6",
-      "redistribution": "local_only",
-      "rgba8_sha256": "7c161a0d99dc595de33fe7df43763efc37ceaed904774a896e49c7f0e3e356cc",
-      "source_asset": "common:6092784074628815488",
-      "source_bundle": "common",
-      "source_name": "SpriteAtlasTexture-character01 (Group 0)-2048x1024-fmt4",
-      "source_path_id": "6092784074628815488",
-      "sprite_count": 96,
-      "sprite_ids": [
-        "c01_4_-5734303052896741615",
-        "c01_5_6827566613129973144",
-        "c01_6_8630870737493093490",
-        "c01_7_9175778662407141084",
-        "c01_8_-3060927491772971668",
-        "c01_0_-4648659440509418814",
-        "c01_1_-4226452341420905142",
-        "c01_2_645446436195162188",
-        "c01_3_-3975174193321666585",
-        "c02_4_2533696368722729423",
-        "c02_5_3469701969437907486",
-        "c02_6_-8036838906074253128",
-        "c02_7_2934387428834832260",
-        "c02_0_7045471515131849070",
-        "c02_1_-1527313784904933911",
-        "c02_2_2010956447018350721",
-        "c02_3_5749798887316269348",
-        "c02_12_-4566108353330725342",
-        "c03_4_886919620004310966",
-        "c04_4_-7867999071091526313",
-        "c04_5_3853014356710147013",
-        "c04_6_-8453146473262592852",
-        "c04_7_-4463081516640137828",
-        "c04_0_-301400160239177722",
-        "c04_1_-8050334239033503536",
-        "c04_2_6294177384368747671",
-        "c04_3_-5597364587392989112",
-        "c04_8_2941712870547867169",
-        "c05_4_5265925524066825488",
-        "c06_4_-3777194365302842433",
-        "c06_5_7887913288281164602",
-        "c06_6_-2854968754619022233",
-        "c06_7_-5448581628555747485",
-        "c06_0_-6883980747526274050",
-        "c06_1_-547757205950180773",
-        "c06_2_6375079549934620099",
-        "c06_3_-782173388071584013",
-        "c06_8_-1544188320726130366",
-        "c07_4_1463359596663786837",
-        "c08_4_3710336989381504109",
-        "c08_5_5487774679915106114",
-        "c08_6_5674073676294482171",
-        "c08_7_-2679120597847107870",
-        "c08_0_5238237281128075768",
-        "c08_1_-642898220988702053",
-        "c08_2_6498614530538834062",
-        "c08_3_-1509495560773008250",
-        "c08_8_-6409065126302074367",
-        "c09_4_-3680572327282884399",
-        "c10_4_2246788773732299709",
-        "c10_5_-642309496517842631",
-        "c10_6_-3412312765099298705",
-        "c10_7_-8108148935947895414",
-        "c10_0_-3994934330151783980",
-        "c10_1_5762356851744802797",
-        "c10_2_-7768341534963547212",
-        "c10_3_6837120057661948668",
-        "c10_8_7440815215802235236",
-        "c11_4_1481129277041277472",
-        "c11_5_2704668021058871860",
-        "c11_6_1694080502647962498",
-        "c11_7_-6934550438102373354",
-        "c11_0_-7632416657381207261",
-        "c11_1_5847524191929716369",
-        "c11_2_-8725504821765607768",
-        "c11_3_8974636207079876836",
-        "c11_8_-2929463278745239023",
-        "c12_4_5717826693161860153",
-        "c12_s6_4_8346049544195113675",
-        "c12_s6_5_-8673197506076561345",
-        "c12_s6_6_-8480772490316305603",
-        "c12_s6_7_8118218068920635072",
-        "c12_s6_0_-25976151600848186",
-        "c12_s6_1_-5940294703727094244",
-        "c12_s6_2_-6677886521755178631",
-        "c12_s6_3_-2864262776284398628",
-        "c12_s6_8_-117899815933696297",
-        "c13_0_-5666529826470317902",
-        "c13_1_8287917003770408388",
-        "c13_2_-3693793407205749878",
-        "c13_3_4702448629543164964",
-        "c13_4_8837763641471187691",
-        "c13_5_-4017134425159218280",
-        "c13_6_3788550799040786428",
-        "c13_7_-4232664596238525539",
-        "c13_8_-5748865747657373273",
-        "c14_0_7269486461648906396",
-        "c15_s0_5_-7812027089734984391",
-        "c15_s0_6_-8813728125163246477",
-        "c15_s0_7_3352247018688618823",
-        "c15_s0_4_948557172150653007",
-        "c15_s0_0_-4522898657242282166",
-        "c15_s0_1_-4730406236361601227",
-        "c15_s0_2_2820472031853442958",
-        "c15_s0_3_8189770355392506394",
-        "c15_s0_8_-6836897207488494262"
-      ],
-      "status": "INTEGRATED",
-      "wrap_mode": "clamp"
-    },
-    {
-      "atlas_information": {
-        "is_atlas": true,
-        "size": [
           128,
           128
         ],
@@ -4134,86 +4550,6 @@
         "worm_0_-4367086905937385810",
         "worm_1_276657210480154430",
         "worm_12_-4622439288367772151"
-      ],
-      "status": "INTEGRATED",
-      "wrap_mode": "clamp"
-    },
-    {
-      "atlas_information": {
-        "is_atlas": true,
-        "size": [
-          512,
-          512
-        ],
-        "sprite_count": 42
-      },
-      "dimensions": [
-        512,
-        512
-      ],
-      "filter_mode": "point",
-      "format": "RGBA4444",
-      "generated_png": "assets/generated/visual/r1_1_visual/textures/auto_atlas_m3669458403664876157.png",
-      "generated_png_exists": true,
-      "id": "auto_atlas_m3669458403664876157",
-      "license_status": "UNKNOWN",
-      "lifecycle_status": "INTEGRATED",
-      "native_output": "textures/auto_atlas_m3669458403664876157.png",
-      "note": "Reference-derived pixels are local development assets; do not redistribute.",
-      "pixels_per_unit_values": [
-        16.0
-      ],
-      "png_sha256": "114a4e0def55a9eb117c46f69d9eac9014e345a150b4c7eef12b963d4c550648",
-      "redistribution": "local_only",
-      "rgba8_sha256": "aaaabd4a0348f765cd9bed5e38ca9f5c3f201d743b1f50ab674a5cf24828a787",
-      "source_asset": "common:-3669458403664876157",
-      "source_bundle": "common",
-      "source_name": "SpriteAtlasTexture-character01 (Group 1)-512x512-fmt13",
-      "source_path_id": "-3669458403664876157",
-      "sprite_count": 42,
-      "sprite_ids": [
-        "pet00_s1_4_9008018620013671286",
-        "pet00_s1_5_-307036765841805978",
-        "pet00_s1_0_-3336393826094343378",
-        "pet00_s1_1_-8963756788343027520",
-        "pet00_s1_2_-2444310192479850160",
-        "pet00_s1_3_-6303083639571656207",
-        "pet00_4_2506273103514169914",
-        "pet00_5_-7058763974204868898",
-        "pet00_6_-2053011895249672687",
-        "pet00_7_2354649384311063396",
-        "pet00_0_-5822644560855107098",
-        "pet00_1_2776275427274630501",
-        "pet00_2_-8830094507258752627",
-        "pet00_3_1758209959467169560",
-        "pet_datura_0_6768514335476093270",
-        "pet_eater_0_-7677257116517049626",
-        "pet_eater_1_-7887860460701181801",
-        "pet_eater_2_-7232980581735848006",
-        "pet_eater_3_-803594670640661171",
-        "pet_eater_4_3957286992778474375",
-        "pet_eater_5_5824428836431806509",
-        "pet_eater_6_1006005038767257005",
-        "pet_eater_7_-7872842696253624668",
-        "pet_eater_8_-7165357335384497808",
-        "pet_eater_9_-2321586240072495532",
-        "pet_eater_10_5668890859384566829",
-        "pet_eater_11_-1966329466357059474",
-        "pet_eater_12_241988703588428852",
-        "pet_eater_13_5406566623437795062",
-        "pet_eater_14_-8753966889514200137",
-        "pet_eater_15_-4745547345004909452",
-        "pet_eater_16_3668622174875380642",
-        "pet08_s0_5_8268571953540685547",
-        "pet08_s0_4_-7117541218572365289",
-        "pet08_s0_0_-4739693358667178287",
-        "pet08_s0_1_-7344970774838283153",
-        "pet08_s0_2_472507621048746766",
-        "pet08_s0_3_-6100199358441242486",
-        "pet08_s0_6_5456418766079047880",
-        "pet08_s0_7_7079749542183406626",
-        "pet08_s0_8_7572702886637724114",
-        "pet08_s0_9_5277702560993966677"
       ],
       "status": "INTEGRATED",
       "wrap_mode": "clamp"
@@ -5308,6 +5644,25 @@
       "visual_sprite": "weapons_13_-243034883751467912"
     },
     {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 42.0,
+      "consume": 1,
+      "damage": 3,
+      "id": "weapon_039",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_3",
+      "projectile_sprite": "bullet_8_5311241221596752859",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_7_8985869824475114378"
+    },
+    {
       "attack_cycle_seconds": 0.1666666716337204,
       "bullet_speed": 38.0,
       "consume": 2,
@@ -5325,6 +5680,44 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_16_-5393473057485916345"
+    },
+    {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 40.0,
+      "consume": 2,
+      "damage": 2,
+      "id": "weapon_041",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_1",
+      "projectile_sprite": "bullet_8_5311241221596752859",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_9_-344626192807290558"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.20000000298023224,
+      "consume": 1,
+      "damage": 3,
+      "id": "weapon_042",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_10",
+      "projectile_sprite": "bullet_36_4595297079794702158",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_5_-1649428565388834648"
     },
     {
       "attack_cycle_seconds": 1.0,
@@ -5363,6 +5756,44 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_36_6373640396413189611"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 35.0,
+      "consume": 4,
+      "damage": 6,
+      "id": "weapon_045",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_22",
+      "projectile_sprite": "bullet_39_-6431972078249221899",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_50_-5659438073312141267"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.20000000298023224,
+      "consume": 1,
+      "damage": 4,
+      "id": "weapon_046",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_9",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_4_1696983108005335737"
     },
     {
       "attack_cycle_seconds": 0.1666666716337204,
@@ -5441,6 +5872,25 @@
       "visual_sprite": "weapons_0_-5073525610966982038"
     },
     {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 35.0,
+      "consume": 3,
+      "damage": 4,
+      "id": "weapon_051",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_23",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_0_-5073525610966982038"
+    },
+    {
       "attack_cycle_seconds": 0.7142857264499277,
       "bullet_speed": 36.0,
       "consume": 3,
@@ -5477,6 +5927,44 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_129_3688239909407509515"
+    },
+    {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 16.0,
+      "consume": 3,
+      "damage": 2,
+      "id": "weapon_054",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_49",
+      "projectile_sprite": "nothing_-3916338455696095381",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_128_-6734355049551297333"
+    },
+    {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 36.0,
+      "consume": 1,
+      "damage": 2,
+      "id": "weapon_055",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_54",
+      "projectile_sprite": "bullet_9_4070292242272158738",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_51_3638030854885757565"
     },
     {
       "attack_cycle_seconds": 1.0,
@@ -5536,6 +6024,25 @@
       "visual_sprite": "weapons_52_-4586370965645187404"
     },
     {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 40.0,
+      "consume": 5,
+      "damage": 6,
+      "id": "weapon_059",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_63",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_113_-5302791025530691969"
+    },
+    {
       "attack_cycle_seconds": 0.3333333432674408,
       "bullet_speed": 36.0,
       "consume": 1,
@@ -5586,8 +6093,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_62_3757475065905686357"
@@ -5605,8 +6112,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_5",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_61_-7516484934233375394"
@@ -5624,8 +6131,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_48_-6989295064839764085"
@@ -5643,8 +6150,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_0",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_58_2660641357702436238"
@@ -5662,8 +6169,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_56_-7011584409753400362"
@@ -5681,8 +6188,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_1_5",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_57_4073598124989955811"
@@ -5700,8 +6207,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "axe_1_5",
-      "projectile_sprite": "effect_axe_2_5739322844774051543",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_102_877009871919692748"
@@ -5719,15 +6226,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "axe_2",
-      "projectile_sprite": "effect_axe_2_5739322844774051543",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_103_-8824388485904663539"
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 20.0,
+      "bullet_speed": 0.0,
       "consume": 3,
       "damage": 8,
       "id": "weapon_070",
@@ -5738,11 +6245,30 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "axe_2_fire",
-      "projectile_sprite": "effect_axe_ice_2_-8168046925668281041",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_104_7295090153459644824"
+    },
+    {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 13,
+      "id": "weapon_071",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_96_-2201761302901802718"
     },
     {
       "attack_cycle_seconds": 0.6249999906867744,
@@ -5757,8 +6283,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_1_5",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_99_4027882667722796231"
@@ -5776,8 +6302,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_1_5",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_101_6354131864473757111"
@@ -5795,8 +6321,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_blue",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_109_1353000735921259487"
@@ -5814,15 +6340,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_red",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_110_-8474391222656148637"
     },
     {
       "attack_cycle_seconds": 0.6249999906867744,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 3,
       "damage": 8,
       "id": "weapon_076",
@@ -5833,15 +6359,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_1_5",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_100_-7646022115920763257"
     },
     {
       "attack_cycle_seconds": 0.6249999906867744,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 2,
       "damage": 8,
       "id": "weapon_077",
@@ -5852,15 +6378,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_148_3239297435238485549"
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 4,
       "damage": 8,
       "id": "weapon_078",
@@ -5871,15 +6397,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_fire",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_146_-5636868233915316545"
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 4,
       "damage": 8,
       "id": "weapon_079",
@@ -5890,11 +6416,201 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_ice",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_55_4975802385242048009"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 2,
+      "damage": 4,
+      "id": "weapon_080",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_35",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_38_-4486063484039563697"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 2,
+      "damage": 4,
+      "id": "weapon_081",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_35",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_65_7098168842396230630"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 2,
+      "damage": 4,
+      "id": "weapon_082",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_35",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_67_6448931342596466819"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 2,
+      "damage": 4,
+      "id": "weapon_083",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_35",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_69_5431084134728353002"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 3,
+      "damage": 4,
+      "id": "weapon_084",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_35",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_71_-5862675565320044950"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 3,
+      "damage": 4,
+      "id": "weapon_085",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_38",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_73_99254646694056458"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 3,
+      "damage": 4,
+      "id": "weapon_086",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_36",
+      "projectile_sprite": "bullet_114_5837365638860557360",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_79_7982053043789992683"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 3,
+      "damage": 4,
+      "id": "weapon_087",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_37",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_81_-8992348752369135813"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 5,
+      "damage": 4,
+      "id": "weapon_088",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_35_hero",
+      "projectile_sprite": "bullet_121_-7438666427560070248",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_77_295442196295138001"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 20.0,
+      "consume": 6,
+      "damage": 2,
+      "id": "weapon_089",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_34",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_83_-6096139653374291537"
     },
     {
       "attack_cycle_seconds": 0.3333333432674408,
@@ -5933,6 +6649,63 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_93_3231175889907398672"
+    },
+    {
+      "attack_cycle_seconds": 0.8333333002196431,
+      "bullet_speed": 0.0,
+      "consume": 4,
+      "damage": 4,
+      "id": "weapon_092",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_41",
+      "projectile_sprite": "bullet_36_4595297079794702158",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_147_2705578368818903949"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 35.0,
+      "consume": 3,
+      "damage": 4,
+      "id": "weapon_093",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_24",
+      "projectile_sprite": "bullet_43_-18596202229397616",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_95_2076256400588135316"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.20000000298023224,
+      "consume": 0,
+      "damage": 2,
+      "id": "weapon_094",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_9",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_95_2076256400588135316"
     },
     {
       "attack_cycle_seconds": 0.3333333432674408,
@@ -5993,7 +6766,7 @@
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 4,
       "id": "weapon_098",
@@ -6004,8 +6777,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_97_-4211201273853665855"
@@ -6023,15 +6796,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_0",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_98_-5193792124080956641"
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 2,
       "damage": 6,
       "id": "weapon_100",
@@ -6042,11 +6815,49 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_92_-5778955740878678045"
+    },
+    {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 0.0,
+      "consume": 3,
+      "damage": 8,
+      "id": "weapon_101",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_43",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_127_-3689055394351603250"
+    },
+    {
+      "attack_cycle_seconds": 0.3333333432674408,
+      "bullet_speed": 0.0,
+      "consume": 1,
+      "damage": 5,
+      "id": "weapon_102",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_42",
+      "projectile_sprite": "bullet_39_-6431972078249221899",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_7_8985869824475114378"
     },
     {
       "attack_cycle_seconds": 1.0,
@@ -6066,6 +6877,25 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "skill_effect_2_-411312201785844153"
+    },
+    {
+      "attack_cycle_seconds": 0.6666666666666666,
+      "bullet_speed": 0.0,
+      "consume": 3,
+      "damage": 8,
+      "id": "weapon_104",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_41",
+      "projectile_sprite": "bullet_36_4595297079794702158",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_126_-7660008630455588519"
     },
     {
       "attack_cycle_seconds": 1.0,
@@ -6123,6 +6953,25 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_134_-83377788486784384"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.20000000298023224,
+      "consume": 2,
+      "damage": 6,
+      "id": "weapon_108",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_48",
+      "projectile_sprite": "bullet_36_4595297079794702158",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_137_-7428359280923727896"
     },
     {
       "attack_cycle_seconds": 1.0,
@@ -6316,7 +7165,7 @@
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 18.0,
+      "bullet_speed": 0.0,
       "consume": 20,
       "damage": 10,
       "id": "weapon_120",
@@ -6327,11 +7176,87 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_27_5744935540584874786"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.15000000596046448,
+      "consume": 0,
+      "damage": 2,
+      "id": "weapon_121",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_chain",
+      "projectile_sprite": "bullet2_0_519032476064739946",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_152_-7153206487535174049"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 4,
+      "damage": 8,
+      "id": "weapon_122",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_71",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_15_6855479463749958770"
+    },
+    {
+      "attack_cycle_seconds": 1.1111111000732143,
+      "bullet_speed": 0.0,
+      "consume": 9,
+      "damage": 10,
+      "id": "weapon_123",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "fireball",
+      "projectile_sprite": "texture_c4_6120375401193138903",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_0_-1468221133836190042"
+    },
+    {
+      "attack_cycle_seconds": 0.47619049849153416,
+      "bullet_speed": 0.0,
+      "consume": 3,
+      "damage": 10,
+      "id": "weapon_124",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons_150_-6271747677998715771"
     },
     {
       "attack_cycle_seconds": 0.8333333002196431,
@@ -6384,8 +7309,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_5_explode",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_47_5042650081746007903"
@@ -6498,8 +7423,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_1_5",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_19_-9044465451391257739"
@@ -6536,8 +7461,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_3",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_151_-3440568962327965643"
@@ -6707,8 +7632,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_2.5",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_25_-3053868863085307509"
@@ -6752,6 +7677,44 @@
       "visual_sprite": "weapons_94_-774806653528855146"
     },
     {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 20.0,
+      "consume": 7,
+      "damage": 12,
+      "id": "weapon_147",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_22",
+      "projectile_sprite": "bullet_39_-6431972078249221899",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_73_-3524618213867499392"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 35.0,
+      "consume": 6,
+      "damage": 6,
+      "id": "weapon_148",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_23",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_74_6650277619666482005"
+    },
+    {
       "attack_cycle_seconds": 0.41666665010982157,
       "bullet_speed": 0.0,
       "consume": 0,
@@ -6764,15 +7727,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_green",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_63_6808724920814391563"
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 4,
       "id": "weapon_150",
@@ -6783,8 +7746,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_1_5",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_62_-6297638451415553110"
@@ -6847,8 +7810,65 @@
       "visual_sprite": "weapons_132_-1892195534371381545"
     },
     {
+      "attack_cycle_seconds": 0.3333333432674408,
+      "bullet_speed": 0.0,
+      "consume": 2,
+      "damage": 3,
+      "id": "weapon_154",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_42",
+      "projectile_sprite": "bullet_39_-6431972078249221899",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_72_-127657403021498133"
+    },
+    {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 0.0,
+      "consume": 5,
+      "damage": 6,
+      "id": "weapon_155",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_87",
+      "projectile_sprite": "bullet2_0_519032476064739946",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_79_-5386696374869721591"
+    },
+    {
+      "attack_cycle_seconds": 0.8333333002196431,
+      "bullet_speed": 0.0,
+      "consume": 3,
+      "damage": 1,
+      "id": "weapon_156",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_41",
+      "projectile_sprite": "bullet_36_4595297079794702158",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_78_-6675284914127257756"
+    },
+    {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 24.0,
+      "bullet_speed": 0.0,
       "consume": 2,
       "damage": 8,
       "id": "weapon_157",
@@ -6859,8 +7879,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_1_5",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_77_3292400577171876972"
@@ -6916,8 +7936,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_ice",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_80_7227694062398912881"
@@ -7068,8 +8088,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_0_8",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_66_312541399705294040"
@@ -7113,6 +8133,25 @@
       "visual_sprite": "weapons2_94_3889903325058056517"
     },
     {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 4,
+      "damage": 4,
+      "id": "weapon_172",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_94",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_99_-7995173797577875970"
+    },
+    {
       "attack_cycle_seconds": 0.3333333432674408,
       "bullet_speed": 32.0,
       "consume": 2,
@@ -7144,15 +8183,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_drill",
-      "projectile_sprite": "effect_08_31_-7524528572635230680",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_82_-8358307210672171688"
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 4,
       "id": "weapon_177",
@@ -7163,11 +8202,49 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_101_1734683566256916654"
+    },
+    {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 36.0,
+      "consume": 0,
+      "damage": 1,
+      "id": "weapon_178",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_54",
+      "projectile_sprite": "bullet_9_4070292242272158738",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_124_-1443947736820458423"
+    },
+    {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 33.0,
+      "consume": 1,
+      "damage": 4,
+      "id": "weapon_179",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_6_yellow",
+      "projectile_sprite": "bullet_122_-9208341025696702857",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_125_-1697619854321375872"
     },
     {
       "attack_cycle_seconds": 0.1666666716337204,
@@ -7265,8 +8342,27 @@
       "visual_sprite": "weapons2_122_-6236305998943987984"
     },
     {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 40.0,
+      "consume": 4,
+      "damage": 4,
+      "id": "weapon_185",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_23_rebound",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_8_1147662256830381211"
+    },
+    {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 35.0,
+      "bullet_speed": 0.0,
       "consume": 2,
       "damage": 8,
       "id": "weapon_186",
@@ -7277,8 +8373,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_dizzy",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_2_7652040422229553659"
@@ -7353,11 +8449,87 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_5",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_22_-2142466113711890821"
+    },
+    {
+      "attack_cycle_seconds": 0.5263157960780771,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 8,
+      "id": "weapon_191",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_120_-1476652640769925930"
+    },
+    {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 12,
+      "id": "weapon_192",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_121_-8768563039876672579"
+    },
+    {
+      "attack_cycle_seconds": 1.4285714528998554,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 20,
+      "id": "weapon_193",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_105_5056783071387949375"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 5,
+      "damage": 6,
+      "id": "weapon_194",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_35_plus",
+      "projectile_sprite": "bullet_121_-7438666427560070248",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_107_1717271900653837447"
     },
     {
       "attack_cycle_seconds": 0.5,
@@ -7372,8 +8544,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_dark",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_115_5721450097951377460"
@@ -7391,8 +8563,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "axe_2_5",
-      "projectile_sprite": "effect_axe_2_5739322844774051543",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_1_6896487601783549936"
@@ -7410,8 +8582,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "axe_2",
-      "projectile_sprite": "effect_axe_2_5739322844774051543",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_3_1527844287404884630"
@@ -7429,15 +8601,72 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "axe_2",
-      "projectile_sprite": "effect_axe_2_5739322844774051543",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_4_1187530979115929593"
     },
     {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.15000000596046448,
+      "consume": 0,
+      "damage": 1,
+      "id": "weapon_200",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_chain_2",
+      "projectile_sprite": "bullet2_25_6304227208629449443",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_12_5928984959022285470"
+    },
+    {
+      "attack_cycle_seconds": 0.6111111243565878,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 10,
+      "id": "weapon_201",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_119_5729024413848824725"
+    },
+    {
+      "attack_cycle_seconds": 0.4583333432674408,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 7,
+      "id": "weapon_202",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_111_8360995474451574880"
+    },
+    {
       "attack_cycle_seconds": 0.26666667064030963,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 5,
       "id": "weapon_203",
@@ -7448,15 +8677,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_98",
-      "projectile_sprite": "weapons2_112_-6933446156341901612",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_112_-6933446156341901612"
     },
     {
       "attack_cycle_seconds": 0.4000000059604645,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 2,
       "damage": 8,
       "id": "weapon_204",
@@ -7467,15 +8696,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_98_2",
-      "projectile_sprite": "weapons_101_6354131864473757111",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons_101_6354131864473757111"
     },
     {
       "attack_cycle_seconds": 0.4000000059604645,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 2,
       "damage": 11,
       "id": "weapon_205",
@@ -7486,15 +8715,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_98_3",
-      "projectile_sprite": "weapons2_110_7452555532150062781",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_110_7452555532150062781"
     },
     {
       "attack_cycle_seconds": 0.4000000059604645,
-      "bullet_speed": 18.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 6,
       "id": "weapon_206",
@@ -7505,15 +8734,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_97",
-      "projectile_sprite": "bullet2_22_-8815696226756703393",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_123_-9001498910900289568"
     },
     {
       "attack_cycle_seconds": 0.5333333412806193,
-      "bullet_speed": 19.0,
+      "bullet_speed": 0.0,
       "consume": 3,
       "damage": 16,
       "id": "weapon_207",
@@ -7524,8 +8753,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_97_2",
-      "projectile_sprite": "weapons3_0_2380533709174523320",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_0_2380533709174523320"
@@ -7543,8 +8772,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_poison",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_109_-7502688607222757032"
@@ -7721,8 +8950,46 @@
       "visual_sprite": "weapons3_83_1527999046970687307"
     },
     {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 0.0,
+      "consume": 5,
+      "damage": 8,
+      "id": "weapon_221",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_78_3024559421814570791"
+    },
+    {
+      "attack_cycle_seconds": 0.8333333002196431,
+      "bullet_speed": 0.0,
+      "consume": 3,
+      "damage": 8,
+      "id": "weapon_222",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_5_5679499761174188082"
+    },
+    {
       "attack_cycle_seconds": 0.33333332505491076,
-      "bullet_speed": 18.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 8,
       "id": "weapon_223",
@@ -7733,8 +9000,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_hat",
-      "projectile_sprite": "weapons3_79_460799624315404389",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_79_460799624315404389"
@@ -7771,8 +9038,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_gold",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_89_6250388690883091133"
@@ -7814,6 +9081,44 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_17_5918197365023559805"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.30000001192092896,
+      "consume": 1,
+      "damage": 3,
+      "id": "weapon_233",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_rainbow_laser",
+      "projectile_sprite": "nothing_-3916338455696095381",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_99_7118299010620391789"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.0,
+      "consume": 10,
+      "damage": 1,
+      "id": "weapon_234",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_205",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_101_-5856556014887017588"
     },
     {
       "attack_cycle_seconds": 0.5,
@@ -7873,6 +9178,25 @@
       "visual_sprite": "weapons3_117_3296474381968079177"
     },
     {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 40.0,
+      "consume": 1,
+      "damage": 3,
+      "id": "weapon_239",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_7_3",
+      "projectile_sprite": "bullet_20_967084784833834541",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_121_7470997149609032544"
+    },
+    {
       "attack_cycle_seconds": 0.2777777750183036,
       "bullet_speed": 18.0,
       "consume": 2,
@@ -7904,8 +9228,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_5",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_96_64283882223164446"
@@ -7930,6 +9254,25 @@
       "visual_sprite": "weapons_s_05_3717319975245908385"
     },
     {
+      "attack_cycle_seconds": 0.25,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 8,
+      "id": "weapon_245",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons2_102_-1697437904732046637"
+    },
+    {
       "attack_cycle_seconds": 0.5,
       "bullet_speed": 0.0,
       "consume": 6,
@@ -7942,11 +9285,30 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_dizzy_lightning",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_136_-3163394056145194656"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 26.0,
+      "consume": 5,
+      "damage": 4,
+      "id": "weapon_247",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_38_star",
+      "projectile_sprite": "bullet2_53_-1344140527549944940",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_139_-5925293654653324905"
     },
     {
       "attack_cycle_seconds": 0.5555555500366072,
@@ -7966,6 +9328,25 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_134_-5533573320863587672"
+    },
+    {
+      "attack_cycle_seconds": 0.5,
+      "bullet_speed": 24.0,
+      "consume": 5,
+      "damage": 2,
+      "id": "weapon_249",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_77",
+      "projectile_sprite": "bullet_115_303263272045277978",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_133_-8847249744880482256"
     },
     {
       "attack_cycle_seconds": 0.41666665010982157,
@@ -7999,11 +9380,30 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_5",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_144_-5290180027748792597"
+    },
+    {
+      "attack_cycle_seconds": 0.1041666641831398,
+      "bullet_speed": 0.0,
+      "consume": 50,
+      "damage": 500,
+      "id": "weapon_252",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "nuclear_bomb",
+      "projectile_sprite": "texture_c4_6120375401193138903",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "mech_21_-7040538548755256402"
     },
     {
       "attack_cycle_seconds": 0.5,
@@ -8025,8 +9425,27 @@
       "visual_sprite": "weapons3_152_-4178181492773450977"
     },
     {
+      "attack_cycle_seconds": 0.20833333643774188,
+      "bullet_speed": 0.0,
+      "consume": 2,
+      "damage": 6,
+      "id": "weapon_255",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_40",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_151_7744449793204875472"
+    },
+    {
       "attack_cycle_seconds": 0.11111111442248027,
-      "bullet_speed": 40.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 3,
       "id": "weapon_256",
@@ -8037,8 +9456,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_14",
-      "projectile_sprite": "bullet_34_-4649028297119661206",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_154_-4727435693811242865"
@@ -8061,6 +9480,25 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_153_8968635588032863682"
+    },
+    {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 40.0,
+      "consume": 1,
+      "damage": 2,
+      "id": "weapon_258",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_1",
+      "projectile_sprite": "bullet_8_5311241221596752859",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_155_8349396298206301999"
     },
     {
       "attack_cycle_seconds": 0.8333333002196431,
@@ -8170,8 +9608,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_gold",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_157_6422551168783641030"
@@ -8197,7 +9635,7 @@
     },
     {
       "attack_cycle_seconds": 0.6249999906867744,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 0,
       "damage": 8,
       "id": "weapon_268",
@@ -8208,15 +9646,110 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_gold",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_174_-7577831652462395721"
     },
     {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 40.0,
+      "consume": 6,
+      "damage": 3,
+      "id": "weapon_274",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_16_2",
+      "projectile_sprite": "bullet_28_-5080662549499609366",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_168_7565285980113592416"
+    },
+    {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 40.0,
+      "consume": 1,
+      "damage": 2,
+      "id": "weapon_277",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_7_2",
+      "projectile_sprite": "bullet_20_967084784833834541",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_7_-4482746796944925004"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.15000000596046448,
+      "consume": 0,
+      "damage": 1,
+      "id": "weapon_278",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_chain_7",
+      "projectile_sprite": "bullet2_0_519032476064739946",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_6_-7363087672473406809"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 35.0,
+      "consume": 3,
+      "damage": 5,
+      "id": "weapon_279",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_24_toasted",
+      "projectile_sprite": "bullet_43_-18596202229397616",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_0_-3285786152069901032"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 0.20000000298023224,
+      "consume": 0,
+      "damage": 3,
+      "id": "weapon_280",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_9_toasted",
+      "projectile_sprite": "bullet_115_303263272045277978",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_1_2888814338969688004"
+    },
+    {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 5,
       "id": "weapon_281",
@@ -8227,8 +9760,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75_orange",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_3_-8118670029382758518"
@@ -8246,8 +9779,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_0_orange",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_4_1940136712093043108"
@@ -8265,15 +9798,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_2_ice",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_2_-8715251059974529702"
     },
     {
       "attack_cycle_seconds": 0.41666665010982157,
-      "bullet_speed": 32.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 5,
       "id": "weapon_284",
@@ -8284,8 +9817,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75_orange",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_5_-6920885266291393591"
@@ -8386,6 +9919,25 @@
       "visual_sprite": "weapons4_12_5514378793610949173"
     },
     {
+      "attack_cycle_seconds": 0.10000000149011612,
+      "bullet_speed": 40.0,
+      "consume": 2,
+      "damage": 2,
+      "id": "weapon_290",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_1",
+      "projectile_sprite": "bullet_8_5311241221596752859",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_8_6347071630285608063"
+    },
+    {
       "attack_cycle_seconds": 0.699999988079071,
       "bullet_speed": 0.0,
       "consume": 0,
@@ -8398,8 +9950,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_3",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_66_8871644846642728445"
@@ -8422,6 +9974,82 @@
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_15_-7948136335783401997"
+    },
+    {
+      "attack_cycle_seconds": 0.8333333002196431,
+      "bullet_speed": 0.0,
+      "consume": 3,
+      "damage": 3,
+      "id": "weapon_295",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_42_poison",
+      "projectile_sprite": "bullet_39_-6431972078249221899",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_69_-3525040033921444595"
+    },
+    {
+      "attack_cycle_seconds": 1.4285714528998554,
+      "bullet_speed": 0.0,
+      "consume": 6,
+      "damage": 8,
+      "id": "weapon_296",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_70_3959605432791120621"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 35.0,
+      "consume": 4,
+      "damage": 8,
+      "id": "weapon_297",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_23_updated",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_71_-2827557509289219483"
+    },
+    {
+      "attack_cycle_seconds": 0.13333334028720856,
+      "bullet_speed": 35.0,
+      "consume": 3,
+      "damage": 4,
+      "id": "weapon_298",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_23_lightning",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_72_3845303260987804634"
     },
     {
       "attack_cycle_seconds": 0.5,
@@ -8463,7 +10091,7 @@
     },
     {
       "attack_cycle_seconds": 0.6249999906867744,
-      "bullet_speed": 20.0,
+      "bullet_speed": 0.0,
       "consume": 0,
       "damage": 6,
       "id": "weapon_301",
@@ -8474,15 +10102,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "axe_2_5_yellow",
-      "projectile_sprite": "effect_axe_ice_2_-8168046925668281041",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_77_-3646888054916899081"
     },
     {
       "attack_cycle_seconds": 0.3846153987229934,
-      "bullet_speed": 8.0,
+      "bullet_speed": 0.0,
       "consume": 0,
       "damage": 6,
       "id": "weapon_900",
@@ -8493,15 +10121,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75_gourd",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_90_5796428167252141893"
     },
     {
       "attack_cycle_seconds": 0.5,
-      "bullet_speed": 14.0,
+      "bullet_speed": 0.0,
       "consume": 3,
       "damage": 5,
       "id": "weapon_901",
@@ -8512,8 +10140,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_1_75",
-      "projectile_sprite": "bullet_54_785546683114399763",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons2_93_386500239221313333"
@@ -8607,8 +10235,8 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_init_assassin",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_57_-7232119498801179723"
@@ -8626,15 +10254,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "sword_init_assassin",
-      "projectile_sprite": "bullet_44_-8478285347761796709",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_37_7406064335290227033"
     },
     {
       "attack_cycle_seconds": 0.4000000059604645,
-      "bullet_speed": 18.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 6,
       "id": "weapon_init_druid",
@@ -8645,15 +10273,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_101",
-      "projectile_sprite": "weapons3_75_5519549832876861473",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_75_5519549832876861473"
     },
     {
       "attack_cycle_seconds": 0.36363636117336184,
-      "bullet_speed": 18.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 8,
       "id": "weapon_init_druidx",
@@ -8664,11 +10292,68 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_113",
-      "projectile_sprite": "weapons3_76_4468652493152244942",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_76_4468652493152244942"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 2,
+      "damage": 4,
+      "id": "weapon_init_elves",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_105",
+      "projectile_sprite": "bullet_40_-8998262216965228552",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_58_-4560093820691732725"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 2,
+      "damage": 6,
+      "id": "weapon_init_elvesx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_110",
+      "projectile_sprite": "bullet2_35_1271739920577498345",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_47_4775575898786707055"
+    },
+    {
+      "attack_cycle_seconds": 0.2666666805744171,
+      "bullet_speed": 30.0,
+      "consume": 2,
+      "damage": 6,
+      "id": "weapon_init_elvesxx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_110xx",
+      "projectile_sprite": "weapons4_44_-4209417265756254450",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_43_-8416963780825831845"
     },
     {
       "attack_cycle_seconds": 0.6249999906867744,
@@ -8766,8 +10451,27 @@
       "visual_sprite": "weapons4_17_5708643495580026155"
     },
     {
+      "attack_cycle_seconds": 0.5,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 6,
+      "id": "weapon_init_paladin",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_71_8866677619729206179"
+    },
+    {
       "attack_cycle_seconds": 0.3124999953433872,
-      "bullet_speed": 36.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 4,
       "id": "weapon_init_ranger",
@@ -8778,15 +10482,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_107",
-      "projectile_sprite": "weapons3_62_4081822940650708461",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_97_-8157691021017875835"
     },
     {
       "attack_cycle_seconds": 0.3124999953433872,
-      "bullet_speed": 36.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 5,
       "id": "weapon_init_rangerx",
@@ -8797,15 +10501,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_114",
-      "projectile_sprite": "weapons3_36_1696032096758110322",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_98_2606619781448220464"
     },
     {
       "attack_cycle_seconds": 0.3124999953433872,
-      "bullet_speed": 36.0,
+      "bullet_speed": 0.0,
       "consume": 1,
       "damage": 5,
       "id": "weapon_init_rangerxx",
@@ -8816,15 +10520,72 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "bullet_114xx",
-      "projectile_sprite": "weapons4_23_-3251284910416285188",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_28_2241778816165820075"
     },
     {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 0.0,
+      "consume": 1,
+      "damage": 3,
+      "id": "weapon_init_robot",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_41",
+      "projectile_sprite": "bullet_36_4595297079794702158",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_66_-84763577360282232"
+    },
+    {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 0.0,
+      "consume": 2,
+      "damage": 6,
+      "id": "weapon_init_robotx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_40",
+      "projectile_sprite": "bullet_31_5264552128644489582",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_33_-2930623290838834072"
+    },
+    {
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 0.0,
+      "consume": 2,
+      "damage": 6,
+      "id": "weapon_init_robotxx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "bullet_42",
+      "projectile_sprite": "bullet_39_-6431972078249221899",
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons4_57_-857377163856171581"
+    },
+    {
       "attack_cycle_seconds": 0.2777777851363761,
-      "bullet_speed": 24.0,
+      "bullet_speed": 0.0,
       "consume": 0,
       "damage": 5,
       "id": "weapon_init_viking",
@@ -8835,15 +10596,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_0_8",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_126_-621446551741520076"
     },
     {
       "attack_cycle_seconds": 0.2777777851363761,
-      "bullet_speed": 24.0,
+      "bullet_speed": 0.0,
       "consume": 0,
       "damage": 6,
       "id": "weapon_init_vikingx",
@@ -8854,15 +10615,15 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_0_8",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons3_127_7568765821536972130"
     },
     {
       "attack_cycle_seconds": 0.2777777851363761,
-      "bullet_speed": 24.0,
+      "bullet_speed": 0.0,
       "consume": 0,
       "damage": 6,
       "id": "weapon_init_vikingxx",
@@ -8873,11 +10634,49 @@
         "pickup/drop identity",
         "weapon-specific special effects"
       ],
-      "projectile": "spear_0_8_hsv_red",
-      "projectile_sprite": "effect_sting_0_3963580343320252787",
+      "projectile": "melee",
+      "projectile_sprite": null,
       "redistribution": "local_only",
       "status": "INTEGRATED_INSPECTION_FIRE",
       "visual_sprite": "weapons4_47_-3560308371758672994"
+    },
+    {
+      "attack_cycle_seconds": 0.5333333611488342,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 5,
+      "id": "weapon_init_werewolf",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_56_6520289254153383783"
+    },
+    {
+      "attack_cycle_seconds": 0.2962963195985243,
+      "bullet_speed": 0.0,
+      "consume": 0,
+      "damage": 7,
+      "id": "weapon_init_werewolfx",
+      "license_status": "UNKNOWN",
+      "lifecycle_status": "DEVROOM_TESTED",
+      "missing": [
+        "item display name",
+        "pickup/drop identity",
+        "weapon-specific special effects"
+      ],
+      "projectile": "melee",
+      "projectile_sprite": null,
+      "redistribution": "local_only",
+      "status": "INTEGRATED_INSPECTION_FIRE",
+      "visual_sprite": "weapons3_125_9083084837593622840"
     }
   ]
 }

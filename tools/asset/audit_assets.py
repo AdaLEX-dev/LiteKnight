@@ -122,9 +122,10 @@ def audit(scene_path: Path, inventory_path: Path, require_generated: bool,
     for weapon in scene.get("weapons", []):
         if weapon.get("visual_sprite") not in sprite_ids:
             result.error(f"{weapon.get('id')} has missing visual sprite")
-        projectile = weapon.get("projectile", {})
-        if projectile.get("sprite") not in sprite_ids:
-            result.error(f"{weapon.get('id')} has missing projectile sprite")
+        if not weapon.get("is_melee", False):
+            projectile = weapon.get("projectile", {})
+            if projectile.get("sprite") not in sprite_ids:
+                result.error(f"{weapon.get('id')} has missing projectile sprite")
         if weapon.get("damage", 0) <= 0:
             result.error(f"{weapon.get('id')} has non-positive damage")
         if weapon.get("attack_cycle_seconds", 0) <= 0:
