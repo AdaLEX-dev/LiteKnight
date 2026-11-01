@@ -529,14 +529,14 @@
     },
     {
       "category": "living_room",
-      "integrated": 4609,
+      "integrated": 4618,
       "lifecycle": {
         "DEVROOM_TESTED": 1,
-        "DISCOVERED": 4609,
-        "EXTRACTED": 4609,
-        "INTEGRATED": 4609,
-        "TRANSLATED": 4609,
-        "VALIDATED": 4609,
+        "DISCOVERED": 4618,
+        "EXTRACTED": 4618,
+        "INTEGRATED": 4618,
+        "TRANSLATED": 4618,
+        "VALIDATED": 4618,
         "highest": "DEVROOM_TESTED",
         "note": "recovered HeroRoom tilemaps/sprites/colliders"
       },
@@ -2808,8 +2808,8 @@
     "doors_integrated": 4,
     "enemies_integrated": 101,
     "hub_scene": "analysis/assets/scenes/hero_room.json",
-    "hub_scene_collision_solids": 732,
-    "hub_scene_instances": 4609,
+    "hub_scene_collision_solids": 733,
+    "hub_scene_instances": 4618,
     "hub_scene_interaction_markers": 23,
     "hub_scene_sprites": 1045,
     "lifecycle_statuses": [

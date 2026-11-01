@@ -4394,6 +4394,12 @@
         11.0
       ],
       [
+        -12.0,
+        -12.0,
+        -9.0,
+        -9.0
+      ],
+      [
         -51.707499980926514,
         -5.369999885559082,
         -47.832499980926514,
@@ -101550,6 +101556,222 @@
       ],
       "flip_x": false,
       "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -11.5,
+        -9.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2093"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -10.5,
+        -9.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2093"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -9.5,
+        -9.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2093"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -11.5,
+        -10.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2098"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -10.5,
+        -10.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2098"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -9.5,
+        -10.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2098"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -11.5,
+        -11.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2098"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -10.5,
+        -11.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2098"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "path": "hub/stair_wall_repair",
+      "position": [
+        -9.5,
+        -11.5
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "Wall",
+      "sorting_order": 20,
+      "sprite": "hub_spr_2098"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
       "path": "c00/img/body",
       "position": [
         0.0,
@@ -159999,12 +160221,12 @@
         0.5,
         0.5
       ],
-      "pixels_per_unit": 512.0,
+      "pixels_per_unit": 15.800000190734863,
       "rect": [
         0.0,
         0.0,
-        2048.0,
-        2048.0
+        64.0,
+        64.0
       ],
       "source_pivot": [
         0.5,
@@ -160948,16 +161170,16 @@
       "conversion": "native 4x4 repeat of recovered floor tile",
       "filter": "point",
       "format": "RGBA32",
-      "height": 2048,
+      "height": 64,
       "id": "hub_floor_tile4_texture",
       "png": "textures/hub_floor_tile4.png",
-      "png_sha256": "9e0af79c229da93c67e8ba9caba03d3ba4e82ee28838582f5eab05cbb18e378f",
-      "rgba8_sha256": "927bf3675bf93da9a29d5eed3895ccc3c862a25055e85c5950a9012df396c850",
+      "png_sha256": "dfa7678da46e98bc53877d440e30502e52bdb6cadc0e3ac909a9395a033f380a",
+      "rgba8_sha256": "1c735e1f2b9f024672a9461da8f280d33c68669357afedaffcb0b7ea788c5d03",
       "source_bundle": "level2",
       "source_cab": "native tile repeat",
       "source_name": "Living Room floor 4x4 repeat",
       "source_path_id": "hub_floor_tile4",
-      "width": 2048,
+      "width": 64,
       "wrap": "clamp"
     },
     {

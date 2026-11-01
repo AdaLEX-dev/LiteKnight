@@ -319,7 +319,7 @@ TEST_CASE("Every generated PatternRoom scene loads with recovered dimensions" *
     for (const auto& entry : filesystem.ListDirectory("scenes")) {
         const std::string name = entry.filename().string();
         if (name.rfind("r1_", 0) != 0 ||
-            name.size() < 12 ||
+            name.size() < 11 ||
             name.substr(name.size() - 7) != "_visual") {
             continue;
         }
@@ -342,4 +342,41 @@ TEST_CASE("Every generated PatternRoom scene loads with recovered dimensions" *
         ++loaded;
     }
     CHECK(loaded >= 1);
+}
+
+TEST_CASE("Living Room staircase removal is repaired with default wall/floor tiles" *
+          doctest::test_suite("unit")) {
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    const auto text = filesystem.ReadTextFile("test/scenes/hero_room.json");
+    CHECK(text.has_value());
+    const Json hub = Json::parse(text.value_or("{}"), nullptr, false);
+    CHECK_FALSE(hub.is_discarded());
+    int wall_tiles = 0;
+    for (const Json& instance : hub["instances"]) {
+        const std::string path = instance.value("path", "");
+        CHECK(path.find("floor_cellar") == std::string::npos);
+        CHECK(path.find("object_cellar") == std::string::npos);
+        CHECK(path.find("room/objects/cellar") == std::string::npos);
+        CHECK(path != "hub/stair_floor_repair");
+        if (path == "hub/stair_wall_repair") {
+            ++wall_tiles;
+            const std::string sprite = instance.value("sprite", "");
+            CHECK((sprite == "hub_spr_2093" || sprite == "hub_spr_2098"));
+            CHECK(instance.value("sorting_layer", -1) == 4);
+            CHECK(instance.value("sorting_order", -1) == 20);
+        }
+    }
+    CHECK(wall_tiles == 9);
+    bool cap_found = false;
+    for (const Json& solid : hub["collision"]["solids"]) {
+        if (solid.size() == 4 &&
+            std::fabs(solid[0].get<float>() + 12.0f) < 0.01f &&
+            std::fabs(solid[1].get<float>() + 12.0f) < 0.01f &&
+            std::fabs(solid[2].get<float>() + 9.0f) < 0.01f &&
+            std::fabs(solid[3].get<float>() + 9.0f) < 0.01f) {
+            cap_found = true;
+        }
+    }
+    CHECK(cap_found);
 }

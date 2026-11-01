@@ -571,7 +571,13 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
                pause.y + (pause.h - 42) * 0.5f - 4.0f, 42, 42},
               Color::White(), 1905);
 
-    DrawMinimap(ui, data, element("minimap"), false);
+    // CONFIRMED UIMap.Start: ShowMap only runs when BattleData.levelIndex != 0.
+    // The Living Room is levelIndex 0 and has an empty map_A0 manager, so the
+    // native hub shows no minimap. Hub areas are scene triggers, not map nodes.
+    const bool hub_scene = data.scene != nullptr && data.scene->is_hub;
+    if (!hub_scene) {
+        DrawMinimap(ui, data, element("minimap"), false);
+    }
 
     const Rect stage = element("stage");
     std::string stage_text = data.room_label;
@@ -595,7 +601,8 @@ void GameUI::DrawHud(UIRenderer& ui, const GameUIData& data) const {
     // (Unity anchoredPosition 200 -> -20 at 1280x720, scaled to 1920x1080).
     // The Animator transition duration is 0.2 s; the label is the current
     // MapManager.level and the font is LockClock 32 (48 px at this scale).
-    if (data.room_title_timer > 0.0f && !data.room_label.empty()) {
+    if (!hub_scene && data.room_title_timer > 0.0f &&
+        !data.room_label.empty()) {
         constexpr float kShowSeconds = 3.0f;
         constexpr float kSlideSeconds = 0.2f;
         const float elapsed = kShowSeconds - data.room_title_timer;

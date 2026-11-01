@@ -57,8 +57,16 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 | Hub collision | **IMPLEMENTED** | Wall tile cells + non-trigger Box/Circle colliders from level2; removed cellar/staircase, signs, Drilmaster, promotion NPCs, lower portals, event decorations and `!` markers. |
 | Audio completeness | **IMPLEMENTED core** | 70 unique recovered clips exported under 140 logical ids: UI, pickup, chest, door, transition, player/enemy hit, two BGM tracks, and every `RGWeapon.audio_clip` used by a prefab. Weapon/subclass extra clips (bow draw, charge, throw) are catalogued but not all wired to inputs. |
 | Save/load completeness | **IMPLEMENTED v5** | character, weapons/slots, HP/armor/energy, coins/orbs, materials, pet, plants, map seed, cleared rooms, chest/coin room state, settings and UI layout. Migration v0/v1/v3/v4 → v5 tested. |
+| Living Room map | **REFERENCE-PROVEN ABSENCE** | `UIMap.Start` only shows the map when `levelIndex != 0`; HeroRoom uses the empty `map_A0` manager. The hub therefore shows no minimap; hub areas are scene triggers, not nodes. Dungeon maps exclude the hub and use home/chest/special icons only. See `LIVING_ROOM_MAP.md`. |
+| Living Room staircase | **IMPLEMENTED** | Removed cellar stair remains removed. The exposed 3×3 south-wall opening is rebuilt with the surrounding recovered `wall_u`/`wall_m` construction and a matching solid. See `LIVING_ROOM_STAIRCASE.md`. |
 | Room title animation | **IMPLEMENTED** | `map_info` rect anchor top-right, animated x 200→−20 over 0.2 s, LockClock 32 label, panel `#20202040`, exact hide/show activation and 3 s show window reproduced at 1920×1080. |
 | Room clear animation | **IMPLEMENTED** | `message_bar` SignpostLayer `show_signpost` 1.5 s: black bar, `ui_90` line, `ui_89` gold banner, pixel_bold 96 `clear` text, y 0→−60 and alpha keys/easing reproduced. |
+
+## Texture gallery
+
+The separate `liteknight-texture-gallery` executable enumerates 4155 prepared
+visual entries (74 textures, 1672 sprites, 2409 prefabs) with 0 broken assets.
+`--validate-all` runs headlessly; see `REFERENCE_TEXTURE_GALLERY.md`.
 
 ## Gameplay-loop validation
 

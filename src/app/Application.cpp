@@ -1849,7 +1849,7 @@ void Application::ConfigureReviewMode() {
                config_.review_area == "trader") {
         game_ui_.OpenGameplay();
         engine::Vec2 target = config_.review_area == "cellar"
-            ? engine::Vec2{10.0f, -24.0f}
+            ? engine::Vec2{-10.5f, -10.0f}
             : (config_.review_area == "trader"
                 ? engine::Vec2{27.6f, 2.2f} : scene_.spawn);
         for (const auto& marker : scene_.interaction_markers) {
@@ -1952,40 +1952,16 @@ void Application::DrawGameUI() {
     data.trader_selected = game_ui_.TraderSelection();
     data.map_rooms.clear();
     data.map_links.clear();
-    std::string devroom_room;
-    const auto room_scene_for = [&](const std::string& id)
-        -> const engine::assets::SceneAsset* {
-        if (id == scene_.id) return &scene_;
-        for (const StoredRoom& stored : stored_rooms_) {
-            if (stored.id == id) return &stored.scene;
-        }
-        return nullptr;
-    };
     for (const auto& room : room_manager_.Rooms()) {
-        if (devroom_room.empty() && room.id.rfind("r1_", 0) == 0) {
-            devroom_room = room.id;
-        }
+        if (room.id == world_hub_id_) continue;
+        // UIMap.GetMinimapSprite: room_type 0 -> home_logo (levelIndex <= 15),
+        // room_type 3 -> chest/special logo, other room types have no icon.
         std::string icon;
-        if (room.id == "hero_room") {
-            icon = "home";
-        } else {
-            switch (room.type) {
-                case 2: icon = "boss"; break;
-                case 3: icon = "chest"; break;
-                case 4: icon = "special"; break;
-                default: break;
-            }
-            if (icon.empty()) {
-                if (const engine::assets::SceneAsset* room_scene =
-                        room_scene_for(room.id); room_scene != nullptr) {
-                    switch (room_scene->room.type) {
-                        case 2: icon = "boss"; break;
-                        case 3: icon = "special"; break;
-                        case 4: icon = "chest"; break;
-                        default: break;
-                    }
-                }
-            }
+        switch (room.type) {
+            case 0: icon = "home"; break;
+            case 3: icon = "chest"; break;
+            case 4: icon = "special"; break;
+            default: break;
         }
         data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
             room.id, room.map_x, room.map_y, room.id == scene_.id,
@@ -1993,9 +1969,7 @@ void Application::DrawGameUI() {
                 visited_rooms_.end(),
             false, icon});
     }
-    if (scene_.id.rfind("r1_", 0) == 0) devroom_room = scene_.id;
-    for (auto& room : data.map_rooms) room.devroom = room.id == devroom_room;
-    data.devroom_room_id = devroom_room;
+    data.devroom_room_id.clear();
     data.room_label = scene_.room.label;
     if (!scene_.is_hub) {
         const auto stage = room_stage_labels_.find(scene_.id);
@@ -2008,21 +1982,11 @@ void Application::DrawGameUI() {
     data.room_title_timer = room_title_timer_;
     data.room_clear_timer = room_clear_timer_;
     data.transition_flash = room_transition_flash_;
-    if (scene_.is_hub) {
-        // Native conceptual nodes for the physically accessible hub areas. The
-        // reference is one HeroRoom scene, so these map cells are an explicit
-        // visualization of the native subareas, not separate MapManager rooms.
-        data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
-            "hub_garden", -1, 1, false, true, false, "special"});
-        data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
-            "hub_workshop", 1, 1, false, true, false, "special"});
-        data.map_rooms.push_back(soulknight::game::ui::MapRoomView{
-            "hub_cellar", 0, 0, false, true, false, "chest"});
-        data.map_links.push_back(soulknight::game::ui::MapLinkView{0, 1, -1, 1});
-        data.map_links.push_back(soulknight::game::ui::MapLinkView{0, 1, 1, 1});
-        data.map_links.push_back(soulknight::game::ui::MapLinkView{0, 1, 0, 0});
-    }
     for (const auto& connection : room_manager_.Connections()) {
+        if (connection.from == world_hub_id_ ||
+            connection.to == world_hub_id_) {
+            continue;
+        }
         const auto* from = room_manager_.Find(connection.from);
         const auto* to = room_manager_.Find(connection.to);
         if (from == nullptr || to == nullptr) continue;
@@ -4230,7 +4194,7 @@ bool Application::LoadWorldRooms() {
     for (const auto& entry : filesystem_.ListDirectory("scenes")) {
         const std::string id = entry.filename().string();
         if (id.rfind("r1_", 0) != 0 ||
-            id.size() < 12 ||
+            id.size() < 11 ||
             id.substr(id.size() - 7) != "_visual") {
             continue;
         }

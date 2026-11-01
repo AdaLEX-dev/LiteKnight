@@ -3,7 +3,7 @@
 - floor cells: **2896**
 - walkable cells: **2409**
 - reachable from spawn: **2296** (95.3%)
-- collision solids: **732**
+- collision solids: **733**
 - baked event instances: **0**
 - requested removals still present: **0**
 - central table collision: **True**

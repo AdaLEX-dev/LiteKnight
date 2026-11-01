@@ -415,7 +415,44 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                                          tile_x + half_x, tile_y + half_y])
             tile_count += 1
 
+    # The removed cellar stair occupied the south-wall opening beside the
+    # recycling bin. The surrounding default wall line uses wall_u as its top
+    # cap and wall_m below it. Close the former 3x3 opening with that exact
+    # recovered wall construction (cx=-101..-99, cy=-69..-71), so the area
+    # matches neighboring wall height, layer and scale and the player cannot
+    # walk into the old stair shaft.
+    stair_wall_tiles = (
+        ("hub_spr_2093", -101, -69),  # wall_u top cap
+        ("hub_spr_2093", -100, -69),
+        ("hub_spr_2093", -99, -69),
+        ("hub_spr_2098", -101, -70),  # wall_m body
+        ("hub_spr_2098", -100, -70),
+        ("hub_spr_2098", -99, -70),
+        ("hub_spr_2098", -101, -71),
+        ("hub_spr_2098", -100, -71),
+        ("hub_spr_2098", -99, -71),
+    )
+    for sprite_id, cx, cy in stair_wall_tiles:
+        if sprite_id not in sprite_ids:
+            continue
+        instances.append({
+            "sprite": sprite_id,
+            "position": [89.0 + cx + 0.5, 59.0 + cy + 0.5],
+            "rotation": 0.0,
+            "scale": [1.0, 1.0],
+            "color": [255, 255, 255, 255],
+            "sorting_layer": 4,
+            "sorting_layer_name": "Wall",
+            "sorting_order": 20,
+            "flip_x": False,
+            "flip_y": False,
+            "path": "hub/stair_wall_repair",
+        })
+        tile_count += 1
+
     colliders = list(wall_cell_solids)
+    # Exact 3x3 wall footprint replacing the removed stair opening.
+    colliders.append([-12.0, -12.0, -9.0, -9.0])
     for pid, g in gos.items():
         p = path(pid)
         if not p or p.startswith(("Canvas", "EventSystem", "gamemanager", "Main Camera")):
@@ -535,7 +572,12 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             if tex_entry is not None:
                 try:
                     from PIL import Image as _Image
-                    original = _Image.open(output / tex_entry["png"]).convert("RGBA")
+                    atlas = _Image.open(output / tex_entry["png"]).convert("RGBA")
+                    rect = tile_source["rect"]
+                    original = atlas.crop((
+                        int(round(rect[0])), int(round(rect[1])),
+                        int(round(rect[0] + rect[2])),
+                        int(round(rect[1] + rect[3]))))
                     tiled = _Image.new(
                         "RGBA", (original.width * 4, original.height * 4))
                     for ty in range(4):
@@ -573,7 +615,8 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                                  float(tiled.height)],
                         "pivot": [0.5, 0.5],
                         "source_pivot": [0.5, 0.5],
-                        "pixels_per_unit": float(tiled.width) / 4.0,
+                        "pixels_per_unit": float(
+                            tile_source.get("pixels_per_unit", 16.0)),
                         "border": [0.0, 0.0, 0.0, 0.0],
                         "filter": "point",
                         "wrap": "clamp",
