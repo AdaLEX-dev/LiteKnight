@@ -72,6 +72,8 @@ Useful variants:
 ./scripts/play-area.sh weapons           # weapon catalogue selector
 ./scripts/smoke-hub.sh                   # non-interactive hub invariant smoke
 build/soul-knight --gameplay-smoke       # hub→dungeon→clear→chest→next level→save/load
+./scripts/build-texture-gallery.sh       # separate locked-down asset gallery
+./scripts/run-texture-gallery.sh         # cycle all prepared textures/sprites/prefabs
 ```
 
 The built launcher is:

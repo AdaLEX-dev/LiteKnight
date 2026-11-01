@@ -153,6 +153,9 @@ add_custom_target(soul-knight-assets ALL
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${SOUL_KNIGHT_SPRITE_FRAG_SPV}"
             "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/shaders/sprite.frag.spv"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${CMAKE_CURRENT_SOURCE_DIR}/analysis/assets/reference_gallery_manifest.json"
+            "${SOUL_KNIGHT_ASSET_OUTPUT_DIR}/reference_gallery_manifest.json"
     DEPENDS soul-knight-shaders
     COMMENT "Copying synthetic test assets and compiled shaders"
 )
@@ -555,6 +558,20 @@ target_link_libraries(soul-knight PRIVATE
 
 add_dependencies(soul-knight soul-knight-assets)
 
+# Dedicated reference texture/sprite/prefab gallery. This is not the game: it
+# has no gameplay, saves, characters, enemies, map or HUD.
+add_executable(liteknight-texture-gallery
+    src/tools/texture_gallery.cpp
+)
+target_link_libraries(liteknight-texture-gallery PRIVATE
+    engine
+    platform
+)
+set_target_properties(liteknight-texture-gallery PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+)
+add_dependencies(liteknight-texture-gallery soul-knight-assets)
+
 # First-class developer launcher. This is a tiny script because it uses the
 # same tested executable and therefore the same binary-relative asset lookup.
 set(LITEKNIGHT_DEVROOM_LAUNCHER "${CMAKE_BINARY_DIR}/bin/liteknight-devroom")
@@ -728,6 +745,9 @@ if(PYTHON3_EXECUTABLE)
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
 endif()
+add_test(NAME liteknight-reference-gallery
+    COMMAND $<TARGET_FILE:liteknight-texture-gallery> --validate-all
+)
 # FAIL_REGULAR_EXPRESSION (not PASS) so a real test failure still turns CTest
 # red. This only rejects the old false-green case where the filter selected zero
 # test cases.

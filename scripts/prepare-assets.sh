@@ -200,6 +200,19 @@ if [[ -f "${ROOT}/analysis/assets/items/item_assets.json" ]]; then
     echo "Runtime item pack: FOUND (${ITEM_TARGET}/items.json)"
 fi
 
+# Reference gallery manifest (visual asset laboratory). The gallery itself does
+# not require the APK or UnityPy at runtime.
+if [[ ! -f "${ROOT}/analysis/assets/reference_gallery_manifest.json" ]]; then
+    if [[ -x "${ROOT}/tools/asset/.venv/bin/python" ]]; then
+        "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_gallery_manifest.py"
+    fi
+fi
+if [[ -f "${ROOT}/analysis/assets/reference_gallery_manifest.json" ]]; then
+    cp -f "${ROOT}/analysis/assets/reference_gallery_manifest.json" \
+        "${BUILD_DIR}/assets/reference_gallery_manifest.json"
+    echo "Runtime gallery manifest: FOUND"
+fi
+
 # 3b. Reference audio clips. Generated WAVs are local-only; the manifest is
 # committed under analysis/.
 AUDIO_SOURCE="${ROOT}/assets/generated/audio"
