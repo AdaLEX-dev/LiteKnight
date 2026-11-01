@@ -1,17 +1,24 @@
 LiteKnight asset audit
 scene: analysis/assets/scenes/r1_1_visual.json
 status: WARNING
-errors: 0  warnings: 2
+errors: 0  warnings: 9
 count animations: 45
 count characters: 15
 count doors: 4
 count enemies: 101
 count obstacle_variants: 12
-count sprites: 862
-count textures: 31
-count weapons: 304
+count sprites: 989
+count textures: 51
+count weapons: 337
+WARNING: unexpected source texture format: auto_atlas_4699608564152035255 ETC2_RGBA8
 WARNING: unexpected source texture format: auto_atlas_m7412614709012982549 ETC2_RGBA8
-WARNING: 31 texture records are local_only (expected for reference-derived pixels)
+WARNING: unexpected source texture format: auto_atlas_m8582120698074145341 ETC2_RGBA8
+WARNING: unexpected source texture format: auto_atlas_5344871218917797024 ETC2_RGBA8
+WARNING: unexpected source texture format: auto_atlas_m2170710575051527366 ETC2_RGBA8
+WARNING: unexpected source texture format: auto_atlas_m3440195024763777050 ETC2_RGBA8
+WARNING: unexpected source texture format: auto_atlas_m7018625042715222577 ETC2_RGBA8
+WARNING: unexpected source texture format: auto_atlas_m345151061168037000 ETC2_RGBA8
+WARNING: 51 texture records are local_only (expected for reference-derived pixels)
 UNRECOVERABLE: categories with no native representation are listed in asset_inventory.json
 UNKNOWN: reference save format, UI flow and many MonoBehaviour behaviours
 local_only / reference_derived / not_for_redistribution

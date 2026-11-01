@@ -400,6 +400,29 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             !loaded.collision_solids.empty() || !loaded.doors.empty();
     }
 
+    if (document.contains("topology") && document["topology"].is_object()) {
+        const Json& topology = document["topology"];
+        const auto read_cells = [&](const char* key,
+                                    std::vector<Vec2>* out) -> bool {
+            if (!topology.contains(key)) return true;
+            if (!topology[key].is_array()) return false;
+            for (const Json& cell : topology[key]) {
+                Vec2 value;
+                if (!ReadVec2(cell, value)) return false;
+                out->push_back(value);
+            }
+            return true;
+        };
+        if (!read_cells("floor_cells", &loaded.floor_cells) ||
+            !read_cells("aisle_cells", &loaded.aisle_floor_cells) ||
+            !read_cells("wall_cells", &loaded.wall_cells) ||
+            !read_cells("corridor_wall_cells",
+                        &loaded.corridor_wall_cells)) {
+            SetError(error, "scene topology cells are invalid");
+            return false;
+        }
+    }
+
     if (!document.contains("textures") || !document["textures"].is_array()) {
         SetError(error, "scene JSON has no textures array");
         return false;
@@ -988,6 +1011,84 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
         if (loaded.player_stats.max_hp <= 0) {
             SetError(error, "player_stats max_hp must be positive");
             return false;
+        }
+    }
+
+    if (document.contains("level_themes") &&
+        document["level_themes"].is_array()) {
+        const auto read_surface = [&](const Json& item,
+                                      LevelSurfaceSprite* out) -> bool {
+            if (!item.is_object() || !item.contains("sprite") ||
+                !item["sprite"].is_string()) {
+                return false;
+            }
+            const auto sprite_it =
+                sprite_ids.find(item["sprite"].get<std::string>());
+            if (sprite_it == sprite_ids.end()) return false;
+            out->sprite_index = static_cast<int32_t>(sprite_it->second);
+            if (item.contains("offset") && !ReadVec2(item["offset"], out->offset)) {
+                return false;
+            }
+            if (item.contains("scale") && !ReadVec2(item["scale"], out->scale)) {
+                return false;
+            }
+            out->rotation = item.value("rotation", 0.0f);
+            if (item.contains("color") && !ReadColor(item["color"], out->color)) {
+                return false;
+            }
+            out->sorting_layer = item.value("sorting_layer", 0);
+            out->sorting_order = item.value("sorting_order", 0);
+            out->flip_x = item.value("flip_x", false);
+            out->flip_y = item.value("flip_y", false);
+            return std::isfinite(out->rotation) &&
+                   std::isfinite(out->offset.x) &&
+                   std::isfinite(out->offset.y) &&
+                   std::isfinite(out->scale.x) &&
+                   std::isfinite(out->scale.y);
+        };
+        for (const Json& item : document["level_themes"]) {
+            if (!item.is_object() || !item.contains("level") ||
+                !item["level"].is_string()) {
+                SetError(error, "scene level theme is invalid");
+                return false;
+            }
+            LevelTheme theme;
+            theme.level = item["level"].get<std::string>();
+            theme.branch = item.value("branch", std::string{});
+            theme.manager = item.value("manager", std::string{});
+            theme.use_new_floor_pattern =
+                item.value("use_new_floor_pattern", false);
+            if (item.contains("floors") && item["floors"].is_array()) {
+                for (const Json& floor : item["floors"]) {
+                    LevelFloorVariant variant;
+                    if (!floor.is_object() || !floor.contains("sprite") ||
+                        !read_surface(floor["sprite"], &variant.sprite)) {
+                        SetError(error, "scene floor theme is invalid");
+                        return false;
+                    }
+                    theme.floors.push_back(std::move(variant));
+                }
+            }
+            if (item.contains("walls") && item["walls"].is_array()) {
+                for (const Json& wall : item["walls"]) {
+                    LevelWallVariant variant;
+                    if (!wall.is_object() || !wall.contains("sprites") ||
+                        !wall["sprites"].is_array()) {
+                        SetError(error, "scene wall theme is invalid");
+                        return false;
+                    }
+                    for (const Json& part : wall["sprites"]) {
+                        LevelSurfaceSprite surface;
+                        if (!read_surface(part, &surface)) {
+                            SetError(error, "scene wall surface is invalid");
+                            return false;
+                        }
+                        variant.sprites.push_back(std::move(surface));
+                    }
+                    theme.walls.push_back(std::move(variant));
+                }
+            }
+            loaded.level_themes.push_back(std::move(theme));
         }
     }
 

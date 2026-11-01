@@ -635,6 +635,33 @@ bool Application::Initialize() {
     return true;
 }
 
+void Application::RefreshLevelSurfaces() {
+    level_surfaces_.clear();
+    const soulknight::game::room::BiomeLevel* level = biome_.Current();
+    if (level == nullptr) {
+        level_surface_key_.clear();
+        return;
+    }
+    std::string key = scene_.id + "|" + level->id + "|" +
+                      std::to_string(map_seed_);
+    if (key == level_surface_key_) return;
+    level_surface_key_ = key;
+    const engine::assets::LevelTheme* theme =
+        soulknight::game::room::LevelSurfaceBuilder::Find(
+            scene_, level->id, "A");
+    if (theme == nullptr) return;
+    std::uint32_t seed = 2166136261u;
+    for (const char c : key) {
+        seed ^= static_cast<unsigned char>(c);
+        seed *= 16777619u;
+    }
+    level_surfaces_ = soulknight::game::room::LevelSurfaceBuilder::Build(
+        scene_, *theme, seed);
+    LOG_INFO_APP("Level surfaces: {} theme={} cells floor={} walls={}",
+                 level->id, theme->manager, scene_.floor_cells.size(),
+                 scene_.wall_cells.size() + scene_.corridor_wall_cells.size());
+}
+
 void Application::BuildRenderBatch() {
     sprite_batch_.Clear();
     if (!scene_mode_) {
@@ -642,6 +669,8 @@ void Application::BuildRenderBatch() {
         return;
     }
 
+    RefreshLevelSurfaces();
+    const bool themed_surfaces = !level_surfaces_.empty();
     if (locomotion_animator_.State() != last_animation_state_) {
         last_animation_state_ = locomotion_animator_.State();
         animation_logs_remaining_ = 8;
@@ -655,6 +684,10 @@ void Application::BuildRenderBatch() {
          ++scene_index) {
         const engine::assets::SpriteInstance& instance =
             scene_.instances[scene_index];
+        if (themed_surfaces &&
+            instance.path.rfind("native_wall/", 0) == 0) {
+            continue;
+        }
         if (instance.sprite_index >= scene_.sprites.size()) continue;
         // Do not render a second copy of the selected player as a hub NPC.
         if (!active_character_prefix.empty() &&
@@ -788,6 +821,31 @@ void Application::BuildRenderBatch() {
                 instance.flip_x, facing_);
         }
         draw.flip_y = instance.flip_y;
+        (void)sprite_batch_.DrawSprite(draw);
+    }
+
+    for (const soulknight::game::room::SurfaceInstance& surface :
+         level_surfaces_) {
+        if (surface.sprite_index < 0 ||
+            static_cast<std::size_t>(surface.sprite_index) >=
+                scene_.sprites.size()) {
+            continue;
+        }
+        const engine::assets::SpriteData& sprite =
+            scene_.sprites[static_cast<std::size_t>(surface.sprite_index)];
+        engine::rendering::SpriteDraw draw;
+        draw.position = surface.position;
+        draw.size = engine::Vec2{sprite.WorldSize().x * surface.scale.x,
+                                 sprite.WorldSize().y * surface.scale.y};
+        draw.uv = sprite.UvRect();
+        draw.color = surface.color;
+        draw.layer = MapSortingLayer(surface.sorting_layer);
+        draw.sorting_order = surface.sorting_order;
+        draw.texture_id = sprite.texture_id;
+        draw.pivot = sprite.pivot;
+        draw.rotation = surface.rotation;
+        draw.flip_x = surface.flip_x;
+        draw.flip_y = surface.flip_y;
         (void)sprite_batch_.DrawSprite(draw);
     }
 

@@ -2169,6 +2169,137 @@ class SceneBuilder:
         return SceneBuilder._rect_from_collider_xy(
             float(position.x), float(position.y), collider)
 
+
+    def _extract_level_themes(self):
+        """Recover MapManagerLevel floor/wall surface themes.
+
+        RGRoomX.CreateFloor/CreateWall read these arrays from the singleton
+        level manager, not from the PatternRoom prefab. The theme catalogue is
+        therefore shared by every room and only the selected campaign level
+        changes the surface sprites.
+        """
+        def manager_level(name):
+            if name == "map_G1":
+                return "3-6", "A"
+            match = re.fullmatch(r"map_([ABC])(\d+)", name)
+            if match is None:
+                return None, None
+            branch = match.group(1)
+            index = int(match.group(2))
+            if branch == "A":
+                if 1 <= index <= 5:
+                    return f"1-{index}", branch
+                if 6 <= index <= 10:
+                    return f"2-{index - 5}", branch
+                if 11 <= index <= 15:
+                    return f"3-{index - 10}", branch
+            elif branch == "B":
+                if 1 <= index <= 5:
+                    return f"1-{index}", branch
+                if 6 <= index <= 10:
+                    return f"2-{index - 5}", branch
+                if 11 <= index <= 15:
+                    return f"3-{index - 10}", branch
+            elif branch == "C":
+                if 1 <= index <= 5:
+                    return f"1-{index}", branch
+                if 6 <= index <= 10:
+                    return f"2-{index - 5}", branch
+            return None, None
+
+        managers = {}
+        for obj in self.env.objects:
+            if obj.type.name != "GameObject":
+                continue
+            try:
+                game_object = obj.read()
+            except Exception:
+                continue
+            name = str(getattr(game_object, "m_Name", ""))
+            if not re.fullmatch(r"map_(?:[ABC]\d+|G1)", name):
+                continue
+            for component in game_object.m_Component:
+                if component.component.type.name != "MonoBehaviour":
+                    continue
+                try:
+                    candidate = component.component.read()
+                except Exception:
+                    continue
+                if hasattr(candidate, "floor_list") and hasattr(candidate, "wall_list"):
+                    managers[name] = candidate
+                    break
+
+        def prefab_parts(pointer):
+            go = pointer.read()
+            transform = next(
+                (c.component.read() for c in go.m_Component
+                 if c.component.type.name == "Transform"), None)
+            if transform is None:
+                return []
+            records = []
+
+            def collect(tf, is_root=False):
+                child_go = tf.m_GameObject.read()
+                offset = [0.0, 0.0] if is_root else [
+                    float(tf.m_LocalPosition.x), float(tf.m_LocalPosition.y)]
+                for component in child_go.m_Component:
+                    if component.component.type.name != "SpriteRenderer":
+                        continue
+                    sr = component.component.read()
+                    sprite_id, _ = self.ensure_sprite_asset(sr.m_Sprite)
+                    records.append({
+                        "sprite": sprite_id,
+                        "offset": offset,
+                        "rotation": 0.0,
+                        "scale": [float(tf.m_LocalScale.x),
+                                  float(tf.m_LocalScale.y)],
+                        "color": color_bytes(sr.m_Color),
+                        "sorting_layer": int(sr.m_SortingLayer),
+                        "sorting_order": int(sr.m_SortingOrder),
+                        "flip_x": bool(sr.m_FlipX),
+                        "flip_y": bool(sr.m_FlipY),
+                    })
+                for child in getattr(tf, "m_Children", []) or []:
+                    collect(child.read())
+
+            collect(transform, True)
+            return records
+
+        themes = []
+        for name in sorted(managers):
+            level, branch = manager_level(name)
+            if level is None:
+                continue
+            manager = managers[name]
+            floors = []
+            for pointer in list(getattr(manager, "floor_list", []) or []):
+                try:
+                    parts = prefab_parts(pointer)
+                except Exception:
+                    continue
+                if parts:
+                    floors.append({"sprite": parts[0]})
+            walls = []
+            for pointer in list(getattr(manager, "wall_list", []) or []):
+                try:
+                    parts = prefab_parts(pointer)
+                except Exception:
+                    continue
+                if parts:
+                    walls.append({"sprites": parts})
+            if not floors or not walls:
+                continue
+            themes.append({
+                "level": level,
+                "branch": branch,
+                "manager": name,
+                "use_new_floor_pattern": bool(getattr(
+                    manager, "use_new_floor_pattern", False)),
+                "floors": floors,
+                "walls": walls,
+            })
+        return themes
+
     def _wall_prefab(self):
         manager = None
         for obj in self.env.objects:
@@ -3177,6 +3308,7 @@ class SceneBuilder:
             "characters": self.characters,
             "player_stats": self.player_stats,
             "weapons": self.weapons,
+            "level_themes": self._extract_level_themes(),
             "enemy_definitions": self.enemy_definitions,
             "enemy_fixtures": self.enemy_fixtures,
             "pet_definitions": self.pet_definitions,

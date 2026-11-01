@@ -122,7 +122,8 @@ int Weapon::Update(float delta_seconds,
                 aim_direction.LengthSquared() > 1e-8f
                     ? aim_direction.Normalized() : Vec2{1.0f, 0.0f},
                 static_cast<int>(event_index_)});
-            spawn_projectile = special_kind == "bayonet";
+            spawn_projectile = special_kind == "bayonet" ||
+                               special_kind == "eatable_throw";
         } else if (projectile_special) {
             spawn_projectile = true;
         }

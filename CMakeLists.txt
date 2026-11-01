@@ -364,6 +364,8 @@ add_library(game STATIC
     src/game/room/RoomManager.hpp
     src/game/room/BiomeSystem.cpp
     src/game/room/BiomeSystem.hpp
+    src/game/room/LevelSurface.cpp
+    src/game/room/LevelSurface.hpp
     src/game/room/DungeonPlan.cpp
     src/game/room/DungeonPlan.hpp
     # Combat
@@ -631,6 +633,7 @@ add_executable(soul-knight-test
     tests/unit/enemy_ai_test.cpp
     tests/unit/weapon_pickup_test.cpp
     tests/unit/unique_weapon_test.cpp
+    tests/unit/level_surface_test.cpp
     tests/unit/save_test.cpp
     tests/unit/replay_test.cpp
     tests/unit/foundation_test.cpp

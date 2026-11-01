@@ -34,7 +34,7 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 | MapManagerLevel generation | **IMPLEMENTED** | 5×5 relation grid, `map_long`, main-path walk with backtracking, 70/40/10% branch thresholds, relation values, entrance rule, slot types 0/1/2/3/4, weighted special selection, unique normal templates. 1000 seeds checked for determinism/connectivity/uniqueness. |
 | 108 PatternRooms | **IMPLEMENTED** | All 108 `room/r1_N` bundles built by `build_pattern_rooms.py`; runtime auto-discovers every `r1_*_visual` scene. Sizes 15×15, 15×21, 21×15 and 21×21 are preserved by the builder. `LITEKNIGHT_ALL_ROOMS=1 ./scripts/prepare-assets.sh` regenerates the full set. |
 | Special rooms | **IMPLEMENTED scenes** | `r_start_no_event`, `r_transgete`, `r_chest`, `r_weapon_provider`, `r_statue`, `r_mineral`, `r_mercenary`, `r_mount` built from their actual prefabs and selected by type/weight. Statue/mineral/mercenary/mount object interactions remain visual-only because their call chains were not recovered. |
-| Biome system | **PARTIAL** | 16 campaign levels loaded from `map_catalogue.json` with map_long/chest_level/enemy weights; enemy spawning uses the level pool. Per-level `floor_list`/`wall_list` override of every PatternRoom scene is not yet wired (each room currently renders its own recovered floor/wall group). |
+| Biome system | **IMPLEMENTED** | 16 campaign levels loaded with map_long/chest_level/enemy weights. Default branch A/G1 floor/wall themes are extracted from the actual MapManagerLevel assets and applied to every PatternRoom at runtime with the recovered CreateFloor/CreateWall algorithm. Geometry/collision stay from the PatternRoom. Obstacle-prefab theme switching remains a documented limitation. See `LEVEL_VISUALS.md`. |
 | Enemy runtime | **PARTIAL** | 101 generic definitions, biome-weighted spawning, chase/contact, 71 ranged definitions, enemy projectile damage. Unique controller mechanics (18 AI classes) are still shared-chase approximations. |
 | Dungeon progression | **IMPLEMENTED base** | Start room → normal rooms → transfer-gate end room → next recovered level (map_long and level label update, new deterministic plan, dynamic texture upload). Final 3-6 reports CAMPAIGN COMPLETE. Boss rooms are not present among the recovered PatternRoom bundles. |
 | Room dimensions | **IMPLEMENTED** | Builder derives interior bounds from `RGRoomX.room_width/height` and keeps 11/15/21 sizes; 41-unit cell pitch and 18..22 door gaps preserved. |
@@ -92,5 +92,5 @@ localization I2Languages (2,088 terms extracted)
 ```
 
 Remaining PARTIAL rows are data-limited, not unsearched: unique enemy AI,
-79 catalogue-only weapons, per-level floor/wall override, boss chest loot and
+79 catalogue-only weapons, boss chest loot and
 the dungeon seller inventory. They are listed with the exact missing layer.

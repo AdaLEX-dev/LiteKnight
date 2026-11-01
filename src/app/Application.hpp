@@ -53,6 +53,7 @@
 #include "game/room/RoomDoorController.hpp"
 #include "game/room/DungeonPlan.hpp"
 #include "game/room/BiomeSystem.hpp"
+#include "game/room/LevelSurface.hpp"
 #include "game/room/RoomManager.hpp"
 
 #include <cstdint>
@@ -125,6 +126,7 @@ private:
     void FixedUpdate(double dt);
     void ExerciseWindowIfRequested();
     void BuildRenderBatch();
+    void RefreshLevelSurfaces();
     void BuildSyntheticBatch();
     static void AssignUniqueTextureIds(engine::assets::SceneAsset& scene,
                                        uint32_t base);
@@ -277,6 +279,8 @@ private:
         engine::animation::LocomotionState::Idle;
     int animation_logs_remaining_ = 0;
     std::vector<engine::rendering::TextureUpload> texture_uploads_;
+    std::vector<soulknight::game::room::SurfaceInstance> level_surfaces_;
+    std::string level_surface_key_;
     bool scene_mode_ = false;
     struct StoredRoom {
         std::string id;

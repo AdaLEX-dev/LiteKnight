@@ -120,13 +120,14 @@ def audit(scene_path: Path, inventory_path: Path, require_generated: bool,
             if character.get(key) and f"animations/{character[key]}.json" not in animations:
                 result.error(f"{character.get('id')} references missing {key}")
     for weapon in scene.get("weapons", []):
+        special = weapon.get("special", {})
         if weapon.get("visual_sprite") not in sprite_ids:
             result.error(f"{weapon.get('id')} has missing visual sprite")
-        if not weapon.get("is_melee", False):
+        if not weapon.get("is_melee", False) and not special:
             projectile = weapon.get("projectile", {})
             if projectile.get("sprite") not in sprite_ids:
                 result.error(f"{weapon.get('id')} has missing projectile sprite")
-        if weapon.get("damage", 0) <= 0:
+        if weapon.get("damage", 0) <= 0 and not special:
             result.error(f"{weapon.get('id')} has non-positive damage")
         if weapon.get("attack_cycle_seconds", 0) <= 0:
             result.error(f"{weapon.get('id')} has invalid attack cycle")

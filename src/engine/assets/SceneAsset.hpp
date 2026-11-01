@@ -147,6 +147,39 @@ struct ProjectileDefinition {
     int32_t sorting_order = 0;
 };
 
+
+// Recovered MapManagerLevel surface theme. One theme is selected by campaign
+// level (for example 1-1 => map_A1) and drives the floor/wall variants that
+// RGRoomX generates at runtime.
+struct LevelSurfaceSprite {
+    int32_t sprite_index = -1;
+    Vec2 offset{0.0f, 0.0f};
+    Vec2 scale{1.0f, 1.0f};
+    float rotation = 0.0f;
+    Color color{255, 255, 255, 255};
+    int32_t sorting_layer = 0;
+    int32_t sorting_order = 0;
+    bool flip_x = false;
+    bool flip_y = false;
+};
+
+struct LevelFloorVariant {
+    LevelSurfaceSprite sprite;
+};
+
+struct LevelWallVariant {
+    std::vector<LevelSurfaceSprite> sprites;
+};
+
+struct LevelTheme {
+    std::string level;
+    std::string branch;
+    std::string manager;
+    bool use_new_floor_pattern = false;
+    std::vector<LevelFloorVariant> floors;
+    std::vector<LevelWallVariant> walls;
+};
+
 struct WeaponVisualKey {
     float time = 0.0f;
     float value = 0.0f;
@@ -402,6 +435,11 @@ struct SceneAsset {
     std::vector<SceneCharacter> characters;
     PlayerStats player_stats;
     std::vector<WeaponDefinition> weapons;
+    std::vector<LevelTheme> level_themes;
+    std::vector<Vec2> floor_cells;
+    std::vector<Vec2> aisle_floor_cells;
+    std::vector<Vec2> wall_cells;
+    std::vector<Vec2> corridor_wall_cells;
     std::vector<EnemyDefinition> enemy_definitions;
     std::vector<EnemyFixture> enemy_fixtures;
     std::vector<SceneDoor> doors;
