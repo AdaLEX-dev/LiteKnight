@@ -775,6 +775,9 @@ void Application::BuildRenderBatch() {
         if (is_stake_body && training_stake_.HitFlash()) {
             draw.color = engine::Color{255, 235, 215, 255};
         }
+        if (is_player_body && stealth_timer_ > 0.0f) {
+            draw.color.a = 76; // BuffStealth serialized alpha 0.297
+        }
         if (is_player_body && hit_flash_timer_ > 0.0f) {
             const bool bright = static_cast<int>(hit_flash_timer_ * 100.0f) % 2 == 0;
             draw.color = bright ? engine::Color{255, 245, 235, 255}
@@ -869,6 +872,29 @@ void Application::BuildRenderBatch() {
         }
     }
 
+    for (const auto& box : boxes_.Boxes()) {
+        if (!box.alive ||
+            box.marker_index != soulknight::game::items::BreakableBox::kDeployedMarker ||
+            box.sprite_index < 0 ||
+            static_cast<std::size_t>(box.sprite_index) >= scene_.sprites.size()) {
+            continue;
+        }
+        const engine::assets::SpriteData& sprite =
+            scene_.sprites[static_cast<std::size_t>(box.sprite_index)];
+        engine::rendering::SpriteDraw draw;
+        draw.position = box.position;
+        draw.size = sprite.WorldSize();
+        draw.uv = sprite.UvRect();
+        draw.color = box.hit_flash > 0.0f
+            ? engine::Color{255, 235, 215, 255} : engine::Color::White();
+        draw.layer = engine::rendering::SortLayer::Character;
+        draw.sorting_order = engine::rendering::WorldDepthOrder(
+            box.position.y, 4);
+        draw.texture_id = sprite.texture_id;
+        draw.pivot = sprite.pivot;
+        (void)sprite_batch_.DrawSprite(draw);
+    }
+
     if (item_assets_.IsLoaded()) {
         const auto draw_item_sprite = [&](const std::string& sprite_id,
                                           const engine::Vec2& position,
@@ -948,6 +974,29 @@ void Application::BuildRenderBatch() {
             draw_item_sprite(definition->frames[frame], coin.position,
                              5, 5, 8);
         }
+    }
+
+    for (const soulknight::game::summon::SummonInstance& summon :
+         summons_.Summons()) {
+        if (!summon.active || summon.sprite_index < 0 ||
+            static_cast<std::size_t>(summon.sprite_index) >=
+                scene_.sprites.size()) {
+            continue;
+        }
+        const engine::assets::SpriteData& sprite =
+            scene_.sprites[static_cast<std::size_t>(summon.sprite_index)];
+        engine::rendering::SpriteDraw draw;
+        draw.position = summon.position;
+        draw.size = sprite.WorldSize();
+        draw.uv = sprite.UvRect();
+        draw.color = engine::Color::White();
+        draw.layer = engine::rendering::SortLayer::Character;
+        draw.sorting_order = engine::rendering::WorldDepthOrder(
+            summon.position.y, 12);
+        draw.texture_id = sprite.texture_id;
+        draw.pivot = sprite.pivot;
+        draw.flip_x = summon.facing_left;
+        (void)sprite_batch_.DrawSprite(draw);
     }
 
     for (const soulknight::game::enemy::EnemyInstance& enemy :
@@ -2186,6 +2235,7 @@ void Application::RebuildCollisionWorld() {
         collision_world_.AddSolid(ToAabb(solid));
     }
     obstacles_.AddColliders(collision_world_);
+    boxes_.AddColliders(collision_world_);
     for (const auto& chest : item_world_.Chests()) {
         const auto* definition = item_assets_.FindChest(chest.definition);
         if (definition == nullptr) continue;
@@ -3298,6 +3348,8 @@ void Application::ResetCombat() {
     obstacles_.ResetOverride();
     boxes_.Reset();
     boxes_.Configure(scene_, obstacles_);
+    summons_.Clear();
+    black_holes_.clear();
     weapon_inventory_.Configure(weapons_.Count());
     ConfigureActiveWeapon();
     ConfigureSecondaryWeapon();
@@ -3633,6 +3685,15 @@ void Application::FixedUpdate(double dt) {
 
     if (!scene_mode_) return;
     hit_flash_timer_ = std::max(0.0f, hit_flash_timer_ - static_cast<float>(dt));
+    stealth_timer_ = std::max(0.0f, stealth_timer_ - static_cast<float>(dt));
+    attack_speed_timer_ =
+        std::max(0.0f, attack_speed_timer_ - static_cast<float>(dt));
+    camera_flash_timer_ =
+        std::max(0.0f, camera_flash_timer_ - static_cast<float>(dt));
+    attack_speed_multiplier_ = attack_speed_timer_ > 0.0f
+        ? std::max(attack_speed_multiplier_, 1.0f) : 1.0f;
+    weapon_.SetAttackSpeedMultiplier(attack_speed_multiplier_);
+    secondary_weapon_.SetAttackSpeedMultiplier(attack_speed_multiplier_);
     room_title_timer_ = std::max(0.0f, room_title_timer_ - static_cast<float>(dt));
     room_clear_timer_ = std::max(0.0f, room_clear_timer_ - static_cast<float>(dt));
     room_transition_flash_ = std::max(0.0f,
@@ -3681,6 +3742,82 @@ void Application::FixedUpdate(double dt) {
         const int shots = weapon_.Update(static_cast<float>(dt), attack_held_,
                                          player_.Position(), aim_direction_,
                                          projectiles_, &player_energy_);
+        for (const soulknight::game::combat::WeaponFireEvent& event :
+             weapon_.TakeFireEvents()) {
+            const engine::assets::WeaponSpecial& special =
+                weapon_.Definition().special;
+            if (event.kind == "summon_skeleton" ||
+                event.kind == "summon_phantom") {
+                const int spawned = summons_.Spawn(
+                    special, player_.Position(),
+                    static_cast<std::size_t>(std::max(1, special.count)),
+                    false);
+                LOG_INFO_APP("Weapon summon {}: spawned {} actor(s) life={:.1f}s",
+                             event.kind, spawned, special.duration);
+            } else if (event.kind == "funnel_swords") {
+                const int spawned = summons_.Spawn(
+                    special, player_.Position(),
+                    static_cast<std::size_t>(std::max(1, special.count)),
+                    true);
+                LOG_INFO_APP("Funnel swords: spawned {} for {:.1f}s",
+                             spawned, special.duration);
+            } else if (event.kind == "stealth") {
+                stealth_timer_ = std::max(stealth_timer_, special.duration);
+                LOG_INFO_APP("BuffStealth: {:.1f}s alpha=0.297",
+                             special.duration);
+            } else if (event.kind == "attack_speed") {
+                attack_speed_timer_ =
+                    std::max(attack_speed_timer_, special.duration);
+                attack_speed_multiplier_ = 1.0f +
+                    std::max(0.0f, special.value) / 100.0f;
+                PlayEffect("weapon_fire", 0.45f);
+                LOG_INFO_APP("BuffAtkSpeedChange: +{:.0f}% for {:.1f}s",
+                             special.value, special.duration);
+            } else if (event.kind == "camera_flash") {
+                const int hits = enemies_.ApplyAreaDamage(
+                    player_.Position(), special.range, special.damage, 1);
+                camera_flash_timer_ = std::max(camera_flash_timer_,
+                                               special.duration);
+                PlayEffect("weapon_fire", 0.5f);
+                LOG_INFO_APP("BulletFullScreen camera: {} hit(s) range={:.1f}",
+                             hits, special.range);
+            } else if (event.kind == "black_hole") {
+                const engine::Vec2 aim = aim_direction_.LengthSquared() > 1e-8f
+                    ? aim_direction_.Normalized() : engine::Vec2{1.0f, 0.0f};
+                BlackHoleState hole;
+                hole.position = player_.Position() + aim * 2.2f;
+                hole.duration = std::max(0.05f, special.duration);
+                hole.radius = 3.5f;
+                hole.damage = special.damage > 0 ? special.damage : 16;
+                black_holes_.push_back(hole);
+                PlayEffect("weapon_fire", 0.5f);
+                LOG_INFO_APP("GunChannel: black hole at ({:.2f},{:.2f}) end={:.2f}s",
+                             hole.position.x, hole.position.y, hole.duration);
+            } else if (event.kind == "box_place") {
+                const engine::Vec2 aim = aim_direction_.LengthSquared() > 1e-8f
+                    ? aim_direction_.Normalized() : engine::Vec2{1.0f, 0.0f};
+                const engine::Vec2 position = player_.Position() +
+                    aim * std::max(0.0f, special.value);
+                if (boxes_.DeployBox(position,
+                                     special.hp > 0 ? special.hp : 4,
+                                     special.sprite_index)) {
+                    RebuildCollisionWorld();
+                    PlayEffect("weapon_fire", 0.4f);
+                    LOG_INFO_APP("GunBox: deployed box hp={} at ({:.2f},{:.2f})",
+                                 special.hp, position.x, position.y);
+                }
+            } else if (event.kind == "death_mark") {
+                const engine::Vec2 aim = aim_direction_.LengthSquared() > 1e-8f
+                    ? aim_direction_.Normalized() : engine::Vec2{1.0f, 0.0f};
+                const std::size_t target = enemies_.NearestEnemy(
+                    player_.Position() + aim * 2.0f, 13.0f);
+                if (target < enemies_.Enemies().size()) {
+                    (void)enemies_.MarkForDeath(target, special.duration);
+                    LOG_INFO_APP("BuffDeadNote: enemy {} marked for {:.1f}s",
+                                 target, special.duration);
+                }
+            }
+        }
         const bool dual_active = abilities_.Count() > 0 &&
             abilities_.Abilities()[0].state ==
                 soulknight::game::player::AbilityState::Active;
@@ -3713,7 +3850,11 @@ void Application::FixedUpdate(double dt) {
             const std::string& clip = weapon_.Definition().audio_clip;
             PlayEffect(clip.empty() ? "weapon_fire" : "weapon_" + clip, 0.62f);
         }
-        if (shots > 0 && weapon_.Definition().is_melee) {
+        const std::string& special_kind =
+            weapon_.Definition().special.kind;
+        const bool melee_attack = weapon_.Definition().is_melee &&
+            (special_kind.empty() || special_kind == "bayonet");
+        if (shots > 0 && melee_attack) {
             const int hits = enemies_.ApplyMelee(
                 player_.Position(), aim_direction_,
                 weapon_.Definition().melee_range,
@@ -3758,7 +3899,7 @@ void Application::FixedUpdate(double dt) {
     enemies_.ResolveProjectileHits(projectiles_);
     bool player_damaged = enemies_.FixedUpdate(
         static_cast<float>(dt), player_.Position(), player_health_,
-        &collision_world_, &projectiles_);
+        &collision_world_, &projectiles_, stealth_timer_ <= 0.0f);
     player_damaged = projectiles_.ResolvePlayerHits(
         player_.Position(), player_health_) || player_damaged;
     if (pet_.Count() > 0) {
@@ -3772,6 +3913,30 @@ void Application::FixedUpdate(double dt) {
             PlayEffect("weapon_fire", 0.35f);
         }
     }
+    if (!summons_.Summons().empty()) {
+        (void)summons_.Update(static_cast<float>(dt), player_.Position(),
+                              enemies_, &collision_world_);
+    }
+    for (BlackHoleState& hole : black_holes_) {
+        if (!hole.active) continue;
+        hole.age += static_cast<float>(dt);
+        (void)enemies_.ApplyPull(hole.position, hole.radius, 7.0f,
+                                 static_cast<float>(dt));
+        if (hole.age + 1e-4f >= hole.duration) {
+            const int hits = enemies_.ApplyAreaDamage(
+                hole.position, hole.radius, hole.damage, 1);
+            hole.active = false;
+            PlayEffect("weapon_fire", 0.55f);
+            LOG_INFO_APP("GunChannel end shot: {} hit(s) damage={}",
+                         hits, hole.damage);
+        }
+    }
+    black_holes_.erase(
+        std::remove_if(black_holes_.begin(), black_holes_.end(),
+                       [](const BlackHoleState& hole) {
+                           return !hole.active;
+                       }),
+        black_holes_.end());
     if (item_assets_.IsLoaded()) {
         if (item_world_.AutoOpenNear(player_.Position(), 2.0f)) {
             LOG_INFO_APP("Chest triggered by player proximity");
@@ -3857,6 +4022,18 @@ void Application::FixedUpdate(double dt) {
         LOG_INFO_APP("Player damaged: hp={} armor={} dead={}",
                      player_health_.hp, player_health_.armor,
                      BooleanText(player_health_.dead));
+    }
+    if (player_health_.dead && !player_dead_ &&
+        !revive_used_ &&
+        weapon_.Definition().special.kind == "revive") {
+        revive_used_ = true;
+        player_health_.Reset(player_health_.max_hp,
+                             player_health_.max_armor,
+                             player_health_.defence);
+        player_health_.camp = 1;
+        PlayEffect("heal", 0.7f);
+        LOG_INFO_APP("GunRebornCross: revived player with {} HP",
+                     player_health_.hp);
     }
     if (player_health_.dead && !player_dead_) {
         player_dead_ = true;

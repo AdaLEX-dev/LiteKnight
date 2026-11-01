@@ -13,8 +13,10 @@
 namespace soulknight::game::items {
 
 struct BreakableBox {
-    std::size_t marker_index = 0;
+    static constexpr std::size_t kDeployedMarker = static_cast<std::size_t>(-1);
+    std::size_t marker_index = kDeployedMarker;
     engine::Vec2 position{0.0f, 0.0f};
+    int32_t sprite_index = -1;
     int hp = 4;
     int max_hp = 4;
     bool alive = true;
@@ -37,6 +39,9 @@ public:
     void Configure(const engine::assets::SceneAsset& scene,
                    const room::ObstacleField& obstacles);
     void Reset();
+    // GunBox: place the recovered bullet_box prefab at the validated position.
+    bool DeployBox(const engine::Vec2& position, int hp, int32_t sprite_index);
+    void AddColliders(engine::collision::AabbCollisionWorld& world) const;
 
     // Returns the number of boxes hit.
     int ApplyMelee(const engine::Vec2& origin, const engine::Vec2& direction,

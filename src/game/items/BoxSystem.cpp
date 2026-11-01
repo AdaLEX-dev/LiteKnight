@@ -35,6 +35,26 @@ void BoxSystem::Reset() {
     bubbles_.clear();
 }
 
+bool BoxSystem::DeployBox(const engine::Vec2& position, int hp,
+                          int32_t sprite_index) {
+    if (hp <= 0) return false;
+    BreakableBox box;
+    box.marker_index = BreakableBox::kDeployedMarker;
+    box.position = position;
+    box.sprite_index = sprite_index;
+    box.hp = hp;
+    box.max_hp = hp;
+    boxes_.push_back(box);
+    return true;
+}
+
+void BoxSystem::AddColliders(
+        engine::collision::AabbCollisionWorld& world) const {
+    for (const BreakableBox& box : boxes_) {
+        if (box.alive) world.AddSolid(BoxBounds(box));
+    }
+}
+
 engine::collision::Aabb BoxSystem::BoxBounds(const BreakableBox& box) {
     return {{box.position.x - 0.45f, box.position.y + 0.10f},
             {box.position.x + 0.45f, box.position.y + 1.10f}};

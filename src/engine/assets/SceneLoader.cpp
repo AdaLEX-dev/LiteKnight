@@ -1046,8 +1046,11 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             const bool melee_definition = item.value("is_melee", false);
             const bool has_projectile_sprite =
                 projectile.contains("sprite") && projectile["sprite"].is_string();
+            const bool special_weapon = item.contains("special") &&
+                item["special"].is_object();
             if (!projectile.contains("id") || !projectile["id"].is_string() ||
-                (!melee_definition && !has_projectile_sprite)) {
+                (!melee_definition && !has_projectile_sprite &&
+                 !special_weapon)) {
                 SetError(error, "scene projectile entry is invalid");
                 return false;
             }
@@ -1145,6 +1148,110 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             weapon.visual_rotation = item.value("visual_rotation", 0.0f);
             weapon.sorting_layer = item.value("sorting_layer", 5);
             weapon.sorting_order = item.value("sorting_order", 1);
+            if (item.contains("attack_event_times") &&
+                item["attack_event_times"].is_array()) {
+                for (const Json& value : item["attack_event_times"]) {
+                    if (!value.is_number()) {
+                        SetError(error, "weapon attack event time is invalid: " +
+                                        weapon.id);
+                        return false;
+                    }
+                    weapon.attack_event_times.push_back(value.get<float>());
+                }
+                std::sort(weapon.attack_event_times.begin(),
+                          weapon.attack_event_times.end());
+            }
+            if (special_weapon) {
+                const Json& special = item["special"];
+                weapon.special.kind = special.value("kind", std::string{});
+                weapon.special.count = special.value("count", 0);
+                weapon.special.duration = special.value("duration", 0.0f);
+                weapon.special.interval = special.value("interval", 0.0f);
+                weapon.special.value = special.value("value", 0.0f);
+                weapon.special.range = special.value("range", 0.0f);
+                weapon.special.damage = special.value("damage", 0);
+                weapon.special.hp = special.value("hp", 0);
+                weapon.special.speed = special.value("speed", 0.0f);
+                weapon.special.audio_clip =
+                    special.value("audio_clip", std::string{});
+                if (special.contains("sprite") &&
+                    special["sprite"].is_string()) {
+                    const std::string sprite_id =
+                        special["sprite"].get<std::string>();
+                    const auto sprite_it = sprite_ids.find(sprite_id);
+                    if (sprite_it == sprite_ids.end()) {
+                        SetError(error, "weapon special references unknown sprite: " +
+                                        sprite_id);
+                        return false;
+                    }
+                    weapon.special.sprite_id = sprite_id;
+                    weapon.special.sprite_index =
+                        static_cast<int32_t>(sprite_it->second);
+                }
+                const auto read_variant = [&](const Json& variant,
+                                              WeaponProjectileVariant* out) {
+                    if (!variant.is_object() || !variant.contains("id") ||
+                        !variant["id"].is_string()) {
+                        return false;
+                    }
+                    out->projectile.id = variant["id"].get<std::string>();
+                    if (variant.contains("sprite") &&
+                        variant["sprite"].is_string()) {
+                        const auto it = sprite_ids.find(
+                            variant["sprite"].get<std::string>());
+                        if (it == sprite_ids.end()) return false;
+                        out->projectile.sprite_index =
+                            static_cast<int32_t>(it->second);
+                    }
+                    out->bullet_speed = variant.value("speed", 0.0f);
+                    out->size = variant.value("size", 1.0f);
+                    out->damage = variant.value("damage", 0);
+                    out->critic = variant.value("critic", 0);
+                    out->repel = variant.value("repel", 0);
+                    out->through = variant.value("through", 0);
+                    out->projectile.prefab_speed =
+                        variant.value("prefab_speed", 10.0f);
+                    out->projectile.lifetime =
+                        variant.value("lifetime", 5.0f);
+                    out->projectile.camp = variant.value("camp", 1);
+                    out->projectile.can_rebound =
+                        variant.value("can_rebound", false);
+                    if (variant.contains("collider_size")) {
+                        Vec2 size;
+                        if (!ReadVec2(variant["collider_size"], size) ||
+                            size.x <= 0.0f || size.y <= 0.0f) {
+                            return false;
+                        }
+                        out->projectile.collider_half_extents =
+                            {size.x * 0.5f, size.y * 0.5f};
+                    }
+                    if (variant.contains("collider_offset")) {
+                        Vec2 offset;
+                        if (!ReadVec2(variant["collider_offset"], offset)) {
+                            return false;
+                        }
+                        out->projectile.collider_offset = offset;
+                    }
+                    out->projectile.sorting_layer =
+                        variant.value("sorting_layer", 6);
+                    out->projectile.sorting_order =
+                        variant.value("sorting_order", 0);
+                    return true;
+                };
+                if (special.contains("variants") &&
+                    special["variants"].is_array()) {
+                    for (const Json& variant : special["variants"]) {
+                        WeaponProjectileVariant parsed;
+                        if (!read_variant(variant, &parsed)) {
+                            SetError(error,
+                                     "weapon special variant is invalid: " +
+                                         weapon.id);
+                            return false;
+                        }
+                        weapon.special.variants.push_back(std::move(parsed));
+                    }
+                }
+            }
             if (weapon.attack_cycle_seconds <= 0.0f ||
                 weapon.first_shot_delay_seconds < 0.0f) {
                 SetError(error, "weapon attack timing is invalid: " + weapon.id);

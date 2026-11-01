@@ -419,6 +419,8 @@ add_library(game STATIC
     src/game/enemy/EnemySystem.hpp
     src/game/pet/PetSystem.cpp
     src/game/pet/PetSystem.hpp
+    src/game/summon/SummonSystem.cpp
+    src/game/summon/SummonSystem.hpp
     # Characters
     # src/game/characters/CharacterData.cpp
     # src/game/characters/CharacterData.hpp
@@ -628,6 +630,7 @@ add_executable(soul-knight-test
     tests/unit/energy_inventory_test.cpp
     tests/unit/enemy_ai_test.cpp
     tests/unit/weapon_pickup_test.cpp
+    tests/unit/unique_weapon_test.cpp
     tests/unit/save_test.cpp
     tests/unit/replay_test.cpp
     tests/unit/foundation_test.cpp

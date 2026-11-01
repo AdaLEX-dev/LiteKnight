@@ -37,6 +37,7 @@
 #include "game/hub/TrainingStake.hpp"
 #include "game/hub/Workshop.hpp"
 #include "game/pet/PetSystem.hpp"
+#include "game/summon/SummonSystem.hpp"
 #include "game/player/Ability.hpp"
 #include "game/items/ItemAssets.hpp"
 #include "game/items/ItemWorld.hpp"
@@ -235,6 +236,21 @@ private:
     std::string workshop_status_;
     soulknight::game::pet::PetSystem pet_;
     std::string active_pet_id_;
+    soulknight::game::summon::SummonSystem summons_;
+    float stealth_timer_ = 0.0f;
+    float attack_speed_timer_ = 0.0f;
+    float attack_speed_multiplier_ = 1.0f;
+    float camera_flash_timer_ = 0.0f;
+    bool revive_used_ = false;
+    struct BlackHoleState {
+        engine::Vec2 position{0.0f, 0.0f};
+        float age = 0.0f;
+        float duration = 0.0f;
+        float radius = 0.0f;
+        int damage = 0;
+        bool active = true;
+    };
+    std::vector<BlackHoleState> black_holes_;
     engine::Vec2 aim_direction_{1.0f, 0.0f};
     engine::Vec2 previous_aim_direction_{1.0f, 0.0f};
     engine::Vec2 render_aim_direction_{1.0f, 0.0f};

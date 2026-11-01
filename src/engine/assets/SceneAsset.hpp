@@ -152,6 +152,38 @@ struct WeaponVisualKey {
     float value = 0.0f;
 };
 
+// One recovered bullet entry in a multi-projectile weapon (for example the
+// six elemental prefabs cycled by GunMultiBullet02 / Rainbow).
+struct WeaponProjectileVariant {
+    ProjectileDefinition projectile;
+    float bullet_speed = 0.0f;
+    float size = 1.0f;
+    int damage = 0;
+    int critic = 0;
+    int repel = 0;
+    int through = 0;
+};
+
+// Serialized subclass data that is not part of the common RGWeapon fire path.
+// The recovery document (docs/development/UNIQUE_WEAPON_RECOVERY.md) records
+// the exact class/address for each kind; values below are serialized fields,
+// never invented.
+struct WeaponSpecial {
+    std::string kind;
+    int count = 0;
+    float duration = 0.0f;
+    float interval = 0.0f;
+    float value = 0.0f;
+    float range = 0.0f;
+    int damage = 0;
+    int hp = 0;
+    float speed = 0.0f;
+    int sprite_index = -1;
+    std::string sprite_id;
+    std::string audio_clip;
+    std::vector<WeaponProjectileVariant> variants;
+};
+
 struct WeaponDefinition {
     std::string id;
     std::string display_name;
@@ -204,6 +236,12 @@ struct WeaponDefinition {
     // 1.0, so the effective period is 1/3 s with a 1/30 s first-shot delay.
     float attack_cycle_seconds = 1.0f / 3.0f;
     float first_shot_delay_seconds = 1.0f / 30.0f;
+    // Scaled animation-event times within one attack cycle. Empty means the
+    // generic one-shot-per-cycle path. Non-empty drives multi-event bursts
+    // (Assault Sniper Rifle, Gun008 revolver family) exactly as recovered.
+    std::vector<float> attack_event_times;
+    // Recovered subclass fields and alternate projectile prefabs.
+    WeaponSpecial special;
 
     // Recovered weapon prefab visual (`w` child SpriteRenderer) and gun_point
     // local offset. The devroom renders the real weapon texture in the hand.

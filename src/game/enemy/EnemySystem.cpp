@@ -95,7 +95,8 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
                               const engine::Vec2& player_position,
                               combat::HealthState& player_health,
                               const engine::collision::AabbCollisionWorld* world,
-                              combat::ProjectileSystem* projectiles) {
+                              combat::ProjectileSystem* projectiles,
+                              bool player_visible) {
     if (delta_seconds <= 0.0f) return false;
     bool player_damaged = false;
     const engine::collision::Aabb player_box{
@@ -115,8 +116,24 @@ bool EnemySystem::FixedUpdate(float delta_seconds,
             continue;
         }
 
+        if (enemy.death_mark_timer > 0.0f) {
+            enemy.death_mark_timer =
+                std::max(0.0f, enemy.death_mark_timer - delta_seconds);
+            if (enemy.death_mark_timer <= 0.0f) {
+                enemy.health.hp = 0;
+                enemy.health.dead = true;
+                enemy.health.can_hurt = false;
+                enemy.death_timer = definition.death_despawn_delay;
+                continue;
+            }
+        }
         enemy.contact_timer = std::max(0.0f, enemy.contact_timer - delta_seconds);
         enemy.shoot_timer = std::max(0.0f, enemy.shoot_timer - delta_seconds);
+        if (!player_visible) {
+            // BuffStealth: enemies lose the player target while the recovered
+            // 10 s stealth buff is active.
+            continue;
+        }
 
         // Chase slice: approach the player when outside contact distance and
         // inside the aggro radius. The speed is the recovered RoleAttribute
@@ -275,6 +292,58 @@ int EnemySystem::ApplyMelee(const engine::Vec2& origin,
         if (ApplyDamage(i, damage, source_camp)) ++hits;
     }
     return hits;
+}
+
+bool EnemySystem::MarkForDeath(std::size_t index, float delay) {
+    if (index >= enemies_.size()) return false;
+    EnemyInstance& enemy = enemies_[index];
+    if (!enemy.active || enemy.health.dead) return false;
+    enemy.death_mark_timer = std::max(0.01f, delay);
+    return true;
+}
+
+int EnemySystem::ApplyAreaDamage(const engine::Vec2& center, float radius,
+                                 int damage, int source_camp) {
+    int hits = 0;
+    for (std::size_t i = 0; i < enemies_.size(); ++i) {
+        EnemyInstance& enemy = enemies_[i];
+        if (!enemy.active || enemy.health.dead) continue;
+        if ((enemy.position - center).LengthSquared() > radius * radius) continue;
+        if (ApplyDamage(i, damage, source_camp)) ++hits;
+    }
+    return hits;
+}
+
+std::size_t EnemySystem::NearestEnemy(const engine::Vec2& position,
+                                      float max_range) const {
+    std::size_t best = enemies_.size();
+    float best_distance = max_range * max_range;
+    for (std::size_t i = 0; i < enemies_.size(); ++i) {
+        const EnemyInstance& enemy = enemies_[i];
+        if (!enemy.active || enemy.health.dead) continue;
+        const float distance = (enemy.position - position).LengthSquared();
+        if (distance <= best_distance) {
+            best_distance = distance;
+            best = i;
+        }
+    }
+    return best;
+}
+
+int EnemySystem::ApplyPull(const engine::Vec2& center, float radius,
+                           float strength, float delta_seconds) {
+    if (delta_seconds <= 0.0f || radius <= 0.0f || strength <= 0.0f) return 0;
+    int pulled = 0;
+    for (EnemyInstance& enemy : enemies_) {
+        if (!enemy.active || enemy.health.dead) continue;
+        const engine::Vec2 delta = center - enemy.position;
+        const float distance = delta.Length();
+        if (distance > radius || distance <= 0.01f) continue;
+        const engine::Vec2 step = delta * (strength * delta_seconds / distance);
+        enemy.position += step;
+        ++pulled;
+    }
+    return pulled;
 }
 
 bool EnemySystem::ApplyDamage(std::size_t index, int damage, int source_camp) {

@@ -21,6 +21,8 @@ struct EnemyInstance {
     float death_timer = 0.0f;
     float contact_timer = 0.0f;
     float shoot_timer = 0.0f;
+    // BuffDeadNote: after the recovered 6 s timer the marked enemy is killed.
+    float death_mark_timer = 0.0f;
     bool facing_left = false;
     bool active = true;
 };
@@ -41,10 +43,23 @@ public:
                      const engine::Vec2& player_position,
                      combat::HealthState& player_health,
                      const engine::collision::AabbCollisionWorld* world = nullptr,
-                     combat::ProjectileSystem* projectiles = nullptr);
+                     combat::ProjectileSystem* projectiles = nullptr,
+                     bool player_visible = true);
     void ResolveProjectileHits(combat::ProjectileSystem& projectiles);
 
     bool ApplyDamage(std::size_t index, int damage, int source_camp);
+    // BuffDeadNote.KillEnemy: mark a target and kill it after the serialized
+    // buff_time. Re-marking refreshes the timer.
+    bool MarkForDeath(std::size_t index, float delay);
+    // BulletFullScreen / camera flash and other recovered area effects.
+    int ApplyAreaDamage(const engine::Vec2& center, float radius, int damage,
+                        int source_camp);
+    std::size_t NearestEnemy(const engine::Vec2& position,
+                             float max_range) const;
+    // GunChannel / bullet_84 PointEffector2D pull. Moves living enemies toward
+    // the center by `strength` units/second inside `radius`.
+    int ApplyPull(const engine::Vec2& center, float radius, float strength,
+                  float delta_seconds);
     // Generic recovered melee query: range + frontal arc, shared by all
     // sword/axe/spear families. Returns the number of enemies damaged.
     int ApplyMelee(const engine::Vec2& origin, const engine::Vec2& direction,
