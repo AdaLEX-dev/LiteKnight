@@ -2,6 +2,7 @@
 #include <doctest/doctest.h>
 
 #include "engine/assets/SceneLoader.hpp"
+#include "engine/collision/AabbCollision.hpp"
 #include "platform/filesystem/FileSystem.hpp"
 
 #ifndef JSON_NOEXCEPTION
@@ -379,4 +380,16 @@ TEST_CASE("Living Room staircase removal is repaired with default wall/floor til
         }
     }
     CHECK(cap_found);
+    soulknight::engine::collision::AabbCollisionWorld world;
+    world.SetBounds({{-60.0f, -40.0f}, {60.0f, 40.0f}});
+    for (const Json& solid : hub["collision"]["solids"]) {
+        if (solid.size() != 4) continue;
+        world.AddSolid({{solid[0].get<float>(), solid[1].get<float>()},
+                        {solid[2].get<float>(), solid[3].get<float>()}});
+    }
+    soulknight::engine::Vec2 resolved{-10.5f, -8.5f};
+    const auto move = world.Move({-10.5f, -8.5f}, {0.45f, 0.45f},
+                                 {0.0f, -2.0f}, resolved);
+    CHECK(move.blocked_y);
+    CHECK(resolved.y >= -8.55f);
 }
