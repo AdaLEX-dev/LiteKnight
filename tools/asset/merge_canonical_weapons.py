@@ -78,7 +78,13 @@ def merge_room(canonical: dict, canonical_dir: Path, scene_path: Path,
     if canonical.get("level_themes"):
         scene["level_themes"] = canonical["level_themes"]
     if canonical.get("enemy_definitions"):
-        scene["enemy_definitions"] = canonical["enemy_definitions"]
+        merged_enemies = list(canonical["enemy_definitions"])
+        known = {enemy.get("id") for enemy in merged_enemies}
+        for enemy in scene.get("enemy_definitions", []):
+            enemy_id = enemy.get("id", "")
+            if enemy_id.startswith("boss") or enemy_id not in known:
+                merged_enemies.append(enemy)
+        scene["enemy_definitions"] = merged_enemies
     scene_path.write_text(json.dumps(scene, indent=2, sort_keys=True) + "\n",
                           encoding="utf-8")
     return added_textures, added_sprites, replaced

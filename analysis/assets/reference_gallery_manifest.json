@@ -3,12 +3,12 @@
   "tool": "tools/asset/build_gallery_manifest.py",
   "asset_root": "/home/jules/Documents/Programming/SoulKnight-Linux/build/assets",
   "counts": {
-    "textures": 96,
-    "sprites": 1921,
-    "prefabs": 2464,
-    "entries": 4481,
+    "textures": 97,
+    "sprites": 1931,
+    "prefabs": 2500,
+    "entries": 4528,
     "broken": 0,
-    "scenes": 118
+    "scenes": 121
   },
   "textures": [
     {
@@ -355,6 +355,18 @@
       "path": "scenes/hero_room/textures/hub_tex_ab2e52e773f2.png",
       "width": 96,
       "height": 8,
+      "filter": "point",
+      "wrap": "clamp",
+      "status": "included"
+    },
+    {
+      "key": "tex:1044487672894129644",
+      "name": "boss01",
+      "source": "scene",
+      "scene": "r2_boss1_visual",
+      "path": "scenes/r2_boss1_visual/textures/auto_atlas_1044487672894129644.png",
+      "width": 192,
+      "height": 192,
       "filter": "point",
       "wrap": "clamp",
       "status": "included"
@@ -4757,6 +4769,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-4059655172991042591",
+      "name": "boss06_0",
+      "scene": "r3_boss2_visual",
+      "texture_key": "tex:5794761991059932759",
+      "rect": [
+        192.0,
+        470.0,
+        42.0,
+        41.94868469238281
+      ],
+      "pivot": [
+        0.6000000238418579,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "boss06_0",
+      "status": "included"
+    },
+    {
       "key": "spr:-4082194007791575256",
       "name": "enemy30_4",
       "scene": "hero_room",
@@ -5172,6 +5203,25 @@
       ],
       "ppu": 16.0,
       "source_name": "worm_0",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4371165664088770574",
+      "name": "boss01_8",
+      "scene": "r2_boss1_visual",
+      "texture_key": "tex:1044487672894129644",
+      "rect": [
+        4.059728622436523,
+        118.07612228393555,
+        38.86415100097656,
+        23.847759246826172
+      ],
+      "pivot": [
+        0.513076211984212,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "boss01_8",
       "status": "included"
     },
     {
@@ -5951,6 +6001,25 @@
       ],
       "ppu": 16.0,
       "source_name": "objects4_56",
+      "status": "included"
+    },
+    {
+      "key": "spr:-4853071242945378071",
+      "name": "boss01_6",
+      "scene": "r2_boss1_visual",
+      "texture_key": "tex:1044487672894129644",
+      "rect": [
+        101.02674865722656,
+        53.026756286621094,
+        36.91352081298828,
+        41.897125244140625
+      ],
+      "pivot": [
+        0.5139919174574528,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "boss01_6",
       "status": "included"
     },
     {
@@ -9735,6 +9804,25 @@
       "status": "included"
     },
     {
+      "key": "spr:-7756942859168817166",
+      "name": "boss01_5",
+      "scene": "r2_boss1_visual",
+      "texture_key": "tex:1044487672894129644",
+      "rect": [
+        53.04290771484375,
+        52.026756286621094,
+        36.89736557006836,
+        42.897125244140625
+      ],
+      "pivot": [
+        0.5137790189697039,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "boss01_5",
+      "status": "included"
+    },
+    {
       "key": "spr:-7761016176773991780",
       "name": "c05_s7_0",
       "scene": "hero_room",
@@ -13155,6 +13243,25 @@
       "status": "included"
     },
     {
+      "key": "spr:2395827356030292658",
+      "name": "objects2_6",
+      "scene": "r3_boss2_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        237.0,
+        246.0,
+        32.0,
+        19.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects2_6",
+      "status": "included"
+    },
+    {
       "key": "spr:241988703588428852",
       "name": "pet_eater_12",
       "scene": "hero_room",
@@ -15302,6 +15409,25 @@
       "status": "included"
     },
     {
+      "key": "spr:3899851386666705776",
+      "name": "objects1_2",
+      "scene": "r2_boss1_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        455.0,
+        456.0,
+        35.0,
+        24.0
+      ],
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_2",
+      "status": "included"
+    },
+    {
       "key": "spr:3926050159437465095",
       "name": "enemy10_5",
       "scene": "hero_room",
@@ -17145,6 +17271,25 @@
       "status": "included"
     },
     {
+      "key": "spr:545584605653323647",
+      "name": "boss07_4",
+      "scene": "r1_boss1_visual",
+      "texture_key": "tex:-4620619860993591283",
+      "rect": [
+        0.0,
+        408.0,
+        50.0,
+        43.0
+      ],
+      "pivot": [
+        0.5,
+        0.25
+      ],
+      "ppu": 16.0,
+      "source_name": "boss07_4",
+      "status": "included"
+    },
+    {
       "key": "spr:5456418766079047880",
       "name": "pet08_s0_6",
       "scene": "hero_room",
@@ -18076,6 +18221,25 @@
       "status": "included"
     },
     {
+      "key": "spr:6035125152716055953",
+      "name": "boss01_7",
+      "scene": "r2_boss1_visual",
+      "texture_key": "tex:1044487672894129644",
+      "rect": [
+        149.03628540039062,
+        53.07612609863281,
+        36.903987884521484,
+        41.847755432128906
+      ],
+      "pivot": [
+        0.5138662699258922,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "boss01_7",
+      "status": "included"
+    },
+    {
       "key": "spr:6048196612033925561",
       "name": "weapons2_108",
       "scene": "hero_room",
@@ -18608,6 +18772,25 @@
       "status": "included"
     },
     {
+      "key": "spr:6493600363749625766",
+      "name": "boss01_4",
+      "scene": "r2_boss1_visual",
+      "texture_key": "tex:1044487672894129644",
+      "rect": [
+        5.0267510414123535,
+        52.07612609863281,
+        36.91352081298828,
+        42.847755432128906
+      ],
+      "pivot": [
+        0.513991852869038,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "boss01_4",
+      "status": "included"
+    },
+    {
       "key": "spr:6498614530538834062",
       "name": "c08_2",
       "scene": "hero_room",
@@ -18795,6 +18978,25 @@
       ],
       "ppu": 16.0,
       "source_name": "f104",
+      "status": "included"
+    },
+    {
+      "key": "spr:6678599036060996758",
+      "name": "objects1_3",
+      "scene": "r2_boss1_visual",
+      "texture_key": "tex:8607965889740011037",
+      "rect": [
+        367.0,
+        247.0,
+        35.0,
+        10.0
+      ],
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "ppu": 16.0,
+      "source_name": "objects1_3",
       "status": "included"
     },
     {
@@ -73813,6 +74015,942 @@
       "status": "included"
     },
     {
+      "key": "prefab:door:r1_boss1_visual:east:leaf",
+      "name": "door east leaf",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_e/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:east:ornament",
+      "name": "door east ornament",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_e/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:east:shadow",
+      "name": "door east shadow",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_e/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:north:leaf",
+      "name": "door north leaf",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_n/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:north:ornament",
+      "name": "door north ornament",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_n/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:north:shadow",
+      "name": "door north shadow",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_n/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:south:leaf",
+      "name": "door south leaf",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_s/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:south:ornament",
+      "name": "door south ornament",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_s/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:south:shadow",
+      "name": "door south shadow",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_s/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:west:leaf",
+      "name": "door west leaf",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_w/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:west:ornament",
+      "name": "door west ornament",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_w/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r1_boss1_visual:west:shadow",
+      "name": "door west shadow",
+      "type": "door",
+      "scene": "r1_boss1_visual",
+      "source": "r1_boss1/r1_boss1/aisle_w/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:east:leaf",
+      "name": "door east leaf",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_e/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:east:ornament",
+      "name": "door east ornament",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_e/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:east:shadow",
+      "name": "door east shadow",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_e/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:north:leaf",
+      "name": "door north leaf",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_n/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:north:ornament",
+      "name": "door north ornament",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_n/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:north:shadow",
+      "name": "door north shadow",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_n/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:south:leaf",
+      "name": "door south leaf",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_s/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:south:ornament",
+      "name": "door south ornament",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_s/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:south:shadow",
+      "name": "door south shadow",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_s/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:west:leaf",
+      "name": "door west leaf",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_w/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:west:ornament",
+      "name": "door west ornament",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_w/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r2_boss1_visual:west:shadow",
+      "name": "door west shadow",
+      "type": "door",
+      "scene": "r2_boss1_visual",
+      "source": "r2_boss1/r2_boss1/aisle_w/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:east:leaf",
+      "name": "door east leaf",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_e/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:east:ornament",
+      "name": "door east ornament",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_e/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:east:shadow",
+      "name": "door east shadow",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_e/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:north:leaf",
+      "name": "door north leaf",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_n/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:north:ornament",
+      "name": "door north ornament",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_n/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:north:shadow",
+      "name": "door north shadow",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_n/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:south:leaf",
+      "name": "door south leaf",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_s/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:south:ornament",
+      "name": "door south ornament",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_s/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:south:shadow",
+      "name": "door south shadow",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_s/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:west:leaf",
+      "name": "door west leaf",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_w/door/d1",
+      "parts": [
+        {
+          "sprite_key": "spr:-6196740020252790978",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:west:ornament",
+      "name": "door west ornament",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_w/door/d1/d",
+      "parts": [
+        {
+          "sprite_key": "spr:-4876205757651736817",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 6,
+          "sorting_order": 3,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
+      "key": "prefab:door:r3_boss2_visual:west:shadow",
+      "name": "door west shadow",
+      "type": "door",
+      "scene": "r3_boss2_visual",
+      "source": "r3_boss2/r3_boss2/aisle_w/door/d1/shadow",
+      "parts": [
+        {
+          "sprite_key": "spr:6418692892874173330",
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "scale": [
+            1.0,
+            1.0
+          ],
+          "rotation": 0.0,
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "flip_x": false,
+          "flip_y": false
+        }
+      ],
+      "status": "included"
+    },
+    {
       "key": "prefab:door:r_chest_visual:east:leaf",
       "name": "door east leaf",
       "type": "door",
@@ -106986,6 +108124,10 @@
     },
     {
       "type": "texture",
+      "key": "tex:1044487672894129644"
+    },
+    {
+      "type": "texture",
       "key": "tex:121"
     },
     {
@@ -108010,6 +109152,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-4059655172991042591"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-4082194007791575256"
     },
     {
@@ -108095,6 +109241,10 @@
     {
       "type": "sprite",
       "key": "spr:-4367086905937385810"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4371165664088770574"
     },
     {
       "type": "sprite",
@@ -108259,6 +109409,10 @@
     {
       "type": "sprite",
       "key": "spr:-4829964726074813781"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:-4853071242945378071"
     },
     {
       "type": "sprite",
@@ -109058,6 +110212,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:-7756942859168817166"
+    },
+    {
+      "type": "sprite",
       "key": "spr:-7761016176773991780"
     },
     {
@@ -109778,6 +110936,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:2395827356030292658"
+    },
+    {
+      "type": "sprite",
       "key": "spr:241988703588428852"
     },
     {
@@ -110230,6 +111392,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:3899851386666705776"
+    },
+    {
+      "type": "sprite",
       "key": "spr:3926050159437465095"
     },
     {
@@ -110618,6 +111784,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:545584605653323647"
+    },
+    {
+      "type": "sprite",
       "key": "spr:5456418766079047880"
     },
     {
@@ -110814,6 +111984,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:6035125152716055953"
+    },
+    {
+      "type": "sprite",
       "key": "spr:6048196612033925561"
     },
     {
@@ -110926,6 +112100,10 @@
     },
     {
       "type": "sprite",
+      "key": "spr:6493600363749625766"
+    },
+    {
+      "type": "sprite",
       "key": "spr:6498614530538834062"
     },
     {
@@ -110963,6 +112141,10 @@
     {
       "type": "sprite",
       "key": "spr:667643445799344204"
+    },
+    {
+      "type": "sprite",
+      "key": "spr:6678599036060996758"
     },
     {
       "type": "sprite",
@@ -120267,6 +121449,150 @@
     {
       "type": "prefab",
       "key": "prefab:door:r1_9_visual:west:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:east:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:east:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:east:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:north:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:north:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:north:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:south:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:south:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:south:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:west:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:west:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r1_boss1_visual:west:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:east:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:east:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:east:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:north:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:north:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:north:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:south:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:south:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:south:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:west:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:west:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r2_boss1_visual:west:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:east:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:east:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:east:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:north:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:north:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:north:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:south:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:south:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:south:shadow"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:west:leaf"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:west:ornament"
+    },
+    {
+      "type": "prefab",
+      "key": "prefab:door:r3_boss2_visual:west:shadow"
     },
     {
       "type": "prefab",

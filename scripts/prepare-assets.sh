@@ -154,6 +154,8 @@ done
 # Every additional generated recovered room (all 108 PatternRooms when built,
 # plus the eight special/start/end rooms) is copied into the runtime tree.
 for source_dir in "${ROOT}"/assets/generated/visual/r1_*_visual \
+                  "${ROOT}"/assets/generated/visual/r2_boss*_visual \
+                  "${ROOT}"/assets/generated/visual/r3_boss*_visual \
                   "${ROOT}"/assets/generated/visual/r_*_visual; do
     [[ -f "${source_dir}/scene.json" ]] || continue
     room="$(basename "${source_dir}")"

@@ -320,6 +320,7 @@ TEST_CASE("Every generated PatternRoom scene loads with recovered dimensions" *
     for (const auto& entry : filesystem.ListDirectory("scenes")) {
         const std::string name = entry.filename().string();
         if (name.rfind("r1_", 0) != 0 ||
+            name.find("_boss") != std::string::npos ||
             name.size() < 11 ||
             name.substr(name.size() - 7) != "_visual") {
             continue;
@@ -344,6 +345,46 @@ TEST_CASE("Every generated PatternRoom scene loads with recovered dimensions" *
         ++loaded;
     }
     CHECK(loaded == 108);
+}
+
+TEST_CASE("Every generated special and boss room loads with recovered data" *
+          doctest::test_suite("unit")) {
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    int loaded = 0;
+    for (const auto& entry : filesystem.ListDirectory("scenes")) {
+        const std::string name = entry.filename().string();
+        const bool special = name.rfind("r_", 0) == 0;
+        const bool boss = name.rfind("r1_boss", 0) == 0 ||
+                          name.rfind("r2_boss", 0) == 0 ||
+                          name.rfind("r3_boss", 0) == 0;
+        if ((!special && !boss) ||
+            name.size() < 8 || name.substr(name.size() - 7) != "_visual") {
+            continue;
+        }
+        const std::string path = "scenes/" + name + "/scene.json";
+        soulknight::engine::assets::SceneAsset scene;
+        std::string error;
+        CAPTURE(path);
+        const bool ok = soulknight::engine::assets::SceneLoader::Load(
+            filesystem, path, scene, &error);
+        CHECK(ok);
+        if (!ok) continue;
+        CHECK(!scene.weapons.empty());
+        CHECK(!scene.enemy_definitions.empty());
+        CHECK(!scene.level_themes.empty());
+        if (boss) {
+            bool has_boss_fixture = false;
+            for (const auto& fixture : scene.enemy_fixtures) {
+                if (fixture.definition.rfind("boss", 0) == 0) {
+                    has_boss_fixture = true;
+                }
+            }
+            CHECK(has_boss_fixture);
+        }
+        ++loaded;
+    }
+    CHECK(loaded >= 12);
 }
 
 TEST_CASE("Living Room staircase removal is repaired with default wall/floor tiles" *

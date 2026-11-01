@@ -3177,7 +3177,10 @@ void Application::ConfigureRoomItems() {
         }
     }
 
-    current_chest_definition_ = "chest01";
+    const bool boss_room = scene_.id.rfind("r1_boss", 0) == 0 ||
+                           scene_.id.rfind("r2_boss", 0) == 0 ||
+                           scene_.id.rfind("r3_boss", 0) == 0;
+    current_chest_definition_ = boss_room ? "chest_boss" : "chest01";
     const bool chest_room = scene_.id == "r_chest_visual";
     if (chest_room) {
         current_chest_definition_ = "chest_room_reward";
@@ -4004,8 +4007,13 @@ void Application::UpdateTrainingStake(float delta_seconds, int melee_damage) {
 
 void Application::PopulateBiomeEnemies() {
     if (!biome_.IsLoaded() || scene_.is_hub) return;
-    // Start/end/chest/special rooms contain their own recovered objects. The
-    // normal battle rooms use the level's serialized enemy_infos weights.
+    // Start/end/chest/special rooms contain their own recovered objects. Boss
+    // rooms keep their recovered BossCreator fixture (the boss) instead of the
+    // normal-room biome pool.
+    const bool boss_room = scene_.id.rfind("r1_boss", 0) == 0 ||
+                           scene_.id.rfind("r2_boss", 0) == 0 ||
+                           scene_.id.rfind("r3_boss", 0) == 0;
+    if (boss_room) return;
     if (scene_.room.type != 1) {
         enemies_.ClearEnemies();
         return;
@@ -4944,6 +4952,9 @@ bool Application::LoadWorldRooms() {
     };
     add_room("r_start_no_event", &world_templates_.starts);
     add_room("r_transgete", &world_templates_.ends);
+    add_room("r1_boss1", &world_templates_.boss_ends);
+    add_room("r2_boss1", &world_templates_.boss_ends);
+    add_room("r3_boss2", &world_templates_.boss_ends);
     add_room("r_chest", &world_templates_.chests);
     add_room("r_weapon_provider", &world_templates_.specials, 10);
     add_room("r_statue", &world_templates_.specials, 10);
@@ -4957,6 +4968,7 @@ bool Application::LoadWorldRooms() {
         for (const auto* pool : {&world_templates_.starts,
                                  &world_templates_.normals,
                                  &world_templates_.ends,
+                                 &world_templates_.boss_ends,
                                  &world_templates_.chests,
                                  &world_templates_.specials}) {
             for (const auto& room : *pool) {
@@ -4970,8 +4982,27 @@ bool Application::LoadWorldRooms() {
         return false;
     }
     map_seed_ = config_.map_seed;
+    soulknight::game::room::DungeonTemplateSet plan_templates =
+        world_templates_;
+    const std::string level_id =
+        biome_.Current() != nullptr ? biome_.Current()->id : std::string{};
+    const bool boss_stage = !level_id.empty() &&
+        (level_id.ends_with("-5") || level_id == "3-6");
+    if (boss_stage && !plan_templates.boss_ends.empty()) {
+        const char chapter = level_id.empty() ? '1' : level_id.front();
+        bool selected = false;
+        for (const auto& boss : world_templates_.boss_ends) {
+            if (!boss.id.empty() && boss.id.front() == 'r' &&
+                boss.id.size() > 1 && boss.id[1] == chapter) {
+                plan_templates.ends = {boss};
+                selected = true;
+                break;
+            }
+        }
+        if (!selected) plan_templates.ends = world_templates_.boss_ends;
+    }
     const DungeonPlan plan = BuildDungeonPlan(
-        map_seed_, world_templates_,
+        map_seed_, plan_templates,
         biome_.Current() != nullptr ? biome_.Current()->map_long : 3);
 
     const auto load_room = [&](const std::string& id,
@@ -5162,20 +5193,24 @@ void Application::SealUnconnectedDoors() {
 
 void Application::UpdateRoomClear() {
     if (!room_clear_pending_ || scene_.is_hub) return;
-    // Start/end/chest/special rooms are not combat rooms; the reference does
-    // not show the normal-room clear banner or spawn a silver chest there.
-    if (scene_.room.type != 1) return;
+    // Boss rooms are type 2 but need their recovered boss chest after clear.
+    const bool boss_room = scene_.id.rfind("r1_boss", 0) == 0 ||
+                           scene_.id.rfind("r2_boss", 0) == 0 ||
+                           scene_.id.rfind("r3_boss", 0) == 0;
+    if (scene_.room.type != 1 && !boss_room) return;
     if (enemies_.AliveCount() != 0) return;
     room_clear_pending_ = false;
     cleared_rooms_.insert(scene_.id);
     room_clear_timer_ = 1.5f;
     room_doors_.OpenAll();
     if (!scene_.is_hub && !chest_spawned_rooms_.contains(scene_.id)) {
-        item_world_.AddChest(current_chest_definition_,
+        const std::string chest_id =
+            boss_room ? "chest_boss" : current_chest_definition_;
+        item_world_.AddChest(chest_id,
                              scene_.spawn + engine::Vec2{0.0f, 2.4f});
         chest_spawned_rooms_.insert(scene_.id);
-        LOG_INFO_APP("Room clear: silver chest appeared ({})",
-                     current_chest_definition_);
+        LOG_INFO_APP("Room clear: {} chest appeared ({})",
+                     boss_room ? "boss" : "silver", chest_id);
     }
     RebuildCollisionWorld();
     BeginRoomTitle(3.0f);

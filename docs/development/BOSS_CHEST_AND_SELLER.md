@@ -28,11 +28,17 @@
   `level>=6 ? 6 : max(5, level + chest_level)`, not the raw prefab level.
 - Tests: `item_test` covers boss fixed/pool output and big-chest item count.
 
-### Remaining limitation
+### Boss room integration
 
-- No recovered boss room Bundle exists among the 108 PatternRooms, so boss
-  chests are data-complete and runtime-complete but not placed in a campaign
-  boss room. No boss room is fabricated.
+- 22 recovered 21x21 `RGRoomX` type-2 boss prefabs exist in `level-objects`
+  (`r1_boss1..9`, `r2_boss1..7`, `r3_boss1..6`, `r2_bossnian`).
+- Three representative rooms are built and integrated: `r1_boss1` (boss07),
+  `r2_boss1` (boss01), `r3_boss2` (boss06). `BossCreator.boss` is extracted as
+  the room’s actual enemy fixture.
+- Boss stages (`*-5`, `3-6`) select the recovered boss end rooms. Clearing the
+  boss spawns `chest_boss` and opens the transfer gate.
+- Remaining 19 boss-room prefabs are not built yet; the three integrated rooms
+  are representative native coverage, not the full boss roster.
 
 ## Dungeon seller (`r_sell`)
 

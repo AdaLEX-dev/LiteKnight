@@ -23,7 +23,7 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 |---|---|---|
 | Chest families | **IMPLEMENTED for 9 recovered prefabs** | `chest00/01/02`, `chest03` (`RGChestMaterial`), `chest_big` (count 2), `chest_boss`, `chest_room_reward` (award_count 2, has_coin), `chest_single_big`, `chest_gold_single_big`. |
 | Boss/big/material/seller loot | **IMPLEMENTED** | `RGChestBig` count/level reduction, `RGChest` final-level formula and 14 `RGChestBoss` fixed mappings are implemented. `r_sell` is built from its real 19x13 prefab and wired with recovered potion/weapon stock, prices, purchase, sold state and save/load; positions are native reconstruction. See `BOSS_CHEST_AND_SELLER.md`. |
-| Chest-room generation | **IMPLEMENTED** | `r_chest` (type 3) spawns `chest_room_reward`; normal rooms spawn `chest01` after clear; boss chest assets exist but no boss room scene is integrated yet. |
+| Chest-room generation | **IMPLEMENTED** | `r_chest` (type 3) spawns `chest_room_reward`; normal rooms spawn `chest01` after clear; boss stages select recovered boss rooms and spawn `chest_boss` after the boss dies. |
 | Chest-contained weapon visual | **IMPLEMENTED** | Loot is created only after the 1.0 s open window; no weapon renders above a closed chest. |
 | Per-room chest/coin persistence | **IMPLEMENTED** | Save v5 stores every room's chests (definition, position, state, timer, pending weapon list) and coins, plus cleared/chest-spawned room sets. |
 
@@ -36,7 +36,7 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 | Special rooms | **IMPLEMENTED (native reconstruction)** | Statue two-press purchase, mineral 40 HP/10 drops, mercenary hire/trainer and mount purchase/dismount are wired using recovered fields and deterministic reconstructed placement. Water/bar remain recovered-only. See `SPECIAL_ROOM_INTERACTIONS.md`. |
 | Biome system | **IMPLEMENTED** | 16 campaign levels loaded with map_long/chest_level/enemy weights. Default branch A/G1 floor/wall themes are extracted from the actual MapManagerLevel assets and applied to every PatternRoom at runtime with the recovered CreateFloor/CreateWall algorithm. Geometry/collision stay from the PatternRoom. Obstacle-prefab theme switching remains a documented limitation. See `LEVEL_VISUALS.md`. |
 | Enemy runtime | **IMPLEMENTED core / PARTIAL presentation** | 101 definitions with biome-weighted spawning, chase/contact, ranged projectiles, AI20 fan, AI11/14 and AI03/18/19 timed bursts, AI09/Frog/Witch dashes, AI13/Frog death blasts and stationary controllers. AI07 attack selection, AI12 fireball arc, AI16 invulnerability window and AI08 loot UI remain data/presentation gaps. See `ENEMY_CONTROLLER_RECOVERY.md`. |
-| Dungeon progression | **IMPLEMENTED base** | Start room → normal rooms → transfer-gate end room → next recovered level (map_long and level label update, new deterministic plan, dynamic texture upload). Final 3-6 reports CAMPAIGN COMPLETE. Boss rooms are not present among the recovered PatternRoom bundles. |
+| Dungeon progression | **IMPLEMENTED** | Start → normal → end/transfer gate → next level. Boss stages (`*-5`, `3-6`) select recovered 21x21 boss rooms (`r1_boss1`, `r2_boss1`, `r3_boss2`) with BossCreator fixtures; clearing spawns the recovered boss chest. The remaining 19 boss-room prefabs are not yet built, so the three chosen rooms are representative native reconstructions, not full boss-roster coverage. |
 | Room dimensions | **IMPLEMENTED** | Builder derives interior bounds from `RGRoomX.room_width/height` and keeps 11/15/21 sizes; 41-unit cell pitch and 18..22 door gaps preserved. |
 
 ## Hub / world systems
@@ -64,8 +64,8 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 
 ## Texture gallery
 
-The separate `liteknight-texture-gallery` executable enumerates 4481 prepared
-visual entries (96 textures, 1921 sprites, 2464 prefabs) with 0 broken assets.
+The separate `liteknight-texture-gallery` executable enumerates 4528 prepared
+visual entries (97 textures, 1931 sprites, 2500 prefabs) with 0 broken assets.
 `--validate-all` runs headlessly; see `REFERENCE_TEXTURE_GALLERY.md`.
 
 ## Gameplay-loop validation
@@ -91,6 +91,8 @@ UIMap.ShowMap/UpdateMap, UIMessageBar.ShowSignpost, UICanvas.ShowSignpost
 localization I2Languages (2,088 terms extracted)
 ```
 
-Remaining PARTIAL rows are data-limited, not unsearched: unique enemy AI,
-79 catalogue-only weapons, boss chest loot and
-the dungeon seller inventory. They are listed with the exact missing layer.
+Remaining PARTIAL layers are explicit: AI07/AI12/AI14/AI16/AIGhost/AI08
+presentation, 6 localization-only weapons, water/bar special-room objects,
+statue buff stat values and mount riding animation, the Unity Animator
+`reload_clip` state machine (charge timing/segments are implemented), and the
+19 unbuilt boss-room prefabs beyond the three representative integrated rooms.

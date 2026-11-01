@@ -53,7 +53,7 @@ adds prefab-derived visual groups for:
 
 Output: `analysis/assets/reference_gallery_manifest.json`.
 
-Current counts: **96 textures, 1921 sprites, 2464 prefabs, 4481 entries**.
+Current counts: **97 textures, 1931 sprites, 2500 prefabs, 4528 entries**.
 Duplicates are intentionally collapsed; nonvisual assets (audio clips, text,
 localization, collision-only data) are excluded by design. No visual asset is
 silently omitted; broken entries remain in the manifest with a `reason`.

@@ -27,6 +27,9 @@ struct DungeonTemplateSet {
     std::vector<DungeonRoomTemplate> starts;
     std::vector<DungeonRoomTemplate> normals;
     std::vector<DungeonRoomTemplate> ends;
+    // Recovered separate boss-room family (level-objects). The normal end pool
+    // remains r_transgete; boss stages can select this pool.
+    std::vector<DungeonRoomTemplate> boss_ends;
     std::vector<DungeonRoomTemplate> chests;
     std::vector<DungeonRoomTemplate> specials;
 };

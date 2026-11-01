@@ -3411,6 +3411,50 @@ class SceneBuilder:
         collision = self._extract_topology(room_root, room_transform)
 
         self._combat_metadata()
+
+        # Boss rooms use BossCreator.boss rather than EnemyMaker. Extract the
+        # actual boss prefab as the room's enemy definition/fixture.
+        def find_boss_creator(tf, depth=0):
+            if depth > 4:
+                return None
+            if hasattr(tf, "read"):
+                tf = tf.read()
+            go = tf.m_GameObject.read()
+            for component in go.m_Component:
+                if component.component.type.name != "MonoBehaviour":
+                    continue
+                try:
+                    candidate = component.component.read()
+                    script = (candidate.m_Script.read()
+                              if getattr(candidate, "m_Script", None) and
+                              candidate.m_Script.path_id else None)
+                    if getattr(script, "m_ClassName", "") == "BossCreator":
+                        return candidate
+                except Exception:
+                    continue
+            for child in getattr(tf, "m_Children", []) or []:
+                found = find_boss_creator(child.read(), depth + 1)
+                if found is not None:
+                    return found
+            return None
+
+        boss_creator = find_boss_creator(room_transform)
+        if boss_creator is not None:
+            boss_ptr = getattr(boss_creator, "boss", None)
+            if boss_ptr is not None and getattr(boss_ptr, "path_id", 0) != 0:
+                try:
+                    boss_go = boss_ptr.read()
+                    boss_definition = self._extract_enemy(
+                        str(boss_go.m_Name), boss_ptr)
+                    self.enemy_definitions.append(boss_definition)
+                    self.enemy_fixtures = [{
+                        "definition": boss_definition["id"],
+                        "position": [20.0, 15.0],
+                    }]
+                    print(f"BOSS {boss_definition['id']}: extracted")
+                except Exception as exc:
+                    print(f"SKIP BOSS: {exc}")
+
         player_transform = next(
             c.component for c in player_root.read().m_Component
             if c.component.type.name == "Transform").read()
