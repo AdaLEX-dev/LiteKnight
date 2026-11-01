@@ -36,9 +36,9 @@ would be `CONTRADICTED` by the recovered fields.
 
 ```text
 Catalogue entries:                 302
-Tier A standard/melee runtime:     210
-Tier B melee prefab pending:        14
-Tier C unique or catalogue-only:    78
+Tier A standard/melee runtime:     278
+Tier B melee prefab pending:         3
+Tier C unique or catalogue-only:    21
 ```
 
 Tier A weapons are automatically extracted; the pipeline is not a hand-written
