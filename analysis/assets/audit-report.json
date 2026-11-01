@@ -5,7 +5,7 @@
     "doors": 4,
     "enemies": 101,
     "obstacle_variants": 12,
-    "sprites": 989,
+    "sprites": 1004,
     "textures": 51,
     "weapons": 337
   },

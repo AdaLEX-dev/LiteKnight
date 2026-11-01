@@ -72,6 +72,12 @@ public:
         return events;
     }
     bool IsAttacking() const { return attacking_; }
+    bool IsCharging() const { return charging_; }
+    float ChargePercent() const {
+        return definition_.special.duration > 0.0f
+            ? std::clamp(charge_time_ / definition_.special.duration, 0.0f, 1.0f)
+            : 0.0f;
+    }
     float AttackTime() const { return attack_time_; }
     float VisualTime() const {
         if (!attacking_ || definition_.attack_cycle_seconds <= 0.0f) return 0.0f;
@@ -82,6 +88,15 @@ private:
     void SpawnProjectile(const Vec2& owner_position,
                          const Vec2& aim_direction,
                          ProjectileSystem& projectiles);
+    int UpdateCharge(float delta_seconds, bool attack_held,
+                     const Vec2& owner_position, const Vec2& aim_direction,
+                     ProjectileSystem& projectiles,
+                     player::EnergyState* energy);
+    int FireCharged(float percent, const Vec2& owner_position,
+                    const Vec2& aim_direction,
+                    ProjectileSystem& projectiles,
+                    player::EnergyState* energy);
+    Vec2 RotateAim(const Vec2& aim, float degrees) const;
 
     engine::assets::WeaponDefinition definition_{};
     engine::RGRandomStream random_;
@@ -91,6 +106,11 @@ private:
     std::size_t event_index_ = 0;
     bool attacking_ = false;
     bool configured_ = false;
+    bool charging_ = false;
+    float charge_time_ = 0.0f;
+    float charge_cooldown_ = 0.0f;
+    float end_shot_charge_ = 0.0f;
+    bool end_shot_was_held_ = false;
     float speed_multiplier_ = 1.0f;
     std::vector<WeaponFireEvent> fire_events_;
 };

@@ -62301,6 +62301,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons2_100_-1780151796208010285",
+      "pivot": [
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        289.0,
+        23.0,
+        23.0
+      ],
+      "source_name": "weapons2_100",
+      "source_pivot": [
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "source_rect": [
+        1.0,
+        29.0,
+        23.0,
+        23.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        200.0,
+        23.0,
+        23.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-1780151796208010285",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons2_101_1734683566256916654",
       "pivot": [
         0.23999999463558197,
@@ -62425,6 +62470,51 @@
         0.0
       ],
       "sprite_path_id": "5056783071387949375",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons2_106_-5336891632797937806",
+      "pivot": [
+        0.3987274169921875,
+        0.41461730003356934
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        58.0,
+        416.0,
+        25.0,
+        25.0
+      ],
+      "source_name": "weapons2_106",
+      "source_pivot": [
+        0.3987274169921875,
+        0.41461730003356934
+      ],
+      "source_rect": [
+        231.0,
+        28.0,
+        25.0,
+        25.0
+      ],
+      "source_texture_rect": [
+        58.0,
+        71.0,
+        25.0,
+        25.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-5336891632797937806",
       "texture": "auto_atlas_m7138671102567859681",
       "wrap": "clamp"
     },
@@ -63280,6 +63370,51 @@
         0.0
       ],
       "sprite_path_id": "-642856815846532644",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons2_14_3638993070498056944",
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        118.0,
+        468.0,
+        21.0,
+        21.0
+      ],
+      "source_name": "weapons2_14",
+      "source_pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "source_rect": [
+        81.0,
+        190.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect": [
+        118.0,
+        23.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "3638993070498056944",
       "texture": "auto_atlas_m7138671102567859681",
       "wrap": "clamp"
     },
@@ -66486,6 +66621,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons3_140_-5017444875075331850",
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        41.0,
+        443.0,
+        25.0,
+        25.0
+      ],
+      "source_name": "weapons3_140",
+      "source_pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "source_rect": [
+        28.0,
+        1.0,
+        25.0,
+        25.0
+      ],
+      "source_texture_rect": [
+        41.0,
+        44.0,
+        25.0,
+        25.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-5017444875075331850",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons3_143_1151153830320298083",
       "pivot": [
         0.5,
@@ -68376,6 +68556,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons3_48_5655872073454642837",
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        92.0,
+        265.0,
+        21.0,
+        21.0
+      ],
+      "source_name": "weapons3_48",
+      "source_pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "source_rect": [
+        47.0,
+        147.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect": [
+        92.0,
+        226.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "5655872073454642837",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons3_4_1187530979115929593",
       "pivot": [
         0.25,
@@ -68725,6 +68950,51 @@
         0.0
       ],
       "sprite_path_id": "-4560093820691732725",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons3_59_8250095503982608753",
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        416.0,
+        445.0,
+        17.0,
+        17.0
+      ],
+      "source_name": "weapons3_59",
+      "source_pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "source_rect": [
+        183.0,
+        127.0,
+        17.0,
+        17.0
+      ],
+      "source_texture_rect": [
+        416.0,
+        50.0,
+        17.0,
+        17.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "8250095503982608753",
       "texture": "auto_atlas_m7138671102567859681",
       "wrap": "clamp"
     },
@@ -70885,6 +71155,51 @@
         0.0
       ],
       "sprite_path_id": "-3113682391251421347",
+      "texture": "auto_atlas_6364077752768854847",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons4_42_1230212141245168480",
+      "pivot": [
+        0.3095238208770752,
+        0.4047619104385376
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        108.0,
+        235.0,
+        21.0,
+        21.0
+      ],
+      "source_name": "weapons4_42",
+      "source_pivot": [
+        0.3095238208770752,
+        0.4047619104385376
+      ],
+      "source_rect": [
+        27.0,
+        170.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect": [
+        108.0,
+        0.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "1230212141245168480",
       "texture": "auto_atlas_6364077752768854847",
       "wrap": "clamp"
     },
@@ -75486,6 +75801,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_47_-1060307829499205394",
+      "pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        250.0,
+        493.0,
+        19.0,
+        19.0
+      ],
+      "source_name": "weapons_47",
+      "source_pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        3.0,
+        2.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        250.0,
+        0.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-1060307829499205394",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons_48_-6989295064839764085",
       "pivot": [
         0.20000000298023224,
@@ -76116,6 +76476,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_66_-3030343999828311819",
+      "pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        235.0,
+        285.0,
+        19.0,
+        19.0
+      ],
+      "source_name": "weapons_66",
+      "source_pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        26.0,
+        2.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        235.0,
+        208.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-3030343999828311819",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons_67_6448931342596466819",
       "pivot": [
         0.2800000011920929,
@@ -76150,6 +76555,51 @@
         0.0
       ],
       "sprite_path_id": "6448931342596466819",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_68_-4026845969186315002",
+      "pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        229.0,
+        478.0,
+        19.0,
+        19.0
+      ],
+      "source_name": "weapons_68",
+      "source_pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        48.0,
+        2.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        229.0,
+        15.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-4026845969186315002",
       "texture": "auto_atlas_m7138671102567859681",
       "wrap": "clamp"
     },
@@ -76251,6 +76701,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_70_-6870648939686488986",
+      "pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        200.0,
+        399.0,
+        19.0,
+        19.0
+      ],
+      "source_name": "weapons_70",
+      "source_pivot": [
+        0.2800000011920929,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        70.0,
+        2.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        200.0,
+        94.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-6870648939686488986",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons_71_-5862675565320044950",
       "pivot": [
         0.30000001192092896,
@@ -76296,6 +76791,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_72_-3951964049186097519",
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        95.0,
+        468.0,
+        21.0,
+        21.0
+      ],
+      "source_name": "weapons_72",
+      "source_pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "source_rect": [
+        91.0,
+        2.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect": [
+        95.0,
+        23.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-3951964049186097519",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons_73_99254646694056458",
       "pivot": [
         0.30000001192092896,
@@ -76330,6 +76870,51 @@
         0.0
       ],
       "sprite_path_id": "99254646694056458",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_74_3706973875199817049",
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        94.0,
+        491.0,
+        21.0,
+        21.0
+      ],
+      "source_name": "weapons_74",
+      "source_pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "source_rect": [
+        114.0,
+        2.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect": [
+        94.0,
+        0.0,
+        21.0,
+        21.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "3706973875199817049",
       "texture": "auto_atlas_m7138671102567859681",
       "wrap": "clamp"
     },
@@ -76476,6 +77061,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_80_5853217288378244950",
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        214.0,
+        275.0,
+        19.0,
+        19.0
+      ],
+      "source_name": "weapons_80",
+      "source_pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "source_rect": [
+        182.0,
+        2.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        214.0,
+        218.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "5853217288378244950",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons_81_-8992348752369135813",
       "pivot": [
         0.30000001192092896,
@@ -76510,6 +77140,51 @@
         0.0
       ],
       "sprite_path_id": "-8992348752369135813",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_82_-3085745885772110447",
+      "pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        207.0,
+        348.0,
+        19.0,
+        19.0
+      ],
+      "source_name": "weapons_82",
+      "source_pivot": [
+        0.30000001192092896,
+        0.5
+      ],
+      "source_rect": [
+        206.0,
+        2.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect": [
+        207.0,
+        145.0,
+        19.0,
+        19.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-3085745885772110447",
       "texture": "auto_atlas_m7138671102567859681",
       "wrap": "clamp"
     },
@@ -84918,6 +85593,37 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip2": "fx_gun_rocket",
+        "duration": 0.5,
+        "hold_speed": 1.0,
+        "kind": "end_shot",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": false,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 5,
+            "damage": 6,
+            "id": "bullet_25",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 3,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 20.0,
+            "sprite": "bullet_72_-2340828468289669635",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.06666667014360428,
@@ -89487,6 +90193,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.22200000286102295,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 1,
+        "duration": 1.0,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 1,
+            "damage": 14,
+            "id": "bullet_22",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 0.0,
+            "sprite": "bullet_39_-6431972078249221899",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -90401,6 +91144,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.22200000286102295,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 1,
+        "duration": 1.0,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 1,
+            "damage": 8,
+            "id": "bullet_23",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": -25.0,
+            "sprite": "bullet_31_5264552128644489582",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -91693,6 +92473,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.22200000286102295,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 1,
+        "duration": 1.0,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": false,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 100,
+            "damage": 12,
+            "id": "bullet_63",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": -25.0,
+            "sprite": "bullet_31_5264552128644489582",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -94867,6 +95684,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.6000000238418579,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons_47_-1060307829499205394",
+        "sprite2": "weapons_38_-4486063484039563697",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 50,
+            "damage": 4,
+            "id": "bullet_35",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 10.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -94984,6 +95834,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.4000000059604645,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons_66_-3030343999828311819",
+        "sprite2": "weapons_65_7098168842396230630",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 50,
+            "damage": 6,
+            "id": "bullet_35",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 6.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -95101,6 +95984,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.800000011920929,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons_68_-4026845969186315002",
+        "sprite2": "weapons_67_6448931342596466819",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 50,
+            "damage": 10,
+            "id": "bullet_35",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 10.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -95218,6 +96134,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.6000000238418579,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons_70_-6870648939686488986",
+        "sprite2": "weapons_69_5431084134728353002",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 50,
+            "damage": 11,
+            "id": "bullet_35",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 15.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -95335,6 +96284,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.5,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons_72_-3951964049186097519",
+        "sprite2": "weapons_71_-5862675565320044950",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 60,
+            "damage": 12,
+            "id": "bullet_35",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 15.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -95452,6 +96434,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.5,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons_74_3706973875199817049",
+        "sprite2": "weapons_73_99254646694056458",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 60,
+            "damage": 12,
+            "id": "bullet_38",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 15.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -95569,6 +96584,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.5,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons_80_5853217288378244950",
+        "sprite2": "weapons_79_7982053043789992683",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 60,
+            "damage": 12,
+            "id": "bullet_36",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 15.0,
+            "sprite": "bullet_114_5837365638860557360",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -95686,6 +96734,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.5,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons_82_-3085745885772110447",
+        "sprite2": "weapons_81_-8992348752369135813",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 60,
+            "damage": 12,
+            "id": "bullet_37",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 15.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -96537,6 +97618,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.22200000286102295,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 1,
+        "duration": 0.800000011920929,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 1,
+            "damage": 4,
+            "id": "bullet_24",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": -25.0,
+            "sprite": "bullet_43_-18596202229397616",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -99565,6 +100683,37 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip2": "fx_gun_rocket",
+        "duration": 0.5,
+        "hold_speed": 1.0,
+        "kind": "end_shot",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": false,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 18,
+            "damage": 12,
+            "id": "bullet_28",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 3,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 32.0,
+            "sprite": "bullet_10_5350058755578832789",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.06666667014360428,
@@ -101854,6 +103003,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 1.2000000476837158,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons2_14_3638993070498056944",
+        "sprite2": "weapons2_15_6855479463749958770",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 70,
+            "damage": 12,
+            "id": "bullet_71",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 15.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -106112,6 +107294,43 @@
       "size": 2.200000047683716,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.11100000143051147,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 4,
+        "count": 1,
+        "duration": 1.2000000476837158,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 4,
+            "damage": -2,
+            "id": "bullet_22",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 20.0,
+            "sprite": "bullet_39_-6431972078249221899",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -106200,6 +107419,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.0,
+        "angle": 25,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 3,
+        "duration": 1.2000000476837158,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 3,
+            "damage": 4,
+            "id": "bullet_23",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": -22.0,
+            "sprite": "bullet_31_5264552128644489582",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 25,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -110273,6 +111529,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.699999988079071,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons2_100_-1780151796208010285",
+        "sprite2": "weapons2_99_-7995173797577875970",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 60,
+            "damage": 5,
+            "id": "bullet_94",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 10.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -112369,6 +113658,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.22200000286102295,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 1,
+        "duration": 1.0,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 1,
+            "damage": 8,
+            "id": "bullet_23_rebound",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": -25.0,
+            "sprite": "bullet_31_5264552128644489582",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -113967,6 +115293,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 1.5,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons2_106_-5336891632797937806",
+        "sprite2": "weapons2_107_1717271900653837447",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 75,
+            "damage": 19,
+            "id": "bullet_35_plus",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 10.0,
+            "sprite": "bullet_121_-7438666427560070248",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -119659,6 +121018,41 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_size_max": 4.5,
+        "audio_clip": "fx_gun_xl3",
+        "audio_clip2": "fx_laser_huge",
+        "duration": 2.0,
+        "force": 12,
+        "hold_speed": 1.0,
+        "kind": "charge_gun020",
+        "reflect_count": 0,
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": false,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 50,
+            "damage": 30,
+            "id": "bullet_205_max",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 1,
+            "speed": 0.0,
+            "sprite": "bullet_31_5264552128644489582",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -121479,6 +122873,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.5,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons3_140_-5017444875075331850",
+        "sprite2": "weapons3_139_-5925293654653324905",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 60,
+            "damage": 12,
+            "id": "bullet_38_star",
+            "lifetime": 1.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 10.0,
+            "sprite": "bullet2_53_-1344140527549944940",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 999,
       "visual_attack_time": 0.0,
@@ -124959,6 +126386,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.0,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 8,
+        "count": 8,
+        "duration": 1.0,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 8,
+            "damage": 4,
+            "id": "bullet_16_2",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": -25.0,
+            "sprite": "bullet_28_-5080662549499609366",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 999,
       "visual_attack_time": 0.0,
@@ -125433,6 +126897,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.22200000286102295,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 1,
+        "duration": 0.800000011920929,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 1,
+            "damage": 5,
+            "id": "bullet_24_toasted",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": -25.0,
+            "sprite": "bullet_43_-18596202229397616",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -128603,6 +130104,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.22200000286102295,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 1,
+        "duration": 1.0,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 1,
+            "damage": 16,
+            "id": "bullet_23_updated",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 0.0,
+            "sprite": "bullet_31_5264552128644489582",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -128691,6 +130229,43 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "a_interval": 0.22200000286102295,
+        "angle": 15,
+        "audio_clip": "fx_gun_xl1",
+        "audio_clip2": "fx_shoot_e5",
+        "continuous_count": 1,
+        "count": 1,
+        "duration": 1.0,
+        "hold_speed": 1.0,
+        "inactive_time": 0.1,
+        "kind": "charge_gun007",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 1,
+            "damage": 8,
+            "id": "bullet_23_lightning",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 0,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": -25.0,
+            "sprite": "bullet_31_5264552128644489582",
+            "through": 999
+          }
+        ]
+      },
       "spread_angle": 15,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -131166,6 +132741,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.6000000238418579,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons3_59_8250095503982608753",
+        "sprite2": "weapons3_58_-4560093820691732725",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 50,
+            "damage": 4,
+            "id": "bullet_105",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 10.0,
+            "sprite": "bullet_40_-8998262216965228552",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -131283,6 +132891,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.6000000238418579,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons3_48_5655872073454642837",
+        "sprite2": "weapons3_47_4775575898786707055",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 50,
+            "damage": 6,
+            "id": "bullet_110",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 10.0,
+            "sprite": "bullet2_35_1271739920577498345",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,
@@ -131400,6 +133041,39 @@
       "size": 1.0,
       "sorting_layer": 5,
       "sorting_order": 1,
+      "special": {
+        "audio_clip": "fx_bow_draw",
+        "duration": 0.6000000238418579,
+        "hold_speed": 1.0,
+        "kind": "charge_bow",
+        "sprite": "weapons4_42_1230212141245168480",
+        "sprite2": "weapons4_43_-8416963780825831845",
+        "variants": [
+          {
+            "camp": 1,
+            "can_rebound": true,
+            "collider_offset": [
+              0.25,
+              0.0
+            ],
+            "collider_size": [
+              0.5,
+              0.4
+            ],
+            "critic": 50,
+            "damage": 6,
+            "id": "bullet_110xx",
+            "lifetime": 5.0,
+            "prefab_speed": 10.0,
+            "repel": 2,
+            "sorting_layer": 6,
+            "sorting_order": 0,
+            "speed": 10.0,
+            "sprite": "weapons4_44_-4209417265756254450",
+            "through": 0
+          }
+        ]
+      },
       "spread_angle": 0,
       "through": 0,
       "visual_attack_time": 0.0,

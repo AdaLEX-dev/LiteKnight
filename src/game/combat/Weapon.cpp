@@ -59,6 +59,11 @@ void Weapon::Release() {
     cycle_start_time_ = 0.0f;
     next_shot_time_ = 0.0f;
     event_index_ = 0;
+    charging_ = false;
+    charge_time_ = 0.0f;
+    charge_cooldown_ = 0.0f;
+    end_shot_charge_ = 0.0f;
+    end_shot_was_held_ = false;
     fire_events_.clear();
 }
 
@@ -71,9 +76,34 @@ int Weapon::Update(float delta_seconds,
     if (!configured_ || delta_seconds <= 0.0f || !std::isfinite(delta_seconds)) {
         return 0;
     }
+    const std::string& special_kind = definition_.special.kind;
+    int end_shot_fired = 0;
+    if (special_kind.rfind("charge_", 0) == 0) {
+        return UpdateCharge(delta_seconds, attack_held, owner_position,
+                            aim_direction, projectiles, energy);
+    }
+    if (special_kind == "end_shot") {
+        if (attack_held) {
+            end_shot_charge_ = std::min(
+                definition_.special.duration,
+                end_shot_charge_ + delta_seconds *
+                    definition_.special.hold_speed * speed_multiplier_);
+        } else if (end_shot_was_held_ &&
+                   end_shot_charge_ + 1e-4f >=
+                       definition_.special.duration) {
+            end_shot_fired = FireCharged(1.0f, owner_position, aim_direction,
+                                         projectiles, energy);
+            fire_events_.push_back(WeaponFireEvent{
+                "end_shot", owner_position,
+                aim_direction.LengthSquared() > 1e-8f
+                    ? aim_direction.Normalized() : Vec2{1.0f, 0.0f}, 0});
+            end_shot_charge_ = 0.0f;
+        }
+        end_shot_was_held_ = attack_held;
+    }
     if (!attack_held) {
         Release();
-        return 0;
+        return end_shot_fired;
     }
     if (!attacking_) {
         attacking_ = true;
@@ -104,11 +134,11 @@ int Weapon::Update(float delta_seconds,
             break;
         }
         bool spawn_projectile = !definition_.is_melee;
-        const std::string& special_kind = definition_.special.kind;
         const bool projectile_special =
             special_kind == "multi_pattern" ||
             special_kind == "revolver_burst" ||
-            special_kind == "invisible_missile";
+            special_kind == "invisible_missile" ||
+            special_kind == "end_shot";
         const bool passive = special_kind == "passive" ||
                              special_kind == "revive";
         if (passive) {
@@ -148,6 +178,148 @@ int Weapon::Update(float delta_seconds,
         }
     }
     return fired;
+}
+
+int Weapon::UpdateCharge(float delta_seconds, bool attack_held,
+                         const Vec2& owner_position,
+                         const Vec2& aim_direction,
+                         ProjectileSystem& projectiles,
+                         player::EnergyState* energy) {
+    if (charge_cooldown_ > 0.0f) {
+        charge_cooldown_ = std::max(0.0f, charge_cooldown_ - delta_seconds);
+    }
+    int fired = 0;
+    if (!attack_held) {
+        if (charging_) {
+            fired += FireCharged(ChargePercent(), owner_position,
+                                 aim_direction, projectiles, energy);
+            fire_events_.push_back(WeaponFireEvent{
+                "charge_release", owner_position,
+                aim_direction.LengthSquared() > 1e-8f
+                    ? aim_direction.Normalized() : Vec2{1.0f, 0.0f}, 0});
+            charging_ = false;
+            charge_time_ = 0.0f;
+            charge_cooldown_ = definition_.special.inactive_time;
+        }
+        return fired;
+    }
+    if (!charging_ && charge_cooldown_ <= 0.0f) {
+        charging_ = true;
+        charge_time_ = 0.0f;
+        fire_events_.push_back(WeaponFireEvent{
+            "charge_start", owner_position,
+            aim_direction.LengthSquared() > 1e-8f
+                ? aim_direction.Normalized() : Vec2{1.0f, 0.0f}, 0});
+    }
+    if (!charging_) return fired;
+    charge_time_ = std::min(
+        definition_.special.duration,
+        charge_time_ + delta_seconds * definition_.special.hold_speed *
+            speed_multiplier_);
+    if (charge_time_ + 1e-4f >= definition_.special.duration) {
+        fired += FireCharged(1.0f, owner_position, aim_direction,
+                             projectiles, energy);
+        fire_events_.push_back(WeaponFireEvent{
+            "charge_full", owner_position,
+            aim_direction.LengthSquared() > 1e-8f
+                ? aim_direction.Normalized() : Vec2{1.0f, 0.0f}, 0});
+        charging_ = false;
+        charge_time_ = 0.0f;
+        charge_cooldown_ = definition_.special.inactive_time;
+    }
+    return fired;
+}
+
+Vec2 Weapon::RotateAim(const Vec2& aim, float degrees) const {
+    return RotateDegrees(aim, degrees);
+}
+
+int Weapon::FireCharged(float percent, const Vec2& owner_position,
+                        const Vec2& aim_direction,
+                        ProjectileSystem& projectiles,
+                        player::EnergyState* energy) {
+    const float p = std::clamp(percent, 0.0f, 1.0f);
+    const int cost = definition_.EnergyCost();
+    if (energy != nullptr && cost > 0 && !energy->CanConsume(cost)) {
+        return 0;
+    }
+    Vec2 aim = aim_direction;
+    if (aim.LengthSquared() < 1e-8f) aim = {1.0f, 0.0f};
+    aim = aim.Normalized();
+    const engine::assets::WeaponProjectileVariant* second =
+        definition_.special.variants.empty()
+            ? nullptr : &definition_.special.variants.front();
+    int spawned = 0;
+    if (definition_.special.kind == "charge_gun020") {
+        const bool full = p >= 1.0f - 1e-4f;
+        const engine::assets::ProjectileDefinition& projectile =
+            full && second != nullptr ? second->projectile
+                                      : definition_.projectile;
+        const int damage = definition_.damage +
+            (second != nullptr
+                 ? static_cast<int>(p * static_cast<float>(second->damage))
+                 : 0);
+        projectiles.Spawn(projectile, MuzzlePosition(owner_position, aim), aim,
+                          definition_.bullet_speed, damage,
+                          projectile.camp, definition_.through,
+                          definition_.repel);
+        ++spawned;
+    } else if (definition_.special.kind == "charge_gun007") {
+        const int base_count = definition_.special.a_interval > 0.0f
+            ? definition_.special.continuous_count
+            : definition_.special.multi_count;
+        int count = std::max(1, static_cast<int>(
+            p * static_cast<float>(base_count)));
+        if (definition_.special.multi_count == 0) {
+            count = p >= 1.0f - 1e-4f ? 1 : 0;
+        }
+        for (int i = 0; i < count; ++i) {
+            float angle = 0.0f;
+            if (definition_.special.a_interval <= 0.0f && count > 1) {
+                const float offset = static_cast<float>(i) -
+                    static_cast<float>(count) * 0.5f;
+                angle = offset * static_cast<float>(
+                    definition_.special.angle);
+            }
+            const Vec2 direction = RotateAim(aim, angle);
+            const float speed = definition_.bullet_speed +
+                (second != nullptr ? p * second->bullet_speed : 0.0f);
+            const int damage = definition_.damage +
+                (second != nullptr
+                     ? static_cast<int>(p * static_cast<float>(second->damage))
+                     : 0);
+            const int through = p > 0.6f ? 999 : definition_.through;
+            projectiles.Spawn(definition_.projectile,
+                              MuzzlePosition(owner_position, direction),
+                              direction, speed, damage,
+                              definition_.projectile.camp, through,
+                              definition_.repel);
+            ++spawned;
+        }
+    } else if (definition_.special.kind == "charge_bow") {
+        const float speed = definition_.bullet_speed +
+            (second != nullptr ? p * second->bullet_speed : 0.0f);
+        const int damage = definition_.damage +
+            (second != nullptr
+                 ? static_cast<int>(p * static_cast<float>(second->damage))
+                 : 0);
+        projectiles.Spawn(definition_.projectile,
+                          MuzzlePosition(owner_position, aim), aim, speed,
+                          damage, definition_.projectile.camp,
+                          definition_.through, definition_.repel);
+        ++spawned;
+    } else if (second != nullptr) {
+        projectiles.Spawn(second->projectile,
+                          MuzzlePosition(owner_position, aim), aim,
+                          second->bullet_speed, second->damage,
+                          second->projectile.camp, second->through,
+                          second->repel);
+        ++spawned;
+    }
+    if (spawned > 0 && energy != nullptr && cost > 0) {
+        (void)energy->Consume(cost);
+    }
+    return spawned;
 }
 
 Vec2 Weapon::MuzzlePosition(const Vec2& owner_position,

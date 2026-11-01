@@ -7,7 +7,7 @@ count characters: 15
 count doors: 4
 count enemies: 101
 count obstacle_variants: 12
-count sprites: 989
+count sprites: 1004
 count textures: 51
 count weapons: 337
 WARNING: unexpected source texture format: auto_atlas_4699608564152035255 ETC2_RGBA8

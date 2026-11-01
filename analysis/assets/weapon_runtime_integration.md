@@ -1,9 +1,9 @@
 # Weapon Runtime Integration
 
 - catalogue entries: **302**
-- Tier A (fully integrated): **278**
-- Tier B (melee prefab/attack event pending): **3**
-- Tier C (unique mechanic or catalogue-only): **21**
+- Tier A (fully integrated): **296**
+- Tier B (melee prefab/attack event pending): **0**
+- Tier C (unique mechanic or catalogue-only): **6**
 
 ## Tier A
 
@@ -125,6 +125,7 @@
 | `weapon_113` | Fine Magic Staff | 4 | 6 |
 | `weapon_114` | Staff Of Thunder | 4 | 4 |
 | `weapon_115` | Staff Of Nature | 4 | 2 |
+| `weapon_116` | Staff of Skeleton | 0 | 5 |
 | `weapon_117` | Staff Of Frost | 4 | 4 |
 | `weapon_118` | Staff Of Flame | 4 | 3 |
 | `weapon_119` | Staff Of Light | 4 | 2 |
@@ -168,6 +169,7 @@
 | `weapon_157` | Laser | 8 | 2 |
 | `weapon_158` | Wizard's Staff | 3 | 3 |
 | `weapon_159` | Cluster Missile | 9 | 4 |
+| `weapon_160` | Black Hole Missile | 1 | 1 |
 | `weapon_161` | Heavenly Sword | 8 | 0 |
 | `weapon_162` | Ninja Stars | 3 | 6 |
 | `weapon_163` | Wrenches | 8 | 5 |
@@ -180,6 +182,8 @@
 | `weapon_170` | Eagle of Ice and Fire | 4 | 2 |
 | `weapon_171` | Paper Slip | 2 | 3 |
 | `weapon_172` | Windforce | 4 | 4 |
+| `weapon_173` | Rainbow | 4 | 4 |
+| `weapon_174` | Staff of Illusion | 0 | 10 |
 | `weapon_175` | Snowman Eagle | 4 | 2 |
 | `weapon_176` | Agitated Trunk | 5 | 1 |
 | `weapon_177` | Carrot | 4 | 1 |
@@ -200,6 +204,7 @@
 | `weapon_192` | Wooden Hammer | 12 | 0 |
 | `weapon_193` | Stone Hammer | 20 | 0 |
 | `weapon_194` | Bow Plus | 6 | 5 |
+| `weapon_195` | Trekking Pole | 0 | 0 |
 | `weapon_196` | Void Sword | 12 | 2 |
 | `weapon_197` | Long-handled Axe | 8 | 0 |
 | `weapon_198` | Meat Grinder | 10 | 0 |
@@ -218,8 +223,11 @@
 | `weapon_211` | Reusable Health Pot | 4 | 0 |
 | `weapon_212` | Reusable Energy Pot | 4 | 0 |
 | `weapon_213` | Reusable Restoration Potion | 4 | 0 |
+| `weapon_214` | Extra Crown | 0 | 5 |
 | `weapon_215` | The Emperor's New Gun | 6 | 5 |
+| `weapon_216` | Bayonet Rifle | 12 | 3 |
 | `weapon_217` | Money Gun | 2 | 1 |
+| `weapon_218` | Assault Sniper Rifle | 8 | 3 |
 | `weapon_219` | EM Sniper Rifle | 6 | 4 |
 | `weapon_220` | Explosive Crossbow | 12 | 4 |
 | `weapon_221` | Explosive Warhammer | 8 | 5 |
@@ -234,10 +242,13 @@
 | `weapon_235` | Green Essence | 2 | 3 |
 | `weapon_236` | Deadly Frisbee | 3 | 2 |
 | `weapon_237` | Advanced Scientific Calculator | 3 | 2 |
+| `weapon_238` | Retouch-free Camera | 2 | 2 |
 | `weapon_239` | Burp Gun | 3 | 1 |
 | `weapon_240` | Fantastic Gun | 5 | 2 |
 | `weapon_241` | 40m Long Blade | 12 | 0 |
+| `weapon_242` | Box | 0 | 2 |
 | `weapon_243` | Grand Wizard's Old Staff | 3 | 3 |
+| `weapon_244` | Nirvana Cross | 0 | 0 |
 | `weapon_245` | Laser Sword Gold | 8 | 0 |
 | `weapon_246` | Thunder Sword | 8 | 6 |
 | `weapon_247` | Star Bow | 4 | 5 |
@@ -247,6 +258,7 @@
 | `weapon_251` | Nunchaku | 4 | 0 |
 | `weapon_252` | Super Buddy | 500 | 50 |
 | `weapon_253` | Magic Gloves | 3 | 4 |
+| `weapon_254` | Staff of Anubis | 0 | 4 |
 | `weapon_255` | Dead Star Laser Gun | 6 | 2 |
 | `weapon_256` | AK47 Gold | 3 | 1 |
 | `weapon_257` | Desert Eagle Gold | 6 | 1 |
@@ -259,7 +271,11 @@
 | `weapon_266` | Broken Hilt | 8 | 0 |
 | `weapon_267` | Damaged Blade | 5 | 4 |
 | `weapon_268` | Reforged Sacred Sword | 8 | 0 |
+| `weapon_270` | Bayonet in a Gourd | 8 | 10 |
+| `weapon_273` | Trumpet | 0 | 8 |
 | `weapon_274` | Fist of Heaven | 3 | 6 |
+| `weapon_275` | Sweet Talk | 2 | 1 |
+| `weapon_276` | Death Note | 0 | 6 |
 | `weapon_277` | Firebolt | 2 | 1 |
 | `weapon_278` | Double Therapy | 1 | 0 |
 | `weapon_279` | Grilled Fish | 5 | 3 |
@@ -276,6 +292,8 @@
 | `weapon_290` | Rainbow Gatling | 2 | 2 |
 | `weapon_291` | Fist Bump | 8 | 0 |
 | `weapon_292` | Pill | 3 | 2 |
+| `weapon_293` | Happy New Year | 2 | 2 |
+| `weapon_294` | Ranger's Revolver | 4 | 6 |
 | `weapon_295` | Toxic Webber | 3 | 3 |
 | `weapon_296` | Thunderstorm Warhammer | 8 | 6 |
 | `weapon_297` | Ion Railgun M2 | 8 | 4 |

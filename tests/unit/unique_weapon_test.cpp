@@ -153,6 +153,125 @@ TEST_CASE("Attack-speed buff compresses the recovered attack cycle" *
     CHECK(fired == 2);
 }
 
+WeaponDefinition ChargeWeapon(const std::string& kind) {
+    WeaponDefinition definition = ProjectileWeapon();
+    definition.damage = 1;
+    definition.attack_cycle_seconds = 0.333f;
+    definition.first_shot_delay_seconds = 0.033f;
+    definition.special.kind = kind;
+    definition.special.duration = 1.0f;
+    definition.special.hold_speed = 1.0f;
+    definition.special.audio_clip = "fx_gun_xl3";
+    definition.special.audio_clip2 = "fx_laser_huge";
+    WeaponProjectileVariant variant;
+    variant.projectile.lifetime = 5.0f;
+    variant.projectile.prefab_speed = 10.0f;
+    variant.projectile.collider_half_extents = {0.1f, 0.1f};
+    variant.projectile.collider_offset = {0.0f, 0.0f};
+    variant.bullet_speed = 20.0f;
+    variant.damage = 30;
+    variant.through = 0;
+    definition.special.variants.push_back(variant);
+    return definition;
+}
+
+TEST_CASE("Gun020 charge uses base projectile before full and B1 at full" *
+          doctest::test_suite("unit")) {
+    WeaponDefinition definition = ChargeWeapon("charge_gun020");
+    Weapon weapon;
+    CHECK(weapon.Configure(definition));
+    ProjectileSystem projectiles;
+    for (int tick = 0; tick < 25; ++tick) { // 0.5 s
+        CHECK(weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                            projectiles) == 0);
+    }
+    CHECK(weapon.IsCharging());
+    CHECK(weapon.ChargePercent() == doctest::Approx(0.5f));
+    CHECK(weapon.Update(0.02f, false, Vec2{}, Vec2{1.0f, 0.0f},
+                        projectiles) == 1);
+    CHECK(projectiles.Projectiles().size() == 1);
+    CHECK(projectiles.Projectiles()[0].damage == 16);
+    CHECK(projectiles.Projectiles()[0].sprite_index == -1);
+
+    projectiles.Clear();
+    for (int tick = 0; tick < 50; ++tick) { // full charge
+        (void)weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                            projectiles);
+    }
+    CHECK(projectiles.Projectiles().size() == 1);
+    CHECK(projectiles.Projectiles()[0].damage == 31);
+}
+
+TEST_CASE("Gun007 full charge fires the recovered multi-burst" *
+          doctest::test_suite("unit")) {
+    WeaponDefinition definition = ChargeWeapon("charge_gun007");
+    definition.special.multi_count = 3;
+    definition.special.continuous_count = 3;
+    definition.special.a_interval = 0.0f;
+    definition.special.angle = 15;
+    Weapon weapon;
+    CHECK(weapon.Configure(definition));
+    ProjectileSystem projectiles;
+    for (int tick = 0; tick < 50; ++tick) {
+        (void)weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                            projectiles);
+    }
+    CHECK(projectiles.Projectiles().size() == 3);
+    CHECK(projectiles.Projectiles()[0].through == 999);
+    CHECK(projectiles.Projectiles()[0].damage == 31);
+    CHECK(projectiles.Projectiles()[0].velocity.y < 0.0f);
+    CHECK(projectiles.Projectiles()[2].velocity.y > 0.0f);
+}
+
+TEST_CASE("Gun005 bow charge interpolates damage and speed" *
+          doctest::test_suite("unit")) {
+    WeaponDefinition definition = ChargeWeapon("charge_bow");
+    Weapon weapon;
+    CHECK(weapon.Configure(definition));
+    ProjectileSystem projectiles;
+    for (int tick = 0; tick < 25; ++tick) {
+        (void)weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                            projectiles);
+    }
+    CHECK(weapon.Update(0.02f, false, Vec2{}, Vec2{1.0f, 0.0f},
+                        projectiles) == 1);
+    CHECK(projectiles.Projectiles()[0].damage == 16);
+    CHECK(projectiles.Projectiles()[0].velocity.Length() ==
+          doctest::Approx(20.0f));
+}
+
+TEST_CASE("Charge weapons fire at zero charge and have no release threshold" *
+          doctest::test_suite("unit")) {
+    WeaponDefinition definition = ChargeWeapon("charge_bow");
+    Weapon weapon;
+    CHECK(weapon.Configure(definition));
+    ProjectileSystem projectiles;
+    CHECK(weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                        projectiles) == 0);
+    CHECK(weapon.Update(0.02f, false, Vec2{}, Vec2{1.0f, 0.0f},
+                        projectiles) == 1);
+    CHECK(projectiles.Projectiles()[0].damage == 1);
+}
+
+TEST_CASE("Gun011 keeps normal event shots and fires the free end shot" *
+          doctest::test_suite("unit")) {
+    WeaponDefinition definition = ChargeWeapon("end_shot");
+    definition.special.duration = 0.5f;
+    definition.attack_cycle_seconds = 1.0f;
+    definition.attack_event_times = {0.1f};
+    Weapon weapon;
+    CHECK(weapon.Configure(definition));
+    ProjectileSystem projectiles;
+    for (int tick = 0; tick < 30; ++tick) { // 0.6 s held
+        (void)weapon.Update(0.02f, true, Vec2{}, Vec2{1.0f, 0.0f},
+                            projectiles);
+    }
+    CHECK(projectiles.Projectiles().size() == 1);
+    CHECK(weapon.Update(0.02f, false, Vec2{}, Vec2{1.0f, 0.0f},
+                        projectiles) == 1);
+    CHECK(projectiles.Projectiles().size() == 2);
+}
+
 TEST_CASE("BuffDeadNote kills the marked enemy after the recovered delay" *
           doctest::test_suite("unit")) {
     EnemySystem enemies = MakeEnemySystem();

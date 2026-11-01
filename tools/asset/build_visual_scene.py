@@ -1224,6 +1224,22 @@ class SceneBuilder:
                             continue
                     return ""
 
+                def clip_name(pointer):
+                    try:
+                        if pointer is None or getattr(pointer, "path_id", 0) == 0:
+                            return ""
+                        return str(getattr(pointer.read(), "m_Name", ""))
+                    except Exception:
+                        return ""
+
+                def sprite_id_of(pointer):
+                    try:
+                        if pointer is None or getattr(pointer, "path_id", 0) == 0:
+                            return None
+                        return self.ensure_sprite_asset(pointer)[0]
+                    except Exception:
+                        return None
+
                 def class_field(go, cls, *names):
                     for mono in mono_components(go):
                         try:
@@ -1747,6 +1763,57 @@ class SceneBuilder:
                             gun, "multiCount", 1) or 1)),
                         "value": float(getattr(gun, "angle", 0.0) or 0.0),
                         "variants": variants,
+                    }
+                if gun_class == "Gun020":
+                    special_kind = "charge_gun020"
+                    special = {
+                        "kind": special_kind,
+                        "duration": float(getattr(gun, "max_time", 2.0) or 2.0),
+                        "hold_speed": float(getattr(gun, "holdSpeed", 1.0) or 1.0),
+                        "a_size_max": float(getattr(gun, "a_size_max", 0.0) or 0.0),
+                        "force": int(getattr(gun, "force", 0) or 0),
+                        "reflect_count": int(getattr(gun, "reflectCount", 0) or 0),
+                        "audio_clip": clip_name(getattr(gun, "clip_hold", None)),
+                        "audio_clip2": clip_name(getattr(gun, "clip_shoot_max", None)),
+                        "variants": variants[1:] if len(variants) > 1 else [],
+                    }
+                elif gun_class == "Gun007":
+                    special_kind = "charge_gun007"
+                    special = {
+                        "kind": special_kind,
+                        "duration": float(getattr(gun, "max_time", 2.0) or 2.0),
+                        "hold_speed": float(getattr(gun, "holdSpeed", 1.0) or 1.0),
+                        "count": int(getattr(gun, "multiCount", 1) or 1),
+                        "continuous_count": int(getattr(
+                            gun, "continuousCount", 3) or 3),
+                        "a_interval": float(getattr(gun, "a_interval", 0.0) or 0.0),
+                        "angle": int(getattr(gun, "angle", 15) or 15),
+                        "inactive_time": float(getattr(
+                            gun, "inactiveTime", 0.1) or 0.1),
+                        "audio_clip": clip_name(getattr(gun, "clip_hold", None)),
+                        "audio_clip2": clip_name(getattr(gun, "clip_big", None)),
+                        "variants": variants[1:] if len(variants) > 1 else [],
+                    }
+                elif gun_class == "Gun005":
+                    special_kind = "charge_bow"
+                    special = {
+                        "kind": special_kind,
+                        "duration": float(getattr(gun, "max_time", 2.0) or 2.0),
+                        "hold_speed": float(getattr(gun, "holdSpeed", 1.0) or 1.0),
+                        "audio_clip": clip_name(getattr(gun, "clip_hold", None)),
+                        "sprite": sprite_id_of(getattr(gun, "s_atk", None)),
+                        "sprite2": sprite_id_of(getattr(gun, "s_ide", None)),
+                        "variants": variants[1:] if len(variants) > 1 else [],
+                    }
+                elif gun_class == "Gun011":
+                    special_kind = "end_shot"
+                    special = {
+                        "kind": special_kind,
+                        "duration": float(getattr(
+                            gun, "shoot_end_time", 2.0) or 2.0),
+                        "hold_speed": float(getattr(gun, "holdSpeed", 1.0) or 1.0),
+                        "audio_clip2": clip_name(getattr(gun, "clip_end_shoot", None)),
+                        "variants": variants[1:] if len(variants) > 1 else [],
                     }
                 if (not special_kind and not is_melee_serialized and
                         bullet_sprite is None and bullet_info is not None):

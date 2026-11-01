@@ -211,9 +211,23 @@ struct WeaponSpecial {
     int damage = 0;
     int hp = 0;
     float speed = 0.0f;
+    float hold_speed = 1.0f;
+    float a_size_max = 0.0f;
+    float a_interval = 0.0f;
+    float inactive_time = 0.0f;
+    int force = 0;
+    int reflect_count = 0;
+    int multi_count = 1;
+    int continuous_count = 1;
+    int angle = 0;
+    int energy = 0;
     int sprite_index = -1;
+    int sprite2_index = -1;
     std::string sprite_id;
+    std::string sprite2_id;
     std::string audio_clip;
+    std::string audio_clip2;
+    std::string audio_clip3;
     std::vector<WeaponProjectileVariant> variants;
 };
 

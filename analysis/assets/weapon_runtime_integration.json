@@ -1,9 +1,9 @@
 {
   "counts": {
     "catalogue_entries": 302,
-    "tier_a_fully_integrated": 278,
-    "tier_b_melee_pending": 3,
-    "tier_c_unique_or_catalogue_only": 21
+    "tier_a_fully_integrated": 296,
+    "tier_b_melee_pending": 0,
+    "tier_c_unique_or_catalogue_only": 6
   },
   "note": "Tier A means the weapon is loaded by the native WeaponRegistry and can spawn, fire, be picked up and appear in the weapon station.",
   "scene": "analysis/assets/scenes/r1_1_visual.json",
@@ -1060,8 +1060,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_116",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1456,8 +1456,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_160",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1573,8 +1573,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_173",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 0,
@@ -1582,8 +1582,8 @@
       "energy_cost": 10,
       "has_stats": true,
       "id": "weapon_174",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1771,8 +1771,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_195",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -1942,8 +1942,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_214",
-      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -1960,8 +1960,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_216",
-      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -1978,8 +1978,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_218",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -2122,8 +2122,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_238",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2158,8 +2158,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_242",
-      "note": "serialized melee stats/name recovered; prefab extraction or attack event still pending",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2176,8 +2176,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_244",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -2266,8 +2266,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_254",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -2410,8 +2410,8 @@
       "energy_cost": 10,
       "has_stats": true,
       "id": "weapon_270",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": null,
@@ -2437,8 +2437,8 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_273",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2455,8 +2455,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_275",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 0,
@@ -2464,8 +2464,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_276",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -2617,8 +2617,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_293",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -2626,8 +2626,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_294",
-      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
-      "tier": "C"
+      "note": "catalogue stats, visual, projectile/melee, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,

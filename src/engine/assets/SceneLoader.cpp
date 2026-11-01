@@ -1273,8 +1273,30 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 weapon.special.damage = special.value("damage", 0);
                 weapon.special.hp = special.value("hp", 0);
                 weapon.special.speed = special.value("speed", 0.0f);
+                weapon.special.hold_speed =
+                    special.value("hold_speed", 1.0f);
+                weapon.special.a_size_max =
+                    special.value("a_size_max", 0.0f);
+                weapon.special.a_interval =
+                    special.value("a_interval", 0.0f);
+                weapon.special.inactive_time =
+                    special.value("inactive_time", 0.0f);
+                weapon.special.force = special.value("force", 0);
+                weapon.special.reflect_count =
+                    special.value("reflect_count", 0);
+                weapon.special.multi_count =
+                    special.value("multi_count", 1);
+                weapon.special.continuous_count =
+                    special.value("continuous_count", 1);
+                weapon.special.angle = special.value("angle", 0);
+                weapon.special.hp = special.value("hp", 0);
+                weapon.special.energy = special.value("energy", 0);
                 weapon.special.audio_clip =
                     special.value("audio_clip", std::string{});
+                weapon.special.audio_clip2 =
+                    special.value("audio_clip2", std::string{});
+                weapon.special.audio_clip3 =
+                    special.value("audio_clip3", std::string{});
                 if (special.contains("sprite") &&
                     special["sprite"].is_string()) {
                     const std::string sprite_id =
@@ -1287,6 +1309,20 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                     }
                     weapon.special.sprite_id = sprite_id;
                     weapon.special.sprite_index =
+                        static_cast<int32_t>(sprite_it->second);
+                }
+                if (special.contains("sprite2") &&
+                    special["sprite2"].is_string()) {
+                    const std::string sprite_id =
+                        special["sprite2"].get<std::string>();
+                    const auto sprite_it = sprite_ids.find(sprite_id);
+                    if (sprite_it == sprite_ids.end()) {
+                        SetError(error, "weapon special references unknown sprite: " +
+                                        sprite_id);
+                        return false;
+                    }
+                    weapon.special.sprite2_id = sprite_id;
+                    weapon.special.sprite2_index =
                         static_cast<int32_t>(sprite_it->second);
                 }
                 const auto read_variant = [&](const Json& variant,

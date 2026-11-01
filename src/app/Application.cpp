@@ -3804,7 +3804,23 @@ void Application::FixedUpdate(double dt) {
              weapon_.TakeFireEvents()) {
             const engine::assets::WeaponSpecial& special =
                 weapon_.Definition().special;
-            if (event.kind == "summon_skeleton" ||
+            if (event.kind == "charge_start") {
+                if (!special.audio_clip.empty()) {
+                    PlayEffect("weapon_" + special.audio_clip, 0.45f);
+                }
+            } else if (event.kind == "charge_release") {
+                const std::string& clip = special.audio_clip2.empty()
+                    ? weapon_.Definition().audio_clip : special.audio_clip2;
+                if (!clip.empty()) PlayEffect("weapon_" + clip, 0.55f);
+            } else if (event.kind == "charge_full") {
+                const std::string& clip = special.audio_clip2.empty()
+                    ? weapon_.Definition().audio_clip : special.audio_clip2;
+                if (!clip.empty()) PlayEffect("weapon_" + clip, 0.62f);
+            } else if (event.kind == "end_shot") {
+                if (!special.audio_clip2.empty()) {
+                    PlayEffect("weapon_" + special.audio_clip2, 0.55f);
+                }
+            } else if (event.kind == "summon_skeleton" ||
                 event.kind == "summon_phantom") {
                 const int spawned = summons_.Spawn(
                     special, player_.Position(),
@@ -3904,7 +3920,8 @@ void Application::FixedUpdate(double dt) {
         } else if (!dual_active) {
             secondary_weapon_.Release();
         }
-        if (shots > 0) {
+        if (shots > 0 &&
+            weapon_.Definition().special.kind.rfind("charge_", 0) != 0) {
             const std::string& clip = weapon_.Definition().audio_clip;
             PlayEffect(clip.empty() ? "weapon_fire" : "weapon_" + clip, 0.62f);
         }
