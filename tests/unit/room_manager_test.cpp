@@ -121,3 +121,27 @@ TEST_CASE("Doors without a map edge stay sealed and block the room boundary" *
     doors.SealDoor(99);
     CHECK_FALSE(doors.IsSealed(99));
 }
+
+TEST_CASE("Generated room plans stay valid across many seeds" *
+          doctest::test_suite("unit")) {
+    const std::vector<DungeonRoomTemplate> templates{
+        {"r1_1_visual", "scenes/r1_1_visual/scene.json"},
+        {"r1_2_visual", "scenes/r1_2_visual/scene.json"},
+        {"r1_3_visual", "scenes/r1_3_visual/scene.json"},
+    };
+    for (int seed = 0; seed < 100; ++seed) {
+        CAPTURE(seed);
+        const auto plan = BuildDungeonPlan(seed, templates);
+        CHECK(plan.rooms.size() == 3);
+        CHECK(plan.connections.size() == 2);
+        CHECK(plan.rooms[0].id != plan.rooms[1].id);
+        CHECK(plan.rooms[0].id != plan.rooms[2].id);
+        CHECK(plan.rooms[1].id != plan.rooms[2].id);
+        CHECK(plan.start_room_id == plan.rooms[0].id);
+        for (const auto& connection : plan.connections) {
+            CHECK(connection.from == plan.start_room_id);
+            CHECK_FALSE(connection.from_door.empty());
+            CHECK_FALSE(connection.to_door.empty());
+        }
+    }
+}
