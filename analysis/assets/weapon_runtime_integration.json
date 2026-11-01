@@ -1,0 +1,2732 @@
+{
+  "counts": {
+    "catalogue_entries": 302,
+    "tier_a_fully_integrated": 15,
+    "tier_b_standard_stats_pending_assets": 281,
+    "tier_c_unique_mechanic_or_non_bullet": 6
+  },
+  "note": "Tier A means the weapon is loaded by the native WeaponRegistry and can spawn, fire, be picked up and appear in the weapon station.",
+  "scene": "analysis/assets/scenes/r1_1_visual.json",
+  "schema": 1,
+  "tool": "tools/asset/audit_weapon_runtime.py",
+  "weapons": [
+    {
+      "damage": 3,
+      "display_name": "Bad Pistol",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_000",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 3,
+      "display_name": "P250 Pistol",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_001",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 3,
+      "display_name": "AK-47",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_002",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 3,
+      "display_name": "Shotgun",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_003",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 3,
+      "display_name": "Shotgun Pro",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_004",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 2,
+      "display_name": "UZI",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_005",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Splitter Cannon",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_006",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Snow Fox L",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_007",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 2,
+      "display_name": "Snow Fox XL",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_008",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Snow Fox XXL",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_009",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Desert Eagle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_010",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 4,
+      "display_name": "Alien Eagle",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_011",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Frost Eagle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_012",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Flame Eagle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_013",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Plasma Eagle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_014",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Revolver",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_015",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 3,
+      "display_name": "Twin-barrel Pistol",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_016",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Assault Rifle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_017",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 3,
+      "display_name": "Assault Rocket",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_018",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Assault Rifle Pro",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_019",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Shaky Blaster",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_020",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Blaster",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_021",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 5,
+      "display_name": "Twin-barrel Rifle",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_022",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Splitter Gun",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_023",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Volcanic Blaster",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_024",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "M4",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_025",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Improved SMG",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_026",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "MP5",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_027",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Snow Fox Vintage",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_028",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Shotgun Galaxy",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_029",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Sidewinder Red",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_030",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Sidewinder Green",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_031",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Sniper Rifle",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_032",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 25,
+      "display_name": "Soul Calibre",
+      "energy_cost": 9,
+      "has_stats": true,
+      "id": "weapon_033",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Glacier",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_034",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 16,
+      "display_name": "Aurora",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_035",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Furnace",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_036",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Fine Machine Gun",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_037",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Knight's Fist",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_038",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Gas Blaster",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_039",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Flame Blaster",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_040",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Gatling Gun",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_041",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Fusion Drill",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_042",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 15,
+      "display_name": "Rocket Gun",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_043",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 16,
+      "display_name": "Implosion",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_044",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Ion Railgun",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_045",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Ion Laser",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_046",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Missile Battery",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_047",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Next-gen SMG",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_048",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 2,
+      "display_name": "Next-next-gen SMG",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_049",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 3,
+      "display_name": "Guardian Rifle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_050",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Guardian Railgun",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_051",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Shotgun M1",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_052",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Shotgun M2",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_053",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Shotgun M3",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_054",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "SMG M2",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_055",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 16,
+      "display_name": "Rocket Gun M1",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_056",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "SMG M1",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_057",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "SMG Helix",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_058",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Prototype Railgun",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_059",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Pioneer",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_060",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Blind Missile Battery",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_061",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Machete",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_062",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 12,
+      "display_name": "Broadsword",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_063",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Katana",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_064",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 7,
+      "display_name": "Pirate Saber",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_065",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Double Blade Sword",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_066",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Rapier",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_067",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Axe",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_068",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Battle Axe",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_069",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Flame Axe",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_070",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 13,
+      "display_name": "Mace",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_071",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Pitchfork",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_072",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Spear",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_073",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Laser Sword Blue",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_074",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "Laser Sword Red",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_075",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Trident",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_076",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Grand Knight's Sword",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_077",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Flame Sword",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_078",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Frost Sword",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_079",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Bow",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_080",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Strong Bow",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_081",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Composite Bow",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_082",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Hunter Bow",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_083",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Crystal Bow",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_084",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Frost Bow",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_085",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Flame Bow",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_086",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Jade Bow",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_087",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Hero bow",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_088",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Magic Bow",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_089",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Plunger",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_090",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Broom",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_091",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Laser Shotgun",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_092",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Fish",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_093",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Laser Fish",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_094",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Shield",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_095",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Basketball",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_096",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Football",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_097",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Green Onions",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_098",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Meat",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_099",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Badminton Racket",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_100",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Ice Breaker",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_101",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Nasty Laser",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_102",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Arbitrator",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_103",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "The Judge",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_104",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Triple Crossbow",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_105",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Crossbow",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_106",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 15,
+      "display_name": "Crossbow Plus",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_107",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Illusion",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_108",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Horn",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_109",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Grenade SMG",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_110",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Bazooka",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_111",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Magic Staff",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_112",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Fine Magic Staff",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_113",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Staff Of Thunder",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_114",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Staff Of Nature",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_115",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 0,
+      "display_name": "Staff of Skeleton",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_116",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Staff Of Frost",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_117",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Staff Of Flame",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_118",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Staff Of Light",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_119",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Caliburn",
+      "energy_cost": 20,
+      "has_stats": true,
+      "id": "weapon_120",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Electric Therapy",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_121",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Snow Ape's Longbow",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_122",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Staff of Shooting Stars",
+      "energy_cost": 9,
+      "has_stats": true,
+      "id": "weapon_123",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "TNT",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_124",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Blowpipe",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_125",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Feathered Crossbow",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_126",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Crystal Crab's Katana",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_127",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Dragon Bros' Sniper Rifle",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_128",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Red Dragon",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_129",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Bleach",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_130",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Sandworm",
+      "energy_cost": 8,
+      "has_stats": true,
+      "id": "weapon_131",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Varkolyn Assault Rifle",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_132",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Goblin Spear",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_133",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Cannibal Plant",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_134",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 999,
+      "display_name": "One Punch",
+      "energy_cost": 99,
+      "has_stats": true,
+      "id": "weapon_135",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "PKP",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_136",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Floating Gun",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_137",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Floating Laser",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_138",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Assault Shotgun",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_139",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Cherry Blossom",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_140",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Bomber",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_141",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Bouncing Sniper Rifle",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_142",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Bouncing Assault Rifle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_143",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "Knight Spear",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_144",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Staff Of Wizard",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_145",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Plunger Plus",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_146",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "Charged Railgun",
+      "energy_cost": 7,
+      "has_stats": true,
+      "id": "weapon_147",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Splash Railgun",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_148",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Laser Sword Green",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_149",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Umbrella",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_150",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "M14",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_151",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Old Sniper Rifle",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_152",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Old Rocket Launcher",
+      "energy_cost": 8,
+      "has_stats": true,
+      "id": "weapon_153",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Jumper",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_154",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Cleaner",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_155",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Webber",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_156",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Laser",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_157",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Wizard's Staff",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_158",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 9,
+      "display_name": "Cluster Missile",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_159",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Black Hole Missile",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_160",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Heavenly Sword",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_161",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Ninja Stars",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_162",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Wrenches",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_163",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Spike Knives",
+      "energy_cost": 8,
+      "has_stats": true,
+      "id": "weapon_164",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Ice Spikes",
+      "energy_cost": 8,
+      "has_stats": true,
+      "id": "weapon_165",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Boomerang",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_166",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 7,
+      "display_name": "Hand Grenade",
+      "energy_cost": 8,
+      "has_stats": true,
+      "id": "weapon_167",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Molotov Cocktail",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_168",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Butcher's Knife",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_169",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Eagle of Ice and Fire",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_170",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Paper Slip",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_171",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Windforce",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_172",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Rainbow",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_173",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 0,
+      "display_name": "Staff of Illusion",
+      "energy_cost": 10,
+      "has_stats": true,
+      "id": "weapon_174",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Snowman Eagle",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_175",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Agitated Trunk",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_176",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Carrot",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_177",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Mini UZI",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_178",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "SMG M3",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_179",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "RYB Assault Rifle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_180",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Assault Rifle Pro+",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_181",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Poison Eagle",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_182",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Grenade Pistol",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_183",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Next-next-next-gen SMG",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_184",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Bouncing Railgun",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_185",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Bassball Bat",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_186",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Ninja Stars Plus",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_187",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Buckler",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_188",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Iron Claw",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_189",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 9,
+      "display_name": "Sickle",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_190",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Hammer",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_191",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "Wooden Hammer",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_192",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 20,
+      "display_name": "Stone Hammer",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_193",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Bow Plus",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_194",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 0,
+      "display_name": "Trekking Pole",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_195",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "Void Sword",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_196",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Long-handled Axe",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_197",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Meat Grinder",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_198",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 13,
+      "display_name": "Executioner",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_199",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Laser Therapy",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_200",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Halberd",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_201",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 7,
+      "display_name": "Woodstick",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_202",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Bamboo",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_203",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Javelin",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_204",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 11,
+      "display_name": "Frost Spear",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_205",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Throwing Axe",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_206",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 16,
+      "display_name": "Heavy Hunter Axe",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_207",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Vine",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_208",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Crossbow Air",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_209",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Tidal Staff",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_210",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Reusable Health Pot",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_211",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Reusable Energy Pot",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_212",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Reusable Restoration Potion",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_213",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 0,
+      "display_name": "Extra Crown",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_214",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "The Emperor's New Gun",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_215",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "Bayonet Rifle",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_216",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Money Gun",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_217",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Assault Sniper Rifle",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_218",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "EM Sniper Rifle",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_219",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "Explosive Crossbow",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_220",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Explosive Warhammer",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_221",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Thunder Warhammer",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_222",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Green Basin",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_223",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Electric Ninja Stars",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_224",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "weapon_225",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_225",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Sawed-off Shotgun",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_230",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Groundwater",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_231",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": null,
+      "display_name": "Staff of Abyss",
+      "energy_cost": null,
+      "has_stats": false,
+      "id": "weapon_232",
+      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "tier": "C"
+    },
+    {
+      "damage": 3,
+      "display_name": "Rainbow Horse",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_233",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Meteo Laser Gun",
+      "energy_cost": 10,
+      "has_stats": true,
+      "id": "weapon_234",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Green Essence",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_235",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Deadly Frisbee",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_236",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Advanced Scientific Calculator",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_237",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Retouch-free Camera",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_238",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Burp Gun",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_239",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Fantastic Gun",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_240",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "40m Long Blade",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_241",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 0,
+      "display_name": "Box",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_242",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Grand Wizard's Old Staff",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_243",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 0,
+      "display_name": "Nirvana Cross",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_244",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Laser Sword Gold",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_245",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Thunder Sword",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_246",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Star Bow",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_247",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Weeping Eagle",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_248",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Next-next-next-next-gen SMG",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_249",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Snow Fox Rose Gold",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_250",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Nunchaku",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_251",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 500,
+      "display_name": "Super Buddy",
+      "energy_cost": 50,
+      "has_stats": true,
+      "id": "weapon_252",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Magic Gloves",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_253",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 0,
+      "display_name": "Staff of Anubis",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_254",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Dead Star Laser Gun",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_255",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "AK47 Gold",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_256",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Desert Eagle Gold",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_257",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Blue Fire Gatling",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_258",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Coilgun",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_259",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Brownian Coilgun",
+      "energy_cost": 5,
+      "has_stats": true,
+      "id": "weapon_260",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Ion Coilgun",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_261",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": null,
+      "display_name": "Icy Jade Needle",
+      "energy_cost": null,
+      "has_stats": false,
+      "id": "weapon_262",
+      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "tier": "C"
+    },
+    {
+      "damage": null,
+      "display_name": "Train Rattling",
+      "energy_cost": null,
+      "has_stats": false,
+      "id": "weapon_263",
+      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "tier": "C"
+    },
+    {
+      "damage": 1,
+      "display_name": "Bubble Gun",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_264",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Lasso Gun",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_265",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Broken Hilt",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_266",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Damaged Blade",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_267",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Reforged Sacred Sword",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_268",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": null,
+      "display_name": "Porcelain Vase",
+      "energy_cost": null,
+      "has_stats": false,
+      "id": "weapon_269",
+      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "tier": "C"
+    },
+    {
+      "damage": 8,
+      "display_name": "Bayonet in a Gourd",
+      "energy_cost": 10,
+      "has_stats": true,
+      "id": "weapon_270",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": null,
+      "display_name": "Constellation",
+      "energy_cost": null,
+      "has_stats": false,
+      "id": "weapon_271",
+      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "tier": "C"
+    },
+    {
+      "damage": null,
+      "display_name": "Astrolabe",
+      "energy_cost": null,
+      "has_stats": false,
+      "id": "weapon_272",
+      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "tier": "C"
+    },
+    {
+      "damage": 0,
+      "display_name": "Trumpet",
+      "energy_cost": 8,
+      "has_stats": true,
+      "id": "weapon_273",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Fist of Heaven",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_274",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Sweet Talk",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_275",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 0,
+      "display_name": "Death Note",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_276",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Firebolt",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_277",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 1,
+      "display_name": "Double Therapy",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_278",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Grilled Fish",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_279",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Grilled Laser Fish",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_280",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Grilled Green Onion",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_281",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Grilled Meat",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_282",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 10,
+      "display_name": "Grilled Heavenly Sword",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_283",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Grilled Carrot",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_284",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Gold Staff",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_285",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Fine Magic Staff Gold",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_286",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Revolver Gold",
+      "energy_cost": 1,
+      "has_stats": true,
+      "id": "weapon_287",
+      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "tier": "A"
+    },
+    {
+      "damage": 14,
+      "display_name": "Sniper Rifle Gold",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_288",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 16,
+      "display_name": "Sniper Rifle Gold Pro",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_289",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Rainbow Gatling",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_290",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Fist Bump",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_291",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Pill",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_292",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Happy New Year",
+      "energy_cost": 2,
+      "has_stats": true,
+      "id": "weapon_293",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "Ranger's Revolver",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_294",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Toxic Webber",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_295",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Thunderstorm Warhammer",
+      "energy_cost": 6,
+      "has_stats": true,
+      "id": "weapon_296",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 8,
+      "display_name": "Ion Railgun M2",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_297",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 4,
+      "display_name": "EM Railgun",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_298",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Giant Axe",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_299",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 3,
+      "display_name": "Verbal Fire",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_300",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Golden Cudgel",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_301",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 6,
+      "display_name": "Candied Hawberries",
+      "energy_cost": 0,
+      "has_stats": true,
+      "id": "weapon_900",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 5,
+      "display_name": "Firecrackers",
+      "energy_cost": 3,
+      "has_stats": true,
+      "id": "weapon_901",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 2,
+      "display_name": "Channeling Monkey",
+      "energy_cost": 10,
+      "has_stats": true,
+      "id": "weapon_902",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    },
+    {
+      "damage": 12,
+      "display_name": "Rocket Fireworks",
+      "energy_cost": 4,
+      "has_stats": true,
+      "id": "weapon_903",
+      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "tier": "B"
+    }
+  ]
+}

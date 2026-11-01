@@ -12,6 +12,7 @@
   },
   "chests": [
     {
+      "appointed_weapon": "weapon_021",
       "collider_half_extents": [
         0.5,
         0.35
@@ -20,11 +21,12 @@
         0.0,
         0.35
       ],
-      "evidence": "actual chest00 prefab; RGChest.level=0; coin_0 type=0 value=5",
+      "evidence": "actual RGChestAppoint chest00 variant; one recovered appointed object_list entry is weapon_021",
       "id": "chest00",
       "level": 0,
-      "loot_coin": "coin_0",
-      "loot_count": 1,
+      "loot_coin": "",
+      "loot_count": 0,
+      "open_time": 1.0,
       "visuals": [
         {
           "offset": [
@@ -71,7 +73,138 @@
           "sorting_order": 1,
           "sprite": "chest00_shadow"
         }
-      ]
+      ],
+      "weapon_drop_level": -1
+    },
+    {
+      "appointed_weapon": "",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest01 RGChest prefab level 1; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "id": "chest01",
+      "level": 1,
+      "loot_coin": "",
+      "loot_count": 0,
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest01_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest00_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest01_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest01_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_drop_level": 1
+    },
+    {
+      "appointed_weapon": "",
+      "collider_half_extents": [
+        0.5,
+        0.35
+      ],
+      "collider_offset": [
+        0.0,
+        0.35
+      ],
+      "evidence": "actual chest02 RGChest prefab level 2; RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel",
+      "id": "chest02",
+      "level": 2,
+      "loot_coin": "",
+      "loot_count": 0,
+      "open_time": 1.0,
+      "visuals": [
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 2,
+          "sprite": "chest02_box06"
+        },
+        {
+          "offset": [
+            0.0,
+            -0.44999998807907104
+          ],
+          "sorting_layer": 4,
+          "sorting_order": 0,
+          "sprite": "chest02_box05"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box04"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 6,
+          "sorting_order": 1,
+          "sprite": "chest02_box03"
+        },
+        {
+          "offset": [
+            0.0,
+            0.0
+          ],
+          "sorting_layer": 3,
+          "sorting_order": 1,
+          "sprite": "chest00_shadow"
+        }
+      ],
+      "weapon_drop_level": 2
     }
   ],
   "coins": [
@@ -119,7 +252,24 @@
     }
   ],
   "instances": [],
-  "notes": "Chest00 and RGCoin prefab metadata/sprites. Coin values/type/speed/range are serialized RGCoin fields. Chest coin loot and lid animation are native test behavior; exact RGChest loot tables remain UNKNOWN.",
+  "notes": "Chest00/RGCoin prefab metadata/sprites plus the actual transfer_gate_02 portal sprite clip. Chest coin loot and lid animation are native test behavior; RGChest weapon selection and WeaponDropInfo are recovered in the 0.5.3 chest pipeline.",
+  "portals": [
+    {
+      "duration": 0.5,
+      "evidence": "actual transfer_gate_02 AnimationClip sprite curve at 12 fps; level2 magic_protal2 assets",
+      "fps": 12.0,
+      "frames": [
+        "portal_frame0",
+        "portal_frame1",
+        "portal_frame2",
+        "portal_frame3",
+        "portal_frame4",
+        "portal_frame5"
+      ],
+      "id": "transfer_gate_02",
+      "loop": true
+    }
+  ],
   "schema": 1,
   "source": "analysis/apktool_out/assets/AssetBundles/common",
   "spawn": [
@@ -345,6 +495,314 @@
         0.0
       ],
       "texture": "item_5467841708608453938",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest01_box06",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        98.0,
+        195.0,
+        20.0,
+        8.0
+      ],
+      "source_name": "objects_common_3",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        9.0,
+        91.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect": [
+        98.0,
+        53.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest01_box04",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        144.0,
+        126.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_2",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        19.0,
+        104.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        144.0,
+        110.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest01_box03",
+      "pivot": [
+        1.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        12.0,
+        49.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_1",
+      "source_pivot": [
+        1.0,
+        0.0
+      ],
+      "source_rect": [
+        7.0,
+        104.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        12.0,
+        187.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest02_box06",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        24.0,
+        33.0,
+        20.0,
+        8.0
+      ],
+      "source_name": "objects_common_13",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        69.0,
+        89.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect": [
+        24.0,
+        215.0,
+        20.0,
+        8.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest02_box05",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        197.0,
+        236.0,
+        20.0,
+        20.0
+      ],
+      "source_name": "objects_common_10",
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "source_rect": [
+        37.0,
+        104.0,
+        20.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        197.0,
+        0.0,
+        20.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest02_box04",
+      "pivot": [
+        0.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        156.0,
+        108.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_12",
+      "source_pivot": [
+        0.0,
+        0.0
+      ],
+      "source_rect": [
+        82.0,
+        103.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        156.0,
+        128.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "chest02_box03",
+      "pivot": [
+        1.0,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        12.0,
+        27.0,
+        10.0,
+        20.0
+      ],
+      "source_name": "objects_common_11",
+      "source_pivot": [
+        1.0,
+        0.0
+      ],
+      "source_rect": [
+        66.0,
+        103.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect": [
+        12.0,
+        209.0,
+        10.0,
+        20.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_m1240183975920528313",
       "wrap": "clamp"
     },
     {
@@ -874,6 +1332,270 @@
       ],
       "texture": "item_m1240183975920528313",
       "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "portal_frame0",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 30.0,
+      "rect": [
+        0.0,
+        0.0,
+        71.0,
+        70.0
+      ],
+      "source_name": "gate_02_0",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        0.0,
+        70.0,
+        71.0,
+        70.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        70.0,
+        71.0,
+        70.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_62",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "portal_frame1",
+      "pivot": [
+        0.49946337913552247,
+        0.5
+      ],
+      "pixels_per_unit": 30.0,
+      "rect": [
+        71.07611846923828,
+        0.0,
+        70.92388153076172,
+        70.0
+      ],
+      "source_name": "gate_02_1",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        71.0,
+        70.0,
+        71.0,
+        70.0
+      ],
+      "source_texture_rect": [
+        71.07611846923828,
+        70.0,
+        70.92388153076172,
+        70.0
+      ],
+      "source_texture_rect_offset": [
+        0.07611846923828125,
+        0.0
+      ],
+      "texture": "item_62",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "portal_frame2",
+      "pivot": [
+        0.5005366208644776,
+        0.5
+      ],
+      "pixels_per_unit": 30.0,
+      "rect": [
+        142.0,
+        0.0,
+        70.92388153076172,
+        70.0
+      ],
+      "source_name": "gate_02_2",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        142.0,
+        70.0,
+        71.0,
+        70.0
+      ],
+      "source_texture_rect": [
+        142.0,
+        70.0,
+        70.92388153076172,
+        70.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_62",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "portal_frame3",
+      "pivot": [
+        0.5005366208644776,
+        0.5001911348744932
+      ],
+      "pixels_per_unit": 30.0,
+      "rect": [
+        213.0,
+        0.0267486572265625,
+        70.92388153076172,
+        69.97325134277344
+      ],
+      "source_name": "gate_02_3",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        213.0,
+        70.0,
+        71.0,
+        70.0
+      ],
+      "source_texture_rect": [
+        213.0,
+        70.0,
+        70.92388153076172,
+        69.97325134277344
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_62",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "portal_frame4",
+      "pivot": [
+        0.4994633505618195,
+        0.500544295221975
+      ],
+      "pixels_per_unit": 30.0,
+      "rect": [
+        0.07612049579620361,
+        70.07611846923828,
+        70.92388153076172,
+        69.92388153076172
+      ],
+      "source_name": "gate_02_4",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        0.0,
+        0.0,
+        71.0,
+        70.0
+      ],
+      "source_texture_rect": [
+        0.07612049579620361,
+        0.0,
+        70.92388153076172,
+        69.92388153076172
+      ],
+      "source_texture_rect_offset": [
+        0.07612049579620361,
+        0.0
+      ],
+      "texture": "item_62",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "portal_frame5",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 30.0,
+      "rect": [
+        71.0,
+        70.0,
+        71.0,
+        70.0
+      ],
+      "source_name": "gate_02_5",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        71.0,
+        0.0,
+        71.0,
+        70.0
+      ],
+      "source_texture_rect": [
+        71.0,
+        0.0,
+        71.0,
+        70.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "texture": "item_62",
+      "wrap": "clamp"
     }
   ],
   "textures": [
@@ -888,7 +1610,1340 @@
       "id": "item_5467841708608453938",
       "png": "textures/item_5467841708608453938.png",
       "wrap": "clamp"
+    },
+    {
+      "filter": "point",
+      "id": "item_62",
+      "png": "textures/item_62.png",
+      "wrap": "clamp"
     }
   ],
-  "tool": "tools/asset/build_item_assets.py"
+  "tool": "tools/asset/build_item_assets.py",
+  "weapon_drops": [
+    {
+      "entries": [
+        {
+          "title": "AK-47",
+          "weapon": "weapon_002",
+          "weight": 10
+        },
+        {
+          "title": "\u9730\u5f39\u67aa",
+          "weapon": "weapon_003",
+          "weight": 10
+        },
+        {
+          "title": "\u96ea\u72d0",
+          "weapon": "weapon_007",
+          "weight": 10
+        },
+        {
+          "title": "\u6c99\u6f20\u4e4b\u9e70",
+          "weapon": "weapon_010",
+          "weight": 10
+        },
+        {
+          "title": "\u5de6\u8f6e\u624b\u67aa",
+          "weapon": "weapon_015",
+          "weight": 10
+        },
+        {
+          "title": "\u7a81\u51fb\u6b65\u67aa",
+          "weapon": "weapon_017",
+          "weight": 10
+        },
+        {
+          "title": "\u5148\u9a71\u8005",
+          "weapon": "weapon_060",
+          "weight": 10
+        },
+        {
+          "title": "\u5e72\u8349\u53c9",
+          "weapon": "weapon_072",
+          "weight": 10
+        },
+        {
+          "title": "\u5f13",
+          "weapon": "weapon_080",
+          "weight": 10
+        },
+        {
+          "title": "\u624b\u91cc\u5251",
+          "weapon": "weapon_162",
+          "weight": 10
+        },
+        {
+          "title": "UZI Mini",
+          "weapon": "weapon_178",
+          "weight": 10
+        }
+      ],
+      "level": 0
+    },
+    {
+      "entries": [
+        {
+          "title": "P250\u624b\u67aa",
+          "weapon": "weapon_001",
+          "weight": 10
+        },
+        {
+          "title": "AK-47",
+          "weapon": "weapon_002",
+          "weight": 10
+        },
+        {
+          "title": "\u9730\u5f39\u67aa",
+          "weapon": "weapon_003",
+          "weight": 10
+        },
+        {
+          "title": "\u9730\u5f39\u67aa Pro",
+          "weapon": "weapon_004",
+          "weight": 10
+        },
+        {
+          "title": "\u96ea\u72d0 L",
+          "weapon": "weapon_007",
+          "weight": 10
+        },
+        {
+          "title": "\u6c99\u6f20\u4e4b\u9e70",
+          "weapon": "weapon_010",
+          "weight": 10
+        },
+        {
+          "title": "\u5916\u661f\u4e4b\u9e70",
+          "weapon": "weapon_011",
+          "weight": 10
+        },
+        {
+          "title": "\u5de6\u8f6e\u624b\u67aa",
+          "weapon": "weapon_015",
+          "weight": 10
+        },
+        {
+          "title": "\u7a81\u51fb\u6b65\u67aa",
+          "weapon": "weapon_017",
+          "weight": 10
+        },
+        {
+          "title": "\u4e0d\u7a33\u5b9a\u7684\u673a\u67aa",
+          "weapon": "weapon_020",
+          "weight": 10
+        },
+        {
+          "title": "\u5206\u88c2\u8005",
+          "weapon": "weapon_023",
+          "weight": 10
+        },
+        {
+          "title": "\u5b88\u536b\u8005\u8f68\u9053\u70ae",
+          "weapon": "weapon_051",
+          "weight": 10
+        },
+        {
+          "title": "\u9730\u5f39\u67aa M1",
+          "weapon": "weapon_052",
+          "weight": 10
+        },
+        {
+          "title": "\u51b2\u950b\u67aa M1",
+          "weapon": "weapon_057",
+          "weight": 10
+        },
+        {
+          "title": "\u780d\u5200",
+          "weapon": "weapon_062",
+          "weight": 10
+        },
+        {
+          "title": "\u53cc\u5203\u5251",
+          "weapon": "weapon_066",
+          "weight": 10
+        },
+        {
+          "title": "\u5e72\u8349\u53c9",
+          "weapon": "weapon_072",
+          "weight": 10
+        },
+        {
+          "title": "\u5f13",
+          "weapon": "weapon_080",
+          "weight": 10
+        },
+        {
+          "title": "\u5f3a\u5f13",
+          "weapon": "weapon_081",
+          "weight": 10
+        },
+        {
+          "title": "\u626b\u5e1a",
+          "weapon": "weapon_091",
+          "weight": 10
+        },
+        {
+          "title": "\u5927\u8471",
+          "weapon": "weapon_098",
+          "weight": 10
+        },
+        {
+          "title": "\u4ef2\u88c1\u8005",
+          "weapon": "weapon_103",
+          "weight": 10
+        },
+        {
+          "title": "\u6cd5\u6756",
+          "weapon": "weapon_112",
+          "weight": 10
+        },
+        {
+          "title": "\u6bd2\u98de\u9556",
+          "weapon": "weapon_125",
+          "weight": 10
+        },
+        {
+          "title": "\u54e5\u5e03\u6797\u957f\u67aa",
+          "weapon": "weapon_133",
+          "weight": 10
+        },
+        {
+          "title": "M14",
+          "weapon": "weapon_151",
+          "weight": 10
+        },
+        {
+          "title": "\u8001\u65e7\u7684\u72d9\u51fb\u67aa",
+          "weapon": "weapon_152",
+          "weight": 10
+        },
+        {
+          "title": "\u8001\u65e7\u7684\u706b\u7bad\u7b52",
+          "weapon": "weapon_153",
+          "weight": 10
+        },
+        {
+          "title": "\u56de\u65cb\u9556",
+          "weapon": "weapon_166",
+          "weight": 10
+        },
+        {
+          "title": "\u83ab\u6d1b\u6258\u592b\u9e21\u5c3e\u9152",
+          "weapon": "weapon_168",
+          "weight": 10
+        },
+        {
+          "title": "\u4f5c\u6587\u7eb8\u6761",
+          "weapon": "weapon_171",
+          "weight": 10
+        },
+        {
+          "title": "\u9524\u5b50",
+          "weapon": "weapon_191",
+          "weight": 10
+        },
+        {
+          "title": "\u767b\u5c71\u6756",
+          "weapon": "weapon_195",
+          "weight": 10
+        },
+        {
+          "title": "\u6728\u68cd",
+          "weapon": "weapon_202",
+          "weight": 10
+        },
+        {
+          "title": "\u673a\u67aa",
+          "weapon": "weapon_021",
+          "weight": 10
+        },
+        {
+          "title": "\u523a\u67aa",
+          "weapon": "weapon_216",
+          "weight": 10
+        },
+        {
+          "title": "\u77ed\u7a0b\u622a\u7ebf\u67aa",
+          "weapon": "weapon_230",
+          "weight": 10
+        },
+        {
+          "title": "\u5587\u53ed",
+          "weapon": "weapon_109",
+          "weight": 5
+        },
+        {
+          "title": "\u6d6a\u6f6e\u6cd5\u6756",
+          "weapon": "weapon_210",
+          "weight": 10
+        },
+        {
+          "title": "PKP",
+          "weapon": "weapon_136",
+          "weight": 10
+        },
+        {
+          "title": "\u7eff\u8272\u7684\u76c6",
+          "weapon": "weapon_223",
+          "weight": 10
+        },
+        {
+          "title": "\u7bb1\u5b50",
+          "weapon": "weapon_242",
+          "weight": 5
+        },
+        {
+          "title": "\u5927\u5deb\u5e08\u7684\u65e7\u6cd5\u6756",
+          "weapon": "weapon_243",
+          "weight": 10
+        },
+        {
+          "title": "\u7ef3\u7d22\u67aa",
+          "weapon": "weapon_265",
+          "weight": 10
+        }
+      ],
+      "level": 1
+    },
+    {
+      "entries": [
+        {
+          "title": "UZI",
+          "weapon": "weapon_005",
+          "weight": 10
+        },
+        {
+          "title": "\u5f3a\u529b\u5206\u88c2\u8005",
+          "weapon": "weapon_006",
+          "weight": 10
+        },
+        {
+          "title": "\u51b0\u971c\u4e4b\u9e70",
+          "weapon": "weapon_012",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u7130\u4e4b\u9e70",
+          "weapon": "weapon_013",
+          "weight": 10
+        },
+        {
+          "title": "\u5267\u6bd2\u4e4b\u9e70",
+          "weapon": "weapon_182",
+          "weight": 10
+        },
+        {
+          "title": "\u69b4\u5f39\u624b\u67aa",
+          "weapon": "weapon_183",
+          "weight": 10
+        },
+        {
+          "title": "\u53cc\u7ba1\u624b\u67aa",
+          "weapon": "weapon_016",
+          "weight": 10
+        },
+        {
+          "title": "\u7a81\u51fb\u6b65\u67aa Pro",
+          "weapon": "weapon_019",
+          "weight": 10
+        },
+        {
+          "title": "\u53cc\u7ba1\u6b65\u67aa",
+          "weapon": "weapon_022",
+          "weight": 10
+        },
+        {
+          "title": "MP5",
+          "weapon": "weapon_027",
+          "weight": 10
+        },
+        {
+          "title": "\u7194\u7089",
+          "weapon": "weapon_036",
+          "weight": 10
+        },
+        {
+          "title": "\u9ad8\u80fd\u94bb\u5934",
+          "weapon": "weapon_042",
+          "weight": 10
+        },
+        {
+          "title": "\u9730\u5f39\u67aa M2",
+          "weapon": "weapon_053",
+          "weight": 10
+        },
+        {
+          "title": "\u51b2\u950b\u67aa M2",
+          "weapon": "weapon_055",
+          "weight": 10
+        },
+        {
+          "title": "\u51b2\u950b\u67aa Helix",
+          "weapon": "weapon_058",
+          "weight": 10
+        },
+        {
+          "title": "\u5148\u9a71\u8005",
+          "weapon": "weapon_060",
+          "weight": 10
+        },
+        {
+          "title": "\u5927\u5200",
+          "weapon": "weapon_063",
+          "weight": 10
+        },
+        {
+          "title": "\u6b66\u58eb\u5200",
+          "weapon": "weapon_064",
+          "weight": 10
+        },
+        {
+          "title": "\u6d77\u76d7\u5f2f\u5200",
+          "weapon": "weapon_065",
+          "weight": 10
+        },
+        {
+          "title": "\u65a7\u5b50",
+          "weapon": "weapon_068",
+          "weight": 10
+        },
+        {
+          "title": "\u590d\u5408\u5f13",
+          "weapon": "weapon_082",
+          "weight": 10
+        },
+        {
+          "title": "\u730e\u4eba\u5f13",
+          "weapon": "weapon_083",
+          "weight": 10
+        },
+        {
+          "title": "\u585e\u5b50",
+          "weapon": "weapon_090",
+          "weight": 10
+        },
+        {
+          "title": "\u9c7c",
+          "weapon": "weapon_093",
+          "weight": 10
+        },
+        {
+          "title": "\u5f29",
+          "weapon": "weapon_106",
+          "weight": 10
+        },
+        {
+          "title": "\u81ea\u7136\u6cd5\u6756",
+          "weapon": "weapon_115",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u4e4b\u6756",
+          "weapon": "weapon_118",
+          "weight": 10
+        },
+        {
+          "title": "\u7ea2\u9f99\u673a\u67aa",
+          "weapon": "weapon_129",
+          "weight": 10
+        },
+        {
+          "title": "\u5c1a\u65b9\u5b9d\u5251",
+          "weapon": "weapon_161",
+          "weight": 10
+        },
+        {
+          "title": "\u6273\u624b",
+          "weapon": "weapon_163",
+          "weight": 10
+        },
+        {
+          "title": "\u96e8\u4f1e",
+          "weapon": "weapon_150",
+          "weight": 10
+        },
+        {
+          "title": "\u6740\u732a\u5200",
+          "weapon": "weapon_169",
+          "weight": 10
+        },
+        {
+          "title": "\u624b\u91cc\u5251 Plus",
+          "weapon": "weapon_187",
+          "weight": 10
+        },
+        {
+          "title": "\u5706\u76fe",
+          "weapon": "weapon_188",
+          "weight": 10
+        },
+        {
+          "title": "\u722a",
+          "weapon": "weapon_189",
+          "weight": 10
+        },
+        {
+          "title": "\u6728\u9524",
+          "weapon": "weapon_192",
+          "weight": 10
+        },
+        {
+          "title": "\u865a\u7a7a\u5251",
+          "weapon": "weapon_196",
+          "weight": 10
+        },
+        {
+          "title": "\u6295\u67aa",
+          "weapon": "weapon_204",
+          "weight": 10
+        },
+        {
+          "title": "\u6295\u65a7",
+          "weapon": "weapon_206",
+          "weight": 10
+        },
+        {
+          "title": "\u8fde\u5c04\u72d9\u51fb\u67aa",
+          "weapon": "weapon_218",
+          "weight": 10
+        },
+        {
+          "title": "\u7bee\u7403",
+          "weapon": "weapon_096",
+          "weight": 5
+        },
+        {
+          "title": "\u8db3\u7403",
+          "weapon": "weapon_097",
+          "weight": 5
+        },
+        {
+          "title": "\u523a\u5251",
+          "weapon": "weapon_067",
+          "weight": 5
+        },
+        {
+          "title": "40\u7c73\u957f\u5200",
+          "weapon": "weapon_241",
+          "weight": 10
+        },
+        {
+          "title": "\u7ebf\u5708\u70ae",
+          "weapon": "weapon_259",
+          "weight": 10
+        },
+        {
+          "title": "\u7834\u788e\u7684\u5251\u67c4",
+          "weapon": "weapon_266",
+          "weight": 10
+        },
+        {
+          "title": "\u7834\u788e\u7684\u5251\u5203",
+          "weapon": "weapon_267",
+          "weight": 10
+        },
+        {
+          "title": "\u82b1\u8a00\u5de7\u8bed",
+          "weapon": "weapon_275",
+          "weight": 10
+        },
+        {
+          "title": "\u65b0\u5e74\u793c\u7269",
+          "weapon": "weapon_293",
+          "weight": 10
+        },
+        {
+          "title": "\u96ea\u72d0 XL",
+          "weapon": "weapon_008",
+          "weight": 10
+        }
+      ],
+      "level": 2
+    },
+    {
+      "entries": [
+        {
+          "title": "\u7834\u65e7\u7684\u624b\u67aa",
+          "weapon": "weapon_000",
+          "weight": 10
+        },
+        {
+          "title": "\u7c92\u5b50\u4e4b\u9e70",
+          "weapon": "weapon_014",
+          "weight": 10
+        },
+        {
+          "title": "\u7a81\u51fb\u706b\u7bad",
+          "weapon": "weapon_018",
+          "weight": 10
+        },
+        {
+          "title": "M4",
+          "weapon": "weapon_025",
+          "weight": 10
+        },
+        {
+          "title": "\u6563\u5f39\u67aa Galaxy",
+          "weapon": "weapon_029",
+          "weight": 10
+        },
+        {
+          "title": "\u7ea2\u8272\u54cd\u5c3e\u86c7",
+          "weapon": "weapon_030",
+          "weight": 10
+        },
+        {
+          "title": "\u72d9\u51fb\u6b65\u67aa",
+          "weapon": "weapon_032",
+          "weight": 10
+        },
+        {
+          "title": "\u6bd2\u6c14\u673a\u67aa",
+          "weapon": "weapon_039",
+          "weight": 10
+        },
+        {
+          "title": "\u79bb\u5b50\u8f68\u9053\u70ae",
+          "weapon": "weapon_045",
+          "weight": 10
+        },
+        {
+          "title": "\u6b21\u65f6\u4ee3\u51b2\u950b\u67aa",
+          "weapon": "weapon_048",
+          "weight": 10
+        },
+        {
+          "title": "\u9730\u5f39\u67aa M3",
+          "weapon": "weapon_054",
+          "weight": 10
+        },
+        {
+          "title": "\u5bc6\u96c6\u706b\u7bad\u53d1\u5c04\u5668",
+          "weapon": "weapon_061",
+          "weight": 10
+        },
+        {
+          "title": "\u6218\u65a7",
+          "weapon": "weapon_069",
+          "weight": 10
+        },
+        {
+          "title": "\u957f\u67aa",
+          "weapon": "weapon_073",
+          "weight": 10
+        },
+        {
+          "title": "\u6c34\u6676\u5f13",
+          "weapon": "weapon_084",
+          "weight": 10
+        },
+        {
+          "title": "\u6563\u5c04\u6fc0\u5149\u67aa",
+          "weapon": "weapon_092",
+          "weight": 10
+        },
+        {
+          "title": "\u6fc0\u5149\u9c7c",
+          "weapon": "weapon_094",
+          "weight": 10
+        },
+        {
+          "title": "\u788e\u51b0\u8005",
+          "weapon": "weapon_101",
+          "weight": 10
+        },
+        {
+          "title": "\u5ba1\u5224\u8005",
+          "weapon": "weapon_104",
+          "weight": 10
+        },
+        {
+          "title": "\u9730\u5f39\u5f29",
+          "weapon": "weapon_105",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u7bad\u7b52",
+          "weapon": "weapon_111",
+          "weight": 10
+        },
+        {
+          "title": "\u7fbd\u6bdb\u5f29",
+          "weapon": "weapon_126",
+          "weight": 10
+        },
+        {
+          "title": "\u767d\u9690\u673a\u67aa",
+          "weapon": "weapon_130",
+          "weight": 10
+        },
+        {
+          "title": "\u5f39\u5c04\u51b2\u950b\u67aa",
+          "weapon": "weapon_143",
+          "weight": 10
+        },
+        {
+          "title": "\u585e\u5b50plus",
+          "weapon": "weapon_146",
+          "weight": 10
+        },
+        {
+          "title": "\u8dc3\u8fc1\u8005",
+          "weapon": "weapon_154",
+          "weight": 10
+        },
+        {
+          "title": "\u7ec7\u7f51\u8005",
+          "weapon": "weapon_156",
+          "weight": 10
+        },
+        {
+          "title": "\u6fc0\u5149\u67aa",
+          "weapon": "weapon_157",
+          "weight": 10
+        },
+        {
+          "title": "\u5343\u672c",
+          "weapon": "weapon_164",
+          "weight": 10
+        },
+        {
+          "title": "\u841d\u535c",
+          "weapon": "weapon_177",
+          "weight": 10
+        },
+        {
+          "title": "\u7ea2\u9ec4\u84dd\u51b2\u950b\u67aa",
+          "weapon": "weapon_180",
+          "weight": 10
+        },
+        {
+          "title": "\u5f39\u5c04\u8f68\u9053\u67aa",
+          "weapon": "weapon_185",
+          "weight": 10
+        },
+        {
+          "title": "\u77f3\u9524",
+          "weapon": "weapon_193",
+          "weight": 10
+        },
+        {
+          "title": "\u957f\u67c4\u65a7",
+          "weapon": "weapon_197",
+          "weight": 10
+        },
+        {
+          "title": "\u65b9\u5929\u753b\u621f",
+          "weapon": "weapon_201",
+          "weight": 10
+        },
+        {
+          "title": "\u5f29 air",
+          "weapon": "weapon_209",
+          "weight": 10
+        },
+        {
+          "title": "\u65e0\u5c3d\u751f\u547d\u836f\u6c34",
+          "weapon": "weapon_211",
+          "weight": 10
+        },
+        {
+          "title": "\u65e0\u5c3d\u80fd\u91cf\u836f\u6c34",
+          "weapon": "weapon_212",
+          "weight": 10
+        },
+        {
+          "title": "\u5730\u4e0b\u6c34(\u5d2d\u65b0\u51fa\u5382)",
+          "weapon": "weapon_231",
+          "weight": 10
+        },
+        {
+          "title": "\u9a91\u58eb\u957f\u67aa",
+          "weapon": "weapon_144",
+          "weight": 5
+        },
+        {
+          "title": "\u6b21\u6b21\u65f6\u4ee3\u51b2\u950b\u67aa",
+          "weapon": "weapon_049",
+          "weight": 10
+        },
+        {
+          "title": "\u96ea\u72d0 XXL",
+          "weapon": "weapon_009",
+          "weight": 10
+        },
+        {
+          "title": "\u6a31\u82b1\u9730\u5f39\u67aa",
+          "weapon": "weapon_140",
+          "weight": 10
+        },
+        {
+          "title": "\u95f9\u809a\u5b50\u7684\u5f69\u8679\u9a6c",
+          "weapon": "weapon_233",
+          "weight": 10
+        },
+        {
+          "title": "\u7eff\u7cbe",
+          "weapon": "weapon_235",
+          "weight": 10
+        },
+        {
+          "title": "\u6b7b\u4ea1\u4e4b\u8f6e",
+          "weapon": "weapon_236",
+          "weight": 10
+        },
+        {
+          "title": "\u8d85\u7ea7\u79d1\u5b66\u8ba1\u7b97\u5668",
+          "weapon": "weapon_237",
+          "weight": 10
+        },
+        {
+          "title": "\u4eba\u6c11\u51b2\u950b\u67aa",
+          "weapon": "weapon_239",
+          "weight": 10
+        },
+        {
+          "title": "\u53cc\u622a\u68cd",
+          "weapon": "weapon_251",
+          "weight": 10
+        },
+        {
+          "title": "\u5e03\u6717\u7ebf\u5708\u70ae",
+          "weapon": "weapon_260",
+          "weight": 10
+        },
+        {
+          "title": "\u6ce1\u6ce1\u67aa",
+          "weapon": "weapon_264",
+          "weight": 10
+        },
+        {
+          "title": "\u8fdb\u51fb\u7684\u53f7\u89d2",
+          "weapon": "weapon_273",
+          "weight": 10
+        },
+        {
+          "title": "\u70b8\u836f\u5305",
+          "weapon": "weapon_124",
+          "weight": 10
+        }
+      ],
+      "level": 3
+    },
+    {
+      "entries": [
+        {
+          "title": "\u6539\u826f\u51b2\u950b\u67aa",
+          "weapon": "weapon_026",
+          "weight": 10
+        },
+        {
+          "title": "\u96ea\u72d0 \u571f\u8c6a\u91d1",
+          "weapon": "weapon_028",
+          "weight": 10
+        },
+        {
+          "title": "\u7eff\u8272\u54cd\u5c3e\u86c7",
+          "weapon": "weapon_031",
+          "weight": 10
+        },
+        {
+          "title": "\u51b0\u5ddd",
+          "weapon": "weapon_034",
+          "weight": 10
+        },
+        {
+          "title": "\u7cbe\u51c6\u673a\u5173\u67aa",
+          "weapon": "weapon_037",
+          "weight": 10
+        },
+        {
+          "title": "\u9a91\u58eb\u4e4b\u62f3",
+          "weapon": "weapon_038",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u7130\u673a\u67aa",
+          "weapon": "weapon_040",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u7bad\u70ae",
+          "weapon": "weapon_043",
+          "weight": 10
+        },
+        {
+          "title": "\u5b88\u536b\u8005",
+          "weapon": "weapon_050",
+          "weight": 10
+        },
+        {
+          "title": "\u539f\u578b\u8f68\u9053\u67aa",
+          "weapon": "weapon_059",
+          "weight": 10
+        },
+        {
+          "title": "\u523a\u5251",
+          "weapon": "weapon_067",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u7130\u6218\u65a7",
+          "weapon": "weapon_070",
+          "weight": 10
+        },
+        {
+          "title": "\u72fc\u7259\u68d2",
+          "weapon": "weapon_071",
+          "weight": 10
+        },
+        {
+          "title": "\u5149\u5251 \u84dd",
+          "weapon": "weapon_074",
+          "weight": 10
+        },
+        {
+          "title": "\u5149\u5251 \u7ea2",
+          "weapon": "weapon_075",
+          "weight": 10
+        },
+        {
+          "title": "\u5149\u5251 \u7eff",
+          "weapon": "weapon_149",
+          "weight": 10
+        },
+        {
+          "title": "\u51b0\u971c\u5f13",
+          "weapon": "weapon_085",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u7130\u5f13",
+          "weapon": "weapon_086",
+          "weight": 10
+        },
+        {
+          "title": "\u73fa\u4e4b\u5f13",
+          "weapon": "weapon_087",
+          "weight": 10
+        },
+        {
+          "title": "\u8089",
+          "weapon": "weapon_099",
+          "weight": 10
+        },
+        {
+          "title": "\u53ef\u6076\u6fc0\u5149\u67aa",
+          "weapon": "weapon_102",
+          "weight": 10
+        },
+        {
+          "title": "\u51b0\u4e4b\u6756",
+          "weapon": "weapon_117",
+          "weight": 10
+        },
+        {
+          "title": "\u5149\u4e4b\u6756",
+          "weapon": "weapon_119",
+          "weight": 10
+        },
+        {
+          "title": "\u7f51\u763e\u5c11\u5e74",
+          "weapon": "weapon_121",
+          "weight": 10
+        },
+        {
+          "title": "\u7f51\u763e\u5c11\u5973",
+          "weapon": "weapon_200",
+          "weight": 10
+        },
+        {
+          "title": "PKP",
+          "weapon": "weapon_136",
+          "weight": 10
+        },
+        {
+          "title": "\u8fde\u5c04\u9730\u5f39\u67aa",
+          "weapon": "weapon_139",
+          "weight": 10
+        },
+        {
+          "title": "\u5deb\u5e08\u6cd5\u6756",
+          "weapon": "weapon_158",
+          "weight": 10
+        },
+        {
+          "title": "\u51b0\u9525",
+          "weapon": "weapon_165",
+          "weight": 10
+        },
+        {
+          "title": "\u591a\u5f39\u5934\u5bfc\u5f39",
+          "weapon": "weapon_159",
+          "weight": 10
+        },
+        {
+          "title": "\u98ce\u4e4b\u5f13",
+          "weapon": "weapon_172",
+          "weight": 10
+        },
+        {
+          "title": "\u5f69\u8679",
+          "weapon": "weapon_173",
+          "weight": 10
+        },
+        {
+          "title": "\u5ca9\u6d46\u673a\u67aa",
+          "weapon": "weapon_024",
+          "weight": 10
+        },
+        {
+          "title": "\u51b2\u950b\u67aa M3",
+          "weapon": "weapon_179",
+          "weight": 10
+        },
+        {
+          "title": "\u5f13 Plus",
+          "weapon": "weapon_194",
+          "weight": 10
+        },
+        {
+          "title": "\u65a9\u9996\u8005",
+          "weapon": "weapon_199",
+          "weight": 10
+        },
+        {
+          "title": "\u91cd\u578b\u730e\u65a7",
+          "weapon": "weapon_207",
+          "weight": 10
+        },
+        {
+          "title": "\u51b0\u77db",
+          "weapon": "weapon_205",
+          "weight": 10
+        },
+        {
+          "title": "\u9570\u5200",
+          "weapon": "weapon_190",
+          "weight": 10
+        },
+        {
+          "title": "\u51b0\u4e0e\u706b\u4e4b\u9e70",
+          "weapon": "weapon_170",
+          "weight": 10
+        },
+        {
+          "title": "\u65e0\u5c3d\u6062\u590d\u836f\u6c34",
+          "weapon": "weapon_212",
+          "weight": 10
+        },
+        {
+          "title": "\u7535\u78c1\u72d9\u51fb\u67aa",
+          "weapon": "weapon_219",
+          "weight": 10
+        },
+        {
+          "title": "\u9668\u661f\u70ae",
+          "weapon": "weapon_234",
+          "weight": 10
+        },
+        {
+          "title": "\u7d20\u989c\u76f8\u673a",
+          "weapon": "weapon_238",
+          "weight": 10
+        },
+        {
+          "title": "\u7206\u70b8\u6218\u9524",
+          "weapon": "weapon_221",
+          "weight": 10
+        },
+        {
+          "title": "\u79bb\u5b50\u7ebf\u5708\u70ae",
+          "weapon": "weapon_261",
+          "weight": 10
+        },
+        {
+          "title": "\u836f\u4e38",
+          "weapon": "weapon_292",
+          "weight": 10
+        },
+        {
+          "title": "\u5de8\u65a7",
+          "weapon": "weapon_299",
+          "weight": 10
+        }
+      ],
+      "level": 4
+    },
+    {
+      "entries": [
+        {
+          "title": "\u9b45\u5f71",
+          "weapon": "weapon_033",
+          "weight": 10
+        },
+        {
+          "title": "\u6781\u5149",
+          "weapon": "weapon_035",
+          "weight": 10
+        },
+        {
+          "title": "\u52a0\u7279\u6797",
+          "weapon": "weapon_041",
+          "weight": 10
+        },
+        {
+          "title": "\u805a\u7206",
+          "weapon": "weapon_044",
+          "weight": 10
+        },
+        {
+          "title": "\u79bb\u5b50\u6fc0\u5149\u67aa",
+          "weapon": "weapon_046",
+          "weight": 10
+        },
+        {
+          "title": "\u5bfc\u5f39\u53d1\u5c04\u5668",
+          "weapon": "weapon_047",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u7bad\u70ae M1",
+          "weapon": "weapon_056",
+          "weight": 10
+        },
+        {
+          "title": "\u4e09\u53c9\u621f",
+          "weapon": "weapon_076",
+          "weight": 10
+        },
+        {
+          "title": "\u706b\u7130\u5251",
+          "weapon": "weapon_078",
+          "weight": 10
+        },
+        {
+          "title": "\u51b0\u971c\u5251",
+          "weapon": "weapon_079",
+          "weight": 10
+        },
+        {
+          "title": "\u82f1\u96c4\u5f13",
+          "weapon": "weapon_088",
+          "weight": 10
+        },
+        {
+          "title": "\u9b54\u6cd5\u5f13",
+          "weapon": "weapon_089",
+          "weight": 10
+        },
+        {
+          "title": "\u7bee\u7403",
+          "weapon": "weapon_096",
+          "weight": 10
+        },
+        {
+          "title": "\u8db3\u7403",
+          "weapon": "weapon_097",
+          "weight": 10
+        },
+        {
+          "title": "\u7fbd\u6bdb\u7403\u62cd",
+          "weapon": "weapon_100",
+          "weight": 10
+        },
+        {
+          "title": "\u5f29 Plus",
+          "weapon": "weapon_107",
+          "weight": 10
+        },
+        {
+          "title": "\u68a6\u5e7b",
+          "weapon": "weapon_108",
+          "weight": 10
+        },
+        {
+          "title": "\u5587\u53ed",
+          "weapon": "weapon_109",
+          "weight": 10
+        },
+        {
+          "title": "\u69b4\u5f39\u673a\u67aa",
+          "weapon": "weapon_110",
+          "weight": 10
+        },
+        {
+          "title": "\u7cbe\u81f4\u6cd5\u6756",
+          "weapon": "weapon_113",
+          "weight": 10
+        },
+        {
+          "title": "\u95ea\u7535\u6cd5\u6756",
+          "weapon": "weapon_114",
+          "weight": 10
+        },
+        {
+          "title": "\u5f39\u5c04\u72d9\u51fb\u67aa",
+          "weapon": "weapon_142",
+          "weight": 10
+        },
+        {
+          "title": "\u9a91\u58eb\u957f\u67aa",
+          "weapon": "weapon_144",
+          "weight": 10
+        },
+        {
+          "title": "\u8fde\u7eed\u8f68\u9053\u70ae",
+          "weapon": "weapon_147",
+          "weight": 10
+        },
+        {
+          "title": "\u6269\u6563\u8f68\u9053\u70ae",
+          "weapon": "weapon_148",
+          "weight": 10
+        },
+        {
+          "title": "\u8083\u6e05\u8005",
+          "weapon": "weapon_155",
+          "weight": 10
+        },
+        {
+          "title": "\u9ed1\u6d1e\u5bfc\u5f39",
+          "weapon": "weapon_160",
+          "weight": 10
+        },
+        {
+          "title": "\u624b\u69b4\u5f39",
+          "weapon": "weapon_167",
+          "weight": 10
+        },
+        {
+          "title": "\u5e7b\u5f71\u6cd5\u6756",
+          "weapon": "weapon_174",
+          "weight": 10
+        },
+        {
+          "title": "\u53cc\u53d1\u706b\u7bad\u7b52",
+          "weapon": "weapon_186",
+          "weight": 10
+        },
+        {
+          "title": "\u7ede\u8089\u673a",
+          "weapon": "weapon_198",
+          "weight": 10
+        },
+        {
+          "title": "\u6d6a\u6f6e\u6cd5\u6756",
+          "weapon": "weapon_210",
+          "weight": 10
+        },
+        {
+          "title": "\u7a81\u51fb\u6b65\u67aa Pro+",
+          "weapon": "weapon_181",
+          "weight": 10
+        },
+        {
+          "title": "\u7206\u70b8\u5f29",
+          "weapon": "weapon_220",
+          "weight": 10
+        },
+        {
+          "title": "\u96f7\u7535\u6218\u9524",
+          "weapon": "weapon_222",
+          "weight": 10
+        },
+        {
+          "title": "\u6b21\u6b21\u6b21\u65f6\u4ee3\u51b2\u950b\u67aa",
+          "weapon": "weapon_184",
+          "weight": 10
+        },
+        {
+          "title": "\u7bb1\u5b50",
+          "weapon": "weapon_242",
+          "weight": 10
+        },
+        {
+          "title": "\u517b\u5251\u846b",
+          "weapon": "weapon_270",
+          "weight": 10
+        },
+        {
+          "title": "\u6d41\u661f",
+          "weapon": "weapon_277",
+          "weight": 10
+        },
+        {
+          "title": "\u5634\u70ae",
+          "weapon": "weapon_300",
+          "weight": 10
+        }
+      ],
+      "level": 5
+    },
+    {
+      "entries": [
+        {
+          "title": "\u706b\u9f99\u6b65\u67aa",
+          "weapon": "weapon_128",
+          "weight": 10
+        },
+        {
+          "title": "\u4e00\u62f3",
+          "weapon": "weapon_135",
+          "weight": 10
+        },
+        {
+          "title": "\u6d6e\u6e38\u70ae",
+          "weapon": "weapon_137",
+          "weight": 10
+        },
+        {
+          "title": "\u956d\u5c04\u6d6e\u6e38\u70ae",
+          "weapon": "weapon_138",
+          "weight": 10
+        },
+        {
+          "title": "\u5496\u55b1\u68d2",
+          "weapon": "weapon_120",
+          "weight": 10
+        },
+        {
+          "title": "\u6c99\u866b",
+          "weapon": "weapon_131",
+          "weight": 10
+        },
+        {
+          "title": "\u74e6\u514b\u6069\u51b2\u950b\u67aa",
+          "weapon": "weapon_132",
+          "weight": 10
+        },
+        {
+          "title": "\u5999\u5999\u67aa",
+          "weapon": "weapon_240",
+          "weight": 10
+        },
+        {
+          "title": "\u8d85\u7ea7\u5927\u5b9d\u8d1d\u513f",
+          "weapon": "weapon_252",
+          "weight": 10
+        },
+        {
+          "title": "\u963f\u52aa\u6bd4\u65af\u7684\u6743\u6756",
+          "weapon": "weapon_254",
+          "weight": 10
+        },
+        {
+          "title": "\u6b7b\u661f\u956d\u5c04",
+          "weapon": "weapon_255",
+          "weight": 10
+        },
+        {
+          "title": "\u6b7b\u4ea1\u7b14\u8bb0",
+          "weapon": "weapon_276",
+          "weight": 10
+        }
+      ],
+      "level": 6
+    }
+  ]
 }

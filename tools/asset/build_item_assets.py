@@ -85,6 +85,15 @@ def main() -> int:
     for path in sorted(args.bundle.parent.rglob("*")):
         if path.is_file() and not path.name.endswith(".manifest") and path != args.bundle:
             bundle_files.append(str(path))
+    # The portal animation lives in the built-in level2 scene and its
+    # sharedassets dependencies, not the common bundle.
+    data_root = ROOT / "analysis/apktool_out/assets/bin/Data"
+    for name in ("level2", "sharedassets2.assets",
+                 "sharedassets2.assets.split0", "sharedassets2.assets.split1",
+                 "sharedassets2.assets.split2", "sharedassets2.resource"):
+        path = data_root / name
+        if path.is_file():
+            bundle_files.append(str(path))
     env = UnityPy.load(*bundle_files)
 
     game_objects = {}
@@ -96,7 +105,8 @@ def main() -> int:
         except Exception:
             continue
         name = str(getattr(data, "m_Name", ""))
-        if name in {"chest00", "coin_0", "coin_1", "coin_2"}:
+        if name in {"chest00", "chest01", "chest02",
+                    "coin_0", "coin_1", "coin_2"}:
             game_objects.setdefault(name, data)
 
     textures = {}
@@ -139,10 +149,10 @@ def main() -> int:
 
     chest_defs = []
     coin_defs = []
-    for chest_name in ["chest00"]:
+    for chest_name in ["chest00", "chest01", "chest02"]:
         go = game_objects.get(chest_name)
         if go is None:
-            raise SystemExit(f"{chest_name} GameObject missing")
+            continue
         root = None
         for component in go.m_Component:
             if component.component.type.name == "Transform":
@@ -169,15 +179,23 @@ def main() -> int:
                     "sorting_layer": int(renderer.m_SortingLayer),
                     "sorting_order": int(renderer.m_SortingOrder),
                 })
+        level = 0 if chest_name == "chest00" else int(chest_name[-1])
         chest_defs.append({
             "id": chest_name,
-            "level": 0,
+            "level": level,
             "visuals": visual_specs,
             "collider_half_extents": [0.5, 0.35],
             "collider_offset": [0.0, 0.35],
-            "loot_coin": "coin_0",
-            "loot_count": 1,
-            "evidence": "actual chest00 prefab; RGChest.level=0; coin_0 type=0 value=5",
+            "open_time": 1.0,
+            "loot_coin": "",
+            "loot_count": 0,
+            "appointed_weapon": "weapon_021" if chest_name == "chest00" else "",
+            "weapon_drop_level": level if chest_name != "chest00" else -1,
+            "evidence": (
+                "actual RGChestAppoint chest00 variant; one recovered appointed "
+                "object_list entry is weapon_021" if chest_name == "chest00" else
+                f"actual {chest_name} RGChest prefab level {level}; "
+                "RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel"),
         })
 
     # Coin animation clips: the four PPtr frames are the actual spin sequence.
@@ -246,6 +264,57 @@ def main() -> int:
             "evidence": "RGCoin serialized type/value/speed/range; actual coin_gold/silver/copper clip frames where available",
         })
 
+    # WeaponDropInfo is a serialized TextAsset in level2. RGChest.OpenChest
+    # calls WeaponDropInfo.GetWeaponWithDropLevel(level, rg_random).
+    weapon_drops = []
+    drop_path = ROOT / "analysis/apktool_out/assets/bin/Data/45fdb92750c4d1c4ca9689110800ea48"
+    if drop_path.is_file():
+        drop_env = UnityPy.load(str(drop_path))
+        for drop_obj in drop_env.objects:
+            if drop_obj.type.name != "TextAsset":
+                continue
+            drop_data = drop_obj.read()
+            if str(getattr(drop_data, "m_Name", "")) != "WeaponDropInfo":
+                continue
+            drop_doc = json.loads(drop_data.m_Script)
+            for row in drop_doc.get("level2Weapon", []):
+                weapon_drops.append({
+                    "level": int(row.get("Key", 0)),
+                    "entries": [
+                        {"weapon": entry.get("name", ""),
+                         "weight": int(entry.get("weight", 0)),
+                         "title": entry.get("title", "")}
+                        for entry in row.get("Value", [])
+                        if entry.get("name")
+                    ],
+                })
+            break
+
+    portal_defs = []
+    for obj in env.objects:
+        if obj.type.name != "AnimationClip":
+            continue
+        try:
+            clip = obj.read()
+        except Exception:
+            continue
+        if str(getattr(clip, "m_Name", "")) != "transfer_gate_02":
+            continue
+        frames = []
+        for ptr in getattr(clip.m_ClipBindingConstant, "pptrCurveMapping", []):
+            if getattr(ptr, "path_id", 0) != 0:
+                frames.append(ensure_sprite(ptr, f"portal_frame{len(frames)}"))
+        if frames:
+            portal_defs.append({
+                "id": "transfer_gate_02",
+                "frames": frames,
+                "fps": float(getattr(clip, "m_SampleRate", 12.0)),
+                "duration": float(clip.m_MuscleClip.m_StopTime),
+                "loop": True,
+                "evidence": "actual transfer_gate_02 AnimationClip sprite curve at 12 fps; level2 magic_protal2 assets",
+            })
+        break
+
     document = {
         "schema": 1,
         "tool": "tools/asset/build_item_assets.py",
@@ -258,7 +327,9 @@ def main() -> int:
         "sprites": sprites,
         "chests": chest_defs,
         "coins": coin_defs,
-        "notes": "Chest00 and RGCoin prefab metadata/sprites. Coin values/type/speed/range are serialized RGCoin fields. Chest coin loot and lid animation are native test behavior; exact RGChest loot tables remain UNKNOWN.",
+        "portals": portal_defs,
+        "weapon_drops": weapon_drops,
+        "notes": "Chest00/RGCoin prefab metadata/sprites plus the actual transfer_gate_02 portal sprite clip. Chest coin loot and lid animation are native test behavior; RGChest weapon selection and WeaponDropInfo are recovered in the 0.5.3 chest pipeline.",
     }
     args.meta.parent.mkdir(parents=True, exist_ok=True)
     args.meta.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n",
@@ -272,6 +343,8 @@ def main() -> int:
         "sprite_count": len(sprites),
         "chest_count": len(chest_defs),
         "coin_count": len(coin_defs),
+        "portal_count": len(portal_defs),
+        "weapon_drop_levels": len(weapon_drops),
         "textures": [entry["id"] for entry in texture_records],
     }
     args.manifest.parent.mkdir(parents=True, exist_ok=True)

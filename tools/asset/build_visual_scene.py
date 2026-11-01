@@ -65,8 +65,19 @@ PLAYER_BODY_SCENE_PATH = "c00/img/body"
 # weapon/weapon_XXX. Internal prefab IDs remain stable.
 WEAPON_DISPLAY_NAMES = {
     "weapon_000": "Bad Pistol",
+    "weapon_001": "P250 Pistol",
     "weapon_002": "AK-47",
+    "weapon_003": "Shotgun",
+    "weapon_004": "Shotgun Pro",
+    "weapon_007": "Snow Fox L",
+    "weapon_010": "Desert Eagle",
+    "weapon_015": "Revolver",
+    "weapon_017": "Assault Rifle",
+    "weapon_021": "Blaster",
+    "weapon_034": "Glacier",
     "weapon_048": "Next-gen SMG",
+    "weapon_049": "Next-next-gen SMG",
+    "weapon_062": "Machete",
     "weapon_287": "Revolver Gold",
 }
 
@@ -652,7 +663,7 @@ class SceneBuilder:
         # A small curated set of serialized Gun001 prefabs. The catalogue is
         # much larger; these are the first four with real textures and an
         # explicit Attack AnimationEvent. Display names are not inferred.
-        weapon_ids = ["weapon_000", "weapon_002", "weapon_048", "weapon_287"]
+        weapon_ids = ["weapon_000", "weapon_001", "weapon_002", "weapon_003", "weapon_004", "weapon_007", "weapon_010", "weapon_015", "weapon_017", "weapon_021", "weapon_034", "weapon_048", "weapon_049", "weapon_062", "weapon_287"]
         weapon_objects = {}
         for obj in self.env.objects:
             if obj.type.name != "GameObject":
@@ -1706,8 +1717,23 @@ class SceneBuilder:
                 "and map-cell boundary"),
         }
 
+        room_parts = self.room_id.split("_")
+        stage = int(room_parts[0][1:]) if room_parts and room_parts[0].startswith("r") and room_parts[0][1:].isdigit() else 0
+        number = int(room_parts[1]) if len(room_parts) > 1 and room_parts[1].isdigit() else 0
+        room_type = int(getattr(room_mb, "room_type", 0))
+        room_type_name = {0: "normal", 1: "battle", 2: "boss", 3: "shop",
+                          4: "chest", 5: "special"}.get(room_type, "unknown")
         topology = {
             "source_room": f"room/{self.room_id}",
+            "room": {
+                "type": room_type,
+                "type_name": room_type_name,
+                "stage": stage,
+                "number": number,
+                "label": f"{stage}-{number}" if stage > 0 and number > 0 else self.room_id,
+                "clear_label": "CLEARED",
+                "classification": "CONFIRMED RGRoomX.room_type; stage/number derived from recovered PatternRoom id",
+            },
             "source_wall_manager_path_id": WALL_PREFAB_MANAGER_PATH_ID,
             "create_wall": {
                 "room_width": width,
@@ -2068,6 +2094,7 @@ class SceneBuilder:
 
         return {
             "id": f"{self.room_id}_visual",
+            "room": self.topology.get("room", {}),
             "source_room": f"room/{self.room_id}",
             "source_player": "common/c00",
             "spawn": [spawn[0], spawn[1]],

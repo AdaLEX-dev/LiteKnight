@@ -114,10 +114,28 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         gos[obj.path_id] = {
             "name": data.m_Name, "transform": tr, "father": father,
             "local": local, "rotation": rotation, "scale": scale,
+            "active": bool(getattr(data, "m_IsActive", True)),
             "game_object": obj,
         }
         if tr:
             tr_to_go[tr] = obj.path_id
+
+    def active_chain(pid):
+        cur = pid
+        seen = set()
+        while cur in gos and cur not in seen:
+            seen.add(cur)
+            if not gos[cur].get("active", True):
+                return False
+            cur = tr_to_go.get(gos[cur]["father"], 0)
+        return True
+
+    event_tokens = ("halloween", "chinesenewyear", "newyear", "christmas",
+                    "festival", "event_", "_event", "snow", "firework")
+
+    def event_path(p):
+        low = p.lower()
+        return any(token in low for token in event_tokens)
 
     def path(pid):
         parts = []
@@ -253,6 +271,8 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             # The recovered carpet renderer is a near-opaque dark overlay whose
             # mask/material stack is not reconstructed; skip the void-like quad.
             continue
+        if not active_chain(pid) or event_path(p):
+            continue
         data = g["game_object"].read()
         pos, rot, scale = world_transform(pid, gos, tr_to_go)
         for comp in data.m_Component:
@@ -287,6 +307,7 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
     # recovered floor/wall/garden/light tile layout, not a painted mockup.
     tile_count = 0
     floor_tile_sprite = None
+    wall_cell_solids = []
     for obj in objects:
         if obj.type.name != "Tilemap":
             continue
@@ -306,6 +327,10 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         p = path(go_id)
         if p.startswith("room_tilemap_blackedge"):
             # Black-edge/mask tilemap stack; see SpriteRenderer skip above.
+            continue
+        if not active_chain(go_id) or event_path(p):
+            # Event tilemaps (for example chinesenewyear_wall_lobby) are
+            # inactive in the default HeroRoom scene and must not be baked.
             continue
         pos, rot, scale = world_transform(go_id, gos, tr_to_go)
         tilemap = obj.read()
@@ -333,9 +358,11 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                 floor_tile_sprite = sid
             bx = float(tile_pos.x) + 0.5
             by = float(tile_pos.y) + 0.5
+            tile_x = pos[0] + bx * scale[0]
+            tile_y = pos[1] + by * scale[1]
             instances.append({
                 "sprite": sid,
-                "position": [pos[0] + bx * scale[0], pos[1] + by * scale[1]],
+                "position": [tile_x, tile_y],
                 "rotation": rot,
                 "scale": [scale[0], scale[1]],
                 "color": [255, 255, 255, 255],
@@ -346,21 +373,44 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                 "flip_y": False,
                 "path": p + "/tile",
             })
+            # Wall tilemaps are the actual physical wall layout. Convert each
+            # wall cell into a solid so openings in the reference tile map are
+            # traversable without the giant polygon-AABB blockers that made the
+            # garden/workshop/cellar unreachable.
+            if "/wall" in p or "gate_lobby" in p:
+                half_x = abs(float(scale[0])) * 0.5
+                half_y = abs(float(scale[1])) * 0.5
+                wall_cell_solids.append([tile_x - half_x, tile_y - half_y,
+                                         tile_x + half_x, tile_y + half_y])
             tile_count += 1
 
-    colliders = []
+    colliders = list(wall_cell_solids)
     for pid, g in gos.items():
         p = path(pid)
         if not p or p.startswith(("Canvas", "EventSystem", "gamemanager", "Main Camera")):
             continue
-        if "/Canvas" in p:
+        if "/Canvas" in p or "/masks/" in p:
+            continue
+        if not active_chain(pid) or event_path(p):
+            continue
+        # Progression locks and portal triggers are intentionally open in the
+        # explorable hub; their visual objects remain rendered.
+        if any(token in p for token in (
+                "cellar_lock_obstacle", "cellar_obstacle",
+                "magic_protal", "transfer_gate")):
             continue
         pos, rot, scale = world_transform(pid, gos, tr_to_go)
         data = g["game_object"].read()
         for comp in data.m_Component:
             t = comp.component.type.name
-            if t not in ("BoxCollider2D", "CircleCollider2D", "PolygonCollider2D",
-                         "CompositeCollider2D"):
+            if t not in ("BoxCollider2D", "CircleCollider2D",
+                         "PolygonCollider2D", "CompositeCollider2D"):
+                continue
+            if t in ("PolygonCollider2D", "CompositeCollider2D"):
+                # Composite wall polygons are often huge L-shaped outlines.
+                # Their AABB would seal the whole room; wall tile cells now
+                # provide the physical boundary. Small polygon furniture is
+                # still covered by its sibling BoxCollider2D.
                 continue
             try:
                 col = comp.component.read()
@@ -504,18 +554,27 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         print("floor fill skipped:", exc)
 
     markers = [
-        {"id": "character_station", "kind": "character",
+        {"id": "character_station", "kind": "character", "label": "CHARACTER STATION",
          "position": [0.0, 50.0], "radius": 3.0},
-        {"id": "forge_station", "kind": "forge",
+        {"id": "forge_station", "kind": "forge", "label": "WEAPON WORKSHOP",
          "position": [28.0, -11.0], "radius": 3.5},
-        {"id": "garden_station", "kind": "garden",
+        {"id": "garden_station", "kind": "garden", "label": "PLANTER GARDEN",
          "position": [-26.0, 0.0], "radius": 4.0},
-        {"id": "hub_door", "kind": "door",
+        {"id": "hub_door", "kind": "door", "label": "DUNGEON",
          "position": [0.0, 7.5], "radius": 3.0},
     ]
 
     scene = {
         "id": "hero_room",
+        "room": {
+            "type": -1,
+            "type_name": "hub",
+            "stage": 0,
+            "number": 0,
+            "label": "LIVING ROOM",
+            "clear_label": "",
+            "classification": "CONFIRMED HeroRoom scene; hub label is a native presentation name",
+        },
         "spawn": spawn,
         "camera": {"position": spawn, "orthographic_size": 10.0},
         "textures": textures,
@@ -540,8 +599,9 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             "scene": "Assets/_RGScene/HeroRoom.unity",
             "level_file": "assets/bin/Data/level2",
             "classification": (
-                "CONFIRMED HeroRoom tilemaps/SpriteRenderers/colliders; "
-                "spawn and interaction markers are native development choices"
+                "CONFIRMED HeroRoom tilemaps/SpriteRenderers/default active "
+                "state and wall-tile collision; spawn, interaction markers "
+                "and progression-lock removal are native development choices"
             ),
         },
     }

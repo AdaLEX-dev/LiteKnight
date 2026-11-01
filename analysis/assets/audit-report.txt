@@ -7,9 +7,9 @@ count characters: 15
 count doors: 4
 count enemies: 1
 count obstacle_variants: 12
-count sprites: 182
+count sprites: 196
 count textures: 14
-count weapons: 4
+count weapons: 15
 WARNING: 14 texture records are local_only (expected for reference-derived pixels)
 UNRECOVERABLE: categories with no native representation are listed in asset_inventory.json
 UNKNOWN: reference save format, UI flow and many MonoBehaviour behaviours

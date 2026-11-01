@@ -15075,6 +15075,15 @@
     "speed": 6.5,
     "speed_rate": 0.5
   },
+  "room": {
+    "classification": "CONFIRMED RGRoomX.room_type; stage/number derived from recovered PatternRoom id",
+    "clear_label": "CLEARED",
+    "label": "1-3",
+    "number": 3,
+    "stage": 1,
+    "type": 1,
+    "type_name": "battle"
+  },
   "source_player": "common/c00",
   "source_room": "room/r1_3",
   "spawn": [
@@ -16486,6 +16495,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_107_-6777473861087044728",
+      "pivot": [
+        0.0,
+        0.4000000059604645
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        104.0,
+        112.0,
+        12.0,
+        7.0
+      ],
+      "source_name": "weapons_107",
+      "source_pivot": [
+        0.0,
+        0.4000000059604645
+      ],
+      "source_rect": [
+        134.0,
+        246.0,
+        12.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        104.0,
+        393.0,
+        12.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-6777473861087044728",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "bullet_34_-4649028297119661206",
       "pivot": [
         0.5,
@@ -16576,6 +16630,51 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_33_2476742112687823573",
+      "pivot": [
+        0.25,
+        0.3499999940395355
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        173.0,
+        26.0,
+        8.0
+      ],
+      "source_name": "weapons_33",
+      "source_pivot": [
+        0.25,
+        0.3499999940395355
+      ],
+      "source_rect": [
+        190.0,
+        235.0,
+        26.0,
+        8.0
+      ],
+      "source_texture_rect": [
+        0.0,
+        331.0,
+        26.0,
+        8.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "2476742112687823573",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "bullet_33_-5031097994251344653",
       "pivot": [
         0.5,
@@ -16621,6 +16720,366 @@
         0.0
       ],
       "filter": "point",
+      "id": "weapons_12_-1253577901244276649",
+      "pivot": [
+        0.3799999952316284,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        256.0,
+        272.0,
+        24.0,
+        11.0
+      ],
+      "source_name": "weapons_12",
+      "source_pivot": [
+        0.3799999952316284,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        70.0,
+        220.0,
+        24.0,
+        11.0
+      ],
+      "source_texture_rect": [
+        256.0,
+        229.0,
+        24.0,
+        11.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-1253577901244276649",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "bullet_8_5311241221596752859",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        574.0,
+        27.0,
+        21.0,
+        9.0
+      ],
+      "source_name": "bullet_8",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        30.0,
+        92.0,
+        21.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        574.0,
+        476.0,
+        21.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "5311241221596752859",
+      "texture": "auto_atlas_m304717225150204165",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_22_2664954205727445414",
+      "pivot": [
+        0.0,
+        0.3499999940395355
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        265.0,
+        197.0,
+        15.0,
+        9.0
+      ],
+      "source_name": "weapons_22",
+      "source_pivot": [
+        0.0,
+        0.3499999940395355
+      ],
+      "source_rect": [
+        128.0,
+        210.0,
+        15.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        265.0,
+        306.0,
+        15.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "2664954205727445414",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_23_2140902389170920830",
+      "pivot": [
+        0.0,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        69.0,
+        120.0,
+        16.0,
+        9.0
+      ],
+      "source_name": "weapons_23",
+      "source_pivot": [
+        0.0,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        145.0,
+        210.0,
+        16.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        69.0,
+        383.0,
+        16.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "2140902389170920830",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_42_-6471115228310169729",
+      "pivot": [
+        0.25,
+        0.4000000059604645
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        115.0,
+        258.0,
+        22.0,
+        10.0
+      ],
+      "source_name": "weapons_42",
+      "source_pivot": [
+        0.25,
+        0.4000000059604645
+      ],
+      "source_rect": [
+        189.0,
+        245.0,
+        22.0,
+        10.0
+      ],
+      "source_texture_rect": [
+        115.0,
+        244.0,
+        22.0,
+        10.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-6471115228310169729",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "bullet_38_-6359317633577347725",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        960.0,
+        208.0,
+        20.0,
+        13.0
+      ],
+      "source_name": "bullet_38",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        30.0,
+        66.0,
+        20.0,
+        13.0
+      ],
+      "source_texture_rect": [
+        960.0,
+        291.0,
+        20.0,
+        13.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-6359317633577347725",
+      "texture": "auto_atlas_m304717225150204165",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_46_-7216392205764568236",
+      "pivot": [
+        0.2800000011920929,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        375.0,
+        471.0,
+        26.0,
+        12.0
+      ],
+      "source_name": "weapons_46",
+      "source_pivot": [
+        0.2800000011920929,
+        0.5
+      ],
+      "source_rect": [
+        112.0,
+        167.0,
+        26.0,
+        12.0
+      ],
+      "source_texture_rect": [
+        375.0,
+        29.0,
+        26.0,
+        12.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-7216392205764568236",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_3_-482875823195478162",
+      "pivot": [
+        0.25,
+        0.4000000059604645
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        285.0,
+        307.0,
+        29.0,
+        9.0
+      ],
+      "source_name": "weapons_3",
+      "source_pivot": [
+        0.25,
+        0.4000000059604645
+      ],
+      "source_rect": [
+        75.0,
+        246.0,
+        29.0,
+        9.0
+      ],
+      "source_texture_rect": [
+        285.0,
+        196.0,
+        29.0,
+        9.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-482875823195478162",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "weapons_120_1378400027513746796",
       "pivot": [
         0.3499999940395355,
@@ -16655,6 +17114,186 @@
         0.0
       ],
       "sprite_path_id": "1378400027513746796",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "bullet_32_-4002566770083445850",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        456.0,
+        276.0,
+        20.0,
+        7.0
+      ],
+      "source_name": "bullet_32",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        4.0,
+        98.0,
+        20.0,
+        7.0
+      ],
+      "source_texture_rect": [
+        456.0,
+        229.0,
+        20.0,
+        7.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-4002566770083445850",
+      "texture": "auto_atlas_m304717225150204165",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_121_-515314976885372310",
+      "pivot": [
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        375.0,
+        485.0,
+        27.0,
+        12.0
+      ],
+      "source_name": "weapons_121",
+      "source_pivot": [
+        0.3499999940395355,
+        0.4000000059604645
+      ],
+      "source_rect": [
+        57.0,
+        149.0,
+        27.0,
+        12.0
+      ],
+      "source_texture_rect": [
+        375.0,
+        15.0,
+        27.0,
+        12.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "-515314976885372310",
+      "texture": "auto_atlas_m7138671102567859681",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "bullet_54_785546683114399763",
+      "pivot": [
+        0.4071238643901911,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        931.012939453125,
+        273.0,
+        26.98708724975586,
+        32.0
+      ],
+      "source_name": "bullet_54",
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "source_rect": [
+        5.0,
+        210.0,
+        32.0,
+        32.0
+      ],
+      "source_texture_rect": [
+        931.012939453125,
+        207.0,
+        26.98708724975586,
+        32.0
+      ],
+      "source_texture_rect_offset": [
+        5.012912750244141,
+        0.0
+      ],
+      "sprite_path_id": "785546683114399763",
+      "texture": "auto_atlas_m304717225150204165",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "weapons_62_3757475065905686357",
+      "pivot": [
+        0.20000000298023224,
+        0.44999998807907104
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        93.0,
+        160.0,
+        21.0,
+        8.0
+      ],
+      "source_name": "weapons_62",
+      "source_pivot": [
+        0.20000000298023224,
+        0.44999998807907104
+      ],
+      "source_rect": [
+        181.0,
+        113.0,
+        21.0,
+        8.0
+      ],
+      "source_texture_rect": [
+        93.0,
+        344.0,
+        21.0,
+        8.0
+      ],
+      "source_texture_rect_offset": [
+        0.0,
+        0.0
+      ],
+      "sprite_path_id": "3757475065905686357",
       "texture": "auto_atlas_m7138671102567859681",
       "wrap": "clamp"
     },
@@ -27321,6 +27960,15 @@
         ]
       }
     ],
+    "room": {
+      "classification": "CONFIRMED RGRoomX.room_type; stage/number derived from recovered PatternRoom id",
+      "clear_label": "CLEARED",
+      "label": "1-3",
+      "number": 3,
+      "stage": 1,
+      "type": 1,
+      "type_name": "battle"
+    },
     "room_center": [
       20.0,
       20.5
@@ -27571,6 +28219,7 @@
       "consume": 0,
       "damage": 3,
       "deviation": 5,
+      "display_name": "Bad Pistol",
       "first_shot_delay_seconds": 0.03333333507180214,
       "id": "weapon_000",
       "muzzle_offset": [
@@ -27608,8 +28257,55 @@
       ],
       "visual_rotation": 0.0,
       "visual_sprite": "weapons_19_-4519551836381203921",
-      "weapon_speed": 1.0,
-      "display_name": "Bad Pistol"
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.2777777750183036,
+      "bullet_speed": 42.0,
+      "classification": "CONFIRMED weapon_001/Gun001 serialized fields; first Attack state w_pistol; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 0,
+      "damage": 3,
+      "deviation": 5,
+      "display_name": "P250 Pistol",
+      "first_shot_delay_seconds": 0.027777778122712052,
+      "id": "weapon_001",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_0/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.25,
+          0.0
+        ],
+        "collider_size": [
+          0.5,
+          0.4000000059604645
+        ],
+        "id": "bullet_0",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_5_-4268214305387315619"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_107_-6777473861087044728",
+      "weapon_speed": 1.2000000476837158
     },
     {
       "atk_move_speed": -0.10000000149011612,
@@ -27619,6 +28315,7 @@
       "consume": 1,
       "damage": 3,
       "deviation": 10,
+      "display_name": "AK-47",
       "first_shot_delay_seconds": 0.06666667014360428,
       "id": "weapon_002",
       "muzzle_offset": [
@@ -27656,8 +28353,391 @@
       ],
       "visual_rotation": 0.0,
       "visual_sprite": "weapons_21_-7468549729405344503",
-      "weapon_speed": 1.0,
-      "display_name": "AK-47"
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.8333333002196431,
+      "bullet_speed": 36.0,
+      "classification": "CONFIRMED weapon_003/Gun001 serialized fields; first Attack state w_rifle; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 3,
+      "damage": 3,
+      "deviation": 25,
+      "display_name": "Shotgun",
+      "first_shot_delay_seconds": 0.027777778122712052,
+      "id": "weapon_003",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_14/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.4000000059604645,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_14",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_34_-4649028297119661206"
+      },
+      "repel": 5,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_33_2476742112687823573",
+      "weapon_speed": 1.2000000476837158
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.8333333002196431,
+      "bullet_speed": 40.0,
+      "classification": "CONFIRMED weapon_004/Gun001 serialized fields; first Attack state w_rifle; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 4,
+      "damage": 3,
+      "deviation": 15,
+      "display_name": "Shotgun Pro",
+      "first_shot_delay_seconds": 0.027777778122712052,
+      "id": "weapon_004",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_14/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.4000000059604645,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_14",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_34_-4649028297119661206"
+      },
+      "repel": 4,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_33_2476742112687823573",
+      "weapon_speed": 1.2000000476837158
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.1666666716337204,
+      "bullet_speed": 40.0,
+      "classification": "CONFIRMED weapon_007/Gun001 serialized fields; first Attack state w_m4; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 0,
+      "damage": 2,
+      "deviation": 10,
+      "display_name": "Snow Fox L",
+      "first_shot_delay_seconds": 0.06666667014360428,
+      "id": "weapon_007",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_11/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.4000000059604645,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_11",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_33_-5031097994251344653"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_12_-1253577901244276649",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.3333333432674408,
+      "bullet_speed": 42.0,
+      "classification": "CONFIRMED weapon_010/Gun001 serialized fields; first Attack state w_pistol; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 1,
+      "damage": 4,
+      "deviation": 3,
+      "display_name": "Desert Eagle",
+      "first_shot_delay_seconds": 0.03333333507180214,
+      "id": "weapon_010",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_1/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.30000001192092896,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_1",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_8_5311241221596752859"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_22_2664954205727445414",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 1.0,
+      "bullet_speed": 42.0,
+      "classification": "CONFIRMED weapon_015/Gun001 serialized fields; first Attack state w_rifle; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 3,
+      "damage": 8,
+      "deviation": 3,
+      "display_name": "Revolver",
+      "first_shot_delay_seconds": 0.03333333507180214,
+      "id": "weapon_015",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_14/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.4000000059604645,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_14",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_34_-4649028297119661206"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_23_2140902389170920830",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.1666666716337204,
+      "bullet_speed": 38.0,
+      "classification": "CONFIRMED weapon_017/Gun001 serialized fields; first Attack state w_m4; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 1,
+      "damage": 3,
+      "deviation": 10,
+      "display_name": "Assault Rifle",
+      "first_shot_delay_seconds": 0.06666667014360428,
+      "id": "weapon_017",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_0/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.25,
+          0.0
+        ],
+        "collider_size": [
+          0.5,
+          0.4000000059604645
+        ],
+        "id": "bullet_0",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_5_-4268214305387315619"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_42_-6471115228310169729",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.1666666716337204,
+      "bullet_speed": 35.0,
+      "classification": "CONFIRMED weapon_021/Gun001 serialized fields; first Attack state w_m4; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 1,
+      "damage": 3,
+      "deviation": 7,
+      "display_name": "Blaster",
+      "first_shot_delay_seconds": 0.06666667014360428,
+      "id": "weapon_021",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_15/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.0,
+          0.0
+        ],
+        "collider_size": [
+          1.0,
+          0.5
+        ],
+        "id": "bullet_15",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_38_-6359317633577347725"
+      },
+      "repel": 3,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_46_-7216392205764568236",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.10000000149011612,
+      "attack_cycle_seconds": 0.8333333002196431,
+      "bullet_speed": 55.0,
+      "classification": "CONFIRMED weapon_034/Gun001 serialized fields; first Attack state w_rifle; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 4,
+      "damage": 10,
+      "deviation": 2,
+      "display_name": "Glacier",
+      "first_shot_delay_seconds": 0.027777778122712052,
+      "id": "weapon_034",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_2/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.30000001192092896,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_2",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_8_5311241221596752859"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 999,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_3_-482875823195478162",
+      "weapon_speed": 1.2000000476837158
     },
     {
       "atk_move_speed": -0.20000000298023224,
@@ -27667,6 +28747,7 @@
       "consume": 1,
       "damage": 3,
       "deviation": 5,
+      "display_name": "Next-gen SMG",
       "first_shot_delay_seconds": 0.03333333507180214,
       "id": "weapon_048",
       "muzzle_offset": [
@@ -27704,8 +28785,103 @@
       ],
       "visual_rotation": 0.0,
       "visual_sprite": "weapons_120_1378400027513746796",
-      "weapon_speed": 1.0,
-      "display_name": "Next-gen SMG"
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": -0.20000000298023224,
+      "attack_cycle_seconds": 0.5,
+      "bullet_speed": 36.0,
+      "classification": "CONFIRMED weapon_049/Gun001 serialized fields; first Attack state w_smg; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 2,
+      "damage": 2,
+      "deviation": 8,
+      "display_name": "Next-next-gen SMG",
+      "first_shot_delay_seconds": 0.03333333507180214,
+      "id": "weapon_049",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": true,
+        "classification": "CONFIRMED bullet_12/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.4000000059604645,
+          0.0
+        ],
+        "collider_size": [
+          0.4000000059604645,
+          0.4000000059604645
+        ],
+        "id": "bullet_12",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_32_-4002566770083445850"
+      },
+      "repel": 2,
+      "size": 1.0,
+      "sorting_layer": 5,
+      "sorting_order": 1,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.0,
+      "visual_sprite": "weapons_121_-515314976885372310",
+      "weapon_speed": 1.0
+    },
+    {
+      "atk_move_speed": 0.0,
+      "attack_cycle_seconds": 0.5,
+      "bullet_speed": 0.0,
+      "classification": "CONFIRMED weapon_062/Gun001 serialized fields; first Attack state w_sword_inverse; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
+      "consume": 0,
+      "damage": 6,
+      "deviation": 0,
+      "display_name": "Machete",
+      "first_shot_delay_seconds": 0.06666667014360428,
+      "id": "weapon_062",
+      "muzzle_offset": [
+        0.6,
+        0.15
+      ],
+      "owner_deviation": 0,
+      "projectile": {
+        "camp": 1,
+        "can_rebound": false,
+        "classification": "CONFIRMED sword_1_75/Bullet01 prefab; prefab speed overridden by weapon BulletInfo",
+        "collider_offset": [
+          0.25,
+          0.0
+        ],
+        "collider_size": [
+          0.5,
+          0.4
+        ],
+        "id": "sword_1_75",
+        "lifetime": 5.0,
+        "prefab_speed": 10.0,
+        "sorting_layer": 6,
+        "sorting_order": 0,
+        "sprite": "bullet_54_785546683114399763"
+      },
+      "repel": 2,
+      "size": 1.75,
+      "sorting_layer": 5,
+      "sorting_order": 2,
+      "through": 0,
+      "visual_offset": [
+        0.0,
+        0.0
+      ],
+      "visual_rotation": 0.7071068286895752,
+      "visual_sprite": "weapons_62_3757475065905686357",
+      "weapon_speed": 1.0
     },
     {
       "atk_move_speed": 0.10000000149011612,
@@ -27715,6 +28891,7 @@
       "consume": 1,
       "damage": 4,
       "deviation": 3,
+      "display_name": "Revolver Gold",
       "first_shot_delay_seconds": 0.03333333507180214,
       "id": "weapon_287",
       "muzzle_offset": [
@@ -27752,8 +28929,7 @@
       ],
       "visual_rotation": 0.0,
       "visual_sprite": "weapons4_10_9068103689744152087",
-      "weapon_speed": 1.0,
-      "display_name": "Revolver Gold"
+      "weapon_speed": 1.0
     }
   ]
 }

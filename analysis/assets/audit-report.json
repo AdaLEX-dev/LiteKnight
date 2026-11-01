@@ -5,9 +5,9 @@
     "doors": 4,
     "enemies": 1,
     "obstacle_variants": 12,
-    "sprites": 182,
+    "sprites": 196,
     "textures": 14,
-    "weapons": 4
+    "weapons": 15
   },
   "errors": [],
   "inventory": "analysis/assets/asset_inventory.json",

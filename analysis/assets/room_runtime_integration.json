@@ -1,0 +1,769 @@
+{
+  "schema": 1,
+  "counts": {
+    "pattern_rooms_discovered": 108,
+    "rooms_integrated": 3,
+    "rooms_classified": 3,
+    "rooms_with_correct_textures": 3,
+    "rooms_with_metadata": 3,
+    "rooms_with_map_icons": 3
+  },
+  "rooms": [
+    {
+      "id": "r1_1",
+      "integrated": true,
+      "type": 1,
+      "label": "1-1",
+      "textures": 14
+    },
+    {
+      "id": "r1_2",
+      "integrated": true,
+      "type": 1,
+      "label": "1-2",
+      "textures": 14
+    },
+    {
+      "id": "r1_3",
+      "integrated": true,
+      "type": 1,
+      "label": "1-3",
+      "textures": 14
+    },
+    {
+      "id": "r1_4",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_5",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_6",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_7",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_8",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_9",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_10",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_11",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_12",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_13",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_14",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_15",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_16",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_17",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_18",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_19",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_20",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_21",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_22",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_23",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_24",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_25",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_26",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_27",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_28",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_29",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_30",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_31",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_32",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_33",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_34",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_35",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_36",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_37",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_38",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_39",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_40",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_41",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_42",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_43",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_44",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_45",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_46",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_47",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_48",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_49",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_50",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_51",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_52",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_53",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_54",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_55",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_56",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_57",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_58",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_59",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_60",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_61",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_62",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_63",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_64",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_65",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_66",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_67",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_68",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_69",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_70",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_71",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_72",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_73",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_74",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_75",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_76",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_77",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_78",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_79",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_80",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_81",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_82",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_83",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_84",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_85",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_86",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_87",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_88",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_89",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_90",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_91",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_92",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_93",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_94",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_95",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_96",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_97",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_98",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_99",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_100",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_101",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_102",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_103",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_104",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_105",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_106",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_107",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    },
+    {
+      "id": "r1_108",
+      "integrated": false,
+      "type": null,
+      "label": null,
+      "textures": 0
+    }
+  ]
+}

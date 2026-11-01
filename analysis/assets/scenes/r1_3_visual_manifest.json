@@ -1857,7 +1857,7 @@
     "speed": 6.5,
     "speed_rate": 0.5
   },
-  "scene_json_sha256": "619f37db863f8b3a3da2a5227c9c7afdf285f70713c591c42fd5c8fd1ee7f382",
+  "scene_json_sha256": "1b59fda104847b96e4d5448e5b8e5c3d54e05287bcd18373a173ecb141515bef",
   "scene_metadata": "analysis/assets/scenes/r1_3_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -1871,7 +1871,7 @@
     20.0,
     15.0
   ],
-  "sprite_count": 182,
+  "sprite_count": 196,
   "textures": [
     {
       "filter": "point",
@@ -2105,5 +2105,5 @@
     "wall_map_txt": "analysis/re/r1_3_wall_map.txt"
   },
   "unitypy_version": "1.25.4",
-  "weapon_count": 4
+  "weapon_count": 15
 }

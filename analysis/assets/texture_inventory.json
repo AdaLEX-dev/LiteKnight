@@ -1,13 +1,13 @@
 {
   "note": "Metadata/provenance only. No proprietary pixels are stored here.",
   "scene": "analysis/assets/scenes/r1_1_visual.json",
-  "scene_sha256": "6a605ec160b803ccdd36f6e1039e7b2642805c5a19c98a67f8a9cc9170dd1ebc",
+  "scene_sha256": "688ef228d121f022fdedc21122318a2afcc360ce3bbfe5dec75673b9132d556d",
   "schema": 1,
   "summary": {
     "redistribution_allowed": 0,
     "redistribution_local_only": 14,
     "redistribution_unknown": 0,
-    "sprites_integrated": 182,
+    "sprites_integrated": 196,
     "sprites_observed_in_reference": 6408,
     "textures_integrated": 14,
     "textures_observed_in_reference": 365
@@ -200,7 +200,7 @@
           1024,
           512
         ],
-        "sprite_count": 5
+        "sprite_count": 9
       },
       "dimensions": [
         1024,
@@ -225,12 +225,16 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
       "source_path_id": "-304717225150204165",
-      "sprite_count": 5,
+      "sprite_count": 9,
       "sprite_ids": [
         "texiao_01_787116191094815950",
         "bullet_5_-4268214305387315619",
         "bullet_34_-4649028297119661206",
         "bullet_33_-5031097994251344653",
+        "bullet_8_5311241221596752859",
+        "bullet_38_-6359317633577347725",
+        "bullet_32_-4002566770083445850",
+        "bullet_54_785546683114399763",
         "biaoqing_11_6962225712603698694"
       ],
       "status": "INTEGRATED",
@@ -243,7 +247,7 @@
           512,
           512
         ],
-        "sprite_count": 4
+        "sprite_count": 14
       },
       "dimensions": [
         512,
@@ -268,11 +272,21 @@
       "source_bundle": "common",
       "source_name": "SpriteAtlasTexture-weapon (Group 0)-512x512-fmt13",
       "source_path_id": "-7138671102567859681",
-      "sprite_count": 4,
+      "sprite_count": 14,
       "sprite_ids": [
         "weapons_19_-4519551836381203921",
+        "weapons_107_-6777473861087044728",
         "weapons_21_-7468549729405344503",
+        "weapons_33_2476742112687823573",
+        "weapons_12_-1253577901244276649",
+        "weapons_22_2664954205727445414",
+        "weapons_23_2140902389170920830",
+        "weapons_42_-6471115228310169729",
+        "weapons_46_-7216392205764568236",
+        "weapons_3_-482875823195478162",
         "weapons_120_1378400027513746796",
+        "weapons_121_-515314976885372310",
+        "weapons_62_3757475065905686357",
         "weapons_32_-9085461350947652706"
       ],
       "status": "INTEGRATED",
