@@ -1,9 +1,9 @@
 {
   "counts": {
     "catalogue_entries": 302,
-    "tier_a_fully_integrated": 15,
-    "tier_b_standard_stats_pending_assets": 281,
-    "tier_c_unique_mechanic_or_non_bullet": 6
+    "tier_a_fully_integrated": 168,
+    "tier_b_melee_pending": 49,
+    "tier_c_unique_or_catalogue_only": 85
   },
   "note": "Tier A means the weapon is loaded by the native WeaponRegistry and can spawn, fire, be picked up and appear in the weapon station.",
   "scene": "analysis/assets/scenes/r1_1_visual.json",
@@ -16,7 +16,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_000",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -25,7 +25,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_001",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -34,7 +34,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_002",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -43,7 +43,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_003",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -52,7 +52,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_004",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -61,8 +61,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_005",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -70,8 +70,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_006",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -79,7 +79,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_007",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -88,8 +88,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_008",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -97,8 +97,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_009",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -106,7 +106,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_010",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -115,8 +115,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_011",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -124,8 +124,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_012",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -133,8 +133,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_013",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -142,8 +142,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_014",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -151,7 +151,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_015",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -160,8 +160,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_016",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -169,7 +169,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_017",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -178,8 +178,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_018",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -187,8 +187,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_019",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -196,8 +196,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_020",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -205,7 +205,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_021",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -214,8 +214,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_022",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -223,8 +223,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_023",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -232,8 +232,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_024",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -241,8 +241,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_025",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -250,8 +250,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_026",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -259,8 +259,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_027",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -268,8 +268,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_028",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -277,8 +277,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_029",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -286,8 +286,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_030",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -295,8 +295,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_031",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -304,8 +304,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_032",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 25,
@@ -313,8 +313,8 @@
       "energy_cost": 9,
       "has_stats": true,
       "id": "weapon_033",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -322,7 +322,7 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_034",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -331,8 +331,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_035",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -340,8 +340,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_036",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -349,8 +349,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_037",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -358,8 +358,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_038",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -367,8 +367,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_039",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -376,8 +376,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_040",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -385,8 +385,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_041",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -394,8 +394,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_042",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 15,
@@ -403,8 +403,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_043",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 16,
@@ -412,8 +412,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_044",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -421,8 +421,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_045",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -430,8 +430,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_046",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 2,
@@ -439,8 +439,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_047",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -448,7 +448,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_048",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -457,7 +457,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_049",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -466,8 +466,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_050",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -475,8 +475,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_051",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -484,8 +484,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_052",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -493,8 +493,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_053",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -502,8 +502,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_054",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 2,
@@ -511,8 +511,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_055",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 16,
@@ -520,8 +520,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_056",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -529,8 +529,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_057",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -538,8 +538,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_058",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -547,8 +547,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_059",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -556,8 +556,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_060",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -565,8 +565,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_061",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -574,8 +574,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_062",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
-      "tier": "A"
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
+      "tier": "B"
     },
     {
       "damage": 12,
@@ -583,7 +583,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_063",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -592,7 +592,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_064",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -601,7 +601,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_065",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -610,7 +610,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_066",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -619,7 +619,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_067",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -628,7 +628,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_068",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -637,7 +637,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_069",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -646,8 +646,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_070",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 13,
@@ -655,7 +655,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_071",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -664,7 +664,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_072",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -673,7 +673,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_073",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -682,7 +682,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_074",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -691,7 +691,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_075",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -700,8 +700,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_076",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -709,8 +709,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_077",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -718,8 +718,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_078",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -727,8 +727,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_079",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -736,8 +736,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_080",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -745,8 +745,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_081",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -754,8 +754,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_082",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -763,8 +763,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_083",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -772,8 +772,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_084",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -781,8 +781,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_085",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -790,8 +790,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_086",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -799,8 +799,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_087",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -808,8 +808,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_088",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 2,
@@ -817,8 +817,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_089",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 5,
@@ -826,8 +826,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_090",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -835,8 +835,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_091",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -844,8 +844,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_092",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -853,8 +853,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_093",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 2,
@@ -862,8 +862,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_094",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 1,
@@ -871,8 +871,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_095",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -880,8 +880,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_096",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -889,8 +889,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_097",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -898,8 +898,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_098",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -907,7 +907,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_099",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -916,8 +916,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_100",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -925,8 +925,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_101",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 5,
@@ -934,8 +934,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_102",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -943,8 +943,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_103",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -952,8 +952,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_104",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 6,
@@ -961,8 +961,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_105",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -970,8 +970,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_106",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 15,
@@ -979,8 +979,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_107",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -988,8 +988,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_108",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 1,
@@ -997,8 +997,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_109",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1006,8 +1006,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_110",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1015,8 +1015,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_111",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1024,8 +1024,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_112",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -1033,8 +1033,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_113",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -1042,8 +1042,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_114",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1051,8 +1051,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_115",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 0,
@@ -1060,8 +1060,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_116",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -1069,8 +1069,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_117",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1078,8 +1078,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_118",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1087,8 +1087,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_119",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -1096,8 +1096,8 @@
       "energy_cost": 20,
       "has_stats": true,
       "id": "weapon_120",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -1105,8 +1105,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_121",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 8,
@@ -1114,8 +1114,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_122",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 10,
@@ -1123,8 +1123,8 @@
       "energy_cost": 9,
       "has_stats": true,
       "id": "weapon_123",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 10,
@@ -1132,7 +1132,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_124",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1141,8 +1141,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_125",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1150,8 +1150,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_126",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1159,7 +1159,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_127",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1168,8 +1168,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_128",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1177,8 +1177,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_129",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -1186,8 +1186,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_130",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1195,8 +1195,8 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_131",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1204,8 +1204,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_132",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -1213,7 +1213,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_133",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1222,8 +1222,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_134",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 999,
@@ -1231,7 +1231,7 @@
       "energy_cost": 99,
       "has_stats": true,
       "id": "weapon_135",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1240,8 +1240,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_136",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1249,8 +1249,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_137",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1258,8 +1258,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_138",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1267,8 +1267,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_139",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1276,8 +1276,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_140",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1285,8 +1285,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_141",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -1294,8 +1294,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_142",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1303,8 +1303,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_143",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -1312,7 +1312,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_144",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1321,8 +1321,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_145",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -1330,8 +1330,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_146",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -1339,8 +1339,8 @@
       "energy_cost": 7,
       "has_stats": true,
       "id": "weapon_147",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 6,
@@ -1348,8 +1348,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_148",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 10,
@@ -1357,7 +1357,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_149",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1366,8 +1366,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_150",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1375,8 +1375,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_151",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -1384,8 +1384,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_152",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1393,8 +1393,8 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_153",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1402,8 +1402,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_154",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 6,
@@ -1411,8 +1411,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_155",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 1,
@@ -1420,8 +1420,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_156",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 8,
@@ -1429,8 +1429,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_157",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1438,8 +1438,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_158",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 9,
@@ -1447,8 +1447,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_159",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 1,
@@ -1456,8 +1456,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_160",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 8,
@@ -1465,7 +1465,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_161",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1474,8 +1474,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_162",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1483,8 +1483,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_163",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -1492,8 +1492,8 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_164",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1501,8 +1501,8 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_165",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -1510,8 +1510,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_166",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 7,
@@ -1519,8 +1519,8 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_167",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -1528,8 +1528,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_168",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1537,7 +1537,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_169",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1546,8 +1546,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_170",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -1555,8 +1555,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_171",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1564,8 +1564,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_172",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -1573,8 +1573,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_173",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 0,
@@ -1582,8 +1582,8 @@
       "energy_cost": 10,
       "has_stats": true,
       "id": "weapon_174",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -1591,8 +1591,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_175",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -1600,7 +1600,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_176",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1609,8 +1609,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_177",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 1,
@@ -1618,8 +1618,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_178",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -1627,8 +1627,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_179",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -1636,8 +1636,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_180",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1645,8 +1645,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_181",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1654,8 +1654,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_182",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1663,8 +1663,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_183",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -1672,8 +1672,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_184",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1681,8 +1681,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_185",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 8,
@@ -1690,8 +1690,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_186",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -1699,8 +1699,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_187",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1708,8 +1708,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_188",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 1,
@@ -1717,8 +1717,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_189",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 9,
@@ -1726,7 +1726,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_190",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1735,7 +1735,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_191",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1744,7 +1744,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_192",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1753,7 +1753,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_193",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1762,8 +1762,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_194",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 0,
@@ -1771,8 +1771,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_195",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 12,
@@ -1780,7 +1780,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_196",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1789,7 +1789,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_197",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1798,7 +1798,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_198",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1807,7 +1807,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_199",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1816,8 +1816,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_200",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 10,
@@ -1825,7 +1825,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_201",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1834,7 +1834,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_202",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1843,8 +1843,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_203",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1852,8 +1852,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_204",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 11,
@@ -1861,8 +1861,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_205",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -1870,8 +1870,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_206",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 16,
@@ -1879,8 +1879,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_207",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1888,7 +1888,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_208",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1897,8 +1897,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_209",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -1906,8 +1906,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_210",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1915,8 +1915,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_211",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1924,8 +1924,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_212",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -1933,8 +1933,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_213",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 0,
@@ -1942,7 +1942,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_214",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1951,8 +1951,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_215",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -1960,7 +1960,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_216",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -1969,8 +1969,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_217",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -1978,8 +1978,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_218",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 6,
@@ -1987,8 +1987,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_219",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -1996,8 +1996,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_220",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -2005,7 +2005,7 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_221",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2014,7 +2014,7 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_222",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2023,8 +2023,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_223",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2032,8 +2032,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_224",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 10,
@@ -2041,7 +2041,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_225",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2050,8 +2050,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_230",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -2059,8 +2059,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_231",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": null,
@@ -2068,7 +2068,7 @@
       "energy_cost": null,
       "has_stats": false,
       "id": "weapon_232",
-      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "note": "catalogue-only name/metadata; no serializable runtime prefab",
       "tier": "C"
     },
     {
@@ -2077,8 +2077,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_233",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 1,
@@ -2086,8 +2086,8 @@
       "energy_cost": 10,
       "has_stats": true,
       "id": "weapon_234",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 2,
@@ -2095,8 +2095,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_235",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2104,8 +2104,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_236",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2113,8 +2113,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_237",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -2122,8 +2122,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_238",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -2131,8 +2131,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_239",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 5,
@@ -2140,8 +2140,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_240",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -2149,7 +2149,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_241",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2158,7 +2158,7 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_242",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2167,8 +2167,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_243",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 0,
@@ -2176,8 +2176,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_244",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 8,
@@ -2185,7 +2185,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_245",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2194,7 +2194,7 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_246",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2203,8 +2203,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_247",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 1,
@@ -2212,8 +2212,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_248",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -2221,8 +2221,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_249",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -2230,8 +2230,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_250",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -2239,7 +2239,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_251",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2248,8 +2248,8 @@
       "energy_cost": 50,
       "has_stats": true,
       "id": "weapon_252",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -2257,8 +2257,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_253",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 0,
@@ -2266,8 +2266,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_254",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 6,
@@ -2275,8 +2275,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_255",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -2284,8 +2284,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_256",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -2293,8 +2293,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_257",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -2302,8 +2302,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_258",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 6,
@@ -2311,8 +2311,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_259",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 3,
@@ -2320,8 +2320,8 @@
       "energy_cost": 5,
       "has_stats": true,
       "id": "weapon_260",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -2329,8 +2329,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_261",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": null,
@@ -2338,7 +2338,7 @@
       "energy_cost": null,
       "has_stats": false,
       "id": "weapon_262",
-      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "note": "catalogue-only name/metadata; no serializable runtime prefab",
       "tier": "C"
     },
     {
@@ -2347,7 +2347,7 @@
       "energy_cost": null,
       "has_stats": false,
       "id": "weapon_263",
-      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "note": "catalogue-only name/metadata; no serializable runtime prefab",
       "tier": "C"
     },
     {
@@ -2356,8 +2356,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_264",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -2365,8 +2365,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_265",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -2374,7 +2374,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_266",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2383,8 +2383,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_267",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 8,
@@ -2392,8 +2392,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_268",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": null,
@@ -2401,7 +2401,7 @@
       "energy_cost": null,
       "has_stats": false,
       "id": "weapon_269",
-      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "note": "catalogue-only name/metadata; no serializable runtime prefab",
       "tier": "C"
     },
     {
@@ -2410,8 +2410,8 @@
       "energy_cost": 10,
       "has_stats": true,
       "id": "weapon_270",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": null,
@@ -2419,7 +2419,7 @@
       "energy_cost": null,
       "has_stats": false,
       "id": "weapon_271",
-      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "note": "catalogue-only name/metadata; no serializable runtime prefab",
       "tier": "C"
     },
     {
@@ -2428,7 +2428,7 @@
       "energy_cost": null,
       "has_stats": false,
       "id": "weapon_272",
-      "note": "name/metadata recovered; unique or non-bullet mechanic not integrated",
+      "note": "catalogue-only name/metadata; no serializable runtime prefab",
       "tier": "C"
     },
     {
@@ -2437,8 +2437,8 @@
       "energy_cost": 8,
       "has_stats": true,
       "id": "weapon_273",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -2446,8 +2446,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_274",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 2,
@@ -2455,8 +2455,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_275",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 0,
@@ -2464,8 +2464,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_276",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 2,
@@ -2473,8 +2473,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_277",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 1,
@@ -2482,8 +2482,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_278",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 5,
@@ -2491,8 +2491,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_279",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -2500,8 +2500,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_280",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 5,
@@ -2509,8 +2509,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_281",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -2518,7 +2518,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_282",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2527,7 +2527,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_283",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2536,8 +2536,8 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_284",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 4,
@@ -2545,8 +2545,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_285",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -2554,8 +2554,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_286",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -2563,7 +2563,7 @@
       "energy_cost": 1,
       "has_stats": true,
       "id": "weapon_287",
-      "note": "catalogue stats, visual, projectile and attack cadence in native scene",
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
       "tier": "A"
     },
     {
@@ -2572,8 +2572,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_288",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 16,
@@ -2581,8 +2581,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_289",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -2590,8 +2590,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_290",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 8,
@@ -2599,7 +2599,7 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_291",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2608,8 +2608,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_292",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -2617,8 +2617,8 @@
       "energy_cost": 2,
       "has_stats": true,
       "id": "weapon_293",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -2626,8 +2626,8 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_294",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -2635,8 +2635,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_295",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 8,
@@ -2644,7 +2644,7 @@
       "energy_cost": 6,
       "has_stats": true,
       "id": "weapon_296",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
+      "note": "serialized melee stats/name recovered; visual and melee hitbox runtime pending",
       "tier": "B"
     },
     {
@@ -2653,8 +2653,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_297",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 4,
@@ -2662,8 +2662,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_298",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 6,
@@ -2671,8 +2671,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_299",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "stats recovered; unique, charge, throw or non-standard mechanic not integrated",
+      "tier": "C"
     },
     {
       "damage": 3,
@@ -2680,8 +2680,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_300",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -2689,8 +2689,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_301",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 6,
@@ -2698,8 +2698,8 @@
       "energy_cost": 0,
       "has_stats": true,
       "id": "weapon_900",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 5,
@@ -2707,8 +2707,8 @@
       "energy_cost": 3,
       "has_stats": true,
       "id": "weapon_901",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 2,
@@ -2716,8 +2716,8 @@
       "energy_cost": 10,
       "has_stats": true,
       "id": "weapon_902",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     },
     {
       "damage": 12,
@@ -2725,8 +2725,8 @@
       "energy_cost": 4,
       "has_stats": true,
       "id": "weapon_903",
-      "note": "serialized stats/name recovered; native visual/cadence not bundled",
-      "tier": "B"
+      "note": "catalogue stats, visual, projectile, bullet count, spread and attack cadence in native scene",
+      "tier": "A"
     }
   ]
 }

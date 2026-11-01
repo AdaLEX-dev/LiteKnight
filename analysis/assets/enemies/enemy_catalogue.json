@@ -1,0 +1,3939 @@
+{
+  "schema": 1,
+  "tool": "tools/asset/audit_enemy_catalogue.py",
+  "counts": {
+    "enemy_game_objects": 102,
+    "with_role_attribute": 102,
+    "with_controller": 102,
+    "with_biome_assignment": 77
+  },
+  "classification": {
+    "CONFIRMED": "serialized e_* prefab name, RoleAttribute hp/speed/camp/critical, RGEController enemy_id/EV fields, Animator clip names, MapManagerLevel enemy_infos weights",
+    "UNKNOWN": "contact damage for AI classes that do not serialize a damage field; projectile AI behavior for non-EnemyAI04 classes"
+  },
+  "entries": [
+    {
+      "id": "e_alien01",
+      "path_id": "-2819226334871103305",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 25,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_alien01",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.5,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "alien01_ide",
+        "alien01_run",
+        "alien01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-1",
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_alien02",
+      "path_id": "7667914916795349883",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 25,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_alien02",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "alien01_ide",
+        "alien01_run",
+        "alien01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-1",
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_alien03",
+      "path_id": "4286053269762484978",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 30,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_alien03",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 5.0
+      },
+      "clips": [
+        "alien01_ide",
+        "alien01_run",
+        "alien01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-1",
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_battery01",
+      "path_id": "7659049612167977937",
+      "source_cab": "CAB-99deb5b3a04b77a7d3b9552fcee7ef71",
+      "role": {
+        "max_hp": 15,
+        "speed": 0.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_battery01",
+        "ai_level": 3,
+        "reward_rate": 30,
+        "reward_value": [
+          0,
+          1,
+          0,
+          1
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "battery01_ide",
+        "char_hit",
+        "battery01_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-3",
+        "2-5",
+        "3-1"
+      ]
+    },
+    {
+      "id": "e_boar01",
+      "path_id": "-1605107766631148678",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI04",
+        "enemy_id": "e_boar01",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": 2,
+        "atk_range": null
+      },
+      "clips": [
+        "boar01_ide",
+        "boar01_run",
+        "boar01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_boar02",
+      "path_id": "-8586897031053171531",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 10,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI09",
+        "enemy_id": "e_boar02",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "boar02_ide",
+        "boar02_run",
+        "boar02_dead",
+        "boar02_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_chest1",
+      "path_id": "-6027292718440309830",
+      "source_cab": "CAB-99deb5b3a04b77a7d3b9552fcee7ef71",
+      "role": {
+        "max_hp": 30,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI08",
+        "enemy_id": "e_chest1",
+        "ai_level": 3,
+        "reward_rate": 100,
+        "reward_value": [
+          0,
+          0,
+          5,
+          3
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_chest_sleep",
+        "e_chest_ide",
+        "e_chest_run",
+        "e_chest_dead",
+        "e_chest2_sleep",
+        "e_chest2_ide",
+        "e_chest2_run",
+        "e_chest2_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_chest2",
+      "path_id": "-5556454494065708302",
+      "source_cab": "CAB-99deb5b3a04b77a7d3b9552fcee7ef71",
+      "role": {
+        "max_hp": 40,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI08",
+        "enemy_id": "e_chest2",
+        "ai_level": 3,
+        "reward_rate": 100,
+        "reward_value": [
+          0,
+          2,
+          2,
+          3
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_chest2_sleep",
+        "e_chest2_ide",
+        "e_chest2_run",
+        "e_chest2_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_creeper",
+      "path_id": "6459881311434891702",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_creeper",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "creeper_ide",
+        "creeper_run",
+        "creeper_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_creeper_fly",
+      "path_id": "8466318765870862066",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_creeper_fly",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "creeper_fly_ide",
+        "creeper_fly_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_crystal",
+      "path_id": "-5456799002198042515",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI11",
+        "enemy_id": "e_crystal",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          0,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "e_crystal_ide",
+        "e_crystal_atk",
+        "e_crystal_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_fireknight01",
+      "path_id": "9217626380867902172",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 36,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_fireknight01",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "knight03_ide",
+        "knight03_run",
+        "knight03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-2"
+      ]
+    },
+    {
+      "id": "e_fireknight02",
+      "path_id": "-4852261146463426333",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 36,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_fireknight02",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "knight03_ide",
+        "knight03_run",
+        "knight03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-2"
+      ]
+    },
+    {
+      "id": "e_fireknight03",
+      "path_id": "-6538451799065281266",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 70,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI15",
+        "enemy_id": "e_fireknight03",
+        "ai_level": 3,
+        "reward_rate": 40,
+        "reward_value": [
+          0,
+          0,
+          3,
+          2
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "knight04_ide",
+        "knight04_run",
+        "knight04_dead",
+        "knight04_atk",
+        "knight04_atk2",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_frankenstein",
+      "path_id": "-493430170851064797",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 50,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI15",
+        "enemy_id": "e_frankenstein",
+        "ai_level": 3,
+        "reward_rate": 40,
+        "reward_value": [
+          0,
+          0,
+          3,
+          2
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "frankenstein_ide",
+        "frankenstein_run",
+        "frankenstein_dead",
+        "frankenstein_atk",
+        "frankenstein_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_frog",
+      "path_id": "-5616576027869221863",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 9,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAIFrog",
+        "enemy_id": "e_frog",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "frog_ide",
+        "frog_atk",
+        "frog_explode",
+        "frog_atk",
+        "frog_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-2",
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_ghost",
+      "path_id": "2237081195278513550",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 9,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAIGhost",
+        "enemy_id": "e_ghost",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          0,
+          3
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "ghost_ide",
+        "ghost_run",
+        "ghost_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead",
+        "boss15_fade",
+        "boss15_show"
+      ],
+      "biome_levels": [
+        "2-2",
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_ghost_temp",
+      "path_id": "-273714849037375640",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 9,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAIGhost",
+        "enemy_id": "e_ghost_temp",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          0,
+          3
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "ghost_ide",
+        "ghost_run",
+        "ghost_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead",
+        "boss15_fade",
+        "boss15_show"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_giant",
+      "path_id": "-2336340693253850199",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 60,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_giant",
+        "ai_level": 3,
+        "reward_rate": 45,
+        "reward_value": [
+          0,
+          2,
+          2,
+          2
+        ],
+        "shoot_cd": 5.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "giant01_ide",
+        "char_hit",
+        "giant01_run",
+        "giant01_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_golem01",
+      "path_id": "7723261503762323643",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 28,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_golem01",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "golem_ide",
+        "golem_run",
+        "golem_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_golem02",
+      "path_id": "-3675383099486639238",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 28,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_golem02",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "golem_ide",
+        "golem_run",
+        "golem_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_hammer",
+      "path_id": "8946094595913508902",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 50,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI07",
+        "enemy_id": "e_hammer",
+        "ai_level": 3,
+        "reward_rate": 40,
+        "reward_value": [
+          0,
+          4,
+          0,
+          2
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "hammer_ide",
+        "hammer_run",
+        "hammer_dead",
+        "hammer_atk1",
+        "hammer_atk2",
+        "hammer_atk3",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_knight01",
+      "path_id": "-4581282527620579552",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_knight01",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "knight01_ide",
+        "knight01_run",
+        "knight01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_knight02",
+      "path_id": "8614804391684614103",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_knight02",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "knight01_ide",
+        "knight01_run",
+        "knight01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_knight03",
+      "path_id": "3960711694660206620",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_knight03",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "knight01_ide",
+        "knight01_run",
+        "knight01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_knight04",
+      "path_id": "-4034004968150568860",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 24,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_knight04",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "knight02_ide",
+        "knight02_run",
+        "knight02_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_knight05",
+      "path_id": "-6436565890360269743",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 24,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_knight05",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "knight02_ide",
+        "knight02_run",
+        "knight02_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_knight06",
+      "path_id": "3419995874048432785",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 24,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_knight06",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "knight02_ide",
+        "knight02_run",
+        "knight02_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_malphite01",
+      "path_id": "1250720596177794552",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 8,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI16",
+        "enemy_id": "e_malphite01",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "malphite01_ide",
+        "malphite01_run",
+        "malphite01_dead",
+        "malphite01_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_malphite01_temp",
+      "path_id": "-3041795989124079337",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 7,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI16",
+        "enemy_id": "e_malphite01",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "malphite01_ide",
+        "malphite01_run",
+        "malphite01_dead",
+        "malphite01_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_malphite02",
+      "path_id": "2952704795149111216",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 13,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI19",
+        "enemy_id": "e_malphite02",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "malphite02_ide",
+        "malphite02_run",
+        "malphite02_dead",
+        "malphite02_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_malphite02_temp",
+      "path_id": "6571657546889346398",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 10,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI19",
+        "enemy_id": "e_malphite02",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "malphite02_ide",
+        "malphite02_run",
+        "malphite02_dead",
+        "malphite02_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_malphite03",
+      "path_id": "2671002087718849987",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 30,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI18",
+        "enemy_id": "e_malphite03",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "malphite03_ide",
+        "malphite03_run",
+        "malphite03_dead",
+        "malphite03_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_malphite03_temp",
+      "path_id": "-3437187171248255484",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 999999,
+        "speed": 8.0,
+        "camp": 1,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI18",
+        "enemy_id": "",
+        "ai_level": 3,
+        "reward_rate": 0,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 1.5,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "malphite03_ide",
+        "malphite03_run",
+        "malphite03_dead",
+        "malphite03_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_malphite03_temp2",
+      "path_id": "-7771760812434257427",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 999999,
+        "speed": 8.0,
+        "camp": 1,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI18",
+        "enemy_id": "",
+        "ai_level": 3,
+        "reward_rate": 0,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 1.5,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "malphite03_ide",
+        "malphite03_run",
+        "malphite03_dead",
+        "malphite03_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_miner01",
+      "path_id": "-6476330152139950827",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_miner01",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "miner01_ide",
+        "miner01_run",
+        "miner01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "-",
+        "1-1",
+        "1-2"
+      ]
+    },
+    {
+      "id": "e_miner02",
+      "path_id": "4073761262861425238",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_miner02",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "miner01_ide",
+        "miner01_run",
+        "miner01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "-",
+        "1-1",
+        "1-2"
+      ]
+    },
+    {
+      "id": "e_miner03",
+      "path_id": "-4859842836228273595",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_miner03",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "miner02_ide",
+        "miner02_ide",
+        "miner02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "-",
+        "1-1",
+        "1-2"
+      ]
+    },
+    {
+      "id": "e_miner04",
+      "path_id": "747432743396759309",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 15,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_miner04",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "miner03_ide",
+        "miner03_run",
+        "miner03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "-",
+        "1-2"
+      ]
+    },
+    {
+      "id": "e_miner05",
+      "path_id": "1371646319266828176",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 15,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_miner05",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "miner03_ide",
+        "miner03_run",
+        "miner03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "-",
+        "1-2"
+      ]
+    },
+    {
+      "id": "e_miner06",
+      "path_id": "-8830543417114206410",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_miner06",
+        "ai_level": 3,
+        "reward_rate": 30,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "miner04_ide",
+        "miner04_ide",
+        "miner04_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "-",
+        "1-2"
+      ]
+    },
+    {
+      "id": "e_monkey01",
+      "path_id": "-3987576690700671513",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 14,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_monkey01",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "monkey01_ide",
+        "monkey01_run",
+        "monkey01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_monkey02",
+      "path_id": "3903362489785456593",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 9,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_monkey02",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "monkey03_ide",
+        "monkey03_run",
+        "monkey03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_monkey03",
+      "path_id": "-5370856684553367077",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 14,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_monkey03",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "monkey03_ide",
+        "monkey03_run",
+        "monkey03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_monkey04",
+      "path_id": "1612313635936782967",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 14,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_monkey04",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "monkey03_ide",
+        "monkey03_run",
+        "monkey03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_monkey05",
+      "path_id": "6529682703243341591",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 15,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_monkey05",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 4.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "monkey01_ide",
+        "monkey01_run",
+        "monkey01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_mosquito",
+      "path_id": "3113155932263883668",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 18,
+        "speed": 12.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_mosquito",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "mosquito_ide",
+        "mosquito_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-2"
+      ]
+    },
+    {
+      "id": "e_mummy01",
+      "path_id": "1546565546579717095",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 16,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_mummy01",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy01_ide",
+        "e_mummy01_run",
+        "e_mummy01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-2"
+      ]
+    },
+    {
+      "id": "e_mummy01_sheep_temp",
+      "path_id": "7776996191520816812",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_mummy01",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy01_ide",
+        "e_mummy01_run",
+        "e_mummy01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_mummy02",
+      "path_id": "-1433018092434726298",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 26,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_mummy02",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy01_ide",
+        "e_mummy01_run",
+        "e_mummy01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-2"
+      ]
+    },
+    {
+      "id": "e_mummy03",
+      "path_id": "-2912505407603611770",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 10,
+        "speed": 7.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI13",
+        "enemy_id": "e_mummy03",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy01_ide",
+        "e_mummy01_run",
+        "e_mummy01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-2"
+      ]
+    },
+    {
+      "id": "e_mummy03_temp",
+      "path_id": "-4532234153639355668",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 10,
+        "speed": 7.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI13",
+        "enemy_id": "",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy01_ide",
+        "e_mummy01_run",
+        "e_mummy01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_mummy04",
+      "path_id": "1107854734558629828",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 25,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_mummy04",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy02_ide",
+        "e_mummy02_run",
+        "e_mummy02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-2"
+      ]
+    },
+    {
+      "id": "e_mummy04_temp",
+      "path_id": "-8945896385760482080",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 18,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          0,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy02_ide",
+        "e_mummy02_run",
+        "e_mummy02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_mummy05",
+      "path_id": "-2434291193889826331",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 32,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_mummy05",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy02_ide",
+        "e_mummy02_run",
+        "e_mummy02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-2"
+      ]
+    },
+    {
+      "id": "e_mummy05_temp",
+      "path_id": "-237507076265166319",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 15,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          0,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "e_mummy02_ide",
+        "e_mummy02_run",
+        "e_mummy02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_orc01",
+      "path_id": "-453852443907808306",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_orc01",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "orc01_ide",
+        "orc01_run",
+        "orc01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_orc02",
+      "path_id": "-6044831352677839019",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_orc02",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "orc01_ide",
+        "orc01_run",
+        "orc01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_orc02 (1)",
+      "path_id": "427959256576469315",
+      "source_cab": "CAB-20f9aeffab36968e28163c52f5415b0d",
+      "role": {
+        "max_hp": 8,
+        "speed": 5.0,
+        "camp": 1,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_orc02",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "orc01_ide",
+        "orc01_run",
+        "orc01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_orc03",
+      "path_id": "-5855692896734277429",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_orc03",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "orc01_ide",
+        "orc01_run",
+        "orc01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_orc04",
+      "path_id": "343110576119374139",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 15,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_orc04",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "orc02_ide",
+        "orc02_run",
+        "orc02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_orc05",
+      "path_id": "-7909613102223382720",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 15,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_orc05",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          3,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "orc02_ide",
+        "orc02_run",
+        "orc02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_orc06",
+      "path_id": "7977677083007054226",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 15,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_orc06",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "orc02_ide",
+        "orc02_run",
+        "orc02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_orc07",
+      "path_id": "-2568271380770986270",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 15,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_orc07",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          3,
+          1
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "orc03_ide",
+        "orc03_run",
+        "orc03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_orc08",
+      "path_id": "-8546510775671535109",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 40,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_orc08",
+        "ai_level": 3,
+        "reward_rate": 45,
+        "reward_value": [
+          0,
+          1,
+          1,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "orc04_ide",
+        "orc04_run",
+        "orc04_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_phantom",
+      "path_id": "2348614785072973179",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 9,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_pumpkin03",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "char_1_skin_0_ide",
+        "char_1_skin_0_run",
+        "char_1_skin_0_dead",
+        "char_hit"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_pumpkin01",
+      "path_id": "1970482503026255393",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_pumpkin01",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "pumpkin03_ide",
+        "pumpkin03_run",
+        "pumpkin01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-2",
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_pumpkin02",
+      "path_id": "4415410059608428170",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 9,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_pumpkin02",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "pumpkin01_ide",
+        "pumpkin01_run",
+        "pumpkin01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-2",
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_pumpkin03",
+      "path_id": "-5338002238286805868",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 9,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_pumpkin03",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "pumpkin01_ide",
+        "pumpkin01_run",
+        "pumpkin01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-2"
+      ]
+    },
+    {
+      "id": "e_pumpkin04",
+      "path_id": "4626624511403184699",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 22,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_pumpkin04",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "pumpkin02_ide",
+        "pumpkin02_run",
+        "pumpkin02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-2",
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_pumpkin05",
+      "path_id": "-17384037403021449",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_pumpkin05",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "pumpkin02_ide",
+        "pumpkin02_run",
+        "pumpkin02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_pumpkin06",
+      "path_id": "1891519102879094993",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 18,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_pumpkin06",
+        "ai_level": 3,
+        "reward_rate": 20,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "pumpkin02_ide",
+        "pumpkin02_run",
+        "pumpkin02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_rockcrab",
+      "path_id": "-5250152189670479522",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 22,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI20",
+        "enemy_id": "e_rockcrab",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 4.0,
+        "damage": 2,
+        "atk_range": null
+      },
+      "clips": [
+        "e_rockcrab_ide",
+        "e_rockcrab_run",
+        "e_rockcrab_dead",
+        "e_rockcrab_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_ruinsworm",
+      "path_id": "4177173857292818675",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 10,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI20",
+        "enemy_id": "e_ruinsworm",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 4.0,
+        "damage": 2,
+        "atk_range": null
+      },
+      "clips": [
+        "e_worm_ide",
+        "e_worm_run",
+        "e_worm_dead",
+        "e_worm_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-3",
+        "1-5"
+      ]
+    },
+    {
+      "id": "e_shaman",
+      "path_id": "-6317610853930162232",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_shaman",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          4,
+          1
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "shaman_ide",
+        "shaman_run",
+        "shaman_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_shark",
+      "path_id": "6905335041094273527",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 100,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAIWitch",
+        "enemy_id": "e_shark",
+        "ai_level": 3,
+        "reward_rate": 100,
+        "reward_value": [
+          0,
+          0,
+          5,
+          3
+        ],
+        "shoot_cd": 1.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "shark_ide",
+        "shark_run",
+        "shark_dead",
+        "shark_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_sheep_temp",
+      "path_id": "6798416961621568862",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAIFrog",
+        "enemy_id": "",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": 1,
+        "atk_range": null
+      },
+      "clips": [
+        "frog_ide",
+        "frog_atk",
+        "frog_explode",
+        "frog_atk",
+        "frog_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_skeleton01",
+      "path_id": "-5858639355066359839",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 10,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_skeleton01",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "skeleton01_ide",
+        "skeleton01_run",
+        "skeleton01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-1",
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_skeleton02",
+      "path_id": "9119999287018886078",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 10,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_skeleton02",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "skeleton01_ide",
+        "skeleton01_run",
+        "skeleton01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-1",
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_skeleton02_temp",
+      "path_id": "1241272608242521773",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 10,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_skeleton02_temp",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "skeleton01_ide",
+        "skeleton01_run",
+        "skeleton01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_skeleton03",
+      "path_id": "6150879586180476437",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 10,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_skeleton03",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          3,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "skeleton01_ide",
+        "skeleton01_run",
+        "skeleton01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-1",
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_skeleton04",
+      "path_id": "-6270046428575575392",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI02",
+        "enemy_id": "e_skeleton04",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          3,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": 3.0
+      },
+      "clips": [
+        "skeleton02_ide",
+        "skeleton02_run",
+        "skeleton02_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-1",
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_skeleton05",
+      "path_id": "-8672476950491566192",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_skeleton05",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          3,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "skeleton02_ide",
+        "skeleton02_run",
+        "skeleton02_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-1",
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_skeleton06",
+      "path_id": "-2629918502414966471",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_skeleton06",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          3,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "skeleton02_ide",
+        "skeleton02_run",
+        "skeleton02_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-1",
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_slime01",
+      "path_id": "-7421755869818940729",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI04",
+        "enemy_id": "e_slime01",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "slime01_ide",
+        "slime01_run",
+        "slime01_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_slime01_temp",
+      "path_id": "-1233327222569338768",
+      "source_cab": "CAB-1f846f15cd2101dc7558ce120ee2867c",
+      "role": {
+        "max_hp": 12,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI04",
+        "enemy_id": "e_slime01",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "slime01_ide",
+        "slime01_run",
+        "slime01_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_snowman_temp",
+      "path_id": "-8174087129554920607",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 9,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI10",
+        "enemy_id": "e_snowman_temp",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "shoot_cd": 1.75,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "snowman_small_ide",
+        "snowman_small_run",
+        "snowman_small_dead",
+        "snowman_small_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_spider01",
+      "path_id": "8537388417913559816",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI04",
+        "enemy_id": "e_spider01",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "spider01_ide",
+        "spider01_run",
+        "spider01_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_spider02",
+      "path_id": "4213479335950744313",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI04",
+        "enemy_id": "e_spider02",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "spider02_ide",
+        "spider02_run",
+        "spider02_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-3"
+      ]
+    },
+    {
+      "id": "e_spider03",
+      "path_id": "6549722314992366852",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI04",
+        "enemy_id": "e_spider03",
+        "ai_level": 3,
+        "reward_rate": 40,
+        "reward_value": [
+          0,
+          0,
+          0,
+          3
+        ],
+        "shoot_cd": 1.0,
+        "damage": 2,
+        "atk_range": null
+      },
+      "clips": [
+        "spider03_ide",
+        "spider03_run",
+        "spider03_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "-",
+        "1-2"
+      ]
+    },
+    {
+      "id": "e_spider04",
+      "path_id": "-2938473679115549626",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI04",
+        "enemy_id": "e_spider04",
+        "ai_level": 3,
+        "reward_rate": 40,
+        "reward_value": [
+          0,
+          0,
+          4,
+          0
+        ],
+        "shoot_cd": 1.0,
+        "damage": 2,
+        "atk_range": null
+      },
+      "clips": [
+        "spider04_ide",
+        "spider04_run",
+        "spider04_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_spider05",
+      "path_id": "-4828116390668937582",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 24,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI14",
+        "enemy_id": "e_spider05",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": 4,
+        "atk_range": null
+      },
+      "clips": [
+        "spider05_ide",
+        "spider05_run",
+        "spider05_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_succulent",
+      "path_id": "-586080017450448801",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 8,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI06",
+        "enemy_id": "e_succulent",
+        "ai_level": 3,
+        "reward_rate": 30,
+        "reward_value": [
+          0,
+          0,
+          1,
+          2
+        ],
+        "shoot_cd": 5.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "succulent_ide",
+        "succulent_atk",
+        "succulent_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "1-4"
+      ]
+    },
+    {
+      "id": "e_tentacle",
+      "path_id": "-7636158329920851929",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 40,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI06",
+        "enemy_id": "e_tentacle",
+        "ai_level": 3,
+        "reward_rate": 30,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 5.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "tentacle_ide",
+        "tentacle_atk",
+        "tentacle_hide",
+        "tentacle_show",
+        "tentacle_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_tentacle_temp",
+      "path_id": "-7716637915226699985",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI06",
+        "enemy_id": "e_tentacle",
+        "ai_level": 3,
+        "reward_rate": 30,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 5.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "tentacle_ide",
+        "tentacle_atk",
+        "tentacle_hide",
+        "tentacle_show",
+        "tentacle_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_tortoise",
+      "path_id": "932004609719734594",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 30,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI12",
+        "enemy_id": "e_tortoise",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": 4,
+        "atk_range": null
+      },
+      "clips": [
+        "e_tortoise_ide",
+        "e_tortoise_run",
+        "e_tortoise_dead",
+        "e_tortoise_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    },
+    {
+      "id": "e_ufo",
+      "path_id": "-186337455808312520",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 24,
+        "speed": 5.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI03",
+        "enemy_id": "e_ufo",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          3,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "ufo_ide",
+        "ufo_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-1",
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_witch",
+      "path_id": "-2510809040314978118",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 18,
+        "speed": 3.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAIWitch",
+        "enemy_id": "e_witch",
+        "ai_level": 3,
+        "reward_rate": 30,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": 3,
+        "atk_range": null
+      },
+      "clips": [
+        "witch_ide",
+        "witch_run",
+        "witch_dead",
+        "witch_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "2-2",
+        "2-4"
+      ]
+    },
+    {
+      "id": "e_wizard01",
+      "path_id": "202631707936457016",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 20,
+        "speed": 4.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI01",
+        "enemy_id": "e_wizard01",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          4,
+          1
+        ],
+        "shoot_cd": 2.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "wizard01_ide",
+        "wizard01_run",
+        "char_hit",
+        "wizard01_dead",
+        "char_hit",
+        "char_tap_dead",
+        "char_atk",
+        "char_hide_tap"
+      ],
+      "biome_levels": [
+        "2-5"
+      ]
+    },
+    {
+      "id": "e_worm01",
+      "path_id": "7956253658826865017",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 12,
+        "speed": 6.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI04",
+        "enemy_id": "e_worm01",
+        "ai_level": 3,
+        "reward_rate": 25,
+        "reward_value": [
+          0,
+          0,
+          2,
+          1
+        ],
+        "shoot_cd": 1.0,
+        "damage": 4,
+        "atk_range": null
+      },
+      "clips": [
+        "worm_ide",
+        "worm_run",
+        "worm_dead",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "3-1",
+        "3-3",
+        "3-4",
+        "3-5"
+      ]
+    },
+    {
+      "id": "e_yeti01",
+      "path_id": "-4621548062129638530",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 9,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI10",
+        "enemy_id": "e_yeti01",
+        "ai_level": 3,
+        "reward_rate": 15,
+        "reward_value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "yeti01_ide",
+        "yeti01_run",
+        "yeti01_dead",
+        "yeti01_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": [
+        "-",
+        "1-1",
+        "1-2"
+      ]
+    },
+    {
+      "id": "e_yeti02",
+      "path_id": "-2197948064534748381",
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "role": {
+        "max_hp": 28,
+        "speed": 8.0,
+        "camp": 0,
+        "critical": 0
+      },
+      "controller": {
+        "class": "EnemyAI10",
+        "enemy_id": "e_yeti02",
+        "ai_level": 3,
+        "reward_rate": 40,
+        "reward_value": [
+          0,
+          0,
+          2,
+          2
+        ],
+        "shoot_cd": 3.0,
+        "damage": null,
+        "atk_range": null
+      },
+      "clips": [
+        "yeti02_ide",
+        "yeti02_run",
+        "yeti02_dead",
+        "yeti02_atk",
+        "char_hit",
+        "char_hide_tap",
+        "char_atk",
+        "char_tap_dead"
+      ],
+      "biome_levels": []
+    }
+  ]
+}

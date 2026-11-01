@@ -5,9 +5,9 @@
     "doors": 0,
     "enemies": 0,
     "obstacle_variants": 0,
-    "sprites": 434,
-    "textures": 42,
-    "weapons": 4
+    "sprites": 659,
+    "textures": 36,
+    "weapons": 168
   },
   "errors": [],
   "inventory": "analysis/assets/asset_inventory.json",
@@ -24,8 +24,9 @@
   ],
   "tool": "tools/asset/audit_assets.py",
   "warnings": [
+    "unexpected source texture format: auto_atlas_4699608564152035255 ETC2_RGBA8",
     "inventory texture count differs from scene texture count",
     "inventory sprite count differs from scene sprite count",
-    "14 texture records are local_only (expected for reference-derived pixels)"
+    "16 texture records are local_only (expected for reference-derived pixels)"
   ]
 }

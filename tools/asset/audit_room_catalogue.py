@@ -51,6 +51,14 @@ def main() -> int:
                 entry["height"] = script.room_height
                 entry["offset_x"] = script.room_x_offset
                 entry["offset_y"] = script.room_y_offset
+                entry["room_type"] = int(getattr(script, "room_type", 0))
+                entry["process"] = int(getattr(script, "process", 0))
+                entry["random_room"] = bool(getattr(script, "random_room", False))
+                entry["entrance"] = list(getattr(script, "entrance", []) or [])
+                entry["door_open"] = bool(getattr(script, "door_open", False))
+                entry["need_cage"] = bool(getattr(script, "need_cage", False))
+                entry["create_with_close_state"] = bool(
+                    getattr(script, "create_with_close_state", False))
     for name, entry in rooms.items():
         scene = SCENES / f"{name}_visual.json"
         if scene.is_file():
@@ -75,7 +83,10 @@ def main() -> int:
             "discovered_pattern_rooms": len(rooms),
             "integrated_pattern_rooms": sum(1 for e in rooms.values() if e["integrated"]),
         },
-        "note": "All entries are actual r1_N PatternRoom GameObjects from the reference room bundle. Native runtime currently integrates r1_1, r1_2 and r1_3; map-level reference generation remains UNKNOWN.",
+        "note": ("All entries are actual r1_N PatternRoom GameObjects from the "
+                 "reference room bundle. room_type is the serialized RGRoomX "
+                 "integer; the enum-name mapping is HYPOTHESIS. Native runtime "
+                 "currently integrates r1_1, r1_2 and r1_3."),
     }
     OUT.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     print(f"Wrote {OUT.relative_to(ROOT)}: {len(rooms)} rooms, "

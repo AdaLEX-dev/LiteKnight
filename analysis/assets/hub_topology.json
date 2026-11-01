@@ -1,30 +1,32 @@
 {
   "scene": "assets/generated/visual/hero_room/scene.json",
-  "floor_cells": 2907,
-  "walkable_cells": 2417,
-  "reachable_cells": 2293,
-  "reachable_ratio": 0.9486967314853124,
+  "floor_cells": 2896,
+  "walkable_cells": 2409,
+  "reachable_cells": 2296,
+  "reachable_ratio": 0.9530925695309257,
   "spawn": [
     0,
     -10
   ],
   "spawn_reachable": true,
-  "collision_solids": 737,
+  "collision_solids": 732,
   "event_instances": 0,
+  "removed_present": [],
+  "table_collision": true,
   "markers": {
     "character_station": {
       "kind": "character",
       "cell": [
-        0,
-        50
+        7,
+        5
       ],
-      "reachable": false
+      "reachable": true
     },
     "forge_station": {
       "kind": "forge",
       "cell": [
-        28,
-        -11
+        44,
+        -7
       ],
       "reachable": true
     },
@@ -33,6 +35,14 @@
       "cell": [
         -26,
         0
+      ],
+      "reachable": true
+    },
+    "trader_station": {
+      "kind": "trader",
+      "cell": [
+        27,
+        3
       ],
       "reachable": true
     },
@@ -48,6 +58,7 @@
   "required_reachable": {
     "forge_station": true,
     "garden_station": true,
+    "trader_station": true,
     "hub_door": true
   },
   "pass": true

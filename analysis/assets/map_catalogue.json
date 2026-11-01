@@ -1,0 +1,1562 @@
+{
+  "classification": {
+    "CONFIRMED": "serialized MapManagerLevel fields: level, chest_level, map_long, room start/end/branch lists, floor/wall/obstacle prefab names, EnemyInfo weights",
+    "UNKNOWN": "runtime MapManagerLevel.CreateRoom procedural placement for unintegrated levels"
+  },
+  "counts": {
+    "levels": 18,
+    "levels_with_enemy_pools": 16,
+    "levels_with_start_rooms": 17
+  },
+  "levels": [
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 0,
+      "enemy_infos": [
+        {
+          "enemy": "e_miner01",
+          "exEnemy": "ex_miner01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner02",
+          "exEnemy": "ex_miner02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner03",
+          "exEnemy": "ex_miner03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner04",
+          "exEnemy": "ex_miner04",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner05",
+          "exEnemy": "ex_miner05",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner06",
+          "exEnemy": "ex_miner06",
+          "weight": 1
+        },
+        {
+          "enemy": "e_yeti01",
+          "exEnemy": "ex_yeti01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_spider03",
+          "exEnemy": "ex_spider03",
+          "weight": 2
+        }
+      ],
+      "floor_list": [
+        "floor601",
+        "floor602",
+        "floor603",
+        "floor604",
+        "floor605",
+        "floor606"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "-",
+      "map_long": 0,
+      "obstacle_list": [
+        "wall603",
+        "box04",
+        "cask_red_3",
+        "cask_blue_3",
+        "cask_blue_2",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_06",
+        "obj22_06",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "8372422976749250255",
+      "room_end_list": [],
+      "room_start_list": [],
+      "source_cab": "CAB-e4585fc9b75e00bede7310de80ca734d",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall602",
+        "wall601"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 1,
+      "enemy_infos": [
+        {
+          "enemy": "e_miner01",
+          "exEnemy": "ex_miner01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner02",
+          "exEnemy": "ex_miner02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner03",
+          "exEnemy": "ex_miner03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_yeti01",
+          "exEnemy": "ex_yeti01",
+          "weight": 2
+        }
+      ],
+      "floor_list": [
+        "floor601",
+        "floor602",
+        "floor603",
+        "floor604",
+        "floor605",
+        "floor606"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "1-1",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall603",
+        "box04",
+        "cask_red_3",
+        "cask_blue_3",
+        "cask_blue_2",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_06",
+        "obj22_06",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "-8892723654509893235",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start_no_event"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall602",
+        "wall601"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 1,
+      "enemy_infos": [
+        {
+          "enemy": "e_miner01",
+          "exEnemy": "ex_miner01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner02",
+          "exEnemy": "ex_miner02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner03",
+          "exEnemy": "ex_miner03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner04",
+          "exEnemy": "ex_miner04",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner05",
+          "exEnemy": "ex_miner05",
+          "weight": 1
+        },
+        {
+          "enemy": "e_miner06",
+          "exEnemy": "ex_miner06",
+          "weight": 1
+        },
+        {
+          "enemy": "e_yeti01",
+          "exEnemy": "ex_yeti01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_spider03",
+          "exEnemy": "ex_spider03",
+          "weight": 2
+        }
+      ],
+      "floor_list": [
+        "floor601",
+        "floor602",
+        "floor603",
+        "floor604",
+        "floor605",
+        "floor606"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "1-2",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall603",
+        "box04",
+        "cask_red_3",
+        "cask_blue_3",
+        "cask_blue_2",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_06",
+        "obj22_06",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "-2595002866850581052",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall602",
+        "wall601"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 1,
+      "enemy_infos": [
+        {
+          "enemy": "e_malphite01",
+          "exEnemy": "ex_malphite01",
+          "weight": 10
+        },
+        {
+          "enemy": "e_malphite02",
+          "exEnemy": "ex_malphite02",
+          "weight": 10
+        },
+        {
+          "enemy": "e_malphite03",
+          "exEnemy": "ex_malphite03",
+          "weight": 3
+        },
+        {
+          "enemy": "e_monkey01",
+          "exEnemy": "ex_monkey01",
+          "weight": 10
+        },
+        {
+          "enemy": "e_monkey02",
+          "exEnemy": "ex_monkey02",
+          "weight": 10
+        },
+        {
+          "enemy": "e_monkey03",
+          "exEnemy": "ex_monkey03",
+          "weight": 10
+        },
+        {
+          "enemy": "e_monkey04",
+          "exEnemy": "ex_monkey04",
+          "weight": 10
+        },
+        {
+          "enemy": "e_monkey05",
+          "exEnemy": "ex_monkey05",
+          "weight": 5
+        },
+        {
+          "enemy": "e_rockcrab",
+          "exEnemy": "ex_rockcrab",
+          "weight": 3
+        },
+        {
+          "enemy": "e_ruinsworm",
+          "exEnemy": "ex_ruinsworm",
+          "weight": 5
+        }
+      ],
+      "floor_list": [
+        "floor903",
+        "floor907",
+        "floor912",
+        "floor913",
+        "floor914",
+        "floor908"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "1-3",
+      "map_long": 3,
+      "obstacle_list": [
+        "obj22_14",
+        "box07",
+        "cask_red_2",
+        "cask_green_2",
+        "cask_write_3",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj22_14",
+        "obj22_15",
+        "signs01",
+        "brazier05"
+      ],
+      "path_id": "-7186070201367652545",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": true,
+      "wall_list": [
+        "wall901",
+        "wall903"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 2,
+      "enemy_infos": [
+        {
+          "enemy": "e_orc01",
+          "exEnemy": "ex_orc01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_orc02",
+          "exEnemy": "ex_orc02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_orc03",
+          "exEnemy": "ex_orc03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_boar01",
+          "exEnemy": "ex_boar01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_orc04",
+          "exEnemy": "ex_orc04",
+          "weight": 1
+        },
+        {
+          "enemy": "e_orc05",
+          "exEnemy": "ex_orc05",
+          "weight": 1
+        },
+        {
+          "enemy": "e_orc06",
+          "exEnemy": "ex_orc06",
+          "weight": 1
+        },
+        {
+          "enemy": "e_boar02",
+          "exEnemy": "ex_boar02",
+          "weight": 2
+        },
+        {
+          "enemy": "e_orc07",
+          "exEnemy": "ex_orc07",
+          "weight": 2
+        },
+        {
+          "enemy": "e_orc08",
+          "exEnemy": "ex_orc08",
+          "weight": 1
+        },
+        {
+          "enemy": "e_succulent",
+          "exEnemy": "ex_succulent",
+          "weight": 2
+        }
+      ],
+      "floor_list": [
+        "floor501",
+        "floor502",
+        "floor503",
+        "floor504",
+        "floor505",
+        "floor506"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "1-4",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall502",
+        "box02",
+        "cask_red_2",
+        "cask_green_2",
+        "cask_blue_2",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_05",
+        "obj22_05",
+        "signs01",
+        "brazier03"
+      ],
+      "path_id": "-1029694071672496447",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall_bush1",
+        "wall503"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 2,
+      "enemy_infos": [
+        {
+          "enemy": "e_malphite01",
+          "exEnemy": "ex_malphite01",
+          "weight": 10
+        },
+        {
+          "enemy": "e_malphite02",
+          "exEnemy": "ex_malphite02",
+          "weight": 10
+        },
+        {
+          "enemy": "e_malphite03",
+          "exEnemy": "ex_malphite03",
+          "weight": 5
+        },
+        {
+          "enemy": "e_monkey01",
+          "exEnemy": "ex_monkey01",
+          "weight": 10
+        },
+        {
+          "enemy": "e_monkey02",
+          "exEnemy": "ex_monkey02",
+          "weight": 10
+        },
+        {
+          "enemy": "e_monkey03",
+          "exEnemy": "ex_monkey03",
+          "weight": 10
+        },
+        {
+          "enemy": "e_monkey04",
+          "exEnemy": "ex_monkey04",
+          "weight": 10
+        },
+        {
+          "enemy": "e_monkey05",
+          "exEnemy": "ex_monkey05",
+          "weight": 10
+        },
+        {
+          "enemy": "e_rockcrab",
+          "exEnemy": "ex_rockcrab",
+          "weight": 3
+        },
+        {
+          "enemy": "e_ruinsworm",
+          "exEnemy": "ex_ruinsworm",
+          "weight": 5
+        }
+      ],
+      "floor_list": [
+        "floor902",
+        "floor907",
+        "floor914",
+        "floor912",
+        "floor908",
+        "floor910"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "1-5",
+      "map_long": 4,
+      "obstacle_list": [
+        "obj22_14",
+        "box07",
+        "cask_red_2",
+        "cask_green_2",
+        "cask_write_3",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj22_14",
+        "obj22_15",
+        "signs01",
+        "brazier05"
+      ],
+      "path_id": "-3579754372913516045",
+      "room_end_list": [
+        "r1_boss8",
+        "r1_boss9"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": true,
+      "wall_list": [
+        "wall901",
+        "wall903"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 2,
+      "enemy_infos": [
+        {
+          "enemy": "e_skeleton01",
+          "exEnemy": "ex_skeleton01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_skeleton02",
+          "exEnemy": "ex_skeleton02",
+          "weight": 2
+        },
+        {
+          "enemy": "e_skeleton03",
+          "exEnemy": "ex_skeleton03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_skeleton04",
+          "exEnemy": "ex_skeleton04",
+          "weight": 1
+        },
+        {
+          "enemy": "e_skeleton05",
+          "exEnemy": "ex_skeleton05",
+          "weight": 1
+        },
+        {
+          "enemy": "e_skeleton06",
+          "exEnemy": "ex_skeleton06",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor301",
+        "floor302",
+        "floor303",
+        "floor304",
+        "floor305",
+        "floor306"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "2-1",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall301",
+        "box03",
+        "cask_red_1",
+        "cask_green_1",
+        "cask_blue_1",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_02",
+        "obj22_02",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "-1767933375677207120",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall301",
+        "wall302"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 3,
+      "enemy_infos": [
+        {
+          "enemy": "e_pumpkin01",
+          "exEnemy": "ex_pumpkin01",
+          "weight": 3
+        },
+        {
+          "enemy": "e_pumpkin02",
+          "exEnemy": "ex_pumpkin02",
+          "weight": 3
+        },
+        {
+          "enemy": "e_pumpkin03",
+          "exEnemy": "ex_pumpkin03",
+          "weight": 3
+        },
+        {
+          "enemy": "e_pumpkin04",
+          "exEnemy": "ex_pumpkin04",
+          "weight": 3
+        },
+        {
+          "enemy": "e_ghost",
+          "exEnemy": "ex_ghost",
+          "weight": 3
+        },
+        {
+          "enemy": "e_frog",
+          "exEnemy": "ex_frog",
+          "weight": 2
+        },
+        {
+          "enemy": "e_witch",
+          "exEnemy": "ex_witch",
+          "weight": 2
+        },
+        {
+          "enemy": "e_ghost",
+          "exEnemy": "ex_ghost",
+          "weight": 2
+        }
+      ],
+      "floor_list": [
+        "floor801",
+        "floor802",
+        "floor803",
+        "floor804",
+        "floor805",
+        "floor805"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "2-2",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall804",
+        "box06",
+        "cask_red_4",
+        "cask_green_4",
+        "cask_blue_4",
+        "sting02",
+        "speed_up_2",
+        "speed_down_2",
+        "obj11_10",
+        "obj22_11",
+        "signs01",
+        "brazier04"
+      ],
+      "path_id": "-8772538334447071320",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall801",
+        "wall802",
+        "wall803"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 3,
+      "enemy_infos": [
+        {
+          "enemy": "e_skeleton01",
+          "exEnemy": "ex_skeleton01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_skeleton02",
+          "exEnemy": "ex_skeleton02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_skeleton03",
+          "exEnemy": "ex_skeleton03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_skeleton04",
+          "exEnemy": "ex_skeleton04",
+          "weight": 1
+        },
+        {
+          "enemy": "e_skeleton05",
+          "exEnemy": "ex_skeleton05",
+          "weight": 1
+        },
+        {
+          "enemy": "e_skeleton06",
+          "exEnemy": "ex_skeleton06",
+          "weight": 1
+        },
+        {
+          "enemy": "e_shaman",
+          "exEnemy": "ex_shaman",
+          "weight": 2
+        },
+        {
+          "enemy": "e_spider01",
+          "exEnemy": "ex_spider01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_battery01",
+          "exEnemy": "ex_battery01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_spider02",
+          "exEnemy": "ex_spider02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_hammer",
+          "exEnemy": "ex_hammer",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor301",
+        "floor302",
+        "floor303",
+        "floor304",
+        "floor305",
+        "floor306"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "2-3",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall301",
+        "box03",
+        "cask_red_1",
+        "cask_green_1",
+        "cask_blue_1",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_02",
+        "obj22_02",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "-2704584995504391903",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall301",
+        "wall302"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 3,
+      "enemy_infos": [
+        {
+          "enemy": "e_pumpkin01",
+          "exEnemy": "ex_pumpkin01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_pumpkin02",
+          "exEnemy": "ex_pumpkin02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_pumpkin04",
+          "exEnemy": "ex_pumpkin04",
+          "weight": 1
+        },
+        {
+          "enemy": "e_pumpkin05",
+          "exEnemy": "ex_pumpkin05",
+          "weight": 1
+        },
+        {
+          "enemy": "e_pumpkin06",
+          "exEnemy": "ex_pumpkin06",
+          "weight": 1
+        },
+        {
+          "enemy": "e_frog",
+          "exEnemy": "ex_frog",
+          "weight": 1
+        },
+        {
+          "enemy": "e_witch",
+          "exEnemy": "ex_witch",
+          "weight": 1
+        },
+        {
+          "enemy": "e_frankenstein",
+          "exEnemy": "ex_frankenstein",
+          "weight": 1
+        },
+        {
+          "enemy": "e_ghost",
+          "exEnemy": "ex_ghost",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor801",
+        "floor802",
+        "floor803",
+        "floor804",
+        "floor805",
+        "floor805"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "2-4",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall804",
+        "box06",
+        "cask_red_4",
+        "cask_green_4",
+        "cask_blue_4",
+        "sting02",
+        "speed_up_2",
+        "speed_down_2",
+        "obj11_10",
+        "obj22_11",
+        "signs01",
+        "brazier04"
+      ],
+      "path_id": "-7375627470272364931",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall801",
+        "wall802",
+        "wall803"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 4,
+      "enemy_infos": [
+        {
+          "enemy": "e_knight01",
+          "exEnemy": "ex_knight01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_knight02",
+          "exEnemy": "ex_knight02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_knight03",
+          "exEnemy": "ex_knight03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_knight04",
+          "exEnemy": "ex_knight04",
+          "weight": 1
+        },
+        {
+          "enemy": "e_knight05",
+          "exEnemy": "ex_knight05",
+          "weight": 1
+        },
+        {
+          "enemy": "e_knight06",
+          "exEnemy": "ex_knight06",
+          "weight": 1
+        },
+        {
+          "enemy": "e_wizard01",
+          "exEnemy": "ex_wizard01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_giant",
+          "exEnemy": "ex_giant",
+          "weight": 2
+        },
+        {
+          "enemy": "e_battery01",
+          "exEnemy": "ex_battery01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_slime01",
+          "exEnemy": "ex_slime01",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor101",
+        "floor102",
+        "floor103",
+        "floor104",
+        "floor105",
+        "floor106"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "2-5",
+      "map_long": 4,
+      "obstacle_list": [
+        "wall101",
+        "box01",
+        "cask_red_1",
+        "cask_green_1",
+        "cask_write_1",
+        "sting01",
+        "sting01",
+        "sting01",
+        "obj11_01",
+        "obj22_02",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "-6659633334152133309",
+      "room_end_list": [
+        "r2_boss1",
+        "r2_boss2",
+        "r2_boss7"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall101",
+        "wall102"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 4,
+      "enemy_infos": [
+        {
+          "enemy": "e_alien01",
+          "exEnemy": "ex_alien01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_alien02",
+          "exEnemy": "ex_alien02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_alien03",
+          "exEnemy": "ex_alien03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_battery01",
+          "exEnemy": "ex_battery01",
+          "weight": 2
+        },
+        {
+          "enemy": "e_worm01",
+          "exEnemy": "ex_worm01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_ufo",
+          "exEnemy": "ex_ufo",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor401",
+        "floor402",
+        "floor403",
+        "floor404",
+        "floor405",
+        "floor406"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "3-1",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall403",
+        "box01",
+        "cask_red_1",
+        "cask_green_1",
+        "cask_blue_1",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_03",
+        "obj22_03",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "8150456661268076241",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall401",
+        "wall402"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 3,
+      "enemy_infos": [
+        {
+          "enemy": "e_mummy01",
+          "exEnemy": "ex_mummy01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_mummy02",
+          "exEnemy": "ex_mummy02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_mummy03",
+          "exEnemy": "ex_mummy03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_mummy04",
+          "exEnemy": "ex_mummy04",
+          "weight": 1
+        },
+        {
+          "enemy": "e_mummy05",
+          "exEnemy": "ex_mummy05",
+          "weight": 1
+        },
+        {
+          "enemy": "e_mosquito",
+          "exEnemy": "ex_mosquito",
+          "weight": 2
+        },
+        {
+          "enemy": "e_fireknight02",
+          "exEnemy": "ex_fireknight02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_fireknight01",
+          "exEnemy": "ex_fireknight01",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor701",
+        "floor702",
+        "floor703",
+        "floor704",
+        "floor705",
+        "floor706"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "3-2",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall703",
+        "box05",
+        "cask_red_1",
+        "cask_write_1",
+        "cask_red_1",
+        "speed_up",
+        "speed_up",
+        "sting01",
+        "obj11_07",
+        "obj22_10",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "-5880390807801803512",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall701",
+        "wall702"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 3,
+      "enemy_infos": [
+        {
+          "enemy": "e_alien01",
+          "exEnemy": "ex_alien01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_alien02",
+          "exEnemy": "ex_alien02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_alien03",
+          "exEnemy": "ex_alien03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_creeper_fly",
+          "exEnemy": "ex_creeper_fly",
+          "weight": 1
+        },
+        {
+          "enemy": "e_creeper",
+          "exEnemy": "ex_creeper",
+          "weight": 1
+        },
+        {
+          "enemy": "e_golem01",
+          "exEnemy": "ex_golem01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_golem02",
+          "exEnemy": "ex_golem02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_worm01",
+          "exEnemy": "ex_worm01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_ufo",
+          "exEnemy": "ex_ufo",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor401",
+        "floor402",
+        "floor403",
+        "floor404",
+        "floor405",
+        "floor406"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "3-3",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall403",
+        "box01",
+        "cask_red_1",
+        "cask_green_1",
+        "cask_blue_1",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_03",
+        "obj22_03",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "2781337979401486612",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall401",
+        "wall402"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 4,
+      "enemy_infos": [
+        {
+          "enemy": "e_alien01",
+          "exEnemy": "ex_alien01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_alien02",
+          "exEnemy": "ex_alien02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_alien03",
+          "exEnemy": "ex_alien03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_creeper_fly",
+          "exEnemy": "ex_creeper_fly",
+          "weight": 1
+        },
+        {
+          "enemy": "e_creeper",
+          "exEnemy": "ex_creeper",
+          "weight": 1
+        },
+        {
+          "enemy": "e_golem01",
+          "exEnemy": "ex_golem01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_golem02",
+          "exEnemy": "ex_golem02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_worm01",
+          "exEnemy": "ex_worm01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_ufo",
+          "exEnemy": "ex_ufo",
+          "weight": 1
+        },
+        {
+          "enemy": "e_tentacle",
+          "exEnemy": "ex_tentacle",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor401",
+        "floor402",
+        "floor403",
+        "floor404",
+        "floor405",
+        "floor406"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "3-4",
+      "map_long": 3,
+      "obstacle_list": [
+        "wall403",
+        "box01",
+        "cask_red_1",
+        "cask_green_1",
+        "cask_blue_1",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_03",
+        "obj22_03",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "-7338491489751031739",
+      "room_end_list": [
+        "r_transgete"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall401",
+        "wall402"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 4,
+      "enemy_infos": [
+        {
+          "enemy": "e_alien01",
+          "exEnemy": "ex_alien01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_alien02",
+          "exEnemy": "ex_alien02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_alien03",
+          "exEnemy": "ex_alien03",
+          "weight": 1
+        },
+        {
+          "enemy": "e_creeper_fly",
+          "exEnemy": "ex_creeper_fly",
+          "weight": 1
+        },
+        {
+          "enemy": "e_creeper",
+          "exEnemy": "ex_creeper",
+          "weight": 1
+        },
+        {
+          "enemy": "e_golem01",
+          "exEnemy": "ex_golem01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_golem02",
+          "exEnemy": "ex_golem02",
+          "weight": 1
+        },
+        {
+          "enemy": "e_worm01",
+          "exEnemy": "ex_worm01",
+          "weight": 1
+        },
+        {
+          "enemy": "e_ufo",
+          "exEnemy": "ex_ufo",
+          "weight": 1
+        },
+        {
+          "enemy": "e_tentacle",
+          "exEnemy": "ex_tentacle",
+          "weight": 1
+        }
+      ],
+      "floor_list": [
+        "floor401",
+        "floor402",
+        "floor403",
+        "floor404",
+        "floor405",
+        "floor406"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "3-5",
+      "map_long": 4,
+      "obstacle_list": [
+        "wall403",
+        "box01",
+        "cask_red_1",
+        "cask_green_1",
+        "cask_blue_1",
+        "sting01",
+        "speed_up",
+        "speed_down",
+        "obj11_03",
+        "obj22_03",
+        "signs01",
+        "brazier01"
+      ],
+      "path_id": "-6644300730492932441",
+      "room_end_list": [
+        "r3_boss2",
+        "r3_boss1",
+        "r3_boss6"
+      ],
+      "room_start_list": [
+        "r_start"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall401",
+        "wall402"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 4,
+      "enemy_infos": [],
+      "floor_list": [
+        "floor401",
+        "floor402",
+        "floor403",
+        "floor404",
+        "floor405",
+        "floor406"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "3-6",
+      "map_long": 1,
+      "obstacle_list": [],
+      "path_id": "6601107383910448772",
+      "room_end_list": [
+        "r_end"
+      ],
+      "room_start_list": [
+        "r_start_no_event"
+      ],
+      "source_cab": "CAB-99deb5b3a04b77a7d3b9552fcee7ef71",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall403",
+        "wall404"
+      ]
+    },
+    {
+      "branch_room_list": [],
+      "centerPoint": [
+        102.0,
+        102.0
+      ],
+      "chest_level": 4,
+      "enemy_infos": [],
+      "floor_list": [
+        "floor401",
+        "floor402",
+        "floor403",
+        "floor404",
+        "floor405",
+        "floor406"
+      ],
+      "has_badass": false,
+      "has_cage_obj": false,
+      "level": "BR 3-5",
+      "map_long": 1,
+      "obstacle_list": [],
+      "path_id": "5477477449137692242",
+      "room_end_list": [
+        "r_bossrush_end"
+      ],
+      "room_start_list": [
+        "r_start_no_event"
+      ],
+      "source_cab": "CAB-a30724b9177a42016247cd793468ac48",
+      "use_new_floor_pattern": false,
+      "wall_list": [
+        "wall403",
+        "wall404"
+      ]
+    }
+  ],
+  "schema": 1,
+  "tool": "tools/asset/audit_map_catalogue.py"
+}

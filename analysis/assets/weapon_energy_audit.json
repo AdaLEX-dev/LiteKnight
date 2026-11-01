@@ -21,6 +21,16 @@
     },
     {
       "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.2777777750183036,
+      "damage": 3,
+      "display_name": "P250 Pistol",
+      "id": "weapon_001",
+      "native_energy_cost": 0,
+      "projectile": "bullet_0",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
       "cycle_seconds": 0.1666666716337204,
       "damage": 3,
       "display_name": "AK-47",
@@ -28,6 +38,406 @@
       "native_energy_cost": 1,
       "projectile": "bullet_14",
       "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 3,
+      "display_name": "Shotgun",
+      "id": "weapon_003",
+      "native_energy_cost": 3,
+      "projectile": "bullet_14",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 3,
+      "display_name": "Shotgun Pro",
+      "id": "weapon_004",
+      "native_energy_cost": 4,
+      "projectile": "bullet_14",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 2,
+      "display_name": "UZI",
+      "id": "weapon_005",
+      "native_energy_cost": 0,
+      "projectile": "bullet_55",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.7142857264499277,
+      "damage": 6,
+      "display_name": "Splitter Cannon",
+      "id": "weapon_006",
+      "native_energy_cost": 3,
+      "projectile": "bullet_20",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 2,
+      "display_name": "Snow Fox L",
+      "id": "weapon_007",
+      "native_energy_cost": 0,
+      "projectile": "bullet_11",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 2,
+      "display_name": "Snow Fox XL",
+      "id": "weapon_008",
+      "native_energy_cost": 1,
+      "projectile": "bullet_11",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 2,
+      "display_name": "Snow Fox XXL",
+      "id": "weapon_009",
+      "native_energy_cost": 2,
+      "projectile": "bullet_12",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Desert Eagle",
+      "id": "weapon_010",
+      "native_energy_cost": 1,
+      "projectile": "bullet_1",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Alien Eagle",
+      "id": "weapon_011",
+      "native_energy_cost": 0,
+      "projectile": "bullet_19",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Frost Eagle",
+      "id": "weapon_012",
+      "native_energy_cost": 1,
+      "projectile": "bullet_2",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Flame Eagle",
+      "id": "weapon_013",
+      "native_energy_cost": 1,
+      "projectile": "bullet_4",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 3,
+      "display_name": "Plasma Eagle",
+      "id": "weapon_014",
+      "native_energy_cost": 1,
+      "projectile": "bullet_16",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 8,
+      "display_name": "Revolver",
+      "id": "weapon_015",
+      "native_energy_cost": 3,
+      "projectile": "bullet_14",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 3,
+      "display_name": "Twin-barrel Pistol",
+      "id": "weapon_016",
+      "native_energy_cost": 2,
+      "projectile": "bullet_1",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Assault Rifle",
+      "id": "weapon_017",
+      "native_energy_cost": 1,
+      "projectile": "bullet_0",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Assault Rocket",
+      "id": "weapon_018",
+      "native_energy_cost": 1,
+      "projectile": "bullet_27",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Assault Rifle Pro",
+      "id": "weapon_019",
+      "native_energy_cost": 1,
+      "projectile": "bullet_14",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 2,
+      "display_name": "Shaky Blaster",
+      "id": "weapon_020",
+      "native_energy_cost": 1,
+      "projectile": "bullet_0",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Blaster",
+      "id": "weapon_021",
+      "native_energy_cost": 1,
+      "projectile": "bullet_15",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 5,
+      "display_name": "Twin-barrel Rifle",
+      "id": "weapon_022",
+      "native_energy_cost": 3,
+      "projectile": "bullet_56",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.41666667287548376,
+      "damage": 5,
+      "display_name": "Splitter Gun",
+      "id": "weapon_023",
+      "native_energy_cost": 2,
+      "projectile": "bullet_21",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.20833333643774188,
+      "damage": 4,
+      "display_name": "Volcanic Blaster",
+      "id": "weapon_024",
+      "native_energy_cost": 1,
+      "projectile": "bullet_56",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 4,
+      "display_name": "M4",
+      "id": "weapon_025",
+      "native_energy_cost": 1,
+      "projectile": "bullet_7",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 3,
+      "display_name": "Improved SMG",
+      "id": "weapon_026",
+      "native_energy_cost": 2,
+      "projectile": "bullet_12",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "MP5",
+      "id": "weapon_027",
+      "native_energy_cost": 1,
+      "projectile": "bullet_1",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.41666665010982157,
+      "damage": 4,
+      "display_name": "Snow Fox Vintage",
+      "id": "weapon_028",
+      "native_energy_cost": 3,
+      "projectile": "bullet_14",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.41666667287548376,
+      "damage": 3,
+      "display_name": "Shotgun Galaxy",
+      "id": "weapon_029",
+      "native_energy_cost": 2,
+      "projectile": "bullet_19",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 3,
+      "display_name": "Sidewinder Red",
+      "id": "weapon_030",
+      "native_energy_cost": 4,
+      "projectile": "bullet_6_yellow",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 3,
+      "display_name": "Sidewinder Green",
+      "id": "weapon_031",
+      "native_energy_cost": 4,
+      "projectile": "bullet_6",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 10,
+      "display_name": "Sniper Rifle",
+      "id": "weapon_032",
+      "native_energy_cost": 3,
+      "projectile": "bullet_12",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 25,
+      "display_name": "Soul Calibre",
+      "id": "weapon_033",
+      "native_energy_cost": 9,
+      "projectile": "bullet_8",
+      "serialized_consume": 9
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 10,
+      "display_name": "Glacier",
+      "id": "weapon_034",
+      "native_energy_cost": 4,
+      "projectile": "bullet_2",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 16,
+      "display_name": "Aurora",
+      "id": "weapon_035",
+      "native_energy_cost": 6,
+      "projectile": "bullet_7",
+      "serialized_consume": 6
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 5,
+      "display_name": "Furnace",
+      "id": "weapon_036",
+      "native_energy_cost": 2,
+      "projectile": "bullet_52",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 2,
+      "display_name": "Fine Machine Gun",
+      "id": "weapon_037",
+      "native_energy_cost": 2,
+      "projectile": "bullet_57",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6666666666666666,
+      "damage": 4,
+      "display_name": "Knight's Fist",
+      "id": "weapon_038",
+      "native_energy_cost": 3,
+      "projectile": "bullet_1",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Flame Blaster",
+      "id": "weapon_040",
+      "native_energy_cost": 2,
+      "projectile": "bullet_4",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 15,
+      "display_name": "Rocket Gun",
+      "id": "weapon_043",
+      "native_energy_cost": 5,
+      "projectile": "bullet_28",
+      "serialized_consume": 5
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 16,
+      "display_name": "Implosion",
+      "id": "weapon_044",
+      "native_energy_cost": 6,
+      "projectile": "bullet_29",
+      "serialized_consume": 6
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 2,
+      "display_name": "Missile Battery",
+      "id": "weapon_047",
+      "native_energy_cost": 2,
+      "projectile": "bullet_86",
+      "serialized_consume": 2
     },
     {
       "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
@@ -41,6 +451,1146 @@
     },
     {
       "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 2,
+      "display_name": "Next-next-gen SMG",
+      "id": "weapon_049",
+      "native_energy_cost": 2,
+      "projectile": "bullet_12",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Guardian Rifle",
+      "id": "weapon_050",
+      "native_energy_cost": 1,
+      "projectile": "bullet_13",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.7142857264499277,
+      "damage": 3,
+      "display_name": "Shotgun M1",
+      "id": "weapon_052",
+      "native_energy_cost": 3,
+      "projectile": "bullet_14",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.41666667287548376,
+      "damage": 2,
+      "display_name": "Shotgun M2",
+      "id": "weapon_053",
+      "native_energy_cost": 1,
+      "projectile": "bullet_17",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 16,
+      "display_name": "Rocket Gun M1",
+      "id": "weapon_056",
+      "native_energy_cost": 5,
+      "projectile": "bullet_26",
+      "serialized_consume": 5
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "SMG M1",
+      "id": "weapon_057",
+      "native_energy_cost": 1,
+      "projectile": "bullet_18_1",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 2,
+      "display_name": "SMG Helix",
+      "id": "weapon_058",
+      "native_energy_cost": 1,
+      "projectile": "bullet_18",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Pioneer",
+      "id": "weapon_060",
+      "native_energy_cost": 1,
+      "projectile": "bullet_5",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 4,
+      "display_name": "Blind Missile Battery",
+      "id": "weapon_061",
+      "native_energy_cost": 4,
+      "projectile": "bullet_27",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 8,
+      "display_name": "Flame Axe",
+      "id": "weapon_070",
+      "native_energy_cost": 3,
+      "projectile": "axe_2_fire",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6249999906867744,
+      "damage": 8,
+      "display_name": "Trident",
+      "id": "weapon_076",
+      "native_energy_cost": 3,
+      "projectile": "spear_1_5",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6249999906867744,
+      "damage": 8,
+      "display_name": "Grand Knight's Sword",
+      "id": "weapon_077",
+      "native_energy_cost": 2,
+      "projectile": "sword_1_75",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 8,
+      "display_name": "Flame Sword",
+      "id": "weapon_078",
+      "native_energy_cost": 4,
+      "projectile": "sword_2_fire",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 8,
+      "display_name": "Frost Sword",
+      "id": "weapon_079",
+      "native_energy_cost": 4,
+      "projectile": "sword_2_ice",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 5,
+      "display_name": "Plunger",
+      "id": "weapon_090",
+      "native_energy_cost": 2,
+      "projectile": "bullet_32",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Broom",
+      "id": "weapon_091",
+      "native_energy_cost": 1,
+      "projectile": "bullet_60",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 1,
+      "display_name": "Shield",
+      "id": "weapon_095",
+      "native_energy_cost": 2,
+      "projectile": "shield",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 5,
+      "display_name": "Basketball",
+      "id": "weapon_096",
+      "native_energy_cost": 1,
+      "projectile": "bullet_30",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Football",
+      "id": "weapon_097",
+      "native_energy_cost": 1,
+      "projectile": "bullet_31",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 4,
+      "display_name": "Green Onions",
+      "id": "weapon_098",
+      "native_energy_cost": 1,
+      "projectile": "sword_1_75",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 6,
+      "display_name": "Badminton Racket",
+      "id": "weapon_100",
+      "native_energy_cost": 2,
+      "projectile": "sword_1_75",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 3,
+      "display_name": "Arbitrator",
+      "id": "weapon_103",
+      "native_energy_cost": 1,
+      "projectile": "bullet_17",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 6,
+      "display_name": "Triple Crossbow",
+      "id": "weapon_105",
+      "native_energy_cost": 3,
+      "projectile": "bullet_39",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 8,
+      "display_name": "Crossbow",
+      "id": "weapon_106",
+      "native_energy_cost": 2,
+      "projectile": "bullet_39",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 15,
+      "display_name": "Crossbow Plus",
+      "id": "weapon_107",
+      "native_energy_cost": 3,
+      "projectile": "bullet_47",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 1,
+      "display_name": "Horn",
+      "id": "weapon_109",
+      "native_energy_cost": 2,
+      "projectile": "bullet_59",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Grenade SMG",
+      "id": "weapon_110",
+      "native_energy_cost": 1,
+      "projectile": "bullet_17",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 8,
+      "display_name": "Bazooka",
+      "id": "weapon_111",
+      "native_energy_cost": 4,
+      "projectile": "bullet_28",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6666666865348816,
+      "damage": 4,
+      "display_name": "Staff Of Thunder",
+      "id": "weapon_114",
+      "native_energy_cost": 4,
+      "projectile": "bullet_16",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.47619049849153416,
+      "damage": 4,
+      "display_name": "Staff Of Nature",
+      "id": "weapon_115",
+      "native_energy_cost": 2,
+      "projectile": "bullet_50",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5555555500366072,
+      "damage": 4,
+      "display_name": "Staff Of Frost",
+      "id": "weapon_117",
+      "native_energy_cost": 4,
+      "projectile": "bullet_51",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5555555500366072,
+      "damage": 4,
+      "display_name": "Staff Of Flame",
+      "id": "weapon_118",
+      "native_energy_cost": 3,
+      "projectile": "bullet_52",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5128205469139007,
+      "damage": 4,
+      "display_name": "Staff Of Light",
+      "id": "weapon_119",
+      "native_energy_cost": 2,
+      "projectile": "bullet_21",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 10,
+      "display_name": "Caliburn",
+      "id": "weapon_120",
+      "native_energy_cost": 20,
+      "projectile": "sword_2",
+      "serialized_consume": 20
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 6,
+      "display_name": "Blowpipe",
+      "id": "weapon_125",
+      "native_energy_cost": 2,
+      "projectile": "bullet_3",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 8,
+      "display_name": "Feathered Crossbow",
+      "id": "weapon_126",
+      "native_energy_cost": 3,
+      "projectile": "bullet_64",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 3,
+      "display_name": "Dragon Bros' Sniper Rifle",
+      "id": "weapon_128",
+      "native_energy_cost": 0,
+      "projectile": "bullet_78",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5555555500366072,
+      "damage": 3,
+      "display_name": "Red Dragon",
+      "id": "weapon_129",
+      "native_energy_cost": 1,
+      "projectile": "bullet_14",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5555555500366072,
+      "damage": 5,
+      "display_name": "Bleach",
+      "id": "weapon_130",
+      "native_energy_cost": 1,
+      "projectile": "bullet_14",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 4,
+      "display_name": "Sandworm",
+      "id": "weapon_131",
+      "native_energy_cost": 8,
+      "projectile": "bullet_73",
+      "serialized_consume": 8
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 3,
+      "display_name": "Varkolyn Assault Rifle",
+      "id": "weapon_132",
+      "native_energy_cost": 0,
+      "projectile": "bullet_74",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 6,
+      "display_name": "Cannibal Plant",
+      "id": "weapon_134",
+      "native_energy_cost": 3,
+      "projectile": "bullet_70",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "PKP",
+      "id": "weapon_136",
+      "native_energy_cost": 1,
+      "projectile": "bullet_14",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Floating Gun",
+      "id": "weapon_137",
+      "native_energy_cost": 1,
+      "projectile": "bullet_1",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Floating Laser",
+      "id": "weapon_138",
+      "native_energy_cost": 1,
+      "projectile": "bullet_1",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.3333333333333333,
+      "damage": 3,
+      "display_name": "Assault Shotgun",
+      "id": "weapon_139",
+      "native_energy_cost": 3,
+      "projectile": "bullet_19",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 8,
+      "display_name": "Cherry Blossom",
+      "id": "weapon_140",
+      "native_energy_cost": 3,
+      "projectile": "bullet_66",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333457509675,
+      "damage": 4,
+      "display_name": "Bomber",
+      "id": "weapon_141",
+      "native_energy_cost": 2,
+      "projectile": "bullet_15",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 10,
+      "display_name": "Bouncing Sniper Rifle",
+      "id": "weapon_142",
+      "native_energy_cost": 4,
+      "projectile": "bullet_67",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Bouncing Assault Rifle",
+      "id": "weapon_143",
+      "native_energy_cost": 1,
+      "projectile": "bullet_68",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5333333492279053,
+      "damage": 3,
+      "display_name": "Staff Of Wizard",
+      "id": "weapon_145",
+      "native_energy_cost": 3,
+      "projectile": "bullet_1",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.41666667287548376,
+      "damage": 6,
+      "display_name": "Plunger Plus",
+      "id": "weapon_146",
+      "native_energy_cost": 3,
+      "projectile": "bullet_79",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 4,
+      "display_name": "Umbrella",
+      "id": "weapon_150",
+      "native_energy_cost": 1,
+      "projectile": "spear_1_5",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 4,
+      "display_name": "M14",
+      "id": "weapon_151",
+      "native_energy_cost": 2,
+      "projectile": "bullet_7",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 10,
+      "display_name": "Old Sniper Rifle",
+      "id": "weapon_152",
+      "native_energy_cost": 6,
+      "projectile": "bullet_12",
+      "serialized_consume": 6
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 8,
+      "display_name": "Old Rocket Launcher",
+      "id": "weapon_153",
+      "native_energy_cost": 8,
+      "projectile": "bullet_28",
+      "serialized_consume": 8
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 8,
+      "display_name": "Laser",
+      "id": "weapon_157",
+      "native_energy_cost": 2,
+      "projectile": "spear_1_5",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6666666865348816,
+      "damage": 3,
+      "display_name": "Wizard's Staff",
+      "id": "weapon_158",
+      "native_energy_cost": 3,
+      "projectile": "_bullet_13",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 9,
+      "display_name": "Cluster Missile",
+      "id": "weapon_159",
+      "native_energy_cost": 4,
+      "projectile": "bullet_85",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 3,
+      "display_name": "Ninja Stars",
+      "id": "weapon_162",
+      "native_energy_cost": 6,
+      "projectile": "bullet_82",
+      "serialized_consume": 6
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 8,
+      "display_name": "Wrenches",
+      "id": "weapon_163",
+      "native_energy_cost": 5,
+      "projectile": "bullet_83",
+      "serialized_consume": 5
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 2,
+      "display_name": "Spike Knives",
+      "id": "weapon_164",
+      "native_energy_cost": 8,
+      "projectile": "bullet_81",
+      "serialized_consume": 8
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 8,
+      "display_name": "Ice Spikes",
+      "id": "weapon_165",
+      "native_energy_cost": 8,
+      "projectile": "bullet_51",
+      "serialized_consume": 8
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 6,
+      "display_name": "Boomerang",
+      "id": "weapon_166",
+      "native_energy_cost": 3,
+      "projectile": "bullet_80",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 7,
+      "display_name": "Hand Grenade",
+      "id": "weapon_167",
+      "native_energy_cost": 8,
+      "projectile": "bullet_90",
+      "serialized_consume": 8
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 2,
+      "display_name": "Molotov Cocktail",
+      "id": "weapon_168",
+      "native_energy_cost": 3,
+      "projectile": "bullet_91",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 4,
+      "display_name": "Eagle of Ice and Fire",
+      "id": "weapon_170",
+      "native_energy_cost": 2,
+      "projectile": "bullet_2",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 2,
+      "display_name": "Paper Slip",
+      "id": "weapon_171",
+      "native_energy_cost": 3,
+      "projectile": "bullet_93",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Snowman Eagle",
+      "id": "weapon_175",
+      "native_energy_cost": 2,
+      "projectile": "bullet_95",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 4,
+      "display_name": "Carrot",
+      "id": "weapon_177",
+      "native_energy_cost": 1,
+      "projectile": "sword_2",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "RYB Assault Rifle",
+      "id": "weapon_180",
+      "native_energy_cost": 1,
+      "projectile": "bullet_4",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 3,
+      "display_name": "Assault Rifle Pro+",
+      "id": "weapon_181",
+      "native_energy_cost": 1,
+      "projectile": "bullet_14",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Poison Eagle",
+      "id": "weapon_182",
+      "native_energy_cost": 1,
+      "projectile": "bullet_3",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 4,
+      "display_name": "Grenade Pistol",
+      "id": "weapon_183",
+      "native_energy_cost": 1,
+      "projectile": "bullet_27",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 2,
+      "display_name": "Next-next-next-gen SMG",
+      "id": "weapon_184",
+      "native_energy_cost": 4,
+      "projectile": "bullet_57_2",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 8,
+      "display_name": "Bassball Bat",
+      "id": "weapon_186",
+      "native_energy_cost": 2,
+      "projectile": "sword_2_dizzy",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 10,
+      "display_name": "Ninja Stars Plus",
+      "id": "weapon_187",
+      "native_energy_cost": 6,
+      "projectile": "bullet_82_2",
+      "serialized_consume": 6
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 8,
+      "display_name": "Buckler",
+      "id": "weapon_188",
+      "native_energy_cost": 3,
+      "projectile": "bullet_80_2",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.26666667064030963,
+      "damage": 5,
+      "display_name": "Bamboo",
+      "id": "weapon_203",
+      "native_energy_cost": 1,
+      "projectile": "bullet_98",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.4000000059604645,
+      "damage": 8,
+      "display_name": "Javelin",
+      "id": "weapon_204",
+      "native_energy_cost": 2,
+      "projectile": "bullet_98_2",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.4000000059604645,
+      "damage": 11,
+      "display_name": "Frost Spear",
+      "id": "weapon_205",
+      "native_energy_cost": 2,
+      "projectile": "bullet_98_3",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.4000000059604645,
+      "damage": 6,
+      "display_name": "Throwing Axe",
+      "id": "weapon_206",
+      "native_energy_cost": 1,
+      "projectile": "bullet_97",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5333333412806193,
+      "damage": 16,
+      "display_name": "Heavy Hunter Axe",
+      "id": "weapon_207",
+      "native_energy_cost": 3,
+      "projectile": "bullet_97_2",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 5,
+      "display_name": "Crossbow Air",
+      "id": "weapon_209",
+      "native_energy_cost": 2,
+      "projectile": "bullet_39",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6666666865348816,
+      "damage": 3,
+      "display_name": "Tidal Staff",
+      "id": "weapon_210",
+      "native_energy_cost": 3,
+      "projectile": "bullet_53",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 4,
+      "display_name": "Reusable Health Pot",
+      "id": "weapon_211",
+      "native_energy_cost": 0,
+      "projectile": "bullet_99",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 4,
+      "display_name": "Reusable Energy Pot",
+      "id": "weapon_212",
+      "native_energy_cost": 0,
+      "projectile": "bullet_99",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 1.0,
+      "damage": 4,
+      "display_name": "Reusable Restoration Potion",
+      "id": "weapon_213",
+      "native_energy_cost": 0,
+      "projectile": "bullet_99",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 6,
+      "display_name": "The Emperor's New Gun",
+      "id": "weapon_215",
+      "native_energy_cost": 5,
+      "projectile": "bullet_100",
+      "serialized_consume": 5
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 2,
+      "display_name": "Money Gun",
+      "id": "weapon_217",
+      "native_energy_cost": 1,
+      "projectile": "bullet_coin_normal",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 6,
+      "display_name": "EM Sniper Rifle",
+      "id": "weapon_219",
+      "native_energy_cost": 4,
+      "projectile": "bullet_116",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 12,
+      "display_name": "Explosive Crossbow",
+      "id": "weapon_220",
+      "native_energy_cost": 4,
+      "projectile": "bullet_arrow_explode",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.33333332505491076,
+      "damage": 8,
+      "display_name": "Green Basin",
+      "id": "weapon_223",
+      "native_energy_cost": 1,
+      "projectile": "bullet_hat",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 3,
+      "display_name": "Electric Ninja Stars",
+      "id": "weapon_224",
+      "native_energy_cost": 3,
+      "projectile": "bullet_82_lightning",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 3,
+      "display_name": "Groundwater",
+      "id": "weapon_231",
+      "native_energy_cost": 0,
+      "projectile": "bullet_0",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 2,
+      "display_name": "Green Essence",
+      "id": "weapon_235",
+      "native_energy_cost": 3,
+      "projectile": "bullet_206",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 3,
+      "display_name": "Deadly Frisbee",
+      "id": "weapon_236",
+      "native_energy_cost": 2,
+      "projectile": "bullet_207",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 3,
+      "display_name": "Advanced Scientific Calculator",
+      "id": "weapon_237",
+      "native_energy_cost": 2,
+      "projectile": "bullet_caculator",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.2777777750183036,
+      "damage": 5,
+      "display_name": "Fantastic Gun",
+      "id": "weapon_240",
+      "native_energy_cost": 2,
+      "projectile": "bullet_30",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5333333492279053,
+      "damage": 3,
+      "display_name": "Grand Wizard's Old Staff",
+      "id": "weapon_243",
+      "native_energy_cost": 3,
+      "projectile": "bullet_1",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5555555500366072,
+      "damage": 1,
+      "display_name": "Weeping Eagle",
+      "id": "weapon_248",
+      "native_energy_cost": 3,
+      "projectile": "bullet_66_heart",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.41666665010982157,
+      "damage": 4,
+      "display_name": "Snow Fox Rose Gold",
+      "id": "weapon_250",
+      "native_energy_cost": 3,
+      "projectile": "bullet_119",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 3,
+      "display_name": "Magic Gloves",
+      "id": "weapon_253",
+      "native_energy_cost": 4,
+      "projectile": "bullet_52",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.11111111442248027,
+      "damage": 3,
+      "display_name": "AK47 Gold",
+      "id": "weapon_256",
+      "native_energy_cost": 1,
+      "projectile": "bullet_14",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3333333432674408,
+      "damage": 6,
+      "display_name": "Desert Eagle Gold",
+      "id": "weapon_257",
+      "native_energy_cost": 1,
+      "projectile": "bullet_1",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 6,
+      "display_name": "Coilgun",
+      "id": "weapon_259",
+      "native_energy_cost": 3,
+      "projectile": "bullet_70_blue_1_5",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 3,
+      "display_name": "Brownian Coilgun",
+      "id": "weapon_260",
+      "native_energy_cost": 5,
+      "projectile": "bullet_70_blue_rebound",
+      "serialized_consume": 5
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.8333333002196431,
+      "damage": 8,
+      "display_name": "Ion Coilgun",
+      "id": "weapon_261",
+      "native_energy_cost": 4,
+      "projectile": "bullet_70",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 1,
+      "display_name": "Bubble Gun",
+      "id": "weapon_264",
+      "native_energy_cost": 4,
+      "projectile": "bullet_215",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.1666666716337204,
+      "damage": 2,
+      "display_name": "Lasso Gun",
+      "id": "weapon_265",
+      "native_energy_cost": 0,
+      "projectile": "bullet_217",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 5,
+      "display_name": "Damaged Blade",
+      "id": "weapon_267",
+      "native_energy_cost": 4,
+      "projectile": "bullet_216",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6249999906867744,
+      "damage": 8,
+      "display_name": "Reforged Sacred Sword",
+      "id": "weapon_268",
+      "native_energy_cost": 0,
+      "projectile": "sword_2_gold",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 5,
+      "display_name": "Grilled Green Onion",
+      "id": "weapon_281",
+      "native_energy_cost": 1,
+      "projectile": "sword_1_75_orange",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.41666665010982157,
+      "damage": 5,
+      "display_name": "Grilled Carrot",
+      "id": "weapon_284",
+      "native_energy_cost": 1,
+      "projectile": "sword_1_75_orange",
+      "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
       "cycle_seconds": 0.13333334028720856,
       "damage": 4,
       "display_name": "Revolver Gold",
@@ -48,6 +1598,96 @@
       "native_energy_cost": 1,
       "projectile": "bullet_14",
       "serialized_consume": 1
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.7692307974459868,
+      "damage": 14,
+      "display_name": "Sniper Rifle Gold",
+      "id": "weapon_288",
+      "native_energy_cost": 3,
+      "projectile": "bullet_12",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.7692307974459868,
+      "damage": 16,
+      "display_name": "Sniper Rifle Gold Pro",
+      "id": "weapon_289",
+      "native_energy_cost": 4,
+      "projectile": "bullet_golden_sniper",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.25,
+      "damage": 3,
+      "display_name": "Pill",
+      "id": "weapon_292",
+      "native_energy_cost": 2,
+      "projectile": "bullet_pill",
+      "serialized_consume": 2
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.625,
+      "damage": 3,
+      "display_name": "Verbal Fire",
+      "id": "weapon_300",
+      "native_energy_cost": 4,
+      "projectile": "bullet_mouse_gun!",
+      "serialized_consume": 4
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6249999906867744,
+      "damage": 6,
+      "display_name": "Golden Cudgel",
+      "id": "weapon_301",
+      "native_energy_cost": 0,
+      "projectile": "axe_2_5_yellow",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.3846153987229934,
+      "damage": 6,
+      "display_name": "Candied Hawberries",
+      "id": "weapon_900",
+      "native_energy_cost": 0,
+      "projectile": "sword_1_75_gourd",
+      "serialized_consume": 0
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 5,
+      "display_name": "Firecrackers",
+      "id": "weapon_901",
+      "native_energy_cost": 3,
+      "projectile": "sword_1_75",
+      "serialized_consume": 3
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.5,
+      "damage": 4,
+      "display_name": "Channeling Monkey",
+      "id": "weapon_902",
+      "native_energy_cost": 10,
+      "projectile": "bullet_200",
+      "serialized_consume": 10
+    },
+    {
+      "classification": "CONFIRMED energy cost via serialized RGWeapon.consume; RGWeapon.MakeConsume/MultiHand.CheckEnergyEnough identify the energy path",
+      "cycle_seconds": 0.6666666666666666,
+      "damage": 15,
+      "display_name": "Rocket Fireworks",
+      "id": "weapon_903",
+      "native_energy_cost": 5,
+      "projectile": "bullet_202",
+      "serialized_consume": 5
     }
   ]
 }

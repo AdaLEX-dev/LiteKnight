@@ -1857,7 +1857,7 @@
     "speed": 6.5,
     "speed_rate": 0.5
   },
-  "scene_json_sha256": "1b59fda104847b96e4d5448e5b8e5c3d54e05287bcd18373a173ecb141515bef",
+  "scene_json_sha256": "2b8621d5e314439ddbe1b07f72a6eb9430ed84f57568879a7f78967988f7cdc2",
   "scene_metadata": "analysis/assets/scenes/r1_3_visual.json",
   "source_apk_sha256": "8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea",
   "source_bundles": {
@@ -1871,7 +1871,7 @@
     20.0,
     15.0
   ],
-  "sprite_count": 196,
+  "sprite_count": 481,
   "textures": [
     {
       "filter": "point",
@@ -1963,6 +1963,38 @@
       "source_name": "SpriteAtlasTexture-weapon (Group 0)-512x512-fmt13",
       "source_path_id": "-7138671102567859681",
       "width": 512,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "ETC2_RGBA8",
+      "height": 128,
+      "id": "auto_atlas_4699608564152035255",
+      "png": "textures/auto_atlas_4699608564152035255.png",
+      "png_sha256": "c57e49384cdd4ce1e26c37db7d19d3f8d5c5206726ae22a5d46a44a2061a760d",
+      "rgba8_sha256": "e6f44a311d8e5f73475ab2b320bfac0cc7dc64647d65bfc8cfc28642f6ed0862",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-bullet_effect (Group 2)-128x128-fmt47",
+      "source_path_id": "4699608564152035255",
+      "width": 128,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "UnityPy Texture2D.image fallback (not in conversion manifest)",
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 1024,
+      "id": "auto_atlas_1541943556708260529",
+      "png": "textures/auto_atlas_1541943556708260529.png",
+      "png_sha256": "67ef08812d87cbc801080b5b75192f34aea820211ec82b548f3c36dfe7536469",
+      "rgba8_sha256": "1ce2655e4e3c3d936db18e262499f437d702ad16216e745d9d304f4eda8fa69e",
+      "source_bundle": "common",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "source_name": "SpriteAtlasTexture-bullet_effect (Group 1)-1024x1024-fmt4",
+      "source_path_id": "1541943556708260529",
+      "width": 1024,
       "wrap": "clamp"
     },
     {
@@ -2105,5 +2137,5 @@
     "wall_map_txt": "analysis/re/r1_3_wall_map.txt"
   },
   "unitypy_version": "1.25.4",
-  "weapon_count": 15
+  "weapon_count": 168
 }

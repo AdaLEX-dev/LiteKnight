@@ -71,6 +71,21 @@ def audit(path: Path) -> dict:
         if any(token in i.get("path", "").lower()
                for token in ("halloween", "chinesenewyear", "newyear",
                              "christmas", "festival", "firework")))
+    removed_tokens = ("room/objects/cellar", "first_arrow", "npc_trainer",
+                      "npc_sell_limit", "promotion", "magic_ball",
+                      "magic_protal", "npc_bossrush")
+    removed_present = sorted({
+        token for token in removed_tokens
+        if any(token in i.get("path", "").lower()
+               for i in scene.get("instances", []))
+    })
+    # Recovered central table collider: center (0.32,-1.56), size (3.2,2.0),
+    # offset (0,1.6). A solid must overlap the table's playable footprint.
+    table_rect = [-1.28, -0.96, 1.92, 1.04]
+    def overlaps(solid):
+        return not (solid[2] < table_rect[0] or solid[0] > table_rect[2] or
+                    solid[3] < table_rect[1] or solid[1] > table_rect[3])
+    table_collision = any(overlaps(solid) for solid in solids)
     return {
         "scene": str(path.relative_to(ROOT)) if path.is_relative_to(ROOT)
                  else str(path),
@@ -82,6 +97,8 @@ def audit(path: Path) -> dict:
         "spawn_reachable": spawn in seen,
         "collision_solids": len(solids),
         "event_instances": event_instances,
+        "removed_present": removed_present,
+        "table_collision": table_collision,
         "markers": markers,
     }
 
@@ -94,13 +111,15 @@ def main() -> int:
             break
     if report is None:
         raise SystemExit("hero_room scene metadata missing; run build_hub_scene")
-    required = ["forge_station", "garden_station", "hub_door"]
+    required = ["forge_station", "garden_station", "trader_station", "hub_door"]
     report["required_reachable"] = {
         marker: report["markers"].get(marker, {}).get("reachable", False)
         for marker in required
     }
     report["pass"] = (report["spawn_reachable"] and
                       report["event_instances"] == 0 and
+                      not report["removed_present"] and
+                      report["table_collision"] and
                       all(report["required_reachable"].values()))
     OUT_JSON.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     lines = [
@@ -112,6 +131,8 @@ def main() -> int:
         f"({report['reachable_ratio'] * 100:.1f}%)",
         f"- collision solids: **{report['collision_solids']}**",
         f"- baked event instances: **{report['event_instances']}**",
+        f"- requested removals still present: **{len(report['removed_present'])}**",
+        f"- central table collision: **{report['table_collision']}**",
         f"- spawn reachable: **{report['spawn_reachable']}**",
         "",
         "## Marker reachability",

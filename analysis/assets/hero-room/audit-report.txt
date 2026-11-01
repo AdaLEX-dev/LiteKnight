@@ -1,18 +1,19 @@
 LiteKnight asset audit
 scene: analysis/assets/scenes/hero_room.json
 status: WARNING
-errors: 0  warnings: 3
+errors: 0  warnings: 4
 count animations: 45
 count characters: 15
 count doors: 0
 count enemies: 0
 count obstacle_variants: 0
-count sprites: 434
-count textures: 42
-count weapons: 4
+count sprites: 659
+count textures: 36
+count weapons: 168
+WARNING: unexpected source texture format: auto_atlas_4699608564152035255 ETC2_RGBA8
 WARNING: inventory texture count differs from scene texture count
 WARNING: inventory sprite count differs from scene sprite count
-WARNING: 14 texture records are local_only (expected for reference-derived pixels)
+WARNING: 16 texture records are local_only (expected for reference-derived pixels)
 UNRECOVERABLE: categories with no native representation are listed in asset_inventory.json
 UNKNOWN: reference save format, UI flow and many MonoBehaviour behaviours
 local_only / reference_derived / not_for_redistribution

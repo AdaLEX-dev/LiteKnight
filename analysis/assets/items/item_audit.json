@@ -1,5 +1,5 @@
 {
-  "chests": 1,
+  "chests": 3,
   "coin_frame_counts": {
     "coin_0": 4,
     "coin_1": 4,
@@ -13,11 +13,12 @@
   "coins": 3,
   "errors": [],
   "evidence": [
-    "chest00 prefab: Animator + BoxCollider2D + RGChest level=0",
+    "chest00/01/02 prefabs: Animator + RGChest table and chest_open 1.0 s",
     "coin_0/1/2 prefab RGCoin: type 0/1/2 and value 5/3/1, speed 20, range 7",
-    "coin_gold/silver/copper AnimationClip PPtr frame mappings"
+    "WeaponDropInfo: 7 weighted levels recovered",
+    "RGChestAppoint fixed object_list and RGChest weapon drop path"
   ],
-  "native_extension": "chest00 loot one coin_0 (value 5), lid lift and open state; exact RGChest loot tables UNKNOWN",
+  "native_extension": "integrated chests use RGChestAppoint weapon_021 and WeaponDropInfo levels 1/2; coin loot remains a separate recovered coin path",
   "schema": 1,
   "source": "analysis/assets/items/item_assets.json",
   "tool": "tools/asset/audit_item_assets.py"

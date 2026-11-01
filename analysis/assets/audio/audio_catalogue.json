@@ -1,0 +1,113 @@
+{
+  "schema": 1,
+  "tool": "tools/asset/build_audio_assets.py",
+  "classification": {
+    "CONFIRMED": "actual Unity AudioClip sample bytes and serialized length/channels/frequency",
+    "HYPOTHESIS": "logical event mapping for the first-pass native audio wiring"
+  },
+  "counts": {
+    "logical_events": 11,
+    "exported": 11
+  },
+  "sounds": [
+    {
+      "id": "ui_click",
+      "source_clip": "fx_tapClick",
+      "source_cab": "CAB-81d4d133237886a66e6bf9422594d302",
+      "file": "ui_click.wav",
+      "duration": 0.8125,
+      "channels": 1,
+      "frequency": 48000
+    },
+    {
+      "id": "pause",
+      "source_clip": "fx_tapClick",
+      "source_cab": "CAB-81d4d133237886a66e6bf9422594d302",
+      "file": "pause.wav",
+      "duration": 0.8125,
+      "channels": 1,
+      "frequency": 48000
+    },
+    {
+      "id": "pickup",
+      "source_clip": "fx_pickup",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "pickup.wav",
+      "duration": 0.5224489569664001,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "chest_open",
+      "source_clip": "fx_chest_open",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "chest_open.wav",
+      "duration": 0.7053061127662659,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "weapon_fire",
+      "source_clip": "fx_gun_1",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "weapon_fire.wav",
+      "duration": 0.6269387602806091,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "player_hit",
+      "source_clip": "fx_hit",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "player_hit.wav",
+      "duration": 0.6791836619377136,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "enemy_hit",
+      "source_clip": "fx_hit",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "enemy_hit.wav",
+      "duration": 0.6791836619377136,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "door",
+      "source_clip": "fx_door",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "door.wav",
+      "duration": 1.2016326189041138,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "transition",
+      "source_clip": "fx_door",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "transition.wav",
+      "duration": 1.2016326189041138,
+      "channels": 1,
+      "frequency": 22050
+    },
+    {
+      "id": "bgm_hub",
+      "source_clip": "bgm_room",
+      "source_cab": "CAB-dd66d3d12e7d214d810a154a6cb0e732",
+      "file": "bgm_hub.wav",
+      "duration": 31.529796600341797,
+      "channels": 1,
+      "frequency": 44100
+    },
+    {
+      "id": "bgm_dungeon",
+      "source_clip": "bgm_1Low",
+      "source_cab": "CAB-16e852a5c861d195727b245d594bab88",
+      "file": "bgm_dungeon.wav",
+      "duration": 85.89060974121094,
+      "channels": 1,
+      "frequency": 44100
+    }
+  ]
+}

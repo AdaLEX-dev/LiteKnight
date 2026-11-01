@@ -26,8 +26,11 @@ def main() -> int:
     for chest in chests:
         if not chest.get("visuals"):
             errors.append(f"{chest.get('id')} has no visuals")
-        if not chest.get("loot_coin"):
-            errors.append(f"{chest.get('id')} has no loot coin")
+        has_coin = bool(chest.get("loot_coin"))
+        has_weapon = bool(chest.get("appointed_weapon")) or \
+            int(chest.get("weapon_drop_level", -1)) >= 0
+        if not has_coin and not has_weapon:
+            errors.append(f"{chest.get('id')} has no coin or weapon loot")
     document = {
         "schema": 1,
         "tool": "tools/asset/audit_item_assets.py",
@@ -38,11 +41,12 @@ def main() -> int:
         "coin_frame_counts": {coin["id"]: len(coin.get("frames", []))
                               for coin in coins},
         "evidence": [
-            "chest00 prefab: Animator + BoxCollider2D + RGChest level=0",
+            "chest00/01/02 prefabs: Animator + RGChest table and chest_open 1.0 s",
             "coin_0/1/2 prefab RGCoin: type 0/1/2 and value 5/3/1, speed 20, range 7",
-            "coin_gold/silver/copper AnimationClip PPtr frame mappings",
+            "WeaponDropInfo: 7 weighted levels recovered",
+            "RGChestAppoint fixed object_list and RGChest weapon drop path",
         ],
-        "native_extension": "chest00 loot one coin_0 (value 5), lid lift and open state; exact RGChest loot tables UNKNOWN",
+        "native_extension": "integrated chests use RGChestAppoint weapon_021 and WeaponDropInfo levels 1/2; coin loot remains a separate recovered coin path",
         "errors": errors,
     }
     OUT.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n",
@@ -53,10 +57,14 @@ def main() -> int:
         lines.append(f"| {coin['id']} | RGCoin type {coin['type']} | "
                      f"value {coin['value']}, {len(coin.get('frames', []))} frames |")
     for chest in chests:
+        weapon_loot = chest.get("appointed_weapon", "")
+        if not weapon_loot and int(chest.get("weapon_drop_level", -1)) >= 0:
+            weapon_loot = f"WeaponDropInfo level {chest.get('weapon_drop_level')}"
         lines.append(f"| {chest['id']} | RGChest level {chest.get('level', 0)} | "
-                     f"loot {chest.get('loot_coin')} x{chest.get('loot_count')} |")
-    lines += ["", "Chest opening animation and single-coin loot are a documented",
-              "native extension; exact RGChest loot tables remain UNKNOWN.", ""]
+                     f"weapon {weapon_loot or '-'}; coin {chest.get('loot_coin') or '-'} |")
+    lines += ["", "Chest_open duration 1.0 s comes from the recovered Animator clip.",
+              "RGChest weapon selection uses recovered WeaponDropInfo; exact boss/big/",
+              "material distributions remain UNKNOWN.", ""]
     MD.write_text("\n".join(lines), encoding="utf-8")
     if errors:
         raise SystemExit("; ".join(errors))

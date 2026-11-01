@@ -21,13 +21,19 @@ def main() -> int:
         weapon_id = weapon["id"]
         if weapon_id in integrated:
             tier = "A"
-            note = "catalogue stats, visual, projectile and attack cadence in native scene"
-        elif "damage" in weapon and "energy_cost" in weapon:
+            note = ("catalogue stats, visual, projectile, bullet count, spread "
+                    "and attack cadence in native scene")
+        elif weapon.get("is_melee"):
             tier = "B"
-            note = "serialized stats/name recovered; native visual/cadence not bundled"
+            note = ("serialized melee stats/name recovered; visual and melee "
+                    "hitbox runtime pending")
+        elif "damage" in weapon and "energy_cost" in weapon:
+            tier = "C"
+            note = ("stats recovered; unique, charge, throw or non-standard "
+                    "mechanic not integrated")
         else:
             tier = "C"
-            note = "name/metadata recovered; unique or non-bullet mechanic not integrated"
+            note = "catalogue-only name/metadata; no serializable runtime prefab"
         rows.append({
             "id": weapon_id,
             "display_name": weapon.get("display_name", weapon_id),
@@ -40,9 +46,9 @@ def main() -> int:
     counts = {
         "catalogue_entries": len(rows),
         "tier_a_fully_integrated": sum(1 for row in rows if row["tier"] == "A"),
-        "tier_b_standard_stats_pending_assets": sum(
+        "tier_b_melee_pending": sum(
             1 for row in rows if row["tier"] == "B"),
-        "tier_c_unique_mechanic_or_non_bullet": sum(
+        "tier_c_unique_or_catalogue_only": sum(
             1 for row in rows if row["tier"] == "C"),
     }
     document = {
@@ -60,8 +66,8 @@ def main() -> int:
         "",
         f"- catalogue entries: **{counts['catalogue_entries']}**",
         f"- Tier A (fully integrated): **{counts['tier_a_fully_integrated']}**",
-        f"- Tier B (stats recovered, asset/cadence integration pending): **{counts['tier_b_standard_stats_pending_assets']}**",
-        f"- Tier C (unique/non-bullet mechanic): **{counts['tier_c_unique_mechanic_or_non_bullet']}**",
+        f"- Tier B (melee stats recovered, melee hitbox pending): **{counts['tier_b_melee_pending']}**",
+        f"- Tier C (unique mechanic or catalogue-only): **{counts['tier_c_unique_or_catalogue_only']}**",
         "",
         "## Tier A",
         "",
@@ -84,8 +90,8 @@ def main() -> int:
     ]
     OUT_MD.write_text("\n".join(lines), encoding="utf-8")
     print(f"Tier A={counts['tier_a_fully_integrated']} "
-          f"B={counts['tier_b_standard_stats_pending_assets']} "
-          f"C={counts['tier_c_unique_mechanic_or_non_bullet']}")
+          f"B={counts['tier_b_melee_pending']} "
+          f"C={counts['tier_c_unique_or_catalogue_only']}")
     return 0
 
 

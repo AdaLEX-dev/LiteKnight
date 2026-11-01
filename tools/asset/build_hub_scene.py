@@ -137,6 +137,29 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         low = p.lower()
         return any(token in low for token in event_tokens)
 
+    # Default Living Room cleanup requested by the 0.5.4 audit. These are
+    # event/progression/tutorial objects that are active in the serialized
+    # HeroRoom but not part of the ordinary room presentation.
+    removed_prefixes = (
+        "room/objects/cellar",          # staircase, cellar trigger, locks
+        "room/objects/first_arrow",     # tutorial arrow
+        "room/objects/npc_trainer",     # Drillmaster
+        "room/objects/npc_sell_limit",  # limit seller opposite Drillmaster
+        "room/objects/promotion",       # promotion NPC pair
+        "room/objects/magic_ball",      # floating orb
+        "room/objects/magic_protal1",   # lower portal 1
+        "room/objects/magic_protal2",   # lower portal 2 / transfer gate
+        "room/objects/npc_bossrush_mgr",# boss-rush sign/guardian
+        "room_tilemap/floor_cellar",
+        "room_tilemap/object_cellar",
+        "room_tilemap_lights/portal",
+    )
+
+    def removed_path(p):
+        low = p.lower()
+        return (any(low.startswith(prefix) for prefix in removed_prefixes)
+                or low.endswith("/tab"))  # biaoqing_16 (!) markers
+
     def path(pid):
         parts = []
         cur = pid
@@ -271,7 +294,7 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             # The recovered carpet renderer is a near-opaque dark overlay whose
             # mask/material stack is not reconstructed; skip the void-like quad.
             continue
-        if not active_chain(pid) or event_path(p):
+        if not active_chain(pid) or event_path(p) or removed_path(p):
             continue
         data = g["game_object"].read()
         pos, rot, scale = world_transform(pid, gos, tr_to_go)
@@ -328,7 +351,7 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         if p.startswith("room_tilemap_blackedge"):
             # Black-edge/mask tilemap stack; see SpriteRenderer skip above.
             continue
-        if not active_chain(go_id) or event_path(p):
+        if not active_chain(go_id) or event_path(p) or removed_path(p):
             # Event tilemaps (for example chinesenewyear_wall_lobby) are
             # inactive in the default HeroRoom scene and must not be baked.
             continue
@@ -391,7 +414,7 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             continue
         if "/Canvas" in p or "/masks/" in p:
             continue
-        if not active_chain(pid) or event_path(p):
+        if not active_chain(pid) or event_path(p) or removed_path(p):
             continue
         # Progression locks and portal triggers are intentionally open in the
         # explorable hub; their visual objects remain rendered.
@@ -555,11 +578,13 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
 
     markers = [
         {"id": "character_station", "kind": "character", "label": "CHARACTER STATION",
-         "position": [0.0, 50.0], "radius": 3.0},
+         "position": [7.0, 5.0], "radius": 3.0},
         {"id": "forge_station", "kind": "forge", "label": "WEAPON WORKSHOP",
-         "position": [28.0, -11.0], "radius": 3.5},
+         "position": [44.98, -6.3], "radius": 4.0},
         {"id": "garden_station", "kind": "garden", "label": "PLANTER GARDEN",
          "position": [-26.0, 0.0], "radius": 4.0},
+        {"id": "trader_station", "kind": "trader", "label": "ORB WEAPON TRADER",
+         "position": [27.6, 3.7], "radius": 4.0},
         {"id": "hub_door", "kind": "door", "label": "DUNGEON",
          "position": [0.0, 7.5], "radius": 3.0},
     ]
