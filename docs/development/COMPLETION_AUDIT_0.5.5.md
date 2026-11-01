@@ -55,10 +55,17 @@ Status values: `IMPLEMENTED`, `REFERENCE-PROVEN ABSENCE`,
 | Dungeon trader | **PARTIAL** | Living Room orb trader is native. Dungeon seller classes (`ItemRoomSeller`, `ItemSellPlaceGem`) are identified but no recovered seller room state/inventory table exists in the static prefabs. |
 | Room persistence | **IMPLEMENTED** | Enemies, cleared/chest-spawned sets, chest/coin state, materials, pet and player state persist in save v5. |
 | Hub collision | **IMPLEMENTED** | Wall tile cells + non-trigger Box/Circle colliders from level2; removed cellar/staircase, signs, Drilmaster, promotion NPCs, lower portals, event decorations and `!` markers. |
-| Audio completeness | **IMPLEMENTED core** | 72 recovered WAVs: UI, pickup, chest, door, transition, player/enemy hit, two BGM tracks, and every `RGWeapon.audio_clip` used by a prefab. Weapon/subclass extra clips (bow draw, charge, throw) are catalogued but not all wired to inputs. |
+| Audio completeness | **IMPLEMENTED core** | 70 unique recovered clips exported under 140 logical ids: UI, pickup, chest, door, transition, player/enemy hit, two BGM tracks, and every `RGWeapon.audio_clip` used by a prefab. Weapon/subclass extra clips (bow draw, charge, throw) are catalogued but not all wired to inputs. |
 | Save/load completeness | **IMPLEMENTED v5** | character, weapons/slots, HP/armor/energy, coins/orbs, materials, pet, plants, map seed, cleared rooms, chest/coin room state, settings and UI layout. Migration v0/v1/v3/v4 → v5 tested. |
 | Room title animation | **IMPLEMENTED** | `map_info` rect anchor top-right, animated x 200→−20 over 0.2 s, LockClock 32 label, panel `#20202040`, exact hide/show activation and 3 s show window reproduced at 1920×1080. |
 | Room clear animation | **IMPLEMENTED** | `message_bar` SignpostLayer `show_signpost` 1.5 s: black bar, `ui_90` line, `ui_89` gold banner, pixel_bold 96 `clear` text, y 0→−60 and alpha keys/easing reproduced. |
+
+## Gameplay-loop validation
+
+`--gameplay-smoke` runs the native hub → door → dungeon start → room clear →
+chest open/loot → transfer-gate end room → next-level plan → save/load loop and
+exits non-zero if any stage fails. A 12 s hub run measured 60.03 Hz present
+pacing; the devroom measured 60.56 Hz.
 
 ## Exact searches performed
 

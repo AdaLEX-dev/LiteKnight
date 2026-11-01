@@ -36,6 +36,7 @@ struct AppConfig {
     std::int32_t map_seed = 0;
     bool map_seed_set = false;
     bool review_mode = false;
+    bool gameplay_smoke = false;
     std::string review_area;
 
     std::string title = "LiteKnight";

@@ -71,6 +71,7 @@ Useful variants:
 ./scripts/play-area.sh chest             # three recovered chest types
 ./scripts/play-area.sh weapons           # weapon catalogue selector
 ./scripts/smoke-hub.sh                   # non-interactive hub invariant smoke
+build/soul-knight --gameplay-smoke       # hub→dungeon→clear→chest→next level→save/load
 ```
 
 The built launcher is:
@@ -198,19 +199,17 @@ source-controlled. Generated pixels remain gitignored. See
 - Confirmed passive energy regeneration: +1 every 2.0 s while below maximum
 - Room-clear flow: doors close on entry, open when all room enemies are dead
 - Idle/run/death character clips with render interpolation and hit flash
-- Versioned save v2 with hub/settings/progression fields
+- Versioned save v5 with hub, campaign, pet, materials and per-room state
+- All 108 recovered PatternRooms and eight special rooms, selected by the
+  reconstructed MapManagerLevel relation/branch/slot algorithm
 - Deterministic tests, Debug ASan/UBSan build, Vulkan validation support
 
-Known limitations: full EnemyAI04 scouting/pathfinding, the reference
-`MapManagerLevel.CreateMap/CreateRoom` algorithm, production forge recipes/plant
-economy, full audio/effects/items and most of the recovered catalogue are not
-integrated. The native room assignment is deterministic but is not a
-reconstruction of reference procedural generation; 3 of 108 discovered
-PatternRooms are integrated. Auto-aim target priority and the body-flip
-threshold are documented HYPOTHESES. UI panel frames remain native
-approximations where exact sprite mapping is UNKNOWN. See
-[project state](docs/PROJECT_STATE.md) and [known gaps](docs/ROADMAP.md). Chest/coin state is session-scoped; the wallet is
-saved, but opened-chest and remaining-world-coin state requires save v3.
+Known limitations: unique enemy controller mechanics are still represented by
+shared chase/contact/ranged families; 21 catalogue-only weapons need
+unrecovered special mechanics; per-level floor/wall overrides, boss-room loot,
+the dungeon seller inventory and a few weapon subclass extra clips remain
+partial. Auto-aim target priority is a documented HYPOTHESIS. See
+[completion audit](docs/development/COMPLETION_AUDIT_0.5.5.md).
 
 ---
 

@@ -3534,9 +3534,138 @@ void Application::PopulateBiomeEnemies() {
                  level->id, spawned, level->enemies.size());
 }
 
+void Application::RunGameplaySmokeStep() {
+    if (gameplay_smoke_stage_time_ <= 0.0) {
+        gameplay_smoke_stage_time_ = simulation_time_ + 0.8;
+        return;
+    }
+    if (simulation_time_ < gameplay_smoke_stage_time_) return;
+    gameplay_smoke_stage_time_ = simulation_time_ + 0.8;
+    switch (gameplay_smoke_stage_) {
+        case 0: {
+            const bool hub = scene_.is_hub;
+            const bool pets = pet_.Count() > 0;
+            const bool recipes = workshop_.Recipes().size() >= 200;
+            LOG_INFO_APP("Gameplay smoke hub: room={} pets={} recipes={}",
+                         scene_.id, pets ? pet_.Count() : 0,
+                         workshop_.Recipes().size());
+            if (!hub || !pets || !recipes) {
+                LOG_ERROR_APP("Gameplay smoke hub checks failed");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            if (pet_.Count() > 0) {
+                pet_.SelectSaved(active_pet_id_);
+                active_pet_id_ = pet_.SelectedId();
+            }
+            if (weapons_.Count() > 0) {
+                (void)weapon_inventory_.EquipActive(0);
+                ConfigureActiveWeapon();
+                if (workshop_.AddMaterialsForDismantle(
+                        weapons_.Definitions()[0].id) == nullptr) {
+                    LOG_WARN_APP("Gameplay smoke: no dismantle recipe for {}",
+                                 weapons_.Definitions()[0].id);
+                }
+            }
+            LOG_INFO_APP("Gameplay smoke: pet={} materials={}",
+                         active_pet_id_, workshop_.SnapshotMaterials().size());
+            break;
+        }
+        case 1:
+            if (!SwitchRoom("hub_door")) {
+                LOG_ERROR_APP("Gameplay smoke: hub door transition failed");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            break;
+        case 2: {
+            LOG_INFO_APP("Gameplay smoke dungeon: room={} type={} enemies={}",
+                         scene_.id, scene_.room.type, enemies_.AliveCount());
+            if (scene_.is_hub) {
+                LOG_ERROR_APP("Gameplay smoke: still in hub");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            // Clear the current battle room and exercise the actual clear path.
+            enemies_.ClearEnemies();
+            UpdateRoomClear();
+            room_clear_pending_ = false;
+            cleared_rooms_.insert(scene_.id);
+            break;
+        }
+        case 3: {
+            if (item_assets_.IsLoaded()) {
+                item_world_.AddChest("chest01",
+                                     scene_.spawn + engine::Vec2{0.0f, 2.0f});
+                (void)item_world_.OpenNearestChest(
+                    scene_.spawn + engine::Vec2{0.0f, 2.0f}, 2.5f);
+                item_world_.Update(1.1f, scene_.spawn, item_assets_);
+                const auto drops = item_world_.TakePendingWeaponDrops();
+                LOG_INFO_APP("Gameplay smoke chest: opened, drops={}",
+                             drops.size());
+            }
+            break;
+        }
+        case 4: {
+            // Pick the recovered end/transfer room and advance a level.
+            const Room* end_room = nullptr;
+            for (const Room& room : room_manager_.Rooms()) {
+                if (room.type == 2) {
+                    end_room = &room;
+                    break;
+                }
+            }
+            if (end_room == nullptr) {
+                LOG_WARN_APP("Gameplay smoke: no end room in graph");
+                gameplay_smoke_stage_ = 6;
+                break;
+            }
+            gameplay_smoke_level_before_ = biome_.Current() != nullptr
+                ? biome_.Current()->id : std::string{};
+            if (!ActivateRoom(end_room->id, "")) {
+                LOG_ERROR_APP("Gameplay smoke: end room activation failed");
+                exit_code_ = 1;
+                running_ = false;
+                return;
+            }
+            LOG_INFO_APP("Gameplay smoke end room: {}", scene_.id);
+            break;
+        }
+        case 5: {
+            const bool advanced = AdvanceDungeonLevel();
+            const std::string level_after = biome_.Current() != nullptr
+                ? biome_.Current()->id : std::string{};
+            LOG_INFO_APP("Gameplay smoke progression: {} -> {} ({})",
+                         gameplay_smoke_level_before_, level_after,
+                         advanced ? "advanced" : "final");
+            break;
+        }
+        case 6: {
+            SaveGameToDisk();
+            const std::string scene_before = scene_.id;
+            LoadGameFromDisk();
+            const bool ok = scene_.id == scene_before &&
+                !save_slot_summary_.empty();
+            LOG_INFO_APP("Gameplay smoke save/load: scene={} ok={}",
+                         scene_.id, ok ? "yes" : "no");
+            if (!ok) exit_code_ = 1;
+            break;
+        }
+        default:
+            LOG_INFO_APP("Gameplay smoke: COMPLETE");
+            running_ = false;
+            return;
+    }
+    ++gameplay_smoke_stage_;
+}
+
 void Application::FixedUpdate(double dt) {
     simulation_time_ += dt;
     ++simulation_ticks_;
+    if (config_.gameplay_smoke) RunGameplaySmokeStep();
 
     if (!scene_mode_) return;
     hit_flash_timer_ = std::max(0.0f, hit_flash_timer_ - static_cast<float>(dt));

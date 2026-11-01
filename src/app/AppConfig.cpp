@@ -40,6 +40,10 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
             config.title = "LiteKnight Living Room";
         } else if (arg == "--fullscreen") {
             config.fullscreen = true;
+        } else if (arg == "--gameplay-smoke") {
+            config.gameplay_smoke = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Gameplay Smoke";
         } else if (arg == "--asset-lab") {
             config.asset_lab = true;
             config.scene_path = "scenes/r1_1_visual/scene.json";

@@ -22,6 +22,7 @@ void PrintUsage(const char* executable) {
         << "  --devroom                launch the playable LiteKnight devroom\n"
         << "  --asset-lab              open the recovered asset laboratory\n"
         << "  --start-gui              start at the native main menu (Living Room)\n"
+        << "  --gameplay-smoke         automated hub/dungeon/clear/chest/save loop\n"
         << "  --hub                    launch the recovered Living Room directly\n"
         << "  --fullscreen             start fullscreen\n"
         << "  --interactive-test=<id>  run/record a named serialized test\n"

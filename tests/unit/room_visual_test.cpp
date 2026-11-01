@@ -1,6 +1,7 @@
 // Soul Knight Linux — recovered room visual/collision correspondence tests
 #include <doctest/doctest.h>
 
+#include "engine/assets/SceneLoader.hpp"
 #include "platform/filesystem/FileSystem.hpp"
 
 #ifndef JSON_NOEXCEPTION
@@ -308,4 +309,37 @@ TEST_CASE("r1_1 carries recovered player, weapon and enemy combat metadata" *
     }
     CHECK(found_slime);
     CHECK(scene["enemy_fixtures"].size() == 2);
+}
+
+TEST_CASE("Every generated PatternRoom scene loads with recovered dimensions" *
+          doctest::test_suite("unit")) {
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    int loaded = 0;
+    for (const auto& entry : filesystem.ListDirectory("scenes")) {
+        const std::string name = entry.filename().string();
+        if (name.rfind("r1_", 0) != 0 ||
+            name.size() < 12 ||
+            name.substr(name.size() - 7) != "_visual") {
+            continue;
+        }
+        const std::string path = "scenes/" + name + "/scene.json";
+        soulknight::engine::assets::SceneAsset scene;
+        std::string error;
+        CAPTURE(path);
+        const bool ok = soulknight::engine::assets::SceneLoader::Load(
+            filesystem, path, scene, &error);
+        CHECK(ok);
+        if (!ok) continue;
+        CHECK(scene.id == name);
+        const float width = scene.interior_bounds.w;
+        const float height = scene.interior_bounds.h;
+        CHECK((width == 15.0f || width == 21.0f));
+        CHECK((height == 15.0f || height == 21.0f));
+        CHECK(scene.characters.size() == 15);
+        CHECK(scene.weapons.size() >= 200);
+        CHECK(scene.enemy_definitions.size() >= 88);
+        ++loaded;
+    }
+    CHECK(loaded >= 1);
 }

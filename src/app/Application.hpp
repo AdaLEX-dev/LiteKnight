@@ -141,6 +141,7 @@ private:
     void ApplyActiveCharacterStats();
     void ConfigureSecondaryWeapon();
     void ConfigureTraderOffers();
+    void RunGameplaySmokeStep();
     void PopulateBiomeEnemies();
     void ShowDialogue(const std::string& speaker, const std::string& text,
                       float seconds = 2.5f);
@@ -289,6 +290,9 @@ private:
     bool ui_design_from_main_menu_ = false;
     bool review_mode_ = false;
     double return_portal_confirm_seconds_ = -1.0;
+    int gameplay_smoke_stage_ = 0;
+    double gameplay_smoke_stage_time_ = 0.0;
+    std::string gameplay_smoke_level_before_;
     float room_title_timer_ = 0.0f;
     float room_clear_timer_ = 0.0f;
     float room_transition_flash_ = 0.0f;
