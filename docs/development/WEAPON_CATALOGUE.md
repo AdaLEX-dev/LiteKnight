@@ -1,6 +1,6 @@
 # Weapon Catalogue and Runtime Integration
 
-**Status:** full reference catalogue recovered; 210 standard projectile/melee weapons
+**Status:** full reference catalogue recovered; 278 standard projectile/melee weapons
 are loaded by the native runtime, with the remainder explicitly classified as
 Tier B/C. See `WEAPON_SYSTEM.md` for the pipeline and rarity finding.
 
@@ -23,13 +23,16 @@ Tier B/C. See `WEAPON_SYSTEM.md` for the pipeline and rarity finding.
 
 ```text
 Catalogue entries discovered:              302
-Weapons with complete standard/melee runtime: 210  (Tier A)
-Melee prefab extraction pending:              14  (Tier B)
-Unique / catalogue-only:                      78  (Tier C)
+Weapons with complete standard/melee runtime: 278  (Tier A)
+Melee prefab extraction pending:               3  (Tier B)
+Unique / catalogue-only:                      21  (Tier C)
+Recovered init/skin weapon prefabs:            26 runtime definitions
 ```
 
-Tier A is generated automatically from every serializable projectile prefab
-with a valid visual, bullet prefab and Attack event. Each entry carries the
+Tier A is generated automatically from every prefab with a valid visual and
+either a projectile bullet or a serialized melee definition. Bullets may render
+on the root or a child; bow/support weapons without Attack events use the
+serialized attack clip duration. Each entry carries the
 localized name, actual `consume`, first-bullet damage, projectile
 id/sprite/speed/lifetime, visual, gun point, `multiCount` and Attack cadence.
 Tier B/C are not silently given generic behaviour; they remain catalogue/UI data
