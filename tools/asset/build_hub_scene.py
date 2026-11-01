@@ -524,26 +524,89 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             if instance.get("sorting_layer") in (2, 3) and "/tile" in instance.get("path", ""):
                 occupied.add((math.floor(instance["position"][0]),
                               math.floor(instance["position"][1])))
+        # Native 4x4 tiled fill: one quad covers 16 recovered floor cells. This
+        # keeps the visual gap fill identical while avoiding ~5000 tiny quads
+        # on the integrated-GPU 60 FPS target.
+        fill_sprite = floor_tile_sprite
+        tile_px = None
+        tile_source = sprite_ids.get(floor_tile_sprite)
+        if tile_source is not None:
+            tex_entry = texture_ids.get(tile_source["texture"])
+            if tex_entry is not None:
+                try:
+                    from PIL import Image as _Image
+                    original = _Image.open(output / tex_entry["png"]).convert("RGBA")
+                    tiled = _Image.new(
+                        "RGBA", (original.width * 4, original.height * 4))
+                    for ty in range(4):
+                        for tx in range(4):
+                            tiled.paste(original, (tx * original.width,
+                                                   ty * original.height))
+                    fill_tex_id = "hub_floor_tile4_texture"
+                    fill_png = output / "textures" / "hub_floor_tile4.png"
+                    fill_png.parent.mkdir(parents=True, exist_ok=True)
+                    tiled.save(fill_png)
+                    textures.append({
+                        "id": fill_tex_id,
+                        "png": "textures/hub_floor_tile4.png",
+                        "source_bundle": "level2",
+                        "source_cab": "native tile repeat",
+                        "source_path_id": "hub_floor_tile4",
+                        "source_name": "Living Room floor 4x4 repeat",
+                        "width": tiled.width,
+                        "height": tiled.height,
+                        "format": "RGBA32",
+                        "filter": "point",
+                        "wrap": "clamp",
+                        "rgba8_sha256": hashlib.sha256(
+                            tiled.tobytes()).hexdigest(),
+                        "png_sha256": hashlib.sha256(
+                            fill_png.read_bytes()).hexdigest(),
+                        "conversion": "native 4x4 repeat of recovered floor tile",
+                    })
+                    texture_ids[fill_tex_id] = textures[-1]
+                    fill_sprite = "hub_floor_tile4_sprite"
+                    sprites.append({
+                        "id": fill_sprite,
+                        "texture": fill_tex_id,
+                        "rect": [0.0, 0.0, float(tiled.width),
+                                 float(tiled.height)],
+                        "pivot": [0.5, 0.5],
+                        "source_pivot": [0.5, 0.5],
+                        "pixels_per_unit": float(tiled.width) / 4.0,
+                        "border": [0.0, 0.0, 0.0, 0.0],
+                        "filter": "point",
+                        "wrap": "clamp",
+                    })
+                    sprite_ids[fill_sprite] = sprites[-1]
+                    tile_px = tiled.width
+                except Exception as exc:
+                    print("4x4 floor fill unavailable:", exc)
+        step = 4 if tile_px is not None else 1
         added = 0
-        for cell_x in range(math.floor(minx), math.ceil(maxx)):
-            for cell_y in range(math.floor(miny), math.ceil(maxy)):
-                if (cell_x, cell_y) in occupied:
+        for cell_x in range(math.floor(minx), math.ceil(maxx), step):
+            for cell_y in range(math.floor(miny), math.ceil(maxy), step):
+                if step == 4 and any(
+                        (cell_x + dx, cell_y + dy) in occupied
+                        for dx in range(step) for dy in range(step)):
                     continue
-                if added >= 5000:
+                if added >= 1600:
                     break
                 instances.append({
-                    "sprite": floor_tile_sprite,
-                    "position": [cell_x + 0.5, cell_y + 0.5],
-                    "rotation": 0.0, "scale": [1.0, 1.0],
+                    "sprite": fill_sprite,
+                    "position": [cell_x + step * 0.5,
+                                 cell_y + step * 0.5],
+                    "rotation": 0.0,
+                    "scale": [1.0, 1.0] if step == 4 else [1.0, 1.0],
                     "color": [255, 255, 255, 255],
                     "sorting_layer": 2, "sorting_layer_name": "Floor",
                     "sorting_order": -50, "flip_x": False, "flip_y": False,
                     "path": "hub/floor_tile_fill",
                 })
                 added += 1
-            if added >= 5000:
+            if added >= 1600:
                 break
-        print("floor tile fill instances:", added)
+        print("floor tile fill instances:", added, "step", step)
 
     # A solid recovered-floor-colored fill behind the tilemaps closes gaps left
     # by reference tiles whose atlases are not fully recoverable. It is a native
