@@ -172,6 +172,11 @@ void GameUI::OpenWorkshop(int initial_index, int count) {
     action_ = UIAction::None;
 }
 
+void GameUI::OpenMaterialChest() {
+    screen_ = UIScreen::MaterialChest;
+    action_ = UIAction::None;
+}
+
 void GameUI::OpenTrader() {
     screen_ = UIScreen::Trader;
     trader_selected_ = 0;
@@ -187,7 +192,8 @@ void GameUI::Back() {
     if (screen_ == UIScreen::CharacterSelect ||
         screen_ == UIScreen::WeaponSelect ||
         screen_ == UIScreen::PetSelect ||
-        screen_ == UIScreen::Workshop) {
+        screen_ == UIScreen::Workshop ||
+        screen_ == UIScreen::MaterialChest) {
         CloseSelection();
         return;
     }
@@ -1323,7 +1329,8 @@ void GameUI::DrawWorkshop(UIRenderer& ui, const GameUIData& data) const {
     ui.Panel(panel, kPanelNavy, {76, 87, 112, 255}, 4.0f, 1982);
     ui.Panel({panel.x + 16, panel.y + 16, panel.w - 32, panel.h - 32},
              kPanelDark, {112, 92, 63, 255}, 3.0f, 1984);
-    ui.TextCentered("WEAPON WORKSHOP", {panel.x, panel.y + 20, panel.w, 54},
+    ui.TextCentered(data.workshop_station ? "WEAPON STATION" : "WEAPON WORKSHOP",
+                    {panel.x, panel.y + 20, panel.w, 54},
                     Color::White(), 1990, 36.0f, true);
     ui.TextFitted("RECOVERED WEAPON MATERIAL RECIPES",
                   {panel.x + 40, panel.y + 76, panel.w - 80, 24},
@@ -1352,11 +1359,18 @@ void GameUI::DrawWorkshop(UIRenderer& ui, const GameUIData& data) const {
                       is_selected ? kGold : kCream, 1992,
                       engine::rendering::TextAlign::Left, 26.0f, 16.0f,
                       is_selected);
-        ui.TextFitted(recipe.affordable ? "READY" : "MISSING",
+        const char* state = recipe.blueprint_required &&
+                !recipe.blueprint_unlocked
+            ? "BLUEPRINT"
+            : (recipe.affordable ? "READY" : "MISSING");
+        const bool blueprint_locked = recipe.blueprint_required &&
+            !recipe.blueprint_unlocked;
+        ui.TextFitted(state,
                       {line.x + line.w - 200, line.y + 8, 188, 34},
-                      recipe.affordable ? kGreen : kMuted, 1992,
-                      engine::rendering::TextAlign::Right, 22.0f, 14.0f,
-                      false);
+                      blueprint_locked ? kGold
+                                       : (recipe.affordable ? kGreen : kMuted),
+                      1992, engine::rendering::TextAlign::Right, 22.0f,
+                      14.0f, false);
     }
     const Rect detail{panel.x + 830, panel.y + 116, panel.w - 872, 700};
     ui.Panel(detail, {16, 20, 31, 230}, {67, 77, 97, 255}, 2.0f, 1990);
@@ -1372,20 +1386,29 @@ void GameUI::DrawWorkshop(UIRenderer& ui, const GameUIData& data) const {
                       {detail.x + 24, detail.y + 184, detail.w - 48, 44},
                       kGold, 1992, engine::rendering::TextAlign::Center,
                       32.0f, 20.0f, true);
+        if (recipe.blueprint_required) {
+            ui.TextFitted(recipe.blueprint_unlocked
+                              ? "BLUEPRINT COLLECTED"
+                              : "NEED TO COLLECT WEAPON BLUEPRINT FIRST",
+                          {detail.x + 24, detail.y + 232, detail.w - 48, 30},
+                          recipe.blueprint_unlocked ? kGreen : kGold, 1992,
+                          engine::rendering::TextAlign::Center, 20.0f, 14.0f,
+                          false);
+        }
         char stats[128];
         std::snprintf(stats, sizeof(stats), "DMG %d   ENERGY %d",
                       recipe.damage, recipe.energy_cost);
         ui.TextCentered(stats,
-                        {detail.x + 24, detail.y + 232, detail.w - 48, 30},
+                        {detail.x + 24, detail.y + 270, detail.w - 48, 30},
                         kCream, 1992, 22.0f);
         ui.TextFitted("MATERIALS",
-                      {detail.x + 24, detail.y + 280, detail.w - 48, 26},
+                      {detail.x + 24, detail.y + 310, detail.w - 48, 26},
                       kMuted, 1993, engine::rendering::TextAlign::Left,
                       20.0f, 14.0f, false);
         for (std::size_t i = 0; i < recipe.materials.size(); ++i) {
             ui.TextFitted(recipe.materials[i],
                           {detail.x + 40,
-                           detail.y + 314 + static_cast<float>(i) * 34,
+                           detail.y + 344 + static_cast<float>(i) * 34,
                            detail.w - 80, 30},
                           kCream, 1993,
                           engine::rendering::TextAlign::Left, 24.0f, 16.0f,
@@ -1400,6 +1423,57 @@ void GameUI::DrawWorkshop(UIRenderer& ui, const GameUIData& data) const {
                       22.0f, 15.0f, false);
     }
     ui.TextCentered("UP/DOWN SELECT   ENTER CRAFT   D DISMANTLE ACTIVE WEAPON   ESC CLOSE",
+                    {panel.x, panel.y + panel.h - 58, panel.w, 28}, kMuted,
+                    1995, 19.0f);
+}
+
+void GameUI::DrawMaterialChest(UIRenderer& ui, const GameUIData& data) const {
+    ui.Rect({0, 0, 1920, 1080}, {4, 5, 9, 200}, 1980);
+    const Rect panel{180, 100, 1560, 880};
+    ui.Panel(panel, kPanelNavy, {76, 87, 112, 255}, 4.0f, 1982);
+    ui.Panel({panel.x + 16, panel.y + 16, panel.w - 32, panel.h - 32},
+             kPanelDark, {112, 92, 63, 255}, 3.0f, 1984);
+    ui.TextCentered("MATERIALS", {panel.x, panel.y + 24, panel.w, 54},
+                    Color::White(), 1990, 38.0f, true);
+    ui.TextFitted("RECOVERED MATERIAL STORAGE",
+                  {panel.x + 40, panel.y + 82, panel.w - 80, 26},
+                  kMuted, 1991, engine::rendering::TextAlign::Center,
+                  20.0f, 14.0f, false);
+    const int count = static_cast<int>(data.material_rows.size());
+    if (count == 0) {
+        ui.TextCentered("NO MATERIALS IN STORAGE",
+                        {panel.x, panel.y + 380, panel.w, 40}, kMuted, 1992,
+                        26.0f);
+    } else {
+        const int columns = 2;
+        const int rows = 8;
+        for (int index = 0; index < count && index < columns * rows; ++index) {
+            const int column = index / rows;
+            const int row = index % rows;
+            const Rect cell{panel.x + 58 + static_cast<float>(column) * 720.0f,
+                            panel.y + 136 + static_cast<float>(row) * 84.0f,
+                            680.0f, 72.0f};
+            ui.Panel(cell, {18, 23, 34, 220}, {67, 77, 97, 255}, 2.0f, 1992);
+            const MaterialRowView& material =
+                data.material_rows[static_cast<std::size_t>(index)];
+            if (material.sprite_index >= 0) {
+                ui.SceneSprite(material.sprite_index,
+                               {cell.x + 10, cell.y + 8, 56, 56},
+                               Color::White(), 1993);
+            }
+            ui.TextFitted(material.name,
+                          {cell.x + 78, cell.y + 8, cell.w - 210, 32},
+                          kCream, 1993, engine::rendering::TextAlign::Left,
+                          26.0f, 17.0f, false);
+            char amount[32];
+            std::snprintf(amount, sizeof(amount), "x%d", material.count);
+            ui.TextFitted(amount,
+                          {cell.x + cell.w - 120, cell.y + 8, 100, 32},
+                          kGold, 1993, engine::rendering::TextAlign::Right,
+                          28.0f, 18.0f, true);
+        }
+    }
+    ui.TextCentered("ESC CLOSE",
                     {panel.x, panel.y + panel.h - 58, panel.w, 28}, kMuted,
                     1995, 19.0f);
 }
@@ -1585,6 +1659,7 @@ void GameUI::Draw(UIRenderer& ui, const GameUIData& data) const {
     else if (screen_ == UIScreen::Trader) DrawTrader(ui, data);
     else if (screen_ == UIScreen::PetSelect) DrawPetSelect(ui, data);
     else if (screen_ == UIScreen::Workshop) DrawWorkshop(ui, data);
+    else if (screen_ == UIScreen::MaterialChest) DrawMaterialChest(ui, data);
 }
 
 } // namespace soulknight::game::ui

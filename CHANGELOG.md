@@ -5,6 +5,56 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.6.0-beta.1] - 2026-11-01
+
+### Added
+- Strict Living Room coordinate regression suite with 41 checks covering every
+  supplied bug coordinate, station marker, garden entrance/tree boundary, and
+  autonomous walks from five spawn positions.
+- Trader stock A/B/A runtime regression and CTest registration.
+- Weapon presentation regression: walking never moves the weapon, aiming rotates
+  around the fixed anchor, firing recoil is tiny and muzzle is per-weapon.
+- Rogue starter-weapon regression (`weapon_init_ranger` is a hybrid
+  melee/thrown weapon with `bullet_107`, not the Bad Pistol).
+- Weapon station blueprint/material crafting tests and persistence.
+- Multi-seed Living Room weapon chest loot and save/restore tests.
+- Dedicated materials chest UI with recovered icons/names/quantities.
+- Hub mission board restoration, portal frame/NPC restoration, guardian/grave
+  visual, seated table characters, oxygen/table/object collision footprints.
+- Large successor handbook under `docs/handbook/`.
+
+### Changed
+- Living Room hub scene: removed decorative signboards, restored functional
+  task board, removed stair repair wall/3x3 block, shortened protruding wall,
+  restored magic portal and explorer/magic NPCs, fixed Rogue beanbag rendering.
+- Hub starter chest now uses `hub_weapon_chest` (chest00 visuals, random loot)
+  instead of appointed `chest00`/`weapon_021`.
+- Weapon station never grants a free weapon; locked blueprints require
+  collection and recipes require recovered materials.
+- Trader stock seed and sold offers persist; stock differs by seed and repeats
+  under the same seed.
+- Mech platform UI enlarged; trader world weapons are vertical on three
+  pedestals.
+- Save serializer now reads materials and unlocked blueprints (previously only
+  written).
+
+### Testing
+- 238 unit cases / 161,569 assertions, 0 failed.
+- Coordinate regression 41/41.
+- Trader stock 4/4.
+- Gameplay smoke pass.
+- CTest coordinate, trader, gameplay-smoke pass.
+
+### Known gaps
+- Full Release/Debug matrix, 108-room, boss/special-room, 1000-seed, and
+  302-weapon gallery sweeps were not fully re-run for this beta.
+- No dedicated Rogue sitting clip; no recovered blueprint acquisition loop;
+  exact plant/mech/EnemyAI04/reference-save behavior remain partial.
+- Visual acceptance is still required for pose/scale/icon readability.
+- `build-release/soul-knight` is an older synthetic-scene binary; the canonical
+  executable is `build/soul-knight`. `/build/soul knight` is not present in this
+  tree.
+
 ## [0.5.1-dev] - 2026-11-01
 
 ### Added

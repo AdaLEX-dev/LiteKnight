@@ -8,6 +8,7 @@
 #include <chrono>
 #include <filesystem>
 #include <fstream>
+#include <set>
 
 using soulknight::game::items::ItemAssets;
 using soulknight::game::items::ItemWorld;
@@ -46,6 +47,10 @@ public:
                          "sorting_layer":5,"sorting_order":1}]},
             {"id":"chest_big","level":1,"open_time":1.0,"big":true,
              "weapon_count":2,"weapon_drop_level":1,
+             "visuals":[{"sprite":"sprite","offset":[0,0],
+                         "sorting_layer":5,"sorting_order":1}]},
+            {"id":"hub_weapon_chest","level":0,"open_time":1.0,
+             "weapon_drop_level":-2,
              "visuals":[{"sprite":"sprite","offset":[0,0],
                          "sorting_layer":5,"sorting_order":1}]}
           ],
@@ -200,4 +205,76 @@ TEST_CASE("RGChest auto-opens on player proximity without E" *
     CHECK(world.Chests().front().state == soulknight::game::items::ChestState::Opening);
     world.Update(0.02f, {4.0f, 4.0f}, assets);
     CHECK(world.Chests().front().state == soulknight::game::items::ChestState::Open);
+}
+
+TEST_CASE("Hub weapon chest loot varies by run seed and repeats for one seed" *
+          doctest::test_suite("unit")) {
+    TempItemDirectory temp;
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    ItemAssets assets;
+    std::string error;
+    CHECK(assets.Load(filesystem, temp.Path() / "items.json", &error));
+
+    const auto roll = [&](std::uint32_t seed) {
+        ItemWorld world;
+        world.SetLootSeed(seed);
+        world.SetAvailableWeapons({"weapon_000", "weapon_001"});
+        world.EnterRoom("hub", false, {0.0f, 0.0f});
+        world.AddChest("hub_weapon_chest", {4.0f, 4.0f});
+        CHECK(world.OpenNearestChest({4.0f, 4.0f}, 2.0f));
+        world.Update(1.01f, {4.0f, 4.0f}, assets);
+        const auto drops = world.TakePendingWeaponDrops();
+        CHECK(drops.size() == 1);
+        // A second update must not duplicate the free weapon.
+        world.Update(1.01f, {4.0f, 4.0f}, assets);
+        CHECK(world.TakePendingWeaponDrops().empty());
+        return drops.empty() ? std::string{} : drops.front().weapon;
+    };
+
+    const std::string seed_seven_a = roll(7);
+    const std::string seed_seven_b = roll(7);
+    CHECK_FALSE(seed_seven_a.empty());
+    CHECK(seed_seven_a == seed_seven_b);
+
+    std::set<std::string> distinct;
+    for (std::uint32_t seed = 1; seed <= 32; ++seed) {
+        distinct.insert(roll(seed));
+    }
+    CHECK(distinct.size() >= 2);
+    CHECK(distinct.contains("weapon_000"));
+    CHECK(distinct.contains("weapon_001"));
+}
+
+TEST_CASE("Hub chest stays open after save/restore of room items" *
+          doctest::test_suite("unit")) {
+    TempItemDirectory temp;
+    FileSystem filesystem;
+    CHECK(filesystem.Initialize());
+    ItemAssets assets;
+    std::string error;
+    CHECK(assets.Load(filesystem, temp.Path() / "items.json", &error));
+    ItemWorld world;
+    world.SetLootSeed(99);
+    world.SetAvailableWeapons({"weapon_000", "weapon_001"});
+    world.EnterRoom("hub", false, {0.0f, 0.0f});
+    world.AddChest("hub_weapon_chest", {-2.89f, 6.31f});
+    CHECK(world.OpenNearestChest({-2.89f, 6.31f}, 2.0f));
+    world.Update(1.01f, {-2.89f, 6.31f}, assets);
+    const auto drops = world.TakePendingWeaponDrops();
+    CHECK(drops.size() == 1);
+    const auto snapshot = world.SnapshotRooms();
+
+    ItemWorld restored;
+    restored.SetLootSeed(99);
+    restored.SetAvailableWeapons({"weapon_000", "weapon_001"});
+    restored.RestoreRooms(snapshot);
+    restored.EnterRoom("hub", false, {0.0f, 0.0f});
+    CHECK(restored.Chests().size() == 1);
+    if (restored.Chests().size() != 1) return;
+    CHECK(restored.Chests().front().state ==
+          soulknight::game::items::ChestState::Open);
+    CHECK(restored.Chests().front().loot_spawned);
+    restored.Update(1.01f, {-2.89f, 6.31f}, assets);
+    CHECK(restored.TakePendingWeaponDrops().empty());
 }

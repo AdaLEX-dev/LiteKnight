@@ -28,7 +28,8 @@ enum class UIScreen {
     SaveLoad,
     Trader,
     PetSelect,
-    Workshop
+    Workshop,
+    MaterialChest
 };
 
 struct MapRoomView {
@@ -78,6 +79,12 @@ enum class UIAction {
     CraftWeapon
 };
 
+struct MaterialRowView {
+    int sprite_index = -1;
+    std::string name;
+    int count = 0;
+};
+
 struct WorkshopRecipeView {
     std::string weapon_id;
     std::string name;
@@ -85,6 +92,8 @@ struct WorkshopRecipeView {
     int damage = 0;
     int energy_cost = 0;
     bool affordable = false;
+    bool blueprint_required = false;
+    bool blueprint_unlocked = false;
     std::vector<std::string> materials;
 };
 
@@ -163,9 +172,11 @@ struct GameUIData {
     std::vector<std::string> pet_names;
     std::vector<int> pet_sprites;
     int selected_pet = 0;
+    std::vector<MaterialRowView> material_rows;
     std::vector<WorkshopRecipeView> workshop_recipes;
     int workshop_selected = 0;
     std::string workshop_status;
+    bool workshop_station = false;
 };
 
 class GameUI {
@@ -180,6 +191,7 @@ public:
     void OpenTrader();
     void OpenPetSelect(int initial_index = 0, int count = 0);
     void OpenWorkshop(int initial_index = 0, int count = 0);
+    void OpenMaterialChest();
     int WorkshopSelection() const { return workshop_index_; }
     int TraderSelection() const { return trader_selected_; }
     int PetSelection() const { return pet_select_index_; }
@@ -199,7 +211,8 @@ public:
                screen_ == UIScreen::WeaponSelect ||
                screen_ == UIScreen::Trader ||
                screen_ == UIScreen::PetSelect ||
-               screen_ == UIScreen::Workshop;
+               screen_ == UIScreen::Workshop ||
+               screen_ == UIScreen::MaterialChest;
     }
     bool IsMainMenu() const { return screen_ == UIScreen::MainMenu; }
     UIScreen Screen() const { return screen_; }
@@ -228,6 +241,7 @@ private:
     void DrawTrader(UIRenderer& ui, const GameUIData& data) const;
     void DrawPetSelect(UIRenderer& ui, const GameUIData& data) const;
     void DrawWorkshop(UIRenderer& ui, const GameUIData& data) const;
+    void DrawMaterialChest(UIRenderer& ui, const GameUIData& data) const;
     void DrawDialogue(UIRenderer& ui, const GameUIData& data) const;
     void DrawButton(UIRenderer& ui, const GameUIData& data,
                     const engine::Rect& rect, const std::string& label,

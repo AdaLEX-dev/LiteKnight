@@ -73,8 +73,11 @@ struct SaveData {
     bool living_room_suggestions = false;
     std::int32_t map_seed = 0;
     std::string campaign_level = "1-1";
+    std::int64_t trader_stock_seed = 0;
+    std::vector<int> sold_trader_offers;
     std::string pet_id;
     std::vector<SaveMaterial> materials;
+    std::vector<std::string> unlocked_blueprints;
     std::vector<std::string> cleared_rooms;
     std::vector<std::string> chest_spawned_rooms;
     std::vector<std::string> sold_shop_items;

@@ -14,7 +14,7 @@ auto-aim, weapon energy consumption, Knight Dual Wield and native save/load are
 part of the same executable. The asset laboratory and serialized interactive
 test harness remain available.
 
-- **Version:** `0.5.5-dev`
+- **Version:** `0.6.0-beta.1`
 - **Platform:** Linux, Wayland only, Vulkan 1.3+
 - **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 (local reference only)
 - **Simulation:** 50 Hz fixed step; 60 FPS render target (FIFO VSync,
@@ -23,6 +23,10 @@ test harness remain available.
 
 LiteKnight is **not** an official Soul Knight build, not affiliated with
 ChillyRoom, and not a complete game. See [LEGAL.md](LEGAL.md).
+
+> **Beta:** this is a development beta. The canonical executable is
+> `build/soul-knight`. The full successor handbook is in
+> [docs/handbook/README.md](docs/handbook/README.md).
 
 ---
 

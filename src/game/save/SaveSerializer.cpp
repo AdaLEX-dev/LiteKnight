@@ -179,6 +179,8 @@ Json Serialize(const SaveData& data) {
     document["auto_aim"] = data.auto_aim;
     document["map_seed"] = data.map_seed;
     document["campaign_level"] = data.campaign_level;
+    document["trader_stock_seed"] = data.trader_stock_seed;
+    document["sold_trader_offers"] = data.sold_trader_offers;
     document["pet_id"] = data.pet_id;
     Json materials = Json::array();
     for (const SaveMaterial& material : data.materials) {
@@ -186,6 +188,7 @@ Json Serialize(const SaveData& data) {
                                  {"count", material.count}});
     }
     document["materials"] = std::move(materials);
+    document["unlocked_blueprints"] = data.unlocked_blueprints;
     document["cleared_rooms"] = data.cleared_rooms;
     document["chest_spawned_rooms"] = data.chest_spawned_rooms;
     document["sold_shop_items"] = data.sold_shop_items;
@@ -356,6 +359,40 @@ bool Deserialize(const Json& document, SaveData* data, std::string* error) {
         document["campaign_level"].is_string()) {
         loaded.campaign_level =
             document["campaign_level"].get<std::string>();
+    }
+    if (document.contains("trader_stock_seed") &&
+        document["trader_stock_seed"].is_number_integer()) {
+        loaded.trader_stock_seed =
+            document["trader_stock_seed"].get<std::int64_t>();
+    }
+    if (document.contains("sold_trader_offers") &&
+        document["sold_trader_offers"].is_array()) {
+        for (const Json& item : document["sold_trader_offers"]) {
+            if (item.is_number_integer()) {
+                loaded.sold_trader_offers.push_back(item.get<int>());
+            }
+        }
+    }
+    if (document.contains("unlocked_blueprints") &&
+        document["unlocked_blueprints"].is_array()) {
+        for (const Json& item : document["unlocked_blueprints"]) {
+            if (item.is_string()) {
+                loaded.unlocked_blueprints.push_back(item.get<std::string>());
+            }
+        }
+    }
+    if (document.contains("materials") && document["materials"].is_array()) {
+        for (const Json& item : document["materials"]) {
+            if (!item.is_object() || !item.contains("id") ||
+                !item["id"].is_string()) {
+                continue;
+            }
+            SaveMaterial material;
+            material.id = item["id"].get<std::string>();
+            material.count = item.value("count", 0);
+            if (material.count < 0) material.count = 0;
+            loaded.materials.push_back(std::move(material));
+        }
     }
     loaded.active_statue = document.value("active_statue", std::string{});
     loaded.active_mercenary = document.value("active_mercenary", std::string{});

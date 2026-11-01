@@ -59,6 +59,10 @@ SaveData MakeSave() {
     data.hub_visited = true;
     data.auto_aim = true;
     data.map_seed = 20261031;
+    data.trader_stock_seed = 987654321;
+    data.sold_trader_offers = {0, 2};
+    data.unlocked_blueprints = {"weapon_184", "weapon_294"};
+    data.materials = {{"material_iron", 37}, {"material_wood", 112}};
     data.sold_shop_items = {"health_pot", "weapon_005"};
     data.active_statue = "statue_04";
     data.active_mercenary = "npc_03";
@@ -134,6 +138,17 @@ TEST_CASE("Save round-trips through atomic slot file" *
     CHECK(loaded.hub_visited);
     CHECK(loaded.auto_aim);
     CHECK(loaded.map_seed == 20261031);
+    CHECK(loaded.trader_stock_seed == 987654321);
+    CHECK(loaded.sold_trader_offers == std::vector<int>{0, 2});
+    CHECK(loaded.unlocked_blueprints ==
+          std::vector<std::string>{"weapon_184", "weapon_294"});
+    CHECK(loaded.materials.size() == 2);
+    if (loaded.materials.size() == 2) {
+        CHECK(loaded.materials[0].id == "material_iron");
+        CHECK(loaded.materials[0].count == 37);
+        CHECK(loaded.materials[1].id == "material_wood");
+        CHECK(loaded.materials[1].count == 112);
+    }
     CHECK(loaded.sold_shop_items.size() == 2);
     CHECK(loaded.active_statue == "statue_04");
     CHECK(loaded.active_mercenary == "npc_03");

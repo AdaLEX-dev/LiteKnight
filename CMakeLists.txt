@@ -628,6 +628,9 @@ add_executable(soul-knight-test
     tests/unit/character_switch_test.cpp
     tests/unit/obstacle_field_test.cpp
     tests/unit/combat_test.cpp
+    tests/unit/weapon_presentation_test.cpp
+    tests/unit/weapon_init_ranger_test.cpp
+    tests/unit/weapon_station_test.cpp
     tests/unit/devroom_test.cpp
     tests/unit/animation_test.cpp
     tests/unit/locomotion_test.cpp
@@ -775,10 +778,23 @@ if(PYTHON3_EXECUTABLE)
         COMMAND soul-knight-geometry --area=-20,-2,4,4
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
+    add_test(NAME liteknight-living-room-coordinate-regression
+        COMMAND "${PYTHON3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tools/qa/living_room_coordinate_regression.py"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
     add_test(NAME liteknight-gameplay-smoke
         COMMAND soul-knight --gameplay-smoke --smoke-seconds 20
         WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
     )
+    add_test(NAME liteknight-trader-stock-randomization
+        COMMAND "${PYTHON3_EXECUTABLE}"
+                "${CMAKE_CURRENT_SOURCE_DIR}/tools/qa/trader_stock_regression.py"
+        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+    )
+    set_tests_properties(liteknight-trader-stock-randomization PROPERTIES
+        TIMEOUT 120 LABELS runtime)
+
     set_tests_properties(liteknight-gameplay-smoke PROPERTIES TIMEOUT 180)
     add_test(NAME liteknight-weapon-runtime-audit
         COMMAND "${PYTHON3_EXECUTABLE}"

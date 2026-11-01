@@ -18,6 +18,7 @@
 #include <algorithm>
 #include <functional>
 #include <chrono>
+#include <random>
 #include <cmath>
 #include <cstdlib>
 #include <iostream>
@@ -483,6 +484,21 @@ bool Application::Initialize() {
             ConfigureActiveWeapon();
             ConfigureSecondaryWeapon();
             ConfigureAbilities();
+            // Stock seed must exist before the first stock roll. A fixed
+            // --map-seed makes the stock deterministic; otherwise it is a
+            // fresh random run seed persisted with the save.
+            if (config_.map_seed_set) {
+                trader_stock_seed_ = static_cast<std::int64_t>(map_seed_) ^
+                    0x54524144;
+            } else if (trader_stock_seed_ == 0) {
+                std::random_device device;
+                trader_stock_seed_ = static_cast<std::int64_t>(
+                    (static_cast<std::uint64_t>(device()) << 32) ^
+                    static_cast<std::uint64_t>(device()) ^
+                    static_cast<std::uint64_t>(
+                        std::chrono::steady_clock::now()
+                            .time_since_epoch().count()));
+            }
             ConfigureTraderOffers();
             weapon_pickups_.Clear();
         }
@@ -1232,15 +1248,21 @@ void Application::BuildRenderBatch() {
                 const auto& sprite = scene_.sprites[
                     static_cast<std::size_t>(offer.sprite_index)];
                 engine::rendering::SpriteDraw draw;
-                draw.position = case_positions[i];
-                draw.size = sprite.WorldSize();
+                const engine::Vec2 world = sprite.WorldSize();
+                const float base_y = 5.91f;
+                draw.position = {
+                    case_positions[i].x -
+                        (0.5f - sprite.pivot.y) * world.y,
+                    base_y + (1.0f - sprite.pivot.x) * world.x};
+                draw.size = world;
                 draw.uv = sprite.UvRect();
                 draw.color = engine::Color::White();
                 draw.layer = engine::rendering::SortLayer::Character;
                 draw.sorting_order = engine::rendering::WorldDepthOrder(
-                    case_positions[i].y, 11);
+                    base_y, 11);
                 draw.texture_id = sprite.texture_id;
                 draw.pivot = sprite.pivot;
+                draw.rotation = -3.14159265358979323846f * 0.5f;
                 (void)sprite_batch_.DrawSprite(draw);
             }
         }
@@ -1416,21 +1438,21 @@ void Application::BuildRenderBatch() {
 
     if (mech_station_open_) {
         auto& text = dev_ui_.Text();
-        const engine::Vec2 panel_size{12.0f, 7.6f};
+        const engine::Vec2 panel_size{18.0f, 10.6f};
         const engine::Vec2 origin{
             camera_.position.x - panel_size.x * 0.5f,
-            camera_.position.y + 4.85f};
+            camera_.position.y + 5.30f};
         text.DrawPanelBorder(sprite_batch_, origin, panel_size,
                              {18, 24, 36, 238}, {188, 150, 74, 255},
                              0.035f, 1500);
         text.DrawText(sprite_batch_, "ROBOTICS FACILITY",
-                      origin + engine::Vec2{0.55f, -0.45f}, 0.011f,
+                      origin + engine::Vec2{0.75f, -0.60f}, 0.015f,
                       {255, 220, 145, 255}, 1502);
         text.DrawText(sprite_batch_,
                       "ORBS: " + std::to_string(player_orbs_) +
                           "   ACTIVE: " +
                           (active_mount_id_.empty() ? "NONE" : active_mount_id_),
-                      origin + engine::Vec2{0.55f, -1.05f}, 0.0075f,
+                      origin + engine::Vec2{0.75f, -1.35f}, 0.0105f,
                       {225, 235, 245, 255}, 1502);
         for (std::size_t i = 0; i < std::size(kMechOffers); ++i) {
             const MechOffer& offer = kMechOffers[i];
@@ -1443,21 +1465,21 @@ void Application::BuildRenderBatch() {
             if (locked) line += "  BLUEPRINT";
             if (active) line += "  [ACTIVE]";
             text.DrawText(sprite_batch_, line,
-                          origin + engine::Vec2{0.55f,
-                              -1.65f - static_cast<float>(i) * 0.58f},
-                          0.0085f,
+                          origin + engine::Vec2{0.75f,
+                              -2.10f - static_cast<float>(i) * 0.78f},
+                          0.0115f,
                           selected ? engine::Color{255, 220, 145, 255}
                                    : engine::Color{190, 205, 220, 255},
                           1502);
         }
         if (!mech_status_.empty()) {
             text.DrawText(sprite_batch_, mech_status_,
-                          origin + engine::Vec2{0.55f, -5.25f}, 0.0095f,
+                          origin + engine::Vec2{0.75f, -7.30f}, 0.0125f,
                           {150, 235, 185, 255}, 1502);
         }
         text.DrawText(sprite_batch_,
                       "UP/DOWN SELECT   ENTER BUILD/STORE   ESC CLOSE",
-                      origin + engine::Vec2{0.55f, -5.95f}, 0.0072f,
+                      origin + engine::Vec2{0.75f, -8.40f}, 0.0095f,
                       {200, 210, 225, 255}, 1502);
     }
 
@@ -2027,6 +2049,16 @@ void Application::ProcessUIAction() {
             mercenary_level_ = 1;
             player_coins_ = 0;
             player_orbs_ = 0;
+            if (!config_.map_seed_set) {
+                std::random_device device;
+                trader_stock_seed_ = static_cast<std::int64_t>(
+                    (static_cast<std::uint64_t>(device()) << 32) ^
+                    static_cast<std::uint64_t>(device()));
+            } else {
+                trader_stock_seed_ = static_cast<std::int64_t>(map_seed_) ^
+                    0x54524144;
+            }
+            ConfigureTraderOffers();
             plant_system_.Clear();
             selected_plant_seed_.clear();
             if (multi_room_world_) {
@@ -2106,7 +2138,13 @@ void Application::ProcessUIAction() {
                 workshop_status_ = "NOT AVAILABLE IN THIS ROOM";
                 break;
             }
-            if (!workshop_.CanCraft(recipe.weapon_id)) {
+            if (workshop_.RequiresBlueprint(recipe.weapon_id) &&
+                !workshop_.HasBlueprint(recipe.weapon_id)) {
+                workshop_status_ = "NEED TO COLLECT WEAPON BLUEPRINT FIRST";
+                PlayUiSound("ui_click");
+                break;
+            }
+            if (!workshop_.HasMaterials(recipe.weapon_id)) {
                 workshop_status_ = "MISSING MATERIALS";
                 PlayUiSound("ui_click");
                 break;
@@ -2354,7 +2392,9 @@ void Application::TeleportForReview(const engine::Vec2& position) {
     }
     previous_camera_position_ = camera_.position;
     render_camera_ = camera_;
-    LOG_INFO_APP("Review teleport: ({:.2f},{:.2f})", position.x, position.y);
+    LOG_INFO_APP("Review teleport: player=({:.2f},{:.2f}) camera=({:.2f},{:.2f})",
+                 position.x, position.y, camera_.position.x,
+                 camera_.position.y);
 }
 
 void Application::ConfigureReviewMode() {
@@ -2452,6 +2492,92 @@ void Application::ConfigureReviewMode() {
                     plant != nullptr ? plant->item_id : std::string{},
                     plant != nullptr ? plant->harvest_count : 1);
             }
+        }
+    } else if (config_.review_area == "sign1" ||
+               config_.review_area == "mission-board" ||
+               config_.review_area == "weapon-chest" ||
+               config_.review_area == "table-characters" ||
+               config_.review_area == "stair" ||
+               config_.review_area == "portal" ||
+               config_.review_area == "sign2" ||
+               config_.review_area == "table17" ||
+               config_.review_area == "object27" ||
+               config_.review_area == "npc-grave" ||
+               config_.review_area == "table31" ||
+               config_.review_area == "table35" ||
+               config_.review_area == "table39" ||
+               config_.review_area == "rogue" ||
+               config_.review_area == "sign3" ||
+               config_.review_area == "wall-short" ||
+               config_.review_area == "invisible-wall" ||
+               config_.review_area == "oxygen" ||
+               config_.review_area == "material-chest-ui" ||
+               config_.review_area == "weapon-station-ui" ||
+               config_.review_area == "weapon-station-locked" ||
+               config_.review_area == "trader-ui" ||
+               config_.review_area == "mech-ui-live") {
+        // Deterministic visual-inspection teleports for every supplied bug
+        // coordinate. The player is placed south of the subject so the
+        // camera centers the reported object.
+        game_ui_.OpenGameplay();
+        engine::Vec2 target = scene_.spawn;
+        const std::string& area = config_.review_area;
+        if (area == "sign1") target = {-12.63f, 3.9f};
+        else if (area == "mission-board") target = {-8.1f, 3.0f};
+        else if (area == "weapon-chest") target = {-2.64f, 3.2f};
+        else if (area == "table-characters") target = {-0.28f, -1.2f};
+        else if (area == "stair") target = {-10.4f, -6.9f};
+        else if (area == "portal") target = {13.72f, -12.6f};
+        else if (area == "sign2") target = {21.03f, -19.4f};
+        else if (area == "table17") target = {17.4f, -24.0f};
+        else if (area == "object27") target = {27.6f, -24.0f};
+        else if (area == "npc-grave") target = {31.35f, -18.0f};
+        else if (area == "table31") target = {31.01f, -1.4f};
+        else if (area == "table35") target = {35.04f, -1.4f};
+        else if (area == "table39") target = {39.72f, -1.4f};
+        else if (area == "rogue") target = {10.45f, -0.2f};
+        else if (area == "sign3") target = {13.79f, 3.4f};
+        else if (area == "wall-short") target = {6.6f, -21.0f};
+        else if (area == "invisible-wall") target = {20.08f, -8.9f};
+        else if (area == "oxygen") target = {23.62f, -2.6f};
+        else if (area == "material-chest-ui") target = {48.93f, 2.8f};
+        else if (area == "weapon-station-ui" ||
+                 area == "weapon-station-locked") {
+            target = {44.98f, -4.1f};
+        } else if (area == "trader-ui") {
+            target = {27.6f, 2.2f};
+        } else if (area == "mech-ui-live") {
+            target = {43.0f, 3.4f};
+        }
+        TeleportForReview(target);
+        if (area == "material-chest-ui") {
+            // QA-only stock so the recovered material icons/name/quantity
+            // layout is visibly inspectable without a pre-populated save.
+            workshop_.AddMaterial("material_iron", 37);
+            workshop_.AddMaterial("material_wood", 112);
+            workshop_.AddMaterial("material_gem", 8);
+            workshop_.AddMaterial("material_gear", 12);
+            game_ui_.OpenMaterialChest();
+        } else if (area == "weapon-station-ui") {
+            workshop_status_ = "WEAPON STATION - BLUEPRINTS AND MATERIALS";
+            game_ui_.OpenWorkshop(
+                0, static_cast<int>(workshop_.Recipes().size()));
+        } else if (area == "weapon-station-locked") {
+            workshop_status_ = "WEAPON STATION - BLUEPRINTS AND MATERIALS";
+            int locked_index = 0;
+            for (std::size_t i = 0; i < workshop_.Recipes().size(); ++i) {
+                if (workshop_.RequiresBlueprint(
+                        workshop_.Recipes()[i].weapon_id)) {
+                    locked_index = static_cast<int>(i);
+                    break;
+                }
+            }
+            game_ui_.OpenWorkshop(
+                locked_index, static_cast<int>(workshop_.Recipes().size()));
+        } else if (area == "trader-ui") {
+            game_ui_.OpenTrader();
+        } else if (area == "mech-ui-live") {
+            OpenMechStation();
         }
     } else if (config_.review_area == "calibration") {
         game_ui_.OpenGameplay();
@@ -2631,7 +2757,25 @@ void Application::DrawGameUI() {
     data.stake_damage = stake_damage_;
     data.stake_damage_screen = stake_damage_screen_;
     data.stake_damage_timer = stake_damage_timer_;
+    data.material_rows.clear();
+    for (const auto& material : workshop_.SnapshotMaterials()) {
+        soulknight::game::ui::MaterialRowView row;
+        row.name = workshop_.MaterialName(material.id);
+        row.count = material.count;
+        if (const auto* definition =
+                item_assets_.FindMaterial(material.id); definition != nullptr) {
+            row.sprite_index = scene_.FindSpriteIndex(definition->sprite);
+        }
+        data.material_rows.push_back(std::move(row));
+    }
+    std::sort(data.material_rows.begin(), data.material_rows.end(),
+              [](const auto& a, const auto& b) {
+                  return a.name < b.name;
+              });
     data.workshop_status = workshop_status_;
+    data.workshop_station =
+        game_ui_.Screen() == soulknight::game::ui::UIScreen::Workshop &&
+        workshop_status_.rfind("WEAPON STATION", 0) == 0;
     data.workshop_selected = game_ui_.WorkshopSelection();
     for (const auto& recipe : workshop_.Recipes()) {
         soulknight::game::ui::WorkshopRecipeView view;
@@ -2651,6 +2795,10 @@ void Application::DrawGameUI() {
             view.energy_cost = definition.EnergyCost();
             if (!definition.display_name.empty()) view.name = definition.display_name;
         }
+        view.blueprint_required =
+            workshop_.RequiresBlueprint(recipe.weapon_id);
+        view.blueprint_unlocked =
+            workshop_.HasBlueprint(recipe.weapon_id);
         view.affordable = weapon_index < weapons_.Count() &&
             workshop_.CanCraft(recipe.weapon_id);
         for (const auto& material : recipe.materials) {
@@ -3104,6 +3252,12 @@ void Application::SaveGameToDisk() {
     data.map_seed = map_seed_;
     data.campaign_level = biome_.Current() != nullptr
         ? biome_.Current()->id : std::string("1-1");
+    data.trader_stock_seed = trader_stock_seed_;
+    for (std::size_t i = 0; i < trader_offers_.size(); ++i) {
+        if (trader_offers_[i].sold) {
+            data.sold_trader_offers.push_back(static_cast<int>(i));
+        }
+    }
     data.pet_id = active_pet_id_;
     data.cleared_rooms.assign(cleared_rooms_.begin(), cleared_rooms_.end());
     data.chest_spawned_rooms.assign(chest_spawned_rooms_.begin(),
@@ -3115,6 +3269,7 @@ void Application::SaveGameToDisk() {
     data.mercenary_level = mercenary_level_;
     data.active_mount = active_mount_id_;
     data.pot_empty = pot_empty_state_;
+    data.unlocked_blueprints = workshop_.UnlockedBlueprints();
     data.materials.clear();
     for (const auto& material : workshop_.SnapshotMaterials()) {
         data.materials.push_back({material.id, material.count});
@@ -3323,6 +3478,7 @@ void Application::LoadGameFromDisk() {
         materials.push_back({material.id, material.count});
     }
     workshop_.RestoreMaterials(materials);
+    workshop_.SetUnlockedBlueprints(data.unlocked_blueprints);
     if (!plant_system_.Plots().empty()) {
         (void)plant_system_.RestorePlots(data.plant_states);
         (void)plant_system_.RestoreSeeds(data.seed_stock);
@@ -3340,6 +3496,15 @@ void Application::LoadGameFromDisk() {
     active_mercenary_id_ = data.active_mercenary;
     mercenary_level_ = std::max(1, data.mercenary_level);
     active_mount_id_ = data.active_mount;
+    trader_stock_seed_ = data.trader_stock_seed != 0
+        ? data.trader_stock_seed : trader_stock_seed_;
+    ConfigureTraderOffers();
+    for (const int index : data.sold_trader_offers) {
+        if (index >= 0 &&
+            static_cast<std::size_t>(index) < trader_offers_.size()) {
+            trader_offers_[static_cast<std::size_t>(index)].sold = true;
+        }
+    }
     mount_speed_bonus_ = active_mount_id_.empty() ? 0.0f : 0.35f;
     pot_empty_state_ = data.pot_empty;
     reduced_weapon_effects_ = data.reduced_weapon_effects;
@@ -3470,6 +3635,7 @@ void Application::ConfigureRoomItems() {
                          scene_.id.rfind("r_", 0) == 0;
     item_world_.SetChestLevel(
         biome_.Current() != nullptr ? biome_.Current()->chest_level : 1);
+    item_world_.SetLootSeed(static_cast<std::uint32_t>(map_seed_));
     seller_.Reset();
     scene_.interaction_markers.erase(
         std::remove_if(scene_.interaction_markers.begin(),
@@ -4323,6 +4489,25 @@ void Application::TryInteract() {
         PlayEffect("pickup", 0.55f);
         LOG_INFO_APP("NPC talk: {} line {}/{} ({})", marker->speaker,
                      line_index + 1, lines.size(), marker->dialogue_term);
+    } else if (marker->kind == "weapon_chest") {
+        if (item_world_.OpenNearestChest(marker->position, 3.2f)) {
+            ShowDialogue("", "WEAPON CHEST OPENED", 1.5f);
+            PlayEffect("chest_open", 0.6f);
+            LOG_INFO_APP("Living Room: weapon chest opened");
+        } else {
+            ShowDialogue("", "CHEST ALREADY OPEN", 1.2f);
+        }
+    } else if (marker->kind == "mission") {
+        const auto& lines = marker->talk_lines;
+        if (lines.empty()) {
+            ShowDialogue(marker->label, "NO TASKS RECOVERED", 1.5f);
+            return;
+        }
+        const std::size_t line_index =
+            npc_talk_line_[marker->id]++ % lines.size();
+        ShowDialogue("TASK BOARD", lines[line_index], 2.5f);
+        PlayEffect("ui_click", 0.4f);
+        LOG_INFO_APP("Mission board: task {}/{}", line_index + 1, lines.size());
     } else if (marker->kind == "pet") {
         std::vector<std::string> names;
         std::vector<int> sprites;
@@ -4343,13 +4528,14 @@ void Application::TryInteract() {
         LOG_INFO_APP("Living Room: workshop opened ({} recipes)",
                      workshop_.Recipes().size());
     } else if (marker->kind == "weapon_station") {
-        game_ui_.OpenWeaponSelect(
-            static_cast<int>(weapon_inventory_.ActiveIndex()));
-        LOG_INFO_APP("Living Room: weapon station inventory opened");
-    } else if (marker->kind == "material_chest") {
         game_ui_.OpenWorkshop(0, static_cast<int>(workshop_.Recipes().size()));
-        workshop_status_ = "MATERIAL INVENTORY";
-        LOG_INFO_APP("Living Room: material chest inventory opened");
+        workshop_status_ = "WEAPON STATION - BLUEPRINTS AND MATERIALS";
+        LOG_INFO_APP("Living Room: weapon station blueprint crafting opened "
+                     "({} recipes)", workshop_.Recipes().size());
+    } else if (marker->kind == "material_chest") {
+        game_ui_.OpenMaterialChest();
+        LOG_INFO_APP("Living Room: material storage opened ({} stacks)",
+                     workshop_.SnapshotMaterials().size());
     } else if (marker->kind == "garden") {
         const int plot_index =
             plant_system_.NearestPlot(player_.Position(), 5.0f);
@@ -4719,7 +4905,8 @@ void Application::ConfigureTraderOffers() {
     int level = 1;
     engine::RGRandomStream random;
     random.SetRandomSeed(static_cast<int32_t>(
-        (static_cast<std::uint32_t>(map_seed_) ^ 0x4F524253u) & 0x7FFFFFFFu));
+        (static_cast<std::uint32_t>(trader_stock_seed_) ^ 0x4F524253u) &
+        0x7FFFFFFFu));
     for (int slot = 0; slot < 3; ++slot, ++level) {
         std::vector<std::pair<std::size_t, const soulknight::game::items::WeaponDropEntry*>>
             candidates;
@@ -4774,7 +4961,14 @@ void Application::ConfigureTraderOffers() {
         if (offer.price <= 0) continue;
         trader_offers_.push_back(std::move(offer));
     }
-    LOG_INFO_APP("Trader: {} orb offers generated", trader_offers_.size());
+    std::string stock;
+    for (const auto& offer : trader_offers_) {
+        if (!stock.empty()) stock += ",";
+        stock += std::to_string(offer.weapon_index) + ":" +
+                 std::to_string(offer.price);
+    }
+    LOG_INFO_APP("Trader: {} orb offers generated seed={} stock={}",
+                 trader_offers_.size(), trader_stock_seed_, stock);
 }
 
 void Application::BuyTraderItem() {
@@ -4809,6 +5003,7 @@ void Application::BuyTraderItem() {
                  weapons_.Definitions()[static_cast<std::size_t>(
                      offer.weapon_index)].display_name,
                  offer.price, player_orbs_);
+    SaveGameToDisk();
 }
 
 void Application::ConfigureAbilities() {

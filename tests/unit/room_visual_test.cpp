@@ -387,7 +387,7 @@ TEST_CASE("Every generated special and boss room loads with recovered data" *
     CHECK(loaded >= 12);
 }
 
-TEST_CASE("Living Room staircase removal is repaired with default wall/floor tiles" *
+TEST_CASE("Living Room staircase removal leaves the dark outside-world gap" *
           doctest::test_suite("unit")) {
     FileSystem filesystem;
     CHECK(filesystem.Initialize());
@@ -410,18 +410,18 @@ TEST_CASE("Living Room staircase removal is repaired with default wall/floor til
             CHECK(instance.value("sorting_order", -1) == 20);
         }
     }
-    CHECK(wall_tiles == 9);
-    bool cap_found = false;
+    CHECK(wall_tiles == 0);
+    bool artificial_block_found = false;
     for (const Json& solid : hub["collision"]["solids"]) {
         if (solid.size() == 4 &&
             std::fabs(solid[0].get<float>() + 12.0f) < 0.01f &&
             std::fabs(solid[1].get<float>() + 12.0f) < 0.01f &&
             std::fabs(solid[2].get<float>() + 9.0f) < 0.01f &&
             std::fabs(solid[3].get<float>() + 9.0f) < 0.01f) {
-            cap_found = true;
+            artificial_block_found = true;
         }
     }
-    CHECK(cap_found);
+    CHECK_FALSE(artificial_block_found);
     soulknight::engine::collision::AabbCollisionWorld world;
     world.SetBounds({{-60.0f, -40.0f}, {60.0f, 40.0f}});
     for (const Json& solid : hub["collision"]["solids"]) {

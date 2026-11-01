@@ -48,6 +48,41 @@ void WeaponRenderer::Draw(engine::rendering::SpriteBatch& batch,
            effect_scale);
 }
 
+WeaponPresentation WeaponRenderer::ComputePresentation(
+        const engine::assets::WeaponDefinition& weapon,
+        const engine::Vec2& player_position,
+        const engine::Vec2& aim_direction,
+        const engine::Vec2& hand_offset,
+        float visual_time,
+        bool visual_attack_active,
+        float effect_scale) {
+    const float aim_angle = std::atan2(aim_direction.y, aim_direction.x);
+    const float recoil_x = visual_attack_active
+        ? SampleCurve(weapon.visual_position_x, visual_time, 0.0f) *
+              effect_scale
+        : 0.0f;
+    const float recoil_angle = visual_attack_active
+        ? SampleCurve(weapon.visual_rotation_z, visual_time, 0.0f) *
+              effect_scale * 3.14159265358979323846f / 180.0f
+        : 0.0f;
+    WeaponPresentation result;
+    result.position = player_position + hand_offset + weapon.visual_offset +
+        Rotate({recoil_x, 0.0f}, aim_angle);
+    result.rotation = aim_angle + weapon.visual_rotation + recoil_angle;
+    const bool muzzle_enabled = visual_attack_active &&
+        !weapon.muzzle_sprite.empty() &&
+        (weapon.muzzle_enabled.empty() ||
+         SampleCurve(weapon.muzzle_enabled, visual_time, 0.0f) > 0.5f);
+    if (muzzle_enabled) {
+        result.has_muzzle = true;
+        result.muzzle_position = result.position +
+            Rotate(weapon.muzzle_offset * weapon.visual_scale,
+                   result.rotation * 180.0f / 3.14159265358979323846f);
+        result.muzzle_scale = effect_scale;
+    }
+    return result;
+}
+
 void WeaponRenderer::DrawAt(engine::rendering::SpriteBatch& batch,
                             const engine::assets::SceneAsset& scene,
                             const engine::assets::WeaponDefinition& weapon,
@@ -63,47 +98,24 @@ void WeaponRenderer::DrawAt(engine::rendering::SpriteBatch& batch,
     }
     const engine::assets::SpriteData& sprite =
         scene.sprites[static_cast<std::size_t>(weapon.visual_sprite_index)];
-    const float aim_angle = std::atan2(aim_direction.y, aim_direction.x);
-    // CONFIRMED c00 prefab hierarchy: img/h1 is the primary RGHand at local
-    // (0, 0.5); h2 (0.55, 0.6) and h3 (0.15, 0.85) are the off-hand mounts.
-    // The caller supplies the mount; the grip receives no guessed sideways
-    // offset. Rotate around the sprite pivot near the handle.
-    const float recoil_x = visual_attack_active
-        ? SampleCurve(weapon.visual_position_x, visual_time, 0.0f) *
-              effect_scale
-        : 0.0f;
-    const float recoil_angle = visual_attack_active
-        ? SampleCurve(weapon.visual_rotation_z, visual_time, 0.0f) *
-              effect_scale
-        : 0.0f;
+    const WeaponPresentation presentation = ComputePresentation(
+        weapon, player_position, aim_direction, hand_offset, visual_time,
+        visual_attack_active, effect_scale);
     engine::rendering::SpriteDraw draw;
-    draw.position = player_position + hand_offset + weapon.visual_offset +
-        Rotate({recoil_x, 0.0f}, aim_angle);
+    draw.position = presentation.position;
     draw.size = sprite.WorldSize() * weapon.visual_scale;
     draw.uv = sprite.UvRect();
     draw.color = engine::Color::White();
-    // Recovered weapon Renderers use Unity sorting layer 5, which maps to the
-    // native Character layer.
     draw.layer = engine::rendering::SortLayer::Character;
-    // Sort against the character's feet, not the hand position. The recovered
-    // weapon root is at hand height (player.y + 0.5); using that Y lowered its
-    // depth band by 50 and hid the gun behind the body.
     draw.sorting_order = engine::rendering::WorldDepthOrder(
         player_position.y, 30);
     draw.texture_id = sprite.texture_id;
     draw.pivot = sprite.pivot;
-    // HYPOTHESIS: the reference flips rotating sprites through FlipWhenRotate
-    // (confirmed on bullet `b`); the same convention keeps a left-aimed weapon
-    // upright instead of presenting it upside-down.
     draw.flip_y = aim_direction.x < -0.01f;
-    draw.rotation = aim_angle + weapon.visual_rotation + recoil_angle;
+    draw.rotation = presentation.rotation;
     (void)batch.DrawSprite(draw);
 
-    // Recovered w/gun_point is a SpriteRenderer toggled by the attack clip's
-    // m_Enabled curve. Draw it at the recovered local muzzle offset.
-    if (!weapon.muzzle_sprite.empty() &&
-        (weapon.muzzle_enabled.empty() ||
-         SampleCurve(weapon.muzzle_enabled, visual_time, 0.0f) > 0.5f)) {
+    if (presentation.has_muzzle) {
         const int32_t muzzle_index =
             scene.FindSpriteIndex(weapon.muzzle_sprite);
         if (muzzle_index >= 0 &&
@@ -111,12 +123,9 @@ void WeaponRenderer::DrawAt(engine::rendering::SpriteBatch& batch,
             const engine::assets::SpriteData& muzzle =
                 scene.sprites[static_cast<std::size_t>(muzzle_index)];
             engine::rendering::SpriteDraw flash;
-            flash.position = draw.position +
-                Rotate(weapon.muzzle_offset * weapon.visual_scale,
-                       draw.rotation * 180.0f /
-                           3.14159265358979323846f);
+            flash.position = presentation.muzzle_position;
             flash.size = muzzle.WorldSize() * weapon.visual_scale *
-                         effect_scale;
+                         presentation.muzzle_scale;
             flash.uv = muzzle.UvRect();
             flash.color = engine::Color::White();
             flash.layer = engine::rendering::SortLayer::Character;

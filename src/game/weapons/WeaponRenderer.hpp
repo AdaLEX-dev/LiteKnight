@@ -12,8 +12,28 @@ namespace soulknight::game::weapons {
 
 // Draws the recovered weapon prefab `w` sprite at the player's hand. Rendering
 // is intentionally separate from WeaponDefinition and Weapon attack behavior.
+struct WeaponPresentation {
+    engine::Vec2 position{0.0f, 0.0f};
+    float rotation = 0.0f;
+    engine::Vec2 muzzle_position{0.0f, 0.0f};
+    float muzzle_scale = 0.0f;
+    bool has_muzzle = false;
+};
+
 class WeaponRenderer {
 public:
+    // Single authoritative presentation transform. Locomotion never enters
+    // this function: walking cannot bob/sway/translate the weapon. Attack
+    // recoil is a tiny transient offset along aim; effect_scale is the
+    // subtle/full setting (default presentation passes 0.22).
+    static WeaponPresentation ComputePresentation(
+        const engine::assets::WeaponDefinition& weapon,
+        const engine::Vec2& player_position,
+        const engine::Vec2& aim_direction,
+        const engine::Vec2& hand_offset,
+        float visual_time,
+        bool visual_attack_active,
+        float effect_scale = 1.0f);
     static void Draw(engine::rendering::SpriteBatch& batch,
                      const engine::assets::SceneAsset& scene,
                      const engine::assets::WeaponDefinition& weapon,

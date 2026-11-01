@@ -382,6 +382,7 @@ private:
     int player_coins_ = 0;
     int player_orbs_ = 0;
     std::vector<soulknight::game::ui::TraderOfferView> trader_offers_;
+    std::int64_t trader_stock_seed_ = 0;
     bool ui_design_mode_ = false;
     bool ui_design_from_main_menu_ = false;
     bool review_mode_ = false;

@@ -752,12 +752,6 @@
         -23.0
       ],
       [
-        7.0,
-        -23.0,
-        8.0,
-        -22.0
-      ],
-      [
         34.0,
         -23.0,
         35.0,
@@ -4412,18 +4406,6 @@
         -27.0
       ],
       [
-        16.0,
-        -27.0,
-        17.0,
-        -26.0
-      ],
-      [
-        28.0,
-        -27.0,
-        29.0,
-        -26.0
-      ],
-      [
         32.0,
         -16.0,
         33.0,
@@ -4500,6 +4482,18 @@
         9.0,
         50.0,
         10.0
+      ],
+      [
+        11.753164614265,
+        -28.04556960038813,
+        21.246835385735,
+        -26.145569600388132
+      ],
+      [
+        23.848101321979698,
+        -28.233034082810676,
+        33.1518986780203,
+        -26.333034082810677
       ],
       [
         -34,
@@ -6434,12 +6428,6 @@
         10
       ],
       [
-        -12.0,
-        -12.0,
-        -9.0,
-        -9.0
-      ],
-      [
         -51.707499980926514,
         -5.369999885559082,
         -47.832499980926514,
@@ -6458,10 +6446,10 @@
         -1.2400000989437103
       ],
       [
-        -2.729999929666519,
-        -0.39000001549720764,
-        -1.9299999177455902,
-        0.4099999964237213
+        -2.844999929666519,
+        -0.4500000154972076,
+        -2.04499991774559,
+        0.34999999642372137
       ],
       [
         15.910000801086426,
@@ -6518,10 +6506,10 @@
         -6.3499999940395355
       ],
       [
-        30.77000141143799,
-        -20.999999046325684,
-        31.77000141143799,
-        -19.999999046325684
+        31.700001411437988,
+        -17.919999046325685,
+        32.70000141143799,
+        -16.919999046325685
       ],
       [
         9.530000299215317,
@@ -6530,10 +6518,10 @@
         -0.7399999797344208
       ],
       [
-        2.4899998605251312,
-        -0.3800000250339508,
-        3.28999987244606,
-        0.41999998688697815
+        2.5419998605251313,
+        -0.4020000250339508,
+        3.3419998724460602,
+        0.39799998688697813
       ],
       [
         -6.979999929666519,
@@ -6546,6 +6534,12 @@
         6.230000078678131,
         25.16249990463257,
         7.630000054836273
+      ],
+      [
+        21.887500286102295,
+        -6.970000267028809,
+        25.012500286102295,
+        -4.298969745635986
       ],
       [
         43.19176626205444,
@@ -6662,12 +6656,6 @@
         52.119998931884766
       ],
       [
-        -3.390000104904175,
-        6.309999942779541,
-        -2.390000104904175,
-        7.309999942779541
-      ],
-      [
         4.940000146627426,
         -5.749999910593033,
         5.740000158548355,
@@ -6716,6 +6704,12 @@
         46.639999866485596
       ],
       [
+        31.650001525878906,
+        -13.869999885559082,
+        32.650001525878906,
+        -12.869999885559082
+      ],
+      [
         41.58999854326248,
         6.750000149011612,
         42.989998519420624,
@@ -6740,22 +6734,16 @@
         -2.876646041870117
       ],
       [
-        0.12000009417533875,
-        1.3899999558925629,
-        0.9200001060962677,
-        2.189999967813492
+        0.1800000941753387,
+        0.8199999558925628,
+        0.9800001060962676,
+        1.6199999678134918
       ],
       [
         29.699999928474426,
         4.930000007152557,
         31.49999988079071,
         5.930000007152557
-      ],
-      [
-        33.487014293670654,
-        -6.420000076293945,
-        36.90903425216675,
-        -3.0305533409118652
       ],
       [
         -44.05661344528198,
@@ -6774,6 +6762,12 @@
         50.06399989128113,
         0.35200001299381256,
         51.263999938964844
+      ],
+      [
+        -11.171885967254639,
+        6.844364166259766,
+        -7.213326454162598,
+        8.994914293289185
       ],
       [
         3.960000216960907,
@@ -6902,10 +6896,34 @@
         8.25
       ],
       [
+        11.229999780654907,
+        -16.739999771118164,
+        15.829999685287476,
+        -14.739999771118164
+      ],
+      [
         -39.889998614788055,
         -9.499999970197678,
         -38.98999863862991,
         -8.599999994039536
+      ],
+      [
+        32.523749589920044,
+        -6.3700000762939455,
+        36.836249589920044,
+        -4.030000076293945
+      ],
+      [
+        36.84624910354614,
+        -6.3700000762939455,
+        43.03374910354614,
+        -4.030000076293945
+      ],
+      [
+        30.264999389648438,
+        -6.3700000762939455,
+        32.51499938964844,
+        -4.030000076293945
       ],
       [
         23.101251125335693,
@@ -7135,8 +7153,8 @@
       "ground_depth": true,
       "path": "room/objects/static/magic/npc_magic/shadow/SpriteRenderer",
       "position": [
-        31.27000141143799,
-        -21.21999903023243
+        32.20000141143799,
+        -18.13999903023243
       ],
       "rotation": 0.0,
       "scale": [
@@ -7260,8 +7278,8 @@
       "ground_depth": true,
       "path": "characters/c04/shadow/SpriteRenderer",
       "position": [
-        -2.3299999237060547,
-        -0.5500000081956387
+        -2.4449999237060545,
+        -0.6100000081956386
       ],
       "rotation": 0.0,
       "scale": [
@@ -7285,8 +7303,8 @@
       "ground_depth": true,
       "path": "characters/c04/img/body/SpriteRenderer",
       "position": [
-        -2.3299999237060547,
-        -0.49000000953674316
+        -2.4449999237060545,
+        -0.5500000095367431
       ],
       "rotation": 0.0,
       "scale": [
@@ -7410,8 +7428,8 @@
       "ground_depth": true,
       "path": "room/objects/static/magic/npc_magic/img/body/SpriteRenderer",
       "position": [
-        31.27000141143799,
-        -21.019999027252197
+        32.20000141143799,
+        -17.9399990272522
       ],
       "rotation": 0.0,
       "scale": [
@@ -7935,8 +7953,8 @@
       "ground_depth": true,
       "path": "characters/c08/img/body/SpriteRenderer",
       "position": [
-        2.8899998664855957,
-        -0.48000001907348633
+        2.9419998664855957,
+        -0.5020000190734863
       ],
       "rotation": 0.0,
       "scale": [
@@ -8010,8 +8028,8 @@
       "ground_depth": true,
       "path": "characters/c08/shadow/SpriteRenderer",
       "position": [
-        2.8899998664855957,
-        -0.5400000177323818
+        2.9419998664855957,
+        -0.5620000177323818
       ],
       "rotation": 0.0,
       "scale": [
@@ -8258,31 +8276,6 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": true,
-      "path": "room/objects/chest/box03/SpriteRenderer",
-      "position": [
-        -2.890000104904175,
-        6.309999942779541
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 6,
-      "sorting_layer_name": "6",
-      "sorting_order": 1,
-      "sprite": "hub_spr_1405"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
       "path": "room/objects/mailBox/SpriteRenderer",
       "position": [
         2.9800000190734863,
@@ -8322,6 +8315,31 @@
       "sorting_layer_name": "4",
       "sorting_order": 0,
       "sprite": "hub_spr_1829"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "ground_depth": true,
+      "path": "room/objects/task/board/cat/SpriteRenderer",
+      "position": [
+        -10.409000277519226,
+        8.997999787330627
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 5,
+      "sorting_layer_name": "5",
+      "sorting_order": 0,
+      "sprite": "hub_spr_1562"
     },
     {
       "color": [
@@ -8935,8 +8953,8 @@
       "ground_depth": true,
       "path": "characters/c13/shadow/SpriteRenderer",
       "position": [
-        0.5200001001358032,
-        1.101999968290329
+        0.5800001001358032,
+        0.5319999682903289
       ],
       "rotation": 0.0,
       "scale": [
@@ -9033,6 +9051,31 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": true,
+      "path": "room/objects/task/board/bottom/SpriteRenderer",
+      "position": [
+        -9.220000267028809,
+        7.179999828338623
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "4",
+      "sorting_order": 0,
+      "sprite": "hub_spr_1414"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "ground_depth": true,
       "path": "room/objects/fridge/SpriteRenderer",
       "position": [
         11.34000015258789,
@@ -9047,6 +9090,31 @@
       "sorting_layer_name": "4",
       "sorting_order": 0,
       "sprite": "hub_spr_1048"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "ground_depth": true,
+      "path": "room/objects/task/board/top/SpriteRenderer",
+      "position": [
+        -9.220000267028809,
+        7.179999828338623
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 4,
+      "sorting_layer_name": "4",
+      "sorting_order": 0,
+      "sprite": "hub_spr_1493"
     },
     {
       "color": [
@@ -9147,31 +9215,6 @@
       "sorting_layer_name": "4",
       "sorting_order": 1,
       "sprite": "hub_spr_1360"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
-      "path": "room/objects/chest/box05/SpriteRenderer",
-      "position": [
-        -2.890000104904175,
-        5.85999995470047
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "4",
-      "sorting_order": 0,
-      "sprite": "hub_spr_955"
     },
     {
       "color": [
@@ -9525,31 +9568,6 @@
     },
     {
       "color": [
-        20,
-        20,
-        20,
-        100
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
-      "path": "room/objects/chest/shadow/SpriteRenderer",
-      "position": [
-        -2.890000104904175,
-        6.309999942779541
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.2000000476837158,
-        1.0
-      ],
-      "sorting_layer": 3,
-      "sorting_layer_name": "3",
-      "sorting_order": 1,
-      "sprite": "hub_spr_1034"
-    },
-    {
-      "color": [
         255,
         255,
         255,
@@ -9683,35 +9701,10 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": true,
-      "path": "room/objects/chest/box04/SpriteRenderer",
-      "position": [
-        -2.890000104904175,
-        6.309999942779541
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 6,
-      "sorting_layer_name": "6",
-      "sorting_order": 1,
-      "sprite": "hub_spr_1487"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
       "path": "characters/c13/img/body/SpriteRenderer",
       "position": [
-        0.5200001001358032,
-        1.2899999618530273
+        0.5800001001358032,
+        0.7199999618530273
       ],
       "rotation": 0.0,
       "scale": [
@@ -10183,31 +10176,6 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": true,
-      "path": "room/objects/chest/box06/SpriteRenderer",
-      "position": [
-        -2.890000104904175,
-        6.309999942779541
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "4",
-      "sorting_order": 2,
-      "sprite": "hub_spr_1556"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
       "path": "room/objects/static/garden/land_root/land_0/img_top/SpriteRenderer",
       "position": [
         -25.769999980926514,
@@ -10347,6 +10315,31 @@
       "sorting_layer_name": "4",
       "sorting_order": 1,
       "sprite": "hub_spr_1462"
+    },
+    {
+      "color": [
+        255,
+        255,
+        255,
+        255
+      ],
+      "flip_x": false,
+      "flip_y": false,
+      "ground_depth": true,
+      "path": "room/objects/npc_bossrush_mgr/SpriteRenderer",
+      "position": [
+        32.150001525878906,
+        -14.369999885559082
+      ],
+      "rotation": 0.0,
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "sorting_layer": 6,
+      "sorting_layer_name": "6",
+      "sorting_order": 1,
+      "sprite": "hub_spr_1047"
     },
     {
       "color": [
@@ -10575,31 +10568,6 @@
     },
     {
       "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_room_fishbowl/empty/SpriteRenderer",
-      "position": [
-        12.520000457763672,
-        -8.949999809265137
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 6,
-      "sorting_layer_name": "6",
-      "sorting_order": 1,
-      "sprite": "hub_spr_1"
-    },
-    {
-      "color": [
         0,
         136,
         255,
@@ -10647,31 +10615,6 @@
       "sorting_layer_name": "5",
       "sorting_order": 2,
       "sprite": "hub_spr_2266"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_room_fishbowl/empty/shadow/SpriteRenderer",
-      "position": [
-        12.500000458210707,
-        -9.049999810755253
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 3,
-      "sorting_layer_name": "3",
-      "sorting_order": 0,
-      "sprite": "hub_spr_69"
     },
     {
       "color": [
@@ -10807,7 +10750,7 @@
       ],
       "flip_x": false,
       "flip_y": false,
-      "ground_depth": true,
+      "ground_depth": false,
       "path": "room/objects/lazy_sofa/SpriteRenderer",
       "position": [
         9.770000457763672,
@@ -10855,38 +10798,13 @@
         255,
         255
       ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_magic_well/empty/shadow/SpriteRenderer",
-      "position": [
-        -37.54999877884984,
-        10.399999998509884
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 3,
-      "sorting_layer_name": "3",
-      "sorting_order": 0,
-      "sprite": "hub_spr_69"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
       "flip_x": true,
       "flip_y": false,
       "ground_depth": true,
       "path": "room/objects/static/magic/npc_magic/staff/SpriteRenderer",
       "position": [
-        30.740001440048218,
-        -20.25999903678894
+        31.670001440048217,
+        -17.179999036788942
       ],
       "rotation": 0.0,
       "scale": [
@@ -10921,7 +10839,7 @@
       "sorting_layer": 5,
       "sorting_layer_name": "5",
       "sorting_order": 2,
-      "sprite": "hub_spr_1"
+      "sprite": "hub_spr_1_167d7e2932"
     },
     {
       "color": [
@@ -11083,31 +11001,6 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_magic_well/empty/SpriteRenderer",
-      "position": [
-        -37.529998779296875,
-        10.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 6,
-      "sorting_layer_name": "6",
-      "sorting_order": 1,
-      "sprite": "hub_spr_1"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
       "path": "room/objects/static/hall/multi_room_way/img/SpriteRenderer",
       "position": [
         0.003000000026077032,
@@ -11208,10 +11101,10 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_room_mysteriou_statue/empty/SpriteRenderer",
+      "path": "room/objects/magic_protal1/img/top/SpriteRenderer",
       "position": [
-        21.030000686645508,
-        -22.18000030517578
+        13.529999732971191,
+        -14.869999766349792
       ],
       "rotation": 0.0,
       "scale": [
@@ -11220,8 +11113,8 @@
       ],
       "sorting_layer": 6,
       "sorting_layer_name": "6",
-      "sorting_order": 1,
-      "sprite": "hub_spr_1"
+      "sorting_order": 0,
+      "sprite": "hub_spr_2248"
     },
     {
       "color": [
@@ -11283,31 +11176,6 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_room_mysteriou_statue/empty/shadow/SpriteRenderer",
-      "position": [
-        21.010000687092543,
-        -22.280000306665897
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 3,
-      "sorting_layer_name": "3",
-      "sorting_order": 0,
-      "sprite": "hub_spr_69"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
       "path": "room/objects/toolbox/SpriteRenderer",
       "position": [
         7.570000171661377,
@@ -11347,31 +11215,6 @@
       "sorting_layer_name": "4",
       "sorting_order": 0,
       "sprite": "hub_spr_2161"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_room_drink_seller/empty/shadow/SpriteRenderer",
-      "position": [
-        -13.160000342875719,
-        5.840000055730343
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 3,
-      "sorting_layer_name": "3",
-      "sorting_order": 0,
-      "sprite": "hub_spr_69"
     },
     {
       "color": [
@@ -11433,35 +11276,10 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_room_drink_seller/empty/SpriteRenderer",
+      "path": "room/objects/magic_protal1/img/bottom/SpriteRenderer",
       "position": [
-        -13.140000343322754,
-        5.940000057220459
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 6,
-      "sorting_layer_name": "6",
-      "sorting_order": 1,
-      "sprite": "hub_spr_1"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": true,
-      "path": "room/objects/roomdecorateslot_safe/container/room_decorate_safe/SpriteRenderer",
-      "position": [
-        13.739999771118164,
-        5.360000133514404
+        13.529999732971191,
+        -15.739999771118164
       ],
       "rotation": 0.0,
       "scale": [
@@ -11471,7 +11289,7 @@
       "sorting_layer": 4,
       "sorting_layer_name": "4",
       "sorting_order": 0,
-      "sprite": "hub_spr_1"
+      "sprite": "hub_spr_2215"
     },
     {
       "color": [
@@ -19547,31 +19365,6 @@
       "sorting_layer_name": "4",
       "sorting_order": 20,
       "sprite": "hub_spr_2098"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "room_tilemap/wall/tile",
-      "position": [
-        7.5,
-        -22.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "4",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2093"
     },
     {
       "color": [
@@ -107733,231 +107526,6 @@
       "flip_x": false,
       "flip_y": false,
       "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -11.5,
-        -9.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2093"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -10.5,
-        -9.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2093"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -9.5,
-        -9.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2093"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -11.5,
-        -10.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2098"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -10.5,
-        -10.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2098"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -9.5,
-        -10.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2098"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -11.5,
-        -11.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2098"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -10.5,
-        -11.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2098"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
-      "path": "hub/stair_wall_repair",
-      "position": [
-        -9.5,
-        -11.5
-      ],
-      "rotation": 0.0,
-      "scale": [
-        1.0,
-        1.0
-      ],
-      "sorting_layer": 4,
-      "sorting_layer_name": "Wall",
-      "sorting_order": 20,
-      "sprite": "hub_spr_2098"
-    },
-    {
-      "color": [
-        255,
-        255,
-        255,
-        255
-      ],
-      "flip_x": false,
-      "flip_y": false,
-      "ground_depth": false,
       "path": "hub/forge_wall_cap_repair",
       "position": [
         31.5,
@@ -108569,14 +108137,121 @@
       "radius": 4.0
     },
     {
-      "id": "hub_door",
-      "kind": "door",
-      "label": "DUNGEON",
+      "id": "mission_board",
+      "kind": "mission",
+      "label": "TASK BOARD",
       "position": [
-        0.0,
-        7.5
+        -7.065,
+        5.13
+      ],
+      "radius": 3.0,
+      "talk_lines": [
+        "More aggressive enemies!",
+        "No pets or mercenaries",
+        "Bad Luck",
+        "First three purchases in dungeon are free",
+        "Increase critical damage",
+        "Fight with 2 slightly nerfed bosses in each Boss room",
+        "Skill cooldown +100%",
+        "Weapon crit rate +100%, crit damage -50%",
+        "Enemy debuff time -50%",
+        "Enemy defense +1",
+        "Enemy HP +100%",
+        "Monsters shift to a different position the moment they get hit",
+        "Killed monsters may revive",
+        "Monsters split into two when their HP is below 50%",
+        "Elite enemies appear more often",
+        "Enemies move faster",
+        "Enemy fire rate up!",
+        "Weapon fire rate +100%, attack -50%",
+        "A bonus room in each level",
+        "Get a weapon when entering a new biome",
+        "Good Luck",
+        "Skill cooldown -50%",
+        "Better defense, but armor does not regenerate",
+        "Gigantism",
+        "Infinite energy",
+        "Store price +100%",
+        "More enemies in the dungeon",
+        "Max energy -50%",
+        "Max HP =1",
+        "Max number of buffs -3",
+        "Options -2 when you choose buffs",
+        "More rooms in the dungeon",
+        "Melee weapons only",
+        "Melee weapons can't destroy bullets",
+        "Max number of buffs +3",
+        "Options +2 when you choose buffs",
+        "You can worship multiple statues",
+        "Can only carry one weapon",
+        "May switch character when you enter a new level",
+        "You can resurrect twice",
+        "Weapons get reforged at the start of each level",
+        "Random levels",
+        "Weapon attack +100%, fire rate -50%",
+        "Other challenge conditions are reinforced",
+        "Regenerate HP when it's below 50%",
+        "Dwarfism",
+        "All weapons are equipped with attachments"
+      ]
+    },
+    {
+      "id": "weapon_chest",
+      "kind": "weapon_chest",
+      "label": "WEAPON CHEST",
+      "position": [
+        -2.89,
+        6.31
       ],
       "radius": 3.0
+    },
+    {
+      "id": "dungeon_portal",
+      "kind": "door",
+      "label": "DUNGEON PORTAL",
+      "position": [
+        13.53,
+        -14.9
+      ],
+      "radius": 3.2
+    },
+    {
+      "id": "npc_explorer",
+      "kind": "npc",
+      "label": "EXPLORER",
+      "position": [
+        16.41,
+        -17.37
+      ],
+      "radius": 4.0,
+      "speaker": "Explorer",
+      "talk_lines": [
+        "New kid?",
+        "Rookie, wanna know more about the dungeon?",
+        "Ready?",
+        "There you go!",
+        "I promised sweat. Let's see it."
+      ],
+      "text": "New kid?",
+      "text_alt": "Rookie, wanna know more about the dungeon?"
+    },
+    {
+      "id": "npc_magic",
+      "kind": "npc",
+      "label": "MAGIC STONE",
+      "position": [
+        32.2,
+        -17.94
+      ],
+      "radius": 3.2,
+      "speaker": "MAGIC STONE",
+      "talk_lines": [
+        "Magic stones are sacred relics maintaining the balance of the world.",
+        "One day, a bunch of bad guys stole the magic stones, and the world descended into chaos.",
+        "Can you take back the magic stones?"
+      ],
+      "text": "Magic stones are sacred relics maintaining the balance of the world.",
+      "text_alt": "One day, a bunch of bad guys stole the magic stones, and the world descended into chaos."
     },
     {
       "character_id": "c00",
@@ -108663,8 +108338,8 @@
       "kind": "npc",
       "label": "ALCHEMIST",
       "position": [
-        -2.3299999237060547,
-        -0.49000000953674316
+        -2.4449999237060545,
+        -0.5500000095367431
       ],
       "radius": 2.8,
       "speaker": "Alchemist",
@@ -108740,8 +108415,8 @@
       "kind": "npc",
       "label": "ELF",
       "position": [
-        2.8899998664855957,
-        -0.48000001907348633
+        2.9419998664855957,
+        -0.5020000190734863
       ],
       "radius": 2.8,
       "speaker": "Elf",
@@ -108837,8 +108512,8 @@
       "kind": "npc",
       "label": "BERSERKER",
       "position": [
-        0.5200001001358032,
-        1.2899999618530273
+        0.5800001001358032,
+        0.7199999618530273
       ],
       "radius": 2.8,
       "speaker": "Berserker",
@@ -159735,33 +159410,6 @@
         0.0
       ],
       "filter": "point",
-      "id": "hub_spr_1405",
-      "pivot": [
-        1.0,
-        0.0
-      ],
-      "pixels_per_unit": 16.0,
-      "rect": [
-        66.0,
-        65.0,
-        10.0,
-        20.0
-      ],
-      "source_pivot": [
-        1.0,
-        0.0
-      ],
-      "texture": "hub_tex_aac10171eede",
-      "wrap": "clamp"
-    },
-    {
-      "border": [
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "filter": "point",
       "id": "hub_spr_1929",
       "pivot": [
         0.5,
@@ -159806,6 +159454,33 @@
         0.0
       ],
       "texture": "hub_tex_3c7f04568ce7",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "hub_spr_1562",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        286.0,
+        383.0,
+        32.0,
+        28.0
+      ],
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "texture": "hub_tex_efd21e56f056",
       "wrap": "clamp"
     },
     {
@@ -160221,6 +159896,33 @@
         0.0
       ],
       "filter": "point",
+      "id": "hub_spr_1414",
+      "pivot": [
+        0.5,
+        1.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        32.0,
+        63.0,
+        68.0,
+        16.0
+      ],
+      "source_pivot": [
+        0.5,
+        1.0
+      ],
+      "texture": "hub_tex_efd21e56f056",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "hub_spr_1048",
       "pivot": [
         0.5,
@@ -160238,6 +159940,33 @@
         0.10000000149011612
       ],
       "texture": "hub_tex_3c7f04568ce7",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "hub_spr_1493",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        0.0,
+        252.0,
+        68.0,
+        30.0
+      ],
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "texture": "hub_tex_efd21e56f056",
       "wrap": "clamp"
     },
     {
@@ -160319,33 +160048,6 @@
         0.0
       ],
       "texture": "hub_tex_3c7f04568ce7",
-      "wrap": "clamp"
-    },
-    {
-      "border": [
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "filter": "point",
-      "id": "hub_spr_955",
-      "pivot": [
-        0.5,
-        0.0
-      ],
-      "pixels_per_unit": 16.0,
-      "rect": [
-        173.0,
-        212.0,
-        20.0,
-        20.0
-      ],
-      "source_pivot": [
-        0.5,
-        0.0
-      ],
-      "texture": "hub_tex_aac10171eede",
       "wrap": "clamp"
     },
     {
@@ -160518,33 +160220,6 @@
         0.0
       ],
       "filter": "point",
-      "id": "hub_spr_1034",
-      "pivot": [
-        0.5,
-        0.30000001192092896
-      ],
-      "pixels_per_unit": 16.0,
-      "rect": [
-        234.0,
-        128.0,
-        16.0,
-        24.0
-      ],
-      "source_pivot": [
-        0.5,
-        0.30000001192092896
-      ],
-      "texture": "hub_tex_eebc318ccf3b",
-      "wrap": "clamp"
-    },
-    {
-      "border": [
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "filter": "point",
       "id": "hub_spr_1383",
       "pivot": [
         0.5,
@@ -160589,33 +160264,6 @@
         0.0
       ],
       "texture": "hub_tex_3c7f04568ce7",
-      "wrap": "clamp"
-    },
-    {
-      "border": [
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "filter": "point",
-      "id": "hub_spr_1487",
-      "pivot": [
-        0.0,
-        0.0
-      ],
-      "pixels_per_unit": 16.0,
-      "rect": [
-        87.0,
-        92.0,
-        10.0,
-        20.0
-      ],
-      "source_pivot": [
-        0.0,
-        0.0
-      ],
-      "texture": "hub_tex_aac10171eede",
       "wrap": "clamp"
     },
     {
@@ -160923,33 +160571,6 @@
         0.0
       ],
       "filter": "point",
-      "id": "hub_spr_1556",
-      "pivot": [
-        0.5,
-        0.0
-      ],
-      "pixels_per_unit": 16.0,
-      "rect": [
-        127.0,
-        98.0,
-        20.0,
-        8.0
-      ],
-      "source_pivot": [
-        0.5,
-        0.0
-      ],
-      "texture": "hub_tex_aac10171eede",
-      "wrap": "clamp"
-    },
-    {
-      "border": [
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "filter": "point",
       "id": "hub_spr_1882",
       "pivot": [
         0.5,
@@ -161021,6 +160642,33 @@
         0.0
       ],
       "texture": "hub_tex_3c7f04568ce7",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "hub_spr_1047",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        65.01290893554688,
+        333.1183204650879,
+        62.97417449951172,
+        46.8055534362793
+      ],
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "texture": "hub_tex_efd21e56f056",
       "wrap": "clamp"
     },
     {
@@ -161193,33 +160841,6 @@
         0.0
       ],
       "filter": "point",
-      "id": "hub_spr_1",
-      "pivot": [
-        0.5,
-        0.0
-      ],
-      "pixels_per_unit": 16.0,
-      "rect": [
-        48.0,
-        162.0,
-        21.0,
-        30.0
-      ],
-      "source_pivot": [
-        0.5,
-        0.0
-      ],
-      "texture": "hub_tex_b21a22a8f6a9",
-      "wrap": "clamp"
-    },
-    {
-      "border": [
-        0.0,
-        0.0,
-        0.0,
-        0.0
-      ],
-      "filter": "point",
       "id": "hub_spr_2266",
       "pivot": [
         0.5,
@@ -161237,6 +160858,33 @@
         1.0
       ],
       "texture": "hub_tex_8efa91789b95",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "hub_spr_1",
+      "pivot": [
+        0.5,
+        0.5
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        731.0,
+        169.0,
+        5.0,
+        5.0
+      ],
+      "source_pivot": [
+        0.5,
+        0.5
+      ],
+      "texture": "hub_tex_27b1cb9b5a90",
       "wrap": "clamp"
     },
     {
@@ -161399,6 +161047,33 @@
         0.3214285671710968
       ],
       "texture": "hub_tex_efd21e56f056",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "hub_spr_1_167d7e2932",
+      "pivot": [
+        0.6191270351409912,
+        0.529060423374176
+      ],
+      "pixels_per_unit": 16.0,
+      "rect": [
+        450.0,
+        304.0,
+        19.0,
+        12.0
+      ],
+      "source_pivot": [
+        0.6191270351409912,
+        0.529060423374176
+      ],
+      "texture": "hub_tex_fe45ffd4ec57",
       "wrap": "clamp"
     },
     {
@@ -161625,6 +161300,33 @@
         0.0
       ],
       "filter": "point",
+      "id": "hub_spr_2248",
+      "pivot": [
+        0.5,
+        0.0
+      ],
+      "pixels_per_unit": 15.800000190734863,
+      "rect": [
+        2.076120376586914,
+        441.0,
+        70.84776306152344,
+        38.0
+      ],
+      "source_pivot": [
+        0.5,
+        0.0
+      ],
+      "texture": "hub_tex_8efa91789b95",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
       "id": "hub_spr_2186",
       "pivot": [
         0.5,
@@ -161750,6 +161452,33 @@
         0.05000000074505806
       ],
       "texture": "hub_tex_de0ff75170e0",
+      "wrap": "clamp"
+    },
+    {
+      "border": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "filter": "point",
+      "id": "hub_spr_2215",
+      "pivot": [
+        0.5,
+        0.5625
+      ],
+      "pixels_per_unit": 15.800000190734863,
+      "rect": [
+        1.0,
+        479.0,
+        72.0,
+        32.0
+      ],
+      "source_pivot": [
+        0.5,
+        0.5625
+      ],
+      "texture": "hub_tex_8efa91789b95",
       "wrap": "clamp"
     },
     {
@@ -164718,22 +164447,6 @@
       "conversion": "Hub UnityPy Texture2D.image local conversion",
       "filter": "point",
       "format": "RGBA32",
-      "height": 256,
-      "id": "hub_tex_eebc318ccf3b",
-      "png": "textures/hub_tex_eebc318ccf3b.png",
-      "png_sha256": "6b96a6ccc5b0a288f9ad31e42c8f193fb211c9f86f1ffb7f3f5496a479e11768",
-      "rgba8_sha256": "48564b90ba7eb278149533f4ea265a55122b5cd7b3590c10174c6e462ff09186",
-      "source_bundle": "level2",
-      "source_cab": "sharedassets2.assets",
-      "source_name": "SpriteAtlasTexture-floor-256x256-fmt4",
-      "source_path_id": "42",
-      "width": 256,
-      "wrap": "clamp"
-    },
-    {
-      "conversion": "Hub UnityPy Texture2D.image local conversion",
-      "filter": "point",
-      "format": "RGBA32",
       "height": 40,
       "id": "hub_tex_e82f0b4ef325",
       "png": "textures/hub_tex_e82f0b4ef325.png",
@@ -164750,16 +164463,16 @@
       "conversion": "Hub UnityPy Texture2D.image local conversion",
       "filter": "point",
       "format": "RGBA32",
-      "height": 256,
-      "id": "hub_tex_b21a22a8f6a9",
-      "png": "textures/hub_tex_b21a22a8f6a9.png",
-      "png_sha256": "f85bd2c5cec7d6db35a8ec1cf8ef40001f6ca3e56daa2492ddaf80190ff2a81c",
-      "rgba8_sha256": "21f39769e6968dd2fcbccc632bd02630e0104ec20e7061d1667686f0ee7c299f",
+      "height": 512,
+      "id": "hub_tex_27b1cb9b5a90",
+      "png": "textures/hub_tex_27b1cb9b5a90.png",
+      "png_sha256": "5329abb5b68dad0de1ff0e081c831847d9e55ad5001b88fb43a850d9dc2f80db",
+      "rgba8_sha256": "d460da8008b86a574ada0ddd13ca194d501c862e1f936b7258aaa49722f1b849",
       "source_bundle": "level2",
-      "source_cab": "52f5a1a52d198054582593693359a57e",
-      "source_name": "SpriteAtlasTexture-object_common (Group 0)-256x256-fmt13",
-      "source_path_id": "16",
-      "width": 256,
+      "source_cab": "d1256f8a0df8d714ba17cb38e423093b",
+      "source_name": "SpriteAtlasTexture-bullet_effect (Group 0)-1024x512-fmt13",
+      "source_path_id": "6",
+      "width": 1024,
       "wrap": "clamp"
     },
     {
@@ -164775,6 +164488,22 @@
       "source_cab": "d4ad3fea34ed86e48a316c40e7f5be60",
       "source_name": "SpriteAtlasTexture-room-512x1024-fmt4",
       "source_path_id": "7",
+      "width": 512,
+      "wrap": "clamp"
+    },
+    {
+      "conversion": "Hub UnityPy Texture2D.image local conversion",
+      "filter": "point",
+      "format": "RGBA32",
+      "height": 512,
+      "id": "hub_tex_fe45ffd4ec57",
+      "png": "textures/hub_tex_fe45ffd4ec57.png",
+      "png_sha256": "87e67fa9279bf292edc63d715806a2004f68e956a823c242f0469e1f29f7f587",
+      "rgba8_sha256": "2c8e4b29bf4eb33c9a316c4de53f470df809547cb58b9ddb8865d6e7f3775650",
+      "source_bundle": "level2",
+      "source_cab": "e4cc767041923274c8764da1ff42e2bc",
+      "source_name": "SpriteAtlasTexture-weapon (Group 0)-512x512-fmt13",
+      "source_path_id": "5",
       "width": 512,
       "wrap": "clamp"
     },

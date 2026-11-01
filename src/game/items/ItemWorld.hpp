@@ -52,6 +52,9 @@ public:
                    const engine::Vec2& chest_position,
                    const std::string& chest_definition = "chest00");
     void SetChestLevel(int level) { chest_level_ = level; }
+    // Run/loot seed. Chest loot is deterministic for a given room, chest slot
+    // and seed; different runs/seeds produce different weapon rolls.
+    void SetLootSeed(std::uint32_t seed) { loot_seed_ = seed; }
     void AddChest(const std::string& definition, const engine::Vec2& position);
     void SpawnCoins(const std::string& definition, int count,
                     const engine::Vec2& position);
@@ -86,6 +89,7 @@ private:
                        const engine::Vec2& fallback_position = {});
     std::string room_id_;
     int chest_level_ = 1;
+    std::uint32_t loot_seed_ = 0;
     std::unordered_map<std::string, RoomState> rooms_;
     std::vector<std::string> available_weapons_;
 };

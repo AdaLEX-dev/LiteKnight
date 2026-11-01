@@ -149,7 +149,8 @@ int Weapon::Update(float delta_seconds,
             special_kind == "revolver_burst" ||
             special_kind == "invisible_missile" ||
             special_kind == "end_shot" ||
-            special_kind == "pot";
+            special_kind == "pot" ||
+            special_kind == "rogue_throw";
         const bool passive = special_kind == "passive" ||
                              special_kind == "revive";
         if (passive) {

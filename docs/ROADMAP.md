@@ -1,5 +1,10 @@
 # Soul Knight 2.6.8 — Roadmap
 
+> **CURRENT SNAPSHOT (2026-11-01):** this roadmap predates the current beta.
+> For what is implemented, what is verified, and what is still blocked, read
+> [`docs/handbook/08-CURRENT_STATE_AND_ROADMAP.md`](handbook/08-CURRENT_STATE_AND_ROADMAP.md).
+> Current beta: `v0.6.0-beta.1`.
+
 **Version:** 1.7 (native room topology and door traversal slice, 2026-10-31)
 **Target:** CachyOS, x86-64, Wayland, 1920×1080, 60 FPS
 **Baseline:** Soul Knight 2.6.8 (APK SHA-256: 8faff89079eff748770c28f0ff2243baa88388b352d0128e67ae3ef5aa0137ea)

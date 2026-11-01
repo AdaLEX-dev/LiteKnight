@@ -1,5 +1,12 @@
 # LiteKnight — Project State
 
+> **CURRENT SNAPSHOT (2026-11-01):** this document is historical. The current
+> beta is `v0.6.0-beta.1`; start with
+> [`docs/handbook/README.md`](handbook/README.md), especially
+> [`08-CURRENT_STATE_AND_ROADMAP.md`](handbook/08-CURRENT_STATE_AND_ROADMAP.md)
+> and [`11-COORDINATE_PASS_2026-11-01.md`](handbook/11-COORDINATE_PASS_2026-11-01.md).
+> The canonical executable is `build/soul-knight`.
+
 **Version:** `0.5.4-dev`
 **Last Updated:** 2026-11-01 (0.5.4 reference pass: 168 standard weapons,
 main-menu S/L and direct-area launches, hub cleanup/collision audit, orb trader,

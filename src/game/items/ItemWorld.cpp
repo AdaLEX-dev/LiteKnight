@@ -99,6 +99,7 @@ void ItemWorld::Update(float delta_seconds, const engine::Vec2& player_position,
             hash *= 16777619u;
         }
         hash ^= static_cast<std::uint32_t>(chest_index) * 0x9E3779B9u;
+        hash ^= loot_seed_ * 0x85EBCA6Bu;
         engine::RGRandomStream random;
         random.SetRandomSeed(static_cast<int32_t>(hash & 0x7FFFFFFFu));
         const auto roll_weapon = [&](int drop_level) {

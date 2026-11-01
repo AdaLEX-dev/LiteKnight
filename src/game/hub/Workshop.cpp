@@ -14,6 +14,15 @@ using Json = nlohmann::json;
 void SetError(std::string* error, const std::string& message) {
     if (error != nullptr) *error = message;
 }
+
+// Recovered BluePrint weapon prefabs. These 17 weapons are gated by a
+// collected blueprint (`blueprint_weapon_<id>`) in the reference data.
+const std::unordered_set<std::string> kBlueprintWeapons = {
+    "weapon_184", "weapon_188", "weapon_189", "weapon_195",
+    "weapon_211", "weapon_212", "weapon_213", "weapon_217",
+    "weapon_223", "weapon_224", "weapon_237", "weapon_238",
+    "weapon_240", "weapon_242", "weapon_245", "weapon_252",
+    "weapon_294"};
 } // namespace
 
 bool Workshop::Load(const platform::FileSystem& filesystem,
@@ -120,13 +129,43 @@ std::string Workshop::MaterialName(const std::string& material_id) const {
     return it == material_names_.end() ? material_id : it->second;
 }
 
-bool Workshop::CanCraft(const std::string& weapon_id) const {
+bool Workshop::HasMaterials(const std::string& weapon_id) const {
     const WeaponRecipe* recipe = Find(weapon_id);
     if (recipe == nullptr || recipe->materials.empty()) return false;
     for (const CraftMaterial& material : recipe->materials) {
         if (MaterialCount(material.id) < material.count) return false;
     }
     return true;
+}
+
+bool Workshop::RequiresBlueprint(const std::string& weapon_id) const {
+    return kBlueprintWeapons.contains(weapon_id);
+}
+
+bool Workshop::HasBlueprint(const std::string& weapon_id) const {
+    return unlocked_blueprints_.contains(weapon_id);
+}
+
+void Workshop::SetUnlockedBlueprints(
+        const std::vector<std::string>& blueprints) {
+    unlocked_blueprints_.clear();
+    for (const std::string& id : blueprints) {
+        if (!id.empty()) unlocked_blueprints_.insert(id);
+    }
+}
+
+std::vector<std::string> Workshop::UnlockedBlueprints() const {
+    std::vector<std::string> result(unlocked_blueprints_.begin(),
+                                    unlocked_blueprints_.end());
+    std::sort(result.begin(), result.end());
+    return result;
+}
+
+bool Workshop::CanCraft(const std::string& weapon_id) const {
+    if (RequiresBlueprint(weapon_id) && !HasBlueprint(weapon_id)) {
+        return false;
+    }
+    return HasMaterials(weapon_id);
 }
 
 bool Workshop::ConsumeForCraft(const std::string& weapon_id) {

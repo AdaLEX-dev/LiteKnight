@@ -6,6 +6,7 @@
 #include <cstddef>
 #include <string>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 
 namespace soulknight::game::hub {
@@ -38,6 +39,11 @@ public:
     const WeaponRecipe* Find(const std::string& weapon_id) const;
     int MaterialCount(const std::string& material_id) const;
     std::string MaterialName(const std::string& material_id) const;
+    bool HasMaterials(const std::string& weapon_id) const;
+    bool RequiresBlueprint(const std::string& weapon_id) const;
+    bool HasBlueprint(const std::string& weapon_id) const;
+    void SetUnlockedBlueprints(const std::vector<std::string>& blueprints);
+    std::vector<std::string> UnlockedBlueprints() const;
     bool CanCraft(const std::string& weapon_id) const;
     bool ConsumeForCraft(const std::string& weapon_id);
     // Reforging/resetting furnace: a forged weapon turns back into its exact
@@ -53,6 +59,7 @@ private:
     std::vector<WeaponRecipe> recipes_;
     std::unordered_map<std::string, int> materials_;
     std::unordered_map<std::string, std::string> material_names_;
+    std::unordered_set<std::string> unlocked_blueprints_;
     bool loaded_ = false;
 };
 

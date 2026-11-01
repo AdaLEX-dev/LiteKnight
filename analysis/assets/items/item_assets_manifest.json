@@ -1,9 +1,9 @@
 {
-  "chest_count": 19,
+  "chest_count": 20,
   "coin_count": 3,
   "energy_pickup": true,
   "material_count": 33,
-  "meta_sha256": "626cea6cb476b7911a321330b51c57ee2b60b9a4114cec8e8cea1b1a90405ac4",
+  "meta_sha256": "436cb7e46082af27371757983243eac575c983ec70714fb505419818d6b44008",
   "portal_count": 1,
   "schema": 1,
   "shop_item_count": 15,

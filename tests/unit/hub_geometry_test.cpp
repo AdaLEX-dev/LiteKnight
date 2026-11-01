@@ -158,7 +158,10 @@ TEST_CASE("Reforging furnace is solid from every approach direction" *
     result = world.Move({34.8f, -1.5f}, {0.4f, 0.4f},
                         {0.0f, -5.0f}, out);
     CHECK(result.blocked_y);
-    CHECK(out.y > -3.05f);
+    // The reduced per-table footprint lets the player approach one block
+    // closer than the old root trigger while still preventing walk-through.
+    CHECK(out.y > -3.70f);
+    CHECK(out.y < -3.55f);
 }
 
 TEST_CASE("Reforging furnace has the recovered wall backdrop" *
@@ -254,17 +257,27 @@ TEST_CASE("Recovered planter beds are solid and cannot be walked through" *
     CHECK(out.x > -23.46f);
 }
 
-TEST_CASE("No sign objects remain in the Living Room scene" *
+TEST_CASE("Decorative signs are removed but the functional task board remains" *
           doctest::test_suite("unit")) {
     const Json hub = LoadHub();
+    int task_board_parts = 0;
     for (const Json& instance : hub["instances"]) {
         const std::string path = instance.value("path", "");
         CHECK(path.find("sign") == std::string::npos);
         CHECK(path.find("Sign") == std::string::npos);
         CHECK(instance.value("sprite", "") != "hub_spr_2241");
-        CHECK(path.find("task/board") == std::string::npos);
         CHECK(path.find("hire_board") == std::string::npos);
+        CHECK(path.find("roomdecorateslot_room_drink_seller") ==
+              std::string::npos);
+        CHECK(path.find("roomdecorateslot_room_mysteriou_statue") ==
+              std::string::npos);
+        CHECK(path.find("roomdecorateslot_safe") == std::string::npos);
+        if (path.find("room/objects/task/board") != std::string::npos) {
+            ++task_board_parts;
+        }
     }
+    // Recovered task/board top, bottom and cat decoration.
+    CHECK(task_board_parts >= 3);
     for (const Json& sprite : hub["sprites"]) {
         const std::string name = sprite.value("source_name", "");
         CHECK(name.find("sign") == std::string::npos);

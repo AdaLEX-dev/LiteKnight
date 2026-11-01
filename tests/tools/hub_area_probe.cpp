@@ -21,6 +21,8 @@
 
 #include <algorithm>
 #include <array>
+#include <cstdlib>
+#include <filesystem>
 #include <cmath>
 #include <cstdint>
 #include <fstream>
@@ -353,6 +355,19 @@ int main(int argc, char** argv) {
         } else if (argument == "--scene" && i + 1 < argc) {
             scene_path = argv[++i];
         }
+    }
+    if (area_name == "coordinate-regression" ||
+        area_name == "rogue" || area_name == "mission-board" ||
+        area_name == "portal" || area_name == "grave") {
+        const std::filesystem::path root =
+            std::filesystem::path(scene_path).parent_path().parent_path()
+                .parent_path().parent_path();
+        const std::filesystem::path script =
+            root / "tools/qa/living_room_coordinate_regression.py";
+        const std::string command =
+            "python3 \"" + script.string() + "\"";
+        const int result = std::system(command.c_str());
+        return result == 0 ? 0 : 1;
     }
     Area area;
     bool dungeon_area = false;

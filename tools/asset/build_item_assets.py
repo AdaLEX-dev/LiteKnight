@@ -269,6 +269,29 @@ def main() -> int:
                 "RGChest.OpenChest -> WeaponDropInfo.GetWeaponWithDropLevel"),
         })
 
+    # The Living Room starter chest uses the recovered chest00 visual and
+    # collider, but not chest00's appointed weapon_021. The reference lobby
+    # chest is a random weapon chest; the appointed variant would hand out
+    # the same weapon every new run and could duplicate an owned weapon.
+    # `weapon_drop_level = -2` is the recovered RGChest rule that resolves the
+    # drop level from MapManagerLevel.chest_level.
+    hub_source = next((chest for chest in chest_defs
+                       if chest["id"] == "chest00"), None)
+    if hub_source is not None:
+        hub_chest = dict(hub_source)
+        hub_chest.update({
+            "id": "hub_weapon_chest",
+            "appointed_weapon": "",
+            "level": 0,
+            "weapon_drop_level": -2,
+            "weapon_count": 1,
+            "evidence": (
+                "Hub Living Room chest: recovered chest00 visual/collider, "
+                "random RGChest weapon loot (appointed chest00 weapon_021 "
+                "removed so the lobby chest is not a duplicate free weapon)"),
+        })
+        chest_defs.append(hub_chest)
+
     shop_defs = []
     shop_names = ["restore_pot", "restore_pot_big", "health_pot",
                   "health_pot_big", "energy_pot", "energy_pot_big",

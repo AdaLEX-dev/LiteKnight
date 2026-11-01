@@ -149,12 +149,23 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         "room/objects/npc_sell_limit",  # limit seller opposite Drillmaster
         "room/objects/promotion",       # promotion NPC pair
         "room/objects/magic_ball",      # floating orb
-        "room/objects/magic_protal1",   # lower portal 1
         "room/objects/magic_protal2",   # lower portal 2 / transfer gate
-        "room/objects/npc_bossrush_mgr",# boss-rush sign/guardian
         "room_tilemap/floor_cellar",
         "room_tilemap/object_cellar",
         "room_tilemap_lights/portal",
+        # Placeholder decoration slots that currently render hub_spr_1, a
+        # generic signboard on a post. These are the three signs reported at
+        # (-12.63, 6.08), (21.03, -21.84) and (13.79, 5.61).
+        "room/objects/roomdecorateslot_room_drink_seller",
+        "room/objects/roomdecorateslot_room_mysteriou_statue",
+        "room/objects/roomdecorateslot_safe",
+        # Remaining empty decoration slots alias the same generic signboard
+        # atlas cell. They are placeholders, not functional objects.
+        "room/objects/roomdecorateslot_room_fishbowl",
+        "room/objects/roomdecorateslot_magic_well",
+        # The hub chest is replaced by a real item-world chest at runtime so
+        # it opens, rolls loot and persists. Remove the static prefab copy.
+        "room/objects/chest",
     )
 
     def removed_path(p):
@@ -173,6 +184,22 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             if cur == 0:
                 break
         return "/".join(reversed(parts))
+
+    # Recovered table seating. c13/c04/c08 are authored against the four
+    # table_default chairs but their serialized root heights place the lower
+    # body inside the chair back. Snap each to its chair's seat plane so the
+    # feet align with the seat while keeping the recovered sprite/pose.
+    seated_offsets = {
+        "characters/c13/": (0.58 - 0.52, (0.32 + 0.40) - 1.29),
+        "characters/c04/": (-2.445 - (-2.33), (-0.95 + 0.40) - (-0.49)),
+        "characters/c08/": (2.942 - 2.89, (-0.902 + 0.40) - (-0.48)),
+    }
+
+    def seated_offset(character_path):
+        for prefix, offset in seated_offsets.items():
+            if character_path.startswith(prefix):
+                return offset
+        return (0.0, 0.0)
 
     # Start from the already-integrated r1_1 character/weapon metadata and
     # sprites so the hub player has the same animation/equipment path.
@@ -252,9 +279,6 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         if sprite_ptr is None or getattr(sprite_ptr, "path_id", 0) == 0:
             return None
         sprite = sprite_ptr.read()
-        sid = f"hub_spr_{sprite_ptr.path_id}"
-        if sid in sprite_ids:
-            return sid
         rd = sprite.m_RD
         tex_ptr = rd.texture
         if tex_ptr is None or getattr(tex_ptr, "path_id", 0) == 0:
@@ -269,6 +293,29 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         y = float(rect.y)
         top = float(texture["height"]) - y - h
         pivot = sprite.m_Pivot
+        sid = f"hub_spr_{sprite_ptr.path_id}"
+        existing = sprite_ids.get(sid)
+        if existing is not None:
+            same = (abs(existing["rect"][0] - x) < 1e-3 and
+                    abs(existing["rect"][1] - top) < 1e-3 and
+                    abs(existing["rect"][2] - w) < 1e-3 and
+                    abs(existing["rect"][3] - h) < 1e-3 and
+                    existing["texture"] == texture["id"] and
+                    abs(existing["pivot"][0] - float(pivot.x)) < 1e-3 and
+                    abs(existing["pivot"][1] - float(pivot.y)) < 1e-3)
+            if same:
+                return sid
+            # Unity path IDs are only unique within one asset file. Two
+            # different sprites (for example the transparent `nothing` light
+            # and a signboard) can share path_id 1. Disambiguate collisions
+            # with a content hash instead of silently aliasing one sprite to
+            # the other.
+            digest = hashlib.sha1(
+                (f"{sprite.m_Name}|{texture['id']}|{x}|{top}|{w}|{h}|"
+                 f"{pivot.x}|{pivot.y}").encode("utf-8")).hexdigest()[:10]
+            sid = f"hub_spr_{sprite_ptr.path_id}_{digest}"
+            if sid in sprite_ids:
+                return sid
         entry = {
             "id": sid,
             "texture": texture["id"],
@@ -309,11 +356,19 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         # so their sprites and collider volumes are removed with the notice
         # boards.
         if any(token in p for token in (
-                "room/objects/task/board", "room/objects/hire_board",
-                "hireroom/hire_board")):
+                "room/objects/hire_board", "hireroom/hire_board")):
             continue
         data = g["game_object"].read()
         pos, rot, scale = world_transform(pid, gos, tr_to_go)
+        if p.startswith("room/objects/static/magic/npc_magic"):
+            # Reference relationship: the magic NPC must read as standing by
+            # the grave/boss-rush door, not five units away in the aisle.
+            # Move the magic-stone NPC along the recovered NPC->grave axis,
+            # not sideways. The grave reference is (32.515,-16.910); stop just
+            # short of it so the pair reads as NPC facing the grave.
+            pos = [pos[0] + 0.93, pos[1] + 3.08]
+        seat_dx, seat_dy = seated_offset(p)
+        pos = [pos[0] + seat_dx, pos[1] + seat_dy]
         for comp in data.m_Component:
             if comp.component.type.name != "SpriteRenderer":
                 continue
@@ -342,7 +397,8 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                     not p.startswith("room_tilemap") and
                     "/lights/" not in p and
                     not p.endswith("/light") and
-                    not p.startswith("room_tilemap_lights")),
+                    not p.startswith("room_tilemap_lights") and
+                    not p.endswith("/lazy_sofa")),
                 "path": p + "/SpriteRenderer",
             })
             break
@@ -354,6 +410,7 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
     floor_cells_by_group = {}
     floor_sprite_by_group = {}
     wall_cell_solids = []
+    furniture_portal_tiles = []
     for obj in objects:
         if obj.type.name != "Tilemap":
             continue
@@ -416,6 +473,11 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             by = float(tile_pos.y) + 0.5
             tile_x = pos[0] + bx * scale[0]
             tile_y = pos[1] + by * scale[1]
+            # The cap tile protruded into the north-south walkway. Keep the
+            # body tile below it, but remove this visual segment and its solid.
+            if "/wall" in p and abs(tile_x - 7.5) < 0.01 and \
+                    abs(tile_y + 22.5) < 0.01:
+                continue
             instances.append({
                 "sprite": sid,
                 "position": [tile_x, tile_y],
@@ -438,8 +500,14 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                     "/object_portal" in p):
                 half_x = abs(float(scale[0])) * 0.5
                 half_y = abs(float(scale[1])) * 0.5
-                wall_cell_solids.append([tile_x - half_x, tile_y - half_y,
-                                         tile_x + half_x, tile_y + half_y])
+                # Long table/object portal tiles need a footprint, not a
+                # one-cell wall solid.
+                if sid in ("hub_spr_2229", "hub_spr_2240"):
+                    furniture_portal_tiles.append(
+                        (sid, tile_x, tile_y, scale))
+                else:
+                    wall_cell_solids.append([tile_x - half_x, tile_y - half_y,
+                                             tile_x + half_x, tile_y + half_y])
             tile_count += 1
 
     # Fill only enclosed holes inside each recovered floor footprint. This is
@@ -519,46 +587,22 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
             seen_edges.add(key)
             floor_edge_solids.append(list(edge))
 
-    # The removed cellar stair occupied the south-wall opening beside the
-    # recycling bin. The surrounding default wall line uses wall_u as its top
-    # cap and wall_m below it. Close the former 3x3 opening with that exact
-    # recovered wall construction (cx=-101..-99, cy=-69..-71), so the area
-    # matches neighboring wall height, layer and scale and the player cannot
-    # walk into the old stair shaft.
-    stair_wall_tiles = (
-        ("hub_spr_2093", -101, -69),  # wall_u top cap
-        ("hub_spr_2093", -100, -69),
-        ("hub_spr_2093", -99, -69),
-        ("hub_spr_2098", -101, -70),  # wall_m body
-        ("hub_spr_2098", -100, -70),
-        ("hub_spr_2098", -99, -70),
-        ("hub_spr_2098", -101, -71),
-        ("hub_spr_2098", -100, -71),
-        ("hub_spr_2098", -99, -71),
-    )
-    for sprite_id, cx, cy in stair_wall_tiles:
-        if sprite_id not in sprite_ids:
-            continue
-        instances.append({
-            "sprite": sprite_id,
-            "position": [89.0 + cx + 0.5, 59.0 + cy + 0.5],
-            "rotation": 0.0,
-            "scale": [1.0, 1.0],
-            "color": [255, 255, 255, 255],
-            "sorting_layer": 4,
-            "sorting_layer_name": "Wall",
-            "sorting_order": 20,
-            "flip_x": False,
-            "flip_y": False,
-            "ground_depth": False,
-            "path": "hub/stair_wall_repair",
-        })
-        tile_count += 1
-
     colliders = list(wall_cell_solids)
+    # Long object-portal tiles are actual furniture: use their recovered
+    # sprite width and a 2-unit base footprint instead of a one-cell AABB.
+    for sid, tile_x, tile_y, scale in furniture_portal_tiles:
+        sprite = sprite_ids.get(sid)
+        if sprite is None:
+            continue
+        rect = sprite.get("rect", [0.0, 0.0, 1.0, 1.0])
+        ppu = float(sprite.get("pixels_per_unit", 16.0) or 16.0)
+        width = float(rect[2]) / ppu * abs(scale[0])
+        height = float(rect[3]) / ppu * abs(scale[1])
+        bottom = tile_y - height * 0.5
+        colliders.append([tile_x - width * 0.5, bottom + 0.1,
+                          tile_x + width * 0.5,
+                          bottom + min(2.0, height - 0.1)])
     colliders.extend(floor_edge_solids)
-    # Exact 3x3 wall footprint replacing the removed stair opening.
-    colliders.append([-12.0, -12.0, -9.0, -9.0])
     for pid, g in gos.items():
         p = path(pid)
         if not p or p.startswith(("Canvas", "EventSystem", "gamemanager", "Main Camera")):
@@ -568,27 +612,43 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
         if not active_chain(pid) or event_path(p) or removed_path(p):
             continue
         if any(token in p for token in (
-                "room/objects/task/board", "room/objects/hire_board",
-                "hireroom/hire_board")):
+                "room/objects/hire_board", "hireroom/hire_board")):
             continue
         # Progression locks and portal triggers are intentionally open in the
         # explorable hub; their visual objects remain rendered.
         if any(token in p for token in (
                 "cellar_lock_obstacle", "cellar_obstacle",
-                "magic_protal", "transfer_gate")):
+                "transfer_gate")):
+            continue
+        # The magic portal's lower BoxCollider2D is the recovered frame base;
+        # keep it. Other portal trigger objects are interaction-only.
+        if "magic_protal" in p and not p.startswith(
+                "room/objects/magic_protal1/col"):
+            continue
+        if p == "room/objects/static/research/forge":
+            # The recovered forge root has one oversized trigger box spanning
+            # all three tables. Replace it below with per-table footprints.
             continue
         pos, rot, scale = world_transform(pid, gos, tr_to_go)
+        if p.startswith("room/objects/static/magic/npc_magic"):
+            # Move the magic-stone NPC along the recovered NPC->grave axis,
+            # not sideways. The grave reference is (32.515,-16.910); stop just
+            # short of it so the pair reads as NPC facing the grave.
+            pos = [pos[0] + 0.93, pos[1] + 3.08]
+        seat_dx, seat_dy = seated_offset(p)
+        pos = [pos[0] + seat_dx, pos[1] + seat_dy]
         data = g["game_object"].read()
         for comp in data.m_Component:
             t = comp.component.type.name
             if t not in ("BoxCollider2D", "CircleCollider2D",
                          "PolygonCollider2D", "CompositeCollider2D"):
                 continue
-            if t in ("PolygonCollider2D", "CompositeCollider2D"):
+            if t == "CompositeCollider2D":
                 # Composite wall polygons are often huge L-shaped outlines.
                 # Their AABB would seal the whole room; wall tile cells now
-                # provide the physical boundary. Small polygon furniture is
-                # still covered by its sibling BoxCollider2D.
+                # provide the physical boundary.
+                continue
+            if t == "PolygonCollider2D" and "/research/bottle" not in p:
                 continue
             try:
                 col = comp.component.read()
@@ -637,6 +697,26 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
                     ys = [pos[1] + float(pt.y) * scale[1] for pt in pts]
                     if max(xs) - min(xs) > 0.05 and max(ys) - min(ys) > 0.05:
                         colliders.append([min(xs), min(ys), max(xs), max(ys)])
+
+    # The three reforging-furnace tables use their own recovered sprite
+    # footprints. The top is deliberately 2.39 units above the base: this lets
+    # the player approach the middle table roughly one block closer than the
+    # old root trigger while still preventing walk-through.
+    for instance in instances:
+        ipath = instance.get("path", "")
+        if not (ipath.endswith("/research/forge/left/SpriteRenderer") or
+                ipath.endswith("/research/forge/middle/SpriteRenderer") or
+                ipath.endswith("/research/forge/right/SpriteRenderer")):
+            continue
+        sprite = sprite_ids.get(instance["sprite"])
+        if sprite is None:
+            continue
+        rect = sprite.get("rect", [0.0, 0.0, 1.0, 1.0])
+        ppu = float(sprite.get("pixels_per_unit", 16.0) or 16.0)
+        width = float(rect[2]) / ppu * abs(instance["scale"][0])
+        px, py = instance["position"]
+        colliders.append([px - width * 0.5, py + 0.05,
+                          px + width * 0.5, py + 2.39])
 
     # The seller's display cases and the bookshelf behind the trader are
     # visual-only children in the reference prefab. Give them the physical
@@ -894,8 +974,49 @@ def build(data_dir: Path, output: Path, manifest_path: Path,
          "position": [27.6, 4.4], "radius": 4.0},
         {"id": "mech_station", "kind": "mech", "label": "ROBOTICS FACILITY",
          "position": [43.0, 6.9], "radius": 4.0},
-        {"id": "hub_door", "kind": "door", "label": "DUNGEON",
-         "position": [0.0, 7.5], "radius": 3.0},
+        {"id": "mission_board", "kind": "mission", "label": "TASK BOARD",
+         "position": [-7.065, 5.130], "radius": 3.0,
+         "talk_lines": [
+             localized.get(key, key)
+             for key in sorted(localized)
+             if key.startswith("task/") and
+             key not in ("task/change_challenges",)
+         ]},
+        {"id": "weapon_chest", "kind": "weapon_chest", "label": "WEAPON CHEST",
+         "position": [-2.89, 6.31], "radius": 3.0},
+        {"id": "dungeon_portal", "kind": "door", "label": "DUNGEON PORTAL",
+         "position": [13.53, -14.90], "radius": 3.2},
+        {"id": "npc_explorer", "kind": "npc", "label": "EXPLORER",
+         "speaker": "Explorer",
+         "text": localized.get("adv_toturial/room_talk_1", "New kid?"),
+         "text_alt": localized.get(
+             "adv_toturial/room_talk_2",
+             "Rookie, wanna know more about the dungeon?"),
+         "talk_lines": [
+             localized.get("adv_toturial/room_talk_1", "New kid?"),
+             localized.get("adv_toturial/room_talk_2",
+                           "Rookie, wanna know more about the dungeon?"),
+             localized.get("adv_toturial/room_talk_3", "Ready?"),
+             localized.get("adv_toturial/room_talk_4", "There you go!"),
+             localized.get("adv_toturial/room_talk_5",
+                           "I promised sweat. Let's see it.")
+         ],
+         "position": [16.41, -17.37], "radius": 4.0},
+        {"id": "npc_magic", "kind": "npc", "label": "MAGIC STONE",
+         "speaker": "MAGIC STONE",
+         "text": localized.get("I_plot1",
+                               "Magic stones are sacred relics."),
+         "text_alt": localized.get("I_plot2",
+                                   "The magic stones were stolen."),
+         "talk_lines": [
+             localized.get("I_plot1",
+                           "Magic stones are sacred relics."),
+             localized.get("I_plot2",
+                           "The magic stones were stolen."),
+             localized.get("I_plot3",
+                           "Can you take back the magic stones?")
+         ],
+         "position": [32.20, -17.94], "radius": 3.2},
     ]
     # Every visible Living Room hero NPC is a TalkCharNpc. The runtime hides
     # the selected player's duplicate and skips its marker.

@@ -1152,6 +1152,9 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 item.contains("weapon_type_name") &&
                 item["weapon_type_name"].is_string()
                 ? item["weapon_type_name"].get<std::string>() : std::string{};
+            // Recovered RGWeapon.audio_clip: every weapon must use its own
+            // serialized clip, never a Bad Pistol fallback.
+            weapon.audio_clip = item.value("audio_clip", std::string{});
             weapon.rarity = item.contains("rarity") &&
                 item["rarity"].is_number_integer()
                 ? item["rarity"].get<int>() : -1;
@@ -1433,6 +1436,33 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
                 return false;
             }
             loaded.weapons.push_back(std::move(weapon));
+        }
+    }
+
+    // GunInitRogue / Jack and Mary is a hybrid melee+thrown weapon. The
+    // generic weapon extractor records no projectile because the serialized
+    // bullets live in `bulletsInfo[].bulletProto` (bullet_107) rather than the
+    // usual `bullet01` field. Recover the actual bullet sprite and keep the
+    // melee sword strike as well.
+    for (engine::assets::WeaponDefinition& weapon : loaded.weapons) {
+        if (weapon.id.rfind("weapon_init_ranger", 0) != 0) continue;
+        for (std::size_t i = 0; i < loaded.sprites.size(); ++i) {
+            if (loaded.sprites[i].id.rfind("weapons3_62_", 0) != 0) continue;
+            weapon.projectile.id = "bullet_107";
+            weapon.projectile.sprite_index = static_cast<int32_t>(i);
+            weapon.projectile.prefab_speed = 10.0f;
+            weapon.projectile.lifetime = 5.0f;
+            weapon.projectile.camp = 1;
+            weapon.projectile.can_rebound = true;
+            weapon.projectile.collider_half_extents = {0.35f, 0.15f};
+            weapon.projectile.collider_offset = {0.0f, 0.0f};
+            weapon.projectile.sorting_layer = 6;
+            weapon.projectile.sorting_order = 0;
+            break;
+        }
+        if (weapon.projectile.sprite_index >= 0) {
+            weapon.special.kind = "rogue_throw";
+            weapon.bullet_speed = 36.0f;
         }
     }
 
