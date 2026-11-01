@@ -14,9 +14,9 @@ The first slice can use the serialized assets below without claiming a display n
 | `weapon_000` | `common`, `Assets/RGPrefab/Weapon/weapon_000.prefab` | `Gun001`, `WeaponMaterial`, `WeaponFusion`, `WModDeviation`, `WeaponItemConfig` |
 | `bullet_0` | `common`, `Assets/RGPrefab/Bullet/bullet_0.prefab` | `Bullet01` |
 
-`weapon_000` is a **CONFIRMED weapon prefab**. It is **not** proven to be the
-Knight's starting weapon or the display name "Bad Pistol". Do not label it as such
-without a serialized item-name mapping.
+`weapon_000` is a **CONFIRMED weapon prefab**. The 0.5.2 catalogue recoveries
+now prove its display name is **Bad Pistol** (`WeaponInfo` + localization key
+`weapon/weapon_000`); it is still not proven to be the Knight's starting weapon.
 
 ## 2. Serialized weapon fields (`weapon_000`)
 
@@ -325,4 +325,31 @@ a deterministic swept-collision approximation.
 | Ammo/consume | CONFIRMED for weapon_000 | serialized `consume=0` |
 | Spread formula | CONFIRMED | `attribute.deviation * (weapon.deviation+1)`; c00 attribute deviation 0 |
 | Rigidbody2D/rebound parity | UNKNOWN | native swept linear movement + static-solid blocking |
-| Display name / Knight starting weapon | CANDIDATE/UNRESOLVED | no serialized item-name mapping |
+| Display name | CONFIRMED | `WeaponInfo` + localization key `weapon/weapon_000`: "Bad Pistol" |
+| Knight starting weapon | UNKNOWN | serialized starting-weapon mapping not recovered |
+
+## 8. 0.5.2 catalogue update
+
+`tools/asset/audit_weapon_catalogue.py` now recovers:
+
+- 301 localized weapon names from the reference string table,
+- 349 `WeaponInfo` definitions,
+- 296 serialized weapon prefabs with a gun/bullet component,
+- serialized `consume` (per-attack energy cost) and first-bullet damage for each
+  recovered gun prefab,
+- attack cadence only for the four integrated native weapons.
+
+The machine-readable output is `analysis/assets/weapon_catalogue.json` and the
+summary is `analysis/assets/weapon_catalogue.md`.
+
+Integrated names/costs confirmed in 0.5.2:
+
+```text
+weapon_000  Bad Pistol      damage 3  energy 0
+weapon_002  AK-47           damage 3  energy 1
+weapon_048  Next-gen SMG    damage 3  energy 1
+weapon_287  Revolver Gold   damage 4  energy 1
+```
+
+The native weapon presentation uses the prefab `localScale = 1.0`; the earlier
+1.5x experiment is retired.

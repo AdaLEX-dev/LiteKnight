@@ -201,7 +201,9 @@ else
 fi
 
 # 4a. Recovered UI atlases/title logo (local-only pixels).
-if [[ ! -f "${ROOT}/assets/generated/ui/manifest.json" ]]; then
+if [[ ! -f "${ROOT}/assets/generated/ui/manifest.json" ]] || \
+   ! grep -q '"schema": 2' "${ROOT}/assets/generated/ui/manifest.json" || \
+   ! grep -q '"name": "menu_backdrop"' "${ROOT}/assets/generated/ui/manifest.json"; then
     if [[ -d "${BUNDLE_ROOT}" && -x "${ROOT}/tools/asset/.venv/bin/python" ]]; then
         echo "Building local UI atlas manifest..."
         "${ROOT}/tools/asset/.venv/bin/python" "${ROOT}/tools/asset/build_ui_scene.py"

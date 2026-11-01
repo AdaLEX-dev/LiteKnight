@@ -42,21 +42,39 @@ TEST_CASE("Main-menu D-ROOM pointer target is clickable" *
           doctest::test_suite("unit")) {
     GameUI ui;
     ui.OpenMainMenu();
-    CHECK(ui.HandlePointerClick({70.0f, 360.0f}));
+    CHECK(ui.HandlePointerClick({70.0f, 354.0f}));
     CHECK(ui.TakeAction() == UIAction::OpenDevroom);
     ui.OpenMainMenu();
-    CHECK_FALSE(ui.HandlePointerClick({150.0f, 420.0f}));
+    // Bottom-right corner of the drawn D-ROOM rect must hit too; this catches
+    // the stale 0.5.1 hitbox that was offset up and left from the artwork.
+    CHECK(ui.HandlePointerClick({278.0f, 394.0f}));
+    CHECK(ui.TakeAction() == UIAction::OpenDevroom);
+    ui.OpenMainMenu();
+    CHECK_FALSE(ui.HandlePointerClick({900.0f, 500.0f}));
     CHECK(ui.TakeAction() == UIAction::None);
 }
 
-TEST_CASE("Map overlay freezes gameplay and closes back to play" *
+TEST_CASE("Settings routes real aim, fullscreen and design actions" *
+          doctest::test_suite("unit")) {
+    GameUI ui;
+    ui.OpenSettings();
+    CHECK(ui.Screen() == UIScreen::Settings);
+    ui.Confirm();
+    CHECK(ui.TakeAction() == UIAction::ToggleAimMode);
+    ui.Navigate(1);
+    ui.Confirm();
+    CHECK(ui.TakeAction() == UIAction::ToggleFullscreen);
+    ui.Navigate(2);
+    ui.Confirm();
+    CHECK(ui.TakeAction() == UIAction::OpenUiDesignMode);
+    ui.Navigate(2);
+    CHECK(ui.Screen() == UIScreen::Settings);
+}
+
+TEST_CASE("Gameplay uses the compact HUD and has no fullscreen map state" *
           doctest::test_suite("unit")) {
     GameUI ui;
     ui.OpenGameplay();
-    ui.OpenMap();
-    CHECK(ui.IsMapOpen());
-    CHECK(ui.IsPaused());
-    ui.CloseMap();
     CHECK(ui.Screen() == UIScreen::Gameplay);
     CHECK_FALSE(ui.IsPaused());
 }

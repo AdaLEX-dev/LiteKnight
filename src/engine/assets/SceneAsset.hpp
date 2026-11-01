@@ -145,6 +145,7 @@ struct ProjectileDefinition {
 
 struct WeaponDefinition {
     std::string id;
+    std::string display_name;
     ProjectileDefinition projectile;
     float bullet_speed = 0.0f;
     float size = 1.0f;
@@ -160,12 +161,11 @@ struct WeaponDefinition {
     int32_t energy_cost = -1;
     int EnergyCost() const { return energy_cost >= 0 ? energy_cost : consume; }
     float weapon_speed = 1.0f;
-    // Native display scale. Serialized `w` transform scale is 1.0 and the
-    // recovered pistol sprite is only 9 px high (0.56 world units) against a
-    // 1.87-unit character. A 1.5x presentation scale gives the reference hand
-    // weapon a readable silhouette without touching muzzle/projectile math.
-    // This is a presentation-only HYPOTHESIS and does not change collision.
-    float visual_scale = 1.5f;
+    // Native display scale. CONFIRMED from the serialized weapon_000,
+    // weapon_002, weapon_048 and weapon_287 prefabs: the root Transform and
+    // child `w` Transform both have localScale (1, 1, 1). The earlier 1.5x
+    // presentation experiment is retired; muzzle/projectile math is unchanged.
+    float visual_scale = 1.0f;
     // RGWeapon.atk_move_speed; AttackStart adds this to speed_rate and
     // AttackStop subtracts it. weapon_000 serializes -0.1.
     float atk_move_speed = 0.0f;

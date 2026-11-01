@@ -871,6 +871,7 @@ bool SceneLoader::Load(const platform::FileSystem& filesystem,
             }
             WeaponDefinition weapon;
             weapon.id = item["id"].get<std::string>();
+            weapon.display_name = item.value("display_name", weapon.id);
             const Json& projectile = item["projectile"];
             if (!projectile.contains("id") || !projectile["id"].is_string() ||
                 !projectile.contains("sprite") || !projectile["sprite"].is_string()) {

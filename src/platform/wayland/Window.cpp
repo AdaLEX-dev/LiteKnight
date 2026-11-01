@@ -136,6 +136,15 @@ VkSurfaceKHR Window::CreateVulkanSurface(VkInstance instance) const {
     return surface;
 }
 
+int Window::GetRefreshRate() const {
+    if (!sdl_window_) return 0;
+    const SDL_DisplayID display = SDL_GetDisplayForWindow(sdl_window_);
+    if (display == 0) return 0;
+    const SDL_DisplayMode* mode = SDL_GetCurrentDisplayMode(display);
+    if (mode == nullptr || mode->refresh_rate <= 0.0f) return 0;
+    return static_cast<int>(mode->refresh_rate + 0.5f);
+}
+
 void Window::RefreshSizes() {
     if (!sdl_window_) return;
 

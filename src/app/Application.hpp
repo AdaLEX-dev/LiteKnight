@@ -4,6 +4,8 @@
 #include "AppConfig.hpp"
 #include "platform/wayland/Window.hpp"
 #include "platform/timing/FrameTimer.hpp"
+
+#include <chrono>
 #include "platform/filesystem/FileSystem.hpp"
 #include "platform/input/InputManager.hpp"
 #include "platform/input/MovementInput.hpp"
@@ -91,8 +93,9 @@ private:
     void ExitUiDesignMode();
     bool HandleUiDesignEvent(const SDL_Event& event);
     void HandleMainMenuPointer(const SDL_Event& event);
-    void ToggleMapOverlay();
     void LogViewportContract();
+    void ConfigureReviewMode();
+    void PrintReviewRequired();
     bool LoadWorldRooms();
     void ConfigureWorldGraph();
     bool SwitchRoom(const std::string& door_id = {});
@@ -236,6 +239,17 @@ private:
     std::vector<std::string> visited_rooms_;
     int player_coins_ = 0;
     bool ui_design_mode_ = false;
+    bool review_mode_ = false;
+    bool review_frozen_ = false;
+    double review_start_seconds_ = -1.0;
+    double review_duration_seconds_ = 30.0;
+    std::chrono::steady_clock::time_point last_present_time_{};
+    double present_window_sum_ms_ = 0.0;
+    double present_window_min_ms_ = 0.0;
+    double present_window_max_ms_ = 0.0;
+    int present_window_samples_ = 0;
+    double present_run_sum_ms_ = 0.0;
+    long long present_run_samples_ = 0;
     bool ui_design_dragging_ = false;
     std::string ui_design_selected_;
     engine::Vec2 ui_design_drag_offset_{0.0f, 0.0f};

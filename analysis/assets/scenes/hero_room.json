@@ -238270,7 +238270,7 @@
       "atk_move_speed": -0.10000000149011612,
       "attack_cycle_seconds": 0.3333333432674408,
       "bullet_speed": 36.0,
-      "classification": "CONFIRMED weapon_000/Gun001 serialized fields; first Attack state w_pistol; display name not proven; attack cycle scaled by weapon_speed",
+      "classification": "CONFIRMED weapon_000/Gun001 serialized fields; first Attack state w_pistol; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
       "consume": 0,
       "damage": 3,
       "deviation": 5,
@@ -238311,13 +238311,14 @@
       ],
       "visual_rotation": 0.0,
       "visual_sprite": "weapons_19_-4519551836381203921",
-      "weapon_speed": 1.0
+      "weapon_speed": 1.0,
+      "display_name": "Bad Pistol"
     },
     {
       "atk_move_speed": -0.10000000149011612,
       "attack_cycle_seconds": 0.1666666716337204,
       "bullet_speed": 40.0,
-      "classification": "CONFIRMED weapon_002/Gun001 serialized fields; first Attack state w_m4; display name not proven; attack cycle scaled by weapon_speed",
+      "classification": "CONFIRMED weapon_002/Gun001 serialized fields; first Attack state w_m4; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
       "consume": 1,
       "damage": 3,
       "deviation": 10,
@@ -238358,13 +238359,14 @@
       ],
       "visual_rotation": 0.0,
       "visual_sprite": "weapons_21_-7468549729405344503",
-      "weapon_speed": 1.0
+      "weapon_speed": 1.0,
+      "display_name": "AK-47"
     },
     {
       "atk_move_speed": -0.20000000298023224,
       "attack_cycle_seconds": 0.5,
       "bullet_speed": 36.0,
-      "classification": "CONFIRMED weapon_048/Gun001 serialized fields; first Attack state w_smg; display name not proven; attack cycle scaled by weapon_speed",
+      "classification": "CONFIRMED weapon_048/Gun001 serialized fields; first Attack state w_smg; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
       "consume": 1,
       "damage": 3,
       "deviation": 5,
@@ -238405,13 +238407,14 @@
       ],
       "visual_rotation": 0.0,
       "visual_sprite": "weapons_120_1378400027513746796",
-      "weapon_speed": 1.0
+      "weapon_speed": 1.0,
+      "display_name": "Next-gen SMG"
     },
     {
       "atk_move_speed": 0.10000000149011612,
       "attack_cycle_seconds": 0.13333334028720856,
       "bullet_speed": 42.0,
-      "classification": "CONFIRMED weapon_287/Gun001 serialized fields; first Attack state w_gold_revolver_atk; display name not proven; attack cycle scaled by weapon_speed",
+      "classification": "CONFIRMED weapon_287/Gun001 serialized fields; first Attack state w_gold_revolver_atk; display name from WeaponInfo/localization; attack cycle scaled by weapon_speed",
       "consume": 1,
       "damage": 4,
       "deviation": 3,
@@ -238452,7 +238455,8 @@
       ],
       "visual_rotation": 0.0,
       "visual_sprite": "weapons4_10_9068103689744152087",
-      "weapon_speed": 1.0
+      "weapon_speed": 1.0,
+      "display_name": "Revolver Gold"
     }
   ]
 }

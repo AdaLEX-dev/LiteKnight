@@ -1,17 +1,54 @@
 # Native Map / Minimap
 
-**Status:** minimap and full map overlay implemented for the native room graph.
+**Status:** compact minimap implemented from the recovered `UIMap` construction;
+no enlarged map.
 
-## Rendering
+## Reconstruction
 
-The HUD keeps a small map in the logical `minimap` layout element. `M` opens the
-larger overlay in the `map_panel` element. Both use the same `MapRoomView` data:
-room grid position, current flag, visited flag and devroom flag. Links come from
-`RoomManager`'s physical connections. Visited rooms are blue; the current room
-has the gold frame and a white position pixel.
+The reference `level2` Canvas contains `map_info` (200x200, top-right). Its
+children are:
 
-The devroom cell displays a white `D` on its map cell. This is a dedicated
-developer marker; it is not a claimed reference room icon.
+```text
+map_info
+  a/       connector quads (a0_5 ... a23_24)
+  room/    room00 ... room44 (24x24 cells on a 35 px pitch)
+  target   current-position marker (ui_4, 19x19)
+  Text     level label
+```
+
+The room cells and connectors have Image components with **no sprite**; they are
+plain tinted quads. `UIMap` serializes `color_0`, `color_1`, `color_2` and five
+special icons:
+
+| UIMap field | Recovered sprite |
+|---|---|
+| `boss_logo` | `ui_14` |
+| `special_logo` | `ui_114` |
+| `chest_logo` | `ui_113` |
+| `home_logo` | `ui_125` (green house) |
+| `cage_logo` | `ui_193` |
+| target marker | `ui_4` |
+
+`SetMiniIcon` selects the icon by room type; `UpdateMap` applies the three
+recovered gray/white cell colors. The reference HUD screenshot confirms a small
+dark panel, not a fullscreen map.
+
+## Native implementation
+
+- Panel: fixed compact `minimap` HUD element (240x196 by default).
+- Cells: plain colored quads using the recovered values:
+  current white, visited light gray, unexplored dark gray.
+- Connectors: plain light-gray quads; the previous native blue lines are gone.
+- Special icons: the actual `ui_14`, `ui_113`, `ui_114`, `ui_125` and `ui_193`
+  sprites are used when the room type is known.
+- Current room: `ui_4` marker plus a thin gold current-room border.
+- Devroom: one normal-size cell with a centered white `D`; this is the only
+  intentionally native icon.
+- Integrated rooms: the Living Room is `home` (green house). The seeded battle
+  rooms currently have no boss/special/chest/cage type metadata, so they remain
+  plain cells; the icon code path is implemented for when that metadata exists.
+
+There is no `M` fullscreen overlay. The previous oversized map was removed.
 
 ## Graph
 
@@ -22,22 +59,16 @@ hero_room -- first -- second
                  \-- third
 ```
 
-The seed maps actual room templates onto `first/second/third`; the graph is not a
-reconstruction of `MapManagerLevel.CreateMap`. See
+The seed maps actual room templates onto `first/second/third`; the graph is not
+a reconstruction of `MapManagerLevel.CreateMap`. See
 `docs/development/ROOM_TRANSITIONS.md`.
-
-## Input and simulation
-
-`M` toggles the map. The map is an overlay that freezes the 50 Hz simulation and
-clears movement/attack input until closed. `ESC` also closes it. These bindings
-are native desktop bindings; the reference mobile map button mapping is not a
-keyboard contract.
 
 ## Evidence boundary
 
-`CONFIRMED`: room IDs, actual scene connections, current/visited state, and the
-requested white-D developer marker.
+`CONFIRMED`: the `UIMap` hierarchy, 24x24/35 px cell construction, unsprite
+cell/connector quads, `color_0/1/2`, the five special-icon sprite references,
+`ui_4` target marker, and the compact reference HUD composition.
 
-`HYPOTHESIS`: minimap cell layout, 26 px gap choices, default panel position and
-the exact reference map open/close key. The reference `UIMap` visual atlas
-mapping for the full room-icon family remains **UNKNOWN**.
+`HYPOTHESIS`: mapping the native room graph's IDs onto the reference 5x5 cell
+grid and the exact desktop minimap anchor. These are native desktop decisions,
+not recovered `MapManagerLevel` positions.

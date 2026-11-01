@@ -70,6 +70,18 @@ TEST_CASE("Bootstrap command line parses bounded smoke options" * doctest::test_
     const AppConfig menu_config = ParseCommandLine(1, argv_menu);
     CHECK(menu_config.start_gui);
     CHECK(menu_config.scene_path == "scenes/hero_room/scene.json");
+
+    char review_area[] = "--review-area";
+    char review_settings[] = "settings";
+    char review_seconds[] = "--review-seconds";
+    char review_value[] = "30";
+    char* argv_review[] = {executable, review_area, review_settings,
+                           review_seconds, review_value};
+    const AppConfig review_config = ParseCommandLine(5, argv_review);
+    CHECK(review_config.review_mode);
+    CHECK(review_config.review_area == "settings");
+    CHECK(review_config.review_seconds == doctest::Approx(30.0));
+    CHECK(review_config.start_gui);
 }
 
 TEST_CASE("Window state transitions are deterministic and idempotent" * doctest::test_suite("unit")) {

@@ -96,6 +96,16 @@ bool UIAssets::Load(const platform::FileSystem& filesystem,
         }
         if (sprite.texture_id == 0) continue;
         if (!ReadRect(item, &sprite.uv)) continue;
+        // Some sharedassets duplicates contain atlas-space rectangles whose
+        // UVs fall outside the texture used by the AssetBundle atlas. Prefer
+        // the first valid definition and never bind an out-of-range quad.
+        if (sprite.uv.w <= 0.0f || sprite.uv.h <= 0.0f ||
+            sprite.uv.x < -0.001f || sprite.uv.y < -0.001f ||
+            sprite.uv.x + sprite.uv.w > 1.001f ||
+            sprite.uv.y + sprite.uv.h > 1.001f) {
+            continue;
+        }
+        if (sprites_.find(sprite.name) != sprites_.end()) continue;
         if (item.contains("rect_pixels") &&
             item["rect_pixels"].is_array() &&
             item["rect_pixels"].size() == 4) {

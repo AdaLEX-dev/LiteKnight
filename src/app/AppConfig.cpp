@@ -1,6 +1,7 @@
 // Soul Knight Linux — Application configuration implementation
 #include "AppConfig.hpp"
 
+#include <algorithm>
 #include <cerrno>
 #include <cstdlib>
 #include <string_view>
@@ -82,6 +83,21 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
         } else if (arg == "--scene" && i + 1 < argc) {
             config.scene_path = argv[i + 1];
             ++i;
+        } else if (arg == "--review-area" && i + 1 < argc) {
+            config.review_mode = true;
+            config.review_area = argv[i + 1];
+            ++i;
+        } else if (arg.rfind("--review-area=", 0) == 0) {
+            config.review_mode = true;
+            config.review_area = std::string(arg.substr(14));
+        } else if (arg == "--review-seconds" && i + 1 < argc) {
+            errno = 0;
+            char* end = nullptr;
+            const double value = std::strtod(argv[i + 1], &end);
+            if (end != argv[i + 1] && *end == '\0' && errno == 0 && value > 0.0) {
+                config.review_seconds = std::min(value, 3600.0);
+            }
+            ++i;
         } else if (arg == "--map-seed" && i + 1 < argc) {
             errno = 0;
             char* end = nullptr;
@@ -112,6 +128,40 @@ AppConfig ParseCommandLine(int argc, char* argv[]) {
 
         // Keep this a bootstrap parser, not a general option framework.
         // Unknown arguments are harmless for a desktop-launched executable.
+    }
+
+    if (config.review_mode) {
+        const std::string& area = config.review_area;
+        if (area == "main_menu" || area.empty()) {
+            config.start_gui = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Review - Main Menu";
+        } else if (area == "settings") {
+            config.start_gui = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Review - Settings";
+        } else if (area == "living_room") {
+            config.devroom = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Review - Living Room";
+        } else if (area == "r1_1" || area == "r1_2" || area == "r1_3") {
+            config.devroom = true;
+            config.scene_path = "scenes/" + area + "_visual/scene.json";
+            config.title = "LiteKnight Review - " + area;
+        } else if (area == "pause") {
+            config.start_gui = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Review - Pause";
+        } else if (area == "ui_design") {
+            config.start_gui = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Review - UI Design Mode";
+        } else if (area == "fullscreen") {
+            config.fullscreen = true;
+            config.start_gui = true;
+            config.scene_path = "scenes/hero_room/scene.json";
+            config.title = "LiteKnight Review - Fullscreen";
+        }
     }
 
     // Test/play executable default: start at the normal main menu. Explicit

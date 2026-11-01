@@ -21,7 +21,6 @@ enum class UIScreen {
     Gameplay,
     Pause,
     Settings,
-    Map,
     MainMenu,
     CharacterSelect,
     WeaponSelect
@@ -34,6 +33,9 @@ struct MapRoomView {
     bool current = false;
     bool visited = false;
     bool devroom = false;
+    // Recovered UIMap icon kind: "boss", "special", "chest", "home", "cage".
+    // Empty means a plain room cell, matching UIMap.SetMiniIcon.
+    std::string icon;
 };
 
 struct MapLinkView {
@@ -86,12 +88,12 @@ struct GameUIData {
     std::vector<MapRoomView> map_rooms;
     std::vector<MapLinkView> map_links;
     std::string devroom_room_id;
-    bool map_open = false;
     const UIAssets* ui_assets = nullptr;
     bool chest_nearby = false;
     std::string chest_label;
     bool pickup_nearby = false;
     std::string pickup_name;
+    int pickup_sprite_index = -1;
     int pickup_damage = 0;
     int pickup_energy_cost = 0;
     float pickup_cycle_seconds = 0.0f;
@@ -106,9 +108,6 @@ public:
     void OpenPause();
     void Resume();
     void OpenSettings();
-    void OpenMap();
-    void CloseMap();
-    bool IsMapOpen() const { return screen_ == UIScreen::Map; }
     void OpenCharacterSelect(int initial_index = 0);
     void OpenWeaponSelect(int initial_index = 0);
     void CloseSelection();
@@ -121,7 +120,6 @@ public:
 
     bool IsPaused() const {
         return screen_ == UIScreen::Pause || screen_ == UIScreen::Settings ||
-               screen_ == UIScreen::Map ||
                screen_ == UIScreen::CharacterSelect ||
                screen_ == UIScreen::WeaponSelect;
     }
@@ -141,7 +139,6 @@ private:
     void DrawHud(UIRenderer& ui, const GameUIData& data) const;
     void DrawMinimap(UIRenderer& ui, const GameUIData& data,
                      const engine::Rect& rect, bool expanded) const;
-    void DrawMap(UIRenderer& ui, const GameUIData& data) const;
     void DrawDesignOverlay(UIRenderer& ui, const GameUIData& data) const;
     void DrawPause(UIRenderer& ui, const GameUIData& data) const;
     void DrawSettings(UIRenderer& ui, const GameUIData& data) const;

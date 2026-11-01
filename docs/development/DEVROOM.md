@@ -44,7 +44,6 @@ Generated pixels are gitignored. See `docs/legal/reference-assets.md`.
 |---|---|
 | `F2` / `F3` | save / load native slot 0 |
 | `Esc` | pause / resume (settings backs out to pause first) |
-| `M` | open/close the map overlay |
 | `Q` | Knight c00 Dual Wield power |
 | `F4` | collision/visual/sort/aim debug bounds |
 | `T` | cycle through a connected room |

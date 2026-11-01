@@ -60,6 +60,16 @@ TEXTURE_BY_PATH_ID = {path_id: (name, bundle) for name, bundle, path_id in TEXTU
 PLAYER_BODY_PATH = "img/body"
 PLAYER_BODY_SCENE_PATH = "c00/img/body"
 
+# English player-facing names recovered from the reference WeaponInfo table
+# (Assets/.../WeaponInfo TextAsset) and its localization keys
+# weapon/weapon_XXX. Internal prefab IDs remain stable.
+WEAPON_DISPLAY_NAMES = {
+    "weapon_000": "Bad Pistol",
+    "weapon_002": "AK-47",
+    "weapon_048": "Next-gen SMG",
+    "weapon_287": "Revolver Gold",
+}
+
 SORTING_LAYER_NAMES = {
     0: "Default",
     1: "BackGround",
@@ -814,6 +824,7 @@ class SceneBuilder:
             }
             self.weapons.append({
                 "id": weapon_id,
+                "display_name": WEAPON_DISPLAY_NAMES.get(weapon_id, weapon_id),
                 "projectile": projectile,
                 "bullet_speed": float(bullet_info.speed),
                 "size": float(bullet_info.size),
@@ -835,8 +846,9 @@ class SceneBuilder:
                 "sorting_order": visual_order,
                 "classification": (
                     f"CONFIRMED {weapon_id}/Gun001 serialized fields; "
-                    f"first Attack state {attack_clip_name}; display name not "
-                    f"proven; attack cycle scaled by weapon_speed"),
+                    f"first Attack state {attack_clip_name}; display name from "
+                    f"WeaponInfo/localization; attack cycle scaled by "
+                    f"weapon_speed"),
             })
 
         # e_slime01: simplest recovered enemy fixture.

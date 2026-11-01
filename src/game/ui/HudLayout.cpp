@@ -19,18 +19,21 @@ constexpr float kLogicalHeight = 1080.0f;
 
 std::vector<HudElement> DefaultElements() {
     return {
-        {"hp",            {16.0f, 12.0f, 352.0f, 38.0f}},
-        {"armor",         {16.0f, 54.0f, 352.0f, 38.0f}},
-        {"energy",        {16.0f, 96.0f, 352.0f, 38.0f}},
+        // The three status rows are the actual reference bar slots inside the
+        // recovered ui_15 plate. The plate itself is derived from their union
+        // in GameUI so UI Design Mode still edits the real HP/armor/energy
+        // elements rather than a separate debug-only widget.
+        {"hp",            {90.0f, 26.0f, 276.0f, 36.0f}},
+        {"armor",         {90.0f, 72.0f, 276.0f, 36.0f}},
+        {"energy",        {90.0f, 118.0f, 276.0f, 36.0f}},
         {"coin",          {1652.0f, 20.0f, 118.0f, 44.0f}},
         {"pause",         {1812.0f, 16.0f, 92.0f, 82.0f}},
-        {"minimap",       {1600.0f, 112.0f, 304.0f, 178.0f}},
-        {"ability",       {190.0f, 920.0f, 128.0f, 128.0f}},
-        {"weapon_slots",  {20.0f, 986.0f, 160.0f, 86.0f}},
-        {"active_weapon", {20.0f, 930.0f, 160.0f, 30.0f}},
-        {"pickup_prompt", {730.0f, 946.0f, 460.0f, 112.0f}},
-        {"stage",         {16.0f, 142.0f, 352.0f, 26.0f}},
-        {"map_panel",     {520.0f, 170.0f, 880.0f, 740.0f}},
+        {"minimap",       {1664.0f, 112.0f, 240.0f, 196.0f}},
+        {"ability",       {20.0f, 846.0f, 150.0f, 150.0f}},
+        {"weapon_slots",  {190.0f, 986.0f, 220.0f, 80.0f}},
+        {"active_weapon", {190.0f, 940.0f, 220.0f, 30.0f}},
+        {"pickup_prompt", {700.0f, 886.0f, 520.0f, 148.0f}},
+        {"stage",         {16.0f, 190.0f, 360.0f, 26.0f}},
     };
 }
 
@@ -134,8 +137,14 @@ bool HudLayout::Load(const std::filesystem::path& path, std::string* error) {
         if (error != nullptr) *error = "UI layout is malformed";
         return false;
     }
-    if (document.value("version", 0) != 1) {
-        if (error != nullptr) *error = "unsupported UI layout version";
+    // Version 2 moves the HUD onto the recovered reference plate and compact
+    // minimap. Version 1 layouts contain the old native anchors; resetting them
+    // is intentional so a stale 0.5.1 file cannot keep the new HUD misaligned.
+    const int version = document.value("version", 0);
+    if (version != 2) {
+        if (error != nullptr) *error = version == 1
+            ? "UI layout version 1 migrated to version 2 defaults"
+            : "unsupported UI layout version";
         return false;
     }
     if (!document.contains("elements") || !document["elements"].is_object()) {
@@ -168,7 +177,7 @@ bool HudLayout::Save(const std::filesystem::path& path,
     for (const HudElement& element : elements_) {
         elements[element.id] = WriteRect(element.rect);
     }
-    Json document = Json{{"version", 1},
+    Json document = Json{{"version", 2},
                          {"coordinate_space", "logical_1920x1080"},
                          {"elements", std::move(elements)}};
     std::ofstream stream(path, std::ios::trunc);

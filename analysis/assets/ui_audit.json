@@ -2,114 +2,233 @@
   "counts": {
     "approximated": 7,
     "excluded": 2,
-    "recovered_integrated": 18,
+    "recovered_integrated": 34,
     "unknown": 0
   },
   "entries": [
     {
-      "asset": "title_en0",
-      "note": "local-only title sprite",
+      "asset": "menu_backdrop",
+      "note": "actual biaoti 01 backdrop from level1",
       "present_in_manifest": true,
       "status": "RECOVERED/INTEGRATED",
-      "use": "Main menu logo"
+      "use": "Main menu backdrop/Knight"
     },
     {
-      "asset": "ui_33",
-      "note": "actual heart sprite",
+      "asset": "menu_swirl",
+      "note": "actual biaoti 02 brush swirl",
       "present_in_manifest": true,
       "status": "RECOVERED/INTEGRATED",
-      "use": "HUD health icon"
-    },
-    {
-      "asset": "ui_34",
-      "note": "actual shield sprite",
-      "present_in_manifest": true,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "HUD armor icon"
-    },
-    {
-      "asset": "ui_67",
-      "note": "actual crystal sprite",
-      "present_in_manifest": true,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "HUD energy icon"
-    },
-    {
-      "asset": "ui_94",
-      "note": "two-bar pause icon",
-      "present_in_manifest": true,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "HUD pause button"
-    },
-    {
-      "asset": "ui_5",
-      "note": "coin sprite",
-      "present_in_manifest": true,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "HUD currency icon"
-    },
-    {
-      "asset": "ui_98",
-      "note": "home sprite",
-      "present_in_manifest": true,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "Pause/home icon"
-    },
-    {
-      "asset": "ui_92",
-      "note": "play sprite",
-      "present_in_manifest": true,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "Pause/resume icon"
-    },
-    {
-      "asset": "ui_93",
-      "note": "gear sprite",
-      "present_in_manifest": true,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "Pause/settings icon"
-    },
-    {
-      "asset": "ui_99",
-      "note": "plus sprite",
-      "present_in_manifest": true,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "Power-slot plus"
+      "use": "Main menu red swirl"
     },
     {
       "asset": "ui_btn1",
-      "note": "nine-sliced",
+      "note": "nine-sliced brown button",
       "present_in_manifest": true,
       "status": "RECOVERED/INTEGRATED",
-      "use": "Pause/settings button frame"
+      "use": "Pause/settings/main-menu SETTINGS frame"
+    },
+    {
+      "asset": "ui_btn3",
+      "note": "nine-sliced cyan button",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Settings selected row frame"
+    },
+    {
+      "asset": "ui_btn4",
+      "note": "nine-sliced red button",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Main-menu QUIT frame"
     },
     {
       "asset": "ui_btn5",
-      "note": "nine-sliced yellow",
+      "note": "nine-sliced yellow button",
       "present_in_manifest": true,
       "status": "RECOVERED/INTEGRATED",
       "use": "Main-menu NEW GAME frame"
     },
     {
       "asset": "ui_btn7",
-      "note": "nine-sliced blue",
+      "note": "nine-sliced blue button",
       "present_in_manifest": true,
       "status": "RECOVERED/INTEGRATED",
       "use": "Main-menu CONTINUE frame"
     },
     {
-      "asset": "ui_116",
-      "note": "local-only cloud icon",
+      "asset": "ui_15",
+      "note": "actual heart/shield/gem plate with three bar slots",
       "present_in_manifest": true,
       "status": "RECOVERED/INTEGRATED",
-      "use": "Cloud/save icon"
+      "use": "HUD status plate"
     },
     {
-      "asset": "ui_skill01",
-      "note": "actual c00 SkillInfo[0] icon; 5.0 s active / 10.0 s cooldown; charge fill uses ui_67",
+      "asset": "ui_12",
+      "note": "actual white fill tinted by HP/armor/energy",
       "present_in_manifest": true,
       "status": "RECOVERED/INTEGRATED",
-      "use": "Knight c00 Dual Wield HUD icon"
+      "use": "HUD dynamic bar fill"
+    },
+    {
+      "asset": "ui_31",
+      "note": "actual gold coin sprite",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "HUD coin icon"
+    },
+    {
+      "asset": "ui_94",
+      "note": "two-bar pause sprite",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "HUD pause icon"
+    },
+    {
+      "asset": "ui_joy_0",
+      "note": "actual reference joystick/skill base",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Ability circular button base"
+    },
+    {
+      "asset": "ui_joy_3",
+      "note": "actual white lightning skill icon",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Ability lightning icon"
+    },
+    {
+      "asset": "ui_joy_7",
+      "note": "actual blue diamond/circular-arrow marker",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Ability recharge diamond"
+    },
+    {
+      "asset": "ui_2",
+      "note": "actual dark blue panel",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Pause/settings panel"
+    },
+    {
+      "asset": "ui_13",
+      "note": "actual red ribbon",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Pause/settings ribbon"
+    },
+    {
+      "asset": "ui_22",
+      "note": "actual bronze frame",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Pause portrait frame"
+    },
+    {
+      "asset": "ui_38",
+      "note": "actual brown/gold frame",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Pause button frame"
+    },
+    {
+      "asset": "ui_98",
+      "note": "actual home sprite",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Pause/home icon"
+    },
+    {
+      "asset": "ui_92",
+      "note": "actual play sprite",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Pause/resume icon"
+    },
+    {
+      "asset": "ui_93",
+      "note": "actual gear sprite",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Pause/settings icon"
+    },
+    {
+      "asset": "ui_191",
+      "note": "actual item-info card frame",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Weapon pickup/chest card"
+    },
+    {
+      "asset": "ui_14",
+      "note": "actual UIMap boss_logo",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Map boss icon"
+    },
+    {
+      "asset": "ui_113",
+      "note": "actual UIMap chest_logo",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Map chest icon"
+    },
+    {
+      "asset": "ui_114",
+      "note": "actual UIMap special_logo",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Map special icon"
+    },
+    {
+      "asset": "ui_125",
+      "note": "actual UIMap home_logo",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Map home icon"
+    },
+    {
+      "asset": "ui_193",
+      "note": "actual UIMap cage_logo",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Map cage icon"
+    },
+    {
+      "asset": "ui_4",
+      "note": "actual UIMap target sprite",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Map current-room marker"
+    },
+    {
+      "asset": "ui_33",
+      "note": "actual Ui item-info icon",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Item stat heart"
+    },
+    {
+      "asset": "ui_34",
+      "note": "actual Ui item-info icon",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Item stat shield"
+    },
+    {
+      "asset": "ui_35",
+      "note": "actual Ui item-info icon",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Item stat crystal"
+    },
+    {
+      "asset": "ui_37",
+      "note": "actual Ui item-info icon",
+      "present_in_manifest": true,
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Item stat health"
     },
     {
       "asset": "pixel_bold",
@@ -119,39 +238,53 @@
       "use": "All UI text"
     },
     {
-      "asset": "ui_buff_*",
-      "note": "not assigned; no fabricated buff UI",
+      "asset": "ui_skill01",
+      "note": "dual-wield icon, not used as the lightning ability",
       "present_in_manifest": true,
       "status": "DISCOVERED",
-      "use": "Buff icons"
+      "use": "Knight c00 Dual Wield icon"
     },
     {
-      "asset": "panel/banner frames",
-      "note": "native pixel borders; exact frame mapping UNKNOWN",
-      "present_in_manifest": false,
-      "status": "APPROXIMATED",
-      "use": "Pause/settings/character panels"
+      "asset": "ui_67",
+      "note": "fallback energy icon; ability uses ui_joy_3",
+      "present_in_manifest": true,
+      "status": "DISCOVERED",
+      "use": "Energy crystal icon"
     },
     {
-      "asset": "HUD outer plate",
-      "note": "native frame around recovered icons",
+      "asset": "ui_btn1/ui_btn3/ui_btn4/ui_btn5/ui_btn7 9-slice borders",
+      "note": "5 px native slice border",
       "present_in_manifest": false,
-      "status": "APPROXIMATED",
-      "use": "HUD frame"
+      "status": "RECOVERED/INTEGRATED",
+      "use": "Recovered button frames"
     },
     {
-      "asset": "pickup stats card",
-      "note": "native panel with recovered weapon icon/name, damage and energy cost",
+      "asset": "LIGHT KNIGHT wordmark",
+      "note": "required project identity; recovered title art is Chinese/Soul Knight branding",
       "present_in_manifest": false,
       "status": "APPROXIMATED",
-      "use": "Bottom-centre pickup prompt"
+      "use": "Main menu title"
     },
     {
-      "asset": "minimap / map panel",
-      "note": "native room-cell renderer; reference UIMap icon atlas UNKNOWN",
+      "asset": "main-menu vertical button stack",
+      "note": "desktop adaptation of the reference horizontal mobile button bar",
       "present_in_manifest": false,
       "status": "APPROXIMATED",
-      "use": "HUD minimap and M overlay"
+      "use": "Main menu layout"
+    },
+    {
+      "asset": "settings centered rows",
+      "note": "recovered panel/frames, native desktop row layout",
+      "present_in_manifest": false,
+      "status": "APPROXIMATED",
+      "use": "Settings desktop composition"
+    },
+    {
+      "asset": "minimap grid mapping",
+      "note": "reference UIMap construction recovered; native room graph-to-grid mapping is policy",
+      "present_in_manifest": false,
+      "status": "APPROXIMATED",
+      "use": "HUD minimap"
     },
     {
       "asset": "D-ROOM button",
@@ -161,32 +294,25 @@
       "use": "Main-menu developer entry"
     },
     {
+      "asset": "white D devroom cell",
+      "note": "intentional native marker on a normal-size map cell",
+      "present_in_manifest": false,
+      "status": "APPROXIMATED",
+      "use": "Minimap developer room"
+    },
+    {
       "asset": "UI Design Mode",
-      "note": "native logical layout editor and JSON schema",
+      "note": "native logical layout editor and version 2 JSON schema",
       "present_in_manifest": false,
       "status": "APPROXIMATED",
       "use": "Persistent HUD editor"
     },
     {
-      "asset": "main menu background",
-      "note": "native atmospheric bands, no copied screenshot",
+      "asset": "30-second review harness",
+      "note": "development tool, no reference counterpart",
       "present_in_manifest": false,
-      "status": "APPROXIMATED",
-      "use": "Main menu"
-    },
-    {
-      "asset": "character portraits",
-      "note": "recovered c00..c14 body sprites",
-      "present_in_manifest": false,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "Character station"
-    },
-    {
-      "asset": "weapon icons",
-      "note": "recovered weapon visual sprites",
-      "present_in_manifest": false,
-      "status": "RECOVERED/INTEGRATED",
-      "use": "Weapon station/HUD"
+      "status": "NATIVE",
+      "use": "Manual visual review"
     },
     {
       "asset": "mobile joystick/touch controls",

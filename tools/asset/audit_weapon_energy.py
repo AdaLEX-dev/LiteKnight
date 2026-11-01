@@ -15,6 +15,7 @@ def main() -> int:
     for weapon in scene.get("weapons", []):
         weapons.append({
             "id": weapon.get("id"),
+            "display_name": weapon.get("display_name", weapon.get("id")),
             "damage": weapon.get("damage"),
             "cycle_seconds": weapon.get("attack_cycle_seconds"),
             "serialized_consume": weapon.get("consume"),
@@ -36,7 +37,7 @@ def main() -> int:
     }
     OUT.write_text(json.dumps(document, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     lines = ["# Weapon Energy Cost Audit", "", "| Weapon | Damage | Cycle | Energy cost | Projectile |", "|---|---:|---:|---:|---|"]
-    lines += [f"| {w['id']} | {w['damage']} | {w['cycle_seconds']} | {w['native_energy_cost']} | {w['projectile']} |" for w in weapons]
+    lines += [f"| {w['id']} ({w.get('display_name', w['id'])}) | {w['damage']} | {w['cycle_seconds']} | {w['native_energy_cost']} | {w['projectile']} |" for w in weapons]
     lines += ["", "Serialized `consume` is the per-attack energy cost, confirmed by `RGWeapon.MakeConsume` and `MultiHand.CheckEnergyEnough`. No separate ammo cost is claimed.", ""]
     MD.write_text("\n".join(lines), encoding="utf-8")
     print(f"Wrote {OUT.relative_to(ROOT)} and {MD.relative_to(ROOT)}")

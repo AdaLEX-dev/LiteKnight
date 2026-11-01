@@ -14,10 +14,11 @@ auto-aim, weapon energy consumption, Knight Dual Wield and native save/load are
 part of the same executable. The asset laboratory and serialized interactive
 test harness remain available.
 
-- **Version:** `0.5.1-dev`
+- **Version:** `0.5.2-dev`
 - **Platform:** Linux, Wayland only, Vulkan 1.3+
 - **Reference:** Soul Knight 2.6.8 / Unity 2018.4.12f1 (local reference only)
-- **Simulation:** 50 Hz fixed step; 60 FPS render target
+- **Simulation:** 50 Hz fixed step; 60 FPS render target (FIFO VSync,
+  measured present pacing in the run log)
 - **License:** native source MIT; reference assets **not** redistributed
 
 LiteKnight is **not** an official Soul Knight build, not affiliated with
@@ -63,6 +64,8 @@ Useful variants:
 ./scripts/prepare-assets.sh   # full local reference/native preparation
 ./scripts/audit-assets.sh     # metadata + generated-pixel audit
 ./scripts/test-interactive.sh --list
+./scripts/test-explore.sh main_menu      # 30-second manual review, then pause
+./scripts/test-explore.sh fullscreen     # 1920x1080 fullscreen review
 ```
 
 The built launcher is:
@@ -130,8 +133,19 @@ source-controlled. Generated pixels remain gitignored. See
   serialized values 5/3/1, coins magnet/collect into the HUD wallet
 - Persistent logical HUD layout (`$XDG_CONFIG_HOME/liteknight/ui_layout.json`)
   with Settings -> UI Design Mode, mouse drag, save and reset
-- Map/minimap with actual room cells, connections, visited/current state and a
-  white `D` devroom marker; `M` opens the full map overlay
+- Compact always-visible minimap reconstructed from the actual `UIMap`
+  hierarchy: tinted reference cells/connectors, recovered home/boss/special/
+  chest/cage icons, `ui_4` current marker and a white `D` devroom cell; no
+  oversized fullscreen map
+- Recovered UI construction: main-menu `biaoti 01/02` backdrop/swirl, actual
+  button/panel/ribbon frames, `ui_15` HUD plate and `ui_12` bar fills, actual
+  skill lightning (`ui_joy_3`), pickup card (`ui_191`), pause/settings assets
+- Weapon pickups display the recovered localized name, icon, damage and
+  per-attack energy cost; a 302-entry name/stat catalogue is committed under
+  `analysis/assets/weapon_catalogue.*`
+- Manual 30-second visual-review harness (`scripts/test-explore.sh`) for main
+  menu, settings, pause, Living Room, r1_1/r1_2/r1_3, UI Design Mode and
+  fullscreen
 - Main menu defaults for the test executable, LIGHT KNIGHT wordmark and D-ROOM
   developer entry
 - Recovered per-attack energy costs: `weapon_000=0`, `weapon_002=1`,
@@ -190,7 +204,6 @@ saved, but opened-chest and remaining-world-coin state requires save v3.
 | `Tab`, `1`, `2` | switch weapon slot / select primary / select secondary |
 | `F2` / `F3` | save / load native slot 0 |
 | `Esc` | pause/resume; settings closes back to pause first |
-| `M` | open/close the full map overlay |
 | `F4` | collision/visual/sort debug bounds |
 | `T` | developer cycle through a connected room |
 | `N` | teleport to current room entrance |
@@ -258,6 +271,9 @@ Development docs:
 - [WORKFLOW.md](docs/development/WORKFLOW.md)
 - [Asset laboratory](docs/development/ASSET_LAB.md)
 - [Native pixel UI](docs/development/UI.md)
+- [UI reconstruction evidence](docs/development/UI_RECONSTRUCTION.md)
+- [Compact minimap](docs/development/MAP.md)
+- [30-second review harness](docs/development/REVIEW_TESTS.md)
 - [Living Room](docs/development/LIVING_ROOM.md)
 - [Serialized interactive tests](docs/development/INTERACTIVE_TESTS.md)
 - [DEVROOM architecture](docs/architecture/DEVROOM.md)

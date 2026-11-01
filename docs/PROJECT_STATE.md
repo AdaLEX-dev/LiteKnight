@@ -1,9 +1,9 @@
 # LiteKnight — Project State
 
-**Version:** `0.5.1-dev`
-**Last Updated:** 2026-11-01 (Y-depth clipping fix, persistent UI Design Mode,
-minimap, LIGHT KNIGHT/D-ROOM menu, actual chest/coin world pickups, fullscreen
-and HUD typography validation)
+**Version:** `0.5.2-dev`
+**Last Updated:** 2026-11-01 (0.5.2 UI emergency: reference menu/HUD/map/
+settings/pause assets, global logical text alignment, weapon metadata catalogue,
+VSync present pacing and 30-second review harness)
 **Commit:** session head; run `git log -1 --format='%h %s'`
 **Phase:** Phase 2 **PARTIAL** (Gate B PARTIAL); Phase 3 **PARTIAL**; Phase 4 **PARTIAL (devroom foundation FUNCTIONAL)**
 **Current status:** the native Wayland/Vulkan devroom is playable and is the
@@ -15,8 +15,9 @@ HP/armor/energy HUD, two weapon slots, physical pickups, recovered-font pause/
 settings/main-menu screens, character/weapon stations, a recovered Living Room
 hub, 360° mouse aiming (Auto Aim fresh default), weapon energy costs, Knight
 Dual Wield, a three-room deterministic dungeon graph over actual PatternRooms,
-persistent logical HUD layout editor, minimap/full map, actual chest and world
-coin pickups, native save/load, an asset laboratory, and a serialized
+persistent logical HUD layout editor, compact reference-derived HUD minimap,
+actual chest and world coin pickups, recovered main-menu/HUD/settings/pause
+assets, corrected global text centering and a 30-second manual review harness, native save/load, an asset laboratory, and a serialized
 interactive test/replay harness. Full EnemyAI04 scouting/pathfinding, reference procedural dungeon
 generation, production forge/plant economy and the full catalogue remain
 incomplete. Gate D remains unmet for a complete game, but the

@@ -17,24 +17,32 @@ pillarboxed modes.
 
 ```json
 {
-  "version": 1,
+  "version": 2,
   "coordinate_space": "logical_1920x1080",
   "elements": {
-    "hp":     {"x": 16, "y": 12, "w": 352, "h": 38},
-    "armor":  {"x": 16, "y": 54, "w": 352, "h": 38},
-    "energy": {"x": 16, "y": 96, "w": 352, "h": 38},
+    "hp":     {"x": 90, "y": 26, "w": 276, "h": 36},
+    "armor":  {"x": 90, "y": 72, "w": 276, "h": 36},
+    "energy": {"x": 90, "y": 118, "w": 276, "h": 36},
     "coin":   {"x": 1652, "y": 20, "w": 118, "h": 44},
     "pause":  {"x": 1812, "y": 16, "w": 92, "h": 82},
-    "minimap": {"x": 1600, "y": 112, "w": 304, "h": 178},
-    "ability": {"x": 190, "y": 920, "w": 128, "h": 128},
-    "weapon_slots": {"x": 20, "y": 986, "w": 160, "h": 86},
-    "active_weapon": {"x": 20, "y": 930, "w": 160, "h": 30},
-    "pickup_prompt": {"x": 730, "y": 946, "w": 460, "h": 112},
-    "stage": {"x": 16, "y": 142, "w": 352, "h": 26},
-    "map_panel": {"x": 520, "y": 170, "w": 880, "h": 740}
+    "minimap": {"x": 1664, "y": 112, "w": 240, "h": 196},
+    "ability": {"x": 20, "y": 846, "w": 150, "h": 150},
+    "weapon_slots": {"x": 190, "y": 986, "w": 220, "h": 80},
+    "active_weapon": {"x": 190, "y": 940, "w": 220, "h": 30},
+    "pickup_prompt": {"x": 700, "y": 886, "w": 520, "h": 148},
+    "stage": {"x": 16, "y": 190, "w": 360, "h": 26}
   }
 }
 ```
+
+The three status rectangles are the actual editable bar slots inside the
+recovered `ui_15` plate; the plate bounds are derived from their union. There is
+no `map_panel` in the HUD layout because 0.5.2 uses the compact minimap only.
+
+Version 2 reset: a version 1 layout file is rejected and the new defaults are
+used. This is intentional because version 1 stored the old native anchors,
+which would leave the recovered HUD plate and compact minimap visually
+misaligned. A version 2 file preserves every user edit.
 
 The file is human-readable, versioned and loaded at startup. Missing files use
 the defaults above. Invalid/malformed files fall back to defaults with a log
@@ -50,10 +58,11 @@ updates its logical x/y; mouse release saves. `S` saves, `R` restores defaults,
 
 ## Evidence boundary
 
-`CONFIRMED`: recovered `ui_33`, `ui_34`, `ui_67`, `ui_94`, `ui_5`, `ui_skill01`,
-`ui_btn1/5/7`, `pixel_bold`, weapon/character sprites.
+`CONFIRMED`: recovered `ui_15`, `ui_12`, `ui_31`, `ui_94`, `ui_joy_0/3/7`,
+`ui_btn1/3/4/5/7`, `pixel_bold`, weapon/character sprites and UIMap cell colors
+and icons.
 
-`HYPOTHESIS`: exact reference HUD pixel anchors; the default layout is a
-native 1920×1080 arrangement that keeps recovered elements flush to the intended
-corners. Borders/axis padding are presentation policy, not recovered serialized
-values.
+`HYPOTHESIS`: exact desktop HUD pixel anchors. The reference is a mobile
+Canvas; the native layout places the recovered elements at logical 1920×1080
+corners. Borders, the compact minimap size and the desktop vertical main-menu
+stack are presentation policy, not recovered serialized values.

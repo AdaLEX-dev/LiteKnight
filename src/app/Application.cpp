@@ -18,6 +18,7 @@
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
+#include <iostream>
 #include <string_view>
 #include <utility>
 
@@ -486,6 +487,8 @@ bool Application::Initialize() {
         return false;
     }
     LOG_INFO_APP("Vulkan device: {}", renderer_->DeviceName());
+    LOG_INFO_APP("Display refresh: {} Hz (simulation remains 50 Hz)",
+                 window_.GetRefreshRate());
     LOG_INFO_APP("Vulkan validation: {}",
                  BooleanText(renderer_->ValidationEnabled()));
 
@@ -494,6 +497,13 @@ bool Application::Initialize() {
                  sprite_batch_.GetDraws().size());
 
     warmup_frames_ = 30;
+    last_present_time_ = std::chrono::steady_clock::time_point{};
+    present_window_sum_ms_ = 0.0;
+    present_window_min_ms_ = 0.0;
+    present_window_max_ms_ = 0.0;
+    present_window_samples_ = 0;
+    present_run_sum_ms_ = 0.0;
+    present_run_samples_ = 0;
     perf_samples_ = 0;
     perf_total_frame_ms_ = 0.0;
     perf_total_sim_steps_ = 0;
@@ -510,6 +520,7 @@ bool Application::Initialize() {
         game_ui_.OpenMainMenu();
         main_menu_started_ = true;
     }
+    ConfigureReviewMode();
     if (config_.interactive_test) {
         StartInteractiveTest();
     }
@@ -1385,6 +1396,8 @@ bool Application::HandleUiDesignEvent(const SDL_Event& event) {
     ui_design_mouse_ = logical;
     if (event.type == SDL_EVENT_MOUSE_BUTTON_DOWN &&
         event.button.button == SDL_BUTTON_LEFT) {
+        LOG_INFO_APP("UI Design pointer down at logical ({:.1f},{:.1f})",
+                     logical.x, logical.y);
         if (const auto* hit = hud_layout_.HitTest(logical); hit != nullptr) {
             ui_design_selected_ = hit->id;
             ui_design_dragging_ = true;
@@ -1423,6 +1436,47 @@ void Application::HandleMainMenuPointer(const SDL_Event& event) {
     if (game_ui_.HandlePointerClick(logical)) ProcessUIAction();
 }
 
+void Application::ConfigureReviewMode() {
+    review_mode_ = config_.review_mode;
+    review_duration_seconds_ = config_.review_seconds;
+    review_frozen_ = false;
+    review_start_seconds_ = -1.0;
+    if (!review_mode_) return;
+    LOG_INFO_APP("Review mode: area={} seconds={:.1f}", config_.review_area,
+                 review_duration_seconds_);
+    if (config_.review_area == "settings") {
+        game_ui_.OpenMainMenu();
+        game_ui_.OpenSettings();
+        LOG_INFO_APP("Review mode: settings screen={}",
+                     static_cast<int>(game_ui_.Screen()));
+    } else if (config_.review_area == "living_room" ||
+               config_.review_area.rfind("r1_", 0) == 0) {
+        game_ui_.OpenGameplay();
+    } else if (config_.review_area == "pause") {
+        game_ui_.OpenGameplay();
+        game_ui_.OpenPause();
+    } else if (config_.review_area == "ui_design") {
+        game_ui_.OpenGameplay();
+        ui_design_mode_ = true;
+    } else if (config_.review_area == "fullscreen") {
+        game_ui_.OpenMainMenu();
+    }
+}
+
+void Application::PrintReviewRequired() {
+    std::cout << "\n\n============================================================\n"
+              << "                    REVIEW REQUIRED\n"
+              << "============================================================\n\n"
+              << static_cast<int>(review_duration_seconds_)
+              << " SECOND EXPLORATION COMPLETE.\n\n"
+              << "THE GAME IS NOW PAUSED.\n\n"
+              << "Inspect the current screen.\n\n"
+              << "Do NOT continue until the visual review is complete.\n\n"
+              << "Press ENTER in this terminal to continue.\n"
+              << "============================================================\n"
+              << std::flush;
+}
+
 void Application::LogViewportContract() {
     if (logical_viewport_.framebuffer_width == last_framebuffer_width_ &&
         logical_viewport_.framebuffer_height == last_framebuffer_height_ &&
@@ -1457,15 +1511,6 @@ void Application::LogViewportContract() {
                  center.x, center.y);
 }
 
-void Application::ToggleMapOverlay() {
-    if (!scene_mode_ || game_ui_.IsMainMenu() || ui_design_mode_) return;
-    if (game_ui_.IsMapOpen()) {
-        game_ui_.CloseMap();
-    } else if (game_ui_.Screen() == soulknight::game::ui::UIScreen::Gameplay) {
-        game_ui_.OpenMap();
-    }
-}
-
 void Application::DrawGameUI() {
     if (!scene_mode_ || asset_lab_.IsOpen()) return;
     soulknight::game::ui::GameUIData data;
@@ -1496,7 +1541,6 @@ void Application::DrawGameUI() {
     data.ui_design_selected = ui_design_selected_;
     data.design_mouse = ui_design_mouse_;
     data.coins = player_coins_;
-    data.map_open = game_ui_.IsMapOpen();
     data.map_rooms.clear();
     data.map_links.clear();
     std::string devroom_room;
@@ -1508,7 +1552,8 @@ void Application::DrawGameUI() {
             room.id, room.map_x, room.map_y, room.id == scene_.id,
             std::find(visited_rooms_.begin(), visited_rooms_.end(), room.id) !=
                 visited_rooms_.end(),
-            false});
+            false,
+            room.id == "hero_room" ? "home" : std::string{}});
     }
     if (scene_.id.rfind("r1_", 0) == 0) devroom_room = scene_.id;
     for (auto& room : data.map_rooms) room.devroom = room.id == devroom_room;
@@ -1528,7 +1573,9 @@ void Application::DrawGameUI() {
         pickup != nullptr && pickup->weapon_index < weapons_.Count()) {
         data.pickup_nearby = true;
         const auto& pickup_weapon = weapons_.Definitions()[pickup->weapon_index];
-        data.pickup_name = pickup_weapon.id;
+        data.pickup_name = pickup_weapon.display_name.empty()
+            ? pickup_weapon.id : pickup_weapon.display_name;
+        data.pickup_sprite_index = pickup_weapon.visual_sprite_index;
         data.pickup_damage = pickup_weapon.damage;
         data.pickup_energy_cost = pickup_weapon.EnergyCost();
         data.pickup_cycle_seconds = pickup_weapon.attack_cycle_seconds;
@@ -1568,9 +1615,6 @@ void Application::PollEvents() {
 
         const bool key_down = event.type == SDL_EVENT_KEY_DOWN &&
                               !event.key.repeat;
-        if (key_down && event.key.scancode == SDL_SCANCODE_M) {
-            ToggleMapOverlay();
-        }
         if (key_down && event.key.scancode == SDL_SCANCODE_ESCAPE) {
             if (interactive_test_.Active()) {
                 FinalizeInteractiveTest("ABORTED", "user aborted with Escape");
@@ -3253,6 +3297,20 @@ int Application::Run() {
 
     bool render_failed = false;
     int frame_log_counter = 0;
+    if (review_mode_) {
+        review_start_seconds_ = NowSeconds();
+        std::cout << "\n============================================================\n"
+                  << "                 30 SECOND REVIEW TEST\n"
+                  << "============================================================\n"
+                  << "AREA: " << config_.review_area << "\n\n"
+                  << "The application will run for approximately "
+                  << static_cast<int>(review_duration_seconds_) << " seconds.\n"
+                  << "Explore the area and inspect the visual state.\n\n"
+                  << "After 30 seconds the application will PAUSE and wait for\n"
+                  << "manual review. It will NOT continue until you confirm.\n"
+                  << "============================================================\n"
+                  << std::flush;
+    }
 
     while (running_) {
         PollEvents();
@@ -3273,8 +3331,24 @@ int Application::Run() {
 
         frame_timer_.BeginFrame();
 
+        if (review_mode_ && !review_frozen_ && review_start_seconds_ >= 0.0 &&
+            NowSeconds() - review_start_seconds_ >= review_duration_seconds_) {
+            review_frozen_ = true;
+            PrintReviewRequired();
+            std::string confirmation;
+            std::getline(std::cin, confirmation);
+            // Explicit confirmation resumes the real application. The reviewer
+            // can keep exploring or close the window when finished; the harness
+            // never silently advances past the review point.
+            review_frozen_ = false;
+            review_mode_ = false;
+            std::cout << "\nReview confirmed. Simulation resumed.\n"
+                      << "Close the window (or press ESC) when finished.\n"
+                      << std::flush;
+            LOG_INFO_APP("Review confirmed; simulation resumed");
+        }
         const bool ui_frozen = game_ui_.IsPaused() || game_ui_.IsMainMenu() ||
-                               ui_design_mode_;
+                               ui_design_mode_ || review_frozen_;
         if (ui_frozen) {
             movement_input_ = {};
             attack_held_ = false;
@@ -3333,6 +3407,27 @@ int Application::Run() {
             } else {
                 ++render_frames_;
                 window_.ClearResizeRequest();
+                const auto now = std::chrono::steady_clock::now();
+                if (warmup_frames_ == 0 && last_present_time_ !=
+                    std::chrono::steady_clock::time_point{}) {
+                    const double interval_ms =
+                        std::chrono::duration<double, std::milli>(
+                            now - last_present_time_).count();
+                    if (present_window_samples_ == 0) {
+                        present_window_min_ms_ = interval_ms;
+                        present_window_max_ms_ = interval_ms;
+                    } else {
+                        present_window_min_ms_ =
+                            std::min(present_window_min_ms_, interval_ms);
+                        present_window_max_ms_ =
+                            std::max(present_window_max_ms_, interval_ms);
+                    }
+                    present_window_sum_ms_ += interval_ms;
+                    ++present_window_samples_;
+                    present_run_sum_ms_ += interval_ms;
+                    ++present_run_samples_;
+                }
+                if (warmup_frames_ == 0) last_present_time_ = now;
             }
         }
 
@@ -3349,8 +3444,25 @@ int Application::Run() {
         ++frame_log_counter;
         if (frame_log_counter >= 120) {
             frame_log_counter = 0;
-            LOG_INFO_PERF("frame_ms={:.3f} sim_steps={} render_frames={}",
-                          stats.frame_time_ms, stats.sim_steps, render_frames_);
+            if (present_window_samples_ > 0) {
+                const double avg = present_window_sum_ms_ /
+                    static_cast<double>(present_window_samples_);
+                LOG_INFO_PERF("frame_ms={:.3f} sim_steps={} render_frames={} "
+                              "present_avg_ms={:.3f} present_min_ms={:.3f} "
+                              "present_max_ms={:.3f} present_hz={:.2f}",
+                              stats.frame_time_ms, stats.sim_steps,
+                              render_frames_, avg, present_window_min_ms_,
+                              present_window_max_ms_,
+                              avg > 0.0 ? 1000.0 / avg : 0.0);
+                present_window_sum_ms_ = 0.0;
+                present_window_min_ms_ = 0.0;
+                present_window_max_ms_ = 0.0;
+                present_window_samples_ = 0;
+            } else {
+                LOG_INFO_PERF("frame_ms={:.3f} sim_steps={} render_frames={}",
+                              stats.frame_time_ms, stats.sim_steps,
+                              render_frames_);
+            }
         }
 
         ExerciseWindowIfRequested();
@@ -3362,6 +3474,13 @@ int Application::Run() {
                                          static_cast<double>(perf_samples_);
         LOG_INFO_PERF("measured average frame: {:.3f} ms over {} frames ({:.3f} sim steps/frame)",
                       average_frame_ms, perf_samples_, average_sim_steps);
+    }
+    if (present_run_samples_ > 0) {
+        const double avg = present_run_sum_ms_ /
+            static_cast<double>(present_run_samples_);
+        LOG_INFO_APP("Present pacing: avg {:.3f} ms ({:.2f} Hz) over {} intervals",
+                     avg, avg > 0.0 ? 1000.0 / avg : 0.0,
+                     present_run_samples_);
     }
     LOG_INFO_APP("Rendered {} frames, advanced {} fixed simulation ticks ({:.3f} s sim time)",
                  render_frames_, simulation_ticks_, simulation_time_);

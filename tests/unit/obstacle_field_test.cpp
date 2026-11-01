@@ -123,6 +123,23 @@ TEST_CASE("Every recovered obstacle variant keeps render and collision cells syn
     CHECK(field.ActiveVariant().name == "wall603");
 }
 
+TEST_CASE("Decorative obstacle markers do not block room loading" *
+          doctest::test_suite("unit")) {
+    SceneAsset scene = LoadObstacleScene();
+    // r1_2/r1_3 serialize skin_trap markers whose prefab has no collider.
+    ObstacleMarker decorative;
+    decorative.position = {4.0f, 4.0f};
+    decorative.variant = 5;
+    decorative.name = "skin_trap";
+    scene.obstacle_markers.push_back(decorative);
+    ObstacleField field;
+    std::string error;
+    CHECK(field.Configure(scene, &error));
+    CHECK(error.empty());
+    CHECK(field.Markers().size() == 49);
+    CHECK(field.ColliderCellCount() == 49);
+}
+
 TEST_CASE("Obstacle variant cycle covers distinct recovered prefab names" *
           doctest::test_suite("unit")) {
     const SceneAsset scene = LoadObstacleScene();

@@ -57,6 +57,21 @@ void UIRenderer::Panel(const engine::Rect& rect, engine::Color fill,
                        engine::Color border, float border_width,
                        int32_t order) const {
     if (!Ready()) return;
+    if (fill.a == 0) {
+        // Outline-only panels are used for selection and UI Design Mode.
+        // Draw four logical-space strips so a transparent fill can never be
+        // mistaken for a filled rectangle by the sprite renderer.
+        const float b = std::max(0.0f, border_width);
+        if (b <= 0.0f) return;
+        Rect({rect.x, rect.y, rect.w, b}, border, order);
+        Rect({rect.x, rect.y + rect.h - b, rect.w, b}, border, order);
+        if (rect.h > 2.0f * b) {
+            Rect({rect.x, rect.y + b, b, rect.h - 2.0f * b}, border, order);
+            Rect({rect.x + rect.w - b, rect.y + b, b,
+                  rect.h - 2.0f * b}, border, order);
+        }
+        return;
+    }
     context_.text->DrawPanelBorder(
         *context_.batch, ToWorld({rect.x, rect.y}),
         {rect.w * world_per_pixel_, rect.h * world_per_pixel_}, fill, border,
@@ -144,8 +159,8 @@ float UIRenderer::TextWidthFitted(std::string_view text, const engine::Rect& rec
     float size = std::max(28.0f, preferred_size);
     while (size >= min_size) {
         const float scale = (size / 28.0f) * world;
-        if (context_.text->TextWidth(text, scale) <= rect.w &&
-            context_.text->LineHeight(scale) <= rect.h) {
+        if (context_.text->TextWidth(text, scale) <= rect.w * world &&
+            context_.text->LineHeight(scale) <= rect.h * world) {
             return size;
         }
         size -= 1.0f;
@@ -163,20 +178,23 @@ float UIRenderer::TextFitted(std::string_view text, const engine::Rect& rect,
     float size = std::max(28.0f, preferred_size);
     float scale = (size / 28.0f) * world;
     const float width = context_.text->TextWidth(text, scale);
-    if (width <= rect.w && context_.text->LineHeight(scale) <= rect.h) {
+    if (width <= rect.w * world &&
+        context_.text->LineHeight(scale) <= rect.h * world) {
         TextAligned(text, rect, color, order, align, size, shadow);
         return size;
     }
     // Keep the recovered primary font size and wrap at word boundaries.
     const std::vector<std::string> lines =
-        WrapWords(text, rect.w, *context_.text, scale);
-    const float line_height = context_.text->LineHeight(scale);
-    if (static_cast<float>(lines.size()) * line_height <= rect.h &&
+        WrapWords(text, rect.w * world, *context_.text, scale);
+    const float line_height_world = context_.text->LineHeight(scale);
+    const float line_height = world > 0.0f ? line_height_world / world : 0.0f;
+    if (static_cast<float>(lines.size()) * line_height_world <= rect.h * world &&
         lines.size() > 1) {
         const float total = static_cast<float>(lines.size()) * line_height;
         float y = rect.y + (rect.h - total) * 0.5f;
         for (const std::string& line : lines) {
-            const float line_width = context_.text->TextWidth(line, scale);
+            const float line_width = world > 0.0f
+                ? context_.text->TextWidth(line, scale) / world : 0.0f;
             float x = rect.x;
             if (align == engine::rendering::TextAlign::Center) {
                 x += (rect.w - line_width) * 0.5f;
@@ -193,12 +211,13 @@ float UIRenderer::TextFitted(std::string_view text, const engine::Rect& rect,
     while (size > min_size) {
         size -= 1.0f;
         scale = (size / 28.0f) * world;
-        if (context_.text->TextWidth(text, scale) <= rect.w &&
-            context_.text->LineHeight(scale) <= rect.h) {
+        if (context_.text->TextWidth(text, scale) <= rect.w * world &&
+            context_.text->LineHeight(scale) <= rect.h * world) {
             break;
         }
     }
-    const float raw_width = context_.text->TextWidth(text, scale);
+    const float raw_width = world > 0.0f
+        ? context_.text->TextWidth(text, scale) / world : 0.0f;
     engine::Vec2 position{
         rect.x, rect.y + (rect.h - context_.text->LineHeight(scale)) * 0.5f};
     if (align == engine::rendering::TextAlign::Center) {
@@ -219,13 +238,17 @@ float UIRenderer::TextFitted(std::string_view text, const engine::Rect& rect,
     return size;
 }
 float UIRenderer::TextWidth(std::string_view text, float size_pixels) const {
-    if (context_.text == nullptr) return 0.0f;
-    return context_.text->TextWidth(text, FontScale(size_pixels));
+    if (context_.text == nullptr || world_per_pixel_ <= 0.0f) return 0.0f;
+    // Public UIRenderer measurements are in logical pixels, matching every
+    // Rect passed by callers. The text renderer itself works in world units.
+    return context_.text->TextWidth(text, FontScale(size_pixels)) /
+           world_per_pixel_;
 }
 
 float UIRenderer::LineHeight(float size_pixels) const {
-    if (context_.text == nullptr) return 0.0f;
-    return context_.text->LineHeight(FontScale(size_pixels));
+    if (context_.text == nullptr || world_per_pixel_ <= 0.0f) return 0.0f;
+    return context_.text->LineHeight(FontScale(size_pixels)) /
+           world_per_pixel_;
 }
 
 void UIRenderer::Image(uint32_t texture_id, const engine::Rect& uv,

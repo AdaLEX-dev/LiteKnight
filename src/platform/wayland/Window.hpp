@@ -54,6 +54,9 @@ public:
     bool IsFocused() const { return state_.focused; }
     bool ShouldClose() const { return state_.close_requested; }
     bool HasPendingResize() const { return state_.resize_pending; }
+    // Current display refresh in Hz, or 0 when SDL cannot report it. This is
+    // used only for presentation diagnostics; simulation stays at 50 Hz.
+    int GetRefreshRate() const;
     void ClearResizeRequest() { state_.ClearResizeRequest(); }
     const WindowState& GetState() const { return state_; }
 

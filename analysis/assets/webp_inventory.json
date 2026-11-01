@@ -1,0 +1,63 @@
+{
+  "schema": 1,
+  "note": "User-provided WebP files are visual references, not standalone runtime sprites. The main-menu Knight silhouette is recovered from the actual biaoti 01 backdrop instead of cropping this screenshot.",
+  "files": [
+    {
+      "filename": "main menu.webp",
+      "path": "main menu.webp",
+      "format": "WEBP",
+      "width": 1080,
+      "height": 486,
+      "mode": "RGB",
+      "alpha": false,
+      "frames": 1,
+      "bytes": 20692,
+      "purpose": "reference screenshot of the 2.6.8 main menu; used to compare title, button stack, swirl and Knight silhouette",
+      "runtime_use": "reference comparison only; no pixels are shipped or converted",
+      "classification": "CONFIRMED reference screenshot; HYPOTHESIS for exact capture resolution/device"
+    },
+    {
+      "filename": "HUD.webp",
+      "path": "HUD.webp",
+      "format": "WEBP",
+      "width": 1480,
+      "height": 720,
+      "mode": "RGB",
+      "alpha": false,
+      "frames": 1,
+      "bytes": 46618,
+      "purpose": "reference gameplay screenshot; used to recover HUD plate, coin/pause placement and compact minimap composition",
+      "runtime_use": "reference comparison only; no pixels are shipped or converted",
+      "classification": "CONFIRMED reference screenshot; HYPOTHESIS for exact capture resolution/device"
+    },
+    {
+      "filename": "living room.webp",
+      "path": "living room.webp",
+      "format": "WEBP",
+      "width": 608,
+      "height": 672,
+      "mode": "RGB",
+      "alpha": false,
+      "frames": 1,
+      "bytes": 115440,
+      "purpose": "reference Living Room screenshot; used to compare environment density, characters and HUD overlay",
+      "runtime_use": "reference comparison only; no pixels are shipped or converted",
+      "classification": "CONFIRMED reference screenshot; HYPOTHESIS for exact capture resolution/device"
+    },
+    {
+      "filename": "pause menu.webp",
+      "path": "pause menu.webp",
+      "format": "WEBP",
+      "width": 1000,
+      "height": 563,
+      "mode": "RGB",
+      "alpha": false,
+      "frames": 1,
+      "bytes": 75698,
+      "purpose": "reference pause screen screenshot; used to recover pause ribbon, panel and button hierarchy",
+      "runtime_use": "reference comparison only; no pixels are shipped or converted",
+      "classification": "CONFIRMED reference screenshot; lossless WebP"
+    }
+  ],
+  "conversion_decision": "No WebP conversion: the files are full-screen RGB captures without alpha, so cropping them would produce lossy, resolution-dependent UI art. Runtime art is recovered from the game sprites/atlases."
+}

@@ -50,16 +50,31 @@ bool ObstacleField::Configure(const engine::assets::SceneAsset& scene,
         return false;
     }
 
+    // Real room scenes also contain decorative obstacle_list entries (for
+    // example r1_2/r1_3 skin_trap props) without a solid collider. They are
+    // still rendered from the scene instances, but cannot participate in the
+    // dev obstacle switcher's rendered-cell == collision-cell contract.
+    std::vector<engine::assets::ObstacleMarker> solid_markers;
+    solid_markers.reserve(markers_.size());
     for (engine::assets::ObstacleMarker& marker : markers_) {
         if (marker.variant < 0 ||
             static_cast<std::size_t>(marker.variant) >=
-                original_to_selectable.size() ||
-            original_to_selectable[static_cast<std::size_t>(marker.variant)] < 0) {
+                original_to_selectable.size()) {
             if (error != nullptr) *error = "obstacle marker variant is invalid";
             return false;
         }
-        marker.variant =
+        const int32_t selectable =
             original_to_selectable[static_cast<std::size_t>(marker.variant)];
+        if (selectable < 0) continue;
+        marker.variant = selectable;
+        solid_markers.push_back(marker);
+    }
+    markers_ = std::move(solid_markers);
+    if (markers_.empty()) {
+        // A room made only of decorative props is valid; it simply contributes
+        // no solid obstacle cells.
+        configured_ = true;
+        return true;
     }
     active_ = static_cast<std::size_t>(markers_.front().variant);
     configured_ = true;
